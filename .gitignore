@@ -11,3 +11,5 @@ target
 target-grunt
 test/reports.xml
 main/docs
+i18n
+main/i18n.js

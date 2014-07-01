@@ -16,7 +16,7 @@ module.exports = function (grunt) {
 	require('time-grunt')(grunt);
 	grunt.loadNpmTasks('grunt-connect-proxy');
   grunt.loadNpmTasks('grunt-connect-rewrite');
-	grunt.loadNpmTasks('grunt-contrib-uglify');
+  grunt.loadNpmTasks('grunt-angular-gettext');
   grunt.loadNpmTasks('grunt-ngdocs');
 
     // Define the configuration for all the tasks
@@ -26,7 +26,8 @@ module.exports = function (grunt) {
         portaljs: {
             // configurable paths
             app: 'main',
-            dist: 'dist'
+            dist: 'dist',
+            build: 'build'
         },
 
         // Watches files for changes and runs tasks based on the changed files
@@ -303,6 +304,20 @@ module.exports = function (grunt) {
                     }
                 ]
             },
+            generated: {
+                files: [
+                    {
+                        expand: true,
+                        dot: true,
+                        cwd: '.tmp/concat/scripts',
+                        dest: '<%= portaljs.build %>',
+                        src: 'scripts.js',
+                        rename: function(dest) {
+                          return dest + '/bonita-portal.js';
+                        }
+                    }
+                ]
+            },
             styles: {
                 expand: true,
                 cwd: '<%= portaljs.app %>/styles',
@@ -339,6 +354,20 @@ module.exports = function (grunt) {
     				singleRun: true
     			}
     		},
+        nggettext_extract: {
+            pot: {
+                files: {
+                    'i18n/portaljs.pot': ['<%= portaljs.app %>/features/**/*.html', '<%= portaljs.app %>/common/**/*.html']
+                }
+            }
+        },
+        nggettext_compile: {
+            all: {
+              files: {
+                '<%= portaljs.app %>/i18n.js': ['i18n/portal*_*.po']
+                }
+            }
+        },
         ngdocs: {
             options: {
                 dest: '<%= portaljs.app %>/docs',
@@ -389,10 +418,13 @@ module.exports = function (grunt) {
     grunt.registerTask('build', [
         'clean:dist',
         'bowerInstall',
+        'nggettext_extract',
+        'nggettext_compile',
         'useminPrepare',
         'concurrent:dist',
         'autoprefixer',
         'concat',
+        'copy:generated',
         'ngmin',
         'copy:dist',
         'cssmin',

@@ -3,7 +3,7 @@
 describe('Controller: PocprotractorCtrl', function () {
 
   // load the controller's module
-  beforeEach(module('portaljsApp'));
+  beforeEach(module('bonita.portal'));
 
   var PocprotractorCtrl,
     scope;
