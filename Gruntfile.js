@@ -212,6 +212,21 @@ module.exports = function (grunt) {
             }
         },
 
+        injector: {
+            options: {
+                ignorePath: 'main/',
+                addRootSlash: false
+            },
+            sources: {
+                files: {
+                    '<%= portaljs.app %>/index.html': [
+                        '<%= portaljs.app %>/common/**/*.js',
+                        '<%= portaljs.app %>/features/**/*.js'
+                    ]
+                }
+            }
+        },
+
         // Renames files for browser caching purposes
         rev: {
             dist: {

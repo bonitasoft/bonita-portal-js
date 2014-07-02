@@ -1,12 +1,12 @@
 /*jshint camelcase: false */
 'use strict';
 
-describe('Service: loggedUser-srv', function () {
+describe('Service: loggedUser', function () {
 
-    beforeEach(module('common'));
+    beforeEach(module('org.bonita.common.logged-user'));
 
     var deferred,
-        loggedUserSrv,
+        loggedUser,
         promise,
         resolvedValue;
 
@@ -27,11 +27,10 @@ describe('Service: loggedUser-srv', function () {
         last_update_date: '2014-06-11 12:06:12.827'
     };
 
-    beforeEach(inject(function ($q, $rootScope, _loggedUserSrv_, $httpBackend) {
+    beforeEach(inject(function ($q, $rootScope, _loggedUser_, $httpBackend) {
 
         deferred = $q.defer();
-        loggedUserSrv = _loggedUserSrv_;
-        //promise = loggedUserSrv.getLoggedUser();
+        loggedUser = _loggedUser_;
         promise = deferred.promise;
 
         $httpBackend.expectGET('../API/system/session/unusedid')

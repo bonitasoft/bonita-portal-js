@@ -3,7 +3,7 @@
 
     describe('User', function () {
 
-        beforeEach(module('bonita.common.resources'));
+        beforeEach(module('org.bonita.common.resources'));
 
         var $httpBackend, User;
 
