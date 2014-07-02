@@ -4,7 +4,7 @@ angular.module('common', [])
         var deferred = $q.defer();
         $http.get('../API/system/session/unusedid')
             .success(function (data, status, headers, config) {
-                deferred.resolve(response);
+                deferred.resolve(data);
             })
             .error(function (data, status, headers, config) {
                 deferred.reject({data:data, status:status, headers:headers, config:config});
