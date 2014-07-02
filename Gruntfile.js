@@ -221,7 +221,8 @@ module.exports = function (grunt) {
                 files: {
                     '<%= portaljs.app %>/index.html': [
                         '<%= portaljs.app %>/common/**/*.js',
-                        '<%= portaljs.app %>/features/**/*.js'
+                        '<%= portaljs.app %>/features/**/*.js',
+                        '<%= portaljs.app %>/*.js'
                     ]
                 }
             }
