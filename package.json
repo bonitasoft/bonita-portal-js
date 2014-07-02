@@ -44,7 +44,8 @@
     "load-grunt-tasks": "~0.4.0",
     "ngdocs": "^0.1.0",
     "protractor": "^0.24.2",
-    "time-grunt": "~0.2.1"
+    "time-grunt": "~0.2.1",
+    "grunt-injector": "~0.5.2"
   },
   "engines": {
     "node": ">=0.10.0"

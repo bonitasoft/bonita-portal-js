@@ -58,12 +58,15 @@
 <!-- endbuild -->
 
 <!-- build:js({.tmp,main}) scripts/bonita-portal.js -->
-<script src="common/services/config-srv.js"></script>
-<script src="common/resources/bpmModel.js"></script>
-<script src="common/services/loggedUser-srv.js"></script>
+<!-- injector:js -->
 <script src="common/resources/resources.js"></script>
-<script src="bonita-portal.js"></script>
+<script src="common/services/config-srv.js"></script>
+<script src="common/services/logged-user.js"></script>
+<script src="features/admin/tasks/details.js"></script>
+<script src="features/admin/tasks/list.js"></script>
 <script src="features/admin/users/list.js"></script>
+<!-- endinjector -->
+<script src="bonita-portal.js"></script>
 <!-- endbuild -->
 </body>
 </html>

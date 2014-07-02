@@ -2,7 +2,7 @@
 
 describe('Controller: adminListCtrl', function () {
 
-    beforeEach(module('bonita.admin.users.list'));
+    beforeEach(module('org.bonita.features.admin.users.list'));
 
     var scope, User, createController;
 

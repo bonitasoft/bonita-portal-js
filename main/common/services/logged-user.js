@@ -1,13 +1,15 @@
 'use strict';
-angular.module('common', [])
-    .service('loggedUserSrv', ['$http', '$q', function ($http, $q) {
+angular.module('org.bonita.common.logged-user', [])
+    .service('loggedUser', ['$http', '$q', function ($http, $q) {
+
         var deferred = $q.defer();
+
         $http.get('../API/system/session/unusedid')
-            .success(function (data, status, headers, config) {
+            .success(function (data) {
                 deferred.resolve(data);
             })
             .error(function (data, status, headers, config) {
-                deferred.reject({data:data, status:status, headers:headers, config:config});
+                deferred.reject({data: data, status: status, headers: headers, config: config});
             });
 
         var getLoggedUser = function () {

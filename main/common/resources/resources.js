@@ -21,7 +21,7 @@
         };
     }
 
-    angular.module('bonita.common.resources', ['ngResource'])
+    angular.module('org.bonita.common.resources', ['ngResource'])
         /**
         * @ngdoc method
         * @name Resources#search

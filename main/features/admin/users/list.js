@@ -7,7 +7,7 @@
  * # ListCtrl
  * Controller of the bonitaPortalJsApp
  */
-angular.module('bonita.admin.users.list', ['bonita.common.resources', 'ui.router']).config(
+angular.module('org.bonita.features.admin.users.list', ['org.bonita.common.resources', 'ui.router']).config(
     [ '$stateProvider', '$urlRouterProvider', function ($stateProvider, $urlRouterProvider) {
         $urlRouterProvider.when('/admin/users/', '/admin/users');
         $stateProvider
