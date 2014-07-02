@@ -26,8 +26,7 @@ module.exports = function (grunt) {
         portaljs: {
             // configurable paths
             app: 'main',
-            dist: 'dist',
-            build: 'build'
+            dist: 'dist'
         },
 
         // Watches files for changes and runs tasks based on the changed files
@@ -270,7 +269,8 @@ module.exports = function (grunt) {
         // The following *-min tasks produce minified files in the dist folder
         cssmin: {
             options: {
-                root: '<%= portaljs.app %>'
+                root: '<%= portaljs.app %>',
+                noRebase : true
             }
         },
 
@@ -321,20 +321,6 @@ module.exports = function (grunt) {
                         src: [
                             '**/*.html'
                         ]
-                    }
-                ]
-            },
-            generated: {
-                files: [
-                    {
-                        expand: true,
-                        dot: true,
-                        cwd: '.tmp/concat/scripts',
-                        dest: '<%= portaljs.build %>',
-                        src: 'scripts.js',
-                        rename: function (dest) {
-                            return dest + '/bonita-portal.js';
-                        }
                     }
                 ]
             },
