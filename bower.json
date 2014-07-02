@@ -2,7 +2,7 @@
   "name": "bonita-portal-js",
   "version": "0.0.1",
   "appPath": "main",
-  "main": "build/bonita-portal.js",
+  "main": "",
   "dependencies": {
     "angular": "~1.3.0",
     "json3": "~3.2.6",

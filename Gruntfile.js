@@ -61,12 +61,6 @@ module.exports = function (grunt) {
                     '<%= portaljs.app %>/**/*.html',
                     '.tmp/styles/{,*/}*.css'
                 ]
-            },
-            dist: {
-                files: ['<%= portaljs.app %>/**/*.js'],
-                tasks: [
-                    'build-draft'
-                ]
             }
         },
 
@@ -220,7 +214,8 @@ module.exports = function (grunt) {
                 files: {
                     '<%= portaljs.app %>/index.html': [
                         '<%= portaljs.app %>/common/**/*.js',
-                        '<%= portaljs.app %>/features/**/*.js'
+                        '<%= portaljs.app %>/features/**/*.js',
+                        '<%= portaljs.app %>/*.js'
                     ]
                 }
             }
