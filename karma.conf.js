@@ -24,10 +24,9 @@ module.exports = function(config) {
       'main/assets/ng-grid/build/ng-grid.js',
       'main/assets/jqueryui/ui/jquery-ui.js',
       'main/assets/angular-gettext/dist/angular-gettext.js',
-      'main/app.js',
+      'main/bonita-portal.js',
       'main/common/**/*.js',
       'main/features/**/*.js',
-      'test/mock/**/*.js',
       'test/spec/**/*.js'
     ],
 
