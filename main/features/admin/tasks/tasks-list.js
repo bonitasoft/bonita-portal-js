@@ -11,5 +11,12 @@
             });
         }])
         .controller('tasksListCtrl', [function () {
-    }]);
+        }])
+        .directive('bbpmSwing', function () {
+            return {
+                restrict: 'A',
+                transclude: true,
+                template: '<div class="animated swing" ng-transclude></div>'
+            };
+        });
 })();
