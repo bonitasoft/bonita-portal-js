@@ -3,11 +3,11 @@ angular.module('common', [])
     .service('loggedUserSrv', ['$http', '$q', function ($http, $q) {
         var deferred = $q.defer();
         $http.get('../API/system/session/unusedid')
-            .success(function (response) {
-                deferred.resolve(response);
+            .success(function (data, status, headers, config) {
+                deferred.resolve(data);
             })
-            .error(function (response) {
-                deferred.reject(response);
+            .error(function (data, status, headers, config) {
+                deferred.reject({data:data, status:status, headers:headers, config:config});
             });
 
         var getLoggedUser = function () {

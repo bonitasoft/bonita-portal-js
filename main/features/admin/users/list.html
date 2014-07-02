@@ -11,7 +11,7 @@
 </tr>
 </thead>
 <tbody>
-  <tr ng-repeat="user in users" id='userID-{{user.id}}' class='user'>
+  <tr ng-repeat="user in users.result" id='userID-{{user.id}}' class='user'>
     <td>{{ user.firstname}}</td>
     <td>{{ user.lastname}}</td>
     <td>{{ user.job_title}}</td>
@@ -23,5 +23,5 @@
 
 <h3>List View <span class='label label-default'>New!</span></h3>
 <ul id="userList" class='list-group'>
-  <li class='list-group-item user' id='userID-{{user.id}}' ng-repeat="user in users">{{ user.firstname}} {{ user.lastname}} is {{ user.job_title}} </li>
+  <li class='list-group-item user' id='userID-{{user.id}}' ng-repeat="user in users.result">{{ user.firstname}} {{ user.lastname}} is {{ user.job_title}} </li>
 </ul>
