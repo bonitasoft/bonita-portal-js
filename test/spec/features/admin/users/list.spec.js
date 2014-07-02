@@ -4,16 +4,18 @@ describe('Controller: adminListCtrl', function () {
 
     beforeEach(module('bonita.admin.users.list'));
 
-    var scope, User;
+    var scope, User, createController;
 
     // Initialize the controller and a mock scope
     beforeEach(inject(function ($controller, $rootScope, _User_) {
         scope = $rootScope.$new();
         User = _User_;
-        $controller('adminListCtrl', {
-            $scope: scope,
-            'User': User
-        });
+        createController = function () {
+            $controller('adminListCtrl', {
+                $scope: scope,
+                'User': User
+            });
+        };
     }));
 
     it('should attach a list of users to the scope', function () {
@@ -22,7 +24,7 @@ describe('Controller: adminListCtrl', function () {
             pagination: { total: 2 }
         });
 
-        scope.$apply();
+        createController();
 
         expect(scope.users.result).toEqual(['user']);
     });
