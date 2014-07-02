@@ -24,14 +24,14 @@
     <link rel="stylesheet" href="styles/main.css">
     <!-- endbuild -->
 </head>
-<body ng-app="portaljsApp">
+<body ng-app="bonita.portal">
 <!--[if lt IE 7]>
 <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade
     your browser</a> to improve your experience.</p>
 <![endif]-->
 
 <!-- Add your site or application content here -->
-<div class="container" ng-view=""></div>
+<div class="container" ui-view=""></div>
 
 <!--[if lt IE 9]>
 <script src="bower_components/es5-shim/es5-shim.js"></script>
@@ -58,9 +58,12 @@
 <!-- endbuild -->
 
 <!-- build:js({.tmp,main}) scripts/scripts.js -->
+<script src="common/services/config-srv.js"></script>
+<script src="common/resources/bpmModel.js"></script>
+<script src="common/services/loggedUser-srv.js"></script>
+<script src="common/resources/resources.js"></script>
 <script src="app.js"></script>
-<script src="i18n.js"></script>
-<script src="features/poc/pocprotractor.js"></script>
+<script src="features/admin/users/list.js"></script>
 <!-- endbuild -->
 </body>
 </html>

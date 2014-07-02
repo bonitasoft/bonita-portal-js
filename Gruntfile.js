@@ -361,13 +361,6 @@ module.exports = function (grunt) {
                 }
             }
         },
-        nggettext_compile: {
-            all: {
-              files: {
-                '<%= portaljs.app %>/i18n.js': ['i18n/portal*_*.po']
-                }
-            }
-        },
         ngdocs: {
             options: {
                 dest: '<%= portaljs.app %>/docs',
@@ -419,7 +412,6 @@ module.exports = function (grunt) {
         'clean:dist',
         'bowerInstall',
         'nggettext_extract',
-        'nggettext_compile',
         'useminPrepare',
         'concurrent:dist',
         'autoprefixer',

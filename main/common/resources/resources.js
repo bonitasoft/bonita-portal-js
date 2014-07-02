@@ -78,5 +78,8 @@
 
         .factory('HumanTask', ['$resource', function ($resource) {
             return $resource(API_PATH + 'bpm/humanTask/:id', { id: '@id' });
+        }])
+        .factory('I18N', ['$resource', function ($resource) {
+            return $resource(API_PATH + 'system/i18ntranslation/');
         }]);
 })();

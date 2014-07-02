@@ -25,7 +25,6 @@ module.exports = function(config) {
       'main/assets/jqueryui/ui/jquery-ui.js',
       'main/assets/angular-gettext/dist/angular-gettext.js',
       'main/app.js',
-      'main/i18n.js',
       'main/common/**/*.js',
       'main/features/**/*.js',
       'test/mock/**/*.js',

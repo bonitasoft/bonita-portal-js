@@ -6,7 +6,7 @@ exports.config = {
     seleniumArgs: [],
 
         specs: [
-        'test/e2e/**/*.spec.js'
+        'test/e2e/**/*.e2e.js'
     ],
 
     capabilities: {
