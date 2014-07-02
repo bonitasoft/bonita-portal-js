@@ -5,12 +5,11 @@
         .config(
         [ '$stateProvider', function ($stateProvider) {
             $stateProvider.state('adminTasks', {
-                    url: '/admin/tasks',
-                    templateUrl: 'features/admin/tasks/tasks-list.html',
-                    controller: 'tasksListCtrl'
-                });
+                url: '/admin/tasks',
+                templateUrl: 'features/admin/tasks/tasks-list.html',
+                controller: 'tasksListCtrl'
+            });
         }])
-        .controller('tasksListCtrl', [function() {
-
-        }]);
+        .controller('tasksListCtrl', [function () {
+    }]);
 })();
