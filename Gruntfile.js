@@ -365,7 +365,6 @@ module.exports = function (grunt) {
             ]
         },
 
-
         // Test settings
         karma: {
             unit: {
@@ -373,6 +372,7 @@ module.exports = function (grunt) {
                 singleRun: true
             }
         },
+
         nggettext_extract: {
             pot: {
                 files: {
@@ -400,6 +400,7 @@ module.exports = function (grunt) {
         grunt.task.run([
             'clean:server',
             'bowerInstall',
+            'injector',
             'concurrent:server',
             'configureRewriteRules',
             'configureProxies:server',
@@ -417,19 +418,10 @@ module.exports = function (grunt) {
         'karma'
     ]);
 
-    grunt.registerTask('build-draft', [
-        'clean:dist',
-        'useminPrepare',
-        'concat',
-        'copy:concat-tmp',
-        'copy:dist',
-        'rev',
-        'usemin'
-    ]);
-
     grunt.registerTask('build', [
         'clean:dist',
         'bowerInstall',
+        'injector',
         'nggettext_extract',
         'useminPrepare',
         'concurrent:dist',
