@@ -35,7 +35,7 @@
     "karma-coffee-preprocessor": "~0.2.1",
     "karma-firefox-launcher": "~0.1.3",
     "karma-ie-launcher": "~0.1.5",
-    "karma-jasmine": "~0.1.5",
+    "karma-jasmine": "~0.2.0",
     "karma-junit-reporter": "^0.2.2",
     "karma-ng-html2js-preprocessor": "~0.1.0",
     "karma-opera-launcher": "~0.1.0",
@@ -44,12 +44,14 @@
     "load-grunt-tasks": "~0.4.0",
     "ngdocs": "^0.1.0",
     "protractor": "^0.24.2",
-    "time-grunt": "~0.2.1"
+    "time-grunt": "~0.2.1",
+    "grunt-injector": "~0.5.2"
   },
   "engines": {
     "node": ">=0.10.0"
   },
   "scripts": {
-    "test": "grunt test"
+    "test": "grunt test",
+    "postinstall": "bower cache clean && bower install"
   }
 }

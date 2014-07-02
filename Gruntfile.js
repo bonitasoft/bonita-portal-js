@@ -12,12 +12,12 @@ module.exports = function (grunt) {
     // Load grunt tasks automatically
     require('load-grunt-tasks')(grunt);
 
-	// Time how long tasks take. Can help when optimizing build times
-	require('time-grunt')(grunt);
-	grunt.loadNpmTasks('grunt-connect-proxy');
-  grunt.loadNpmTasks('grunt-connect-rewrite');
-  grunt.loadNpmTasks('grunt-angular-gettext');
-  grunt.loadNpmTasks('grunt-ngdocs');
+    // Time how long tasks take. Can help when optimizing build times
+    require('time-grunt')(grunt);
+    grunt.loadNpmTasks('grunt-connect-proxy');
+    grunt.loadNpmTasks('grunt-connect-rewrite');
+    grunt.loadNpmTasks('grunt-angular-gettext');
+    grunt.loadNpmTasks('grunt-ngdocs');
 
     // Define the configuration for all the tasks
     grunt.initConfig({
@@ -61,12 +61,6 @@ module.exports = function (grunt) {
                 files: [
                     '<%= portaljs.app %>/**/*.html',
                     '.tmp/styles/{,*/}*.css'
-                ]
-            },
-            dist: {
-                files: ['<%= portaljs.app %>/**/*.js'],
-                tasks: [
-                    'build-draft'
                 ]
             }
         },
@@ -201,9 +195,30 @@ module.exports = function (grunt) {
 
         // Automatically inject Bower components into the app
         bowerInstall: {
-            app: {
+            'community': {
                 src: ['<%= portaljs.app %>/index.html'],
-                ignorePath: '<%= portaljs.app %>/'
+                ignorePath: '<%= portaljs.app %>/',
+                'overrides': {
+                    'ng-grid': {
+                        'main' : './build/ng-grid.js'
+                    }
+                }
+            }
+        },
+
+        injector: {
+            options: {
+                ignorePath: 'main/',
+                addRootSlash: false
+            },
+            sources: {
+                files: {
+                    '<%= portaljs.app %>/index.html': [
+                        '<%= portaljs.app %>/common/**/*.js',
+                        '<%= portaljs.app %>/features/**/*.js',
+                        '<%= portaljs.app %>/*.js'
+                    ]
+                }
             }
         },
 
@@ -312,8 +327,8 @@ module.exports = function (grunt) {
                         cwd: '.tmp/concat/scripts',
                         dest: '<%= portaljs.build %>',
                         src: 'scripts.js',
-                        rename: function(dest) {
-                          return dest + '/bonita-portal.js';
+                        rename: function (dest) {
+                            return dest + '/bonita-portal.js';
                         }
                     }
                 ]
@@ -345,15 +360,14 @@ module.exports = function (grunt) {
             ]
         },
 
+        // Test settings
+        karma: {
+            unit: {
+                configFile: 'karma.conf.js',
+                singleRun: true
+            }
+        },
 
-
-    		// Test settings
-    		karma: {
-    			unit: {
-    				configFile: 'karma.conf.js',
-    				singleRun: true
-    			}
-    		},
         nggettext_extract: {
             pot: {
                 files: {
@@ -371,7 +385,7 @@ module.exports = function (grunt) {
             },
             all: ['<%= portaljs.app %>/features/**/*.js', '<%= portaljs.app %>/common/**/*.js']
         }
-	});
+    });
 
     grunt.registerTask('serve', function (target) {
         if (target === 'dist') {
@@ -381,6 +395,7 @@ module.exports = function (grunt) {
         grunt.task.run([
             'clean:server',
             'bowerInstall',
+            'injector',
             'concurrent:server',
             'configureRewriteRules',
             'configureProxies:server',
@@ -398,19 +413,10 @@ module.exports = function (grunt) {
         'karma'
     ]);
 
-    grunt.registerTask('build-draft', [
-        'clean:dist',
-        'useminPrepare',
-        'concat',
-        'copy:concat-tmp',
-        'copy:dist',
-        'rev',
-        'usemin'
-    ]);
-
     grunt.registerTask('build', [
         'clean:dist',
         'bowerInstall',
+        'injector',
         'nggettext_extract',
         'useminPrepare',
         'concurrent:dist',

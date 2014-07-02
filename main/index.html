@@ -24,7 +24,7 @@
     <link rel="stylesheet" href="styles/main.css">
     <!-- endbuild -->
 </head>
-<body ng-app="bonita.portal">
+<body ng-app="org.bonita.portal">
 <!--[if lt IE 7]>
 <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade
     your browser</a> to improve your experience.</p>
@@ -38,7 +38,7 @@
 <script src="bower_components/json3/lib/json3.min.js"></script>
 <![endif]-->
 
-<!-- build:js scripts/vendor.js -->
+<!-- build:js scripts/assets.js -->
 <!-- bower:js -->
 <script src="assets/jquery/dist/jquery.js"></script>
 <script src="assets/es5-shim/es5-shim.js"></script>
@@ -57,13 +57,16 @@
 <!-- endbower -->
 <!-- endbuild -->
 
-<!-- build:js({.tmp,main}) scripts/scripts.js -->
-<script src="common/services/config-srv.js"></script>
-<script src="common/resources/bpmModel.js"></script>
-<script src="common/services/loggedUser-srv.js"></script>
+<!-- build:js({.tmp,main}) scripts/bonita-portal.js -->
+<!-- injector:js -->
 <script src="common/resources/resources.js"></script>
-<script src="app.js"></script>
+<script src="common/services/logged-user.js"></script>
+<script src="features/admin/admin.js"></script>
+<script src="features/admin/tasks/details.js"></script>
+<script src="features/admin/tasks/tasks-list.js"></script>
 <script src="features/admin/users/list.js"></script>
+<script src="bonita-portal.js"></script>
+<!-- endinjector -->
 <!-- endbuild -->
 </body>
 </html>
