@@ -7,9 +7,8 @@
             'ngResource',
             'ngRoute',
             'ui.router',
-            'common',
-            'bonita.common.resources',
-            'bonita.admin.users.list'
+            'org.bonita.common.resources',
+            'org.bonita.features.admin.users.list'
         ]);
 
 
