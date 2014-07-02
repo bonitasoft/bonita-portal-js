@@ -42,8 +42,9 @@
                             };
                         }},
                         'update':{
-                            {method: 'PUT'}
+                            method: 'PUT'
                         }
+                        
                     });
                     return $delegate(url, paramDefaults, actions, options);
                 };
