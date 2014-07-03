@@ -40,7 +40,11 @@
                                 result: angular.fromJson(data),
                                 pagination: parseContentRange(headersGetter)
                             };
-                        }}
+                        }},
+                        'update':{
+                            method: 'PUT'
+                        }
+                        
                     });
                     return $delegate(url, paramDefaults, actions, options);
                 };
