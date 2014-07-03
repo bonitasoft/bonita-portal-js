@@ -28,19 +28,6 @@
                         </configuration>
                     </execution>
                     <execution>
-                        <id>bower-exec</id>
-                        <phase>prepare-package</phase>
-                        <goals>
-                            <goal>exec</goal>
-                        </goals>
-                        <configuration>
-                            <executable>bower</executable>
-                            <arguments>
-                                <argument>install</argument>
-                            </arguments>
-                        </configuration>
-                    </execution>
-                    <execution>
                         <id>grunt-exec</id>
                         <phase>prepare-package</phase>
                         <goals>
@@ -48,6 +35,10 @@
                         </goals>
                         <configuration>
                             <executable>grunt</executable>
+                             <arguments>
+                                <argument>testE2e</argument>
+                                <argument>build</argument>
+                            </arguments>
                         </configuration>
                     </execution>
                 </executions>
