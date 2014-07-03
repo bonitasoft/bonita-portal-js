@@ -91,5 +91,11 @@
         }])
         .factory('Membership', ['$resource', function ($resource) {
             return $resource(API_PATH + 'identity/membership/:id', { id: '@id' });
+        }])
+        .factory('ProfessionalData', ['$resource', function ($resource) {
+            return $resource(API_PATH + 'identity/professionalcontactdata/:id', { id: '@id' });
+        }])
+        .factory('PersonalData', ['$resource', function ($resource) {
+            return $resource(API_PATH + 'identity/personalcontactdata/:id', { id: '@id' });
         }]);
 })();
