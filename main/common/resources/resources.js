@@ -85,5 +85,11 @@
         }])
         .factory('I18N', ['$resource', function ($resource) {
             return $resource(API_PATH + 'system/i18ntranslation/');
+        }])
+        .factory('Profile', ['$resource', function ($resource) {
+            return $resource(API_PATH + 'portal/profile/:id', { id: '@id' });
+        }])
+        .factory('Membership', ['$resource', function ($resource) {
+            return $resource(API_PATH + 'identity/membership/:id', { id: '@id' });
         }]);
 })();
