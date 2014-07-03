@@ -13,14 +13,14 @@
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width">
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
-    <!-- build:css styles/vendor.css -->
+    <!-- build:css styles/assets.css -->
     <!-- bower:css -->
     <link rel="stylesheet" href="assets/bootstrap/dist/css/bootstrap.css" />
     <link rel="stylesheet" href="assets/ng-grid/ng-grid.css" />
     <link rel="stylesheet" href="assets/animate.css/animate.css" />
     <!-- endbower -->
     <!-- endbuild -->
-    <!-- build:css({.tmp,app}) styles/main.css -->
+    <!-- build:css({.tmp,app}) styles/bonita-portal.css -->
     <link rel="stylesheet" href="styles/main.css">
     <!-- endbuild -->
 </head>
@@ -57,12 +57,16 @@
 <!-- endbower -->
 <!-- endbuild -->
 
+<!-- build:js -->
+<script src="assets/angular-mocks/angular-mocks.js"></script>
+<!-- endbuild -->
+
 <!-- build:js({.tmp,main}) scripts/bonita-portal.js -->
 <!-- injector:js -->
+<script src="common/directives/bbpmGo.js"></script>
 <script src="common/resources/resources.js"></script>
 <script src="common/services/logged-user.js"></script>
 <script src="features/admin/admin.js"></script>
-<script src="features/admin/tasks/details.js"></script>
 <script src="features/admin/tasks/tasks-list.js"></script>
 <script src="features/admin/users/list.js"></script>
 <script src="bonita-portal.js"></script>
