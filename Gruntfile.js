@@ -417,6 +417,15 @@ module.exports = function (grunt) {
         'karma'
     ]);
 
+    grunt.registerTask('testE2e', [
+        'clean:server',
+        'concurrent:test',
+        'autoprefixer',
+        'connect:test',
+        'karma',
+        'protractor:e2e'
+    ]);
+
     grunt.registerTask('build', [
         'clean:dist',
         'bowerInstall',
