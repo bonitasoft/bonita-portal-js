@@ -40,7 +40,7 @@ describe('Register', function() {
 
   it('should display the list of the tenth first users', function() {
     browser.addMockModule('httpBackendMock', mockCode);
-    browser.get('http://127.0.0.1:9000/#/admin/users');
+    browser.get('#/admin/users');
     browser.debugger(); //launch protractor with debug option and use 'c' in console to continue test execution
     var userList = $('#userList');
     expect(userList).toBeDefined();
