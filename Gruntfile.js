@@ -18,7 +18,6 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-connect-rewrite');
     grunt.loadNpmTasks('grunt-angular-gettext');
     grunt.loadNpmTasks('grunt-ngdocs');
-    grunt.loadNpmTasks('grunt-protractor-runner');
 
     // Define the configuration for all the tasks
     grunt.initConfig({
@@ -27,7 +26,8 @@ module.exports = function (grunt) {
         portaljs: {
             // configurable paths
             app: 'main',
-            dist: 'dist'
+            dist: 'dist',
+            build: 'build'
         },
 
         // Watches files for changes and runs tasks based on the changed files
@@ -80,7 +80,15 @@ module.exports = function (grunt) {
             server: {
                 proxies: [
                     {
-                        context: '/bonita/API',
+                        context: '/bonita/API/',
+                        host: 'localhost',
+                        port: 8080,
+                        https: false,
+                        changeOrigin: false,
+                        xforward: false
+                    },
+                    {
+                        context: '/bonita/portal/',
                         host: 'localhost',
                         port: 8080,
                         https: false,
@@ -265,8 +273,7 @@ module.exports = function (grunt) {
         // The following *-min tasks produce minified files in the dist folder
         cssmin: {
             options: {
-                root: '<%= portaljs.app %>',
-                noRebase : true
+                root: '<%= portaljs.app %>'
             }
         },
 
@@ -320,6 +327,20 @@ module.exports = function (grunt) {
                     }
                 ]
             },
+            generated: {
+                files: [
+                    {
+                        expand: true,
+                        dot: true,
+                        cwd: '.tmp/concat/scripts',
+                        dest: '<%= portaljs.build %>',
+                        src: 'scripts.js',
+                        rename: function (dest) {
+                            return dest + '/bonita-portal.js';
+                        }
+                    }
+                ]
+            },
             styles: {
                 expand: true,
                 cwd: '<%= portaljs.app %>/styles',
@@ -353,23 +374,6 @@ module.exports = function (grunt) {
                 configFile: 'karma.conf.js',
                 singleRun: true
             }
-        },
-        protractor: {
-          options: {
-            configFile: 'protractor.conf.js', // Default config file
-            keepAlive: true, // If false, the grunt process stops when the test fails.
-            noColor: false, // If true, protractor will not use colors in its output.
-            //debug : true,
-            args: {
-              // Arguments passed to the command
-            }
-          },
-          e2e: {
-            options: {
-              //configFile: "e2e.conf.js", // Target-specific config file
-              args: {} // Target-specific arguments
-            }
-          },
         },
 
         nggettext_extract: {
@@ -417,15 +421,6 @@ module.exports = function (grunt) {
         'karma'
     ]);
 
-    grunt.registerTask('testE2e', [
-        'clean:server',
-        'concurrent:test',
-        'autoprefixer',
-        'connect:test',
-        'karma',
-        'protractor:e2e'
-    ]);
-
     grunt.registerTask('build', [
         'clean:dist',
         'bowerInstall',
@@ -435,6 +430,7 @@ module.exports = function (grunt) {
         'concurrent:dist',
         'autoprefixer',
         'concat',
+        'copy:generated',
         'ngmin',
         'copy:dist',
         'cssmin',
