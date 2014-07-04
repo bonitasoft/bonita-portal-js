@@ -2,7 +2,7 @@
     'use strict';
 
     angular.module('org.bonita.common.directives', [])
-        .constant('baseUrl', top.location.href)
+        .constant('baseUrl', top.location.origin + top.location.pathname)
         .directive('bbpmGoTo', ['baseUrl', function(baseUrl) {
             return {
                 restrict: 'A',
