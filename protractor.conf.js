@@ -11,10 +11,10 @@ exports.config = {
     ],
 
     capabilities: {
-        'browserName': 'chrome'
+        'browserName': 'firefox'
     },
 
-    baseUrl: 'http://localhost:9000/',
+    baseUrl: 'http://localhost:9001/',
 
     rootElement: 'body',
 
@@ -25,18 +25,5 @@ exports.config = {
       require('jasmine-reporters');
       jasmine.getEnv().addReporter(
         new jasmine.JUnitXmlReporter('test/e2e-reports/'));
-    }/*,
-
-    jasmineNodeOpts: {
-        // onComplete will be called just before the driver quits.
-        onComplete: null,
-        // If true, display spec names.
-        isVerbose: false,
-        // If true, print colors to the terminal.
-        showColors: true,
-        // If true, include stack traces in failures.
-        includeStackTrace: true,
-        // Default time to wait in ms before a test fails.
-        defaultTimeoutInterval: 10000
-    }*/
+    }
 };
