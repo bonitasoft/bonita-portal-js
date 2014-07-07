@@ -80,7 +80,7 @@ module.exports = function (grunt) {
             server: {
                 proxies: [
                     {
-                        context: '/bonita/API',
+                        context: [ '/bonita/API', '/bonita/portal/'],
                         host: 'localhost',
                         port: 8080,
                         https: false,
@@ -136,6 +136,7 @@ module.exports = function (grunt) {
             },
             dist: {
                 options: {
+                    port: 9002,
                     base: '<%= portaljs.dist %>'
                 }
             }
@@ -418,10 +419,11 @@ module.exports = function (grunt) {
     ]);
 
     grunt.registerTask('testE2e', [
+        'build',
         'clean:server',
         'concurrent:test',
         'autoprefixer',
-        'connect:test',
+        'connect:dist',
         'karma',
         'protractor:e2e'
     ]);
@@ -435,7 +437,6 @@ module.exports = function (grunt) {
         'concurrent:dist',
         'autoprefixer',
         'concat',
-        'ngmin',
         'copy:dist',
         'cssmin',
         'uglify',

@@ -28,6 +28,7 @@ describe('Register', function() {
               $httpBackend.whenGET(/.*\.html/).passThrough();
           });
       };
+  var ngMockInjected = require('../../../ngMockInjected');
   beforeEach(function(){
 
     //need to use driver directly for browser not to wait for angular to load
@@ -39,6 +40,7 @@ describe('Register', function() {
   });
 
   it('should display the list of the tenth first users', function() {
+    browser.addMockModule('ngMockE2E', ngMockInjected.ngMockInjected);
     browser.addMockModule('httpBackendMock', mockCode);
     browser.get('#/admin/users');
     browser.debugger(); //launch protractor with debug option and use 'c' in console to continue test execution
