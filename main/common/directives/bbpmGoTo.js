@@ -3,14 +3,14 @@
 
     angular.module('org.bonita.common.directives', [])
         .constant('baseUrl', top.location.origin + top.location.pathname)
-        .directive('bbpmGoTo', ['baseUrl', function(baseUrl) {
+        .directive('bbpmGoTo', ['baseUrl', function (baseUrl) {
             return {
                 restrict: 'A',
                 scope: {
                     url: '@bbpmGoTo'
                 },
-                link: function(scope, element) {
-                    if(!element.is('a')) {
+                link: function (scope, element) {
+                    if (!element.is('a')) {
                         throw new Error('bbpmGoTo is only applicable on anchor elements.');
                     }
                     element.prop('href', baseUrl + scope.url);

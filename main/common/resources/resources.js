@@ -1,11 +1,11 @@
 (function () {
     'use strict';
     /**
-    * @ngdoc service
-    * @name bonita.common.resources.Resources
-    * @description
-    * Define the resources accessible from the Bonita API
-    */
+     * @ngdoc service
+     * @name bonita.common.resources.Resources
+     * @description
+     * Define the resources accessible from the Bonita API
+     */
 
     var API_PATH = '../API/';
 
@@ -22,18 +22,18 @@
     }
 
     angular.module('org.bonita.common.resources', ['ngResource'])
-        /**
-        * @ngdoc method
-        * @name Resources#search
-        * @methodOf bonita.common.resources.Resources
-        * @description
-        * the Resources service decorate the $resource to add a new search
-        * function parsing the http header response to find the number of results
-        * for the given resource search
-        */
-        .config(['$provide', function($provide) {
-            $provide.decorator('$resource', ['$delegate', function($delegate) {
-                return function(url, paramDefaults, actions, options) {
+    /**
+     * @ngdoc method
+     * @name Resources#search
+     * @methodOf bonita.common.resources.Resources
+     * @description
+     * the Resources service decorate the $resource to add a new search
+     * function parsing the http header response to find the number of results
+     * for the given resource search
+     */
+        .config(['$provide', function ($provide) {
+            $provide.decorator('$resource', ['$delegate', function ($delegate) {
+                return function (url, paramDefaults, actions, options) {
                     actions = angular.extend({}, actions, {
                         'search': { transformResponse: function (data, headersGetter) {
                             return {
@@ -41,10 +41,10 @@
                                 pagination: parseContentRange(headersGetter)
                             };
                         }},
-                        'update':{
+                        'update': {
                             method: 'PUT'
                         }
-                        
+
                     });
                     return $delegate(url, paramDefaults, actions, options);
                 };
