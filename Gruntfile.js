@@ -368,7 +368,8 @@ module.exports = function (grunt) {
                 singleRun: true
             }
         },
-        protractor: {
+        // conflict with jenkins NodeJS plugin.
+        /*protractor: {
           options: {
             configFile: 'protractor.conf.js', // Default config file
             keepAlive: true, // If false, the grunt process stops when the test fails.
@@ -384,7 +385,7 @@ module.exports = function (grunt) {
               args: {} // Target-specific arguments
             }
           },
-        },
+        },*/
 
         nggettext_extract: {
             pot: {
