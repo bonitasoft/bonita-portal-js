@@ -37,7 +37,7 @@
                             <executable>grunt</executable>
                             <arguments>
                                 <!-- conflict with jenkins NodeJs plugin -->
-                                <!--<argument>testE2e</argument>-->
+                                <argument>testE2e</argument>
                                 <argument>build</argument>
                             </arguments>
                         </configuration>
