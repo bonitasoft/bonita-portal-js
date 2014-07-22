@@ -28,6 +28,16 @@
                         </configuration>
                     </execution>
                     <execution>
+                        <id>init-selenium</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <configuration>
+                            <executable>./init-selenium.sh</executable>
+                        </configuration>
+                    </execution>
+                    <execution>
                         <id>grunt-exec</id>
                         <phase>prepare-package</phase>
                         <goals>
