@@ -36,5 +36,17 @@
             expect(users.result).toEqual([{ id: 1 }, { id: 2 }]);
             expect(users.pagination).toEqual({ total : 10, index : 0, currentPage : 1, numberPerPage : 10 });
         }));
+
+        it('should not throw exception when there is no content-range', inject(function () {
+
+            $httpBackend.expectGET('../API/identity/user?c=10&p=0').respond(function () {
+                return [200, [], {}];
+            });
+
+            var users = User.search({ p: 0, c: 10 });
+            $httpBackend.flush();
+
+            expect(users.pagination).toEqual({});
+        }));
     });
 })();
