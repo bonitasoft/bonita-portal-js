@@ -12,7 +12,6 @@
     "angular-ui-router": "~0.2.10",
     "angular-bootstrap": "~0.11.0",
     "bootstrap": "~3.1.1",
-    "ng-grid": "~2.0.11",
     "jqueryui": "~1.10.4",
     "animate.css": "~3.1.1",
     "angular-gettext": "~0.4.0"
