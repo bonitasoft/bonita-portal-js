@@ -9,8 +9,10 @@
 
     var API_PATH = '../API/';
 
-    function parseContentRange(headersGetter) {
-        var strContentRange = headersGetter('Content-Range');
+    function parseContentRange(strContentRange) {
+        if (strContentRange === null) {
+            return {};
+        }
         var arrayContentRange = strContentRange.split('/');
         var arrayIndexNumPerPage = arrayContentRange[0].split('-');
         return {
@@ -22,6 +24,8 @@
     }
 
     angular.module('org.bonita.common.resources', ['ngResource'])
+        .constant('API_PATH', API_PATH)
+
     /**
      * @ngdoc method
      * @name Resources#search
@@ -35,12 +39,13 @@
             $provide.decorator('$resource', ['$delegate', function ($delegate) {
                 return function (url, paramDefaults, actions, options) {
                     actions = angular.extend({}, actions, {
-                        'search': { transformResponse: function (data, headersGetter) {
-                            return {
-                                result: angular.fromJson(data),
-                                pagination: parseContentRange(headersGetter)
-                            };
-                        }},
+                        'search': {
+                            transformResponse: function (data, headers) {
+                                return {
+                                    result: angular.fromJson(data),
+                                    pagination: parseContentRange(headers('Content-Range'))
+                                };
+                            }},
                         'update': {
                             method: 'PUT'
                         }
