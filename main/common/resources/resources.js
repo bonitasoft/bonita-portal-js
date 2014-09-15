@@ -55,7 +55,7 @@
    * for the given resource search
    */
     .config(['$provide', function ($provide) {
-      $provide.decorator('$resource', ['$delegate', '$http', function ($delegate, $http) {
+      $provide.decorator('$resource', ['$delegate', function ($delegate) {
         return function (url, paramDefaults, actions, options) {
           actions = angular.extend({}, actions, {
             'search': {
