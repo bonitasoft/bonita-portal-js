@@ -11,19 +11,6 @@
 
     /**
      * @internal
-     * a specific transformResponse apply for Resources#search
-     * Wrap result array inside an object and add pagination data
-     * @see Resources#search
-     */
-    function searchTransformResponse(data, headers) {
-        return {
-            result: data,
-            pagination: parseContentRange(headers('Content-Range'))
-        };
-    }
-
-    /**
-     * @internal
      * Parse Content-Range header and return an object with pagination infos
      * @param  {String} strContentRange Content-Range header attribute
      * @return {Object}                 pagination object
@@ -93,34 +80,34 @@
              * });
    *
    **/
-    .factory('User', ['$resource', function ($resource) {
+    .factory('userAPI', ['$resource', function ($resource) {
       return $resource(API_PATH + 'identity/user/:id', { id: '@id' });
     }])
 
-    .factory('Case', ['$resource', function ($resource) {
+    .factory('caseAPI', ['$resource', function ($resource) {
       return $resource(API_PATH + 'bpm/case/:id', { id: '@id' });
     }])
 
-    .factory('Process', ['$resource', function ($resource) {
+    .factory('processAPI', ['$resource', function ($resource) {
       return $resource(API_PATH + 'bpm/process/:id', { id: '@id' });
     }])
 
-    .factory('HumanTask', ['$resource', function ($resource) {
+    .factory('humanTaskAPI', ['$resource', function ($resource) {
       return $resource(API_PATH + 'bpm/humanTask/:id', { id: '@id' });
     }])
-    .factory('I18N', ['$resource', function ($resource) {
+    .factory('i18nAPI', ['$resource', function ($resource) {
       return $resource(API_PATH + 'system/i18ntranslation/');
     }])
-    .factory('Profile', ['$resource', function ($resource) {
+    .factory('profileAPI', ['$resource', function ($resource) {
       return $resource(API_PATH + 'portal/profile/:id', { id: '@id' });
     }])
-    .factory('Membership', ['$resource', function ($resource) {
+    .factory('membershipAPI', ['$resource', function ($resource) {
       return $resource(API_PATH + 'identity/membership/:id', { id: '@id' });
     }])
-    .factory('ProfessionalData', ['$resource', function ($resource) {
+    .factory('professionalDataAPI', ['$resource', function ($resource) {
       return $resource(API_PATH + 'identity/professionalcontactdata/:id', { id: '@id' });
     }])
-    .factory('PersonalData', ['$resource', function ($resource) {
+    .factory('personalDataAPI', ['$resource', function ($resource) {
       return $resource(API_PATH + 'identity/personalcontactdata/:id', { id: '@id' });
     }]);
 })();
