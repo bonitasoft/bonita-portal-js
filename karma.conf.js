@@ -66,7 +66,7 @@ module.exports = function(config) {
     // if true, it capture browsers, run tests and exit
     singleRun: false,
 
-    reporters: ['dots', 'junit'],
+    reporters: ['dots', 'junit', 'coverage'],
 
     junitReporter: {
       outputFile: 'test/reports.xml'
