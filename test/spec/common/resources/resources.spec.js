@@ -1,15 +1,15 @@
 (function () {
   'use strict';
 
-  describe('User', function () {
+  describe('userAPI', function () {
 
     beforeEach(module('org.bonita.common.resources'));
 
-    var $httpBackend, User;
+    var $httpBackend, userAPI;
 
-    beforeEach(inject(function ($q, $rootScope, _$httpBackend_, _User_) {
+    beforeEach(inject(function ($q, $rootScope, _$httpBackend_, _userAPI_) {
       $httpBackend = _$httpBackend_;
-      User = _User_;
+      userAPI = _userAPI_;
     }));
 
     it('should get user specified by the id', inject(function () {
@@ -18,7 +18,7 @@
         id: 123
       });
 
-      var user = User.get({ id: 123 });
+      var user = userAPI.get({ id: 123 });
       $httpBackend.flush();
 
       expect(user.id).toBe(123);
@@ -33,7 +33,7 @@
         ], {'Content-Range': '0-10/10'}];
       });
 
-      var users = User.search({ p: 0, c: 10 });
+      var users = userAPI.search({ p: 0, c: 10 });
       $httpBackend.flush();
 
       expect(JSON.stringify(users)).toBe('[{"id":1},{"id":2}]');
@@ -46,7 +46,7 @@
         return [200, [], {}];
       });
 
-      var users = User.search({ p: 0, c: 10 });
+      var users = userAPI.search({ p: 0, c: 10 });
       $httpBackend.flush();
 
       expect(users.pagination).toEqual({});
