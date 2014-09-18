@@ -10,7 +10,7 @@ module.exports = function(config) {
     basePath: '',
 
     // testing framework to use (jasmine/mocha/qunit/...)
-    frameworks: ['jasmine', 'karma-coverage'],
+    frameworks: ['jasmine'],
 
     preprocessors: {
       'main/*.js': ['coverage'],
