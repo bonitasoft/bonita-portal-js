@@ -19,7 +19,6 @@
       }
 
       function updateCatalog(catalog) {
-        console.log('resolved!!');
         gettextCatalog.currentLanguage = $cookies['BOS_Locale'];
         gettextCatalog.setStrings($cookies['BOS_Locale'], arrayToObject(catalog));
       }
