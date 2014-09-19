@@ -82,8 +82,18 @@
       angular.forEach(resources, function (resource) {
         it('should register resource <' + resource + '>', inject(function ($injector) {
           expect($injector.get(resource)).toBeDefined();
-        }))
-      })
-    })(['userAPI', 'caseAPI', 'processAPI', 'humanTaskAPI', 'profileAPI', 'membershipAPI', 'professionalDataAPI', 'personalDataAPI', 'i18nAPI']);
+        }));
+      });
+    })([
+      'userAPI',
+      'caseAPI',
+      'processAPI',
+      'humanTaskAPI',
+      'profileAPI',
+      'membershipAPI',
+      'professionalDataAPI',
+      'personalDataAPI',
+      'i18nAPI'
+    ]);
   });
 })();

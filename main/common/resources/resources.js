@@ -39,7 +39,8 @@
               response.resource.pagination = parseContentRange(response.headers('Content-Range'));
               return response;
             }
-          }},
+          }
+        },
         'update': {
           method: 'PUT'
         }
@@ -50,32 +51,32 @@
 
 
   var module = angular.module('org.bonita.common.resources', ['ngResource'])
-      .constant('API_PATH', API_PATH)
+    .constant('API_PATH', API_PATH)
 
-    /**
-     * @ngdoc method
-     * @name Resources#search
-     * @methodOf bonita.common.resources.Resources
-     * @description
-     * the Resources service decorate the $resource to add a new search
-     * function parsing the http header response to find the number of results
-     * for the given resource search
-     */
-      .config(['$provide', '$httpProvider', function ($provide, $httpProvider) {
-        $httpProvider.interceptors.push('unauthorizedResponseHandler');
-        $provide.decorator('$resource', resourceDecorator)
-      }])
+  /**
+   * @ngdoc method
+   * @name Resources#search
+   * @methodOf bonita.common.resources.Resources
+   * @description
+   * the Resources service decorate the $resource to add a new search
+   * function parsing the http header response to find the number of results
+   * for the given resource search
+   */
+    .config(['$provide', '$httpProvider', function ($provide, $httpProvider) {
+      $httpProvider.interceptors.push('unauthorizedResponseHandler');
+      $provide.decorator('$resource', resourceDecorator);
+    }])
 
-      .factory('unauthorizedResponseHandler', ['$q', '$window', function ($q, $window) {
-        return {
-          'responseError': function (rejection) {
-            if (rejection.status === 401) {
-              $window.top.location.reload();
-            }
-            return $q.reject(rejection);
+    .factory('unauthorizedResponseHandler', ['$q', '$window', function ($q, $window) {
+      return {
+        'responseError': function (rejection) {
+          if (rejection.status === 401) {
+            $window.top.location.reload();
           }
-        };
-      }]);
+          return $q.reject(rejection);
+        }
+      };
+    }]);
 
 
   /**
@@ -102,14 +103,14 @@
       }]);
     });
   })({
-      'userAPI': 'identity/user',
-      'caseAPI': 'bpm/case',
-      'processAPI': 'bpm/process',
-      'humanTaskAPI': 'bpm/humanTask',
-      'profileAPI': 'portal/profile',
-      'membershipAPI': 'identity/membership',
-      'professionalDataAPI': 'identity/professionalcontactdata',
-      'personalDataAPI': 'identity/personalcontactdata',
-      'i18nAPI': 'system/i18ntranslation'
-    });
+    'userAPI': 'identity/user',
+    'caseAPI': 'bpm/case',
+    'processAPI': 'bpm/process',
+    'humanTaskAPI': 'bpm/humanTask',
+    'profileAPI': 'portal/profile',
+    'membershipAPI': 'identity/membership',
+    'professionalDataAPI': 'identity/professionalcontactdata',
+    'personalDataAPI': 'identity/personalcontactdata',
+    'i18nAPI': 'system/i18ntranslation'
+  });
 })();

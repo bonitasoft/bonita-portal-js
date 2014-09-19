@@ -1,4 +1,6 @@
 describe('i18nService', function () {
+  'use strict';
+
 
   var i18nService, i18nAPI, $cookies, gettextCatalog, deferred;
 
@@ -13,11 +15,12 @@ describe('i18nService', function () {
 
     spyOn(i18nAPI, 'query').and.callFake(function () {
       return { $promise: deferred.promise };
-    })
+    });
   }));
 
   it('should get english as default local if none found', function () {
-    $cookies['BOS_Locale'] = undefined;
+    /* jshint camelcase: false */
+    $cookies.BOS_Locale = undefined;
 
     i18nService.loadTranslations();
 
@@ -27,7 +30,8 @@ describe('i18nService', function () {
   });
 
   it('should get the local found in the cookie', function () {
-    $cookies['BOS_Locale'] = "fr";
+    /* jshint camelcase: false */
+    $cookies.BOS_Locale = 'fr';
 
     i18nService.loadTranslations();
 
@@ -40,7 +44,7 @@ describe('i18nService', function () {
 
     var $rootScope;
 
-    beforeEach(inject(function(_$rootScope_, $httpBackend) {
+    beforeEach(inject(function (_$rootScope_, $httpBackend) {
       $rootScope = _$rootScope_;
 
       $httpBackend.expectGET().respond(function () {
@@ -50,7 +54,8 @@ describe('i18nService', function () {
     }));
 
     it('should set gettextCatalog local', function () {
-      $cookies['BOS_Locale'] = "fr";
+      /* jshint camelcase: false */
+      $cookies.BOS_Locale = 'fr';
 
       i18nService.loadTranslations();
       deferred.resolve([]);
@@ -60,7 +65,8 @@ describe('i18nService', function () {
     });
 
     it('should update catalog', function () {
-      $cookies['BOS_Locale'] = "fr";
+      /* jshint camelcase: false */
+      $cookies.BOS_Locale = 'fr';
 
       i18nService.loadTranslations();
       deferred.resolve([

@@ -47,7 +47,7 @@
         return [200, [], {'Content-Range': '0-10/1'}];
       });
       $httpBackend.expectGET('../API/identity/user?c=1&p=0').respond(function () {
-        return {}
+        return {};
       });
 
       store.load(userAPI);
