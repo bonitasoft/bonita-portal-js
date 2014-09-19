@@ -45,10 +45,6 @@
                         </goals>
                         <configuration>
                             <executable>grunt</executable>
-                            <arguments>
-                                <!-- conflict with jenkins NodeJs plugin -->
-                                <argument>build</argument>
-                            </arguments>
                         </configuration>
                     </execution>
                 </executions>
