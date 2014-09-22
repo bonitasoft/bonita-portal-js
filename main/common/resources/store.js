@@ -10,6 +10,7 @@
     var store = this;
     var deferred = this.$q.defer();
     this.resource = resource;
+    options = options || {};
 
     function loadData(response) {
 
