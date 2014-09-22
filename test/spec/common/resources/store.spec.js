@@ -17,7 +17,13 @@
       store = _store_;
     }));
 
+    afterEach(function() {
+      $httpBackend.verifyNoOutstandingExpectation();
+      $httpBackend.verifyNoOutstandingRequest();
+    });
+
     it('should get all data from backend on load', inject(function () {
+      var data = [];
       $httpBackend.expectGET('../API/identity/user?c=0&p=0').respond(function () {
         return [200, [], {'Content-Range': '0-10/3'}];
       });
@@ -25,35 +31,26 @@
         return [200, DATASET];
       });
 
-      var data = store.load(userAPI);
+      store.load(userAPI).then(function(loaded) {
+        data = loaded;
+      });
       $httpBackend.flush();
 
       expect(JSON.stringify(data)).toBe(JSON.stringify(DATASET));
     }));
 
-    it('should have a boolean noData set to true when there is no data', inject(function () {
+    it('should not make a second call if the first one return 0 result', inject(function () {
+      var data = [];
       $httpBackend.expectGET('../API/identity/user?c=0&p=0').respond(function () {
         return [200, [], {'Content-Range': '0-10/0'}];
       });
 
-      store.load(userAPI);
+      store.load(userAPI).then(function(loaded) {
+        data = loaded;
+      });
       $httpBackend.flush();
 
-      expect(store.noData).toBe(true);
-    }));
-
-    it('should have a boolean noData set to false when there is data', inject(function () {
-      $httpBackend.expectGET('../API/identity/user?c=0&p=0').respond(function () {
-        return [200, [], {'Content-Range': '0-10/1'}];
-      });
-      $httpBackend.expectGET('../API/identity/user?c=1&p=0').respond(function () {
-        return {};
-      });
-
-      store.load(userAPI);
-      $httpBackend.flush();
-
-      expect(store.noData).toBe(false);
+      expect(JSON.stringify(data)).toBe(JSON.stringify([]));
     }));
   });
 })();

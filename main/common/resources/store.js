@@ -1,27 +1,34 @@
 (function () {
   'use strict';
 
-  function Store() {
+  function Store($q) {
     this.data = [];
-    this.noData = true;
+    this.$q = $q;
   }
 
-  Store.prototype.load = function (resource) {
-
-    var that = this;
+  Store.prototype.load = function (resource, options) {
+    var store = this;
+    var deferred = this.$q.defer();
     this.resource = resource;
 
     function loadData(response) {
-      that.noData = response.resource.pagination.total === 0;
 
-      if (response.resource.pagination.total > 0) {
-        resource.search({
-          p: 0,
-          c: response.resource.pagination.total
-        }, function (response) {
-          angular.copy(response.resource, that.data);
-        });
+      if (response.resource.pagination.total === 0) {
+        angular.copy([], store.data);
+        deferred.resolve(store.data);
+        return;
       }
+
+      store.data = resource.search({
+        p: 0,
+        c: response.resource.pagination.total,
+        d: options.d
+      }, function (response) {
+        angular.copy(response.data, store.data);
+        deferred.resolve(store.data);
+      }, function (error) {
+        deferred.reject(error);
+      });
     }
 
     function count() {
@@ -32,9 +39,9 @@
     }
 
     count().then(loadData);
-    return this.data;
+    return deferred.promise;
   };
 
   angular.module('org.bonita.common.resources.store', ['org.bonita.common.resources'])
-    .service('store', [Store]);
+    .service('store', ['$q', Store]);
 })();
