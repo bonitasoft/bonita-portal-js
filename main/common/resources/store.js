@@ -23,7 +23,8 @@
       store.data = resource.search({
         p: 0,
         c: response.resource.pagination.total,
-        d: options.d
+        d: options.d,
+        f: options.f
       }, function (response) {
         angular.copy(response.data, store.data);
         deferred.resolve(store.data);
@@ -46,3 +47,5 @@
   angular.module('org.bonita.common.resources.store', ['org.bonita.common.resources'])
     .service('store', ['$q', Store]);
 })();
+
+
