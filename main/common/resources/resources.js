@@ -9,6 +9,25 @@
 
     var API_PATH = '../API/';
 
+    /**
+     * @internal
+     * a specific transformResponse apply for Resources#search
+     * Wrap result array inside an object and add pagination data
+     * @see Resources#search
+     */
+    function searchTransformResponse(data, headers) {
+        return {
+            result: data,
+            pagination: parseContentRange(headers('Content-Range'))
+        };
+    }
+
+    /**
+     * @internal
+     * Parse Content-Range header and return an object with pagination infos
+     * @param  {String} strContentRange Content-Range header attribute
+     * @return {Object}                 pagination object
+     */
     function parseContentRange(strContentRange) {
         if (strContentRange === null) {
             return {};
@@ -16,10 +35,10 @@
         var arrayContentRange = strContentRange.split('/');
         var arrayIndexNumPerPage = arrayContentRange[0].split('-');
         return {
-            total: parseInt(arrayContentRange[1]),
-            index: parseInt(arrayIndexNumPerPage[0]),
-            currentPage: parseInt(arrayIndexNumPerPage[0]) + 1,
-            numberPerPage: parseInt(arrayIndexNumPerPage[1])
+            total: parseInt(arrayContentRange[1], 10),
+            index: parseInt(arrayIndexNumPerPage[0], 10),
+            currentPage: parseInt(arrayIndexNumPerPage[0], 10) + 1,
+            numberPerPage: parseInt(arrayIndexNumPerPage[1], 10)
         };
     }
 
@@ -36,16 +55,12 @@
      * for the given resource search
      */
         .config(['$provide', function ($provide) {
-            $provide.decorator('$resource', ['$delegate', function ($delegate) {
+            $provide.decorator('$resource', ['$delegate','$http', function ($delegate, $http) {
                 return function (url, paramDefaults, actions, options) {
                     actions = angular.extend({}, actions, {
                         'search': {
-                            transformResponse: function (data, headers) {
-                                return {
-                                    result: angular.fromJson(data),
-                                    pagination: parseContentRange(headers('Content-Range'))
-                                };
-                            }},
+                            transformResponse: $http.defaults.transformResponse.concat(searchTransformResponse)
+                        },
                         'update': {
                             method: 'PUT'
                         }
