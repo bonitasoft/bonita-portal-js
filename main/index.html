@@ -58,12 +58,13 @@
 
 <!-- build:js({.tmp,main}) scripts/bonita-portal.js -->
 <!-- injector:js -->
-<script src="common/directives/bbpmGoTo.js"></script>
+<script src="common/directives/urlified.js"></script>
+<script src="common/filters/urlify.js"></script>
 <script src="common/resources/resources.js"></script>
-<script src="common/services/logged-user.js"></script>
+<script src="common/resources/store.js"></script>
 <script src="features/admin/admin.js"></script>
-<script src="features/admin/cases/cases.js"></script>
 <script src="features/admin/cases/cases-list.js"></script>
+<script src="features/admin/cases/cases.js"></script>
 <script src="bonita-portal.js"></script>
 <!-- endinjector -->
 <!-- endbuild -->

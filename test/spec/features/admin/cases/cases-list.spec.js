@@ -10,12 +10,12 @@
 
             beforeEach(inject(function ($rootScope) {
                 scope = $rootScope.$new();
-            }));
+              }));
 
             it('should fill the scope with "WTF!"', inject(function($controller){
                 $controller('casesListCtrl', {'$scope' : scope});
                 expect(scope.content).toBe('Hello MTF !');
-            }));
-        });
-    });
-})();
+              }));
+          });
+      });
+  })();

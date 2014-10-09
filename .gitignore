@@ -1,12 +1,8 @@
 **/node_modules
-node_modules
 **/dist
-dist
 **/.tmp
-.tmp
 **/.sass-cache
 **/main/assets
-main/assets
 target
 target-grunt
 test/reports.xml
@@ -15,3 +11,4 @@ i18n
 main/i18n.js
 test/e2e-reports/TEST-*
 .idea/
+coverage/

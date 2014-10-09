@@ -7,7 +7,7 @@
                 url: '/admin/cases',
                 templateUrl: 'features/admin/cases/cases-list.html',
                 controller: 'casesListCtrl'
-            });
-        }]);
+              });
+          }]);
 
-})();
+  })();
