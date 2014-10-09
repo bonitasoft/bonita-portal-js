@@ -5,7 +5,7 @@
         .config([ '$stateProvider', function ($stateProvider) {
             $stateProvider.state('applications', {
                 url: '/admin/cases',
-                templateUrl: 'features/admin/cases/list.html',
+                templateUrl: 'features/admin/cases/cases-list.html',
                 controller: 'casesListCtrl'
             });
         }]);
