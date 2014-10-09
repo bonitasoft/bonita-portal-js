@@ -1,8 +1,8 @@
 // A reference configuration file.
 'use strict';
 exports.config = {
-    seleniumServerJar: './node_modules/protractor/selenium/selenium-server-standalone-2.42.0.jar',
-        seleniumPort: null,
+    //seleniumServerJar: './node_modules/protractor/selenium/selenium-server-standalone-2.42.0.jar',
+    seleniumPort: null,
     chromeDriver: './node_modules/protractor/selenium/chromedriver',
     seleniumArgs: [],
 

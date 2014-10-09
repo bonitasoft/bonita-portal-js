@@ -18,6 +18,7 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-connect-rewrite');
   grunt.loadNpmTasks('grunt-angular-gettext');
   grunt.loadNpmTasks('grunt-ngdocs');
+  grunt.loadNpmTasks('grunt-protractor-runner');
 
   // Define the configuration for all the tasks
   grunt.initConfig({
@@ -372,14 +373,21 @@ module.exports = function (grunt) {
         configFile: 'protractor.conf.js', // Default config file
         keepAlive: true, // If false, the grunt process stops when the test fails.
         noColor: false, // If true, protractor will not use colors in its output.
-        //debug : true,
+        //  debug : true,
         args: {
           // Arguments passed to the command
+        }
+      },
+      e2e: {
+        options: {
+          //configFile: "e2e.conf.js", // Target-specific config file
+          args: {} // Target-specific arguments
         }
       }
     },
 
-    /* jshint camelcase: false */
+
+      /* jshint camelcase: false */
     nggettext_extract: {
       pot: {
         files: {
@@ -423,6 +431,23 @@ module.exports = function (grunt) {
     'autoprefixer',
     'connect:test',
     'karma'
+  ]);
+
+  grunt.registerTask('buildE2e', [
+      'build',
+      'clean:server',
+      'concurrent:test',
+      'autoprefixer',
+      'connect:dist',
+      'karma',
+      'protractor:e2e'
+  ]);
+
+  grunt.registerTask('testE2e', [
+      'concurrent:test',
+      'autoprefixer',
+      'connect:dist',
+      'protractor:e2e'
   ]);
 
   grunt.registerTask('build', [

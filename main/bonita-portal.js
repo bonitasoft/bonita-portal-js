@@ -3,11 +3,9 @@
 
   angular.module('org.bonita.portal', [
     'ngCookies',
-    'ngResource',
-    'ui.router',
-        'gettext',
-        'org.bonita.common.resources',
-        'org.bonita.features.admin'
+    'gettext',
+    'org.bonita.common.resources',
+    'org.bonita.features.admin'
   ])
     .service('i18nService', ['gettextCatalog', '$cookies', 'i18nAPI', function (gettextCatalog, $cookies, i18nAPI) {
 

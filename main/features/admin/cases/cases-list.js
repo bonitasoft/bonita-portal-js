@@ -22,7 +22,7 @@
                     'StartedBy': 'Olivia Newton John',
                     'state': 'Successful'
                   },
-                  {
+                {
                     'ProcessName' : 'Make Fun',
                     'ProcessVersion' : '4651.0',
                     'CaseId' : 0,
@@ -30,7 +30,7 @@
                     'StartedBy': 'John Travolta',
                     'state': 'California'
                   }
-                ]
+            ]
             ;
           }]);
 
