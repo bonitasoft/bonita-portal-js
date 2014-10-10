@@ -1,8 +1,8 @@
 <div id="case-list">
     <h1>{{content}}</h1>
-    <table class="table">
+    <table st-table="cases" st-safe-src="cases" class="table">
         <thead>
-            <tr><th ng-repeat="col in columns" class="case-column">{{col|translate}}</th></tr>
+            <tr><th ng-repeat="col in columns" st-sort="{{col}}" class="case-column">{{col|translate}}</th></tr>
         </thead>
         <tbody>
             <tr ng-repeat="case in cases" id="caseId-{{case['Case Id']}}" class="case-row"><td ng-repeat="col in columns">{{case[col]}}</td></tr>

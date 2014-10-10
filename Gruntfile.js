@@ -38,7 +38,7 @@ module.exports = function (grunt) {
         tasks: ['bowerInstall']
       },
       js: {
-        files: ['<%= portaljs.app %>/features/**/*.js', '<%= portaljs.app %>/commons/**/*.js', '<%= portaljs.app %>/assets/**/*.js', '<%= portaljs.app %>/app.js'],
+        files: ['<%= portaljs.app %>/features/**/*.js', '<%= portaljs.app %>/commons/**/*.js', '<%= portaljs.app %>/assets/**/*.js'],
         tasks: ['newer:jshint:all'],
         options: {
           livereload: true
@@ -79,16 +79,24 @@ module.exports = function (grunt) {
         ]
       },
       server: {
-        proxies: [
-          {
-            context: [ '/bonita/API', '/bonita/portal/'],
-            host: 'localhost',
-            port: 8080,
-            https: false,
-            changeOrigin: false,
-            xforward: false
-          }
-        ]
+          proxies: (function () {
+              function forward(context) {
+                  return {
+                      context: context,
+                      host: 'localhost',
+                      port: 8080,
+                      https: false,
+                      changeOrigin: false,
+                      xforward: false
+                  };
+              }
+
+              return [
+                  forward('/bonita/apps'),
+                  forward('/bonita/API'),
+                  forward('/bonita/portal/')
+              ];
+          })()
       },
       rules: [
         // prefix web appliation
@@ -391,7 +399,7 @@ module.exports = function (grunt) {
         configFile: 'protractor.conf.js', // Default config file
         keepAlive: true, // If false, the grunt process stops when the test fails.
         noColor: false, // If true, protractor will not use colors in its output.
-        debug : true,
+        //debug : true,
         args: {
           // Arguments passed to the command
         }

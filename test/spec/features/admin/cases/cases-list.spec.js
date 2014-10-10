@@ -35,7 +35,7 @@
                   });
                 expect(scope.columns).toBeDefined();
                 expect(scope.columns.length).toBe(6);
-                expect(scope.columns).toEqual(['App Name', 'Version', 'Case Id', 'Start Date', 'Started By', 'Current State']);
+                expect(scope.columns).toEqual(['AppName', 'Version', 'CaseId', 'StartDate', 'StartedBy', 'CurrentState']);
                 expect(scope.cases).toBeDefined();
                 expect(scope.cases.length).toBe(4);
                 for(var i = 0; i< scope.cases.length; i++) {

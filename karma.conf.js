@@ -30,6 +30,7 @@ module.exports = function(config) {
       'main/assets/bootstrap/dist/js/bootstrap.js',
       'main/assets/jqueryui/ui/jquery-ui.js',
       'main/assets/angular-gettext/dist/angular-gettext.js',
+      'main/assets/angular-smart-table/dist/smart-table.min.js',
       'main/bonita-portal.js',
       'main/common/**/*.js',
       'main/features/**/*.js',
@@ -70,6 +71,6 @@ module.exports = function(config) {
 
     junitReporter: {
       outputFile: 'test/reports.xml'
-    },
+    }
   });
 };

@@ -1,9 +1,9 @@
 (function caseListModuleDefinition() {
     'use strict';
 
-    angular.module('org.bonita.features.admin.cases.list', ['org.bonita.common.resources', 'gettext'])
+    angular.module('org.bonita.features.admin.cases.list', ['org.bonita.common.resources', 'gettext', 'smart-table'])
     .controller('casesListCtrl',['$scope', 'caseAPI',  function casesListCtrlDefinition($scope, caseAPI){
-        $scope.columns = ['App Name', 'Version', 'Case Id', 'Start Date', 'Started By', 'Current State'];
+        $scope.columns = ['AppName', 'Version', 'CaseId', 'StartDate', 'StartedBy', 'CurrentState'];
         $scope.cases = [];
         caseAPI.search({
             p: 0,
