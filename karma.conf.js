@@ -16,7 +16,7 @@ module.exports = function(config) {
       'main/*.js': ['coverage'],
       'main/features/**/*.js': ['coverage'],
       'main/common/**/*.js': ['coverage']
-    },
+      },
 
     // list of files / patterns to load in the browser
     files: [
@@ -70,7 +70,6 @@ module.exports = function(config) {
 
     junitReporter: {
       outputFile: 'test/reports.xml'
-    }
-
+    },
   });
 };
