@@ -1,29 +1,52 @@
 (function caseListModuleDefinition() {
-    'use strict';
+  'use strict';
 
-    angular.module('org.bonita.features.admin.cases.list', ['org.bonita.common.resources', 'gettext', 'smart-table'])
-    .controller('casesListCtrl',['$scope', 'caseAPI', function casesListCtrlDefinition($scope, caseAPI){
-        $scope.columns = ['AppName', 'Version', 'CaseId', 'StartDate', 'StartedBy', 'CurrentState'];
+  angular.module('org.bonita.features.admin.cases.list', ['org.bonita.common.resources', 'gettext', 'smart-table'])
+    .value('casesColumns', [
+      {name: 'AppName', sortName: 'name', path: ['processDefinitionId', 'name'] },
+      {name: 'Version', sortName: 'version', path: ['processDefinitionId', 'version']},
+      {name: 'CaseId', sortName: 'id', path: ['id']},
+      {name: 'StartDate', sortName: 'startDate', path: ['start']},
+      {name: 'StartedByFirstname', sortName: 'firstname', path: ['started_by', 'firstname']},
+      {name: 'StartedByLastname', sortName: 'lastname', path: ['started_by', 'lastname']},
+      {name: 'CurrentState', sortName: 'state', path: ['state']}
+    ])
+    .value('defaultPageSize', 50)
+    .value('defaultSort', 'id')
+    .value('defaultDeployedFields', ['processDefinitionId', 'started_by', 'startedBySubstitute'])
+    .controller('casesListCtrl', ['$scope', 'caseAPI', 'casesColumns', 'defaultPageSize', 'defaultSort', 'defaultDeployedFields',
+      function casesListCtrlDefinition($scope, caseAPI, casesColumns, defaultPageSize, defaultSort, defaultDeployedFields) {
+        $scope.columns = casesColumns;
+
+        $scope.getSortNameByPredicate = function getSortNameByPredicate(predicate) {
+          if ($scope.columns) {
+            var sortColumns = $scope.columns.filter(function findColumn(column) {
+              return column && column.name === predicate;
+            });
+            return (sortColumns && sortColumns.length) ? sortColumns[0].sortName : undefined;
+          }
+        };
         $scope.searchForCases = function casesSearch(tableState) {
-            console.log(tableState);
-            caseAPI.search({
-                p: 0,
-                c: 50,
-                d: ['processDefinitionId', 'started_by', 'startedBySubstitute']
-            }).$promise.then(function mapCases(fullCases) {
-                    $scope.cases = fullCases && fullCases.data && fullCases.data.map(function selectOnlyInterestingFields(fullCase) {
-                        var simpleCase = {};
-                        simpleCase[$scope.columns[0]] = fullCase && fullCase.processDefinitionId && fullCase.processDefinitionId.name;
-                        simpleCase[$scope.columns[1]] = fullCase && fullCase.processDefinitionId && fullCase.processDefinitionId.version;
-                        simpleCase[$scope.columns[2]] = fullCase && fullCase.id;
-                        simpleCase[$scope.columns[3]] = fullCase && fullCase.start;
-                        simpleCase[$scope.columns[4]] = fullCase && fullCase.started_by && ( fullCase.started_by.firstname + ' ' + fullCase.started_by.lastname );
-                        simpleCase[$scope.columns[5]] = fullCase && fullCase.state;
-                        return simpleCase;
-                    });
-                    //$scope.cases = $filter('orderBy')($scope.cases, tableState.sort.predicate, tableState.sort.reverse);
-               });
-          };
+          caseAPI.search({
+            p: 0,
+            c: defaultPageSize,
+            d: defaultDeployedFields,
+            o: ((tableState && tableState.sort && tableState.sort.predicate) ? $scope.getSortNameByPredicate(tableState.sort.predicate) : defaultSort) + ' ' + ((tableState && tableState.sort && tableState.sort.reverse) ? 'DESC' : 'ASC')
+          }).$promise.then(function mapCases(fullCases) {
+              $scope.cases = fullCases && fullCases.data && fullCases.data.map(function selectOnlyInterestingFields(fullCase) {
+                var simpleCase = {};
+                for (var i = 0; i < $scope.columns.length; i++) {
+                  var currentName = fullCase;
+                  for (var j = 0; j < $scope.columns[i].path.length; j++) {
+                    currentName = currentName && currentName[$scope.columns[i].path[j]];
+                  }
+                  simpleCase[$scope.columns[i].name] = currentName;
+                }
+                return simpleCase;
+              });
+              //$scope.cases = $filter('orderBy')($scope.cases, tableState.sort.predicate, tableState.sort.reverse);
+            });
+        };
         $scope.searchForCases();
       }]);
-  })();
+})();

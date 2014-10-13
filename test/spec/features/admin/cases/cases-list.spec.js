@@ -1,50 +1,240 @@
 /* global cases */
 (function () {
-    'use strict';
-    describe('admin cases list features', function() {
-        it('should fill scope to display case lit', function() {
+  'use strict';
+  describe('admin cases list features', function () {
 
-            var scope, caseAPI, fullCases;
+    var scope, caseAPI, fullCases;
 
-            //we use the casesListMocks.js in order to init data for the test
+    beforeEach(module('org.bonita.features.admin.cases.list'));
 
-            fullCases = { data : cases};
+    beforeEach(inject(function ($rootScope) {
+      //we use the casesListMocks.js in order to init data for the test
+      fullCases = { data: cases};
+      scope = $rootScope.$new();
+      caseAPI = {
+        search: function () {
+          return {
+            '$promise': {
+              then: function (method) {
+                method(fullCases);
+              }
+            }
+          };
+        }
+      };
+      spyOn(caseAPI, 'search').and.callThrough();
+    }));
 
-            beforeEach(module('org.bonita.features.admin.cases.list'));
+    describe('controller initialization', function () {
 
-            beforeEach(inject(function ($rootScope) {
-                scope = $rootScope.$new();
-                caseAPI = {
-                    search : function(){
-                        return {
-                            '$promise' : {
-                                then : function(method){
-                                    method(fullCases);
-                                  }
-                              }
-                            };
-                      }
-                  };
+      var defaultPageSize = 1000;
+      var defaultSort = 'id';
+      var defaultDeployedFields = ['titi', 'tata', 'toto'];
 
-              }));
-
-            it('should fill the scope ', inject(function($controller){
-                $controller('casesListCtrl', {
-                    '$scope' : scope,
-                    'caseAPI' : caseAPI
-                  });
-                expect(scope.columns).toBeDefined();
-                expect(scope.columns.length).toBe(6);
-                expect(scope.columns).toEqual(['AppName', 'Version', 'CaseId', 'StartDate', 'StartedBy', 'CurrentState']);
-                expect(scope.cases).toBeDefined();
-                expect(scope.cases.length).toBe(4);
-                for(var i = 0; i< scope.cases.length; i++) {
-                  var singleCase = scope.cases[i];
-                  for(var j = 0; j< scope.cases.length; j++) {
-                    expect(singleCase[scope.columns[j]]).toBeTruthy();
-                  }
-                }
-              }));
+      describe('with incorrect columns', function () {
+        beforeEach(inject(function ($controller) {
+          $controller('casesListCtrl', {
+            '$scope': scope,
+            'caseAPI': caseAPI,
+            'defaultPageSize': defaultPageSize,
+            'defaultSort': defaultSort,
+            'defaultDeployedFields': defaultDeployedFields,
+            'casesColumns': [
+              {name: 'AppName', sortName: 'name', path: ['processDefinitionId', 'name'] },
+              {name: 'Version', sortName: 'version', path: ['processDefinitionIdsdf', 'version']},
+              {name: 'CaseId', sortName: 'id', path: ['idsdf']}
+            ]
           });
+        }));
+        it('should not display all fields', function(){
+          expect(scope.cases).toBeDefined();
+          expect(scope.cases.length).toBe(4);
+          for (var j = 0; j < scope.cases.length; j++) {
+            var singleCase = scope.cases[j];
+            expect(singleCase[scope.columns[0].name]).toBeTruthy();
+            expect(singleCase[scope.columns[1].name]).not.toBeTruthy();
+            expect(singleCase[scope.columns[2].name]).not.toBeTruthy();
+          }
+          expect(caseAPI.search).toHaveBeenCalledWith({
+            p: 0,
+            c: defaultPageSize,
+            o: defaultSort + ' ASC',
+            d: defaultDeployedFields
+          });
+        });
       });
-  })();
+
+      describe('with correct columns', function () {
+
+        beforeEach(inject(function ($controller) {
+          $controller('casesListCtrl', {
+            '$scope': scope,
+            'caseAPI': caseAPI,
+            'defaultPageSize': defaultPageSize,
+            'defaultSort': defaultSort,
+            'defaultDeployedFields': defaultDeployedFields
+          });
+        }));
+
+
+        it('should define a list of columns', function () {
+          expect(scope.columns).toBeDefined();
+          for (var i = 0; i < scope.columns.length; i++) {
+            expect(scope.columns[i].name).toBeTruthy();
+            expect(scope.columns[i].sortName).toBeTruthy();
+            expect(scope.columns[i].path).toBeTruthy();
+            expect(scope.columns[i].path.length).toBeTruthy();
+          }
+        });
+
+        it('should fill the scope cases', inject(function () {
+          expect(scope.cases).toBeDefined();
+          expect(scope.cases.length).toBe(4);
+          for (var j = 0; j < scope.cases.length; j++) {
+            var singleCase = scope.cases[j];
+            for (var k = 0; k < scope.cases.length; k++) {
+              expect(singleCase[scope.columns[k].name]).toBeTruthy();
+            }
+          }
+          expect(caseAPI.search).toHaveBeenCalledWith({
+            p: 0,
+            c: defaultPageSize,
+            o: defaultSort + ' ASC',
+            d: defaultDeployedFields
+          });
+        }));
+      });
+    });
+
+    describe('sort behaviour', function () {
+      describe('getSortNameByPredicate scope function', function () {
+        it('should work with a empty predicate', inject(function ($controller) {
+          $controller('casesListCtrl', {
+            '$scope': scope,
+            'caseAPI': caseAPI
+          });
+          expect(scope.getSortNameByPredicate()).not.toBeDefined();
+        }));
+        it('should work with a empty column table', inject(function ($controller) {
+          $controller('casesListCtrl', {
+            '$scope': scope,
+            'caseAPI': caseAPI,
+            'casesColumns': []
+          });
+          expect(scope.getSortNameByPredicate()).not.toBeDefined();
+        }));
+        it('should return the right sort name', inject(function ($controller) {
+          $controller('casesListCtrl', {
+            '$scope': scope,
+            'caseAPI': caseAPI,
+            'casesColumns': [
+              {name: 'AppName', sortName: 'name', path: ['processDefinitionId', 'name'] },
+              {name: 'Version', sortName: 'version', path: ['processDefinitionId', 'version']},
+              {name: 'CaseId', sortName: 'id', path: ['id']}
+            ]
+          });
+          expect(scope.getSortNameByPredicate('AppName')).toBe('name');
+          expect(scope.getSortNameByPredicate('Version')).toBe('version');
+          expect(scope.getSortNameByPredicate('CaseId')).toBe('id');
+
+        }));
+        it('should return the undefined on an unknown column name name', inject(function ($controller) {
+          $controller('casesListCtrl', {
+            '$scope': scope,
+            'caseAPI': caseAPI,
+            'casesColumns': [
+              {name: 'AppName', sortName: 'name', path: ['processDefinitionId', 'name'] },
+              {name: 'Version', sortName: 'version', path: ['processDefinitionId', 'version']},
+              {name: 'CaseId', sortName: 'id', path: ['id']}
+            ]
+          });
+          expect(scope.getSortNameByPredicate('notAColumnName')).not.toBeDefined();
+
+        }));
+      });
+      describe('when tableState changes', function () {
+        describe('casesSearch', function () {
+          var defaultPageSize = 1000;
+          var defaultSort = 'id';
+          var defaultDeployedFields = ['titi', 'tata', 'toto'];
+
+          beforeEach(inject(function ($controller) {
+            $controller('casesListCtrl', {
+              '$scope': scope,
+              'caseAPI': caseAPI,
+              'defaultPageSize': defaultPageSize,
+              'defaultSort': defaultSort,
+              'defaultDeployedFields': defaultDeployedFields,
+              'casesColumns': [
+                {name: 'AppName', sortName: 'name', path: ['processDefinitionId', 'name'] },
+                {name: 'Version', sortName: 'version', path: ['processDefinitionId', 'version']},
+                {name: 'CaseId', sortName: 'id', path: ['id']}
+              ]
+            });
+          }));
+          it('should call to default sort on empty tableState', function () {
+            scope.searchForCases();
+
+            expect(caseAPI.search.calls.allArgs()).toEqual([
+              [
+                {
+                  p: 0,
+                  c: defaultPageSize,
+                  o: defaultSort + ' ASC',
+                  d: defaultDeployedFields
+                }
+              ],
+              [
+                {
+                  p: 0,
+                  c: defaultPageSize,
+                  o: defaultSort + ' ASC',
+                  d: defaultDeployedFields
+                }
+              ]
+            ]);
+          });
+          it('should call search on application name sort desc', function () {
+            scope.searchForCases({sort: {predicate: 'AppName', reverse: true}});
+            scope.searchForCases({sort: {predicate: 'AppName', reverse: false}});
+            scope.searchForCases({sort: {predicate: 'Version', reverse: true}});
+            expect(caseAPI.search.calls.allArgs()).toEqual([
+              [
+                {
+                  p: 0,
+                  c: defaultPageSize,
+                  o: defaultSort + ' ASC',
+                  d: defaultDeployedFields
+                }
+              ],
+              [
+                {
+                  p: 0,
+                  c: defaultPageSize,
+                  o: 'name DESC',
+                  d: defaultDeployedFields
+                }
+              ],
+              [
+                {
+                  p: 0,
+                  c: defaultPageSize,
+                  o: 'name ASC',
+                  d: defaultDeployedFields
+                }
+              ],
+              [
+                {
+                  p: 0,
+                  c: defaultPageSize,
+                  o: 'version DESC',
+                  d: defaultDeployedFields
+                }
+              ]
+            ]);
+          });
+        });
+      });
+    });
+  });
+})();
