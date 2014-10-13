@@ -1,11 +1,11 @@
 <div id="case-list">
     <h1>{{content}}</h1>
-    <table st-table="cases" st-safe-src="cases" class="table">
+    <table st-table="cases" class="table" st-pipe="searchForCases">
         <thead>
             <tr><th ng-repeat="col in columns" st-sort="{{col}}" class="case-column">{{col|translate}}</th></tr>
         </thead>
         <tbody>
-            <tr ng-repeat="case in cases" id="caseId-{{case['Case Id']}}" class="case-row"><td ng-repeat="col in columns">{{case[col]}}</td></tr>
+            <tr ng-repeat="case in cases" id="caseId-{{case['CaseId']}}" class="case-row"><td ng-repeat="col in columns">{{case[col]}}</td></tr>
         </tbody>
     </table>
 </div>
