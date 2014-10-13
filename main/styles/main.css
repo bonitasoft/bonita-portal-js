@@ -81,3 +81,15 @@ body {
 #case-list .table{
     width: 100%;
 }
+
+#case-list .case-column {
+  cursor: pointer;
+}
+
+#case-list .case-column.st-sort-ascent:after{
+  content: '\25B2';
+}
+
+#case-list .case-column.st-sort-descent:after{
+  content: '\25BC';
+}

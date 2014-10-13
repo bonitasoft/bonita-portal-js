@@ -1,6 +1,6 @@
 <div id="case-list">
     <div class="table-responsive">
-    <table st-table="cases" class="table" st-pipe="searchForCases">
+    <table st-table="cases" class="table table-striped" st-pipe="searchForCases">
         <thead>
             <tr><th ng-repeat="col in columns" st-sort="{{col.name}}" class="case-column">{{col.name|translate}}</th></tr>
         </thead>
