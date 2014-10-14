@@ -101,3 +101,11 @@ body {
 #case-list .case-selected {
   background-color: blue;
 }
+
+#case-list .lr-drop-target-before{
+  border-left: 2px solid orange;
+}
+
+#case-list .lr-drop-target-after{
+  border-right: 2px solid orange;
+}

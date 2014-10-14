@@ -1,9 +1,9 @@
 <div id="case-list">
     <alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.status}} {{alert.statusText}} : {{alert.errorMsg}}</alert>
     <div class="table-responsive">
-    <table st-table="cases" class="table table-striped table-hover" st-pipe="searchForCases">
+    <table resizable-column st-table="cases" class="table table-striped table-hover" st-pipe="searchForCases">
         <thead>
-            <tr><th></th><th ng-repeat="col in columns" st-sort="{{col.name}}" class="case-column">{{col.name|translate}}</th></tr>
+            <tr><th></th><th lr-drag-src="headers" lr-drop-target="headers" ng-repeat="col in columns" st-sort="{{col.name}}" class="case-column">{{col.name|translate}}</th></tr>
         </thead>
         <tfoot>
           <tr>

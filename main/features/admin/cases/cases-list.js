@@ -1,7 +1,7 @@
 (function caseListModuleDefinition() {
   'use strict';
 
-  angular.module('org.bonita.features.admin.cases.list', ['org.bonita.common.resources', 'gettext', 'smart-table', 'ui.bootstrap'])
+  angular.module('org.bonita.features.admin.cases.list', ['org.bonita.common.resources', 'gettext', 'smart-table', 'ui.bootstrap', 'lrDragNDrop'])
     .value('casesColumns', [
       {name: 'AppName', sortName: 'name', path: ['processDefinitionId', 'name'] },
       {name: 'Version', sortName: 'version', path: ['processDefinitionId', 'version']},
@@ -93,7 +93,15 @@
             caseItem.selected = caseItem && !caseItem.selected;
           }
         };
-
-
-      }]);
+      }])
+    .directive('resizableColumn', [function(){
+      return {
+        restrict : 'A',
+        link: function(scope, $el){
+          scope.$watch(scope.cases, function(){
+            $el.resizableColumns();
+          });
+        }
+      };
+    }]);
 })();
