@@ -21,6 +21,15 @@
         $scope.currentPage = 1;
         $scope.total = 0;
 
+        $scope.alerts = [];
+        $scope.addAlert = function (msg) {
+          $scope.alerts.push(msg);
+        };
+
+        $scope.closeAlert = function (index) {
+          $scope.alerts.splice(index, 1);
+        };
+
         $scope.getSortNameByPredicate = function getSortNameByPredicate(predicate) {
           if ($scope.columns) {
             var sortColumns = $scope.columns.filter(function findColumn(column) {
@@ -66,13 +75,14 @@
             if (error) {
               if (error.status === 401) {
                 $location.url('/');
+              } else {
+                var message = {status: error.status, statusText: error.statusText, type: 'danger'};
+                if (error.data) {
+                  message.errorMsg = error.data.message;
+                  message.resource = error.data.api + '/' + error.data.resource;
+                }
+                $scope.addAlert(message);
               }
-              var message = {status: error.status, statusText: error.statusText, type: 'danger'};
-              if (error.data) {
-                message.errorMsg = error.data.message;
-                message.resource = error.data.api + '/' + error.data.resource;
-              }
-              $scope.addAlert(message);
             }
           });
         };
@@ -84,13 +94,6 @@
           }
         };
 
-        $scope.alerts = [];
-        $scope.addAlert = function (msg) {
-          $scope.alerts.push(msg);
-        };
 
-        $scope.closeAlert = function (index) {
-          $scope.alerts.splice(index, 1);
-        };
       }]);
 })();

@@ -288,6 +288,54 @@
           });
         });
       });
+      describe('when server returns an error on case search', function(){
+
+        describe('about 401 unauthorized', function(){
+          it('should redirect to the login page', inject(function($controller){
+            var location = { url : function(){}};
+            spyOn(location, 'url').and.callThrough();
+            $controller('casesListCtrl', {
+              '$scope': scope,
+              'caseAPI': {
+                search: function () {
+                  return {
+                    '$promise': {
+                      then: function (successMethod, errorMethod) {
+                        errorMethod({status : 401});
+                      }
+                    }
+                  };
+                }
+              },
+              '$location' : location
+            });
+            expect(location.url).toHaveBeenCalled();
+            expect(location.url.calls.allArgs()).toEqual([ ['/'] ]);
+          }));
+        });
+        describe('about 500 Internal Error', function(){
+          it('should redirect to the login page', inject(function($controller){
+            var error = {status : 500, statusText : 'Internal Server Error', data: {resource:'bpm/case', message : 'Invalid search !!'}};
+            $controller('casesListCtrl', {
+              '$scope': scope,
+              'caseAPI': {
+                search: function () {
+                  return {
+                    '$promise': {
+                      then: function (successMethod, errorMethod) {
+                        errorMethod(error);
+                      }
+                    }
+                  };
+                }
+              }
+            });
+            expect(scope.alerts).toEqual([{status: error.status, statusText: error.statusText, type: 'danger', errorMsg : error.data.message, resource : error.data.api + '/' + error.data.resource}]);
+            scope.closeAlert(0);
+            expect(scope.alerts).toEqual([]);
+          }));
+        });
+      });
     });
   });
 })();
