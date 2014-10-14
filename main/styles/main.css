@@ -78,8 +78,9 @@ body {
   }
 }
 
-#case-list .table{
+#case-list {
     width: 100%;
+    padding: 0 50px 0 50px;
 }
 
 #case-list .case-column {
@@ -92,4 +93,11 @@ body {
 
 #case-list .case-column.st-sort-descent:after{
   content: '\25BC';
+}
+
+#case-list .case-checkbox {
+  padding-left: 15px;
+}
+#case-list .case-selected {
+  background-color: blue;
 }
