@@ -94,13 +94,13 @@
           }
         };
       }])
-    .directive('resizableColumn', [function(){
+    .directive('resizableColumn', ['$timeout', function($timeout){
       return {
         restrict : 'A',
         link: function(scope, $el){
-          scope.$watch(scope.cases, function(){
+          $timeout(function(){
             $el.resizableColumns();
-          });
+          }, 0);
         }
       };
     }]);
