@@ -1,24 +1,38 @@
 <div id="case-list">
     <alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.status}} {{alert.statusText}} : {{alert.errorMsg}}</alert>
+
+    <!--div class="btn-group pull-left">
+      <label ng-repeat="pageSize in pageSizes" class="btn btn-default" btn-radio="{{pageSize}}" ng-model="itemsPerPage">{{pageSize}}</label>
+    </div-->
+    <div class="btn-group pull-right" dropdown>
+      <button type="button" class="btn btn-default dropdown-toggle" translate>Columns <span class="caret"></span></button>
+      <ul class="dropdown-menu" role="menu">
+        <li  ng-repeat="col in columns" ng-click="$event.stopPropagation();"><span class="column-visibility-checkbox"><input type="checkbox" ng-model="col.selected"></span> <span ng-click="selectColumn(col)">{{col.name|translate}}</span></li>
+      </ul>
+    </div>
+
     <div class="table-responsive">
     <table resizable-column st-table="cases" class="table table-striped table-hover" st-pipe="searchForCases">
         <thead>
-            <tr><th></th><th lr-drag-src="headers" lr-drop-target="headers" ng-repeat="col in columns" st-sort="{{col.name}}" class="case-column">{{col.name|translate}}</th></tr>
+            <tr><th></th><th lr-drag-src="headers" lr-drop-target="headers" ng-repeat="col in columns  | filter : filterColumn" st-sort="{{col.name}}" class="case-column">{{col.name|translate}}</th></tr>
         </thead>
         <tfoot>
           <tr>
               <td colspan="{{columns.length+1}}">
-                <pager total-items="total" ng-model="currentPage" items-per-page="{{itemsPerPage}}" ng-click="searchForCases()"></pager>
-                <p class="text-muted pull-right">Results: {{currentFirstResultIndex }} to {{(currentLastResultIndex)}} of {{total}}</p>
+                <div class="pull-right">
+                  <!--pager total-items="total" ng-model="currentPage" items-per-page="{{itemsPerPage}}" ng-click="searchForCases()" previous-text="&lt;" next-text="&gt;"></pager-->
+                  <pagination  ng-click="searchForCases()" boundary-links="true" total-items="total" ng-model="currentPage"  items-per-page="{{itemsPerPage}}" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></pagination>
+                  <p class="text-muted">Results: {{currentFirstResultIndex }} to {{(currentLastResultIndex)}} of {{total}}</p>
+                </div>
               </td>
           </tr>
         </tfoot>
         <tbody>
-            <tr ng-repeat="case in cases" id="caseId-{{case['CaseId']}}" class="case-row" ng-click="selectCase(case);" ng-class="{'info' : case.selected}">
+            <tr ng-repeat="case in cases" id="caseId-{{case['CaseId']}}" class="case-row" ng-class="{'info' : case.selected}">
               <td class="case-checkbox">
-                    <input type="checkbox" ng-model="case.selected">
+                    <input id="case-check-{{case['CaseId']}}}" type="checkbox" ng-model="case.selected">
               </td>
-              <td ng-repeat="col in columns">{{case[col.name]}}</td></tr>
+              <td ng-click="selectCase(case);" ng-repeat="col in columns   | filter : filterColumn">{{case[col.name]}}</td></tr>
         </tbody>
 
     </table>

@@ -273,26 +273,27 @@
             scope.searchForCases({sort: {predicate: 'Version', reverse: true}});
             expect(caseAPI.search.calls.allArgs()).toEqual([
               [
-                {p: 0,c: defaultPageSize,o: defaultSort + ' ASC',d: defaultDeployedFields}
+                {p: 0, c: defaultPageSize, o: defaultSort + ' ASC', d: defaultDeployedFields}
               ],
               [
-                {p: 0,c: defaultPageSize,o: 'name DESC',d: defaultDeployedFields}
+                {p: 0, c: defaultPageSize, o: 'name DESC', d: defaultDeployedFields}
               ],
               [
-                {p: 0,c: defaultPageSize,o: 'name ASC',d: defaultDeployedFields}
+                {p: 0, c: defaultPageSize, o: 'name ASC', d: defaultDeployedFields}
               ],
               [
-                {p: 0,c: defaultPageSize,o: 'version DESC',d: defaultDeployedFields}
+                {p: 0, c: defaultPageSize, o: 'version DESC', d: defaultDeployedFields}
               ]
             ]);
           });
         });
       });
-      describe('when server returns an error on case search', function(){
+      describe('when server returns an error on case search', function () {
 
-        describe('about 401 unauthorized', function(){
-          it('should redirect to the login page', inject(function($controller){
-            var location = { url : function(){}};
+        describe('about 401 unauthorized', function () {
+          it('should redirect to the login page', inject(function ($controller) {
+            var location = { url: function () {
+            }};
             spyOn(location, 'url').and.callThrough();
             $controller('casesListCtrl', {
               '$scope': scope,
@@ -301,21 +302,23 @@
                   return {
                     '$promise': {
                       then: function (successMethod, errorMethod) {
-                        errorMethod({status : 401});
+                        errorMethod({status: 401});
                       }
                     }
                   };
                 }
               },
-              '$location' : location
+              '$location': location
             });
             expect(location.url).toHaveBeenCalled();
-            expect(location.url.calls.allArgs()).toEqual([ ['/'] ]);
+            expect(location.url.calls.allArgs()).toEqual([
+              ['/']
+            ]);
           }));
         });
-        describe('about 500 Internal Error', function(){
-          it('should redirect to the login page', inject(function($controller){
-            var error = {status : 500, statusText : 'Internal Server Error', data: {resource:'bpm/case', message : 'Invalid search !!'}};
+        describe('about 500 Internal Error', function () {
+          it('should redirect to the login page', inject(function ($controller) {
+            var error = {status: 500, statusText: 'Internal Server Error', data: {resource: 'bpm/case', message: 'Invalid search !!'}};
             $controller('casesListCtrl', {
               '$scope': scope,
               'caseAPI': {
@@ -330,11 +333,80 @@
                 }
               }
             });
-            expect(scope.alerts).toEqual([{status: error.status, statusText: error.statusText, type: 'danger', errorMsg : error.data.message, resource : error.data.api + '/' + error.data.resource}]);
+            expect(scope.alerts).toEqual([
+              {status: error.status, statusText: error.statusText, type: 'danger', errorMsg: error.data.message, resource: error.data.api + '/' + error.data.resource}
+            ]);
             scope.closeAlert(0);
             expect(scope.alerts).toEqual([]);
           }));
         });
+      });
+    });
+
+    describe('change column visiblity', function(){
+      beforeEach(inject(function ($controller) {
+        $controller('casesListCtrl', {
+          '$scope': scope
+        });
+      }));
+      it('should set selected to false when it was true', function() {
+        var column = {selected: true};
+        scope.selectColumn(column);
+        expect(column.selected).toBeFalsy();
+      });
+      it('should set selected to true when it was false', function() {
+        var column = {selected: false};
+        scope.selectColumn(column);
+        expect(column.selected).toBeTruthy();
+      });
+    });
+
+    describe('filter column ', function(){
+      beforeEach(inject(function ($controller) {
+        $controller('casesListCtrl', {
+          '$scope': scope
+        });
+      }));
+      it('should return false when column is not selected', function() {
+        var column = {selected: false};
+        expect(scope.filterColumn(column)).toBeFalsy();
+      });
+      it('should return true when column is selected', function() {
+        var column = {selected: true};
+        expect(scope.filterColumn(column)).toBeTruthy();
+      });
+    });
+
+    describe('resizable column directive', function () {
+      var compile, timeout;
+      beforeEach(inject(function ($rootScope, _$compile_, $timeout) {
+        compile = _$compile_;
+        scope = $rootScope.$new();
+        timeout = $timeout;
+      }));
+
+      afterEach(function () {
+        timeout.verifyNoPendingTasks();
+      });
+      it('should call the jQuery Plugin resizable-column function', function () {
+        var element = compile('<div><table resizable-column><thead><tr><th>column 1</th><th>column 2</th></tr></thead><tbody><tr><td>content 1</td><td>content 2</td></tr></tbody></table></div>')(scope);
+        element[0].style.width = 1000;
+        scope.columns = [];
+        scope.$apply();
+        timeout.flush();
+        expect(element.find('.rc-handle').length).toBe(1);
+        scope.columns.push('test');
+        element.find('tr th').parent().first().append('<th>new column 1</th><th>new column 2</th>');
+        element.find('tr td').parent().first().append('<td>new content 1</td><td>new content 2</td>');
+        scope.$apply();
+        timeout.flush();
+        console.log(element.find('tr th').first().html());
+        element.find('tr th').first().remove();
+        element.find('tr td').first().remove();
+        scope.columns.pop();
+        scope.$apply();
+        timeout.flush();
+        expect(element.find('.rc-handle').length).toBe(2);
       });
     });
   });

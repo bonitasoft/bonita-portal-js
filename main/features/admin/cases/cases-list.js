@@ -3,29 +3,34 @@
 
   angular.module('org.bonita.features.admin.cases.list', ['org.bonita.common.resources', 'gettext', 'smart-table', 'ui.bootstrap', 'lrDragNDrop'])
     .value('casesColumns', [
-      {name: 'AppName', sortName: 'name', path: ['processDefinitionId', 'name'] },
-      {name: 'Version', sortName: 'version', path: ['processDefinitionId', 'version']},
-      {name: 'CaseId', sortName: 'id', path: ['id']},
-      {name: 'StartDate', sortName: 'startDate', path: ['start']},
-      {name: 'StartedByFirstname', sortName: 'firstname', path: ['started_by', 'firstname']},
-      {name: 'StartedByLastname', sortName: 'lastname', path: ['started_by', 'lastname']},
-      {name: 'CurrentState', sortName: 'state', path: ['state']}
+      {name: 'AppName', sortName: 'name', path: ['processDefinitionId', 'name'], selected: true },
+      {name: 'Version', sortName: 'version', path: ['processDefinitionId', 'version'], selected: true},
+      {name: 'CaseId', sortName: 'id', path: ['id'], selected: true},
+      {name: 'StartDate', sortName: 'startDate', path: ['start'], selected: true},
+      {name: 'StartedByFirstname', sortName: 'firstname', path: ['started_by', 'firstname'], selected: true},
+      {name: 'StartedByLastname', sortName: 'lastname', path: ['started_by', 'lastname'], selected: true},
+      {name: 'CurrentState', sortName: 'state', path: ['state'], selected: true}
     ])
-    .value('defaultPageSize', 3)
+    .value('pageSizes', [1, 2, 3, 4])
+    .value('defaultPageSize', 1)
     .value('defaultSort', 'id')
     .value('defaultDeployedFields', ['processDefinitionId', 'started_by', 'startedBySubstitute'])
-    .controller('casesListCtrl', ['$scope', 'caseAPI', 'casesColumns', 'defaultPageSize', 'defaultSort', 'defaultDeployedFields', '$location',
-      function casesListCtrlDefinition($scope, caseAPI, casesColumns, defaultPageSize, defaultSort, defaultDeployedFields, $location) {
+    .controller('casesListCtrl', ['$scope', 'caseAPI', 'casesColumns', 'defaultPageSize', 'defaultSort', 'defaultDeployedFields', '$location', 'pageSizes',
+      function casesListCtrlDefinition($scope, caseAPI, casesColumns, defaultPageSize, defaultSort, defaultDeployedFields, $location, pageSizes) {
         $scope.columns = casesColumns;
         $scope.itemsPerPage = defaultPageSize;
         $scope.currentPage = 1;
         $scope.total = 0;
+        $scope.pageSizes = pageSizes;
 
         $scope.alerts = [];
         $scope.addAlert = function (msg) {
           $scope.alerts.push(msg);
         };
 
+        $scope.$watch('itemsPerPage', function () {
+          console.log('pouet');
+        });
         $scope.closeAlert = function (index) {
           $scope.alerts.splice(index, 1);
         };
@@ -93,14 +98,31 @@
             caseItem.selected = caseItem && !caseItem.selected;
           }
         };
+
+        $scope.selectColumn = function (column) {
+          if (column) {
+            column.selected = !column.selected;
+          }
+        };
+
+        $scope.filterColumn = function (column) {
+          return column && column.selected;
+        };
       }])
-    .directive('resizableColumn', ['$timeout', function($timeout){
+    .directive('resizableColumn', ['$timeout', '$interval', function ($timeout) {
       return {
-        restrict : 'A',
-        link: function(scope, $el){
-          $timeout(function(){
-            $el.resizableColumns();
-          }, 0);
+        restrict: 'A',
+        link: function (scope, $el) {
+          var resizeColumn = function () {
+            $timeout(function () {
+              var data = $el.data('resizableColumns');
+              if (data) {
+                data.destroy();
+              }
+              $el.resizableColumns({selector: 'tr th'});
+            }, 0);
+          };
+          scope.$watch('columns', resizeColumn, true);
         }
       };
     }]);
