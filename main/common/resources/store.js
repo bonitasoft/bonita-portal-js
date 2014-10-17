@@ -24,7 +24,8 @@
         p: 0,
         c: response.resource.pagination.total,
         d: options.d,
-        f: options.f
+        f: options.f,
+        o: options.o
       }, function (response) {
         angular.copy(response.data, store.data);
         deferred.resolve(store.data);
