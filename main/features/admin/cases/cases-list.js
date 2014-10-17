@@ -1,7 +1,7 @@
 (function caseListModuleDefinition() {
   'use strict';
 
-  angular.module('org.bonita.features.admin.cases.list', ['org.bonita.common.resources', 'gettext', 'smart-table', 'ui.bootstrap', 'lrDragNDrop'])
+  angular.module('org.bonita.features.admin.cases.list', ['org.bonita.common.resources', 'gettext', 'smart-table', 'ui.bootstrap', 'lrDragNDrop', 'org.bonita.common.resources.store'])
     .value('casesColumns', [
       {name: 'AppName', sortName: 'name', path: ['processDefinitionId', 'name'], selected: true },
       {name: 'Version', sortName: 'version', path: ['processDefinitionId', 'version'], selected: true},
@@ -14,14 +14,30 @@
     .value('pageSizes', [1, 2, 3, 4])
     .value('defaultPageSize', 1)
     .value('defaultSort', 'id')
+    .value('defaultSelectedVersion', 'All Versions')
+    .value('defaultSelectedApp', 'All Apps')
     .value('defaultDeployedFields', ['processDefinitionId', 'started_by', 'startedBySubstitute'])
-    .controller('casesListCtrl', ['$scope', 'caseAPI', 'casesColumns', 'defaultPageSize', 'defaultSort', 'defaultDeployedFields', '$location', 'pageSizes',
-      function casesListCtrlDefinition($scope, caseAPI, casesColumns, defaultPageSize, defaultSort, defaultDeployedFields, $location, pageSizes) {
+    .controller('casesListCtrl', ['$scope', 'store', 'caseAPI', 'processAPI', 'casesColumns', 'defaultPageSize', 'defaultSort', 'defaultDeployedFields', '$location', 'pageSizes', 'defaultSelectedApp', 'defaultSelectedVersion',
+      function casesListCtrlDefinition($scope, store, caseAPI, processAPI, casesColumns, defaultPageSize, defaultSort, defaultDeployedFields, $location, pageSizes, defaultSelectedApp, defaultSelectedVersion) {
         $scope.columns = casesColumns;
         $scope.itemsPerPage = defaultPageSize;
         $scope.currentPage = 1;
         $scope.total = 0;
         $scope.pageSizes = pageSizes;
+        $scope.selectedApp = defaultSelectedApp;
+        $scope.selectedVersion = defaultSelectedVersion;
+        $scope.defaultSelectedApp = defaultSelectedApp;
+        $scope.defaultSelectedVersion = defaultSelectedVersion;
+        $scope.apps = [];
+        $scope.versions = [];
+        $scope.appNames = [];
+
+
+        store.load(processAPI, {}).then(function(processes) {
+          $scope.apps = processes;
+          console.log('processes : ' + processes);
+          $scope.appNames = processes.filter(function(process){return $.inArray(process.name, $scope.appNames)<=0; }).map(function(process){ return process.name; });
+        });
 
         $scope.alerts = [];
         $scope.addAlert = function (msg) {
@@ -93,6 +109,31 @@
         $scope.selectCase = function (caseItem) {
           if (caseItem) {
             caseItem.selected = caseItem && !caseItem.selected;
+          }
+        };
+
+        $scope.selectApp = function (selectedAppName) {
+          if (selectedAppName) {
+            $scope.selectedApp = selectedAppName;
+            $scope.filterVersion(selectedAppName);
+          }else{
+            $scope.selectedApp = defaultSelectedApp;
+            $scope.versions = [];
+          }
+        };
+
+        $scope.selectVersion = function (selectedAppVersion) {
+          if (selectedAppVersion) {
+            $scope.selectedVersion = selectedAppVersion;
+            }else{
+            $scope.selectedVersion = defaultSelectedVersion;
+          }
+        };
+
+        $scope.filterVersion = function (appName){
+          $scope.versions = [];
+          if($scope.apps && $scope.apps.filter){
+            $scope.versions = $scope.apps.filter(function(app){return app.name === appName;}).map(function(app){ return app.version; });
           }
         };
 

@@ -117,3 +117,7 @@ body {
 #case-list .cases-nb-results{
   border: 0;
 }
+
+#case-list #cases-results-size{
+  margin-top: 20px;
+}
