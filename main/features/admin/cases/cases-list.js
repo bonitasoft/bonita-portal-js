@@ -33,10 +33,14 @@
         $scope.appNames = [];
 
 
-        store.load(processAPI, {}).then(function(processes) {
+        store.load(processAPI, {}).then(function (processes) {
           $scope.apps = processes;
           console.log('processes : ' + processes);
-          $scope.appNames = processes.filter(function(process){return $.inArray(process.name, $scope.appNames)<=0; }).map(function(process){ return process.name; });
+          $scope.appNames = processes.filter(function (process) {
+            return $.inArray(process.name, $scope.appNames) <= 0;
+          }).map(function (process) {
+            return process.name;
+          });
         });
 
         $scope.alerts = [];
@@ -56,6 +60,13 @@
             return (sortColumns && sortColumns.length) ? sortColumns[0].sortName : undefined;
           }
         };
+        $scope.updateFilter = function () {
+          console.log('update Filter!!');
+          $scope.filters = [];
+          $scope.searchForCases();
+        };
+
+        $scope.$watch('selectedApp', $scope.updateFilter);
 
         $scope.searchForCases = function casesSearch(tableState) {
           if (!$scope.searchSort || tableState) {
@@ -63,11 +74,17 @@
               $scope.getSortNameByPredicate(tableState.sort.predicate) : defaultSort) + ' ' + ((tableState && tableState.sort && tableState.sort.reverse) ? 'DESC' : 'ASC');
             $scope.currentPage = 1;
           }
+
+          $scope.filters = [];
+          if ($scope.selectedApp && $scope.selectedApp !== $scope.defaultSelectedApp) {
+            $scope.filters.push('name=' + $scope.selectedApp);
+          }
           var caseSearch = caseAPI.search({
             p: $scope.currentPage - 1,
             c: $scope.itemsPerPage,
             d: defaultDeployedFields,
-            o: $scope.searchSort
+            o: $scope.searchSort,
+            f: $scope.filters
           });
 
           caseSearch.$promise.then(function mapCases(fullCases) {
@@ -116,7 +133,7 @@
           if (selectedAppName) {
             $scope.selectedApp = selectedAppName;
             $scope.filterVersion(selectedAppName);
-          }else{
+          } else {
             $scope.selectedApp = defaultSelectedApp;
             $scope.versions = [];
           }
@@ -125,15 +142,19 @@
         $scope.selectVersion = function (selectedAppVersion) {
           if (selectedAppVersion) {
             $scope.selectedVersion = selectedAppVersion;
-            }else{
+          } else {
             $scope.selectedVersion = defaultSelectedVersion;
           }
         };
 
-        $scope.filterVersion = function (appName){
+        $scope.filterVersion = function (appName) {
           $scope.versions = [];
-          if($scope.apps && $scope.apps.filter){
-            $scope.versions = $scope.apps.filter(function(app){return app.name === appName;}).map(function(app){ return app.version; });
+          if ($scope.apps && $scope.apps.filter) {
+            $scope.versions = $scope.apps.filter(function (app) {
+              return app.name === appName;
+            }).map(function (app) {
+              return app.version;
+            });
           }
         };
 
@@ -147,8 +168,8 @@
           return column && column.selected;
         };
 
-        $scope.changeItemPerPage = function(pageSize){
-          if(pageSize){
+        $scope.changeItemPerPage = function (pageSize) {
+          if (pageSize) {
             $scope.itemsPerPage = pageSize;
             $scope.searchForCases();
           }
