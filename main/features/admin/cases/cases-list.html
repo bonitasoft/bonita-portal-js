@@ -1,9 +1,9 @@
 <div id="case-list">
     <alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.status}} {{alert.statusText}} : {{alert.errorMsg}}</alert>
 
-    <!--div class="btn-group pull-left">
-      <label ng-repeat="pageSize in pageSizes" class="btn btn-default" btn-radio="{{pageSize}}" ng-model="itemsPerPage">{{pageSize}}</label>
-    </div-->
+    <div class="btn-group pull-left">
+      <label ng-repeat="pageSize in pageSizes" class="btn btn-default" ng-click='changeItemPerPage(pageSize)' btn-radio="{{pageSize.toString()}}" ng-model="itemsPerPage">{{pageSize}}</label>
+    </div>
     <div class="btn-group pull-right" dropdown>
       <button type="button" class="btn btn-default dropdown-toggle" translate>Columns <span class="caret"></span></button>
       <ul class="dropdown-menu" role="menu">
@@ -21,7 +21,7 @@
               <td colspan="{{columns.length+1}}">
                 <div class="pull-right">
                   <!--pager total-items="total" ng-model="currentPage" items-per-page="{{itemsPerPage}}" ng-click="searchForCases()" previous-text="&lt;" next-text="&gt;"></pager-->
-                  <pagination  ng-click="searchForCases()" boundary-links="true" total-items="total" ng-model="currentPage"  items-per-page="{{itemsPerPage}}" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></pagination>
+                  <pagination  ng-click="searchForCases()" boundary-links="true" total-items="total" ng-model="currentPage"  items-per-page="itemsPerPage " previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></pagination>
                   <p class="text-muted">Results: {{currentFirstResultIndex }} to {{(currentLastResultIndex)}} of {{total}}</p>
                 </div>
               </td>

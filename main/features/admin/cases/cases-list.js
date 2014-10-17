@@ -28,9 +28,6 @@
           $scope.alerts.push(msg);
         };
 
-        $scope.$watch('itemsPerPage', function () {
-          console.log('pouet');
-        });
         $scope.closeAlert = function (index) {
           $scope.alerts.splice(index, 1);
         };
@@ -107,6 +104,13 @@
 
         $scope.filterColumn = function (column) {
           return column && column.selected;
+        };
+
+        $scope.changeItemPerPage = function(pageSize){
+          if(pageSize){
+            $scope.itemsPerPage = pageSize;
+            $scope.searchForCases();
+          }
         };
       }])
     .directive('resizableColumn', ['$timeout', '$interval', function ($timeout) {
