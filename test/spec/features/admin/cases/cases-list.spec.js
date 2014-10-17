@@ -377,6 +377,27 @@
       });
     });
 
+    describe('select nbItems in page ', function(){
+      beforeEach(inject(function ($controller) {
+        $controller('casesListCtrl', {
+          '$scope': scope
+        });
+        spyOn(scope,'searchForCases');
+      }));
+      it('should do nothing if nothing is passed', function() {
+        var itemsPerPage = scope.itemsPerPage;
+        scope.changeItemPerPage();
+        expect(scope.searchForCases).not.toHaveBeenCalled();
+        expect(scope.itemsPerPage).toBe(itemsPerPage);
+      });
+      it('should change the number ', function() {
+        var itemsPerPage = 50;
+        scope.changeItemPerPage(itemsPerPage);
+        expect(scope.searchForCases).toHaveBeenCalledWith();
+        expect(scope.itemsPerPage).toBe(itemsPerPage);
+      });
+    });
+
     describe('resizable column directive', function () {
       var compile, timeout;
       beforeEach(inject(function ($rootScope, _$compile_, $timeout) {
