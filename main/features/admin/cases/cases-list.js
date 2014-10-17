@@ -36,10 +36,13 @@
         store.load(processAPI, {}).then(function (processes) {
           $scope.apps = processes;
           console.log('processes : ' + processes);
-          $scope.appNames = processes.filter(function (process) {
-            return $.inArray(process.name, $scope.appNames) <= 0;
-          }).map(function (process) {
+          var appNamesArray = processes.map(function (process) {
             return process.name;
+          });
+          appNamesArray.forEach(function (processName) {
+            if($.inArray(processName, $scope.appNames) <= 0){
+              $scope.appNames.push(processName);
+            }
           });
         });
 
