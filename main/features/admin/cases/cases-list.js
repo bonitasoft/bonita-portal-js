@@ -9,7 +9,8 @@
       {name: 'StartDate', sortName: 'startDate', path: ['start'], selected: true},
       {name: 'StartedByFirstname', sortName: 'firstname', path: ['started_by', 'firstname'], selected: true},
       {name: 'StartedByLastname', sortName: 'lastname', path: ['started_by', 'lastname'], selected: true},
-      {name: 'CurrentState', sortName: 'state', path: ['state'], selected: true}
+      {name: 'CurrentState', sortName: 'state', path: ['state'], selected: true},
+      {name: 'ProcessDefinitionId', sortName: 'processDefinitionId', path: ['processDefinitionId', 'id'], selected: false}
     ])
     .value('pageSizes', [2, 10, 25, 50])
     .value('defaultPageSize', 2)
@@ -77,7 +78,9 @@
           }
 
           $scope.filters = [];
-          if ($scope.selectedApp && $scope.selectedApp !== $scope.defaultSelectedApp) {
+          if($scope.selectedProcessDefinition){
+            $scope.filters.push('processDefinitionId=' + $scope.selectedProcessDefinition);
+          }else if ($scope.selectedApp && $scope.selectedApp !== $scope.defaultSelectedApp) {
             $scope.filters.push('name=' + $scope.selectedApp);
           }
           var caseSearch = caseAPI.search({
@@ -132,30 +135,49 @@
 
         $scope.selectApp = function (selectedAppName) {
           if (selectedAppName) {
-            $scope.selectedApp = selectedAppName;
-            $scope.filterVersion(selectedAppName);
+            if(selectedAppName !== $scope.selectedApp){
+              $scope.selectedApp = selectedAppName;
+              $scope.filterVersion(selectedAppName);
+            }
           } else {
             $scope.selectedApp = defaultSelectedApp;
             $scope.versions = [];
           }
+          $scope.filterProcessDefinition();
         };
 
         $scope.selectVersion = function (selectedAppVersion) {
-          if (selectedAppVersion) {
+          if (selectedAppVersion && selectedAppVersion !== $scope.defaultSelectedVersion) {
             $scope.selectedVersion = selectedAppVersion;
+            $scope.filterProcessDefinition(selectedAppVersion);
           } else {
-            $scope.selectedVersion = defaultSelectedVersion;
+            $scope.selectedVersion = $scope.defaultSelectedVersion;
           }
+          $scope.searchForCases();
         };
 
         $scope.filterVersion = function (appName) {
           $scope.versions = [];
+          $scope.selectedVersion = $scope.defaultSelectedVersion;
           if ($scope.apps && $scope.apps.filter) {
             $scope.versions = $scope.apps.filter(function (app) {
               return app.name === appName;
             }).map(function (app) {
               return app.version;
             });
+          }
+        };
+
+        $scope.filterProcessDefinition = function(selectedAppVersion){
+          if(selectedAppVersion && $scope.selectedApp && $scope.apps){
+            var matchingProcessDefs = $scope.apps.filter(function(app){
+              return app && app.name === $scope.selectedApp && selectedAppVersion === app.version;
+            });
+            if(matchingProcessDefs && matchingProcessDefs.length){
+              $scope.selectedProcessDefinition = matchingProcessDefs[0] && matchingProcessDefs[0].id;
+            }
+          } else {
+            delete $scope.selectedProcessDefinition;
           }
         };
 
