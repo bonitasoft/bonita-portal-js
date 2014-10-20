@@ -9,8 +9,7 @@
       {name: 'StartDate', sortName: 'startDate', path: ['start'], selected: true},
       {name: 'StartedByFirstname', sortName: 'firstname', path: ['started_by', 'firstname'], selected: true},
       {name: 'StartedByLastname', sortName: 'lastname', path: ['started_by', 'lastname'], selected: true},
-      {name: 'CurrentState', sortName: 'state', path: ['state'], selected: true},
-      {name: 'ProcessDefinitionId', sortName: 'processDefinitionId', path: ['processDefinitionId', 'id'], selected: false}
+      {name: 'CurrentState', sortName: 'state', path: ['state'], selected: true}
     ])
     .value('pageSizes', [2, 10, 25, 50])
     .value('defaultPageSize', 2)
@@ -32,7 +31,6 @@
         $scope.apps = [];
         $scope.versions = [];
         $scope.appNames = [];
-
 
         store.load(processAPI, {}).then(function (processes) {
           $scope.apps = processes;
@@ -68,7 +66,7 @@
           $scope.searchForCases();
         };
 
-        $scope.$watch('selectedApp', $scope.updateFilter);
+        $scope.$watch('selectedApp', function(){$scope.updateFilter();});
 
         $scope.searchForCases = function casesSearch(tableState) {
           if (!$scope.searchSort || tableState) {
@@ -139,11 +137,11 @@
               $scope.selectedApp = selectedAppName;
               $scope.filterVersion(selectedAppName);
             }
+            //selected App is the same than before, do nothing
           } else {
-            $scope.selectedApp = defaultSelectedApp;
-            $scope.versions = [];
+            $scope.selectedApp = $scope.defaultSelectedApp;
+            $scope.filterVersion($scope.selectedApp);
           }
-          $scope.filterProcessDefinition();
         };
 
         $scope.selectVersion = function (selectedAppVersion) {
@@ -165,6 +163,7 @@
             }).map(function (app) {
               return app.version;
             });
+            $scope.filterProcessDefinition();
           }
         };
 
@@ -194,6 +193,7 @@
         $scope.changeItemPerPage = function (pageSize) {
           if (pageSize) {
             $scope.itemsPerPage = pageSize;
+            $scope.currentPage = 1;
             $scope.searchForCases();
           }
         };
