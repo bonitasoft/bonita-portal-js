@@ -11,8 +11,8 @@
       {name: 'StartedByLastname', sortName: 'lastname', path: ['started_by', 'lastname'], selected: true},
       {name: 'CurrentState', sortName: 'state', path: ['state'], selected: true}
     ])
-    .value('pageSizes', [1, 2, 3, 4])
-    .value('defaultPageSize', 1)
+    .value('pageSizes', [2, 10, 25, 50])
+    .value('defaultPageSize', 2)
     .value('defaultSort', 'id')
     .value('defaultSelectedVersion', 'All Versions')
     .value('defaultSelectedApp', 'All Apps')
@@ -35,12 +35,11 @@
 
         store.load(processAPI, {}).then(function (processes) {
           $scope.apps = processes;
-          console.log('processes : ' + processes);
           var appNamesArray = processes.map(function (process) {
             return process.name;
           });
           appNamesArray.forEach(function (processName) {
-            if($.inArray(processName, $scope.appNames) <= 0){
+            if (processName && $.inArray(processName, $scope.appNames) <= 0) {
               $scope.appNames.push(processName);
             }
           });
@@ -64,7 +63,6 @@
           }
         };
         $scope.updateFilter = function () {
-          console.log('update Filter!!');
           $scope.filters = [];
           $scope.searchForCases();
         };

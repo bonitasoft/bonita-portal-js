@@ -34,6 +34,58 @@
       var defaultSort = 'id';
       var defaultDeployedFields = ['titi', 'tata', 'toto'];
 
+      describe('process filters init', function(){
+        var storeLoadFunction = function(processes){
+          return function(){
+              return { then : function(successFunction){
+                successFunction(processes);
+              }};
+            };
+        };
+
+        it('should have the default app value (all Apps) selected on init when there is no processes', inject(function ($controller) {
+          var defaultSelectedApp = 'default App';
+          $controller('casesListCtrl', {
+            '$scope': scope,
+            'defaultSelectedApp': defaultSelectedApp,
+            'store' : { load: storeLoadFunction([])}
+          });
+          expect(scope.apps).toEqual([]);
+          expect(scope.appNames).toEqual([]);
+          expect(scope.versions).toEqual([]);
+          expect(scope.defaultSelectedApp).toEqual(defaultSelectedApp);
+        }));
+
+        it('should have the default app value (all Apps) selected on init and apps filter filled', inject(function ($controller) {
+          var defaultSelectedApp = 'default App',
+              processes = [{name:'App1'},{name: 'App2'},{name : 'App3'}];
+          $controller('casesListCtrl', {
+            '$scope': scope,
+            'defaultSelectedApp': defaultSelectedApp,
+            'store' : { load: storeLoadFunction(processes)}
+          });
+          expect(scope.apps).toBe(processes);
+          expect(scope.appNames).toEqual(['App1','App2','App3']);
+          expect(scope.versions).toEqual([]);
+          expect(scope.defaultSelectedApp).toEqual(defaultSelectedApp);
+        }));
+
+        it('should have the default app value (all Apps) selected on init and apps filter filled', inject(function ($controller) {
+          var defaultSelectedApp = 'default App',
+              processes = [{},{name: 'App2'},{name : 'App3'}];
+          $controller('casesListCtrl', {
+            '$scope': scope,
+            'defaultSelectedApp': defaultSelectedApp,
+            'store' : { load: storeLoadFunction(processes)}
+          });
+          expect(scope.apps).toBe(processes);
+          expect(scope.appNames).toEqual(['App2','App3']);
+          expect(scope.versions).toEqual([]);
+          expect(scope.defaultSelectedApp).toEqual(defaultSelectedApp);
+        }));
+      });
+
+
       describe('with incorrect columns', function () {
         beforeEach(inject(function ($controller) {
           $controller('casesListCtrl', {
@@ -55,15 +107,10 @@
           for (var j = 0; j < scope.cases.length; j++) {
             var singleCase = scope.cases[j];
             expect(singleCase[scope.columns[0].name]).toBeTruthy();
-            expect(singleCase[scope.columns[1].name]).not.toBeTruthy();
-            expect(singleCase[scope.columns[2].name]).not.toBeTruthy();
+            expect(singleCase[scope.columns[1].name]).toBeFalsy();
+            expect(singleCase[scope.columns[2].name]).toBeFalsy();
           }
-          expect(caseAPI.search).toHaveBeenCalledWith({
-            p: 0,
-            c: defaultPageSize,
-            o: defaultSort + ' ASC',
-            d: defaultDeployedFields
-          });
+          expect(caseAPI.search).toHaveBeenCalledWith({p: 0, c: defaultPageSize, o: defaultSort + ' ASC', d: defaultDeployedFields, f: []});
         });
       });
 
@@ -99,12 +146,7 @@
               expect(singleCase[scope.columns[k].name]).toBeTruthy();
             }
           }
-          expect(caseAPI.search).toHaveBeenCalledWith({
-            p: 0,
-            c: defaultPageSize,
-            o: defaultSort + ' ASC',
-            d: defaultDeployedFields
-          });
+          expect(caseAPI.search).toHaveBeenCalledWith({p: 0, c: defaultPageSize, o: defaultSort + ' ASC', d: defaultDeployedFields, f: []});
         }));
       });
     });
@@ -217,19 +259,19 @@
 
           expect(caseAPI.search.calls.allArgs()).toEqual([
             [
-              {p: 0, c: defaultPageSize, o: defaultSort + ' ASC', d: defaultDeployedFields}
+              {p: 0, c: defaultPageSize, o: defaultSort + ' ASC', d: defaultDeployedFields, f:[]}
             ],
             [
-              {p: 0, c: defaultPageSize, o: 'name DESC', d: defaultDeployedFields}
+              {p: 0, c: defaultPageSize, o: 'name DESC', d: defaultDeployedFields, f:[]}
             ],
             [
-              {p: 1, c: defaultPageSize, o: 'name DESC', d: defaultDeployedFields}
+              {p: 1, c: defaultPageSize, o: 'name DESC', d: defaultDeployedFields, f:[]}
             ],
             [
-              {p: 0, c: defaultPageSize, o: 'name DESC', d: defaultDeployedFields}
+              {p: 0, c: defaultPageSize, o: 'name DESC', d: defaultDeployedFields, f:[]}
             ],
             [
-              {p: 0, c: defaultPageSize, o: 'version ASC', d: defaultDeployedFields}
+              {p: 0, c: defaultPageSize, o: 'version ASC', d: defaultDeployedFields, f:[]}
             ]
           ]);
         });
@@ -260,10 +302,10 @@
 
             expect(caseAPI.search.calls.allArgs()).toEqual([
               [
-                {p: 0, c: defaultPageSize, o: defaultSort + ' ASC', d: defaultDeployedFields}
+                {p: 0, c: defaultPageSize, o: defaultSort + ' ASC', d: defaultDeployedFields, f:[]}
               ],
               [
-                {p: 0, c: defaultPageSize, o: defaultSort + ' ASC', d: defaultDeployedFields}
+                {p: 0, c: defaultPageSize, o: defaultSort + ' ASC', d: defaultDeployedFields, f:[]}
               ]
             ]);
           });
@@ -273,16 +315,16 @@
             scope.searchForCases({sort: {predicate: 'Version', reverse: true}});
             expect(caseAPI.search.calls.allArgs()).toEqual([
               [
-                {p: 0, c: defaultPageSize, o: defaultSort + ' ASC', d: defaultDeployedFields}
+                {p: 0, c: defaultPageSize, o: defaultSort + ' ASC', d: defaultDeployedFields, f:[]}
               ],
               [
-                {p: 0, c: defaultPageSize, o: 'name DESC', d: defaultDeployedFields}
+                {p: 0, c: defaultPageSize, o: 'name DESC', d: defaultDeployedFields, f:[]}
               ],
               [
-                {p: 0, c: defaultPageSize, o: 'name ASC', d: defaultDeployedFields}
+                {p: 0, c: defaultPageSize, o: 'name ASC', d: defaultDeployedFields, f:[]}
               ],
               [
-                {p: 0, c: defaultPageSize, o: 'version DESC', d: defaultDeployedFields}
+                {p: 0, c: defaultPageSize, o: 'version DESC', d: defaultDeployedFields, f:[]}
               ]
             ]);
           });
@@ -421,13 +463,28 @@
         element.find('tr td').parent().first().append('<td>new content 1</td><td>new content 2</td>');
         scope.$apply();
         timeout.flush();
-        console.log(element.find('tr th').first().html());
         element.find('tr th').first().remove();
         element.find('tr td').first().remove();
         scope.columns.pop();
         scope.$apply();
         timeout.flush();
         expect(element.find('.rc-handle').length).toBe(2);
+      });
+    });
+    describe('filters', function(){
+      describe('AppName', function (){
+
+        it('should have the All App selected by default', function() {
+
+        });
+        it('should change the App Name Filter when an app is selected', function(){
+
+        });
+      });
+      describe('Version', function(){
+        it('should not be available if no appName is selected', function(){
+
+        });
       });
     });
   });

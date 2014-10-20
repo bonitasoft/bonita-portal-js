@@ -32,7 +32,7 @@
     <div class="panel-heading col-md-12">Cases</div>
     <div class="panel-body col-md-12">
       <div class="btn-group pull-left">
-        <label ng-repeat="pageSize in pageSizes" class="btn btn-default" ng-click='changeItemPerPage(pageSize)' btn-radio="{{pageSize.toString()}}" ng-model="itemsPerPage">{{pageSize}}</label>
+        <label ng-repeat="pageSize in pageSizes" class="btn btn-default" ng-click='changeItemPerPage(pageSize)' btn-radio="pageSize" ng-model="itemsPerPage">{{pageSize}}</label>
       </div>
       <div class="btn-group pull-right" dropdown>
         <button type="button" class="btn btn-default dropdown-toggle" translate>Columns <span class="caret"></span></button>
@@ -58,7 +58,7 @@
             <div class="pull-right">
               <pagination ng-click="searchForCases()" boundary-links="true" total-items="total" ng-model="currentPage"
                           items-per-page="itemsPerPage " previous-text="&lsaquo;" next-text="&rsaquo;"
-                          first-text="&laquo;" last-text="&raquo;"></pagination>
+                          first-text="&laquo;" last-text="&raquo;" max-size="5"></pagination>
             </div>
           </td>
         </tr>
