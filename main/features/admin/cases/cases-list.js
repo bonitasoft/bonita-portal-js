@@ -186,6 +186,8 @@
             });
             if(matchingProcessDefs && matchingProcessDefs.length){
               $scope.selectedProcessDefinition = matchingProcessDefs[0] && matchingProcessDefs[0].id;
+            }else{
+              delete $scope.selectedProcessDefinition;
             }
           } else {
             delete $scope.selectedProcessDefinition;

@@ -639,11 +639,103 @@
             expect(scope.filterProcessDefinition).toHaveBeenCalledWith(allVersions);
           });
         });
-        it('should not be available if no appVersion is selected', function () {
+        describe('filterProcessDefinition', function () {
+          beforeEach(inject(function ($controller) {
+            $controller('casesListCtrl', {
+              '$scope': scope
+            });
+          }));
 
+          it('should delete selectedProcessDefinition when nothing is passed and not yet initialized', function () {
+            scope.filterProcessDefinition();
+            expect(scope.selectedProcessDefinition).toBeUndefined();
+          });
+
+          it('should delete selectedProcessDefinition when nothing is passed and was previously set', function () {
+            scope.selectedProcessDefinition = '54684656872421';
+            scope.filterProcessDefinition();
+            expect(scope.selectedProcessDefinition).toBeUndefined();
+          });
+          it('should delete selectedProcessDefinition when nothing is passed and was previously set', function () {
+            scope.selectedProcessDefinition = '12321654875431';
+            scope.selectedApp = 'Process1';
+            scope.apps = [
+              {name: 'Process1', version: '1.0', 'id': '32165465132'},
+              {name: 'Process1', version: '1.1', 'id': '98762168796'}
+            ];
+            scope.filterProcessDefinition('1.1');
+            expect(scope.selectedProcessDefinition).toBe('98762168796');
+          });
+          it('should delete selectedProcessDefinition when nothing is passed and was previously set and wobbly apps', function () {
+            scope.selectedProcessDefinition = '12321654875431';
+            scope.selectedApp = 'Process1';
+            scope.apps = [
+              {name: 'Process1', version: '1.0'},
+              {name: 'Process1', version: '1.1', 'id': '98762168796'},
+              undefined
+            ];
+            scope.filterProcessDefinition('1.1');
+            expect(scope.selectedProcessDefinition).toBe('98762168796');
+            scope.selectedApp = 'Process1';
+            scope.apps = [
+              {name: 'Process1', version: '1.0'},
+              {name: '', version: '1.2', 'id': '98762168796'},
+              undefined
+            ];
+            scope.filterProcessDefinition('1.1');
+            expect(scope.selectedProcessDefinition).toBeUndefined();
+          });
+        });
+      });
+      describe('filter updates', function(){
+        describe('watch on filters', function(){
+          beforeEach(inject(function ($controller) {
+            $controller('casesListCtrl', {
+              '$scope': scope,
+              'store': { load: function () {
+                return {then: function () {
+                }};
+              }},
+              'caseAPI': { search: function () {
+                return { '$promise': { then: function () {
+                }}};
+              }}
+            });
+            scope.$apply();
+            spyOn(scope, 'searchForCases');
+          }));
+          it('should call search when filters update', function(){
+            scope.filters = [{}];
+            scope.$apply();
+            expect(scope.searchForCases).toHaveBeenCalled();
+          });
+        });
+      });
+      describe('build filter', function(){
+        beforeEach(inject(function ($controller) {
+          $controller('casesListCtrl', {
+            '$scope': scope,
+          });
+        }));
+        it('should have process definition Id', function(){
+          var processId = '2121354687951';
+          scope.selectedProcessDefinition = processId;
+          expect(scope.buildFilters()).toEqual(['processDefinitionId='+processId]);
+        });
+        it('should have process definition Id only even id app name is set', function(){
+          var processId = '2121354687951';
+          scope.selectedProcessDefinition = processId;
+          scope.selectedApp = 'Process1';
+          expect(scope.buildFilters()).toEqual(['processDefinitionId='+processId]);
+        });
+        it('should have app name', function(){
+          var processName = 'Process1';
+          scope.selectedApp = processName;
+          expect(scope.buildFilters()).toEqual(['name='+processName]);
         });
       });
     });
+
     describe('resizable column directive', function () {
       var compile, timeout;
       beforeEach(inject(function ($rootScope, _$compile_, $timeout) {
