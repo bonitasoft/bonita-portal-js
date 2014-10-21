@@ -1,7 +1,7 @@
 (function caseListModuleDefinition() {
   'use strict';
 
-  angular.module('org.bonita.features.admin.cases.list', ['org.bonita.common.resources', 'gettext', 'smart-table', 'ui.bootstrap', 'lrDragNDrop', 'org.bonita.common.resources.store'])
+  angular.module('org.bonita.features.admin.cases.list', ['org.bonita.common.resources', 'gettext', 'smart-table', 'ui.bootstrap', 'lrDragNDrop', 'org.bonita.common.resources.store', 'gettext'])
     .value('casesColumns', [
       {name: 'AppName', sortName: 'name', path: ['processDefinitionId', 'name'], selected: true },
       {name: 'Version', sortName: 'version', path: ['processDefinitionId', 'version'], selected: true},
@@ -17,8 +17,8 @@
     .value('defaultSelectedVersion', 'All Versions')
     .value('defaultSelectedApp', 'All Apps')
     .value('defaultDeployedFields', ['processDefinitionId', 'started_by', 'startedBySubstitute'])
-    .controller('casesListCtrl', ['$scope', 'store', 'caseAPI', 'processAPI', 'casesColumns', 'defaultPageSize', 'defaultSort', 'defaultDeployedFields', '$location', 'pageSizes', 'defaultSelectedApp', 'defaultSelectedVersion',
-      function casesListCtrlDefinition($scope, store, caseAPI, processAPI, casesColumns, defaultPageSize, defaultSort, defaultDeployedFields, $location, pageSizes, defaultSelectedApp, defaultSelectedVersion) {
+    .controller('casesListCtrl', ['$scope', 'store', 'caseAPI', 'processAPI', 'casesColumns', 'defaultPageSize', 'defaultSort', 'defaultDeployedFields', '$location', 'pageSizes', 'defaultSelectedApp', 'defaultSelectedVersion', 'gettextCatalog',
+      function casesListCtrlDefinition($scope, store, caseAPI, processAPI, casesColumns, defaultPageSize, defaultSort, defaultDeployedFields, $location, pageSizes, defaultSelectedApp, defaultSelectedVersion, gettextCatalog) {
         $scope.columns = casesColumns;
         $scope.itemsPerPage = defaultPageSize;
         $scope.currentPage = 1;
@@ -32,7 +32,7 @@
         $scope.versions = [];
         $scope.appNames = [];
         $scope.filters = [];
-
+        console.log(gettextCatalog.getString('Version'));
         store.load(processAPI, {}).then(function (processes) {
           $scope.apps = processes;
           var appNamesArray = processes.map(function (process) {

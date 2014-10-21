@@ -687,8 +687,8 @@
           });
         });
       });
-      describe('filter updates', function(){
-        describe('watch on filters', function(){
+      describe('filter updates', function () {
+        describe('watch on filters', function () {
           beforeEach(inject(function ($controller) {
             $controller('casesListCtrl', {
               '$scope': scope,
@@ -704,34 +704,36 @@
             scope.$apply();
             spyOn(scope, 'searchForCases');
           }));
-          it('should call search when filters update', function(){
-            scope.filters = [{}];
+          it('should call search when filters update', function () {
+            scope.filters = [
+              {}
+            ];
             scope.$apply();
             expect(scope.searchForCases).toHaveBeenCalled();
           });
         });
       });
-      describe('build filter', function(){
+      describe('build filter', function () {
         beforeEach(inject(function ($controller) {
           $controller('casesListCtrl', {
             '$scope': scope,
           });
         }));
-        it('should have process definition Id', function(){
+        it('should have process definition Id', function () {
           var processId = '2121354687951';
           scope.selectedProcessDefinition = processId;
-          expect(scope.buildFilters()).toEqual(['processDefinitionId='+processId]);
+          expect(scope.buildFilters()).toEqual(['processDefinitionId=' + processId]);
         });
-        it('should have process definition Id only even id app name is set', function(){
+        it('should have process definition Id only even id app name is set', function () {
           var processId = '2121354687951';
           scope.selectedProcessDefinition = processId;
           scope.selectedApp = 'Process1';
-          expect(scope.buildFilters()).toEqual(['processDefinitionId='+processId]);
+          expect(scope.buildFilters()).toEqual(['processDefinitionId=' + processId]);
         });
-        it('should have app name', function(){
+        it('should have app name', function () {
           var processName = 'Process1';
           scope.selectedApp = processName;
-          expect(scope.buildFilters()).toEqual(['name='+processName]);
+          expect(scope.buildFilters()).toEqual(['name=' + processName]);
         });
       });
     });
