@@ -31,6 +31,7 @@
         $scope.apps = [];
         $scope.versions = [];
         $scope.appNames = [];
+        $scope.filters = [];
 
         store.load(processAPI, {}).then(function (processes) {
           $scope.apps = processes;
@@ -61,12 +62,31 @@
             return (sortColumns && sortColumns.length) ? sortColumns[0].sortName : undefined;
           }
         };
-        $scope.updateFilter = function () {
-          $scope.filters = [];
-          $scope.searchForCases();
-        };
 
-        $scope.$watch('selectedApp', function(){$scope.updateFilter();});
+        //we cannot watch the updateFilter function directly otherwise
+        //it will not be mockable
+        $scope.$watch('selectedApp', function(){
+          $scope.filterVersion($scope.selectedApp);
+          delete $scope.selectedProcessDefinition;
+          $scope.filters = $scope.buildFilters();
+        });
+        $scope.$watch('selectedVersion', function(){
+          $scope.filterProcessDefinition($scope.selectedVersion);
+          $scope.filters = $scope.buildFilters();
+        });
+        $scope.$watch('filters', function(){
+          $scope.searchForCases();
+        }, true);
+
+        $scope.buildFilters = function(){
+          var filters = [];
+          if($scope.selectedProcessDefinition){
+            filters.push('processDefinitionId=' + $scope.selectedProcessDefinition);
+          }else if ($scope.selectedApp && $scope.selectedApp !== $scope.defaultSelectedApp) {
+            filters.push('name=' + $scope.selectedApp);
+          }
+          return filters;
+        };
 
         $scope.searchForCases = function casesSearch(tableState) {
           if (!$scope.searchSort || tableState) {
@@ -75,12 +95,6 @@
             $scope.currentPage = 1;
           }
 
-          $scope.filters = [];
-          if($scope.selectedProcessDefinition){
-            $scope.filters.push('processDefinitionId=' + $scope.selectedProcessDefinition);
-          }else if ($scope.selectedApp && $scope.selectedApp !== $scope.defaultSelectedApp) {
-            $scope.filters.push('name=' + $scope.selectedApp);
-          }
           var caseSearch = caseAPI.search({
             p: $scope.currentPage - 1,
             c: $scope.itemsPerPage,
@@ -135,23 +149,19 @@
           if (selectedAppName) {
             if(selectedAppName !== $scope.selectedApp){
               $scope.selectedApp = selectedAppName;
-              $scope.filterVersion(selectedAppName);
             }
             //selected App is the same than before, do nothing
           } else {
             $scope.selectedApp = $scope.defaultSelectedApp;
-            $scope.filterVersion($scope.selectedApp);
           }
         };
 
         $scope.selectVersion = function (selectedAppVersion) {
           if (selectedAppVersion && selectedAppVersion !== $scope.defaultSelectedVersion) {
             $scope.selectedVersion = selectedAppVersion;
-            $scope.filterProcessDefinition(selectedAppVersion);
           } else {
             $scope.selectedVersion = $scope.defaultSelectedVersion;
           }
-          $scope.searchForCases();
         };
 
         $scope.filterVersion = function (appName) {
@@ -159,11 +169,13 @@
           $scope.selectedVersion = $scope.defaultSelectedVersion;
           if ($scope.apps && $scope.apps.filter) {
             $scope.versions = $scope.apps.filter(function (app) {
-              return app.name === appName;
+              return app && app.name === appName && app.version;
             }).map(function (app) {
               return app.version;
             });
-            $scope.filterProcessDefinition();
+          }
+          if($scope && $scope.versions && $scope.versions.length === 1){
+            $scope.selectedVersion = $scope.versions[0];
           }
         };
 
