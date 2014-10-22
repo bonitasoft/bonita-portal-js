@@ -4,6 +4,7 @@
   angular.module('org.bonita.portal', [
     'ngCookies',
     'gettext',
+    'ui.router',
     'org.bonita.common.resources',
     'org.bonita.features.admin'
   ])
@@ -24,17 +25,21 @@
         gettextCatalog.setStrings($cookies['BOS_Locale'], arrayToObject(catalog));
       }
 
-      return {
-        loadTranslations: function () {
-          i18nAPI.query({
-            f: 'locale=' + ($cookies['BOS_Locale'] || 'en')
-          }).$promise.then(updateCatalog);
-          gettextCatalog.debug = true;
-        }
-      };
+      gettextCatalog.debug = true;
+      return (function loadTranslations() {
+        return i18nAPI.query({
+          f: 'locale=' + ($cookies['BOS_Locale'] || 'en')
+        }).$promise.then(updateCatalog);
+      })();
     }])
-    .run(['i18nService', function (i18nService) {
-      i18nService.loadTranslations();
+    //parent state to use for every state in order to have the translations loaded correctly...
+    .config([ '$stateProvider', function ($stateProvider) {
+      $stateProvider.state('bonita', {
+          template : '<ui-view/>',
+          resolve : {
+            translations : 'i18nService'
+          }
+        });
     }]);
 })();
 

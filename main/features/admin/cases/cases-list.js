@@ -3,13 +3,12 @@
 
   angular.module('org.bonita.features.admin.cases.list', ['org.bonita.common.resources', 'gettext', 'smart-table', 'ui.bootstrap', 'lrDragNDrop', 'org.bonita.common.resources.store', 'gettext'])
     .value('casesColumns', [
-      {name: 'AppName', sortName: 'name', path: ['processDefinitionId', 'name'], selected: true },
+      {name: 'App name', sortName: 'name', path: ['processDefinitionId', 'name'], selected: true },
       {name: 'Version', sortName: 'version', path: ['processDefinitionId', 'version'], selected: true},
-      {name: 'CaseId', sortName: 'id', path: ['id'], selected: true},
-      {name: 'StartDate', sortName: 'startDate', path: ['start'], selected: true},
-      {name: 'StartedByFirstname', sortName: 'firstname', path: ['started_by', 'firstname'], selected: true},
-      {name: 'StartedByLastname', sortName: 'lastname', path: ['started_by', 'lastname'], selected: true},
-      {name: 'CurrentState', sortName: 'state', path: ['state'], selected: true}
+      {name: 'ID', sortName: 'id', path: ['id'], selected: true},
+      {name: 'Start date', sortName: 'startDate', path: ['start'], selected: true},
+      {name: 'Started by', sortName: 'username', path: ['started_by', 'userName'], selected: true},
+      {name: 'State', sortName: 'state', path: ['state'], selected: true}
     ])
     .value('pageSizes', [2, 10, 25, 50])
     .value('defaultPageSize', 2)
@@ -17,8 +16,8 @@
     .value('defaultSelectedVersion', 'All Versions')
     .value('defaultSelectedApp', 'All Apps')
     .value('defaultDeployedFields', ['processDefinitionId', 'started_by', 'startedBySubstitute'])
-    .controller('casesListCtrl', ['$scope', 'store', 'caseAPI', 'processAPI', 'casesColumns', 'defaultPageSize', 'defaultSort', 'defaultDeployedFields', '$location', 'pageSizes', 'defaultSelectedApp', 'defaultSelectedVersion', 'gettextCatalog',
-      function casesListCtrlDefinition($scope, store, caseAPI, processAPI, casesColumns, defaultPageSize, defaultSort, defaultDeployedFields, $location, pageSizes, defaultSelectedApp, defaultSelectedVersion, gettextCatalog) {
+    .controller('casesListCtrl', ['$scope', 'store', 'caseAPI', 'processAPI', 'casesColumns', 'defaultPageSize', 'defaultSort', 'defaultDeployedFields', '$location', 'pageSizes', 'defaultSelectedApp', 'defaultSelectedVersion',
+      function casesListCtrlDefinition($scope, store, caseAPI, processAPI, casesColumns, defaultPageSize, defaultSort, defaultDeployedFields, $location, pageSizes, defaultSelectedApp, defaultSelectedVersion) {
         $scope.columns = casesColumns;
         $scope.itemsPerPage = defaultPageSize;
         $scope.currentPage = 1;
@@ -32,7 +31,7 @@
         $scope.versions = [];
         $scope.appNames = [];
         $scope.filters = [];
-        console.log(gettextCatalog.getString('Version'));
+
         store.load(processAPI, {}).then(function (processes) {
           $scope.apps = processes;
           var appNamesArray = processes.map(function (process) {
