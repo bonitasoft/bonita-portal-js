@@ -2,12 +2,11 @@
   'use strict';
 
   function Store($q) {
-    this.data = [];
     this.$q = $q;
   }
 
   Store.prototype.load = function (resource, options) {
-    var store = this;
+    var store = { data: [] };
     var deferred = this.$q.defer();
     this.resource = resource;
     options = options || {};
