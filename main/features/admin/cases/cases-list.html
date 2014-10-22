@@ -46,7 +46,7 @@
           <tr>
             <th></th>
             <th lr-drag-src="headers" lr-drop-target="headers" ng-repeat="col in columns  | filter : filterColumn"
-                st-sort="{{col.name}}" class="case-column">{{col.name | translate}}
+                st-sort="{{col.sortName}}" class="case-column">{{col.name | translate}}
             </th>
           </tr>
           </thead>
@@ -64,12 +64,12 @@
         </tr>
         </tfoot>
         <tbody>
-        <tr ng-repeat="case in cases" id="caseId-{{case['CaseId']}}" class="case-row"
+        <tr ng-repeat="case in cases" id="caseId-{{case['ID']}}" class="case-row"
             ng-class="{'info' : case.selected}">
           <td class="case-checkbox">
-            <input id="case-check-{{case['CaseId']}}}" type="checkbox" ng-model="case.selected">
+            <input id="case-check-{{case['ID']}}" type="checkbox" ng-model="case.selected">
           </td>
-          <td ng-click="selectCase(case);" ng-repeat="col in columns   | filter : filterColumn">{{case[col.name]}}</td>
+          <td ng-click="selectCase(case);" ng-repeat="col in columns   | filter : filterColumn">{{formatContent(col, case[col.name])}}</td>
         </tr>
         </tbody>
 

@@ -166,52 +166,6 @@
     });
 
     describe('sort behaviour', function () {
-      describe('getSortNameByPredicate scope function', function () {
-        it('should work with a empty predicate', inject(function ($controller) {
-          $controller('casesListCtrl', {
-            '$scope': scope,
-            'caseAPI': caseAPI
-          });
-          expect(scope.getSortNameByPredicate()).not.toBeDefined();
-        }));
-        it('should work with a empty column table', inject(function ($controller) {
-          $controller('casesListCtrl', {
-            '$scope': scope,
-            'caseAPI': caseAPI,
-            'casesColumns': []
-          });
-          expect(scope.getSortNameByPredicate()).not.toBeDefined();
-        }));
-        it('should return the right sort name', inject(function ($controller) {
-          $controller('casesListCtrl', {
-            '$scope': scope,
-            'caseAPI': caseAPI,
-            'casesColumns': [
-              {name: 'AppName', sortName: 'name', path: ['processDefinitionId', 'name'] },
-              {name: 'Version', sortName: 'version', path: ['processDefinitionId', 'version']},
-              {name: 'CaseId', sortName: 'id', path: ['id']}
-            ]
-          });
-          expect(scope.getSortNameByPredicate('AppName')).toBe('name');
-          expect(scope.getSortNameByPredicate('Version')).toBe('version');
-          expect(scope.getSortNameByPredicate('CaseId')).toBe('id');
-
-        }));
-        it('should return the undefined on an unknown column name name', inject(function ($controller) {
-          $controller('casesListCtrl', {
-            '$scope': scope,
-            'caseAPI': caseAPI,
-            'casesColumns': [
-              {name: 'AppName', sortName: 'name', path: ['processDefinitionId', 'name'] },
-              {name: 'Version', sortName: 'version', path: ['processDefinitionId', 'version']},
-              {name: 'CaseId', sortName: 'id', path: ['id']}
-            ]
-          });
-          expect(scope.getSortNameByPredicate('notAColumnName')).not.toBeDefined();
-
-        }));
-      });
-
       describe('select row', function () {
         beforeEach(inject(function ($controller) {
           $controller('casesListCtrl', {
@@ -256,7 +210,7 @@
         }));
         it('should call next Page on current sort', function () {
 
-          scope.searchForCases({sort: {predicate: 'AppName', reverse: true}});
+          scope.searchForCases({sort: {predicate: 'name', reverse: true}});
           expect(scope.currentFirstResultIndex).toBe(1);
           expect(scope.currentLastResultIndex).toBe(2);
           scope.currentPage++;
@@ -267,7 +221,7 @@
           scope.searchForCases();
           expect(scope.currentFirstResultIndex).toBe(1);
           expect(scope.currentLastResultIndex).toBe(2);
-          scope.searchForCases({sort: {predicate: 'Version', reverse: false}});
+          scope.searchForCases({sort: {predicate: 'version', reverse: false}});
           expect(scope.currentFirstResultIndex).toBe(1);
           expect(scope.currentLastResultIndex).toBe(2);
 
@@ -324,9 +278,9 @@
             ]);
           });
           it('should call search on application name sort desc', function () {
-            scope.searchForCases({sort: {predicate: 'AppName', reverse: true}});
-            scope.searchForCases({sort: {predicate: 'AppName', reverse: false}});
-            scope.searchForCases({sort: {predicate: 'Version', reverse: true}});
+            scope.searchForCases({sort: {predicate: 'name', reverse: true}});
+            scope.searchForCases({sort: {predicate: 'name', reverse: false}});
+            scope.searchForCases({sort: {predicate: 'version', reverse: true}});
             expect(caseAPI.search.calls.allArgs()).toEqual([
               [
                 {p: 0, c: defaultPageSize, o: defaultSort + ' ASC', d: defaultDeployedFields, f: []}
@@ -735,6 +689,27 @@
           scope.selectedApp = processName;
           expect(scope.buildFilters()).toEqual(['name=' + processName]);
         });
+      });
+    });
+
+    describe('formatContent', function(){
+      beforeEach(inject(function ($controller) {
+        $controller('casesListCtrl', {
+          '$scope': scope
+        });
+      }));
+      it('should not format data', function(){
+        var data = 'test';
+        expect(scope.formatContent([], data)).toBe(data);
+      });
+      it('should not format date when data is not in the right format', function(){
+        var data = 'test';
+        expect(scope.formatContent({date : true}, data)).toBe(data);
+      });
+      it('should not format date when data is not in the right format', function(){
+        var data = '2014-10-17 16:05:42.626';
+        var expectedFormatedData = '2014-10-17 16:05';
+        expect(scope.formatContent({date : true}, data)).toBe(expectedFormatedData);
       });
     });
 

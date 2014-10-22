@@ -93,7 +93,9 @@
       };
 
     /*when('GET', /^\/bonita\/API\/living\/application-page.*$/).respond(require('./application-page-mocks.json'));*/
-    when('GET', /^\/API\/bpm\/case.*$/).respond(require('./cases-list-mocks.json'));
+    when('GET', /^\/API\/bpm\/case.*$/).respond(require('./cases-list-28-mocks.json'));
+    //http://localhost:9002/API/system/i18ntranslation?f=locale%3Den
+    when('GET', /^\/API\/system\/i18ntranslation.*$/).respond([]);
 
     /*when('POST', '/bonita/API/livingApps').respond(
         {

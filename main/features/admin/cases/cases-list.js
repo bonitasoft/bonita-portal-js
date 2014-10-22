@@ -6,7 +6,7 @@
       {name: 'App name', sortName: 'name', path: ['processDefinitionId', 'name'], selected: true },
       {name: 'Version', sortName: 'version', path: ['processDefinitionId', 'version'], selected: true},
       {name: 'ID', sortName: 'id', path: ['id'], selected: true},
-      {name: 'Start date', sortName: 'startDate', path: ['start'], selected: true},
+      {name: 'Start date', sortName: 'startDate', path: ['start'], selected: true, date: true},
       {name: 'Started by', sortName: 'username', path: ['started_by', 'userName'], selected: true},
       {name: 'State', sortName: 'state', path: ['state'], selected: true}
     ])
@@ -16,8 +16,8 @@
     .value('defaultSelectedVersion', 'All Versions')
     .value('defaultSelectedApp', 'All Apps')
     .value('defaultDeployedFields', ['processDefinitionId', 'started_by', 'startedBySubstitute'])
-    .controller('casesListCtrl', ['$scope', 'store', 'caseAPI', 'processAPI', 'casesColumns', 'defaultPageSize', 'defaultSort', 'defaultDeployedFields', '$location', 'pageSizes', 'defaultSelectedApp', 'defaultSelectedVersion',
-      function casesListCtrlDefinition($scope, store, caseAPI, processAPI, casesColumns, defaultPageSize, defaultSort, defaultDeployedFields, $location, pageSizes, defaultSelectedApp, defaultSelectedVersion) {
+    .controller('casesListCtrl', ['$scope', 'store', 'caseAPI', 'processAPI', 'casesColumns', 'defaultPageSize', 'defaultSort', 'defaultDeployedFields', '$location', 'pageSizes', 'defaultSelectedApp', 'defaultSelectedVersion', '$filter',
+      function casesListCtrlDefinition($scope, store, caseAPI, processAPI, casesColumns, defaultPageSize, defaultSort, defaultDeployedFields, $location, pageSizes, defaultSelectedApp, defaultSelectedVersion, $filter) {
         $scope.columns = casesColumns;
         $scope.itemsPerPage = defaultPageSize;
         $scope.currentPage = 1;
@@ -52,16 +52,6 @@
         $scope.closeAlert = function (index) {
           $scope.alerts.splice(index, 1);
         };
-
-        $scope.getSortNameByPredicate = function getSortNameByPredicate(predicate) {
-          if ($scope.columns) {
-            var sortColumns = $scope.columns.filter(function findColumn(column) {
-              return column && column.name === predicate;
-            });
-            return (sortColumns && sortColumns.length) ? sortColumns[0].sortName : undefined;
-          }
-        };
-
         //we cannot watch the updateFilter function directly otherwise
         //it will not be mockable
         $scope.$watch('selectedApp', function(){
@@ -90,7 +80,7 @@
         $scope.searchForCases = function casesSearch(tableState) {
           if (!$scope.searchSort || tableState) {
             $scope.searchSort = ((tableState && tableState.sort && tableState.sort.predicate) ?
-              $scope.getSortNameByPredicate(tableState.sort.predicate) : defaultSort) + ' ' + ((tableState && tableState.sort && tableState.sort.reverse) ? 'DESC' : 'ASC');
+              tableState.sort.predicate : defaultSort) + ' ' + ((tableState && tableState.sort && tableState.sort.reverse) ? 'DESC' : 'ASC');
             $scope.currentPage = 1;
           }
 
@@ -209,6 +199,14 @@
             $scope.currentPage = 1;
             $scope.searchForCases();
           }
+        };
+        $scope.formatContent = function(column, data){
+          if(column && column.date && data && typeof data === 'string'){
+            //received date is in a non-standard format...
+            // convert 2014-10-17 16:05:42.626 to ISO-8601 Format 2014-10-17T16:05:42.626Z
+            return $filter('date')(data.replace(/ /, 'T'), 'yyyy-MM-dd HH:mm');
+          }
+          return data;
         };
       }])
     .directive('resizableColumn', ['$timeout', '$interval', function ($timeout) {
