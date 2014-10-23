@@ -1,50 +1,88 @@
-/* global element, by */
-describe('Register', function registerTest() {
+/* global element, by, xit */
+(function() {
   'use strict';
+  describe('case admin list', function () {
 
-  it('should display the list of the 28 first cases', function () {
+    var caseList;
+
     browser.get('#/admin/cases/list');
-    browser.debugger(); //launch protractor with debug option and use 'c' in console to continue test execution
-    var caseList = element(by.css('#case-list'));
-    expect(caseList).toBeDefined();
-    caseList.getWebElement().findElements(By.css('th.case-column')).then(function (columns) {
-      expect(columns.length).toBe(6);
-      expect(columns[0].getText()).toContain('App name');
-      expect(columns[1].getText()).toContain('Version');
-      expect(columns[2].getText()).toContain('ID');
-      expect(columns[3].getText()).toContain('Start date');
-      expect(columns[4].getText()).toContain('Started by');
-      expect(columns[5].getText()).toContain('State');
-    });
-    caseList.getWebElement().findElements(By.css('tr.case-row')).then(function (cases) {
-      expect(cases.length).toBe(25);
-    });
-    caseList.getWebElement().findElements(By.css('#caseId-1 td')).then(function (makeFunCaseDetails) {
-      //console.log(makeFunCaseDetails);
-      expect(makeFunCaseDetails[1].getText()).toContain('Pool');
-      expect(makeFunCaseDetails[2].getText()).toContain('1.0');
-      expect(makeFunCaseDetails[3].getText()).toContain('1');
-      expect(makeFunCaseDetails[4].getText()).toContain('2014-10-17 16:05');
-      expect(makeFunCaseDetails[5].getText()).toContain('william.jobs');
-      expect(makeFunCaseDetails[6].getText()).toContain('started');
-    });
-    caseList.getWebElement().findElements(By.css('.page-size')).then(function (pageSizes) {
-      expect(pageSizes[0].getText()).toContain('25');
-      expect(pageSizes[1].getText()).toContain('50');
-      expect(pageSizes[2].getText()).toContain('100');
-      expect(pageSizes[3].getText()).toContain('200');
-    });
-    browser.debugger();
-    var columnSelectionButton = element.all(by.css('#columns-selection'));
-    expect(columnSelectionButton.count()).toBe(1);
-    expect(columnSelectionButton.get(0).getText()).toBe('Columns');
 
-    var columnSelectionList = element.all(by.css('.column-visibility'));
-    console.log(columnSelectionList);
-    expect(columnSelectionList.length).toBeUndefined();
+    beforeEach(function(){
+      caseList = element(by.css('#case-list'));
+      browser.debugger(); //launch protractor with debug option and use 'c' in console to continue test execution
+    });
 
+    describe('table surroundings ', function () {
+
+      it('should contains table headers', function(){
+        var columnList = element.all(by.css('#case-list th'));
+        expect(columnList.count()).toBe(7);
+        expect(columnList.get(1).getText()).toContain('App name');
+        expect(columnList.get(2).getText()).toContain('Version');
+        expect(columnList.get(3).getText()).toContain('ID');
+        expect(columnList.get(4).getText()).toContain('Start date');
+        expect(columnList.get(5).getText()).toContain('Started by');
+        expect(columnList.get(6).getText()).toContain('State');
+      });
+
+      it('should contains page size selection', function(){
+        caseList.getWebElement().findElements(By.css('.page-size')).then(function (pageSizes) {
+          expect(pageSizes[0].getText()).toContain('25');
+          expect(pageSizes[1].getText()).toContain('50');
+          expect(pageSizes[2].getText()).toContain('100');
+          expect(pageSizes[3].getText()).toContain('200');
+        });
+        expect(element(by.css('.page-size.active')).getText()).toBe('25');
+      });
+
+      it('should contains column selection button', function(){
+        var columnSelectionButton = element.all(by.css('#columns-selection'));
+        expect(columnSelectionButton.count()).toBe(1);
+        expect(columnSelectionButton.get(0).getText()).toBe('Columns');
+      });
+
+      it('should contains table footer with result number', function(){
+        var resultsInfo = caseList.all(by.css('tfoot #cases-results-size'));
+        expect(resultsInfo.count()).toBe(1);
+        expect(resultsInfo.get(0).getText()).toBe('Results: 1 to 25 of 28');
+
+      });
+
+    });
+
+    describe('case admin list content', function(){
+      it('should display the list of the 25 first cases and check the specifi content of the first row', function () {
+        expect(element.all(by.css('#case-list tr.case-row')).count()).toBe(25);
+
+        caseList.getWebElement().findElements(By.css('#caseId-1 td')).then(function (poolCaseDetails) {
+          expect(poolCaseDetails[1].getText()).toContain('Pool');
+          expect(poolCaseDetails[2].getText()).toContain('1.0');
+          expect(poolCaseDetails[3].getText()).toContain('1');
+          expect(poolCaseDetails[4].getText()).toContain('2014-10-17 16:05');
+          expect(poolCaseDetails[5].getText()).toContain('william.jobs');
+          expect(poolCaseDetails[6].getText()).toContain('started');
+        });
+      });
+      xit('should display the list of the 25 first cases and check its content', function () {
+        var caseList = element(by.css('#case-list'));
+        expect(caseList).toBeDefined();
+
+
+        element.all(by.css('#case-list tbody tr.case-row')).each(function(caseRow){
+          var caseColumnList = caseRow.all(by.css('td'));
+          expect(caseColumnList.count()).toBe(7);
+        });
+        var caseCheckBoxes = element.all(by.css('#case-list tbody tr.case-row td.case-checkbox input'));
+        expect(caseCheckBoxes.count()).toBe(25);
+        caseCheckBoxes.each(function(caseColumn){
+          expect(caseColumn.getText()).toBeFalsy();
+        });
+        var caseColumns = element.all(by.css('#case-list tbody tr.case-row td.case-detail'));
+        expect(caseColumns.count()).toBe(150);
+        caseColumns.each(function(caseColumn){
+          expect(caseColumn.getText()).toBeTruthy();
+        });
+      });
+    });
   });
-
-
-
-});
+})();

@@ -49,6 +49,10 @@ module.exports = function (grunt) {
         files: ['test/spec/**/*.js'],
         tasks: ['newer:jshint:test', 'karma']
       },
+      e2eTest: {
+        files: ['test/e2e/**/*.js'],
+        tasks: ['protractor:e2e']
+      },
       styles: {
         files: ['<%= portaljs.app %>/styles/{,*/}*.css'],
         tasks: ['newer:copy:styles', 'autoprefixer']
@@ -106,7 +110,6 @@ module.exports = function (grunt) {
       ],
       livereload: {
         options: {
-          open: true,
           base: [
             '.tmp',
             '<%= portaljs.app %>'
@@ -488,6 +491,14 @@ module.exports = function (grunt) {
       'protractor:e2e'
   ]);
 
+  grunt.registerTask('serveE2e', [
+      'concurrent:test',
+      'autoprefixer',
+      'connect:dist',
+      'protractor:e2e',
+      'watch'
+  ]);
+
   grunt.registerTask('build', [
     'clean:dist',
     'bowerInstall',
@@ -510,6 +521,7 @@ module.exports = function (grunt) {
   grunt.registerTask('default', [
     'newer:jshint',
     'test',
-    'build'
+    'build',
+    'testE2e'
   ]);
 };
