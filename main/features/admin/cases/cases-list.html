@@ -31,10 +31,10 @@
 
     <div class="panel-heading" translate>Cases</div>
     <div class="panel-body">
-      <div class="btn-group pull-left">
-        <label ng-repeat="pageSize in pageSizes" class="btn btn-default" ng-click='changeItemPerPage(pageSize)' btn-radio="pageSize" ng-model="itemsPerPage">{{pageSize}}</label>
+      <div class="btn-group pull-left" id='page-size'>
+        <label ng-repeat="pageSize in pageSizes" class="btn btn-default page-size" ng-click='changeItemPerPage(pageSize)' btn-radio="pageSize" ng-model="itemsPerPage">{{pageSize}}</label>
       </div>
-      <div class="btn-group pull-right" dropdown>
+      <div class="btn-group pull-right" dropdown id='columns-selection'>
         <button type="button" class="btn btn-default dropdown-toggle"><translate>Columns</translate> <span class="caret"></span></button>
         <ul class="dropdown-menu" role="menu">
           <li  ng-repeat="col in columns" ng-click="$event.stopPropagation();"><span class="column-visibility-checkbox"><input type="checkbox" ng-model="col.selected"></span> <span ng-click="selectColumn(col)">{{col.name | translate}}</span></li>

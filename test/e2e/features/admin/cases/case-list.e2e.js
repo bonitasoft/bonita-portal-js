@@ -16,9 +16,8 @@ describe('Register', function registerTest() {
       expect(columns[5].getText()).toContain('State');
     });
     caseList.getWebElement().findElements(By.css('tr.case-row')).then(function (cases) {
-      expect(cases.length).toBe(2);
+      expect(cases.length).toBe(25);
     });
-    browser.debugger();
     caseList.getWebElement().findElements(By.css('#caseId-1 td')).then(function (makeFunCaseDetails) {
       //console.log(makeFunCaseDetails);
       expect(makeFunCaseDetails[1].getText()).toContain('Pool');
@@ -28,5 +27,13 @@ describe('Register', function registerTest() {
       expect(makeFunCaseDetails[5].getText()).toContain('william.jobs');
       expect(makeFunCaseDetails[6].getText()).toContain('started');
     });
+    caseList.getWebElement().findElements(By.css('.page-size')).then(function (pageSizes) {
+      expect(pageSizes[0].getText()).toContain('25');
+      expect(pageSizes[1].getText()).toContain('50');
+      expect(pageSizes[2].getText()).toContain('100');
+      expect(pageSizes[3].getText()).toContain('200');
+    });
+    /*caseList.getWebElement().findElements(By.css('#columns-selection')).then(function (columns) {
+    });*/
   });
 });

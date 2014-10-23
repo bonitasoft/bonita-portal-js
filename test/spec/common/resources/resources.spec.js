@@ -3,15 +3,19 @@
 
   describe('userAPI', function () {
 
+    var mockWindow = { top: { 'location' : {reload : function(){}}}};
+
     beforeEach(module('org.bonita.common.resources'));
+    beforeEach(module(function($provide) {$provide.value('$window', mockWindow);}));
 
-    var $httpBackend, userAPI, unauthorizedResponseHandler, $window;
 
-    beforeEach(inject(function ($q, $rootScope, _$httpBackend_, _userAPI_, _unauthorizedResponseHandler_, _$window_) {
+
+    var $httpBackend, userAPI, unauthorizedResponseHandler;
+
+    beforeEach(inject(function ($q, $rootScope, _$httpBackend_, _userAPI_, _unauthorizedResponseHandler_) {
       $httpBackend = _$httpBackend_;
       userAPI = _userAPI_;
       unauthorizedResponseHandler = _unauthorizedResponseHandler_;
-      $window = _$window_;
     }));
 
     it('should get user specified by the id', inject(function () {
@@ -55,26 +59,27 @@
     }));
 
     describe('on response error', function () {
+
       it('should reload parent when back end respond 401', function () {
         expect(unauthorizedResponseHandler).toBeDefined();
-        spyOn($window.top.location, 'reload');
+        spyOn(mockWindow.top.location, 'reload');
 
         unauthorizedResponseHandler.responseError({
           status: 401
         });
 
-        expect($window.top.location.reload).toHaveBeenCalled();
+        expect(mockWindow.top.location.reload).toHaveBeenCalled();
       });
 
       it('should not reload parent otherwise', function () {
         expect(unauthorizedResponseHandler).toBeDefined();
-        spyOn($window.top.location, 'reload');
+        spyOn(mockWindow.top.location, 'reload');
 
         unauthorizedResponseHandler.responseError({
           status: 404
         });
 
-        expect($window.top.location.reload).not.toHaveBeenCalled();
+        expect(mockWindow.top.location.reload).not.toHaveBeenCalled();
       });
     });
 

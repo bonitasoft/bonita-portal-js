@@ -10,8 +10,8 @@
       {name: 'Started by', sortName: 'username', path: ['started_by', 'userName'], selected: true},
       {name: 'State', sortName: 'state', path: ['state'], selected: true}
     ])
-    .value('pageSizes', [2, 10, 25, 50])
-    .value('defaultPageSize', 2)
+    .value('pageSizes', [25, 50, 100, 200])
+    .value('defaultPageSize', 25)
     .value('defaultSort', 'id')
     .value('defaultSelectedVersion', 'All Versions')
     .value('defaultSelectedApp', 'All Apps')
