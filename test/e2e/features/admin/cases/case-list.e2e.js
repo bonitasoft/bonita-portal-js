@@ -45,9 +45,15 @@
         var resultsInfo = caseList.all(by.css('tfoot #cases-results-size'));
         expect(resultsInfo.count()).toBe(1);
         expect(resultsInfo.get(0).getText()).toBe('Results: 1 to 25 of 28');
-
       });
 
+      it('should contains table footer with pagination', function(){
+        var pagination = caseList.all(by.css('tfoot .pagination li'));
+        expect(pagination.count()).toBe(6);
+        expect(pagination.getText()).toEqual(['«', '‹', '1', '2', '›', '»']);
+        var paginationDisabled = caseList.all(by.css('tfoot .pagination li.disabled'));
+        expect(paginationDisabled.getText()).toEqual(['«', '‹']);
+      });
     });
 
     describe('case admin list content', function(){
@@ -63,10 +69,10 @@
           expect(poolCaseDetails[6].getText()).toContain('started');
         });
       });
+
       xit('should display the list of the 25 first cases and check its content', function () {
         var caseList = element(by.css('#case-list'));
         expect(caseList).toBeDefined();
-
 
         element.all(by.css('#case-list tbody tr.case-row')).each(function(caseRow){
           var caseColumnList = caseRow.all(by.css('td'));
@@ -74,13 +80,17 @@
         });
         var caseCheckBoxes = element.all(by.css('#case-list tbody tr.case-row td.case-checkbox input'));
         expect(caseCheckBoxes.count()).toBe(25);
-        caseCheckBoxes.each(function(caseColumn){
-          expect(caseColumn.getText()).toBeFalsy();
+        caseCheckBoxes.getText().then(function(checkboxTextArray) {
+          checkboxTextArray.forEach(function(checkboxText){
+            expect(checkboxText).toBeFalsy();
+          });
         });
         var caseColumns = element.all(by.css('#case-list tbody tr.case-row td.case-detail'));
         expect(caseColumns.count()).toBe(150);
-        caseColumns.each(function(caseColumn){
-          expect(caseColumn.getText()).toBeTruthy();
+        caseColumns.getText().then(function(caseColumnsTextArray) {
+          caseColumnsTextArray.forEach(function(caseColumnsText){
+            expect(caseColumnsText).toBeTruthy();
+          });
         });
       });
     });
