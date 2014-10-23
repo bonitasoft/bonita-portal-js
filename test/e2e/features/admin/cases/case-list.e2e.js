@@ -1,13 +1,13 @@
-/* global element, by, xit */
+/* global element, by, xit, xdescribe */
 (function() {
   'use strict';
   describe('case admin list', function () {
 
     var caseList;
 
-    browser.get('#/admin/cases/list');
 
     beforeEach(function(){
+      browser.get('#/admin/cases/list');
       caseList = element(by.css('#case-list'));
       browser.debugger(); //launch protractor with debug option and use 'c' in console to continue test execution
     });
@@ -39,6 +39,9 @@
         var columnSelectionButton = element.all(by.css('#columns-selection'));
         expect(columnSelectionButton.count()).toBe(1);
         expect(columnSelectionButton.get(0).getText()).toBe('Columns');
+        columnSelectionButton.all(by.css('.column-visibility')).each(function(column){
+          expect(column.getWebElement().isDisplayed()).toBeFalsy();
+        });
       });
 
       it('should contains table footer with result number', function(){
@@ -48,11 +51,51 @@
       });
 
       it('should contains table footer with pagination', function(){
-        var pagination = caseList.all(by.css('tfoot .pagination li'));
-        expect(pagination.count()).toBe(6);
-        expect(pagination.getText()).toEqual(['«', '‹', '1', '2', '›', '»']);
-        var paginationDisabled = caseList.all(by.css('tfoot .pagination li.disabled'));
-        expect(paginationDisabled.getText()).toEqual(['«', '‹']);
+        var pagination = caseList.all(by.css('tfoot .pagination'));
+        expect(pagination.count()).toBe(1);
+        expect(pagination.all(by.css('li')).getText()).toEqual(['«', '‹', '1', '2', '›', '»']);
+        expect(pagination.all(by.css('li.disabled')).getText()).toEqual(['«', '‹']);
+      });
+    });
+
+    describe('column selection', function(){
+      it('should display all columns when dropdown is clicked', function(){
+        var columnSelectionButton = element(by.css('#columns-selection'));
+        columnSelectionButton.click();
+        var columnToShowList = columnSelectionButton.all(by.css('.column-visibility'));
+        expect(columnToShowList.count()).toBe(6);
+        columnToShowList.each(function(column){
+          expect(column.getWebElement().isDisplayed()).toBeTruthy();
+          expect(column.all(by.css('input:checked')).count()).toBe(1);
+        });
+      });
+      it('should hide a column when an item is unselected in dropdown', function(){
+        var columnSelectionButton = element(by.css('#columns-selection'));
+        columnSelectionButton.click();
+        var columnToShowList = columnSelectionButton.all(by.css('.column-visibility '));
+
+        columnToShowList.get(0).click();
+        expect(columnSelectionButton.all(by.css('.column-visibility')).get(0)
+          .all(by.css('input:checked')).count()).toBe(0);
+        var columnHeaders = caseList.all(by.css('th.case-column'));
+        expect(columnHeaders.count()).toBe(5);
+        expect(columnHeaders.getText()).not.toContain(columnToShowList.get(0).getText());
+        expect(caseList.all(by.css('#caseId-1 td.case-detail')).count()).toBe(5);
+
+        var nextCheckedElement = columnSelectionButton.all(by.css('.column-visibility input:checked'));
+        nextCheckedElement.get(0).click();
+
+        expect(columnSelectionButton.all(by.css('.column-visibility')).get(1)
+          .all(by.css('input:checked')).count()).toBe(0);
+        expect(caseList.all(by.css('th.case-column')).count()).toBe(4);
+        expect(caseList.all(by.css('#caseId-1 td.case-detail')).count()).toBe(4);
+
+        nextCheckedElement = columnSelectionButton.all(by.css('.column-visibility .column-visibility-name'));
+        nextCheckedElement.get(2).click();
+        expect(columnSelectionButton.all(by.css('.column-visibility')).get(2)
+          .all(by.css('input:checked')).count()).toBe(0);
+        expect(caseList.all(by.css('th.case-column')).count()).toBe(3);
+        expect(caseList.all(by.css('#caseId-1 td.case-detail')).count()).toBe(3);
       });
     });
 
@@ -60,7 +103,7 @@
       it('should display the list of the 25 first cases and check the specifi content of the first row', function () {
         expect(element.all(by.css('#case-list tr.case-row')).count()).toBe(25);
 
-        caseList.getWebElement().findElements(By.css('#caseId-1 td')).then(function (poolCaseDetails) {
+        caseList.all(by.css('#caseId-1 td')).then(function (poolCaseDetails) {
           expect(poolCaseDetails[1].getText()).toContain('Pool');
           expect(poolCaseDetails[2].getText()).toContain('1.0');
           expect(poolCaseDetails[3].getText()).toContain('1');
