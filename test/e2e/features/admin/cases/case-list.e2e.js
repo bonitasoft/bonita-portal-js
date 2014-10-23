@@ -68,8 +68,15 @@
           expect(column.getWebElement().isDisplayed()).toBeTruthy();
           expect(column.all(by.css('input:checked')).count()).toBe(1);
         });
+
+        columnSelectionButton.click();
+        columnToShowList = columnSelectionButton.all(by.css('.column-visibility'));
+        expect(columnToShowList.count()).toBe(6);
+        columnToShowList.each(function(column){
+          expect(column.getWebElement().isDisplayed()).toBeFalsy();
+        });
       });
-      it('should hide a column when an item is unselected in dropdown', function(){
+      it('should hide a column when an item is unselected in dropdown and make it reappeared when clicked', function(){
         var columnSelectionButton = element(by.css('#columns-selection'));
         columnSelectionButton.click();
         var columnToShowList = columnSelectionButton.all(by.css('.column-visibility '));
@@ -88,14 +95,28 @@
         expect(columnSelectionButton.all(by.css('.column-visibility')).get(1)
           .all(by.css('input:checked')).count()).toBe(0);
         expect(caseList.all(by.css('th.case-column')).count()).toBe(4);
+        columnHeaders = caseList.all(by.css('th.case-column'));
+        expect(columnHeaders.getText()).not.toContain(nextCheckedElement.get(0).getText());
         expect(caseList.all(by.css('#caseId-1 td.case-detail')).count()).toBe(4);
 
         nextCheckedElement = columnSelectionButton.all(by.css('.column-visibility .column-visibility-name'));
         nextCheckedElement.get(2).click();
         expect(columnSelectionButton.all(by.css('.column-visibility')).get(2)
           .all(by.css('input:checked')).count()).toBe(0);
+        columnHeaders = caseList.all(by.css('th.case-column'));
+        expect(columnHeaders.getText()).not.toContain(nextCheckedElement.get(2).getText());
         expect(caseList.all(by.css('th.case-column')).count()).toBe(3);
         expect(caseList.all(by.css('#caseId-1 td.case-detail')).count()).toBe(3);
+
+        nextCheckedElement = columnSelectionButton.all(by.css('.column-visibility .column-visibility-name'));
+        nextCheckedElement.get(2).click();
+        expect(columnSelectionButton.all(by.css('.column-visibility')).get(2)
+          .all(by.css('input:checked')).count()).toBe(1);
+        columnHeaders = caseList.all(by.css('th.case-column'));
+        expect(columnHeaders.getText()).toContain(nextCheckedElement.get(2).getText());
+        expect(caseList.all(by.css('th.case-column')).count()).toBe(4);
+        expect(caseList.all(by.css('#caseId-1 td.case-detail')).count()).toBe(4);
+
       });
     });
 
