@@ -1,10 +1,11 @@
+/* global element, by */
 describe('Register', function registerTest() {
   'use strict';
 
-  it('should display the list of the four first cases', function () {
+  it('should display the list of the 28 first cases', function () {
     browser.get('#/admin/cases/list');
     browser.debugger(); //launch protractor with debug option and use 'c' in console to continue test execution
-    var caseList = $('#case-list');
+    var caseList = element(by.css('#case-list'));
     expect(caseList).toBeDefined();
     caseList.getWebElement().findElements(By.css('th.case-column')).then(function (columns) {
       expect(columns.length).toBe(6);
@@ -33,7 +34,17 @@ describe('Register', function registerTest() {
       expect(pageSizes[2].getText()).toContain('100');
       expect(pageSizes[3].getText()).toContain('200');
     });
-    /*caseList.getWebElement().findElements(By.css('#columns-selection')).then(function (columns) {
-    });*/
+    browser.debugger();
+    var columnSelectionButton = element.all(by.css('#columns-selection'));
+    expect(columnSelectionButton.count()).toBe(1);
+    expect(columnSelectionButton.get(0).getText()).toBe('Columns');
+
+    var columnSelectionList = element.all(by.css('.column-visibility'));
+    console.log(columnSelectionList);
+    expect(columnSelectionList.length).toBeUndefined();
+
   });
+
+
+
 });

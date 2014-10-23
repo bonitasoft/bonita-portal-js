@@ -19,6 +19,7 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-angular-gettext');
   grunt.loadNpmTasks('grunt-ngdocs');
   grunt.loadNpmTasks('grunt-protractor-runner');
+  grunt.loadNpmTasks('grunt-lineending');
 
   // Define the configuration for all the tasks
   grunt.initConfig({
@@ -430,6 +431,16 @@ module.exports = function (grunt) {
         bestMatch: true
       },
       all: ['<%= portaljs.app %>/features/**/*.js', '<%= portaljs.app %>/common/**/*.js']
+    },
+    lineending: {
+      dist: {
+        options: {
+          eol: 'lf'
+        },
+        files: {
+          'main/index.html': ['main/index.html']
+        }
+      }
     }
   });
 
