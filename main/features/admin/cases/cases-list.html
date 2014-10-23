@@ -53,8 +53,7 @@
         <tfoot>
         <tr>
           <td colspan="{{columns.length+1}}">
-            <div id="cases-results-size" class="col-md-2 pull-left"><p class="text-muted" translate>Results: {{currentFirstResultIndex }} to {{(currentLastResultIndex)}} of
-              {{total}}</p></div>
+            <div id="cases-results-size" class="col-md-2 pull-left"><p class="text-muted" translate>Results: {{currentFirstResultIndex}} to {{currentLastResultIndex}} of {{total}}</p></div>
             <div class="pull-right">
               <pagination ng-click="searchForCases()" boundary-links="true" total-items="total" ng-model="currentPage"
                           items-per-page="itemsPerPage " previous-text="&lsaquo;" next-text="&rsaquo;"
