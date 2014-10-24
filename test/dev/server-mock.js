@@ -92,8 +92,9 @@
           })(request, response);
       };
 
-    /*when('GET', /^\/bonita\/API\/living\/application-page.*$/).respond(require('./application-page-mocks.json'));*/
-    when('GET', /^\/API\/bpm\/case.*$/).respond(require('./cases-list-28-mocks.json'));
+
+    //when('GET', /^\/API\/bpm\/case\?p=0&c=25&$/).respond(require('./cases-list-28-mocks.json'));
+    when('GET', /^\/API\/bpm\/case.*$/).respond(require('./cases-list-320-results-mocks.json'));
     //http://localhost:9002/API/system/i18ntranslation?f=locale%3Den
     when('GET', /^\/API\/system\/i18ntranslation.*$/).respond([]);
 
