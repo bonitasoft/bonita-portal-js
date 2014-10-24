@@ -5,7 +5,7 @@
     <div class="panel-heading" translate>Filters</div>
     <div class="panel-body">
       <div class="col-md-3"><translate>App name</translate> :
-        <div class="btn-group" dropdown>
+        <div class="btn-group" dropdown id="case-app-name-filter">
           <button type="button" class="btn btn-default dropdown-toggle">{{selectedApp | translate}} <span class="caret"></span></button>
           <ul class="dropdown-menu" role="menu">
             <li ng-click="selectApp(defaultSelectedApp)"><a>{{defaultSelectedApp | translate}}</a></li>
@@ -15,7 +15,7 @@
         </div>
       </div>
       <div class=" col-md-3"><translate>Version</translate> :
-        <div class="btn-group" dropdown >
+        <div class="btn-group" dropdown id="case-app-version-filter">
           <button type="button" class="btn btn-default dropdown-toggle" ng-disabled="selectedApp  === defaultSelectedApp">{{selectedVersion | translate}} <span class="caret"></span></button>
           <ul class="dropdown-menu" role="menu">
             <li ng-click="selectVersion(defaultSelectedVersion)"><a>{{defaultSelectedVersion | translate}}</a></li>

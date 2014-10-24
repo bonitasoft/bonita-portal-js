@@ -97,6 +97,10 @@
     when('GET', /^\/API\/bpm\/case\?c=25&d=processDefinitionId&d=started_by&d=startedBySubstitute&o=id\+ASC&p=0$/).respond(require('./cases-list-28-mocks.json'));
     when('GET', /^\/API\/bpm\/case\?c=25&d=processDefinitionId&d=started_by&d=startedBySubstitute&o=startDate\+ASC&p=0$/).respond(require('./cases-list-28-mocks-ordered-by-date.json'));
     when('GET', /^\/API\/bpm\/case\?c=25&d=processDefinitionId&d=started_by&d=startedBySubstitute&o=startDate\+DESC&p=0$/).respond(require('./cases-list-28-mocks-ordered-by-date-desc.json'));
+    when('GET', /^\/API\/bpm\/case\?c=25&d=processDefinitionId&d=started_by&d=startedBySubstitute&f=name%3DPoule&o=id\+ASC&p=0$/).respond(require('./cases-list-28-mocks-filtered-by-poule-app-name.json'));
+    when('GET', /^\/API\/bpm\/case\?c=25&d=processDefinitionId&d=started_by&d=startedBySubstitute&f=processDefinitionId%3D4910683075061293406&o=id\+ASC&p=0$/).respond(require('./cases-list-28-mocks-filtered-by-processx-id.json'));
+    when('GET', /^\/API\/bpm\/case\?c=25&d=processDefinitionId&d=started_by&d=startedBySubstitute&f=processDefinitionId%3D8967858817451251940&o=id\+ASC&p=0$/).respond(require('./cases-list-28-mocks-filtered-by-poule-2.0-app.json'));
+    when('GET', /^\/API\/bpm\/process\?c=\d&p=0$/).respond(require('./process-def-4.json'));
     //http://localhost:9002/API/system/i18ntranslation?f=locale%3Den
     when('GET', /^\/API\/system\/i18ntranslation.*$/).respond([]);
 

@@ -1,11 +1,11 @@
-/* global element, by, it, xdescribe */
+/* global element, by, it, describe */
 (function() {
   'use strict';
   describe('case admin list', function () {
 
-    var caseList;
-    var width = 1920;
-    var height = 1080;
+    var caseList,
+       width = 1920,
+       height = 1080;
     browser.driver.manage().window().setSize(width, height);
 
     beforeEach(function(){
@@ -124,7 +124,7 @@
     describe('column resize', function(){
       var resizeBars;
       beforeEach(function(){
-         resizeBars = element.all(by.css('.rc-handle'));
+        resizeBars = element.all(by.css('.rc-handle'));
       });
       it('should change Version and ID column size ', function(){
         var idColumnBar = resizeBars.get(2);
@@ -189,7 +189,7 @@
     describe('sort', function(){
       var tableHeader;
       beforeEach(function(){
-         tableHeader = element.all(by.css('table th'));
+        tableHeader = element.all(by.css('table th'));
       });
       it('should order by date asc', function(){
         tableHeader.get(4).click();
