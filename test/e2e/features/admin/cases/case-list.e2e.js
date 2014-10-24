@@ -1,4 +1,4 @@
-/* global element, by, it, describe */
+/* global element, by, it, xdescribe */
 (function() {
   'use strict';
   describe('case admin list', function () {
@@ -183,6 +183,34 @@
             expect(oldPosition.y - newPosition.y).toBe(0);
           });
         });
+      });
+    });
+
+    describe('sort', function(){
+      var tableHeader;
+      beforeEach(function(){
+         tableHeader = element.all(by.css('table th'));
+      });
+      it('should order by date asc', function(){
+        tableHeader.get(4).click();
+        expect(element(by.css('.st-sort-ascent')).getText()).toContain('Start date');
+        expect(element(by.css('.st-sort-descent')).isElementPresent()).toBeFalsy();
+        expect(caseList.all(by.css('tbody tr')).get(0).all(by.css('td')).getText()).toEqual(['', 'Pool','1.0', '2', '2014-10-16 16:05', 'william.jobs', 'started']);
+      });
+      it('should order by date desc', function(){
+        tableHeader.get(4).click();
+        tableHeader.get(4).click();
+        expect(element(by.css('.st-sort-descent')).getText()).toContain('Start date');
+        expect(element(by.css('.st-sort-ascent')).isElementPresent()).toBeFalsy();
+        expect(caseList.all(by.css('tbody tr')).get(0).all(by.css('td')).getText()).toEqual(['', 'ProcessX','2.0', '1022', '2014-10-20 10:08', 'william.jobs', 'started']);
+      });
+      it('should order by id', function(){
+        tableHeader.get(4).click();
+        tableHeader.get(4).click();
+        tableHeader.get(4).click();
+        expect(element(by.css('.st-sort-ascent')).isElementPresent()).toBeFalsy();
+        expect(element(by.css('.st-sort-descent')).isElementPresent()).toBeFalsy();
+        expect(caseList.all(by.css('tbody tr')).get(0).all(by.css('td')).getText()).toEqual(['', 'Pool','1.0', '1', '2014-10-17 16:05', 'william.jobs', 'started']);
       });
     });
 
