@@ -45,8 +45,8 @@
           <thead>
           <tr>
             <th></th>
-            <th lr-drag-src="headers" lr-drop-target="headers" ng-repeat="col in columns  | filter : filterColumn"
-                st-sort="{{col.sortName}}" class="case-column">{{col.name | translate}}
+            <th lr-drag-src="headers" lr-drag-src-safe="headers" lr-drop-target="headers" ng-repeat="col in columns  | filter : filterColumn"
+                st-sort="{{col.sortName}}" class="case-column"><p ng-class="{'pull-right': col.align}">{{col.name | translate}}</p>
             </th>
           </tr>
           </thead>
