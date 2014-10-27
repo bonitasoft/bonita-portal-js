@@ -8,7 +8,7 @@
       {name: 'ID', sortName: 'id', path: ['id'], selected: true, align: 'right'},
       {name: 'Start date', sortName: 'startDate', path: ['start'], selected: true, date: true},
       {name: 'Started by', sortName: 'username', path: ['started_by', 'userName'], selected: true},
-      {name: 'State', sortName: 'state', path: ['state'], selected: true}
+      {name: 'State', sortName: 'stateId', path: ['state'], selected: true}
     ])
     .value('pageSizes', [25, 50, 100, 200])
     .value('defaultPageSize', 25)
@@ -16,8 +16,8 @@
     .value('defaultSelectedVersion', 'All versions')
     .value('defaultSelectedApp', 'All apps')
     .value('defaultDeployedFields', ['processDefinitionId', 'started_by', 'startedBySubstitute'])
-    .controller('casesListCtrl', ['$scope', 'store', 'caseAPI', 'processAPI', 'casesColumns', 'defaultPageSize', 'defaultSort', 'defaultDeployedFields', '$location', 'pageSizes', 'defaultSelectedApp', 'defaultSelectedVersion', '$filter',
-      function casesListCtrlDefinition($scope, store, caseAPI, processAPI, casesColumns, defaultPageSize, defaultSort, defaultDeployedFields, $location, pageSizes, defaultSelectedApp, defaultSelectedVersion, $filter) {
+    .controller('casesListCtrl', ['$scope', 'store', 'caseAPI', 'processAPI', 'casesColumns', 'defaultPageSize', 'defaultSort', 'defaultDeployedFields', '$location', 'pageSizes', 'defaultSelectedApp', 'defaultSelectedVersion', '$filter', '$modal',
+      function casesListCtrlDefinition($scope, store, caseAPI, processAPI, casesColumns, defaultPageSize, defaultSort, defaultDeployedFields, $location, pageSizes, defaultSelectedApp, defaultSelectedVersion, $filter, $modal) {
         $scope.columns = casesColumns;
         $scope.itemsPerPage = defaultPageSize;
         $scope.currentPage = 1;
@@ -96,6 +96,7 @@
             $scope.total = fullCases && fullCases.resource && fullCases.resource.pagination && fullCases.resource.pagination.total;
             $scope.currentFirstResultIndex = (($scope.currentPage - 1) * $scope.itemsPerPage) + 1;
             $scope.currentLastResultIndex = Math.min($scope.currentFirstResultIndex + $scope.itemsPerPage - 1, $scope.total);
+            $scope.caseResources = fullCases;
             $scope.cases = fullCases && fullCases.resource && fullCases.resource.map(function selectOnlyInterestingFields(fullCase) {
               var simpleCase = {};
               for (var i = 0; i < $scope.columns.length; i++) {
@@ -105,27 +106,33 @@
                 }
                 simpleCase[$scope.columns[i].name] = currentName;
               }
+              simpleCase.id = fullCase.id;
               return simpleCase;
             });
-          }, function displayError(error) {
+          }, function(error){
             $scope.total = 0;
             $scope.currentFirstResultIndex = 0;
             $scope.currentLastResultIndex = 0;
             $scope.cases = [];
-            if (error) {
-              if (error.status === 401) {
-                $location.url('/');
-              } else {
-                var message = {status: error.status, statusText: error.statusText, type: 'danger'};
-                if (error.data) {
-                  message.errorMsg = error.data.message;
-                  message.resource = error.data.api + '/' + error.data.resource;
-                }
-                $scope.addAlert(message);
-              }
-            }
+            displayError(error);
           });
         };
+
+        function displayError(error) {
+          if (error) {
+            if (error.status === 401) {
+              $location.url('/');
+            } else {
+              var message = {status: error.status, statusText: error.statusText, type: 'danger'};
+              if (error.data) {
+                message.errorMsg = error.data.message;
+                message.resource = error.data.api + '/' + error.data.resource;
+              }
+              $scope.addAlert(message);
+            }
+          }
+        }
+
         $scope.searchForCases();
 
         $scope.selectCase = function (caseItem) {
@@ -208,7 +215,72 @@
           }
           return data;
         };
+
+        $scope.confirmDeleteSelectedCases = function(){
+          if($scope.cases && $scope.caseResources){
+            var caseItems = $scope.cases.filter(function filterSelectedOnly(caseItem){
+              return caseItem && caseItem.selected;
+            });
+            $modal.open({
+              templateUrl : 'features/admin/cases/cases-list-deletion-modal.html',
+              controller : 'DeleteCaseModalCtrl',
+              resolve: {
+                caseItems : function(){ return caseItems;}
+              },
+              size : 'sm'
+            }).result.then($scope.deleteSelectedCases);
+          }
+        };
+
+        $scope.deleteSelectedCases = function(){
+          if($scope.cases && $scope.caseResources && $scope.caseResources.data){
+            var caseIds = $scope.cases.filter(function(caseItem){
+              return caseItem && caseItem.selected;
+            }).map(function(caseItem){return caseItem.id ;});
+            var suppressedCase = 0;
+            if(caseIds && caseIds.length){
+              var deletePromise = function(id){
+                var currentPromise = caseAPI.delete({id: id}).$promise.then(function display(){
+                  suppressedCase++;
+                  for(var i = 0; i < $scope.cases.length ;i++){
+                    if($scope.cases[i] && $scope.cases[i].id === id){
+                      $scope.cases.splice(i,1);
+                    }
+                  }
+                }, displayError);
+                if(caseIds && caseIds.length){
+                  currentPromise.then(function(){
+                    deletePromise(caseIds.pop());
+                  });
+                }else{
+                  currentPromise.then(function(){
+                    $scope.addAlert({ type: 'success', status: 'case deletion', statusText: suppressedCase + ' cases deleted successfully'});
+                  });
+                }
+              };
+              deletePromise(caseIds.pop());
+            }
+          }
+        };
+        $scope.checkCaseIsNotSelected = function(){
+          var returnValue =  $scope.cases && $scope.cases.reduce(function(previousResult, caseItem){
+            return previousResult && !caseItem.selected;
+          }, true);
+          return returnValue;
+        };
       }])
+    .controller('DeleteCaseModalCtrl', function ($scope, $modalInstance, caseItems) {
+
+      $scope.caseItems = caseItems;
+
+      $scope.ok = function () {
+        $modalInstance.close();
+      };
+
+      $scope.cancel = function () {
+        $modalInstance.dismiss('cancel');
+      };
+    })
     .directive('resizableColumn', ['$timeout', '$interval', function ($timeout) {
       return {
         restrict: 'A',

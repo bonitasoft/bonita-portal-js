@@ -5,7 +5,7 @@
     <div class="panel-heading" translate>Filters</div>
     <div class="panel-body">
       <div class="col-md-3"><translate>App name</translate> :
-        <div class="btn-group" dropdown>
+        <div class="btn-group" dropdown id="case-app-name-filter">
           <button type="button" class="btn btn-default dropdown-toggle">{{selectedApp | translate}} <span class="caret"></span></button>
           <ul class="dropdown-menu" role="menu">
             <li ng-click="selectApp(defaultSelectedApp)"><a>{{defaultSelectedApp | translate}}</a></li>
@@ -15,7 +15,7 @@
         </div>
       </div>
       <div class=" col-md-3"><translate>Version</translate> :
-        <div class="btn-group" dropdown >
+        <div class="btn-group" dropdown id="case-app-version-filter">
           <button type="button" class="btn btn-default dropdown-toggle" ng-disabled="selectedApp  === defaultSelectedApp">{{selectedVersion | translate}} <span class="caret"></span></button>
           <ul class="dropdown-menu" role="menu">
             <li ng-click="selectVersion(defaultSelectedVersion)"><a>{{defaultSelectedVersion | translate}}</a></li>
@@ -27,18 +27,21 @@
     </div>
   </div>
   <div class="panel panel-default">
-      <alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.status}} {{alert.statusText}} : {{alert.errorMsg}}</alert>
 
     <div class="panel-heading" translate>Cases</div>
     <div class="panel-body">
+      <alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.status}} {{alert.statusText}} {{alert.errorMsg}}</alert>
       <div class="btn-group pull-left" id='page-size'>
         <label ng-repeat="pageSize in pageSizes" class="btn btn-default page-size" ng-click='changeItemPerPage(pageSize)' btn-radio="pageSize" ng-model="itemsPerPage">{{pageSize}}</label>
       </div>
-      <div class="btn-group pull-right" dropdown id='columns-selection'>
-        <button type="button" class="btn btn-default dropdown-toggle"><translate>Columns</translate> <span class="caret"></span></button>
-        <ul class="dropdown-menu" role="menu">
-          <li  ng-repeat="col in columns" ng-click="$event.stopPropagation();" class="column-visibility"><span class="column-visibility-checkbox"><input type="checkbox" ng-model="col.selected"></span><span ng-click="selectColumn(col)" class="column-visibility-name"> {{col.name | translate}}</span></li>
-        </ul>
+      <div id="table-actions" class="pull-right">
+        <button id="delete-button" type="button" class='btn btn-default' ng-click="confirmDeleteSelectedCases()" ng-disabled="checkCaseIsNotSelected()" translate>Delete</button>
+        <div class="btn-group" dropdown id='columns-selection'>
+          <button type="button" class="btn btn-default dropdown-toggle"><translate>Columns</translate> <span class="caret"></span></button>
+          <ul class="dropdown-menu" role="menu">
+            <li  ng-repeat="col in columns" ng-click="$event.stopPropagation();" class="column-visibility"><span class="column-visibility-checkbox"><input type="checkbox" ng-model="col.selected"></span><span ng-click="selectColumn(col)" class="column-visibility-name"> {{col.name | translate}}</span></li>
+          </ul>
+        </div>
       </div>
 
       <table resizable-column st-table="cases" class="table table-striped table-hover table-responsive" st-pipe="searchForCases">
