@@ -37,7 +37,7 @@
       <div class="btn-group pull-right" dropdown id='columns-selection'>
         <button type="button" class="btn btn-default dropdown-toggle"><translate>Columns</translate> <span class="caret"></span></button>
         <ul class="dropdown-menu" role="menu">
-          <li  ng-repeat="col in columns" ng-click="$event.stopPropagation();" class="column-visibility"><span class="column-visibility-checkbox"><input type="checkbox" ng-model="col.selected"></span> <span ng-click="selectColumn(col)">{{col.name | translate}}</span></li>
+          <li  ng-repeat="col in columns" ng-click="$event.stopPropagation();" class="column-visibility"><span class="column-visibility-checkbox"><input type="checkbox" ng-model="col.selected"></span><span ng-click="selectColumn(col)" class="column-visibility-name"> {{col.name | translate}}</span></li>
         </ul>
       </div>
 
@@ -45,16 +45,15 @@
           <thead>
           <tr>
             <th></th>
-            <th lr-drag-src="headers" lr-drop-target="headers" ng-repeat="col in columns  | filter : filterColumn"
-                st-sort="{{col.sortName}}" class="case-column">{{col.name | translate}}
+            <th lr-drag-src="headers" lr-drag-src-safe="headers" lr-drop-target="headers" ng-repeat="col in columns  | filter : filterColumn"
+                st-sort="{{col.sortName}}" class="case-column"><p ng-class="{'pull-right': col.align}">{{col.name | translate}}</p>
             </th>
           </tr>
           </thead>
         <tfoot>
         <tr>
           <td colspan="{{columns.length+1}}">
-            <div id="cases-results-size" class="col-md-2 pull-left"><p class="text-muted" translate>Results: {{currentFirstResultIndex }} to {{(currentLastResultIndex)}} of
-              {{total}}</p></div>
+            <div id="cases-results-size" class="col-md-2 pull-left"><p class="text-muted" translate>Results: {{currentFirstResultIndex}} to {{currentLastResultIndex}} of {{total}}</p></div>
             <div class="pull-right">
               <pagination ng-click="searchForCases()" boundary-links="true" total-items="total" ng-model="currentPage"
                           items-per-page="itemsPerPage " previous-text="&lsaquo;" next-text="&rsaquo;"
@@ -69,7 +68,7 @@
           <td class="case-checkbox">
             <input id="case-check-{{case['ID']}}" type="checkbox" ng-model="case.selected">
           </td>
-          <td class="case-detail" ng-click="selectCase(case);" ng-repeat="col in columns   | filter : filterColumn">{{formatContent(col, case[col.name])}}</td>
+          <td class="case-detail" ng-click="selectCase(case);" ng-repeat="col in columns   | filter : filterColumn"><p ng-class="{'pull-right': col.align}">{{formatContent(col, case[col.name])}}</p></td>
         </tr>
         </tbody>
 

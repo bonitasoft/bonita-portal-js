@@ -5,7 +5,7 @@
     .value('casesColumns', [
       {name: 'App name', sortName: 'name', path: ['processDefinitionId', 'name'], selected: true },
       {name: 'Version', sortName: 'version', path: ['processDefinitionId', 'version'], selected: true},
-      {name: 'ID', sortName: 'id', path: ['id'], selected: true},
+      {name: 'ID', sortName: 'id', path: ['id'], selected: true, align: 'right'},
       {name: 'Start date', sortName: 'startDate', path: ['start'], selected: true, date: true},
       {name: 'Started by', sortName: 'username', path: ['started_by', 'userName'], selected: true},
       {name: 'State', sortName: 'state', path: ['state'], selected: true}
@@ -13,8 +13,8 @@
     .value('pageSizes', [25, 50, 100, 200])
     .value('defaultPageSize', 25)
     .value('defaultSort', 'id')
-    .value('defaultSelectedVersion', 'All Versions')
-    .value('defaultSelectedApp', 'All Apps')
+    .value('defaultSelectedVersion', 'All versions')
+    .value('defaultSelectedApp', 'All apps')
     .value('defaultDeployedFields', ['processDefinitionId', 'started_by', 'startedBySubstitute'])
     .controller('casesListCtrl', ['$scope', 'store', 'caseAPI', 'processAPI', 'casesColumns', 'defaultPageSize', 'defaultSort', 'defaultDeployedFields', '$location', 'pageSizes', 'defaultSelectedApp', 'defaultSelectedVersion', '$filter',
       function casesListCtrlDefinition($scope, store, caseAPI, processAPI, casesColumns, defaultPageSize, defaultSort, defaultDeployedFields, $location, pageSizes, defaultSelectedApp, defaultSelectedVersion, $filter) {
