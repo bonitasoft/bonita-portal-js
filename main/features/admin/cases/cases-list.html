@@ -38,7 +38,7 @@
         </div>
         <div id="table-actions" class="col-md-6 text-right">
           <button id="delete-button" type="button" class='btn btn-default' ng-click="confirmDeleteSelectedCases()" ng-disabled="checkCaseIsNotSelected()" translate>Delete</button>
-          <div class="btn-group" dropdown id='columns-selection'>
+          <div class="btn-group text-left" dropdown id='columns-selection'>
             <button type="button" class="btn btn-default dropdown-toggle"><translate>Columns</translate> <span class="caret"></span></button>
             <ul class="dropdown-menu" role="menu">
               <li  ng-repeat="col in columns" ng-click="$event.stopPropagation();" class="column-visibility"><span class="column-visibility-checkbox"><input type="checkbox" ng-model="col.selected"></span><span ng-click="selectColumn(col)" class="column-visibility-name"> {{col.name | translate}}</span></li>
