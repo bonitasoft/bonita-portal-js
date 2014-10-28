@@ -254,11 +254,11 @@
               var deletePromise = function (id) {
                 var currentPromise = caseAPI.delete({id: id}).$promise.then(function() {
                   suppressedCase++;
-                  for (var i = 0; i < $scope.cases.length; i++) {
+                  /*for (var i = 0; i < $scope.cases.length; i++) {
                     if ($scope.cases[i] && $scope.cases[i].id === id) {
                       $scope.cases.splice(i, 1);
                     }
-                  }
+                  }*/
                 }, displayError);
                 if (caseIds && caseIds.length) {
                   var deleteNextId = function deleteNextId() {
@@ -266,9 +266,12 @@
                   };
                   currentPromise.then(deleteNextId, deleteNextId);
                 } else {
+                  var relaunchSearch = function(){
+                    $scope.searchForCases();
+                  };
                   currentPromise.then(function () {
                     $scope.addAlert({type: 'success', status: suppressedCase + ' case(s) deleted successfully'});
-                  });
+                  }).then(relaunchSearch, relaunchSearch);
                 }
               };
               deletePromise(caseIds.pop());

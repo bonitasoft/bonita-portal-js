@@ -230,10 +230,9 @@
         }));
         it('should call next Page without sort', function () {
 
-          scope.searchForCases();
           expect(scope.currentFirstResultIndex).toBe(1);
           expect(scope.currentLastResultIndex).toBe(2);
-          scope.currentPage++;
+          scope.pagination.currentPage++;
           scope.searchForCases();
           expect(scope.currentFirstResultIndex).toBe(3);
           expect(scope.currentLastResultIndex).toBe(4);
@@ -243,7 +242,7 @@
               {p: 0, c: defaultPageSize, o: defaultSort + ' ASC', d: defaultDeployedFields, f: []}
             ],
             [
-              {p: 1, c: defaultPageSize, o: defaultSort + ' DESC', d: defaultDeployedFields, f: []}
+              {p: 1, c: defaultPageSize, o: defaultSort + ' ASC', d: defaultDeployedFields, f: []}
             ],
           ]);
         });
@@ -252,11 +251,11 @@
           scope.searchForCases({sort: {predicate: 'name', reverse: true}});
           expect(scope.currentFirstResultIndex).toBe(1);
           expect(scope.currentLastResultIndex).toBe(2);
-          scope.currentPage++;
+          scope.pagination.currentPage++;
           scope.searchForCases();
           expect(scope.currentFirstResultIndex).toBe(3);
           expect(scope.currentLastResultIndex).toBe(4);
-          scope.currentPage--;
+          scope.pagination.currentPage--;
           scope.searchForCases();
           expect(scope.currentFirstResultIndex).toBe(1);
           expect(scope.currentLastResultIndex).toBe(2);
@@ -456,8 +455,8 @@
         scope.currentPage = 2;
         scope.changeItemPerPage(itemsPerPage);
         expect(scope.searchForCases).toHaveBeenCalledWith();
-        expect(scope.itemsPerPage).toBe(itemsPerPage);
-        expect(scope.currentPage).toBe(1);
+        expect(scope.pagination.itemsPerPage).toBe(itemsPerPage);
+        expect(scope.pagination.currentPage).toBe(1);
       });
     });
 
@@ -930,27 +929,30 @@
         };
         spyOn(caseAPI, 'delete').and.callThrough();
       }));
-      xit('should delete nothing if cases array is empty', function () {
+      it('should delete nothing if cases array is empty', function () {
         scope.deleteSelectedCases();
         expect(caseAPI.delete).not.toHaveBeenCalled();
       });
-      xit('should delete nothing if nothing is selected', function () {
+      it('should delete nothing if nothing is selected', function () {
         scope.cases = [{selected: false, id: '1'}, {selected: false, id: '324'}];
         scope.deleteSelectedCases();
         expect(caseAPI.delete).not.toHaveBeenCalled();
+        expect(scope.cases).toEqual([{selected: false, id: '1'}, {selected: false, id: '324'}]);
       });
-      xit('should delete nothing if selected items have no id', function () {
+      it('should delete nothing if selected items have no id', function () {
         scope.cases = [{selected: false, id: '1'}, {selected: true}];
         scope.deleteSelectedCases();
         expect(caseAPI.delete).not.toHaveBeenCalled();
+        expect(scope.cases).toEqual([{selected: false, id: '1'}, {selected: true}]);
       });
-      xit('should delete all selected cases', function () {
+      it('should delete all selected cases', function () {
         scope.cases = [{selected: true, id: '1'}, {selected: true, id: '324'}];
         scope.deleteSelectedCases();
         expect(caseAPI.delete).toHaveBeenCalled();
         expect(caseAPI.delete.calls.allArgs()).toEqual([[{id: '324'}], [{id: '1'}]]);
         expect(scope.alerts.length).toBe(1);
         expect(scope.alerts[0]).toEqual({type: 'success', status: '2 case(s) deleted successfully'});
+        expect(scope.cases).toEqual([]);
       });
       it('should delete all cases even if one of them fails', inject(function ($q) {
         scope.cases = [{selected: true, id: '1'}, {selected: true, id: '324'}];
@@ -994,6 +996,7 @@
         expect(scope.alerts[0]).toEqual({ status : 500, statusText : 'Internal Server Error', type : 'danger', errorMsg : 'impossible to delete', resource : 'undefined/bpm/case' });
         expect(scope.alerts[1]).toEqual({ status : 500, statusText : 'Internal Server Error', type : 'danger', errorMsg : 'impossible to delete', resource : 'undefined/bpm/case' });
         expect(scope.alerts[2]).toEqual({type: 'success', status: '0 case(s) deleted successfully'});
+        expect(scope.cases).toEqual([]);
       }));
     });
 
