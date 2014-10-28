@@ -107,11 +107,11 @@
             $scope.cases = fullCases && fullCases.resource && fullCases.resource.map(function selectOnlyInterestingFields(fullCase) {
               var simpleCase = {};
               for (var i = 0; i < $scope.columns.length; i++) {
-                var currentName = fullCase;
+                var currentCase = fullCase;
                 for (var j = 0; j < $scope.columns[i].path.length; j++) {
-                  currentName = currentName && currentName[$scope.columns[i].path[j]];
+                  currentCase = currentCase && currentCase[$scope.columns[i].path[j]];
                 }
-                simpleCase[$scope.columns[i].name] = currentName;
+                simpleCase[$scope.columns[i].name] = currentCase;
               }
               simpleCase.id = fullCase.id;
               return simpleCase;
@@ -284,7 +284,7 @@
             }, true);
         };
       }])
-    .controller('DeleteCaseModalCtrl', function ($scope, $modalInstance, caseItems) {
+    .controller('DeleteCaseModalCtrl', ['$scope', '$modalInstance', 'caseItems', function ($scope, $modalInstance, caseItems) {
 
       $scope.caseItems = caseItems;
 
@@ -295,7 +295,7 @@
       $scope.cancel = function () {
         $modalInstance.dismiss('cancel');
       };
-    })
+    }])
     .directive('resizableColumn', ['$timeout', '$interval', function ($timeout) {
       return {
         restrict: 'A',
