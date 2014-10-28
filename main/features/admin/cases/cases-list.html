@@ -28,54 +28,60 @@
   </div>
   <div class="panel panel-default">
 
-    <div class="panel-heading" translate>Cases</div>
+    <div class="panel-heading"> <translate>Cases</translate> <span ng-click="reinitCases()" class="glyphicon glyphicon-refresh"></span></div>
     <div class="panel-body">
+
       <alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.status}} {{alert.statusText}} {{alert.errorMsg}}</alert>
-      <div class="btn-group pull-left" id='page-size'>
-        <label ng-repeat="pageSize in pageSizes" class="btn btn-default page-size" ng-click='changeItemPerPage(pageSize)' btn-radio="pageSize" ng-model="itemsPerPage">{{pageSize}}</label>
-      </div>
-      <div id="table-actions" class="pull-right">
-        <button id="delete-button" type="button" class='btn btn-default' ng-click="confirmDeleteSelectedCases()" ng-disabled="checkCaseIsNotSelected()" translate>Delete</button>
-        <div class="btn-group" dropdown id='columns-selection'>
-          <button type="button" class="btn btn-default dropdown-toggle"><translate>Columns</translate> <span class="caret"></span></button>
-          <ul class="dropdown-menu" role="menu">
-            <li  ng-repeat="col in columns" ng-click="$event.stopPropagation();" class="column-visibility"><span class="column-visibility-checkbox"><input type="checkbox" ng-model="col.selected"></span><span ng-click="selectColumn(col)" class="column-visibility-name"> {{col.name | translate}}</span></li>
-          </ul>
+      <div  ng-class="{'hidden' : !cases.length}">
+        <div class="btn-group pull-left" id='page-size'>
+          <label ng-repeat="pageSize in pageSizes" class="btn btn-default page-size" ng-click='changeItemPerPage(pageSize)' btn-radio="pageSize" ng-model="itemsPerPage">{{pageSize}}</label>
         </div>
-      </div>
+        <div id="table-actions" class="pull-right">
+          <button id="delete-button" type="button" class='btn btn-default' ng-click="confirmDeleteSelectedCases()" ng-disabled="checkCaseIsNotSelected()" translate>Delete</button>
+          <div class="btn-group" dropdown id='columns-selection'>
+            <button type="button" class="btn btn-default dropdown-toggle"><translate>Columns</translate> <span class="caret"></span></button>
+            <ul class="dropdown-menu" role="menu">
+              <li  ng-repeat="col in columns" ng-click="$event.stopPropagation();" class="column-visibility"><span class="column-visibility-checkbox"><input type="checkbox" ng-model="col.selected"></span><span ng-click="selectColumn(col)" class="column-visibility-name"> {{col.name | translate}}</span></li>
+            </ul>
+          </div>
+        </div>
 
-      <table resizable-column st-table="cases" class="table table-striped table-hover table-responsive" st-pipe="searchForCases">
-          <thead>
+        <table resizable-column st-table="cases" class="table table-striped table-hover table-responsive" st-pipe="searchForCases">
+            <thead>
+            <tr>
+              <th></th>
+              <th lr-drag-src="headers" lr-drag-src-safe="headers" lr-drop-target="headers" ng-repeat="col in columns  | filter : filterColumn"
+                  st-sort="{{col.sortName}}" class="case-column"><p ng-class="{'pull-right': col.align}">{{col.name | translate}}</p>
+              </th>
+            </tr>
+            </thead>
+          <tfoot>
           <tr>
-            <th></th>
-            <th lr-drag-src="headers" lr-drag-src-safe="headers" lr-drop-target="headers" ng-repeat="col in columns  | filter : filterColumn"
-                st-sort="{{col.sortName}}" class="case-column"><p ng-class="{'pull-right': col.align}">{{col.name | translate}}</p>
-            </th>
+            <td colspan="{{columns.length+1}}">
+              <div id="cases-results-size" class="col-md-2 pull-left"><p class="text-muted" translate>Results: {{currentFirstResultIndex}} to {{currentLastResultIndex}} of {{total}}</p></div>
+              <div class="pull-right">
+                <pagination ng-click="searchForCases()" boundary-links="true" total-items="total" ng-model="currentPage"
+                            items-per-page="itemsPerPage " previous-text="&lsaquo;" next-text="&rsaquo;"
+                            first-text="&laquo;" last-text="&raquo;" max-size="5"></pagination>
+              </div>
+            </td>
           </tr>
-          </thead>
-        <tfoot>
-        <tr>
-          <td colspan="{{columns.length+1}}">
-            <div id="cases-results-size" class="col-md-2 pull-left"><p class="text-muted" translate>Results: {{currentFirstResultIndex}} to {{currentLastResultIndex}} of {{total}}</p></div>
-            <div class="pull-right">
-              <pagination ng-click="searchForCases()" boundary-links="true" total-items="total" ng-model="currentPage"
-                          items-per-page="itemsPerPage " previous-text="&lsaquo;" next-text="&rsaquo;"
-                          first-text="&laquo;" last-text="&raquo;" max-size="5"></pagination>
-            </div>
-          </td>
-        </tr>
-        </tfoot>
-        <tbody>
-        <tr ng-repeat="case in cases" id="caseId-{{case['ID']}}" class="case-row"
-            ng-class="{'info' : case.selected}">
-          <td class="case-checkbox">
-            <input id="case-check-{{case['ID']}}" type="checkbox" ng-model="case.selected">
-          </td>
-          <td class="case-detail" ng-click="selectCase(case);" ng-repeat="col in columns   | filter : filterColumn"><p ng-class="{'pull-right': col.align}">{{formatContent(col, case[col.name])}}</p></td>
-        </tr>
-        </tbody>
+          </tfoot>
+          <tbody>
+          <tr ng-repeat="case in cases" id="caseId-{{case['ID']}}" class="case-row"
+              ng-class="{'info' : case.selected}">
+            <td class="case-checkbox">
+              <input id="case-check-{{case['ID']}}" type="checkbox" ng-model="case.selected">
+            </td>
+            <td class="case-detail" ng-click="selectCase(case);" ng-repeat="col in columns   | filter : filterColumn"><p ng-class="{'pull-right': col.align}">{{formatContent(col, case[col.name])}}</p></td>
+          </tr>
+          </tbody>
 
-      </table>
+        </table>
+      </div>
+      <div ng-class="{'hidden' : cases.length}">
+        <p class="text-muted" translate>No cases to display</p>
+      </div>
     </div>
   </div>
 </div>

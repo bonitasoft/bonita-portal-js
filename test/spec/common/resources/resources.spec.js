@@ -12,7 +12,7 @@
 
     var $httpBackend, userAPI, unauthorizedResponseHandler;
 
-    beforeEach(inject(function ($q, $rootScope, _$httpBackend_, _userAPI_, _unauthorizedResponseHandler_) {
+    beforeEach(inject(function (_$httpBackend_, _userAPI_, _unauthorizedResponseHandler_) {
       $httpBackend = _$httpBackend_;
       userAPI = _userAPI_;
       unauthorizedResponseHandler = _unauthorizedResponseHandler_;

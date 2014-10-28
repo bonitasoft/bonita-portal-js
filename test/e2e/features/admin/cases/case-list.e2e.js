@@ -1,4 +1,4 @@
-/* global element, by, it, describe */
+/* global element, by, it, xdescribe */
 (function() {
   'use strict';
   describe('case admin list', function () {
@@ -14,7 +14,7 @@
       browser.debugger(); //launch protractor with debug option and use 'c' in console to continue test execution
     });
 
-    describe('table surroundings ', function () {
+    xdescribe('table surroundings ', function () {
 
       it('should contains table headers', function(){
         var columnList = element.all(by.css('#case-list th'));
@@ -60,7 +60,7 @@
       });
     });
 
-    describe('column selection', function(){
+    xdescribe('column selection', function(){
       it('should display all columns when dropdown is clicked', function(){
         var columnSelectionButton = element(by.css('#columns-selection'));
         columnSelectionButton.click();
@@ -128,6 +128,7 @@
       });
       it('should change Version and ID column size ', function(){
         var idColumnBar = resizeBars.get(2);
+        element.all(by.css('table th')).get(3).getText().then(function(data){ console.log(data);});
         var formerIdColumnLocation = element.all(by.css('table th')).get(3).getLocation();
         var formerVersionColumnLocation = element.all(by.css('table th')).get(2).getLocation();
         var formerStartDateColumnLocation = element.all(by.css('table th')).get(4).getLocation();
@@ -186,7 +187,7 @@
       });
     });
 
-    describe('sort', function(){
+    xdescribe('sort', function(){
       var tableHeader;
       beforeEach(function(){
         tableHeader = element.all(by.css('table th'));
@@ -214,7 +215,7 @@
       });
     });
 
-    describe('case admin list content', function(){
+    xdescribe('case admin list content', function(){
       it('should display the list of the 25 first cases and check the specifi content of the first row', function () {
         expect(element.all(by.css('#case-list tr.case-row')).count()).toBe(25);
 
