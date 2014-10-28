@@ -84,7 +84,7 @@
         appNamesFilter.all(by.css('ul li')).get(0).click();
         expect(appNamesFilter.all(by.css('button')).getText()).toEqual(['All apps']);
         expect(element.all(by.xpath('//tbody//tr')).count()).toBe(25);
-        expect(element(by.css('#cases-results-size')).getText()).toBe('Results: 1 to 25 of 28');
+        expect(element(by.css('#cases-results-size')).getText()).toBe('Results: 1 to 25 of 320');
       });
       it('should display the Poule App - 2.0 and appropriate content when button filter is clicked and select Poule Process and select 2.0 version', function(){
         var appNamesFilter = caseFilters.all(by.css('#case-app-name-filter'));
@@ -114,7 +114,7 @@
         expect(element.all(by.css('#case-app-version-filter button')).getAttribute('disabled')).toEqual(['true']);
         expect(appNamesFilter.all(by.css('button')).getText()).toEqual(['All apps']);
 
-        expect(element(by.css('#cases-results-size')).getText()).toBe('Results: 1 to 25 of 28');
+        expect(element(by.css('#cases-results-size')).getText()).toBe('Results: 1 to 25 of 320');
       });
     });
   });

@@ -19,10 +19,14 @@
     .controller('casesListCtrl', ['$scope', 'store', 'caseAPI', 'processAPI', 'casesColumns', 'defaultPageSize', 'defaultSort', 'defaultDeployedFields', '$location', 'pageSizes', 'defaultSelectedApp', 'defaultSelectedVersion', '$filter', '$modal',
       function casesListCtrlDefinition($scope, store, caseAPI, processAPI, casesColumns, defaultPageSize, defaultSort, defaultDeployedFields, $location, pageSizes, defaultSelectedApp, defaultSelectedVersion, $filter, $modal) {
         $scope.columns = casesColumns;
-        $scope.itemsPerPage = defaultPageSize;
-        $scope.currentPage = 1;
-        $scope.total = 0;
+        $scope.pagination = {
+          itemsPerPage : defaultPageSize,
+          currentPage : 1,
+          total : 0
+        };
         $scope.pageSizes = pageSizes;
+
+
         $scope.selectedApp = defaultSelectedApp;
         $scope.selectedVersion = defaultSelectedVersion;
         $scope.defaultSelectedApp = defaultSelectedApp;
@@ -45,7 +49,7 @@
         });
         $scope.reinitCases = function () {
           delete $scope.searchSort;
-          $scope.currentPage = 1;
+          $scope.pagination.currentPage = 1;
           $scope.searchForCases();
         };
         $scope.alerts = [];
@@ -85,21 +89,21 @@
           if (!$scope.searchSort || tableState) {
             $scope.searchSort = ((tableState && tableState.sort && tableState.sort.predicate) ?
               tableState.sort.predicate : defaultSort) + ' ' + ((tableState && tableState.sort && tableState.sort.reverse) ? 'DESC' : 'ASC');
-            $scope.currentPage = 1;
+            $scope.pagination.currentPage = 1;
           }
 
           var caseSearch = caseAPI.search({
-            p: $scope.currentPage - 1,
-            c: $scope.itemsPerPage,
+            p: $scope.pagination.currentPage - 1,
+            c: $scope.pagination.itemsPerPage,
             d: defaultDeployedFields,
             o: $scope.searchSort,
             f: $scope.filters
           });
 
           caseSearch.$promise.then(function mapCases(fullCases) {
-            $scope.total = fullCases && fullCases.resource && fullCases.resource.pagination && fullCases.resource.pagination.total;
-            $scope.currentFirstResultIndex = (($scope.currentPage - 1) * $scope.itemsPerPage) + 1;
-            $scope.currentLastResultIndex = Math.min($scope.currentFirstResultIndex + $scope.itemsPerPage - 1, $scope.total);
+            $scope.pagination.total = fullCases && fullCases.resource && fullCases.resource.pagination && fullCases.resource.pagination.total;
+            $scope.currentFirstResultIndex = (($scope.pagination.currentPage - 1) * $scope.pagination.itemsPerPage) + 1;
+            $scope.currentLastResultIndex = Math.min($scope.currentFirstResultIndex + $scope.pagination.itemsPerPage - 1, $scope.pagination.total);
             $scope.cases = fullCases && fullCases.resource && fullCases.resource.map(function selectOnlyInterestingFields(fullCase) {
               var simpleCase = {};
               for (var i = 0; i < $scope.columns.length; i++) {
@@ -113,7 +117,7 @@
               return simpleCase;
             });
           }, function (error) {
-            $scope.total = 0;
+            $scope.pagination.total = 0;
             $scope.currentFirstResultIndex = 0;
             $scope.currentLastResultIndex = 0;
             $scope.cases = [];
@@ -205,8 +209,8 @@
 
         $scope.changeItemPerPage = function (pageSize) {
           if (pageSize) {
-            $scope.itemsPerPage = pageSize;
-            $scope.currentPage = 1;
+            $scope.pagination.itemsPerPage = pageSize;
+            $scope.pagination.currentPage = 1;
             $scope.searchForCases();
           }
         };

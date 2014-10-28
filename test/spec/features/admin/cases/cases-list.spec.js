@@ -1,4 +1,4 @@
-/* global cases, xdescribe, xit */
+/* global cases, describe, xit */
 (function () {
   'use strict';
   describe('admin cases list features', function () {
@@ -28,13 +28,13 @@
       spyOn(caseAPI, 'search').and.callThrough();
     }));
 
-    xdescribe('controller initialization', function () {
+    describe('controller initialization', function () {
 
       var defaultPageSize = 1000;
       var defaultSort = 'id';
       var defaultDeployedFields = ['titi', 'tata', 'toto'];
 
-      xdescribe('process filters init', function () {
+      describe('process filters init', function () {
         var storeLoadFunction = function (processes) {
           return function () {
             return {
@@ -108,7 +108,7 @@
       });
 
 
-      xdescribe('with incorrect columns', function () {
+      describe('with incorrect columns', function () {
         beforeEach(inject(function ($controller) {
           $controller('casesListCtrl', {
             '$scope': scope,
@@ -142,7 +142,7 @@
         });
       });
 
-      xdescribe('with correct columns', function () {
+      describe('with correct columns', function () {
 
         beforeEach(inject(function ($controller) {
           $controller('casesListCtrl', {
@@ -185,8 +185,8 @@
       });
     });
 
-    xdescribe('sort behaviour', function () {
-      xdescribe('select row', function () {
+    describe('sort behaviour', function () {
+      describe('select row', function () {
         beforeEach(inject(function ($controller) {
           $controller('casesListCtrl', {
             '$scope': scope
@@ -209,7 +209,7 @@
         });
       });
 
-      xdescribe('page changes', function () {
+      describe('page changes', function () {
         var defaultPageSize = 2;
         var defaultSort = 'id';
         var defaultDeployedFields = ['titi', 'tata', 'toto'];
@@ -228,6 +228,25 @@
             ]
           });
         }));
+        it('should call next Page without sort', function () {
+
+          scope.searchForCases();
+          expect(scope.currentFirstResultIndex).toBe(1);
+          expect(scope.currentLastResultIndex).toBe(2);
+          scope.currentPage++;
+          scope.searchForCases();
+          expect(scope.currentFirstResultIndex).toBe(3);
+          expect(scope.currentLastResultIndex).toBe(4);
+
+          expect(caseAPI.search.calls.allArgs()).toEqual([
+            [
+              {p: 0, c: defaultPageSize, o: defaultSort + ' ASC', d: defaultDeployedFields, f: []}
+            ],
+            [
+              {p: 1, c: defaultPageSize, o: defaultSort + ' DESC', d: defaultDeployedFields, f: []}
+            ],
+          ]);
+        });
         it('should call next Page on current sort', function () {
 
           scope.searchForCases({sort: {predicate: 'name', reverse: true}});
@@ -265,8 +284,8 @@
         });
       });
 
-      xdescribe('when tableState changes', function () {
-        xdescribe('casesSearch', function () {
+      describe('when tableState changes', function () {
+        describe('casesSearch', function () {
           var defaultPageSize = 1000;
           var defaultSort = 'id';
           var defaultDeployedFields = ['titi', 'tata', 'toto'];
@@ -318,9 +337,9 @@
           });
         });
       });
-      xdescribe('when server returns an error on case search', function () {
+      describe('when server returns an error on case search', function () {
 
-        xdescribe('about 401 unauthorized', function () {
+        describe('about 401 unauthorized', function () {
           it('should redirect to the login page', inject(function ($controller) {
             var location = {
               url: function () {
@@ -348,7 +367,7 @@
             ]);
           }));
         });
-        xdescribe('about 500 Internal Error', function () {
+        describe('about 500 Internal Error', function () {
           it('should redirect to the login page', inject(function ($controller) {
             var error = {
               status: 500,
@@ -385,7 +404,7 @@
       });
     });
 
-    xdescribe('change column visiblity', function () {
+    describe('change column visiblity', function () {
       beforeEach(inject(function ($controller) {
         $controller('casesListCtrl', {
           '$scope': scope
@@ -403,7 +422,7 @@
       });
     });
 
-    xdescribe('filter column ', function () {
+    describe('filter column ', function () {
       beforeEach(inject(function ($controller) {
         $controller('casesListCtrl', {
           '$scope': scope
@@ -419,7 +438,7 @@
       });
     });
 
-    xdescribe('select nbItems in page ', function () {
+    describe('select nbItems in page ', function () {
       beforeEach(inject(function ($controller) {
         $controller('casesListCtrl', {
           '$scope': scope
@@ -442,8 +461,8 @@
       });
     });
 
-    xdescribe('filters', function () {
-      xdescribe('AppName', function () {
+    describe('filters', function () {
+      describe('AppName', function () {
         var allApps = 'AllApps';
         beforeEach(inject(function ($controller) {
           $controller('casesListCtrl', {
@@ -507,9 +526,9 @@
         });
       });
 
-      xdescribe('Version Contengency', function () {
+      describe('Version Contengency', function () {
         var allVersions = 'All Versions';
-        xdescribe('version filter update ', function () {
+        describe('version filter update ', function () {
           beforeEach(inject(function ($controller) {
             $controller('casesListCtrl', {
               '$scope': scope,
@@ -572,7 +591,7 @@
           });
         });
 
-        xdescribe('App Version selection', function () {
+        describe('App Version selection', function () {
           beforeEach(inject(function ($controller) {
             $controller('casesListCtrl', {
               '$scope': scope,
@@ -655,7 +674,7 @@
             expect(scope.filterProcessDefinition).toHaveBeenCalledWith(allVersions);
           });
         });
-        xdescribe('filterProcessDefinition', function () {
+        describe('filterProcessDefinition', function () {
           beforeEach(inject(function ($controller) {
             $controller('casesListCtrl', {
               '$scope': scope
@@ -703,8 +722,8 @@
           });
         });
       });
-      xdescribe('filter updates', function () {
-        xdescribe('watch on filters', function () {
+      describe('filter updates', function () {
+        describe('watch on filters', function () {
           beforeEach(inject(function ($controller) {
             $controller('casesListCtrl', {
               '$scope': scope,
@@ -739,7 +758,7 @@
           });
         });
       });
-      xdescribe('build filter', function () {
+      describe('build filter', function () {
         beforeEach(inject(function ($controller) {
           $controller('casesListCtrl', {
             '$scope': scope,
@@ -764,7 +783,7 @@
       });
     });
 
-    xdescribe('formatContent', function () {
+    describe('formatContent', function () {
       beforeEach(inject(function ($controller) {
         $controller('casesListCtrl', {
           '$scope': scope
@@ -791,16 +810,16 @@
           '$scope': scope
         });
         scope.searchSort = {};
-        scope.currentPage = 10;
+        scope.pagination.currentPage = 10;
         spyOn(scope, 'searchForCases');
         scope.reinitCases();
         expect(scope.searchSort).toBeUndefined();
-        expect(scope.currentPage).toBe(1);
+        expect(scope.pagination.currentPage).toBe(1);
         expect(scope.searchForCases).toHaveBeenCalledWith();
       }));
     });
 
-    xdescribe('confirmDeleteSelectedCases', function () {
+    describe('confirmDeleteSelectedCases', function () {
       var modal = {
         open: function () {
         }
@@ -849,7 +868,7 @@
       });
     });
 
-    xdescribe('checkCaseIsNotSelected', function () {
+    describe('checkCaseIsNotSelected', function () {
       beforeEach(inject(function ($controller) {
         $controller('casesListCtrl', {
           '$scope': scope
@@ -978,7 +997,7 @@
       }));
     });
 
-    xdescribe('resizable column directive', function () {
+    describe('resizable column directive', function () {
       var compile, timeout;
       beforeEach(inject(function ($rootScope, _$compile_, $timeout) {
         compile = _$compile_;
