@@ -32,7 +32,7 @@
     <div class="panel-body">
 
       <alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.status}} {{alert.statusText}} {{alert.errorMsg}}</alert>
-      <div  ng-class="{'hidden' : !cases.length}">
+      <div ng-if="cases.length">
         <div class="btn-group pull-left" id='page-size'>
           <label ng-repeat="pageSize in pageSizes" class="btn btn-default page-size" ng-click='changeItemPerPage(pageSize)' btn-radio="pageSize" ng-model="itemsPerPage">{{pageSize}}</label>
         </div>
