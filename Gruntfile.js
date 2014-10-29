@@ -228,12 +228,7 @@ module.exports = function (grunt) {
     bowerInstall: {
       'community': {
         src: ['<%= portaljs.app %>/index.html'],
-        ignorePath: '<%= portaljs.app %>/',
-        'overrides': {
-          'ng-grid': {
-            'main': './build/ng-grid.js'
-          }
-        }
+        ignorePath: '<%= portaljs.app %>/'
       }
     },
 
