@@ -114,10 +114,18 @@
         getCheckboxes().get(3).click();
         getDeleteButton().click();
         getModal().element(by.css('#ValidateCaseDeletionBtn')).click();
-
+        //TODO check if the list does not contain the deleted elements when E2E tests will be connected to a real server
       });
 
+      it('should not delete 2 cases when 2 cases are selected and the confirmation modal is dismissed', function () {
 
+        // click on a check box to activate the delete button
+        getCheckboxes().get(5).click();
+        getCheckboxes().get(3).click();
+        getDeleteButton().click();
+        getModal().element(by.css('#CancelCaseDeletionBtn')).click();
+        //TODO check if the list contains the selected elements when E2E tests will be connected to a real server
+      });
 
     });
 
