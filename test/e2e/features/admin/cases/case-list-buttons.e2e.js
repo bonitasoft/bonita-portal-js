@@ -25,7 +25,7 @@
       }
 
       function getDeleteButtonDisabledAttribute() {
-        return getDeleteButtonDisabledAttribute();
+        return getDeleteButton().getAttribute("disabled");
       }
       it('should enable delete button when a checkbox is checked', function () {
 
@@ -113,7 +113,7 @@
         getCheckboxes().get(5).click();
         getCheckboxes().get(3).click();
         getDeleteButton().click();
-        getModal().element(by.css('#'));
+        getModal().element(by.css('#ValidateCaseDeletionBtn')).click();
 
       });
 
