@@ -4,8 +4,8 @@
   describe('case admin filters', function () {
     var caseList,
         caseFilters,
-       width = 1920,
-       height = 1080;
+       width = 1280,
+       height = 800;
     browser.driver.manage().window().setSize(width, height);
 
     beforeEach(function(){
