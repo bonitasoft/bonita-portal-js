@@ -138,21 +138,21 @@
         formerIdColumnLocation.then(function (oldPosition) {
           newIdColumnLocation.then(function (newPosition) {
             //move is not very accurate, for instance, offset of 50 changed position of 53px
-            expect(oldPosition.x - newPosition.x).toBeGreaterThan(45);
+            expect(oldPosition.x - newPosition.x).toBeGreaterThan(40);
             expect(oldPosition.y - newPosition.y).toBe(0);
           });
         });
         var newVersionColumnLocation = element.all(by.css('table th')).get(2).getLocation();
         formerVersionColumnLocation.then(function (oldPosition) {
           newVersionColumnLocation.then(function (newPosition) {
-            expect(oldPosition.x - newPosition.x).toBe(8);
+            expect(oldPosition.x - newPosition.x).toBeGreaterThan(6);
             expect(oldPosition.y - newPosition.y).toBe(0);
           });
         });
         var newStartDateColumnLocation = element.all(by.css('table th')).get(4).getLocation();
         formerStartDateColumnLocation.then(function (oldPosition) {
           newStartDateColumnLocation.then(function (newPosition) {
-            expect(oldPosition.x - newPosition.x).toBe(-5);
+            expect(oldPosition.x - newPosition.x).toBeLessThan(-4);
             expect(oldPosition.y - newPosition.y).toBe(0);
           });
         });
