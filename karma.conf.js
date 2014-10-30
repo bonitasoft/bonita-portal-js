@@ -15,7 +15,8 @@ module.exports = function(config) {
     preprocessors: {
       'main/*.js': ['coverage'],
       'main/features/**/*.js': ['coverage'],
-      'main/common/**/*.js': ['coverage']
+      'main/common/**/*.js': ['coverage'],
+      'main/features/**/*.html': ['ng-html2js']
       },
 
     // list of files / patterns to load in the browser
@@ -36,6 +37,7 @@ module.exports = function(config) {
       'main/bonita-portal.js',
       'main/common/**/*.js',
       'main/features/**/*.js',
+      'main/features/**/*.html',
       'test/spec/**/*.js'
     ],
 
@@ -73,6 +75,10 @@ module.exports = function(config) {
 
     junitReporter: {
       outputFile: 'test/reports.xml'
-    }
+    },
+
+    ngHtml2JsPreprocessor: {
+      stripPrefix: 'main/'
+    },
   });
 };
