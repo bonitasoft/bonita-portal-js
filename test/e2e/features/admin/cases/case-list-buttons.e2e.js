@@ -102,9 +102,9 @@
         //click on delete button
         getDeleteButton().click();
         //check the title
-        expect(getModal().element(by.css('.modal-content h3.modal-title').getText())).toEqual('Case Deletion');
+        expect(getModal().element(by.css('.modal-content h3.modal-title')).getText()).toEqual('Case Deletion');
         // check the modal content
-        expect(getModal().element(by.css('.modal-content .modal-body').getText())).toEqual('Delete the selected 3 cases ?');
+        expect(getModal().element(by.css('.modal-content .modal-body')).getText()).toEqual('Delete the selected 3 cases ?');
       });
 
       it('should delete 2 cases when 2 cases are selected and the confirmation modal is approved', function () {
