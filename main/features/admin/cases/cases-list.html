@@ -10,11 +10,13 @@
 
       <alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.status}} {{alert.statusText}} {{alert.errorMsg}}</alert>
       <div ng-if="cases.length">
-        <div class="col-md-6 btn-group text-left" id='page-size'>
-          <label ng-repeat="pageSize in pageSizes" class="btn btn-default page-size" ng-click='changeItemPerPage(pageSize)' btn-radio="pageSize" ng-model="pagination.itemsPerPage">{{pageSize}}</label>
+        <div class="col-md-6">
+          <button case-delete id="delete-button" type="button" class='btn btn-default' ng-click="confirmDeleteSelectedCases()" ng-disabled="checkCaseIsNotSelected()" translate>Delete</button>
         </div>
         <div id="table-actions" class="col-md-6 text-right">
-          <button case-delete id="delete-button" type="button" class='btn btn-default' ng-click="confirmDeleteSelectedCases()" ng-disabled="checkCaseIsNotSelected()" translate>Delete</button>
+          <div class="btn-group text-left" id='page-size'>
+            <label ng-repeat="pageSize in pageSizes" class="btn btn-default page-size" ng-click='changeItemPerPage(pageSize)' btn-radio="pageSize" ng-model="pagination.itemsPerPage">{{pageSize}}</label>
+          </div>
           <div class="btn-group text-left" dropdown id='columns-selection'>
             <button type="button" class="btn btn-default dropdown-toggle"><translate>Columns</translate> <span class="caret"></span></button>
             <ul class="dropdown-menu" role="menu">
