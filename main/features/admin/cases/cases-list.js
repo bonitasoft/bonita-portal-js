@@ -1,7 +1,7 @@
-(function caseListModuleDefinition() {
+(function() {
   'use strict';
 
-  angular.module('org.bonita.features.admin.cases.list', ['org.bonita.common.resources', 'gettext', 'smart-table', 'ui.bootstrap', 'lrDragNDrop', 'org.bonita.common.resources.store', 'gettext'])
+  angular.module('org.bonita.features.admin.cases.list', ['org.bonita.common.resources', 'gettext', 'smart-table', 'ui.bootstrap', 'lrDragNDrop', 'org.bonita.common.resources.store', 'gettext', 'org.bonita.common.directives.selectAll'])
     .value('casesColumns', [
       {name: 'App name', sortName: 'name', path: ['processDefinitionId', 'name'], selected: true},
       {name: 'Version', sortName: 'version', path: ['processDefinitionId', 'version'], selected: true},
@@ -26,6 +26,7 @@
       $scope.apps = [];
       $scope.versions = [];
       $scope.appNames = [];
+      $scope.allCasesSelected = false;
 
       store.load(processAPI, {}).then(function (processes) {
         $scope.apps = processes;
@@ -200,7 +201,7 @@
             $scope.currentLastResultIndex = 0;
             $scope.cases = [];
             $scope.displayError(error);
-          }).finally(function(){
+          }).finally(function () {
             $anchorScroll();
           });
         };

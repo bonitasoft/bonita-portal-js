@@ -28,7 +28,7 @@
           <table resizable-column st-table="cases" class="table table-striped table-hover table-responsive" st-pipe="searchForCases">
               <thead>
               <tr>
-                <th></th>
+                <th class="case-checkbox"><select-all-checkbox checkboxes="cases"></th>
                 <th ng-repeat="col in columns  | filter : filterColumn"
                     st-sort="{{col.sortName}}" class="case-column"><p ng-class="{'pull-right': col.align}">{{col.name | translate}}</p>
                 </th>
