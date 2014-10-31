@@ -27,6 +27,11 @@
       scope.buildFilters = function() {};
 
     }));
+
+    it('should load directive without any error', inject(function($compile){
+      $compile('<case-filters></case-filters')(scope);
+    }));
+
     describe('controller initialization', function () {
       describe('process filters init', function () {
         beforeEach(inject(function ($controller) {
@@ -154,7 +159,7 @@
             }
           });
           spyOn(scope, 'filterVersion');
-          spyOn(scope, 'buildFilters').and.returnValue([]);
+          spyOn(scope, 'buildFilters');
 
         }));
 
@@ -221,7 +226,7 @@
             });
             scope.$apply();
             spyOn(scope, 'filterProcessDefinition');
-            spyOn(scope, 'buildFilters').and.returnValue([]);
+            spyOn(scope, 'buildFilters');
           }));
           it('should fill versions array with nothing', function () {
             scope.filterVersion();
@@ -284,7 +289,7 @@
             });
             scope.$apply();
             spyOn(scope, 'filterProcessDefinition');
-            spyOn(scope, 'buildFilters').and.returnValue([]);
+            spyOn(scope, 'buildFilters');
           }));
 
           it('should change the App Version Filter and update search filter when an version is selected', function () {
@@ -386,6 +391,66 @@
             ];
             scope.filterProcessDefinition('1.1');
             expect(scope.selectedProcessDefinition).toBeUndefined();
+          });
+        });
+        describe('filterStatus', function(){
+          var allStatus = 'allStatus'  ;
+          beforeEach(inject(function ($controller) {
+            $controller('caseFilterController', {
+              '$scope': scope,
+              'defaultFilters' : {caseStatus : allStatus}
+            });
+          }));
+          it('should not change anything if the same filter ', function(){
+            var startedStatus = 'started';
+            scope.selectedStatus = startedStatus;
+            scope.selectCaseStatus(scope.selectedStatus);
+            expect(scope.selectedStatus).toBe(scope.selectedStatus);
+          });
+          it('should not change anything if the same all status filter ', function(){
+            scope.selectCaseStatus(allStatus);
+            expect(scope.selectedStatus).toBe(allStatus);
+          });
+          it('should set initial selected case to all Status', function(){
+            expect(scope.selectedStatus).toBe(allStatus);
+          });
+          it('should change the case status', function(){
+            scope.selectedStatus = 'started';
+            scope.selectCaseStatus(allStatus);
+            expect(scope.selectedStatus).toBe(allStatus);
+          });
+        });
+        describe('filter status update', function(){
+          var allStatus = 'allStatus';
+          beforeEach(inject(function ($controller) {
+            $controller('caseFilterController', {
+              '$scope': scope,
+              'defaultFilters':  {caseStatus : allStatus},
+              'store': {
+                load: function () {
+                  return {
+                    then: function () {
+                    }
+                  };
+                }
+              }
+            });
+            scope.$apply();
+            spyOn(scope, 'buildFilters');
+          }));
+
+          it('should update the filters when the selected case has change', function(){
+            scope.selectCaseStatus(allStatus);
+            scope.$apply();
+            expect(scope.selectedStatus).toBe(allStatus);
+            expect(scope.buildFilters).not.toHaveBeenCalled();
+          });
+          it('should update the filters when the selected case has change', function(){
+            var caseStatus = 'started';
+            scope.selectCaseStatus(caseStatus);
+            scope.$apply();
+            expect(scope.selectedStatus).toBe(caseStatus);
+            expect(scope.buildFilters).toHaveBeenCalled();
           });
         });
       });

@@ -1,7 +1,7 @@
 <div id="case-filters" class="panel panel-default">
   <div class="panel-heading" translate>Filters</div>
   <div class="panel-body">
-    <div class="col-md-3"><translate>App name</translate> :
+    <div class="col-md-3"><translate>App name</translate> :&nbsp;
       <div class="btn-group" dropdown id="case-app-name-filter">
         <button type="button" class="btn btn-default dropdown-toggle">{{selectedApp | translate}} <span class="caret"></span></button>
         <ul class="dropdown-menu" role="menu">
@@ -11,7 +11,7 @@
         </ul>
       </div>
     </div>
-    <div class=" col-md-3"><translate>Version</translate> :
+    <div class=" col-md-3"><translate>Version</translate> :&nbsp;
       <div class="btn-group" dropdown id="case-app-version-filter">
         <button type="button" class="btn btn-default dropdown-toggle" ng-disabled="selectedApp  === defaultFilters.appName">{{selectedVersion | translate}} <span class="caret"></span></button>
         <ul class="dropdown-menu" role="menu">
@@ -21,7 +21,7 @@
         </ul>
       </div>
     </div>
-    <div class="col-md-3"><translate>State</translate> :
+    <div class="col-md-3"><translate>State</translate> :&nbsp;
       <div class="btn-group" dropdown id="case-app-status-filter">
         <button type="button" class="btn btn-default dropdown-toggle">{{caseStatusValues[selectedStatus] | translate}} <span class="caret"></span></button>
         <ul class="dropdown-menu" role="menu">

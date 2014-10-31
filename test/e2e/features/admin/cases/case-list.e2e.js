@@ -152,7 +152,7 @@
         var newStartDateColumnLocation = element.all(by.css('table th')).get(4).getLocation();
         formerStartDateColumnLocation.then(function (oldPosition) {
           newStartDateColumnLocation.then(function (newPosition) {
-            expect(oldPosition.x - newPosition.x).toBeLessThan(-4);
+            expect(oldPosition.x - newPosition.x).toBeLessThan(0);
             expect(oldPosition.y - newPosition.y).toBe(0);
           });
         });

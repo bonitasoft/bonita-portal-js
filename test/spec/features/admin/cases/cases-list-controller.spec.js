@@ -3,7 +3,7 @@
   'use strict';
   describe('admin cases list features', function () {
 
-    var scope, caseAPI, fullCases;
+    var scope, caseAPI, fullCases, promise ;
 
     beforeEach(module('org.bonita.features.admin.cases.list'));
 
@@ -14,14 +14,20 @@
         total: 4
       };
       scope = $rootScope.$new();
+      promise = {
+        then: function (method) {
+          method(fullCases);
+          return promise;
+        },
+        finally : function(finallyMethod){
+          finallyMethod();
+          return promise;
+        }
+      };
       caseAPI = {
         search: function () {
           return {
-            '$promise': {
-              then: function (method) {
-                method(fullCases);
-              }
-            }
+            '$promise': promise
           };
         }
       };
@@ -139,6 +145,7 @@
         var defaultPageSize = 2;
         var defaultSort = 'id';
         var defaultDeployedFields = ['titi', 'tata', 'toto'];
+        var anchorScroll = jasmine.createSpy();
 
         beforeEach(inject(function ($controller) {
           $controller('casesListCtrl', {
@@ -151,7 +158,8 @@
               {name: 'AppName', sortName: 'name', path: ['processDefinitionId', 'name']},
               {name: 'Version', sortName: 'version', path: ['processDefinitionId', 'version']},
               {name: 'CaseId', sortName: 'id', path: ['id']}
-            ]
+            ],
+            '$anchorScroll': anchorScroll
           });
         }));
         it('should call next Page without sort', function () {
@@ -162,7 +170,7 @@
           scope.searchForCases();
           expect(scope.currentFirstResultIndex).toBe(3);
           expect(scope.currentLastResultIndex).toBe(4);
-
+          expect(anchorScroll).toHaveBeenCalled();
           expect(caseAPI.search.calls.allArgs()).toEqual([
             [
               {p: 0, c: defaultPageSize, o: defaultSort + ' ASC', d: defaultDeployedFields, f: []}
@@ -177,17 +185,21 @@
           scope.searchForCases({sort: {predicate: 'name', reverse: true}});
           expect(scope.currentFirstResultIndex).toBe(1);
           expect(scope.currentLastResultIndex).toBe(2);
+          expect(anchorScroll).toHaveBeenCalled();
           scope.pagination.currentPage++;
           scope.searchForCases();
           expect(scope.currentFirstResultIndex).toBe(3);
           expect(scope.currentLastResultIndex).toBe(4);
+          expect(anchorScroll).toHaveBeenCalled();
           scope.pagination.currentPage--;
           scope.searchForCases();
           expect(scope.currentFirstResultIndex).toBe(1);
           expect(scope.currentLastResultIndex).toBe(2);
+          expect(anchorScroll).toHaveBeenCalled();
           scope.searchForCases({sort: {predicate: 'version', reverse: false}});
           expect(scope.currentFirstResultIndex).toBe(1);
           expect(scope.currentLastResultIndex).toBe(2);
+          expect(anchorScroll).toHaveBeenCalled();
 
           expect(caseAPI.search.calls.allArgs()).toEqual([
             [
@@ -214,6 +226,7 @@
           var defaultPageSize = 1000;
           var defaultSort = 'id';
           var defaultDeployedFields = ['titi', 'tata', 'toto'];
+          var anchorScroll = jasmine.createSpy();
 
           beforeEach(inject(function ($controller) {
             $controller('casesListCtrl', {
@@ -226,11 +239,13 @@
                 {name: 'AppName', sortName: 'name', path: ['processDefinitionId', 'name']},
                 {name: 'Version', sortName: 'version', path: ['processDefinitionId', 'version']},
                 {name: 'CaseId', sortName: 'id', path: ['id']}
-              ]
+              ],
+              '$anchorScroll' : anchorScroll
             });
           }));
           it('should call default sort on empty tableState', function () {
             scope.searchForCases();
+            expect(anchorScroll).toHaveBeenCalled();
 
             expect(caseAPI.search.calls.allArgs()).toEqual([
               [
@@ -240,11 +255,15 @@
                 {p: 0, c: defaultPageSize, o: defaultSort + ' ASC', d: defaultDeployedFields, f: []}
               ]
             ]);
+            expect(anchorScroll).toHaveBeenCalled();
           });
           it('should call search on application name sort desc', function () {
             scope.searchForCases({sort: {predicate: 'name', reverse: true}});
+            expect(anchorScroll).toHaveBeenCalled();
             scope.searchForCases({sort: {predicate: 'name', reverse: false}});
+            expect(anchorScroll).toHaveBeenCalled();
             scope.searchForCases({sort: {predicate: 'version', reverse: true}});
+            expect(anchorScroll).toHaveBeenCalled();
             expect(caseAPI.search.calls.allArgs()).toEqual([
               [
                 {p: 0, c: defaultPageSize, o: defaultSort + ' ASC', d: defaultDeployedFields, f: []}
@@ -259,6 +278,7 @@
                 {p: 0, c: defaultPageSize, o: 'version DESC', d: defaultDeployedFields, f: []}
               ]
             ]);
+
           });
         });
       });
@@ -270,17 +290,23 @@
               url: function () {
               }
             };
+            var localPromise = {
+              then: function (successMethod, errorMethod) {
+                errorMethod({status: 401});
+                return localPromise;
+              },
+              finally: function (finallyMethod) {
+                finallyMethod();
+                return localPromise;
+              }
+            };
             spyOn(location, 'url').and.callThrough();
             $controller('casesListCtrl', {
               '$scope': scope,
               'caseAPI': {
                 search: function () {
                   return {
-                    '$promise': {
-                      then: function (successMethod, errorMethod) {
-                        errorMethod({status: 401});
-                      }
-                    }
+                    '$promise': localPromise
                   };
                 }
               },
@@ -299,16 +325,23 @@
               statusText: 'Internal Server Error',
               data: {resource: 'bpm/case', message: 'Invalid search !!'}
             };
+            var localPromise = {
+              then: function (successMethod, errorMethod) {
+                errorMethod(error);
+                return localPromise;
+              },
+              finally: function (finallyMethod) {
+                finallyMethod();
+                return localPromise;
+              }
+            };
+
             $controller('casesListCtrl', {
               '$scope': scope,
               'caseAPI': {
                 search: function () {
                   return {
-                    '$promise': {
-                      then: function (successMethod, errorMethod) {
-                        errorMethod(error);
-                      }
-                    }
+                    '$promise': localPromise
                   };
                 }
               }
@@ -423,6 +456,16 @@
     });
     describe('filter updates', function () {
       beforeEach(inject(function ($controller) {
+
+        var localPromise = {
+          then: function () {
+            return localPromise;
+          },
+          finally: function (finallyMethod) {
+            finallyMethod();
+            return localPromise;
+          }
+        };
         $controller('casesListCtrl', {
           '$scope': scope,
           'store': {
@@ -436,10 +479,7 @@
           'caseAPI': {
             search: function () {
               return {
-                '$promise': {
-                  then: function () {
-                  }
-                }
+                '$promise': localPromise
               };
             }
           }

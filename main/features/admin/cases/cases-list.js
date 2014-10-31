@@ -16,7 +16,7 @@
     .value('defaultSort', 'id')
     .value('defaultFilters', {appVersion: 'All versions', appName: 'All apps', caseStatus: 'All states'})
     .value('defaultDeployedFields', ['processDefinitionId', 'started_by', 'startedBySubstitute'])
-    .controller('caseFilterController', ['$scope', 'store', 'processAPI', 'defaultFilters', 'caseStatusValues', function caseFilterController($scope, store, processAPI, defaultFilters, caseStatusValues) {
+    .controller('caseFilterController', ['$scope', 'store', 'processAPI', 'defaultFilters', 'caseStatusValues', function ($scope, store, processAPI, defaultFilters, caseStatusValues) {
       $scope.selectedApp = defaultFilters.appName;
       $scope.selectedVersion = defaultFilters.appVersion;
       $scope.selectedStatus = defaultFilters.caseStatus;
@@ -118,8 +118,8 @@
         controller: 'caseFilterController'
       };
     })
-    .controller('casesListCtrl', ['$scope', 'caseAPI', 'casesColumns', 'defaultPageSize', 'defaultSort', 'defaultDeployedFields', '$location', 'pageSizes', 'defaultFilters', '$filter',
-      function casesListCtrlDefinition($scope, caseAPI, casesColumns, defaultPageSize, defaultSort, defaultDeployedFields, $location, pageSizes, defaultFilters, $filter) {
+    .controller('casesListCtrl', ['$scope', 'caseAPI', 'casesColumns', 'defaultPageSize', 'defaultSort', 'defaultDeployedFields', '$location', 'pageSizes', 'defaultFilters', '$filter', '$anchorScroll',
+      function ($scope, caseAPI, casesColumns, defaultPageSize, defaultSort, defaultDeployedFields, $location, pageSizes, defaultFilters, $filter, $anchorScroll) {
         $scope.columns = casesColumns;
         $scope.pagination = {
           itemsPerPage: defaultPageSize,
@@ -200,6 +200,8 @@
             $scope.currentLastResultIndex = 0;
             $scope.cases = [];
             $scope.displayError(error);
+          }).finally(function(){
+            $anchorScroll();
           });
         };
 
@@ -284,24 +286,19 @@
             var deletePromise = function (id) {
               var currentPromise = caseAPI.delete({id: id}).$promise.then(function () {
                 suppressedCase++;
-                /*for (var i = 0; i < $scope.cases.length; i++) {
-                 if ($scope.cases[i] && $scope.cases[i].id === id) {
-                 $scope.cases.splice(i, 1);
-                 }
-                 }*/
               }, $scope.displayError);
               if (caseIds && caseIds.length) {
                 var deleteNextId = function deleteNextId() {
                   deletePromise(caseIds.pop());
                 };
-                currentPromise.then(deleteNextId, deleteNextId);
+                currentPromise.finally(deleteNextId);
               } else {
-                var relaunchSearch = function () {
-                  $scope.searchForCases();
-                };
                 currentPromise.then(function () {
                   $scope.addAlert({type: 'success', status: suppressedCase + ' case(s) deleted successfully'});
-                }).then(relaunchSearch, relaunchSearch);
+                }).finally(function () {
+                  $scope.pagination.currentPage = 1;
+                  $scope.searchForCases();
+                });
               }
             };
             deletePromise(caseIds.pop());

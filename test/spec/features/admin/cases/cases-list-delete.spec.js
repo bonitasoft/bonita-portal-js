@@ -11,6 +11,10 @@
       scope = $rootScope.$new();
     }));
 
+    it('should load directive without any error', inject(function($compile){
+      $compile('<case-delete></case-delete')(scope);
+    }));
+
     describe('confirmDeleteSelectedCases', function () {
       var modal = {
         open: function () {
@@ -101,6 +105,10 @@
               errorMethod();
             }
             return promise;
+          },
+          finally: function(finallyMethod){
+            finallyMethod();
+            return promise;
           }
         };
         caseAPI = {
@@ -161,21 +169,26 @@
       it('should delete all selected cases', function () {
         scope.cases = [{selected: true, id: '1'}, {selected: true, id: '324'}];
         caseAPI.search.calls.reset();
-        searchSpy.and.returnValue({
-          '$promise': {
+        var localPromise = {
             then: function (success) {
               var resource = [];
               resource.pagination = {total: 0};
               success({resource: resource});
-            }
-          }
+              return localPromise;
+            },
+            finally: function(){}
+          };
+        searchSpy.and.returnValue({
+          '$promise': localPromise
         });
+        scope.pagination = {currentPage : 4};
         scope.deleteSelectedCases();
         expect(scope.searchForCases).toHaveBeenCalled();
         expect(caseAPI.delete).toHaveBeenCalled();
         expect(caseAPI.delete.calls.allArgs()).toEqual([[{id: '324'}], [{id: '1'}]]);
         expect(scope.addAlert).toHaveBeenCalled();
         expect(scope.addAlert.calls.allArgs()).toEqual([[{type: 'success', status: '2 case(s) deleted successfully'}]]);
+        expect(scope.pagination.currentPage).toBe(1);
       });
       it('should delete all cases even if one of them fails', inject(function ($q) {
         scope.cases = [{selected: true, id: '1'}, {selected: true, id: '324'}];
@@ -202,6 +215,7 @@
             }
           }
         });
+        scope.pagination = {currentPage : 4};
         scope.deleteSelectedCases();
         scope.$apply();
         expect(scope.searchForCases).toHaveBeenCalled();
@@ -211,6 +225,7 @@
         expect(scope.displayError.calls.allArgs()).toEqual([[{ status : 500, statusText : 'Internal Server Error', data : { resource : 'bpm/case', message : 'impossible to delete' } }]]);
         expect(scope.addAlert).toHaveBeenCalled();
         expect(scope.addAlert.calls.allArgs()).toEqual([[{type: 'success', status: '1 case(s) deleted successfully'}]]);
+        expect(scope.pagination.currentPage).toBe(1);
       }));
       it('should delete nothing even all fails', inject(function ($q) {
         scope.cases = [{selected: true, id: '1'}, {selected: true, id: '324'}];
@@ -232,6 +247,7 @@
             }
           }
         });
+        scope.pagination = {currentPage : 4};
         scope.deleteSelectedCases();
         expect(caseAPI.search).not.toHaveBeenCalled();
         scope.$apply();
@@ -245,7 +261,31 @@
         expect(scope.addAlert).toHaveBeenCalled();
         expect(scope.addAlert.calls.allArgs()).toEqual([[{type: 'success', status: '0 case(s) deleted successfully'}]]);
         expect(scope.searchForCases).toHaveBeenCalled();
+        expect(scope.pagination.currentPage).toBe(1);
       }));
+    });
+    describe('deleteCaseModalCtrl', function(){
+      var modalInstance ;
+      beforeEach(inject(function($controller){
+        modalInstance = jasmine.createSpyObj('$modalInstance', ['close', 'dismiss']);
+        $controller('DeleteCaseModalCtrl', {
+          '$scope' : scope,
+          '$modalInstance' : modalInstance,
+          'caseItems' : []
+        });
+      }));
+      it('should set a caseItems list', function(){
+        expect(scope.caseItems).toBeDefined();
+      });
+      it('should close modal when ok is clicked', function(){
+        scope.ok();
+        expect(modalInstance.close).toHaveBeenCalled();
+      });
+      it('should dismiss modal when cancel is clicked', function(){
+        scope.cancel();
+        expect(modalInstance.dismiss).toHaveBeenCalled();
+        expect(modalInstance.dismiss.calls.allArgs()).toEqual([['cancel']]);
+      });
     });
   });
 })();
