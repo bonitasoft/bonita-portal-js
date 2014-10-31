@@ -7,8 +7,8 @@
 
     <div class="panel-heading"> <translate>Cases</translate> <span ng-click="reinitCases()" class="glyphicon glyphicon-refresh"></span></div>
     <div class="panel-body">
-
-      <alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.status}} {{alert.statusText}} {{alert.errorMsg}}</alert>
+    <div growl></div>
+      <!-- <alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.status}} {{alert.statusText}} {{alert.errorMsg}}</alert> -->
       <div ng-if="cases.length">
         <div class="col-md-6">
           <button case-delete id="delete-button" type="button" class='btn btn-default' ng-click="confirmDeleteSelectedCases()" ng-disabled="checkCaseIsNotSelected()" translate>Delete</button>

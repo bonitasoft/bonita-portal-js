@@ -1,7 +1,10 @@
-(function() {
+(function () {
   'use strict';
 
-  angular.module('org.bonita.features.admin.cases.list', ['org.bonita.common.resources', 'gettext', 'smart-table', 'ui.bootstrap', 'lrDragNDrop', 'org.bonita.common.resources.store', 'gettext', 'org.bonita.common.directives.selectAll'])
+  angular.module('org.bonita.features.admin.cases.list', ['org.bonita.common.resources', 'gettext', 'smart-table', 'ui.bootstrap', 'lrDragNDrop', 'org.bonita.common.resources.store', 'gettext', 'org.bonita.common.directives.selectAll', 'angular-growl', 'ngAnimate'])
+    .config(['growlProvider', function (growlProvider) {
+      growlProvider.globalPosition('top-center');
+    }])
     .value('casesColumns', [
       {name: 'App name', sortName: 'name', path: ['processDefinitionId', 'name'], selected: true},
       {name: 'Version', sortName: 'version', path: ['processDefinitionId', 'version'], selected: true},
@@ -119,8 +122,8 @@
         controller: 'caseFilterController'
       };
     })
-    .controller('casesListCtrl', ['$scope', 'caseAPI', 'casesColumns', 'defaultPageSize', 'defaultSort', 'defaultDeployedFields', '$location', 'pageSizes', 'defaultFilters', '$filter', '$anchorScroll',
-      function ($scope, caseAPI, casesColumns, defaultPageSize, defaultSort, defaultDeployedFields, $location, pageSizes, defaultFilters, $filter, $anchorScroll) {
+    .controller('casesListCtrl', ['$scope', 'caseAPI', 'casesColumns', 'defaultPageSize', 'defaultSort', 'defaultDeployedFields', '$location', 'pageSizes', 'defaultFilters', '$filter', '$anchorScroll', 'growl',
+      function ($scope, caseAPI, casesColumns, defaultPageSize, defaultSort, defaultDeployedFields, $location, pageSizes, defaultFilters, $filter, $anchorScroll, growl) {
         $scope.columns = casesColumns;
         $scope.pagination = {
           itemsPerPage: defaultPageSize,
@@ -138,9 +141,19 @@
           $scope.pagination.currentPage = 1;
           $scope.searchForCases();
         };
-        $scope.alerts = [];
         $scope.addAlert = function (msg) {
-          $scope.alerts.push(msg);
+          var options = {ttl: 3000, disableCountDown: true, disableIcons: true};
+          var content = msg.status + ' ' + (msg.statusText || '') + ' ' + (msg.errorMsg || '');
+          switch (msg.type) {
+            case 'success':
+              growl.success(content, options);
+              break;
+            case 'danger':
+              growl.error(content, options);
+              break;
+            default:
+              growl.info(content, options);
+          }
         };
 
         $scope.closeAlert = function (index) {
@@ -295,6 +308,7 @@
                 currentPromise.finally(deleteNextId);
               } else {
                 currentPromise.then(function () {
+                  //growl.success({type: 'success', status: suppressedCase + ' case(s) deleted successfully'});
                   $scope.addAlert({type: 'success', status: suppressedCase + ' case(s) deleted successfully'});
                 }).finally(function () {
                   $scope.pagination.currentPage = 1;

@@ -335,7 +335,7 @@
                 return localPromise;
               }
             };
-
+            var growl = jasmine.createSpy('growl', ['success', 'danger', 'info']);
             $controller('casesListCtrl', {
               '$scope': scope,
               'caseAPI': {
@@ -344,7 +344,8 @@
                     '$promise': localPromise
                   };
                 }
-              }
+              },
+              'growl' : growl
             });
             expect(scope.alerts).toEqual([
               {

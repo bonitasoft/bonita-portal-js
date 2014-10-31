@@ -1,7 +1,7 @@
-/* global element, by */
+/* global element, by, xdescribe */
 (function () {
   'use strict';
-  describe('case admin list', function () {
+  xdescribe('case admin list', function () {
 
     var caseList,
       width = 1280,
@@ -321,6 +321,37 @@
 
     describe('case admin displayed items per page', function () {
       it('should reset the pager when item displayed number is clicked', function () {
+        var caseList = element(by.css('#case-list'));
+
+        // click on the third number of page size buttons
+        var itemDisplayedNumber = caseList.all(by.css('#page-size label'));
+        browser.debugger();
+
+        itemDisplayedNumber.get(0).click();
+
+        // 1st page must be the active
+        // by default it is the first value of the item number (25)
+        var caseCheckBoxes25 = element.all(by.css('#case-list tbody tr.case-row td.case-checkbox input'));
+        expect(caseCheckBoxes25.count()).toBe(25);
+
+        itemDisplayedNumber.get(1).click();
+        var caseCheckBoxes50 = element.all(by.css('#case-list tbody tr.case-row td.case-checkbox input'));
+        expect(caseCheckBoxes50.count()).toBe(50);
+
+        itemDisplayedNumber.get(2).click();
+        var caseCheckBoxes100 = element.all(by.css('#case-list tbody tr.case-row td.case-checkbox input'));
+        expect(caseCheckBoxes100.count()).toBe(100);
+
+        itemDisplayedNumber.get(3).click();
+        caseCheckBoxes100 = element.all(by.css('#case-list tbody tr.case-row td.case-checkbox input'));
+        expect(caseCheckBoxes100.count()).toBe(200);
+
+      });
+    });
+
+
+    describe('case admin select all buttons', function () {
+      it('should select all checkboxes when selectAllCB is clicked', function () {
         var caseList = element(by.css('#case-list'));
 
         // click on the third number of page size buttons
