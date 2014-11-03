@@ -106,9 +106,9 @@
         //click on delete button
         getDeleteButton().click();
         //check the title
-        expect(getModal().element(by.css('.modal-content h3.modal-title')).getText()).toEqual('Case Deletion');
+        expect(getModal().element(by.css('.modal-content h3.modal-title')).getText()).toEqual('Confirm delete?');
         // check the modal content
-        expect(getModal().element(by.css('.modal-content .modal-body')).getText()).toEqual('Delete the selected 3 cases ?');
+        expect(getModal().element(by.css('.modal-content .modal-body')).getText()).toEqual('These cases will be definitively deleted.');
       });
 
       it('should delete 2 cases when 2 cases are selected and the confirmation modal is approved', function () {
@@ -131,6 +131,23 @@
         //TODO check if the list contains the selected elements when E2E tests will be connected to a real server
       });
 
+      it('should select all cases to delete when the column checkboxe is checked', function () {
+        // click on the column check box to select all
+        checkboxes.get(0).click();
+        // verify if the button is active
+        expect(getDeleteButtonDisabledAttribute()).toEqual(null);
+        //click on delete button
+        getDeleteButton().click();
+        // check the modal content
+        expect(getModal().element(by.css('.modal-content .modal-body')).getText()).toEqual('This case will be definitively deleted.');
+        // Cancel
+        getModal().element(by.css('#CancelCaseDeletionBtn')).click();
+        // click on the column check box to unselect all
+        checkboxes.get(0).click();
+        // verify if the button is active
+        expect(getDeleteButtonDisabledAttribute()).toEqual('true');
+      });
+
     });
     describe('select All button', function(){
       it('should select all items and try to delete them', function(){
@@ -141,7 +158,7 @@
         //click on delete button
         getDeleteButton().click();
         // check the modal content
-        expect(getModal().element(by.css('.modal-content .modal-body')).getText()).toEqual('Delete the selected 25 cases ?');
+        expect(getModal().element(by.css('.modal-content .modal-body')).getText()).toEqual('These cases will be definitively deleted.');
       });
       it('should select all items', function(){
         var selectAllCB = selectAllCheckbox.click();

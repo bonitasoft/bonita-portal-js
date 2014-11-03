@@ -6,9 +6,12 @@ exports.config = {
     chromeDriver: './node_modules/protractor/selenium/chromedriver',
     seleniumArgs: [],
 
-        specs: [
+    specs: [
         'test/e2e/**/*.e2e.js'
     ],
+    suites : {
+      'case-list-deletion': ['test/e2e/features/admin/cases/case-list-buttons.e2e.js']
+    },
 
     capabilities: {
         'browserName': 'chrome'

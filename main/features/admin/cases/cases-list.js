@@ -13,7 +13,7 @@
       {name: 'Started by', sortName: 'username', path: ['started_by', 'userName'], selected: true},
       {name: 'State', sortName: 'stateId', path: ['state'], selected: true}
     ])
-    .value('caseStatusValues', {started: 'started', failed: 'failed'})
+    .value('caseStatusValues', {started: 'started', error: 'error'})
     .value('pageSizes', [25, 50, 100, 200])
     .value('defaultPageSize', 25)
     .value('defaultSort', 'id')

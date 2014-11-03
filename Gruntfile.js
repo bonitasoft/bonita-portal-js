@@ -406,7 +406,9 @@ module.exports = function (grunt) {
       e2e: {
         options: {
           //configFile: "e2e.conf.js", // Target-specific config file
-          args: {} // Target-specific arguments
+          args: {
+            //suite : 'case-list-deletion'
+          } // Target-specific arguments
         }
       }
     },
