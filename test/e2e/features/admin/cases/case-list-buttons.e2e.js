@@ -21,7 +21,11 @@
       }
 
       function getCheckboxes() {
-        return element.all(by.css('.case-checkbox input[type=checkbox]'), caseList);
+        return element.all(by.css('tbody .case-checkbox input[type=checkbox]'), caseList);
+      }
+
+      function getColumnCheckbox() {
+        return element.all(by.css('thead .case-checkbox input[type=checkbox]'), caseList);
       }
 
       function getDeleteButtonDisabledAttribute() {
@@ -125,6 +129,23 @@
         getDeleteButton().click();
         getModal().element(by.css('#CancelCaseDeletionBtn')).click();
         //TODO check if the list contains the selected elements when E2E tests will be connected to a real server
+      });
+
+      it('should select all cases to delete when the column checkboxe is checked', function () {
+        // click on the column check box to select all
+        getColumnCheckbox().get(0).click();
+        // verify if the button is active
+        expect(getDeleteButtonDisabledAttribute()).toEqual(null);
+        //click on delete button
+        getDeleteButton().click();
+        // check the modal content
+        expect(getModal().element(by.css('.modal-content .modal-body')).getText()).toEqual('Delete the selected 25 cases ?');
+        // Cancel
+        getModal().element(by.css('#CancelCaseDeletionBtn')).click();
+        // click on the column check box to unselect all
+        getColumnCheckbox().get(0).click();
+        // verify if the button is active
+        expect(getDeleteButtonDisabledAttribute()).toEqual('true');
       });
 
     });
