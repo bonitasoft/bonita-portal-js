@@ -40,7 +40,7 @@ module.exports = function (grunt) {
       },
       js: {
         files: ['<%= portaljs.app %>/features/**/*.js', '<%= portaljs.app %>/commons/**/*.js', '<%= portaljs.app %>/assets/**/*.js'],
-        tasks: ['newer:jshint:all'],
+        tasks: ['newer:jshint:all', 'ngdocs:all'],
         options: {
           livereload: true
         }
@@ -427,7 +427,7 @@ module.exports = function (grunt) {
         dest: '<%= portaljs.app %>/docs',
         html5Mode: true,
         startPage: '/api',
-        title: 'Bonita Portal JS SP Documentation',
+        title: 'Bonita Portal JS Documentation',
         bestMatch: true
       },
       all: ['<%= portaljs.app %>/features/**/*.js', '<%= portaljs.app %>/common/**/*.js']

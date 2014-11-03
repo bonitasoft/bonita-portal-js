@@ -21,7 +21,7 @@
         }
       };
       beforeEach(inject(function ($controller) {
-        $controller('caseDeleteController', {
+        $controller('CaseDeleteCtrl', {
           '$scope': scope,
           '$modal': modal,
           'caseAPI': {
@@ -76,7 +76,7 @@
 
     describe('checkCaseIsNotSelected', function () {
       beforeEach(inject(function ($controller) {
-        $controller('caseDeleteController', {
+        $controller('CaseDeleteCtrl', {
           '$scope': scope
         });
       }));
@@ -126,7 +126,7 @@
             };
           }
         };
-        $controller('caseDeleteController', {
+        $controller('CaseDeleteCtrl', {
           '$scope': scope,
           'caseAPI': caseAPI,
           'store': {

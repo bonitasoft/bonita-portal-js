@@ -42,7 +42,7 @@
 
       describe('with incorrect columns', function () {
         beforeEach(inject(function ($controller) {
-          $controller('casesListCtrl', {
+          $controller('CaseListCtrl', {
             '$scope': scope,
             'caseAPI': caseAPI,
             'defaultPageSize': defaultPageSize,
@@ -77,7 +77,7 @@
       describe('with correct columns', function () {
 
         beforeEach(inject(function ($controller) {
-          $controller('casesListCtrl', {
+          $controller('CaseListCtrl', {
             '$scope': scope,
             'caseAPI': caseAPI,
             'defaultPageSize': defaultPageSize,
@@ -120,7 +120,7 @@
     describe('sort behaviour', function () {
       describe('select row', function () {
         beforeEach(inject(function ($controller) {
-          $controller('casesListCtrl', {
+          $controller('CaseListCtrl', {
             '$scope': scope
           });
         }));
@@ -148,7 +148,7 @@
         var anchorScroll = jasmine.createSpy();
 
         beforeEach(inject(function ($controller) {
-          $controller('casesListCtrl', {
+          $controller('CaseListCtrl', {
             '$scope': scope,
             'caseAPI': caseAPI,
             'defaultPageSize': defaultPageSize,
@@ -229,7 +229,7 @@
           var anchorScroll = jasmine.createSpy();
 
           beforeEach(inject(function ($controller) {
-            $controller('casesListCtrl', {
+            $controller('CaseListCtrl', {
               '$scope': scope,
               'caseAPI': caseAPI,
               'defaultPageSize': defaultPageSize,
@@ -301,7 +301,7 @@
               }
             };
             spyOn(location, 'url').and.callThrough();
-            $controller('casesListCtrl', {
+            $controller('CaseListCtrl', {
               '$scope': scope,
               'caseAPI': {
                 search: function () {
@@ -336,7 +336,7 @@
               }
             };
             var growl = jasmine.createSpyObj('growl', ['success', 'error', 'info']);
-            $controller('casesListCtrl', {
+            $controller('CaseListCtrl', {
               '$scope': scope,
               'caseAPI': {
                 search: function () {
@@ -359,7 +359,7 @@
 
     describe('change column visiblity', function () {
       beforeEach(inject(function ($controller) {
-        $controller('casesListCtrl', {
+        $controller('CaseListCtrl', {
           '$scope': scope
         });
       }));
@@ -377,7 +377,7 @@
 
     describe('filter column ', function () {
       beforeEach(inject(function ($controller) {
-        $controller('casesListCtrl', {
+        $controller('CaseListCtrl', {
           '$scope': scope
         });
       }));
@@ -393,7 +393,7 @@
 
     describe('select nbItems in page ', function () {
       beforeEach(inject(function ($controller) {
-        $controller('casesListCtrl', {
+        $controller('CaseListCtrl', {
           '$scope': scope
         });
         spyOn(scope, 'searchForCases');
@@ -416,7 +416,7 @@
 
     describe('formatContent', function () {
       beforeEach(inject(function ($controller) {
-        $controller('casesListCtrl', {
+        $controller('CaseListCtrl', {
           '$scope': scope
         });
       }));
@@ -438,7 +438,7 @@
     describe('addAlert', function () {
       var growl = jasmine.createSpyObj('growl', ['success', 'error', 'info']);
       beforeEach(inject(function ($controller) {
-        $controller('casesListCtrl', {
+        $controller('CaseListCtrl', {
           '$scope': scope,
           'growl' : growl
         });
@@ -484,7 +484,7 @@
 
     describe('reinitCases', function () {
       it('should remove sort and set page to 1', inject(function ($controller) {
-        $controller('casesListCtrl', {
+        $controller('CaseListCtrl', {
           '$scope': scope
         });
         scope.searchSort = {};
@@ -508,7 +508,7 @@
             return localPromise;
           }
         };
-        $controller('casesListCtrl', {
+        $controller('CaseListCtrl', {
           '$scope': scope,
           'store': {
             load: function () {
