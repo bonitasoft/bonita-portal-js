@@ -1,7 +1,7 @@
-/* global element, by, xdescribe*/
+/* global element, by, describe*/
 (function() {
   'use strict';
-  xdescribe('case admin filters', function () {
+  describe('case admin filters', function () {
     var caseList,
         caseFilters,
        width = 1280,

@@ -143,7 +143,7 @@
         };
         $scope.addAlert = function (msg) {
           var options = {ttl: 3000, disableCountDown: true, disableIcons: true};
-          var content = msg.status + ' ' + (msg.statusText || '') + ' ' + (msg.errorMsg || '');
+          var content = ((msg.status || '') + ' ' + (msg.statusText || '') + ' ' + (msg.errorMsg || '')).trim();
           switch (msg.type) {
             case 'success':
               growl.success(content, options);

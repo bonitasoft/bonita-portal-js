@@ -3,7 +3,7 @@
   'use strict';
   describe('admin cases list features', function () {
 
-    var scope, caseAPI, fullCases, promise ;
+    var scope, caseAPI, fullCases, promise;
 
     beforeEach(module('org.bonita.features.admin.cases.list'));
 
@@ -19,7 +19,7 @@
           method(fullCases);
           return promise;
         },
-        finally : function(finallyMethod){
+        finally: function (finallyMethod) {
           finallyMethod();
           return promise;
         }
@@ -240,7 +240,7 @@
                 {name: 'Version', sortName: 'version', path: ['processDefinitionId', 'version']},
                 {name: 'CaseId', sortName: 'id', path: ['id']}
               ],
-              '$anchorScroll' : anchorScroll
+              '$anchorScroll': anchorScroll
             });
           }));
           it('should call default sort on empty tableState', function () {
@@ -335,7 +335,7 @@
                 return localPromise;
               }
             };
-            var growl = jasmine.createSpy('growl', ['success', 'danger', 'info']);
+            var growl = jasmine.createSpyObj('growl', ['success', 'error', 'info']);
             $controller('casesListCtrl', {
               '$scope': scope,
               'caseAPI': {
@@ -345,19 +345,13 @@
                   };
                 }
               },
-              'growl' : growl
+              'growl': growl
             });
-            expect(scope.alerts).toEqual([
-              {
-                status: error.status,
-                statusText: error.statusText,
-                type: 'danger',
-                errorMsg: error.data.message,
-                resource: error.data.api + '/' + error.data.resource
-              }
-            ]);
-            scope.closeAlert(0);
-            expect(scope.alerts).toEqual([]);
+            expect(growl.error).toHaveBeenCalled();
+            expect(growl.error.calls.allArgs()).toEqual([[
+              error.status + ' ' + error.statusText + ' ' + error.data.message,
+              {ttl: 3000, disableCountDown: true, disableIcons: true}
+            ]]);
           }));
         });
       });
@@ -438,6 +432,53 @@
         var data = '2014-10-17 16:05:42.626';
         var expectedFormatedData = '2014-10-17 16:05';
         expect(scope.formatContent({date: true}, data)).toBe(expectedFormatedData);
+      });
+    });
+
+    describe('addAlert', function () {
+      var growl = jasmine.createSpyObj('growl', ['success', 'error', 'info']);
+      beforeEach(inject(function ($controller) {
+        $controller('casesListCtrl', {
+          '$scope': scope,
+          'growl' : growl
+        });
+      }));
+      it('should call growl to add Notification error', function(){
+        var error = {
+          status: 500,
+          statusText: 'Internal Server Error',
+          errorMsg : 'Invalid search on bpm/case',
+          type : 'danger'
+        };
+        scope.addAlert(error);
+        expect(growl.error).toHaveBeenCalled();
+        expect(growl.error.calls.allArgs()).toEqual([[
+          error.status + ' ' + error.statusText + ' ' + error.errorMsg,
+          {ttl: 3000, disableCountDown: true, disableIcons: true}
+        ]]);
+      });
+      it('should call growl to add Notification success', function(){
+        var error = {
+          statusText: 'successfully deleted 1 case',
+          type : 'success'
+        };
+        scope.addAlert(error);
+        expect(growl.success).toHaveBeenCalled();
+        expect(growl.success.calls.allArgs()).toEqual([[
+          error.statusText,
+          {ttl: 3000, disableCountDown: true, disableIcons: true}
+        ]]);
+      });
+      it('should call growl to add Notification default', function(){
+        var error = {
+          statusText: 'successfully deleted 1 case'
+        };
+        scope.addAlert(error);
+        expect(growl.info).toHaveBeenCalled();
+        expect(growl.info.calls.allArgs()).toEqual([[
+          error.statusText,
+          {ttl: 3000, disableCountDown: true, disableIcons: true}
+        ]]);
       });
     });
 

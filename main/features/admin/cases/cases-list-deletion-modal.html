@@ -1,8 +1,8 @@
  <div class="modal-header">
-    <h3 class="modal-title" translate>Case Deletion</h3>
+    <h3 class="modal-title"><translate>Confirm delete</translate> ?</h3>
 </div>
-<div class="modal-body" translate>
-    Delete the selected {{caseItems.length}} cases ?
+<div class="modal-body" translate translate-n="caseItems.length" translate-plural="These cases will be definitively deleted">
+    This case will be definitively deleted.
 </div>
 <div class="modal-footer">
     <button id="ValidateCaseDeletionBtn" class="btn btn-default" ng-click="ok()" translate>Delete</button>

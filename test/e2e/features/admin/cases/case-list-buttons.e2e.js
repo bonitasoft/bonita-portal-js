@@ -1,10 +1,10 @@
-/* global element, by, xdescribe */
+/* global element, by, describe */
 (function () {
   'use strict';
   describe('case admin  buttons', function () {
     var caseList,
-      width = 1920,
-      height = 1080;
+      width = 1280,
+      height = 800;
     browser.driver.manage().window().setSize(width, height);
 
     beforeEach(function () {
@@ -30,7 +30,7 @@
     function getDeleteButtonDisabledAttribute() {
       return getDeleteButton().getAttribute('disabled');
     }
-    xdescribe('case list : delete button ', function () {
+    describe('case list : delete button ', function () {
       it('should enable delete button when a checkbox is checked', function () {
 
         // click on a check box to activate the delete button

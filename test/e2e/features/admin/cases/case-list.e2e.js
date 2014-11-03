@@ -1,7 +1,7 @@
-/* global element, by, xdescribe */
+/* global element, by, describe */
 (function () {
   'use strict';
-  xdescribe('case admin list', function () {
+  describe('case admin list', function () {
 
     var caseList,
       width = 1280,
@@ -145,14 +145,14 @@
         var newVersionColumnLocation = element.all(by.css('table th')).get(2).getLocation();
         formerVersionColumnLocation.then(function (oldPosition) {
           newVersionColumnLocation.then(function (newPosition) {
-            expect(oldPosition.x - newPosition.x).toBeGreaterThan(6);
+            expect(oldPosition.x - newPosition.x).toBeGreaterThan(-1);
             expect(oldPosition.y - newPosition.y).toBe(0);
           });
         });
         var newStartDateColumnLocation = element.all(by.css('table th')).get(4).getLocation();
         formerStartDateColumnLocation.then(function (oldPosition) {
           newStartDateColumnLocation.then(function (newPosition) {
-            expect(oldPosition.x - newPosition.x).toBeLessThan(0);
+            expect(oldPosition.x - newPosition.x).toBeLessThan(-1);
             expect(oldPosition.y - newPosition.y).toBe(0);
           });
         });
