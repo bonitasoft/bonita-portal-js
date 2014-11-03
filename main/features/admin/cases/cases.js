@@ -6,7 +6,7 @@
       $stateProvider.state('bonita.casesList', {
         url: '/admin/cases/list',
         templateUrl: 'features/admin/cases/cases-list.html',
-        controller: 'casesListCtrl'
+        controller: 'CaseListCtrl'
       });
     }]);
 })();

@@ -91,6 +91,10 @@ body {
   cursor: pointer;
 }
 
+#case-list .case-row {
+  cursor: pointer;
+}
+
 #case-list .case-column.st-sort-ascent:after{
   content: '\25B2';
 }

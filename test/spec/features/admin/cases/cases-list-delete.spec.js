@@ -187,7 +187,7 @@
         expect(caseAPI.delete).toHaveBeenCalled();
         expect(caseAPI.delete.calls.allArgs()).toEqual([[{id: '324'}], [{id: '1'}]]);
         expect(scope.addAlert).toHaveBeenCalled();
-        expect(scope.addAlert.calls.allArgs()).toEqual([[{type: 'success', status: '2 case(s) deleted successfully'}]]);
+        expect(scope.addAlert.calls.allArgs()).toEqual([[{type: 'success', status: '2 cases deleted successfully'}]]);
         expect(scope.pagination.currentPage).toBe(1);
       });
       it('should delete all cases even if one of them fails', inject(function ($q) {
@@ -224,7 +224,7 @@
         expect(scope.displayError).toHaveBeenCalled();
         expect(scope.displayError.calls.allArgs()).toEqual([[{ status : 500, statusText : 'Internal Server Error', data : { resource : 'bpm/case', message : 'impossible to delete' } }]]);
         expect(scope.addAlert).toHaveBeenCalled();
-        expect(scope.addAlert.calls.allArgs()).toEqual([[{type: 'success', status: '1 case(s) deleted successfully'}]]);
+        expect(scope.addAlert.calls.allArgs()).toEqual([[{type: 'success', status: '1 case deleted successfully'}]]);
         expect(scope.pagination.currentPage).toBe(1);
       }));
       it('should delete nothing even all fails', inject(function ($q) {
@@ -259,7 +259,7 @@
           [{ status : 500, statusText : 'Internal Server Error', data : { resource : 'bpm/case', message : 'impossible to delete' } }]
         ]);
         expect(scope.addAlert).toHaveBeenCalled();
-        expect(scope.addAlert.calls.allArgs()).toEqual([[{type: 'success', status: '0 case(s) deleted successfully'}]]);
+        expect(scope.addAlert.calls.allArgs()).toEqual([[{type: 'success', status: '0 cases deleted successfully'}]]);
         expect(scope.searchForCases).toHaveBeenCalled();
         expect(scope.pagination.currentPage).toBe(1);
       }));

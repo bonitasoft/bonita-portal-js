@@ -16,7 +16,7 @@
       var caseListStateConfig = state.get('bonita.casesList');
       expect(caseListStateConfig.url).toBe('/admin/cases/list');
       expect(caseListStateConfig.templateUrl).toBe('features/admin/cases/cases-list.html');
-      expect(caseListStateConfig.controller).toBe('casesListCtrl');
+      expect(caseListStateConfig.controller).toBe('CaseListCtrl');
     }));
   });
 })();

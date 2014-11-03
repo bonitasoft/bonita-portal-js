@@ -534,8 +534,10 @@
           scope.filters = [
             {}
           ];
+          scope.pagination.currentPage = 2;
           scope.$apply();
           expect(scope.searchForCases).toHaveBeenCalled();
+          expect(scope.pagination.currentPage).toBe(1);
         });
       });
       describe('build filter', function () {
@@ -544,6 +546,7 @@
           scope.selectedProcessDefinition = processId;
           scope.buildFilters();
           expect(scope.filters).toEqual(['processDefinitionId=' + processId]);
+          expect(scope.pagination.currentPage).toBe(1);
         });
         it('should have process definition Id only even id app name is set', function () {
           var processId = '2121354687951';
@@ -551,6 +554,7 @@
           scope.selectedApp = 'Process1';
           scope.buildFilters();
           expect(scope.filters).toEqual(['processDefinitionId=' + processId]);
+          expect(scope.pagination.currentPage).toBe(1);
         });
         it('should have app name', function () {
           scope.$digest();
@@ -558,6 +562,7 @@
           scope.selectedApp = processName;
           scope.buildFilters();
           expect(scope.filters).toEqual(['name=' + processName]);
+          expect(scope.pagination.currentPage).toBe(1);
         });
       });
     });

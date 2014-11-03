@@ -32,11 +32,12 @@
                 <th ng-repeat="col in columns  | filter : filterColumn"
                     st-sort="{{col.sortName}}" class="case-column"><p ng-class="{'pull-right': col.align}">{{col.name | translate}}</p>
                 </th>
+                <th style="width : 50px;"></th>
               </tr>
               </thead>
             <tfoot>
             <tr>
-              <td colspan="{{columns.length+1}}">
+              <td colspan="{{columns.length+2}}">
                 <div id="cases-results-size" class="col-md-2 pull-left"><p class="text-muted" translate>Results: {{currentFirstResultIndex}} to {{currentLastResultIndex}} of {{pagination.total}}</p></div>
                 <div class="pull-right">
                   <pagination ng-click="searchForCases()" boundary-links="true" total-items="pagination.total" ng-model="pagination.currentPage" items-per-page="pagination.itemsPerPage " previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;" max-size="5"></pagination>
@@ -50,7 +51,8 @@
               <td class="case-checkbox">
                 <input id="case-check-{{case['ID']}}" type="checkbox" ng-model="case.selected">
               </td>
-              <td class="case-detail" ng-click="selectCase(case);" ng-repeat="col in columns   | filter : filterColumn"><p ng-class="{'pull-right': col.align}">{{formatContent(col, case[col.name])}}</p></td>
+              <td class="case-detail" ng-click="goToCase(case.id);" ng-repeat="col in columns   | filter : filterColumn"><p ng-class="{'pull-right': col.align}">{{formatContent(col, case[col.name])}}</p></td>
+              <td><a ng-click="goToCase(case.id);" class="btn btn-default"><span class="glyphicon glyphicon-eye-open"></span><a></td>
             </tr>
             </tbody>
 

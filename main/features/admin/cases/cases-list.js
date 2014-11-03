@@ -20,7 +20,7 @@
       {name: 'Started by', sortName: 'username', path: ['started_by', 'userName'], selected: true},
       {name: 'State', sortName: 'stateId', path: ['state'], selected: true}
     ])
-    .value('caseStatusValues', {started: 'started', error: 'error'})
+    .value('caseStatusValues', {started: 'Started', error: 'Failed'})
     .value('pageSizes', [25, 50, 100, 200])
     .value('defaultPageSize', 25)
     .value('defaultSort', 'id')
@@ -231,12 +231,12 @@
         }).map(function (caseItem) {
           return caseItem.id;
         });
-        var suppressedCase = 0;
+        var nbOfDeletedCases = 0;
         if (caseIds && caseIds.length) {
           //this function chains the case deletion
           var deletePromise = function (id) {
             var currentPromise = caseAPI.delete({id: id}).$promise.then(function () {
-              suppressedCase++;
+              nbOfDeletedCases++;
             }, $scope.displayError);
             if (caseIds && caseIds.length) {
               var deleteNextId = function deleteNextId() {
@@ -245,7 +245,7 @@
               currentPromise.finally(deleteNextId);
             } else {
               currentPromise.then(function () {
-                $scope.addAlert({type: 'success', status: suppressedCase + gettextCatalog.getString(' case(s) deleted successfully')});
+                $scope.addAlert({type: 'success', status: gettextCatalog.getPlural(nbOfDeletedCases, '{{nbOfDeletedCases}} case deleted successfully', '{{nbOfDeletedCases}} cases deleted successfully', {nbOfDeletedCases : nbOfDeletedCases})});
               }).finally(function () {
                 $scope.pagination.currentPage = 1;
                 $scope.searchForCases();
@@ -298,7 +298,7 @@
     };
   }
 
-  CaseListCtrl.$inject = ['$scope', 'caseAPI', 'casesColumns', 'defaultPageSize', 'defaultSort', 'defaultDeployedFields', '$location', 'pageSizes', 'defaultFilters', '$filter', '$anchorScroll', 'growl'];
+  CaseListCtrl.$inject = ['$scope', 'caseAPI', 'casesColumns', 'defaultPageSize', 'defaultSort', 'defaultDeployedFields', '$location', 'pageSizes', 'defaultFilters', '$filter', '$anchorScroll', 'growl', '$log', '$window'];
 
   /**
    * @ngdoc object
@@ -313,13 +313,14 @@
    * @requires defaultSort
    * @requires defaultDeployedFields
    * @requires $location
+   * @requires $window
    * @requires pageSizes
    * @requires defaultFilters
    * @requires $filter
    * @requires $anchorScroll
    * @requires growl
    */
-  function CaseListCtrl($scope, caseAPI, casesColumns, defaultPageSize, defaultSort, defaultDeployedFields, $location, pageSizes, defaultFilters, $filter, $anchorScroll, growl) {
+  function CaseListCtrl($scope, caseAPI, casesColumns, defaultPageSize, defaultSort, defaultDeployedFields, $location, pageSizes, defaultFilters, $filter, $anchorScroll, growl, $log, $window) {
     /**
      * @ngdoc property
      * @name o.b.f.admin.cases.list.CaseListCtrl#columns
@@ -380,6 +381,7 @@
     };
 
     $scope.$watch('filters', function () {
+      $scope.pagination.currentPage = 1;
       $scope.searchForCases();
     }, true);
 
@@ -455,13 +457,16 @@
 
     $scope.searchForCases();
 
-    $scope.selectCase = function (caseItem) {
-      if (caseItem) {
-        caseItem.selected = caseItem && !caseItem.selected;
-      }
+    $scope.getCurrentProfile = function(){
+      var currentProfileMatcher = $window.top.location.hash.match(/\b_pf=\d+/);
+      return (currentProfileMatcher.length)?currentProfileMatcher[0]:'';
     };
 
-    $scope.selectColumn = function (column) {
+    $scope.goToCase = function (caseItemId){
+      $window.top.location.hash='id='+caseItemId+'&_p=casemoredetailsadmin&'+$scope.getCurrentProfile();
+    };
+
+ $scope.selectColumn = function (column) {
       if (column) {
         column.selected = !column.selected;
       }
