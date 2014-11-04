@@ -458,15 +458,19 @@
     $scope.searchForCases();
 
     $scope.getCurrentProfile = function(){
-      var currentProfileMatcher = $window.top.location.hash.match(/\b_pf=\d+/);
-      return (currentProfileMatcher.length)?currentProfileMatcher[0]:'';
+      if($window && $window.top && $window.top.location && $window.top.location.hash){
+        var currentProfileMatcher = $window.top.location.hash.match(/\b_pf=\d+\b/);
+        return (currentProfileMatcher.length)?currentProfileMatcher[0]:'';
+      }
     };
 
     $scope.goToCase = function (caseItemId){
-      $window.top.location.hash='id='+caseItemId+'&_p=casemoredetailsadmin&'+$scope.getCurrentProfile();
+      if(caseItemId){
+        $window.top.location.hash='id='+caseItemId+'&_p=casemoredetailsadmin&'+$scope.getCurrentProfile();
+      }
     };
 
- $scope.selectColumn = function (column) {
+    $scope.selectColumn = function (column) {
       if (column) {
         column.selected = !column.selected;
       }

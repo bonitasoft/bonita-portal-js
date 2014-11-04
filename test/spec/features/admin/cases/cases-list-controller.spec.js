@@ -118,26 +118,53 @@
     });
 
     describe('sort behaviour', function () {
-      describe('select row', function () {
-        beforeEach(inject(function ($controller) {
+      describe('go to case details', function () {
+        var mockedWindow;
+        beforeEach(inject(function($controller){
+          mockedWindow = {
+              top : {
+                location:{}
+              }
+            };
           $controller('CaseListCtrl', {
-            '$scope': scope
+            '$scope': scope,
+            '$window' : mockedWindow
           });
         }));
-        it('should not throw error on empty argument', function () {
-          scope.selectCase();
-        });
+        describe('go to case function', function(){
+          beforeEach(function () {
+            spyOn(scope, 'getCurrentProfile').and.returnValue('_pf=2');
+          });
+          it('should change top location hash to case detail', function () {
+            scope.goToCase();
+            expect(mockedWindow.top.location.hash).toBeUndefined();
+          });
 
-        it('should have the given case selected if it was not', function () {
-          var caseItem = {};
-          scope.selectCase(caseItem);
-          expect(caseItem.selected).toBeTruthy();
+          it('should change top location hash to case detail', function () {
+            var caseItemId = 123;
+            scope.goToCase(caseItemId);
+            expect(mockedWindow.top.location.hash).toEqual('id=123&_p=casemoredetailsadmin&_pf=2');
+            caseItemId = '4568';
+            scope.goToCase(caseItemId);
+            expect(mockedWindow.top.location.hash).toEqual('id=4568&_p=casemoredetailsadmin&_pf=2');
+          });
         });
-
-        it('should have the given case unselected if it was', function () {
-          var caseItem = {selected: true};
-          scope.selectCase(caseItem);
-          expect(caseItem.selected).toBeFalsy();
+        describe('retrieve current profile from top Url', function(){
+          it('should not throw error when no top or hash empty', function(){
+            expect(scope.getCurrentProfile()).toBeUndefined();
+            delete mockedWindow.top;
+            expect(scope.getCurrentProfile()).toBeUndefined();
+          });
+          it('should find _pf=2 from top window', function(){
+            mockedWindow.top.location.hash = '?_p=ng-caselistingadmin&_pf=2';
+            expect(scope.getCurrentProfile()).toBe('_pf=2');
+            mockedWindow.top.location.hash = '?_pf=372&_p=ng-caselistingadmin';
+            expect(scope.getCurrentProfile()).toBe('_pf=372');
+            mockedWindow.top.location.hash = '?_p=ng-caselistingadmin&_pf=452&_pf=6';
+            expect(scope.getCurrentProfile()).toBe('_pf=452');
+            mockedWindow.top.location.hash = '_pf=122';
+            expect(scope.getCurrentProfile()).toBe('_pf=122');
+          });
         });
       });
 
