@@ -105,6 +105,7 @@
   })({
     'userAPI': 'identity/user',
     'caseAPI': 'bpm/case',
+    'archivedCaseAPI': 'bpm/archivedCase',
     'processAPI': 'bpm/process',
     'humanTaskAPI': 'bpm/humanTask',
     'profileAPI': 'portal/profile',

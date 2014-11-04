@@ -8,7 +8,7 @@
    * describes the case list components
    */
 
-  angular.module('org.bonita.features.admin.cases.list', ['org.bonita.common.resources', 'gettext', 'smart-table', 'ui.bootstrap', 'lrDragNDrop', 'org.bonita.common.resources.store', 'gettext', 'org.bonita.common.directives.selectAll', 'angular-growl', 'ngAnimate', 'gettext'])
+  angular.module('org.bonita.features.admin.cases.list', ['org.bonita.common.resources', 'gettext', 'smart-table', 'ui.bootstrap', 'lrDragNDrop', 'org.bonita.common.resources.store', 'org.bonita.common.directives.selectAll', 'angular-growl', 'ngAnimate'])
     .config(['growlProvider', function (growlProvider) {
       growlProvider.globalPosition('top-center');
     }])
@@ -25,122 +25,28 @@
     .value('pageSizes', [25, 50, 100, 200])
     .value('defaultPageSize', 25)
     .value('defaultSort', 'id')
-    .value('defaultFilters', {appVersion: 'All versions', appName: 'All apps', caseStatus: 'All states'})
+    .value('defaultFilters', {appVersion: 'All', appName: 'All', caseStatus: 'All'})
     .value('defaultDeployedFields', ['processDefinitionId', 'started_by', 'startedBySubstitute'])
-    .controller('caseFilterController', ['$scope', 'store', 'processAPI', 'defaultFilters', 'caseStatusValues', function ($scope, store, processAPI, defaultFilters, caseStatusValues) {
-      $scope.selectedApp = defaultFilters.appName;
-      $scope.selectedVersion = defaultFilters.appVersion;
-      $scope.selectedStatus = defaultFilters.caseStatus;
-      $scope.defaultFilters = defaultFilters;
-      $scope.caseStatusValues = caseStatusValues;
-      $scope.caseStatusValues[defaultFilters.caseStatus] = defaultFilters.caseStatus;
-      $scope.apps = [];
-      $scope.versions = [];
-      $scope.appNames = [];
-      $scope.allCasesSelected = false;
-
-      store.load(processAPI, {}).then(function (processes) {
-        $scope.apps = processes;
-        var appNamesArray = processes.map(function (process) {
-          return process.name;
-        });
-        appNamesArray.forEach(function (processName) {
-          if (processName && $.inArray(processName, $scope.appNames) <= 0) {
-            $scope.appNames.push(processName);
-          }
-        });
-      });
-
-      $scope.selectApp = function (selectedAppName) {
-        if (selectedAppName) {
-          if (selectedAppName !== $scope.selectedApp) {
-            $scope.selectedApp = selectedAppName;
-          }
-          //selected App is the same than before, do nothing
-        } else {
-          $scope.selectedApp = defaultFilters.appName;
-        }
-      };
-
-      $scope.selectVersion = function (selectedAppVersion) {
-        if (selectedAppVersion && selectedAppVersion !== defaultFilters.appVersion) {
-          $scope.selectedVersion = selectedAppVersion;
-        } else {
-          $scope.selectedVersion = defaultFilters.appVersion;
-        }
-      };
-
-      $scope.selectCaseStatus = function (selectCaseStatus) {
-        if (selectCaseStatus && selectCaseStatus !== defaultFilters.caseStatus) {
-          $scope.selectedStatus = selectCaseStatus;
-        } else {
-          $scope.selectedStatus = defaultFilters.caseStatus;
-        }
-      };
-
-      $scope.filterVersion = function (appName) {
-        $scope.versions = [];
-        $scope.selectedVersion = defaultFilters.appVersion;
-        if ($scope.apps && $scope.apps.filter) {
-          $scope.versions = $scope.apps.filter(function (app) {
-            return app && app.name === appName && app.version;
-          }).map(function (app) {
-            return app.version;
-          });
-        }
-        if ($scope && $scope.versions && $scope.versions.length === 1) {
-          $scope.selectedVersion = $scope.versions[0];
-        }
-      };
-
-      $scope.filterProcessDefinition = function (selectedAppVersion) {
-        if (selectedAppVersion && $scope.selectedApp && $scope.apps) {
-          var matchingProcessDefs = $scope.apps.filter(function (app) {
-            return app && app.name === $scope.selectedApp && selectedAppVersion === app.version;
-          });
-          if (matchingProcessDefs && matchingProcessDefs.length) {
-            $scope.selectedProcessDefinition = matchingProcessDefs[0] && matchingProcessDefs[0].id;
-          } else {
-            delete $scope.selectedProcessDefinition;
-          }
-        } else {
-          delete $scope.selectedProcessDefinition;
-        }
-      };
-      //we cannot watch the updateFilter function directly otherwise
-      //it will not be mockable
-      $scope.$watch('selectedApp', function () {
-        $scope.filterVersion($scope.selectedApp);
-        delete $scope.selectedProcessDefinition;
-        $scope.buildFilters();
-      });
-      $scope.$watch('selectedVersion', function () {
-        $scope.filterProcessDefinition($scope.selectedVersion);
-        $scope.buildFilters();
-      });
-      $scope.$watch('selectedStatus', function () {
-        $scope.buildFilters();
-      });
-    }])
-    .directive('caseFilters', function () {
+    .controller('ActiveCaseFilterController', ['$scope', 'store', 'processAPI', 'defaultFilters', 'caseStatusValues', CaseFilterController])
+    .directive('activeCaseFilters', function () {
       return {
         restrict: 'E',
-        require: '^CaseListCtrl',
+        require: '^ActiveCaseListCtrl',
         templateUrl: 'features/admin/cases/cases-list-filters.html',
-        controller: 'caseFilterController'
+        controller: 'ActiveCaseFilterController'
       };
     })
-    .controller('CaseListCtrl', CaseListCtrl)
-    .controller('CaseDeleteCtrl', CaseDeleteCtrl)
+    .controller('ActiveCaseListCtrl', ['$scope', 'caseAPI', 'casesColumns', 'defaultPageSize', 'defaultSort', 'defaultDeployedFields', '$location', 'pageSizes', 'defaultFilters', '$filter', '$anchorScroll', 'growl', '$log', '$window', 'moreDetailToken', CaseListCtrl])
+    .controller('ActiveCaseDeleteCtrl', ['$scope', '$modal', 'caseAPI', 'gettextCatalog', CaseDeleteCtrl])
     .directive('caseDelete',
     function () {
       return {
         restrict: 'A',
-        require: '^CaseListCtrl',
-        controller: 'CaseDeleteCtrl'
+        require: '^ActiveCaseListCtrl',
+        controller: 'ActiveCaseDeleteCtrl'
       };
     })
-    .controller('DeleteCaseModalCtrl', DeleteCaseModalCtrl)
+    .controller('DeleteCaseModalCtrl', ['$scope', '$modalInstance', 'caseItems', DeleteCaseModalCtrl])
     .directive('resizableColumn', ['$timeout', '$interval', function ($timeout) {
       return {
         restrict: 'A',
@@ -157,11 +63,149 @@
           scope.$watch('columns', resizeColumn, true);
         }
       };
-    }]);
+    }])
+    .value('archivedCasesColumns', [
+      {name: 'App name', sortName: 'name', path: ['processDefinitionId', 'name'], selected: true},
+      {name: 'Version', sortName: 'version', path: ['processDefinitionId', 'version'], selected: true},
+      {name: 'ID', sortName: 'id', path: ['sourceObjectId'], selected: true, align: 'right'},
+      {name: 'Start date', sortName: 'startDate', path: ['start'], selected: true, date: true},
+      {name: 'Started by', sortName: 'username', path: ['started_by', 'userName'], selected: true},
+      {name: 'End date', sortName: 'endDate', path: ['end_date'], selected: true, date: true},
+      {name: 'State', sortName: 'stateId', path: ['state'], selected: true}
+    ])
+    .value('archivedCaseStatusValues', {started: 'Started', error: 'Failed'})
+    .value('archivedMoreDetailToken', 'archivedcasemoredetailsadmin')
+    .controller('ArchivedCaseFilterController', ['$scope', 'store', 'processAPI', 'defaultFilters', 'caseStatusValues', CaseFilterController])
+    .directive('archivedCaseFilters', function () {
+      return {
+        restrict: 'E',
+        require: '^ArchivedCaseListCtrl',
+        templateUrl: 'features/admin/cases/cases-list-filters.html',
+        controller: 'ArchivedCaseFilterController'
+      };
+    })
+    .controller('ArchivedCaseListCtrl', ['$scope', 'archivedCaseAPI', 'archivedCasesColumns', 'defaultPageSize', 'defaultSort', 'defaultDeployedFields', '$location', 'pageSizes', 'defaultFilters', '$filter', '$anchorScroll', 'growl', '$log', '$window', 'archivedMoreDetailToken', CaseListCtrl])
+    .controller('ArchivedCaseDeleteCtrl', ['$scope', '$modal', 'archivedCaseAPI', 'gettextCatalog', CaseDeleteCtrl])
+    .directive('archivedCaseDelete',
+    function () {
+      return {
+        restrict: 'A',
+        require: '^ArchivedCaseListCtrl',
+        controller: 'ArchivedCaseDeleteCtrl'
+      };
+    })
+    .controller('DeleteCaseModalCtrl', ['$scope', '$modalInstance', 'caseItems', DeleteCaseModalCtrl]);
+
 
   //////////////////////
+  /**
+   * @ngdoc object
+   * @name o.b.f.admin.cases.list.CaseFilterController
+   * @description
+   * This is a controller that manages the case search filters
+   *
+   * @requires $scope
+   * @requires store
+   * @requires processAPI
+   * @requires defaultFilters
+   * @requires caseStatusValues
+   */
+  /* jshint -W003 */
+  function CaseFilterController($scope, store, processAPI, defaultFilters, caseStatusValues) {
+    $scope.selectedApp = defaultFilters.appName;
+    $scope.selectedVersion = defaultFilters.appVersion;
+    $scope.selectedStatus = defaultFilters.caseStatus;
+    $scope.defaultFilters = defaultFilters;
+    $scope.caseStatusValues = caseStatusValues;
+    $scope.caseStatusValues[defaultFilters.caseStatus] = defaultFilters.caseStatus;
+    $scope.apps = [];
+    $scope.versions = [];
+    $scope.appNames = [];
+    $scope.allCasesSelected = false;
 
-  CaseDeleteCtrl.$inject = ['$scope', '$modal', 'caseAPI', 'gettextCatalog'];
+    store.load(processAPI, {}).then(function (processes) {
+      $scope.apps = processes;
+      var appNamesArray = processes.map(function (process) {
+        return process.name;
+      });
+      appNamesArray.forEach(function (processName) {
+        if (processName && $.inArray(processName, $scope.appNames) <= 0) {
+          $scope.appNames.push(processName);
+        }
+      });
+    });
+
+    $scope.selectApp = function (selectedAppName) {
+      if (selectedAppName) {
+        if (selectedAppName !== $scope.selectedApp) {
+          $scope.selectedApp = selectedAppName;
+        }
+        //selected App is the same than before, do nothing
+      } else {
+        $scope.selectedApp = defaultFilters.appName;
+      }
+    };
+
+    $scope.selectVersion = function (selectedAppVersion) {
+      if (selectedAppVersion && selectedAppVersion !== defaultFilters.appVersion) {
+        $scope.selectedVersion = selectedAppVersion;
+      } else {
+        $scope.selectedVersion = defaultFilters.appVersion;
+      }
+    };
+
+    $scope.selectCaseStatus = function (selectCaseStatus) {
+      if (selectCaseStatus && selectCaseStatus !== defaultFilters.caseStatus) {
+        $scope.selectedStatus = selectCaseStatus;
+      } else {
+        $scope.selectedStatus = defaultFilters.caseStatus;
+      }
+    };
+
+    $scope.filterVersion = function (appName) {
+      $scope.versions = [];
+      $scope.selectedVersion = defaultFilters.appVersion;
+      if ($scope.apps && $scope.apps.filter) {
+        $scope.versions = $scope.apps.filter(function (app) {
+          return app && app.name === appName && app.version;
+        }).map(function (app) {
+          return app.version;
+        });
+      }
+      if ($scope && $scope.versions && $scope.versions.length === 1) {
+        $scope.selectedVersion = $scope.versions[0];
+      }
+    };
+
+    $scope.filterProcessDefinition = function (selectedAppVersion) {
+      if (selectedAppVersion && $scope.selectedApp && $scope.apps) {
+        var matchingProcessDefs = $scope.apps.filter(function (app) {
+          return app && app.name === $scope.selectedApp && selectedAppVersion === app.version;
+        });
+        if (matchingProcessDefs && matchingProcessDefs.length) {
+          $scope.selectedProcessDefinition = matchingProcessDefs[0] && matchingProcessDefs[0].id;
+        } else {
+          delete $scope.selectedProcessDefinition;
+        }
+      } else {
+        delete $scope.selectedProcessDefinition;
+      }
+    };
+    //we cannot watch the updateFilter function directly otherwise
+    //it will not be mockable
+    $scope.$watch('selectedApp', function () {
+      $scope.filterVersion($scope.selectedApp);
+      delete $scope.selectedProcessDefinition;
+      $scope.buildFilters();
+    });
+    $scope.$watch('selectedVersion', function () {
+      $scope.filterProcessDefinition($scope.selectedVersion);
+      $scope.buildFilters();
+    });
+    $scope.$watch('selectedStatus', function () {
+      $scope.buildFilters();
+    });
+  }
 
   /**
    * @ngdoc object
@@ -174,9 +218,7 @@
    * @requires caseAPI
    * @requires gettextCatalog
    */
-  /* jshint -W003 */
   function CaseDeleteCtrl ($scope, $modal, caseAPI, gettextCatalog) {
-    /* jshint +W003 */
     /**
      * @ngdoc method
      * @name o.b.f.admin.cases.list.CaseDeleteCtrl#confirmDeleteSelectedCases
@@ -259,8 +301,6 @@
     };
   }
 
-  DeleteCaseModalCtrl.$inject = ['$scope', '$modalInstance', 'caseItems'];
-
   /**
    * @ngdoc object
    * @name o.b.f.admin.cases.list.DeleteCaseModalCtrl
@@ -298,8 +338,6 @@
       $modalInstance.dismiss('cancel');
     };
   }
-
-  CaseListCtrl.$inject = ['$scope', 'caseAPI', 'casesColumns', 'defaultPageSize', 'defaultSort', 'defaultDeployedFields', '$location', 'pageSizes', 'defaultFilters', '$filter', '$anchorScroll', 'growl', '$log', '$window', 'moreDetailToken'];
 
   /**
    * @ngdoc object
@@ -465,9 +503,15 @@
       }
     };
 
+    $scope.getCaseDetailUrl = function (caseItemId){
+      if(caseItemId){
+        return $window.top.location.pathname + ($window.top.location.search || '') + '#?id='+caseItemId+'&_p='+moreDetailToken+'&'+$scope.getCurrentProfile();
+      }
+    };
+
     $scope.goToCase = function (caseItemId){
       if(caseItemId){
-        $window.top.location.hash='id='+caseItemId+'&_p='+moreDetailToken+'&'+$scope.getCurrentProfile();
+        $window.top.location.href = $scope.getCaseDetailUrl(caseItemId);
       }
     };
 

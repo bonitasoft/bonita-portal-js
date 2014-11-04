@@ -29,13 +29,13 @@
     }));
 
     it('should load directive without any error', inject(function($compile){
-      $compile('<case-filters></case-filters')(scope);
+      $compile('<active-case-filters></active-case-filters')(scope);
     }));
 
     describe('controller initialization', function () {
       describe('process filters init', function () {
         beforeEach(inject(function ($controller) {
-          $controller('caseFilterController', {
+          $controller('ActiveCaseFilterController', {
             '$scope': scope,
             'defaultFilters': {},
             'store': {
@@ -66,7 +66,7 @@
             defaultSelectedVersion = 'default Version';
           defaultFilters.appName = defaultSelectedApp;
           defaultFilters.appVersion = defaultSelectedVersion;
-          $controller('caseFilterController', {
+          $controller('ActiveCaseFilterController', {
             '$scope': scope,
             'defaultFilters': defaultFilters
           });
@@ -90,7 +90,7 @@
             {name: 'App3'}
           ]);
           store.load = storeLoadFunction(globalProcesses);
-          $controller('caseFilterController', {
+          $controller('ActiveCaseFilterController', {
             '$scope': scope,
             'defaultFilters': defaultFilters,
             'store' : store
@@ -116,7 +116,7 @@
               {name: 'App3'}
             ]);
           store.load = storeLoadFunction(globalProcesses);
-          $controller('caseFilterController', {
+          $controller('ActiveCaseFilterController', {
             '$scope': scope,
             'defaultFilters': defaultFilters,
             'store' : store
@@ -136,7 +136,7 @@
       describe('AppName', function () {
         var allApps = 'AllApps';
         beforeEach(inject(function ($controller) {
-          $controller('caseFilterController', {
+          $controller('ActiveCaseFilterController', {
             '$scope': scope,
             'defaultFilters': {appName: allApps},
             'store': {
@@ -202,7 +202,7 @@
         var allVersions = 'All Versions';
         describe('version filter update ', function () {
           beforeEach(inject(function ($controller) {
-            $controller('caseFilterController', {
+            $controller('ActiveCaseFilterController', {
               '$scope': scope,
               'defaultFilters': {appVersion: allVersions},
               'store': {
@@ -265,7 +265,7 @@
 
         describe('App Version selection', function () {
           beforeEach(inject(function ($controller) {
-            $controller('caseFilterController', {
+            $controller('ActiveCaseFilterController', {
               '$scope': scope,
               'defaultFilters': {appVersion: allVersions},
               'store': {
@@ -348,7 +348,7 @@
         });
         describe('filterProcessDefinition', function () {
           beforeEach(inject(function ($controller) {
-            $controller('caseFilterController', {
+            $controller('ActiveCaseFilterController', {
               '$scope': scope
             });
           }));
@@ -396,7 +396,7 @@
         describe('filterStatus', function(){
           var allStatus = 'allStatus'  ;
           beforeEach(inject(function ($controller) {
-            $controller('caseFilterController', {
+            $controller('ActiveCaseFilterController', {
               '$scope': scope,
               'defaultFilters' : {caseStatus : allStatus}
             });
@@ -423,7 +423,7 @@
         describe('filter status update', function(){
           var allStatus = 'allStatus';
           beforeEach(inject(function ($controller) {
-            $controller('caseFilterController', {
+            $controller('ActiveCaseFilterController', {
               '$scope': scope,
               'defaultFilters':  {caseStatus : allStatus},
               'store': {

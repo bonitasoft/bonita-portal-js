@@ -1,0 +1,11 @@
+<div  id="case-list" class="col-md-12">
+  <tabset>
+    <tab ui-sref='bonita.cases.active' ui-sref-active='active'>
+      <tab-heading><translate>Active Cases</translate></tab-heading>
+    </tab>
+    <tab ui-sref='bonita.cases.archived' ui-sref-active='active'>
+      <tab-heading><translate>Archived Cases</translate></tab-heading>
+    </tab>
+  </tabset>
+  <div ui-view='case-list'></div>
+</div>

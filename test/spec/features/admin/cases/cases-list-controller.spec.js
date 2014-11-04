@@ -42,7 +42,7 @@
 
       describe('with incorrect columns', function () {
         beforeEach(inject(function ($controller) {
-          $controller('CaseListCtrl', {
+          $controller('ActiveCaseListCtrl', {
             '$scope': scope,
             'caseAPI': caseAPI,
             'defaultPageSize': defaultPageSize,
@@ -77,7 +77,7 @@
       describe('with correct columns', function () {
 
         beforeEach(inject(function ($controller) {
-          $controller('CaseListCtrl', {
+          $controller('ActiveCaseListCtrl', {
             '$scope': scope,
             'caseAPI': caseAPI,
             'defaultPageSize': defaultPageSize,
@@ -126,7 +126,7 @@
                 location:{}
               }
             };
-          $controller('CaseListCtrl', {
+          $controller('ActiveCaseListCtrl', {
             '$scope': scope,
             '$window' : mockedWindow
           });
@@ -134,19 +134,32 @@
         describe('go to case function', function(){
           beforeEach(function () {
             spyOn(scope, 'getCurrentProfile').and.returnValue('_pf=2');
+            mockedWindow.top.location.pathname = '/bonita/portal/homepage';
+            mockedWindow.top.location.search = '?tenant=1';
+          });
+          it('should change top location hash to case detail', function () {
+            expect(scope.getCaseDetailUrl()).toBeUndefined();
+          });
+
+          it('should change top location hash to case detail', function () {
+            var caseItemId = 123;
+            expect(scope.getCaseDetailUrl(caseItemId)).toEqual('/bonita/portal/homepage?tenant=1#?id=123&_p=casemoredetailsadmin&_pf=2');
+            caseItemId = '4658';
+            scope.getCaseDetailUrl(caseItemId);
+            expect(scope.getCaseDetailUrl(caseItemId)).toEqual('/bonita/portal/homepage?tenant=1#?id=4658&_p=casemoredetailsadmin&_pf=2');
           });
           it('should change top location hash to case detail', function () {
             scope.goToCase();
-            expect(mockedWindow.top.location.hash).toBeUndefined();
+            expect(mockedWindow.top.location).toEqual({pathname : '/bonita/portal/homepage', search : '?tenant=1'});
           });
 
           it('should change top location hash to case detail', function () {
             var caseItemId = 123;
             scope.goToCase(caseItemId);
-            expect(mockedWindow.top.location.hash).toEqual('id=123&_p=casemoredetailsadmin&_pf=2');
+            expect(mockedWindow.top.location.href).toEqual('/bonita/portal/homepage?tenant=1#?id=123&_p=casemoredetailsadmin&_pf=2');
             caseItemId = '4568';
             scope.goToCase(caseItemId);
-            expect(mockedWindow.top.location.hash).toEqual('id=4568&_p=casemoredetailsadmin&_pf=2');
+            expect(mockedWindow.top.location.href).toEqual('/bonita/portal/homepage?tenant=1#?id=4568&_p=casemoredetailsadmin&_pf=2');
           });
         });
         describe('retrieve current profile from top Url', function(){
@@ -175,7 +188,7 @@
         var anchorScroll = jasmine.createSpy();
 
         beforeEach(inject(function ($controller) {
-          $controller('CaseListCtrl', {
+          $controller('ActiveCaseListCtrl', {
             '$scope': scope,
             'caseAPI': caseAPI,
             'defaultPageSize': defaultPageSize,
@@ -256,7 +269,7 @@
           var anchorScroll = jasmine.createSpy();
 
           beforeEach(inject(function ($controller) {
-            $controller('CaseListCtrl', {
+            $controller('ActiveCaseListCtrl', {
               '$scope': scope,
               'caseAPI': caseAPI,
               'defaultPageSize': defaultPageSize,
@@ -328,7 +341,7 @@
               }
             };
             spyOn(location, 'url').and.callThrough();
-            $controller('CaseListCtrl', {
+            $controller('ActiveCaseListCtrl', {
               '$scope': scope,
               'caseAPI': {
                 search: function () {
@@ -363,7 +376,7 @@
               }
             };
             var growl = jasmine.createSpyObj('growl', ['success', 'error', 'info']);
-            $controller('CaseListCtrl', {
+            $controller('ActiveCaseListCtrl', {
               '$scope': scope,
               'caseAPI': {
                 search: function () {
@@ -386,7 +399,7 @@
 
     describe('change column visiblity', function () {
       beforeEach(inject(function ($controller) {
-        $controller('CaseListCtrl', {
+        $controller('ActiveCaseListCtrl', {
           '$scope': scope
         });
       }));
@@ -404,7 +417,7 @@
 
     describe('filter column ', function () {
       beforeEach(inject(function ($controller) {
-        $controller('CaseListCtrl', {
+        $controller('ActiveCaseListCtrl', {
           '$scope': scope
         });
       }));
@@ -420,7 +433,7 @@
 
     describe('select nbItems in page ', function () {
       beforeEach(inject(function ($controller) {
-        $controller('CaseListCtrl', {
+        $controller('ActiveCaseListCtrl', {
           '$scope': scope
         });
         spyOn(scope, 'searchForCases');
@@ -443,7 +456,7 @@
 
     describe('formatContent', function () {
       beforeEach(inject(function ($controller) {
-        $controller('CaseListCtrl', {
+        $controller('ActiveCaseListCtrl', {
           '$scope': scope
         });
       }));
@@ -465,7 +478,7 @@
     describe('addAlert', function () {
       var growl = jasmine.createSpyObj('growl', ['success', 'error', 'info']);
       beforeEach(inject(function ($controller) {
-        $controller('CaseListCtrl', {
+        $controller('ActiveCaseListCtrl', {
           '$scope': scope,
           'growl' : growl
         });
@@ -511,7 +524,7 @@
 
     describe('reinitCases', function () {
       it('should remove sort and set page to 1', inject(function ($controller) {
-        $controller('CaseListCtrl', {
+        $controller('ActiveCaseListCtrl', {
           '$scope': scope
         });
         scope.searchSort = {};
@@ -535,7 +548,7 @@
             return localPromise;
           }
         };
-        $controller('CaseListCtrl', {
+        $controller('ActiveCaseListCtrl', {
           '$scope': scope,
           'store': {
             load: function () {

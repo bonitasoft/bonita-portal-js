@@ -12,7 +12,7 @@
     }));
 
     it('should load directive without any error', inject(function($compile){
-      $compile('<case-delete></case-delete')(scope);
+      $compile('<active-case-delete></active-case-delete')(scope);
     }));
 
     describe('confirmDeleteSelectedCases', function () {
@@ -21,7 +21,7 @@
         }
       };
       beforeEach(inject(function ($controller) {
-        $controller('CaseDeleteCtrl', {
+        $controller('ActiveCaseDeleteCtrl', {
           '$scope': scope,
           '$modal': modal,
           'caseAPI': {
@@ -76,7 +76,7 @@
 
     describe('checkCaseIsNotSelected', function () {
       beforeEach(inject(function ($controller) {
-        $controller('CaseDeleteCtrl', {
+        $controller('ActiveCaseDeleteCtrl', {
           '$scope': scope
         });
       }));
@@ -126,7 +126,7 @@
             };
           }
         };
-        $controller('CaseDeleteCtrl', {
+        $controller('ActiveCaseDeleteCtrl', {
           '$scope': scope,
           'caseAPI': caseAPI,
           'store': {

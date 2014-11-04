@@ -1,7 +1,7 @@
 
 <div>
 
-  <active-case-filters> </active-case-filters>
+  <archived-case-filters> </archived-case-filters>
 
   <div class="panel panel-default">
 
@@ -10,7 +10,7 @@
     <div growl></div>
       <div ng-if="cases.length">
         <div class="col-md-6">
-          <button active-case-delete id="delete-button" type="button" class='btn btn-default' ng-click="confirmDeleteSelectedCases()" ng-disabled="checkCaseIsNotSelected()" translate>Delete</button>
+          <button archived-case-delete id="delete-button" type="button" class='btn btn-default' ng-click="confirmDeleteSelectedCases()" ng-disabled="checkCaseIsNotSelected()" translate>Delete</button>
         </div>
         <div id="table-actions" class="col-md-6 text-right">
           <div class="btn-group text-left" id='page-size'>
