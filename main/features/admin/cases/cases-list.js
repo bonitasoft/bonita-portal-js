@@ -21,6 +21,7 @@
       {name: 'State', sortName: 'stateId', path: ['state'], selected: true}
     ])
     .value('caseStatusValues', {started: 'Started', error: 'Failed'})
+    .value('moreDetailToken', 'casemoredetailsadmin')
     .value('pageSizes', [25, 50, 100, 200])
     .value('defaultPageSize', 25)
     .value('defaultSort', 'id')
@@ -298,7 +299,7 @@
     };
   }
 
-  CaseListCtrl.$inject = ['$scope', 'caseAPI', 'casesColumns', 'defaultPageSize', 'defaultSort', 'defaultDeployedFields', '$location', 'pageSizes', 'defaultFilters', '$filter', '$anchorScroll', 'growl', '$log', '$window'];
+  CaseListCtrl.$inject = ['$scope', 'caseAPI', 'casesColumns', 'defaultPageSize', 'defaultSort', 'defaultDeployedFields', '$location', 'pageSizes', 'defaultFilters', '$filter', '$anchorScroll', 'growl', '$log', '$window', 'moreDetailToken'];
 
   /**
    * @ngdoc object
@@ -320,7 +321,7 @@
    * @requires $anchorScroll
    * @requires growl
    */
-  function CaseListCtrl($scope, caseAPI, casesColumns, defaultPageSize, defaultSort, defaultDeployedFields, $location, pageSizes, defaultFilters, $filter, $anchorScroll, growl, $log, $window) {
+  function CaseListCtrl($scope, caseAPI, casesColumns, defaultPageSize, defaultSort, defaultDeployedFields, $location, pageSizes, defaultFilters, $filter, $anchorScroll, growl, $log, $window, moreDetailToken) {
     /**
      * @ngdoc property
      * @name o.b.f.admin.cases.list.CaseListCtrl#columns
@@ -466,7 +467,7 @@
 
     $scope.goToCase = function (caseItemId){
       if(caseItemId){
-        $window.top.location.hash='id='+caseItemId+'&_p=casemoredetailsadmin&'+$scope.getCurrentProfile();
+        $window.top.location.hash='id='+caseItemId+'&_p='+moreDetailToken+'&'+$scope.getCurrentProfile();
       }
     };
 
