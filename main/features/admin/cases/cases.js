@@ -3,12 +3,12 @@
 
   angular.module('org.bonita.features.admin.cases', ['ui.router', 'org.bonita.features.admin.cases.list', 'ui.bootstrap', 'gettext'])
     .config([ '$stateProvider', '$urlRouterProvider', function ($stateProvider, $urlRouterProvider) {
-      $urlRouterProvider.when('/admin/cases/list', '/admin/cases/list/active');
+      $urlRouterProvider.when('/admin/cases/list', '/admin/cases/list/archived');
       $stateProvider.state('bonita.cases', {
         url: '/admin/cases/list',
         templateUrl: 'features/admin/cases/cases.html',
         abstract: true,
-      }).state( 'bonita.cases.active', {
+      }).state('bonita.cases.active', {
         url: '/active',
         views : {
           'case-list' : {

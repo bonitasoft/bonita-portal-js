@@ -8,7 +8,7 @@
    * describes the case list components
    */
 
-  angular.module('org.bonita.features.admin.cases.list', ['org.bonita.common.resources', 'gettext', 'smart-table', 'ui.bootstrap', 'lrDragNDrop', 'org.bonita.common.resources.store', 'org.bonita.common.directives.selectAll', 'angular-growl'])
+  angular.module('org.bonita.features.admin.cases.list', ['org.bonita.common.resources', 'gettext', 'smart-table', 'ui.bootstrap', 'lrDragNDrop', 'org.bonita.common.resources.store', 'org.bonita.common.directives.selectAll', 'angular-growl', 'ngAnimate', 'org.bonita.services.topurl'])
     .config(['growlProvider', function (growlProvider) {
       growlProvider.globalPosition('top-center');
     }])
@@ -27,7 +27,10 @@
     .value('defaultSort', 'id')
     .value('defaultFilters', {appVersion: 'All', appName: 'All', caseStatus: 'All'})
     .value('defaultDeployedFields', ['processDefinitionId', 'started_by', 'startedBySubstitute'])
-    .controller('ActiveCaseFilterController', ['$scope', 'store', 'processAPI', 'defaultFilters', 'caseStatusValues', CaseFilterController])
+    .value('activedTabName', '')
+    .controller('ActiveCaseListCtrl', ['$scope', 'caseAPI', 'casesColumns', 'defaultPageSize', 'defaultSort', 'defaultDeployedFields', '$location', 'pageSizes', 'defaultFilters', '$filter', '$anchorScroll', 'growl', '$log', '$window', 'moreDetailToken', 'activedTabName', 'manageTopUrl', CaseListCtrl])
+    .controller('ActiveCaseFilterController', ['$scope', 'store', 'processAPI', 'defaultFilters', 'caseStatusValues', 'activedTabName', CaseFilterController])
+    .controller('ActiveCaseDeleteCtrl', ['$scope', '$modal', 'caseAPI', 'gettextCatalog', CaseDeleteCtrl])
     .directive('activeCaseFilters', function () {
       return {
         restrict: 'E',
@@ -36,8 +39,6 @@
         controller: 'ActiveCaseFilterController'
       };
     })
-    .controller('ActiveCaseListCtrl', ['$scope', 'caseAPI', 'casesColumns', 'defaultPageSize', 'defaultSort', 'defaultDeployedFields', '$location', 'pageSizes', 'defaultFilters', '$filter', '$anchorScroll', 'growl', '$log', '$window', 'moreDetailToken', CaseListCtrl])
-    .controller('ActiveCaseDeleteCtrl', ['$scope', '$modal', 'caseAPI', 'gettextCatalog', CaseDeleteCtrl])
     .directive('activeCaseDelete',
     function () {
       return {
@@ -75,7 +76,10 @@
     ])
     .value('archivedCaseStatusValues', {started: 'Started', error: 'Failed'})
     .value('archivedMoreDetailToken', 'archivedcasemoredetailsadmin')
+    .value('archivedTabName', 'archived')
+    .controller('ArchivedCaseListCtrl', ['$scope', 'archivedCaseAPI', 'archivedCasesColumns', 'defaultPageSize', 'defaultSort', 'defaultDeployedFields', '$location', 'pageSizes', 'defaultFilters', '$filter', '$anchorScroll', 'growl', '$log', '$window', 'archivedMoreDetailToken', 'archivedTabName', 'manageTopUrl', CaseListCtrl])
     .controller('ArchivedCaseFilterController', ['$scope', 'store', 'processAPI', 'defaultFilters', 'caseStatusValues', CaseFilterController])
+    .controller('ArchivedCaseDeleteCtrl', ['$scope', '$modal', 'archivedCaseAPI', 'gettextCatalog', CaseDeleteCtrl])
     .directive('archivedCaseFilters', function () {
       return {
         restrict: 'E',
@@ -84,8 +88,6 @@
         controller: 'ArchivedCaseFilterController'
       };
     })
-    .controller('ArchivedCaseListCtrl', ['$scope', 'archivedCaseAPI', 'archivedCasesColumns', 'defaultPageSize', 'defaultSort', 'defaultDeployedFields', '$location', 'pageSizes', 'defaultFilters', '$filter', '$anchorScroll', 'growl', '$log', '$window', 'archivedMoreDetailToken', CaseListCtrl])
-    .controller('ArchivedCaseDeleteCtrl', ['$scope', '$modal', 'archivedCaseAPI', 'gettextCatalog', CaseDeleteCtrl])
     .directive('archivedCaseDelete',
     function () {
       return {
@@ -359,7 +361,8 @@
    * @requires $anchorScroll
    * @requires growl
    */
-  function CaseListCtrl($scope, caseAPI, casesColumns, defaultPageSize, defaultSort, defaultDeployedFields, $location, pageSizes, defaultFilters, $filter, $anchorScroll, growl, $log, $window, moreDetailToken) {
+  function CaseListCtrl($scope, caseAPI, casesColumns, defaultPageSize, defaultSort, defaultDeployedFields, $location, pageSizes, defaultFilters, $filter, $anchorScroll, growl, $log, $window, moreDetailToken, tabName, manageTopUrl) {
+
     /**
      * @ngdoc property
      * @name o.b.f.admin.cases.list.CaseListCtrl#columns
@@ -394,6 +397,7 @@
 
     $scope.filters = [];
 
+    //manageTopUrl.replaceTab(tabName);
 
     $scope.reinitCases = function () {
       delete $scope.searchSort;
@@ -499,7 +503,7 @@
     $scope.getCurrentProfile = function(){
       if($window && $window.top && $window.top.location && $window.top.location.hash){
         var currentProfileMatcher = $window.top.location.hash.match(/\b_pf=\d+\b/);
-        return (currentProfileMatcher.length)?currentProfileMatcher[0]:'';
+        return (currentProfileMatcher && currentProfileMatcher.length)?currentProfileMatcher[0]:'';
       }
     };
 
