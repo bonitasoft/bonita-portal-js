@@ -16,7 +16,7 @@
           }
         }
       }).state('bonita.cases.archived', {
-        url: '/archived',
+        url: '/test',
         views : {
           'case-list' : {
             templateUrl: 'features/admin/cases/archived-cases-list.html',

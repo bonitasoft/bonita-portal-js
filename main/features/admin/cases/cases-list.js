@@ -8,7 +8,7 @@
    * describes the case list components
    */
 
-  angular.module('org.bonita.features.admin.cases.list', ['org.bonita.common.resources', 'gettext', 'smart-table', 'ui.bootstrap', 'lrDragNDrop', 'org.bonita.common.resources.store', 'org.bonita.common.directives.selectAll', 'angular-growl', 'ngAnimate'])
+  angular.module('org.bonita.features.admin.cases.list', ['org.bonita.common.resources', 'gettext', 'smart-table', 'ui.bootstrap', 'lrDragNDrop', 'org.bonita.common.resources.store', 'org.bonita.common.directives.selectAll', 'angular-growl'])
     .config(['growlProvider', function (growlProvider) {
       growlProvider.globalPosition('top-center');
     }])
@@ -38,7 +38,7 @@
     })
     .controller('ActiveCaseListCtrl', ['$scope', 'caseAPI', 'casesColumns', 'defaultPageSize', 'defaultSort', 'defaultDeployedFields', '$location', 'pageSizes', 'defaultFilters', '$filter', '$anchorScroll', 'growl', '$log', '$window', 'moreDetailToken', CaseListCtrl])
     .controller('ActiveCaseDeleteCtrl', ['$scope', '$modal', 'caseAPI', 'gettextCatalog', CaseDeleteCtrl])
-    .directive('caseDelete',
+    .directive('activeCaseDelete',
     function () {
       return {
         restrict: 'A',

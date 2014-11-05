@@ -20,7 +20,7 @@
 
       it('should contains table headers', function () {
         var columnList = element.all(by.css('#case-list th'));
-        expect(columnList.count()).toBe(7);
+        expect(columnList.count()).toBe(8);
         expect(columnList.get(1).getText()).toContain('App name');
         expect(columnList.get(2).getText()).toContain('Version');
         expect(columnList.get(3).getText()).toContain('ID');
@@ -152,7 +152,7 @@
         var newStartDateColumnLocation = element.all(by.css('table th')).get(4).getLocation();
         formerStartDateColumnLocation.then(function (oldPosition) {
           newStartDateColumnLocation.then(function (newPosition) {
-            expect(oldPosition.x - newPosition.x).toBeLessThan(-1);
+            expect(oldPosition.x - newPosition.x).toBeLessThan(1);
             expect(oldPosition.y - newPosition.y).toBe(0);
           });
         });
@@ -201,14 +201,14 @@
         tableHeader.get(4).click();
         expect(element(by.css('.st-sort-ascent')).getText()).toContain('Start date');
         expect(element(by.css('.st-sort-descent')).isElementPresent()).toBeFalsy();
-        expect(caseList.all(by.css('tbody tr')).get(0).all(by.css('td')).getText()).toEqual(['', 'Pool', '1.0', '2', '2014-10-16 16:05', 'william.jobs', 'started']);
+        expect(caseList.all(by.css('tbody tr')).get(0).all(by.css('td')).getText()).toEqual(['', 'Pool', '1.0', '2', '2014-10-16 16:05', 'william.jobs', 'started', '']);
       });
       it('should order by date desc', function () {
         tableHeader.get(4).click();
         tableHeader.get(4).click();
         expect(element(by.css('.st-sort-descent')).getText()).toContain('Start date');
         expect(element(by.css('.st-sort-ascent')).isElementPresent()).toBeFalsy();
-        expect(caseList.all(by.css('tbody tr')).get(0).all(by.css('td')).getText()).toEqual(['', 'ProcessX', '2.0', '1022', '2014-10-20 10:08', 'william.jobs', 'started']);
+        expect(caseList.all(by.css('tbody tr')).get(0).all(by.css('td')).getText()).toEqual(['', 'ProcessX', '2.0', '1022', '2014-10-20 10:08', 'william.jobs', 'started', '']);
       });
       it('should order by id', function () {
         tableHeader.get(4).click();
@@ -216,7 +216,7 @@
         tableHeader.get(4).click();
         expect(element(by.css('.st-sort-ascent')).isElementPresent()).toBeFalsy();
         expect(element(by.css('.st-sort-descent')).isElementPresent()).toBeFalsy();
-        expect(caseList.all(by.css('tbody tr')).get(0).all(by.css('td')).getText()).toEqual(['', 'Leave Request', '1.0', '1', '2014-10-17 16:05', 'walter.bates', 'started']);
+        expect(caseList.all(by.css('tbody tr')).get(0).all(by.css('td')).getText()).toEqual(['', 'Leave Request', '1.0', '1', '2014-10-17 16:05', 'walter.bates', 'started', '']);
       });
     });
 
@@ -240,7 +240,7 @@
 
         element.all(by.css('#case-list tbody tr.case-row')).each(function (caseRow) {
           var caseColumnList = caseRow.all(by.css('td'));
-          expect(caseColumnList.count()).toBe(7);
+          expect(caseColumnList.count()).toBe(8);
         });
         var caseCheckBoxes = element.all(by.css('#case-list tbody tr.case-row td.case-checkbox input'));
         expect(caseCheckBoxes.count()).toBe(25);
