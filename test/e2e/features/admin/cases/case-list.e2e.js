@@ -1,4 +1,4 @@
-/* global element, by, describe */
+/* global element, by */
 (function () {
   'use strict';
   describe('case admin list', function () {
@@ -128,7 +128,7 @@
       beforeEach(function () {
         resizeBars = element.all(by.css('.rc-handle'));
       });
-      it('should change Version and ID column size ', function () {
+      xit('should change Version and ID column size ', function () {
         var idColumnBar = resizeBars.get(2);
         var formerIdColumnLocation = element.all(by.css('table th')).get(3).getLocation();
         var formerVersionColumnLocation = element.all(by.css('table th')).get(2).getLocation();

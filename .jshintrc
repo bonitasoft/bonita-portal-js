@@ -33,6 +33,8 @@
     "it": false,
     "jasmine": false,
     "require": false,
-    "spyOn": false
+    "spyOn": false,
+    "xdescribe": false,
+    "xit": false
   }
 }

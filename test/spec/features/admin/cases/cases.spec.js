@@ -21,7 +21,7 @@
     }));
     it('should add a new state matching for the active case', inject(function(){
       var caseListStateConfig = state.get('bonita.cases.active');
-      expect(caseListStateConfig.url).toBe('');
+      expect(caseListStateConfig.url).toBe('/active');
       expect(caseListStateConfig.abstract).toBeFalsy();
       expect(caseListStateConfig.views).toEqual({'case-list': {templateUrl : 'features/admin/cases/cases-list.html', controller: 'ActiveCaseListCtrl'}});
     }));
