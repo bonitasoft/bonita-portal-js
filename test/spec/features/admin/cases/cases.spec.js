@@ -17,7 +17,6 @@
       expect(caseListStateConfig.url).toBe('/admin/cases/list');
       expect(caseListStateConfig.abstract).toBeTruthy();
       expect(caseListStateConfig.templateUrl).toBe('features/admin/cases/cases.html');
-      expect(caseListStateConfig.controller).toBeUndefined();
     }));
     it('should add a new state matching for the active case', inject(function(){
       var caseListStateConfig = state.get('bonita.cases.active');

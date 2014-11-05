@@ -1,11 +1,6 @@
 <div  id="case-list" class="col-md-12">
-  <tabset>
-    <tab ui-sref='bonita.cases.active' ui-sref-active="active">
-      <tab-heading><translate>Active Cases</translate></tab-heading>
-    </tab>
-    <tab ui-sref='bonita.cases.archived' ui-sref-active="active">
-      <tab-heading><translate>Archived Cases</translate></tab-heading>
-    </tab>
-  </tabset>
+  <ul class="nav nav-tabs" role="tablist">
+    <li role="presentation" ng-repeat="caseState in casesStates" ng-class="{active : state.includes(caseState.state)}"><a ui-sref="{{caseState.state}}">{{caseState.title}}</a></li>
+  </ul>
   <div ui-view='case-list'></div>
 </div>

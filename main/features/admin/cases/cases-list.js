@@ -8,7 +8,7 @@
    * describes the case list components
    */
 
-  angular.module('org.bonita.features.admin.cases.list', ['org.bonita.common.resources', 'gettext', 'smart-table', 'ui.bootstrap', 'lrDragNDrop', 'org.bonita.common.resources.store', 'org.bonita.common.directives.selectAll', 'angular-growl', 'ngAnimate', 'org.bonita.services.topurl'])
+  angular.module('org.bonita.features.admin.cases.list', ['org.bonita.common.resources', 'gettext', 'smart-table', 'ui.bootstrap', 'lrDragNDrop', 'org.bonita.common.resources.store', 'org.bonita.common.directives.selectAll', 'angular-growl', 'org.bonita.services.topurl'])
     .config(['growlProvider', function (growlProvider) {
       growlProvider.globalPosition('top-center');
     }])
@@ -397,7 +397,7 @@
 
     $scope.filters = [];
 
-    //manageTopUrl.replaceTab(tabName);
+    manageTopUrl.replaceTab(tabName);
 
     $scope.reinitCases = function () {
       delete $scope.searchSort;
