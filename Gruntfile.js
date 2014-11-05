@@ -39,7 +39,7 @@ module.exports = function (grunt) {
         tasks: ['bowerInstall']
       },
       js: {
-        files: ['<%= portaljs.app %>/features/**/*.js', '<%= portaljs.app %>/commons/**/*.js', '<%= portaljs.app %>/assets/**/*.js'],
+        files: ['<%= portaljs.app %>/*.js', '<%= portaljs.app %>/features/**/*.js', '<%= portaljs.app %>/commons/**/*.js', '<%= portaljs.app %>/assets/**/*.js'],
         tasks: ['newer:jshint:all', 'ngdocs:all'],
         options: {
           livereload: true
@@ -518,7 +518,7 @@ module.exports = function (grunt) {
   grunt.registerTask('default', [
     'newer:jshint',
     'test',
-    'build',
-    'testE2e'
+    'build'//,
+    //'testE2e'
   ]);
 };
