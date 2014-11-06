@@ -10,7 +10,7 @@
     'org.bonita.common.resources',
     'org.bonita.features.admin'
   ])//parent state to use for every state in order to have the translations loaded correctly...
-    .config([ '$stateProvider', '$urlRouterProvider',  function ($stateProvider, $urlRouterProvider) {
+    .config([ '$stateProvider', function ($stateProvider) {
       // $urlRouterProvider.rule(function ($injector, $location) {
       //   if($location.search()['_tab']){
       //     var queryString = $location.search();

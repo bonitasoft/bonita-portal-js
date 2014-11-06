@@ -5,7 +5,7 @@
 
     var scope, state ;//= jasmine.createSpyObj('$stateProvider',['state']);
 
-    xdescribe('state provider for cases', function() {
+    describe('state provider for cases', function() {
       beforeEach(module('org.bonita.features.admin.cases', function($stateProvider) {
         $stateProvider.state('bonita', {});
       }));

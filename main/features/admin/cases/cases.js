@@ -2,7 +2,8 @@
   'use strict';
 
   angular.module('org.bonita.features.admin.cases', ['ui.router', 'org.bonita.features.admin.cases.list', 'ui.bootstrap', 'gettext'])
-    .config([ '$stateProvider', function ($stateProvider) {
+    .config([ '$stateProvider', '$urlRouterProvider', function ($stateProvider, $urlRouterProvider) {
+      $urlRouterProvider.when('/admin/cases/list/', '/admin/cases/list');
       $stateProvider.state('bonita.cases', {
         url: '/admin/cases/list',
         templateUrl: 'features/admin/cases/cases.html',

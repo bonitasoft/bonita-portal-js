@@ -45,6 +45,15 @@
         delete mockedWindow.top.location.hash;
         manageTopUrl.replaceTab('archived');
         expect(mockedWindow.top.location.hash).toBe('#_tab=archived');
+        mockedWindow.top.location.hash = '_p=cases&tenant=1&';
+        manageTopUrl.replaceTab('');
+        expect(mockedWindow.top.location.hash).toBe('_p=cases&tenant=1&cases_tab=');
+        mockedWindow.top.location.hash = '_p=cases&tenant=1&cases_tab=pouet';
+        manageTopUrl.replaceTab('');
+        expect(mockedWindow.top.location.hash).toBe('_p=cases&tenant=1&cases_tab=');
+        mockedWindow.top.location.hash = '_p=cases&tenant=1&';
+        manageTopUrl.replaceTab('archived');
+        expect(mockedWindow.top.location.hash).toBe('_p=cases&tenant=1&cases_tab=archived');
         mockedWindow.top.location.hash = '';
         manageTopUrl.replaceTab('archived');
         expect(mockedWindow.top.location.hash).toBe('#_tab=archived');
@@ -56,30 +65,30 @@
       });
 
       it('should set top location hash to archived tab', function () {
-        mockedWindow.top.location.hash = 'tenant=1&';
+        mockedWindow.top.location.hash = '_p=cases&tenant=1&';
         manageTopUrl.replaceTab('archived');
-        expect(mockedWindow.top.location.hash).toBe('tenant=1&_tab=archived');
-        mockedWindow.top.location.hash = '&tenant=1';
+        expect(mockedWindow.top.location.hash).toBe('_p=cases&tenant=1&cases_tab=archived');
+        mockedWindow.top.location.hash = '&tenant=1&_p=cases&';
         manageTopUrl.replaceTab('archived');
-        expect(mockedWindow.top.location.hash).toBe('&tenant=1&_tab=archived');
+        expect(mockedWindow.top.location.hash).toBe('&tenant=1&_p=cases&cases_tab=archived');
         mockedWindow.top.location.hash = 'tenant=1';
         manageTopUrl.replaceTab('archived');
         expect(mockedWindow.top.location.hash).toBe('tenant=1&_tab=archived');
       });
 
       it('should change top location hash to archived tab', function () {
-        mockedWindow.top.location.hash = '_tab=1&';
+        mockedWindow.top.location.hash = '_p=cases&cases_tab=1&';
         manageTopUrl.replaceTab('archived');
-        expect(mockedWindow.top.location.hash).toBe('_tab=archived&');
-        mockedWindow.top.location.hash = '&_tab=1';
+        expect(mockedWindow.top.location.hash).toBe('_p=cases&cases_tab=archived&');
+        mockedWindow.top.location.hash = '&_p=cases&cases_tab=1';
         manageTopUrl.replaceTab('archived');
-        expect(mockedWindow.top.location.hash).toBe('&_tab=archived');
-        mockedWindow.top.location.hash = '_tab=1';
+        expect(mockedWindow.top.location.hash).toBe('&_p=cases&cases_tab=archived');
+        mockedWindow.top.location.hash = 'cases_tab=1&_p=cases&';
         manageTopUrl.replaceTab('archived');
-        expect(mockedWindow.top.location.hash).toBe('_tab=archived');
-        mockedWindow.top.location.hash = '&_tab=1&';
+        expect(mockedWindow.top.location.hash).toBe('cases_tab=archived&_p=cases&');
+        mockedWindow.top.location.hash = '&cases_tab=1&';
         manageTopUrl.replaceTab('archived');
-        expect(mockedWindow.top.location.hash).toBe('&_tab=archived&');
+        expect(mockedWindow.top.location.hash).toBe('&cases_tab=1&_tab=archived');
       });
     });
 
@@ -99,6 +108,19 @@
         expect(manageTopUrl.getCurrentProfile()).toBe('_pf=452');
         mockedWindow.top.location.hash = '_pf=122';
         expect(manageTopUrl.getCurrentProfile()).toBe('_pf=122');
+      });
+    });
+
+    describe('getCurrentPageToken', function(){
+      it('should find the page token from top window\'s hash', function(){
+        mockedWindow.top.location.hash = '?_p=ng-caselistingadmin&_pf=2';
+        expect(manageTopUrl.getCurrentPageToken()).toBe('ng-caselistingadmin');
+        mockedWindow.top.location.hash = '?_pf=372&_p=caselistingadmin';
+        expect(manageTopUrl.getCurrentPageToken()).toBe('caselistingadmin');
+        mockedWindow.top.location.hash = '?_p=ng-caselisting&_pf=452&_pf=6';
+        expect(manageTopUrl.getCurrentPageToken()).toBe('ng-caselisting');
+        mockedWindow.top.location.hash = '_pf=122';
+        expect(manageTopUrl.getCurrentPageToken()).toBe('');
       });
     });
   });

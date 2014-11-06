@@ -5,18 +5,28 @@
   angular.module('org.bonita.services.topurl', [])
     .service('manageTopUrl', ['$window', function ($window) {
       var manageTopUrlService = {};
+      manageTopUrlService.getCurrentPageToken = function() {
+        var pageTokenRegExp = /(^|[&\?])_p=([^&]*)(&|$)/;
+        var pageTokenMatches = pageTokenRegExp.exec($window.top.location.hash);
+        if (pageTokenMatches && pageTokenMatches.length) {
+          return pageTokenMatches[2];
+        }
+        return '';
+      };
       manageTopUrlService.replaceTab = function (tab) {
-        if (tab && $window.self !== $window.top) {
+        if (tab !== undefined && $window.self !== $window.top) {
+          var pageToken = manageTopUrlService.getCurrentPageToken();
           if (!!$window.top.location.hash) {
-            var tabMatches = $window.top.location.hash.match(/(^|&)_tab=[^&]*(&|$)/);
+            var tabRegExp = new RegExp('(^|[&\\?])'+pageToken+'_tab=[^&]*(&|$)');
+            var tabMatches = $window.top.location.hash.match(tabRegExp);
             if (!tabMatches || !tabMatches.length) {
               var currentHash = $window.top.location.hash;
-              $window.top.location.hash += ((currentHash.indexOf('&', currentHash.length - 2) >= 0) ? '' : '&') + '_tab=' + tab;
+              $window.top.location.hash += ((currentHash.indexOf('&', currentHash.length - 2) >= 0) ? '' : '&') + pageToken+'_tab=' + tab;
             } else {
-              $window.top.location.hash = $window.top.location.hash.replace(/(^|&)_tab=[^&]*(&|$)/, '$1_tab=' + tab + '$2');
+              $window.top.location.hash = $window.top.location.hash.replace(tabRegExp, '$1'+pageToken+'_tab=' + tab + '$2');
             }
           } else {
-            $window.top.location.hash = '#_tab=' + tab;
+            $window.top.location.hash = '#'+pageToken+'_tab=' + tab;
           }
         }
       };
