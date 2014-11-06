@@ -5,7 +5,7 @@
 
     var scope, state ;//= jasmine.createSpyObj('$stateProvider',['state']);
 
-    describe('state provider for cases', function() {
+    xdescribe('state provider for cases', function() {
       beforeEach(module('org.bonita.features.admin.cases', function($stateProvider) {
         $stateProvider.state('bonita', {});
       }));
@@ -46,18 +46,18 @@
       var mockedState;
       beforeEach(module('org.bonita.features.admin.cases'));
 
-      beforeEach(inject(function($rootScope){
+      beforeEach(inject(function($rootScope, $controller){
+        mockedState = jasmine.createSpyObj('$state', ['get', 'includes']);
         scope = $rootScope.$new();
-      }));
-      xit('should init scope with state and cases tabs', inject(function($controller){
-        mockedState = jasmine.createSpyObj();
         $controller('CaseCtrl', {
           '$scope' : scope,
           '$state' : mockedState
         });
-        expect(scope.state).toBe(mockedState);
-        expect(scope.casesStates ).toEqual([{state : 'bonita.cases.active', title: 'Active Cases'}, {state : 'bonita.cases.archived', title: 'Archived Cases'}]);
       }));
+      it('should init scope with state and cases tabs', function(){
+        expect(scope.state).toBe(mockedState);
+        expect(scope.casesStates ).toEqual([{state : 'bonita.cases.active', title: 'Active Cases', htmlAttributeId:'TabActiveCases'}, {state : 'bonita.cases.archived', title: 'Archived Cases', htmlAttributeId:'TabArchivedCases'}]);
+      });
     });
   });
 })();

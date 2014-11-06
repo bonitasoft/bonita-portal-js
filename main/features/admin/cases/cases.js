@@ -31,6 +31,5 @@
       $scope.casesStates.push({state : 'bonita.cases.active', title: 'Active Cases', htmlAttributeId:'TabActiveCases'});
       $scope.casesStates.push({state : 'bonita.cases.archived', title: 'Archived Cases', htmlAttributeId:'TabArchivedCases'});
       $scope.state = $state;
-      console.log($scope.casesStates);
     }]);
 })();
