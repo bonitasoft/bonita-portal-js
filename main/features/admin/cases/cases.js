@@ -2,7 +2,7 @@
   'use strict';
 
   angular.module('org.bonita.features.admin.cases', ['ui.router', 'org.bonita.features.admin.cases.list', 'ui.bootstrap', 'gettext'])
-    .config([ '$stateProvider', function ($stateProvider) {
+    /*.config([ '$stateProvider', function ($stateProvider) {
       $stateProvider.state('bonita.cases', {
         url: '/admin/cases/list',
         templateUrl: 'features/admin/cases/cases.html',
@@ -25,12 +25,11 @@
           }
         }
       });
-    }])
+    }])*/
     .controller('CaseCtrl', ['$scope', '$state', function($scope, $state){
       $scope.casesStates = [];
       $scope.casesStates.push({state : 'bonita.cases.active', title: 'Active Cases'});
       $scope.casesStates.push({state : 'bonita.cases.archived', title: 'Archived Cases'});
       $scope.state = $state;
-      console.log($scope.casesStates);
     }]);
 })();
