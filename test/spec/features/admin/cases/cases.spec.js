@@ -56,7 +56,7 @@
       }));
       it('should init scope with state and cases tabs', function(){
         expect(scope.state).toBe(mockedState);
-        expect(scope.casesStates ).toEqual([{state : 'bonita.cases.active', title: 'Active Cases'}, {state : 'bonita.cases.archived', title: 'Archived Cases'}]);
+        expect(scope.casesStates ).toEqual([{state : 'bonita.cases.active', title: 'Active Cases', htmlAttributeId:'TabActiveCases'}, {state : 'bonita.cases.archived', title: 'Archived Cases', htmlAttributeId:'TabArchivedCases'}]);
       });
     });
   });
