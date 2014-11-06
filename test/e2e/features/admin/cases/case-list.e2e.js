@@ -20,13 +20,15 @@
 
       it('should contains table headers', function () {
         var columnList = element.all(by.css('#case-list th'));
-        expect(columnList.count()).toBe(8);
-        expect(columnList.get(1).getText()).toContain('App name');
+        expect(columnList.count()).toBe(10);
+        expect(columnList.get(1).getText()).toContain('Process name');
         expect(columnList.get(2).getText()).toContain('Version');
         expect(columnList.get(3).getText()).toContain('ID');
         expect(columnList.get(4).getText()).toContain('Start date');
         expect(columnList.get(5).getText()).toContain('Started by');
         expect(columnList.get(6).getText()).toContain('State');
+        expect(columnList.get(7).getText()).toContain('Failed Nodes');
+        expect(columnList.get(8).getText()).toContain('Pending Nodes');
       });
 
       it('should contains page size selection', function () {
@@ -67,7 +69,7 @@
         var columnSelectionButton = element(by.css('#columns-selection'));
         columnSelectionButton.click();
         var columnToShowList = columnSelectionButton.all(by.css('.column-visibility'));
-        expect(columnToShowList.count()).toBe(6);
+        expect(columnToShowList.count()).toBe(8);
         columnToShowList.each(function (column) {
           expect(column.getWebElement().isDisplayed()).toBeTruthy();
           expect(column.all(by.css('input:checked')).count()).toBe(1);
@@ -75,7 +77,7 @@
 
         columnSelectionButton.click();
         columnToShowList = columnSelectionButton.all(by.css('.column-visibility'));
-        expect(columnToShowList.count()).toBe(6);
+        expect(columnToShowList.count()).toBe(8);
         columnToShowList.each(function (column) {
           expect(column.getWebElement().isDisplayed()).toBeFalsy();
         });
@@ -89,19 +91,19 @@
         expect(columnSelectionButton.all(by.css('.column-visibility')).get(0)
           .all(by.css('input:checked')).count()).toBe(0);
         var columnHeaders = caseList.all(by.css('th.case-column'));
-        expect(columnHeaders.count()).toBe(5);
+        expect(columnHeaders.count()).toBe(7);
         expect(columnHeaders.getText()).not.toContain(columnToShowList.get(0).getText());
-        expect(caseList.all(by.css('#caseId-1 td.case-detail')).count()).toBe(5);
+        expect(caseList.all(by.css('#caseId-1 td.case-detail')).count()).toBe(7);
 
         var nextCheckedElement = columnSelectionButton.all(by.css('.column-visibility input:checked'));
         nextCheckedElement.get(0).click();
 
         expect(columnSelectionButton.all(by.css('.column-visibility')).get(1)
           .all(by.css('input:checked')).count()).toBe(0);
-        expect(caseList.all(by.css('th.case-column')).count()).toBe(4);
+        expect(caseList.all(by.css('th.case-column')).count()).toBe(6);
         columnHeaders = caseList.all(by.css('th.case-column'));
         expect(columnHeaders.getText()).not.toContain(nextCheckedElement.get(0).getText());
-        expect(caseList.all(by.css('#caseId-1 td.case-detail')).count()).toBe(4);
+        expect(caseList.all(by.css('#caseId-1 td.case-detail')).count()).toBe(6);
 
         nextCheckedElement = columnSelectionButton.all(by.css('.column-visibility .column-visibility-name'));
         nextCheckedElement.get(2).click();
@@ -109,8 +111,8 @@
           .all(by.css('input:checked')).count()).toBe(0);
         columnHeaders = caseList.all(by.css('th.case-column'));
         expect(columnHeaders.getText()).not.toContain(nextCheckedElement.get(2).getText());
-        expect(caseList.all(by.css('th.case-column')).count()).toBe(3);
-        expect(caseList.all(by.css('#caseId-1 td.case-detail')).count()).toBe(3);
+        expect(caseList.all(by.css('th.case-column')).count()).toBe(5);
+        expect(caseList.all(by.css('#caseId-1 td.case-detail')).count()).toBe(5);
 
         nextCheckedElement = columnSelectionButton.all(by.css('.column-visibility .column-visibility-name'));
         nextCheckedElement.get(2).click();
@@ -118,8 +120,8 @@
           .all(by.css('input:checked')).count()).toBe(1);
         columnHeaders = caseList.all(by.css('th.case-column'));
         expect(columnHeaders.getText()).toContain(nextCheckedElement.get(2).getText());
-        expect(caseList.all(by.css('th.case-column')).count()).toBe(4);
-        expect(caseList.all(by.css('#caseId-1 td.case-detail')).count()).toBe(4);
+        expect(caseList.all(by.css('th.case-column')).count()).toBe(6);
+        expect(caseList.all(by.css('#caseId-1 td.case-detail')).count()).toBe(6);
       });
     });
 
@@ -201,14 +203,14 @@
         tableHeader.get(4).click();
         expect(element(by.css('.st-sort-ascent')).getText()).toContain('Start date');
         expect(element(by.css('.st-sort-descent')).isElementPresent()).toBeFalsy();
-        expect(caseList.all(by.css('tbody tr')).get(0).all(by.css('td')).getText()).toEqual(['', 'Pool', '1.0', '2', '2014-10-16 16:05', 'william.jobs', 'started', '']);
+        expect(caseList.all(by.css('tbody tr')).get(0).all(by.css('td')).getText()).toEqual(['', 'Pool', '1.0', '2', '2014-10-16 16:05', 'william.jobs', 'started', '0', '1', '']);
       });
       it('should order by date desc', function () {
         tableHeader.get(4).click();
         tableHeader.get(4).click();
         expect(element(by.css('.st-sort-descent')).getText()).toContain('Start date');
         expect(element(by.css('.st-sort-ascent')).isElementPresent()).toBeFalsy();
-        expect(caseList.all(by.css('tbody tr')).get(0).all(by.css('td')).getText()).toEqual(['', 'ProcessX', '2.0', '1022', '2014-10-20 10:08', 'william.jobs', 'started', '']);
+        expect(caseList.all(by.css('tbody tr')).get(0).all(by.css('td')).getText()).toEqual(['', 'ProcessX', '2.0', '1022', '2014-10-20 10:08', 'william.jobs', 'started', '0', '1', '']);
       });
       it('should order by id', function () {
         tableHeader.get(4).click();
@@ -216,7 +218,7 @@
         tableHeader.get(4).click();
         expect(element(by.css('.st-sort-ascent')).isElementPresent()).toBeFalsy();
         expect(element(by.css('.st-sort-descent')).isElementPresent()).toBeFalsy();
-        expect(caseList.all(by.css('tbody tr')).get(0).all(by.css('td')).getText()).toEqual(['', 'Leave Request', '1.0', '1', '2014-10-17 16:05', 'walter.bates', 'started', '']);
+        expect(caseList.all(by.css('tbody tr')).get(0).all(by.css('td')).getText()).toEqual(['', 'Leave Request', '1.0', '1', '2014-10-17 16:05', 'walter.bates', 'started', '0', '1', '']);
       });
     });
 
@@ -240,7 +242,7 @@
 
         element.all(by.css('#case-list tbody tr.case-row')).each(function (caseRow) {
           var caseColumnList = caseRow.all(by.css('td'));
-          expect(caseColumnList.count()).toBe(8);
+          expect(caseColumnList.count()).toBe(10);
         });
         var caseCheckBoxes = element.all(by.css('#case-list tbody tr.case-row td.case-checkbox input'));
         expect(caseCheckBoxes.count()).toBe(25);
@@ -250,7 +252,7 @@
           });
         });
         var caseColumns = element.all(by.css('#case-list tbody tr.case-row td.case-detail'));
-        expect(caseColumns.count()).toBe(150);
+        expect(caseColumns.count()).toBe(200);
         caseColumns.getText().then(function (caseColumnsTextArray) {
           caseColumnsTextArray.forEach(function (caseColumnsText) {
             expect(caseColumnsText).toBeTruthy();

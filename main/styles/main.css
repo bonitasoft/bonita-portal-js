@@ -83,6 +83,10 @@ body {
     padding: 0 100px 0 100px;
 }
 
+#case-list .column-visibility-name{
+    cursor : grab;
+}
+
 #case-list .column-visibility-checkbox{
     margin: 0 0 0 10px;
 }

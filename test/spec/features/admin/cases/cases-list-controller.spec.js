@@ -39,6 +39,7 @@
       var defaultPageSize = 1000;
       var defaultSort = 'id';
       var defaultDeployedFields = ['titi', 'tata', 'toto'];
+      var defaultActiveCounterFields = ['failed', 'ongoing'];
 
       describe('with incorrect columns', function () {
         beforeEach(inject(function ($controller) {
@@ -48,6 +49,7 @@
             'defaultPageSize': defaultPageSize,
             'defaultSort': defaultSort,
             'defaultDeployedFields': defaultDeployedFields,
+            'defaultActiveCounterFields': defaultActiveCounterFields,
             'casesColumns': [
               {name: 'AppName', sortName: 'name', path: ['processDefinitionId', 'name']},
               {name: 'Version', sortName: 'version', path: ['processDefinitionIdsdf', 'version']},
@@ -69,7 +71,8 @@
             c: defaultPageSize,
             o: defaultSort + ' ASC',
             d: defaultDeployedFields,
-            f: []
+            f: [],
+            n : defaultActiveCounterFields
           });
         });
       });
@@ -82,7 +85,8 @@
             'caseAPI': caseAPI,
             'defaultPageSize': defaultPageSize,
             'defaultSort': defaultSort,
-            'defaultDeployedFields': defaultDeployedFields
+            'defaultDeployedFields': defaultDeployedFields,
+            'defaultActiveCounterFields': defaultActiveCounterFields
           });
         }));
 
@@ -111,7 +115,8 @@
             c: defaultPageSize,
             o: defaultSort + ' ASC',
             d: defaultDeployedFields,
-            f: []
+            f: [],
+            n : defaultActiveCounterFields
           });
         }));
       });
@@ -119,7 +124,8 @@
 
     describe('sort behaviour', function () {
       describe('go to case details', function () {
-        var mockedWindow;
+        var mockedWindow,
+          manageTopUrl = jasmine.createSpyObj('manageTopUrl', ['getUrlToTokenAndId', 'replaceTab']);
         beforeEach(inject(function($controller){
           mockedWindow = {
               top : {
@@ -128,55 +134,25 @@
             };
           $controller('ActiveCaseListCtrl', {
             '$scope': scope,
-            '$window' : mockedWindow
+            '$window' : mockedWindow,
+            'manageTopUrl' : manageTopUrl,
+            'moreDetailToken' : 'casedetails'
           });
         }));
         describe('go to case function', function(){
-          beforeEach(function () {
-            spyOn(scope, 'getCurrentProfile').and.returnValue('_pf=2');
-            mockedWindow.top.location.pathname = '/bonita/portal/homepage';
-            mockedWindow.top.location.search = '?tenant=1';
-          });
           it('should change top location hash to case detail', function () {
             expect(scope.getCaseDetailUrl()).toBeUndefined();
           });
 
           it('should change top location hash to case detail', function () {
+            manageTopUrl.getUrlToTokenAndId.and.returnValue('/bonita/portal/homepage?tenant=1#?id=123&_p=casemoredetailsadmin&_pf=2');
             var caseItemId = 123;
             expect(scope.getCaseDetailUrl(caseItemId)).toEqual('/bonita/portal/homepage?tenant=1#?id=123&_p=casemoredetailsadmin&_pf=2');
-            caseItemId = '4658';
-            scope.getCaseDetailUrl(caseItemId);
-            expect(scope.getCaseDetailUrl(caseItemId)).toEqual('/bonita/portal/homepage?tenant=1#?id=4658&_p=casemoredetailsadmin&_pf=2');
-          });
-          it('should change top location hash to case detail', function () {
-            scope.goToCase();
-            expect(mockedWindow.top.location).toEqual({pathname : '/bonita/portal/homepage', search : '?tenant=1'});
-          });
-
-          it('should change top location hash to case detail', function () {
-            var caseItemId = 123;
-            scope.goToCase(caseItemId);
-            expect(mockedWindow.top.location.href).toEqual('/bonita/portal/homepage?tenant=1#?id=123&_p=casemoredetailsadmin&_pf=2');
             caseItemId = '4568';
-            scope.goToCase(caseItemId);
-            expect(mockedWindow.top.location.href).toEqual('/bonita/portal/homepage?tenant=1#?id=4568&_p=casemoredetailsadmin&_pf=2');
-          });
-        });
-        describe('retrieve current profile from top Url', function(){
-          it('should not throw error when no top or hash empty', function(){
-            expect(scope.getCurrentProfile()).toBeUndefined();
-            delete mockedWindow.top;
-            expect(scope.getCurrentProfile()).toBeUndefined();
-          });
-          it('should find _pf=2 from top window', function(){
-            mockedWindow.top.location.hash = '?_p=ng-caselistingadmin&_pf=2';
-            expect(scope.getCurrentProfile()).toBe('_pf=2');
-            mockedWindow.top.location.hash = '?_pf=372&_p=ng-caselistingadmin';
-            expect(scope.getCurrentProfile()).toBe('_pf=372');
-            mockedWindow.top.location.hash = '?_p=ng-caselistingadmin&_pf=452&_pf=6';
-            expect(scope.getCurrentProfile()).toBe('_pf=452');
-            mockedWindow.top.location.hash = '_pf=122';
-            expect(scope.getCurrentProfile()).toBe('_pf=122');
+            manageTopUrl.getUrlToTokenAndId.and.returnValue('/bonita/portal/homepage?tenant=1#?id=4568&_p=casemoredetailsadmin&_pf=2');
+            scope.getCaseDetailUrl(caseItemId);
+            expect(scope.getCaseDetailUrl(caseItemId)).toEqual('/bonita/portal/homepage?tenant=1#?id=4568&_p=casemoredetailsadmin&_pf=2');
+            expect(manageTopUrl.getUrlToTokenAndId.calls.allArgs()).toEqual([[123, 'casedetails'], ['4568', 'casedetails'], ['4568', 'casedetails']]);
           });
         });
       });
@@ -186,6 +162,7 @@
         var defaultSort = 'id';
         var defaultDeployedFields = ['titi', 'tata', 'toto'];
         var anchorScroll = jasmine.createSpy();
+        var defaultActiveCounterFields = ['failed', 'ongoing'];
 
         beforeEach(inject(function ($controller) {
           $controller('ActiveCaseListCtrl', {
@@ -199,7 +176,8 @@
               {name: 'Version', sortName: 'version', path: ['processDefinitionId', 'version']},
               {name: 'CaseId', sortName: 'id', path: ['id']}
             ],
-            '$anchorScroll': anchorScroll
+            '$anchorScroll': anchorScroll,
+            'defaultActiveCounterFields': defaultActiveCounterFields
           });
         }));
         it('should call next Page without sort', function () {
@@ -213,10 +191,10 @@
           expect(anchorScroll).toHaveBeenCalled();
           expect(caseAPI.search.calls.allArgs()).toEqual([
             [
-              {p: 0, c: defaultPageSize, o: defaultSort + ' ASC', d: defaultDeployedFields, f: []}
+              {p: 0, c: defaultPageSize, o: defaultSort + ' ASC', d: defaultDeployedFields, f: [], n: defaultActiveCounterFields}
             ],
             [
-              {p: 1, c: defaultPageSize, o: defaultSort + ' ASC', d: defaultDeployedFields, f: []}
+              {p: 1, c: defaultPageSize, o: defaultSort + ' ASC', d: defaultDeployedFields, f: [], n: defaultActiveCounterFields}
             ],
           ]);
         });
@@ -243,19 +221,19 @@
 
           expect(caseAPI.search.calls.allArgs()).toEqual([
             [
-              {p: 0, c: defaultPageSize, o: defaultSort + ' ASC', d: defaultDeployedFields, f: []}
+              {p: 0, c: defaultPageSize, o: defaultSort + ' ASC', d: defaultDeployedFields, f: [], n: defaultActiveCounterFields}
             ],
             [
-              {p: 0, c: defaultPageSize, o: 'name DESC', d: defaultDeployedFields, f: []}
+              {p: 0, c: defaultPageSize, o: 'name DESC', d: defaultDeployedFields, f: [], n: defaultActiveCounterFields}
             ],
             [
-              {p: 1, c: defaultPageSize, o: 'name DESC', d: defaultDeployedFields, f: []}
+              {p: 1, c: defaultPageSize, o: 'name DESC', d: defaultDeployedFields, f: [], n: defaultActiveCounterFields}
             ],
             [
-              {p: 0, c: defaultPageSize, o: 'name DESC', d: defaultDeployedFields, f: []}
+              {p: 0, c: defaultPageSize, o: 'name DESC', d: defaultDeployedFields, f: [], n: defaultActiveCounterFields}
             ],
             [
-              {p: 0, c: defaultPageSize, o: 'version ASC', d: defaultDeployedFields, f: []}
+              {p: 0, c: defaultPageSize, o: 'version ASC', d: defaultDeployedFields, f: [], n: defaultActiveCounterFields}
             ]
           ]);
         });
@@ -267,6 +245,7 @@
           var defaultSort = 'id';
           var defaultDeployedFields = ['titi', 'tata', 'toto'];
           var anchorScroll = jasmine.createSpy();
+          var defaultActiveCounterFields = ['failed', 'ongoing'];
 
           beforeEach(inject(function ($controller) {
             $controller('ActiveCaseListCtrl', {
@@ -280,7 +259,8 @@
                 {name: 'Version', sortName: 'version', path: ['processDefinitionId', 'version']},
                 {name: 'CaseId', sortName: 'id', path: ['id']}
               ],
-              '$anchorScroll': anchorScroll
+              '$anchorScroll': anchorScroll,
+              'defaultActiveCounterFields': defaultActiveCounterFields
             });
           }));
           it('should call default sort on empty tableState', function () {
@@ -289,10 +269,10 @@
 
             expect(caseAPI.search.calls.allArgs()).toEqual([
               [
-                {p: 0, c: defaultPageSize, o: defaultSort + ' ASC', d: defaultDeployedFields, f: []}
+                {p: 0, c: defaultPageSize, o: defaultSort + ' ASC', d: defaultDeployedFields, f: [], n: defaultActiveCounterFields}
               ],
               [
-                {p: 0, c: defaultPageSize, o: defaultSort + ' ASC', d: defaultDeployedFields, f: []}
+                {p: 0, c: defaultPageSize, o: defaultSort + ' ASC', d: defaultDeployedFields, f: [], n: defaultActiveCounterFields}
               ]
             ]);
             expect(anchorScroll).toHaveBeenCalled();
@@ -306,16 +286,16 @@
             expect(anchorScroll).toHaveBeenCalled();
             expect(caseAPI.search.calls.allArgs()).toEqual([
               [
-                {p: 0, c: defaultPageSize, o: defaultSort + ' ASC', d: defaultDeployedFields, f: []}
+                {p: 0, c: defaultPageSize, o: defaultSort + ' ASC', d: defaultDeployedFields, f: [], n: defaultActiveCounterFields}
               ],
               [
-                {p: 0, c: defaultPageSize, o: 'name DESC', d: defaultDeployedFields, f: []}
+                {p: 0, c: defaultPageSize, o: 'name DESC', d: defaultDeployedFields, f: [], n: defaultActiveCounterFields}
               ],
               [
-                {p: 0, c: defaultPageSize, o: 'name ASC', d: defaultDeployedFields, f: []}
+                {p: 0, c: defaultPageSize, o: 'name ASC', d: defaultDeployedFields, f: [], n: defaultActiveCounterFields}
               ],
               [
-                {p: 0, c: defaultPageSize, o: 'version DESC', d: defaultDeployedFields, f: []}
+                {p: 0, c: defaultPageSize, o: 'version DESC', d: defaultDeployedFields, f: [], n: defaultActiveCounterFields}
               ]
             ]);
 
@@ -451,27 +431,6 @@
         expect(scope.searchForCases).toHaveBeenCalledWith();
         expect(scope.pagination.itemsPerPage).toBe(itemsPerPage);
         expect(scope.pagination.currentPage).toBe(1);
-      });
-    });
-
-    describe('formatContent', function () {
-      beforeEach(inject(function ($controller) {
-        $controller('ActiveCaseListCtrl', {
-          '$scope': scope
-        });
-      }));
-      it('should not format data', function () {
-        var data = 'test';
-        expect(scope.formatContent([], data)).toBe(data);
-      });
-      it('should not format date when data is not in the right format', function () {
-        var data = 'test';
-        expect(scope.formatContent({date: true}, data)).toBe(data);
-      });
-      it('should not format date when data is not in the right format', function () {
-        var data = '2014-10-17 16:05:42.626';
-        var expectedFormatedData = '2014-10-17 16:05';
-        expect(scope.formatContent({date: true}, data)).toBe(expectedFormatedData);
       });
     });
 

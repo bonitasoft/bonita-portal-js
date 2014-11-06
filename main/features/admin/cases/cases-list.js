@@ -8,19 +8,19 @@
    * describes the case list components
    */
 
-  angular.module('org.bonita.features.admin.cases.list', ['org.bonita.common.resources', 'gettext', 'smart-table', 'ui.bootstrap', 'lrDragNDrop', 'org.bonita.common.resources.store', 'org.bonita.common.directives.selectAll', 'angular-growl', 'org.bonita.services.topurl'])
+  angular.module('org.bonita.features.admin.cases.list', ['org.bonita.common.resources', 'gettext', 'smart-table', 'ui.bootstrap', 'lrDragNDrop', 'org.bonita.common.resources.store', 'org.bonita.common.directives.selectAll', 'angular-growl', 'ngAnimate', 'org.bonita.services.topurl'])
     .config(['growlProvider', function (growlProvider) {
       growlProvider.globalPosition('top-center');
     }])
     .value('casesColumns', [
-      {name: 'App name', sortName: 'name', path: ['processDefinitionId', 'name'], selected: true, linkToProcess : true},
+      {name: 'Process name', sortName: 'name', path: ['processDefinitionId', 'name'], selected: true, linkToProcess : true},
       {name: 'Version', sortName: 'version', path: ['processDefinitionId', 'version'], selected: true},
       {name: 'ID', sortName: 'id', path: ['id'], selected: true, align: 'right'},
       {name: 'Start date', sortName: 'startDate', path: ['start'], selected: true, date: true},
       {name: 'Started by', sortName: 'username', path: ['started_by', 'userName'], selected: true},
       {name: 'State', sortName: 'stateId', path: ['state'], selected: true},
       {name: 'Failed Nodes', sortName: 'failed', path: ['failedFlowNodes'], selected: true, popover : true},
-      {name: 'Ongoing Nodes', sortName: 'ongoing', path: ['activeFlowNodes'], selected: true, popover : true}
+      {name: 'Pending Nodes', sortName: 'ongoing', path: ['activeFlowNodes'], selected: true, popover : true}
     ])
     .value('caseStatusValues', {started: 'Started', error: 'Failed'})
     .value('moreDetailToken', 'casemoredetailsadmin')
@@ -68,7 +68,7 @@
             // convert 2014-10-17 16:05:42.626 to ISO-8601 Format 2014-10-17T16:05:42.626Z
             contents = $filter('date')($scope.caseItem[$scope.column.name].replace(/ /, 'T'), 'yyyy-MM-dd HH:mm');
           } else if($scope.column && $scope.column.popover){
-            contents = '<a popover-placement="top" popover="On the Top!">'+$scope.caseItem[$scope.column.name]+'</a>';
+            contents = '<a href="" popover-trigger popover-placement="top" popover="On the Top!">'+$scope.caseItem[$scope.column.name]+'</a>';
           } else if($scope.column && $scope.column.linkToProcess){
             contents = '<a target="_top" href="'+manageTopUrl.getPath() + manageTopUrl.getSearch()+'#?id='+$scope.caseItem.processDefinitionId.id+'&_p=processmoredetailsadmin&'+manageTopUrl.getCurrentProfile()+'">'+$scope.caseItem[$scope.column.name]+'</a>';
           } else {
@@ -98,7 +98,7 @@
       };
     }])
     .value('archivedCasesColumns', [
-      {name: 'App name', sortName: 'name', path: ['processDefinitionId', 'name'], selected: true, linkToProcess : true},
+      {name: 'Process name', sortName: 'name', path: ['processDefinitionId', 'name'], selected: true, linkToProcess : true},
       {name: 'Version', sortName: 'version', path: ['processDefinitionId', 'version'], selected: true},
       {name: 'ID', sortName: 'id', path: ['sourceObjectId'], selected: true, align: 'right'},
       {name: 'Start date', sortName: 'startDate', path: ['start'], selected: true, date: true},
@@ -537,13 +537,7 @@
 
     $scope.getCaseDetailUrl = function (caseItemId){
       if(caseItemId){
-        return manageTopUrl.getPath() + manageTopUrl.getSearch() + '#?id='+caseItemId+'&_p='+moreDetailToken+'&'+manageTopUrl.getCurrentProfile();
-      }
-    };
-
-    $scope.goToCase = function (caseItemId){
-      if(caseItemId){
-        $window.top.location.href = $scope.getCaseDetailUrl(caseItemId);
+        return manageTopUrl.getUrlToTokenAndId(caseItemId, moreDetailToken);
       }
     };
 
@@ -563,14 +557,6 @@
         $scope.pagination.currentPage = 1;
         $scope.searchForCases();
       }
-    };
-    $scope.formatContent = function (column, caseItem) {
-      if (column && column.date && caseItem[column.name] && typeof data === 'string') {
-        //received date is in a non-standard format...
-        // convert 2014-10-17 16:05:42.626 to ISO-8601 Format 2014-10-17T16:05:42.626Z
-        return $filter('date')(caseItem[column.name].replace(/ /, 'T'), 'yyyy-MM-dd HH:mm');
-      }
-      return caseItem[column.name];
     };
   }
 })();

@@ -2,6 +2,8 @@
   {
     "id": "1022",
     "end_date": "",
+    "failedFlowNodes" : "0",
+    "activeFlowNodes" : "1",
     "startedBySubstitute": {
       "last_connection": "2014-10-22 13:44:15.923",
       "created_by_user_id": "-1",
@@ -57,6 +59,8 @@
   {
     "id": "1021",
     "end_date": "",
+    "failedFlowNodes" : "0",
+    "activeFlowNodes" : "1",
     "startedBySubstitute": {
       "last_connection": "2014-10-22 13:44:15.923",
       "created_by_user_id": "-1",
@@ -112,6 +116,8 @@
   {
     "id": "1020",
     "end_date": "",
+    "failedFlowNodes" : "0",
+    "activeFlowNodes" : "1",
     "startedBySubstitute": {
       "last_connection": "2014-10-22 13:44:15.923",
       "created_by_user_id": "-1",
@@ -167,6 +173,8 @@
   {
     "id": "1019",
     "end_date": "",
+    "failedFlowNodes" : "0",
+    "activeFlowNodes" : "1",
     "startedBySubstitute": {
       "last_connection": "2014-10-22 13:44:15.923",
       "created_by_user_id": "-1",
@@ -222,6 +230,8 @@
   {
     "id": "1018",
     "end_date": "",
+    "failedFlowNodes" : "0",
+    "activeFlowNodes" : "1",
     "startedBySubstitute": {
       "last_connection": "2014-10-22 13:44:15.923",
       "created_by_user_id": "-1",
@@ -277,6 +287,8 @@
   {
     "id": "1017",
     "end_date": "",
+    "failedFlowNodes" : "0",
+    "activeFlowNodes" : "1",
     "startedBySubstitute": {
       "last_connection": "2014-10-22 13:44:15.923",
       "created_by_user_id": "-1",
@@ -332,6 +344,8 @@
   {
     "id": "1016",
     "end_date": "",
+    "failedFlowNodes" : "0",
+    "activeFlowNodes" : "1",
     "startedBySubstitute": {
       "last_connection": "2014-10-22 13:44:15.923",
       "created_by_user_id": "-1",
@@ -387,6 +401,8 @@
   {
     "id": "1015",
     "end_date": "",
+    "failedFlowNodes" : "0",
+    "activeFlowNodes" : "1",
     "startedBySubstitute": {
       "last_connection": "2014-10-22 13:44:15.923",
       "created_by_user_id": "-1",
@@ -442,6 +458,8 @@
   {
     "id": "1014",
     "end_date": "",
+    "failedFlowNodes" : "0",
+    "activeFlowNodes" : "1",
     "startedBySubstitute": {
       "last_connection": "2014-10-22 13:44:15.923",
       "created_by_user_id": "-1",
@@ -497,6 +515,8 @@
   {
     "id": "1013",
     "end_date": "",
+    "failedFlowNodes" : "0",
+    "activeFlowNodes" : "1",
     "startedBySubstitute": {
       "last_connection": "2014-10-22 13:44:15.923",
       "created_by_user_id": "-1",
@@ -552,6 +572,8 @@
   {
     "id": "1012",
     "end_date": "",
+    "failedFlowNodes" : "0",
+    "activeFlowNodes" : "1",
     "startedBySubstitute": {
       "last_connection": "2014-10-22 13:44:15.923",
       "created_by_user_id": "-1",
@@ -607,6 +629,8 @@
   {
     "id": "1011",
     "end_date": "",
+    "failedFlowNodes" : "0",
+    "activeFlowNodes" : "1",
     "startedBySubstitute": {
       "last_connection": "2014-10-22 13:44:15.923",
       "created_by_user_id": "-1",
@@ -662,6 +686,8 @@
   {
     "id": "1010",
     "end_date": "",
+    "failedFlowNodes" : "0",
+    "activeFlowNodes" : "1",
     "startedBySubstitute": {
       "last_connection": "2014-10-22 13:44:15.923",
       "created_by_user_id": "-1",
@@ -717,6 +743,8 @@
   {
     "id": "1009",
     "end_date": "",
+    "failedFlowNodes" : "0",
+    "activeFlowNodes" : "1",
     "startedBySubstitute": {
       "last_connection": "2014-10-22 13:44:15.923",
       "created_by_user_id": "-1",
@@ -772,6 +800,8 @@
   {
     "id": "1008",
     "end_date": "",
+    "failedFlowNodes" : "0",
+    "activeFlowNodes" : "1",
     "startedBySubstitute": {
       "last_connection": "2014-10-22 13:44:15.923",
       "created_by_user_id": "-1",
@@ -827,6 +857,8 @@
   {
     "id": "1007",
     "end_date": "",
+    "failedFlowNodes" : "0",
+    "activeFlowNodes" : "1",
     "startedBySubstitute": {
       "last_connection": "2014-10-22 13:44:15.923",
       "created_by_user_id": "-1",
@@ -882,6 +914,8 @@
   {
     "id": "1006",
     "end_date": "",
+    "failedFlowNodes" : "0",
+    "activeFlowNodes" : "1",
     "startedBySubstitute": {
       "last_connection": "2014-10-22 13:44:15.923",
       "created_by_user_id": "-1",
@@ -937,6 +971,8 @@
   {
     "id": "1005",
     "end_date": "",
+    "failedFlowNodes" : "0",
+    "activeFlowNodes" : "1",
     "startedBySubstitute": {
       "last_connection": "2014-10-22 13:44:15.923",
       "created_by_user_id": "-1",
@@ -992,6 +1028,8 @@
   {
     "id": "1004",
     "end_date": "",
+    "failedFlowNodes" : "0",
+    "activeFlowNodes" : "1",
     "startedBySubstitute": {
       "last_connection": "2014-10-22 13:44:15.923",
       "created_by_user_id": "-1",
@@ -1047,6 +1085,8 @@
   {
     "id": "1003",
     "end_date": "",
+    "failedFlowNodes" : "0",
+    "activeFlowNodes" : "1",
     "startedBySubstitute": {
       "last_connection": "2014-10-22 13:44:15.923",
       "created_by_user_id": "-1",
@@ -1102,6 +1142,8 @@
   {
     "id": "1002",
     "end_date": "",
+    "failedFlowNodes" : "0",
+    "activeFlowNodes" : "1",
     "startedBySubstitute": {
       "last_connection": "2014-10-22 13:44:15.923",
       "created_by_user_id": "-1",
@@ -1157,6 +1199,8 @@
   {
     "id": "1001",
     "end_date": "",
+    "failedFlowNodes" : "0",
+    "activeFlowNodes" : "1",
     "startedBySubstitute": {
       "last_connection": "2014-10-22 13:44:15.923",
       "created_by_user_id": "-1",
@@ -1212,6 +1256,8 @@
   {
     "id": "6",
     "end_date": "",
+    "failedFlowNodes" : "0",
+    "activeFlowNodes" : "1",
     "startedBySubstitute": {
       "last_connection": "2014-10-22 13:44:15.923",
       "created_by_user_id": "-1",
@@ -1267,6 +1313,8 @@
   {
     "id": "5",
     "end_date": "",
+    "failedFlowNodes" : "0",
+    "activeFlowNodes" : "1",
     "startedBySubstitute": {
       "last_connection": "2014-10-22 13:44:15.923",
       "created_by_user_id": "-1",
@@ -1322,6 +1370,8 @@
   {
     "id": "4",
     "end_date": "",
+    "failedFlowNodes" : "0",
+    "activeFlowNodes" : "1",
     "startedBySubstitute": {
       "last_connection": "2014-10-22 13:44:15.923",
       "created_by_user_id": "-1",

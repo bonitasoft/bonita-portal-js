@@ -2,16 +2,14 @@
 <div>
 
   <active-case-filters> </active-case-filters>
-
   <div class="panel panel-default">
 
-    <div class="panel-heading"> <translate>Cases</translate> <span ng-click="reinitCases()" class="glyphicon glyphicon-refresh"></span></div>
+    <div class="panel-heading"> <translate>Cases List</translate> <span style="padding-left : 10px; cursor: pointer;" ng-click="reinitCases()" class="glyphicon glyphicon-repeat"></span></div>
     <div class="panel-body">
     <div growl></div>
       <div ng-if="cases.length">
         <div class="col-md-6">
           <button active-case-delete id="delete-button" type="button" class='btn btn-default' ng-click="confirmDeleteSelectedCases()" ng-disabled="checkCaseIsNotSelected()" translate>Delete</button>
-          <button type="button" class='btn btn-default'>Test</button>
         </div>
         <div id="table-actions" class="col-md-6 text-right">
           <div class="btn-group text-left" id='page-size'>
@@ -52,7 +50,7 @@
                 <input id="case-check-{{case['ID']}}" type="checkbox" ng-model="case.selected">
               </td>
               <td class="case-detail" ng-repeat="col in columns   | filter : filterColumn"><p ng-class="{'pull-right': col.align}"><format-content column="col" case-item="case"></format-content></p></td>
-              <td><a target="_blank" ng-href="{{getCaseDetailUrl(case.id)}}" class="btn btn-default"><span class="glyphicon glyphicon-new-window"></span><a></td>
+              <td><a target="_top" ng-href="{{getCaseDetailUrl(case.id)}}" class="btn btn-default"><span class="glyphicon glyphicon-eye-open"></span><a></td>
             </tr>
             </tbody>
 
