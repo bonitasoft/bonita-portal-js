@@ -28,8 +28,8 @@
     }])
     .controller('CaseCtrl', ['$scope', '$state', function($scope, $state){
       $scope.casesStates = [];
-      $scope.casesStates.push({state : 'bonita.cases.active', title: 'Active Cases'});
-      $scope.casesStates.push({state : 'bonita.cases.archived', title: 'Archived Cases'});
+      $scope.casesStates.push({state : 'bonita.cases.active', title: 'Active Cases', htmlAttributeId:'TabActiveCases'});
+      $scope.casesStates.push({state : 'bonita.cases.archived', title: 'Archived Cases', htmlAttributeId:'TabArchivedCases'});
       $scope.state = $state;
       console.log($scope.casesStates);
     }]);
