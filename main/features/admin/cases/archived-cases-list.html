@@ -50,7 +50,7 @@
               <td class="case-checkbox">
                 <input id="case-check-{{case['ID']}}" type="checkbox" ng-model="case.selected">
               </td>
-              <td class="case-detail" ng-repeat="col in columns   | filter : filterColumn" ng-click="goToCase(case.id)"><p ng-class="{'pull-right': col.align}">{{formatContent(col, case[col.name])}}</p></td>
+              <td class="case-detail" ng-repeat="col in columns   | filter : filterColumn"><p ng-class="{'pull-right': col.align}"><format-content column="col" case-item="case"></format-content></p></td>
               <td><a target="_blank" ng-href="{{getCaseDetailUrl(case.id)}}" class="btn btn-default"><span class="glyphicon glyphicon-new-window"></span><a></td>
             </tr>
             </tbody>

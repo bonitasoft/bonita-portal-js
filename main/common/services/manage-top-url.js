@@ -20,8 +20,24 @@
         }
       }
 
+      function getCurrentProfile(){
+        if($window && $window.top && $window.top.location && $window.top.location.hash){
+          var currentProfileMatcher = $window.top.location.hash.match(/\b_pf=\d+\b/);
+          return (currentProfileMatcher && currentProfileMatcher.length)?currentProfileMatcher[0]:'';
+        }
+      }
+
+      function getPath(){
+        return $window.top.location.pathname;
+      }
+      function getSearch() {
+        return $window.top.location.search || '';
+      }
       return {
-        replaceTab : replaceTab
+        replaceTab : replaceTab,
+        getCurrentProfile : getCurrentProfile,
+        getPath : getPath,
+        getSearch : getSearch
       };
     }]);
 })();

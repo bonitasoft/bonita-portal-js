@@ -13,12 +13,14 @@
       growlProvider.globalPosition('top-center');
     }])
     .value('casesColumns', [
-      {name: 'App name', sortName: 'name', path: ['processDefinitionId', 'name'], selected: true},
+      {name: 'App name', sortName: 'name', path: ['processDefinitionId', 'name'], selected: true, linkToProcess : true},
       {name: 'Version', sortName: 'version', path: ['processDefinitionId', 'version'], selected: true},
       {name: 'ID', sortName: 'id', path: ['id'], selected: true, align: 'right'},
       {name: 'Start date', sortName: 'startDate', path: ['start'], selected: true, date: true},
       {name: 'Started by', sortName: 'username', path: ['started_by', 'userName'], selected: true},
-      {name: 'State', sortName: 'stateId', path: ['state'], selected: true}
+      {name: 'State', sortName: 'stateId', path: ['state'], selected: true},
+      {name: 'Failed Nodes', sortName: 'failed', path: ['failedFlowNodes'], selected: true, popover : true},
+      {name: 'Ongoing Nodes', sortName: 'ongoing', path: ['activeFlowNodes'], selected: true, popover : true}
     ])
     .value('caseStatusValues', {started: 'Started', error: 'Failed'})
     .value('moreDetailToken', 'casemoredetailsadmin')
@@ -27,8 +29,9 @@
     .value('defaultSort', 'id')
     .value('defaultFilters', {appVersion: 'All', appName: 'All', caseStatus: 'All'})
     .value('defaultDeployedFields', ['processDefinitionId', 'started_by', 'startedBySubstitute'])
+    .value('defaultActiveCounterFields', ['activeFlowNodes','failedFlowNodes'])
     .value('activedTabName', '')
-    .controller('ActiveCaseListCtrl', ['$scope', 'caseAPI', 'casesColumns', 'defaultPageSize', 'defaultSort', 'defaultDeployedFields', '$location', 'pageSizes', 'defaultFilters', '$filter', '$anchorScroll', 'growl', '$log', '$window', 'moreDetailToken', 'activedTabName', 'manageTopUrl', CaseListCtrl])
+    .controller('ActiveCaseListCtrl', ['$scope', 'caseAPI', 'casesColumns', 'defaultPageSize', 'defaultSort', 'defaultDeployedFields', 'defaultActiveCounterFields', '$location', 'pageSizes', 'defaultFilters', '$filter', '$anchorScroll', 'growl', '$log', '$window', 'moreDetailToken', 'activedTabName', 'manageTopUrl', CaseListCtrl])
     .controller('ActiveCaseFilterController', ['$scope', 'store', 'processAPI', 'defaultFilters', 'caseStatusValues', 'activedTabName', CaseFilterController])
     .controller('ActiveCaseDeleteCtrl', ['$scope', '$modal', 'caseAPI', 'gettextCatalog', CaseDeleteCtrl])
     .directive('activeCaseFilters', function () {
@@ -48,7 +51,36 @@
       };
     })
     .controller('DeleteCaseModalCtrl', ['$scope', '$modalInstance', 'caseItems', DeleteCaseModalCtrl])
-    .directive('resizableColumn', ['$timeout', '$interval', function ($timeout) {
+    .directive('formatContent', [ '$filter', 'manageTopUrl', '$compile',  function ($filter, manageTopUrl, $compile) {
+      return {
+        template : '<div></div>',
+        replace : true,
+        restrict : 'AE',
+        scope : {
+          column : '=',
+          caseItem : '=',
+          getCurrentProfile : '&'
+        },
+        link : function($scope, $element){
+          var contents = '';
+          if ($scope.column && $scope.column.date && $scope.caseItem[$scope.column.name] && typeof $scope.caseItem[$scope.column.name] === 'string') {
+            //received date is in a non-standard format...
+            // convert 2014-10-17 16:05:42.626 to ISO-8601 Format 2014-10-17T16:05:42.626Z
+            contents = $filter('date')($scope.caseItem[$scope.column.name].replace(/ /, 'T'), 'yyyy-MM-dd HH:mm');
+          } else if($scope.column && $scope.column.popover){
+            contents = '<a popover-placement="top" popover="On the Top!">'+$scope.caseItem[$scope.column.name]+'</a>';
+          } else if($scope.column && $scope.column.linkToProcess){
+            contents = '<a target="_top" href="'+manageTopUrl.getPath() + manageTopUrl.getSearch()+'#?id='+$scope.caseItem.processDefinitionId.id+'&_p=processmoredetailsadmin&'+manageTopUrl.getCurrentProfile()+'">'+$scope.caseItem[$scope.column.name]+'</a>';
+          } else {
+            contents = $scope.caseItem[$scope.column.name];
+          }
+          $element.html(contents);
+          //to enable directive injection, we need to compile the created element contents
+          $compile($element)($scope);
+        }
+      };
+    }])
+    .directive('resizableColumn', ['$timeout', function ($timeout) {
       return {
         restrict: 'A',
         link: function (scope, $el) {
@@ -66,7 +98,7 @@
       };
     }])
     .value('archivedCasesColumns', [
-      {name: 'App name', sortName: 'name', path: ['processDefinitionId', 'name'], selected: true},
+      {name: 'App name', sortName: 'name', path: ['processDefinitionId', 'name'], selected: true, linkToProcess : true},
       {name: 'Version', sortName: 'version', path: ['processDefinitionId', 'version'], selected: true},
       {name: 'ID', sortName: 'id', path: ['sourceObjectId'], selected: true, align: 'right'},
       {name: 'Start date', sortName: 'startDate', path: ['start'], selected: true, date: true},
@@ -77,7 +109,8 @@
     .value('archivedCaseStatusValues', {started: 'Started', error: 'Failed'})
     .value('archivedMoreDetailToken', 'archivedcasemoredetailsadmin')
     .value('archivedTabName', 'archived')
-    .controller('ArchivedCaseListCtrl', ['$scope', 'archivedCaseAPI', 'archivedCasesColumns', 'defaultPageSize', 'defaultSort', 'defaultDeployedFields', '$location', 'pageSizes', 'defaultFilters', '$filter', '$anchorScroll', 'growl', '$log', '$window', 'archivedMoreDetailToken', 'archivedTabName', 'manageTopUrl', CaseListCtrl])
+    .value('defaultArchivedCounterFields', [])
+    .controller('ArchivedCaseListCtrl', ['$scope', 'archivedCaseAPI', 'archivedCasesColumns', 'defaultPageSize', 'defaultSort', 'defaultDeployedFields', 'defaultArchivedCounterFields', '$location', 'pageSizes', 'defaultFilters', '$filter', '$anchorScroll', 'growl', '$log', '$window', 'archivedMoreDetailToken', 'archivedTabName', 'manageTopUrl', CaseListCtrl])
     .controller('ArchivedCaseFilterController', ['$scope', 'store', 'processAPI', 'defaultFilters', 'caseStatusValues', CaseFilterController])
     .controller('ArchivedCaseDeleteCtrl', ['$scope', '$modal', 'archivedCaseAPI', 'gettextCatalog', CaseDeleteCtrl])
     .directive('archivedCaseFilters', function () {
@@ -361,7 +394,7 @@
    * @requires $anchorScroll
    * @requires growl
    */
-  function CaseListCtrl($scope, caseAPI, casesColumns, defaultPageSize, defaultSort, defaultDeployedFields, $location, pageSizes, defaultFilters, $filter, $anchorScroll, growl, $log, $window, moreDetailToken, tabName, manageTopUrl) {
+  function CaseListCtrl($scope, caseAPI, casesColumns, defaultPageSize, defaultSort, defaultDeployedFields, defaultCounterFields, $location, pageSizes, defaultFilters, $filter, $anchorScroll, growl, $log, $window, moreDetailToken, tabName, manageTopUrl) {
 
     /**
      * @ngdoc property
@@ -453,7 +486,8 @@
         c: $scope.pagination.itemsPerPage,
         d: defaultDeployedFields,
         o: $scope.searchSort,
-        f: $scope.filters
+        f: $scope.filters,
+        n: defaultCounterFields
       });
 
       caseSearch.$promise.then(function mapCases(fullCases) {
@@ -470,6 +504,7 @@
             simpleCase[$scope.columns[i].name] = currentCase;
           }
           simpleCase.id = fullCase.id;
+          simpleCase.processDefinitionId = fullCase.processDefinitionId;
           return simpleCase;
         });
       }, function (error) {
@@ -500,16 +535,9 @@
 
     $scope.searchForCases();
 
-    $scope.getCurrentProfile = function(){
-      if($window && $window.top && $window.top.location && $window.top.location.hash){
-        var currentProfileMatcher = $window.top.location.hash.match(/\b_pf=\d+\b/);
-        return (currentProfileMatcher && currentProfileMatcher.length)?currentProfileMatcher[0]:'';
-      }
-    };
-
     $scope.getCaseDetailUrl = function (caseItemId){
       if(caseItemId){
-        return $window.top.location.pathname + ($window.top.location.search || '') + '#?id='+caseItemId+'&_p='+moreDetailToken+'&'+$scope.getCurrentProfile();
+        return manageTopUrl.getPath() + manageTopUrl.getSearch() + '#?id='+caseItemId+'&_p='+moreDetailToken+'&'+manageTopUrl.getCurrentProfile();
       }
     };
 
@@ -536,13 +564,13 @@
         $scope.searchForCases();
       }
     };
-    $scope.formatContent = function (column, data) {
-      if (column && column.date && data && typeof data === 'string') {
+    $scope.formatContent = function (column, caseItem) {
+      if (column && column.date && caseItem[column.name] && typeof data === 'string') {
         //received date is in a non-standard format...
         // convert 2014-10-17 16:05:42.626 to ISO-8601 Format 2014-10-17T16:05:42.626Z
-        return $filter('date')(data.replace(/ /, 'T'), 'yyyy-MM-dd HH:mm');
+        return $filter('date')(caseItem[column.name].replace(/ /, 'T'), 'yyyy-MM-dd HH:mm');
       }
-      return data;
+      return caseItem[column.name];
     };
   }
 })();
