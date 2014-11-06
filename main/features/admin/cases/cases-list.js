@@ -15,7 +15,7 @@
     .value('casesColumns', [
       {name: 'Process name', sortName: 'name', path: ['processDefinitionId', 'name'], selected: true, linkToProcess : true},
       {name: 'Version', sortName: 'version', path: ['processDefinitionId', 'version'], selected: true},
-      {name: 'ID', sortName: 'id', path: ['id'], selected: true, align: 'right'},
+      {name: 'ID', sortName: 'id', path: ['id'], selected: true, align: 'right', linkToCase : true},
       {name: 'Start date', sortName: 'startDate', path: ['start'], selected: true, date: true},
       {name: 'Started by', sortName: 'username', path: ['started_by', 'userName'], selected: true},
       {name: 'State', sortName: 'stateId', path: ['state'], selected: true},
@@ -68,9 +68,12 @@
             // convert 2014-10-17 16:05:42.626 to ISO-8601 Format 2014-10-17T16:05:42.626Z
             contents = $filter('date')($scope.caseItem[$scope.column.name].replace(/ /, 'T'), 'yyyy-MM-dd HH:mm');
           } else if($scope.column && $scope.column.popover){
-            contents = '<a href="" popover-trigger popover-placement="top" popover="On the Top!">'+$scope.caseItem[$scope.column.name]+'</a>';
+            
+            contents = '<a href="" popover-trigger popover-placement="top" popover="">'+$scope.caseItem[$scope.column.name]+'</a>';
           } else if($scope.column && $scope.column.linkToProcess){
             contents = '<a target="_top" href="'+manageTopUrl.getPath() + manageTopUrl.getSearch()+'#?id='+$scope.caseItem.processDefinitionId.id+'&_p=processmoredetailsadmin&'+manageTopUrl.getCurrentProfile()+'">'+$scope.caseItem[$scope.column.name]+'</a>';
+          } else if($scope.column && $scope.column.linkToCase){
+            contents = '<a target="_top" href="'+manageTopUrl.getPath() + manageTopUrl.getSearch()+'#?id='+$scope.caseItem.id+'&_p=casemoredetailsadmin&'+manageTopUrl.getCurrentProfile()+'">'+$scope.caseItem[$scope.column.name]+'</a>';
           } else {
             contents = $scope.caseItem[$scope.column.name];
           }
