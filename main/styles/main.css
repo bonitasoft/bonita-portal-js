@@ -92,7 +92,7 @@ body {
 }
 
 #case-list .case-row {
-  cursor: pointer;
+  /*cursor: pointer;*/
 }
 #case-list .case-row a{
   /*color: inherit; /* blue colors for links too */
