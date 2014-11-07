@@ -1,7 +1,8 @@
 [
   {
     "id": "1005",
-    "end_date": "",
+    "end_date": "2014-11-02 10:07:43.355",
+    "sourceObjectId":"1",
     "failedFlowNodes" : "0",
     "activeFlowNodes" : "1",
     "startedBySubstitute": {
@@ -58,7 +59,8 @@
   },
   {
     "id": "1006",
-    "end_date": "",
+    "end_date": "2014-11-02 10:07:43.355",
+    "sourceObjectId":"1",
     "failedFlowNodes" : "0",
     "activeFlowNodes" : "1",
     "startedBySubstitute": {
@@ -115,7 +117,8 @@
   },
   {
     "id": "1007",
-    "end_date": "",
+    "end_date": "2014-11-02 10:07:43.355",
+    "sourceObjectId":"1",
     "failedFlowNodes" : "0",
     "activeFlowNodes" : "1",
     "startedBySubstitute": {
@@ -172,7 +175,8 @@
   },
   {
     "id": "1008",
-    "end_date": "",
+    "end_date": "2014-11-02 10:07:43.355",
+    "sourceObjectId":"1",
     "failedFlowNodes" : "0",
     "activeFlowNodes" : "1",
     "startedBySubstitute": {
@@ -229,7 +233,8 @@
   },
   {
     "id": "1009",
-    "end_date": "",
+    "end_date": "2014-11-02 10:07:43.355",
+    "sourceObjectId":"1",
     "failedFlowNodes" : "0",
     "activeFlowNodes" : "1",
     "startedBySubstitute": {
@@ -286,7 +291,8 @@
   },
   {
     "id": "1010",
-    "end_date": "",
+    "end_date": "2014-11-02 10:07:43.355",
+    "sourceObjectId":"1",
     "failedFlowNodes" : "0",
     "activeFlowNodes" : "1",
     "startedBySubstitute": {
@@ -343,7 +349,8 @@
   },
   {
     "id": "1011",
-    "end_date": "",
+    "end_date": "2014-11-02 10:07:43.355",
+    "sourceObjectId":"1",
     "failedFlowNodes" : "0",
     "activeFlowNodes" : "1",
     "startedBySubstitute": {

@@ -5,7 +5,7 @@
 
   <div class="panel panel-default">
 
-    <div class="panel-heading"> <translate>Cases</translate> <span ng-click="reinitCases()" class="glyphicon glyphicon-refresh"></span></div>
+    <div class="panel-heading"> <translate>Cases List</translate> <span ng-click="reinitCases()" class="case-list-refresh glyphicon glyphicon-repeat"></span></div>
     <div class="panel-body">
     <div growl></div>
       <div ng-if="cases.length">
@@ -19,7 +19,7 @@
           <div class="btn-group text-left" dropdown id='columns-selection'>
             <button type="button" class="btn btn-default dropdown-toggle"><translate>Columns</translate> <span class="caret"></span></button>
             <ul class="dropdown-menu" role="menu">
-              <li lr-drag-src="headers" lr-drop-target="headers" ng-repeat="col in columns" ng-click="$event.stopPropagation();" class="column-visibility"><span class="column-visibility-checkbox"><input type="checkbox" ng-model="col.selected"></span><span class="column-visibility-name"> {{col.name | translate}}</span></li>
+              <li lr-drag-src="headers" lr-drop-target="headers" ng-repeat="col in columns" ng-click="$event.stopPropagation();" class="column-visibility"><span class="column-visibility-checkbox"><input type="checkbox" ng-model="col.selected"></span><span ng-click="selectColumn(col)" class="column-visibility-name"> {{col.name | translate}}</span></li>
             </ul>
           </div>
         </div>
@@ -45,12 +45,12 @@
             </tr>
             </tfoot>
             <tbody>
-            <tr ng-repeat="case in cases" id="caseId-{{case['ID']}}" class="case-row"
+            <tr ng-repeat="case in cases" id="caseId-{{case.id}}" class="case-row"
                 ng-class="{'info' : case.selected}">
               <td class="case-checkbox">
-                <input id="case-check-{{case['ID']}}" type="checkbox" ng-model="case.selected">
+                <input id="case-check-{{case.id}}" type="checkbox" ng-model="case.selected">
               </td>
-              <td class="case-detail" ng-repeat="col in columns   | filter : filterColumn"><p ng-class="{'pull-right': col.align}"><format-content column="col" case-item="case"></format-content></p></td>
+              <td class="case-detail" ng-repeat="col in columns   | filter : filterColumn"><p ng-class="{'pull-right': col.align}"><format-content column="col" case-item="case"  more-detail-token="{{moreDetailToken}}"></format-content></p></td>
               <td><a target="_top" ng-href="{{getCaseDetailUrl(case.id)}}" class="btn btn-default"><span class="glyphicon glyphicon-new-window"></span><a></td>
             </tr>
             </tbody>
