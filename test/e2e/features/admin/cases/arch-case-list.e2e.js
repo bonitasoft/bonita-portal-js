@@ -93,7 +93,7 @@
         expect(columnHeaders.getText()).not.toContain(columnToShowList.get(0).getText());
         expect(caseList.all(by.css('#caseId-1 td.case-detail')).count()).toBe(6);
 
-       var nextCheckedElement = columnSelectionButton.all(by.css('.column-visibility input:checked'));
+        var nextCheckedElement = columnSelectionButton.all(by.css('.column-visibility input:checked'));
         nextCheckedElement.get(0).click();
 
         expect(columnSelectionButton.all(by.css('.column-visibility')).get(1)
