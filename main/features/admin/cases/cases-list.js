@@ -8,7 +8,18 @@
    * describes the case list components
    */
 
-  angular.module('org.bonita.features.admin.cases.list', ['org.bonita.common.resources', 'gettext', 'smart-table', 'ui.bootstrap', 'lrDragNDrop', 'org.bonita.common.resources.store', 'org.bonita.common.directives.selectAll', 'angular-growl', 'ngAnimate', 'org.bonita.services.topurl'])
+  angular.module('org.bonita.features.admin.cases.list',
+    ['org.bonita.common.resources',
+    'gettext',
+    'smart-table',
+    'ui.bootstrap',
+    'lrDragNDrop',
+    'org.bonita.common.resources.store',
+    'org.bonita.common.directives.selectAll',
+    'angular-growl',
+    'ngAnimate',
+    'org.bonita.services.topurl',
+    'bonita.sortable'])
     .config(['growlProvider',
       function(growlProvider) {
         growlProvider.globalPosition('top-center');
@@ -91,16 +102,22 @@
         controller: 'ActiveCaseFilterController'
       };
     })
-    .directive('sortableColumn', ['$compile', function() {
+    .directive('sortableColumn', ['$compile', '$log', function($compile, $log) {
       return {
         restrict: 'A',
-        scope : {
-          sortableColumn : '='
-        },
-        link : function($scope, element){
-          if($scope.sortableColumn){
-            element.attr('st-sort', $scope.sortableColumn);
+        terminal : true,
+        priority : 900,
+        replace : false,
+        link : function($scope, element, attr, $controller, $transclude){
+          element.removeAttr('sortable-column');
+          element.removeAttr('ng-repeat');
+          if($scope.col.sortName){
+            $log.log($scope.onSort);
+            element.attr('bo-sorter', $scope.col.sortName);
+            element.attr('on-sort', 'onSort');
+            element.attr('sort-options', 'sortOptions');
           }
+          $compile(element)($scope);
         }
       };
     }])
@@ -548,6 +565,10 @@
     $scope.moreDetailToken = moreDetailToken;
 
     manageTopUrl.replaceTab(tabName);
+    $scope.sortOptions = {};
+    $scope.onSort = function(data){
+      console.log(data);
+    };
 
     $scope.reinitCases = function() {
       delete $scope.searchSort;
