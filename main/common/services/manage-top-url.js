@@ -25,9 +25,9 @@
                 $window.top.location.hash += ((currentHash.indexOf('&', currentHash.length - 2) >= 0) ? '' : '&') + pageToken + param + '=' + paramValue;
               }
             } else {
-              var paramToSet = ''
+              var paramToSet = '';
               if(paramValue){
-                paramToSet = pageToken + param + '=' + paramValue
+                paramToSet = pageToken + param + '=' + paramValue;
               }
               $window.top.location.hash = $window.top.location.hash.replace(paramRegExp, '$1'+ paramToSet + '$2');
             }
