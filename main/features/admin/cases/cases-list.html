@@ -4,7 +4,7 @@
   <active-case-filters> </active-case-filters>
   <div class="panel panel-default">
 
-    <div class="panel-heading"> <translate>Cases List</translate> <span ng-click="reinitCases()" class="case-list-refresh glyphicon glyphicon-repeat"></span></div>
+    <div class="panel-heading"> <translate>Cases list</translate> <span ng-click="reinitCases()" class="case-list-refresh glyphicon glyphicon-repeat"></span></div>
     <div class="panel-body">
     <div growl></div>
       <div ng-if="cases.length">
@@ -22,13 +22,13 @@
             </ul>
           </div>
         </div>
-        <div class="col-md-12" >
+        <div class="col-md-12">
           <table resizable-column st-table="cases" class="table table-striped table-hover table-responsive" st-pipe="searchForCases">
               <thead>
               <tr>
                 <th class="case-checkbox"><select-all-checkbox checkboxes="cases"></th>
                 <th ng-repeat="col in columns  | filter : filterColumn"
-                    st-sort="{{col.sortName}}" class="case-column"><p ng-class="{'text-right': col.align}">{{col.name | translate}}</p>
+                    sortable-column="col.sortName" class="case-column"><p ng-class="{'text-right': col.align}">{{col.name | translate}}</p>
                 </th>
                 <th style="width : 50px;"></th>
               </tr>
@@ -57,8 +57,11 @@
           </table>
         </div>
       </div>
-      <div ng-class="{'hidden' : cases.length}">
-        <p class="text-muted" translate>No cases to display</p>
+      <div ng-show="!cases">
+        <p class="text-muted"><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> <translate>Loading</translate></p>
+      </div>
+      <div ng-show="cases &amp;&amp; cases.length===0">
+        <p class="text-muted animated fadeIn" translate>No case to display</p>
       </div>
     </div>
   </div>

@@ -5,7 +5,7 @@
 
   <div class="panel panel-default">
 
-    <div class="panel-heading"> <translate>Cases List</translate> <span ng-click="reinitCases()" class="case-list-refresh glyphicon glyphicon-repeat"></span></div>
+    <div class="panel-heading"> <translate>Cases list</translate> <span ng-click="reinitCases()" class="case-list-refresh glyphicon glyphicon-repeat"></span></div>
     <div class="panel-body">
     <div growl></div>
       <div ng-if="cases.length">
@@ -50,16 +50,19 @@
               <td class="case-checkbox">
                 <input id="case-check-{{case.id}}" type="checkbox" ng-model="case.selected">
               </td>
-              <td class="case-detail" ng-repeat="col in columns   | filter : filterColumn"><p ng-class="{'pull-right': col.align}"><format-content column="col" case-item="case"  more-detail-token="{{moreDetailToken}}"></format-content></p></td>
-              <td><a target="_top" ng-href="{{getCaseDetailUrl(case.id)}}" class="btn btn-default"><span class="glyphicon glyphicon-new-window"></span><a></td>
+              <td class="case-detail" ng-repeat="col in columns   | filter : filterColumn"><p ng-class="{'text-right': col.align}"><format-content column="col" case-item="case" more-detail-token="{{moreDetailToken}}"></format-content></p></td>
+              <td><a target="_top" ng-href="{{getCaseDetailUrl(case.id)}}" class="btn btn-default"><span class="glyphicon glyphicon-eye-open"></span><a></td>
             </tr>
             </tbody>
 
           </table>
         </div>
       </div>
-      <div ng-class="{'hidden' : cases.length}">
-        <p class="text-muted" translate>No cases to display</p>
+      <div ng-show="!cases">
+        <p class="text-muted"><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> <translate>Loading</translate></p>
+      </div>
+      <div ng-show="cases &amp;&amp; cases.length===0">
+        <p class="text-muted animated fadeIn" translate>No case to display</p>
       </div>
     </div>
   </div>

@@ -16,7 +16,7 @@
       //browser.debugger(); //launch protractor with debug option and use 'c' in console to continue test execution
     });
 
-    describe('table surroundings ', function () {
+    xdescribe('table surroundings ', function () {
 
       it('should contains table headers', function () {
         var columnList = element.all(by.css('#case-list th'));
@@ -63,7 +63,7 @@
       });
     });
 
-    describe('column selection', function () {
+    xdescribe('column selection', function () {
       it('should display all columns when dropdown is clicked', function () {
         var columnSelectionButton = element(by.css('#columns-selection'));
         columnSelectionButton.click();
@@ -123,7 +123,7 @@
       });
     });
 
-    describe('column resize', function () {
+    xdescribe('column resize', function () {
       var resizeBars;
       beforeEach(function () {
         resizeBars = element.all(by.css('.rc-handle'));
@@ -220,7 +220,7 @@
       });
     });
 
-    describe('case admin list content', function () {
+    xdescribe('case admin list content', function () {
       it('should display the list of the 25 first cases and check the specifi content of the first row', function () {
         expect(element.all(by.css('#case-list tr.case-row')).count()).toBe(25);
 
@@ -260,7 +260,7 @@
       });
     });
 
-    describe('case admin pager', function () {
+    xdescribe('case admin pager', function () {
       it('should display the list of the 25 first cases and navigate using pager', function () {
         var caseList = element(by.css('#case-list'));
         expect(caseList).toBeDefined();
@@ -320,7 +320,7 @@
     });
 
 
-    describe('case admin displayed items per page', function () {
+    xdescribe('case admin displayed items per page', function () {
       it('should reset the pager when item displayed number is clicked', function () {
         var caseList = element(by.css('#case-list'));
 
@@ -351,7 +351,7 @@
     });
 
 
-    describe('case admin select all buttons', function () {
+    xdescribe('case admin select all buttons', function () {
       it('should select all checkboxes when selectAllCB is clicked', function () {
         var caseList = element(by.css('#case-list'));
 
