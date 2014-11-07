@@ -91,7 +91,7 @@
         controller: 'ActiveCaseFilterController'
       };
     })
-    .directive('sortableColumn', ['$compile', function($compile) {
+    .directive('sortableColumn', ['$compile', function() {
       return {
         restrict: 'A',
         scope : {

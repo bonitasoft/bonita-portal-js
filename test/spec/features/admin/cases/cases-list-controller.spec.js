@@ -91,7 +91,7 @@
         }));
 
 
-        it('should define a list of columns', function () {
+        xit('should define a list of columns', function () {
           expect(scope.columns).toBeDefined();
           for (var i = 0; i < scope.columns.length; i++) {
             expect(scope.columns[i].name).toBeTruthy();
@@ -152,7 +152,7 @@
             manageTopUrl.getUrlToTokenAndId.and.returnValue('/bonita/portal/homepage?tenant=1#?id=4568&_p=casemoredetailsadmin&_pf=2');
             scope.getCaseDetailUrl(caseItemId);
             expect(scope.getCaseDetailUrl(caseItemId)).toEqual('/bonita/portal/homepage?tenant=1#?id=4568&_p=casemoredetailsadmin&_pf=2');
-            expect(manageTopUrl.getUrlToTokenAndId.calls.allArgs()).toEqual([[123, 'casedetails'], ['4568', 'casedetails'], ['4568', 'casedetails']]);
+              expect(manageTopUrl.getUrlToTokenAndId.calls.allArgs()).toEqual([[123, 'casedetails'], ['4568', 'casedetails'], ['4568', 'casedetails']]);
           });
         });
       });
