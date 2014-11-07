@@ -41,6 +41,19 @@
                 </configuration>
               </execution>
               <execution>
+                <id>report-folder</id>
+                <phase>prepare-package</phase>
+                <goals>
+                  <goal>exec</goal>
+                </goals>
+                <configuration>
+                  <executable>mkdir</executable>
+                  <arguments>
+                    <argument>test/e2e-reports</argument>
+                  </arguments>
+                </configuration>
+              </execution>
+              <execution>
                 <id>grunt-exec</id>
                 <phase>prepare-package</phase>
                 <goals>
