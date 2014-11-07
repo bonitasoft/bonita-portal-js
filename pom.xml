@@ -31,6 +31,16 @@
                 </configuration>
               </execution>
               <execution>
+                <id>init-selenium</id>
+                <phase>prepare-package</phase>
+                <goals>
+                  <goal>exec</goal>
+                </goals>
+                <configuration>
+                  <executable>./init-selenium.sh</executable>
+                </configuration>
+              </execution>
+              <execution>
                 <id>grunt-exec</id>
                 <phase>prepare-package</phase>
                 <goals>
@@ -73,16 +83,6 @@
 									<arguments>
 										<argument>/c npm install</argument>
 									</arguments>
-								</configuration>
-							</execution>
-							<execution>
-								<id>init-selenium</id>
-								<phase>prepare-package</phase>
-								<goals>
-									<goal>exec</goal>
-								</goals>
-								<configuration>
-									<executable>init-selenium.bat</executable>
 								</configuration>
 							</execution>
 							<execution>
@@ -148,16 +148,6 @@
 									<arguments>
 										<argument>install</argument>
 									</arguments>
-								</configuration>
-							</execution>
-							<execution>
-								<id>init-selenium</id>
-								<phase>prepare-package</phase>
-								<goals>
-									<goal>exec</goal>
-								</goals>
-								<configuration>
-									<executable>./init-selenium.sh</executable>
 								</configuration>
 							</execution>
 							<execution>
