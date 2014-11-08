@@ -3,9 +3,12 @@
 
 <script type="text/ng-template" id="features/admin/cases/flow-node-list-popover.html">
 <div ng-controller="flowNodeListPopoverCtrl as ctrl">
-  <ul >
+  <ul ng-if="flownodesItems.length> 0">
     <li ng-repeat="flownodeItem in flownodesItems">{{flownodeItem.displayName}}</li>
   </ul>
+  <div ng-if="flownodesItems==0">
+    <translate>no result</translate>
+  </div>
 </div>
 </script>
 
