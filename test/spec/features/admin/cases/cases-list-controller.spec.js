@@ -116,7 +116,7 @@
     describe('sort behaviour', function () {
       describe('go to case details', function () {
         var mockedWindow,
-          manageTopUrl = jasmine.createSpyObj('manageTopUrl', ['getUrlToTokenAndId', 'replaceTab']);
+          manageTopUrl = jasmine.createSpyObj('manageTopUrl', ['getUrlToTokenAndId', 'addOrReplaceParam']);
         beforeEach(inject(function($controller){
           mockedWindow = {
               top : {
