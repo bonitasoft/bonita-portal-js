@@ -102,25 +102,6 @@
         controller: 'ActiveCaseFilterController'
       };
     })
-    .directive('sortableColumn', ['$compile', '$log', function($compile, $log) {
-      return {
-        restrict: 'A',
-        terminal : true,
-        priority : 900,
-        replace : false,
-        link : function($scope, element, attr, $controller, $transclude){
-          element.removeAttr('sortable-column');
-          element.removeAttr('ng-repeat');
-          if($scope.col.sortName){
-            $log.log($scope.onSort);
-            element.attr('bo-sorter', $scope.col.sortName);
-            element.attr('on-sort', 'onSort');
-            element.attr('sort-options', 'sortOptions');
-          }
-          $compile(element)($scope);
-        }
-      };
-    }])
     .directive('activeCaseDelete',
       function() {
         return {
@@ -196,7 +177,6 @@
       linkToProcess: true
     }, {
       name: 'Version',
-      sortName: 'version',
       path: ['processDefinitionId', 'version'],
       selected: true
     }, {
@@ -214,7 +194,6 @@
       date: true
     }, {
       name: 'Started by',
-      sortName: 'username',
       path: ['started_by', 'userName'],
       selected: true
     }, {
@@ -225,7 +204,6 @@
       date: true
     }, {
       name: 'State',
-      sortName: 'stateId',
       path: ['state'],
       selected: true
     }])
@@ -565,10 +543,6 @@
     $scope.moreDetailToken = moreDetailToken;
 
     manageTopUrl.replaceTab(tabName);
-    $scope.sortOptions = {};
-    $scope.onSort = function(data){
-      console.log(data);
-    };
 
     $scope.reinitCases = function() {
       delete $scope.searchSort;
@@ -615,11 +589,13 @@
       }
       $scope.filters = filters;
     };
+    //never used it but initialized in this scope in order to keep track of sortOptions on table reload
+    $scope.sortOptions = {property : 'defaultSort'};
 
-    $scope.searchForCases = function casesSearch(tableState) {
-      if (!$scope.searchSort || tableState) {
-        $scope.searchSort = ((tableState && tableState.sort && tableState.sort.predicate) ?
-          tableState.sort.predicate : defaultSort) + ' ' + ((tableState && tableState.sort && tableState.sort.reverse) ? 'DESC' : 'ASC');
+    $scope.searchForCases = function casesSearch(sortOptions) {
+      if (!$scope.searchSort || sortOptions) {
+        $scope.searchSort = ((sortOptions && sortOptions.property) ?
+          sortOptions.property : defaultSort) + ' ' + ((sortOptions && !sortOptions.ascendant) ? 'DESC' : 'ASC');
         $scope.pagination.currentPage = 1;
       }
       delete $scope.cases;

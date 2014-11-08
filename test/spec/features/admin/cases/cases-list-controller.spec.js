@@ -1,7 +1,7 @@
 /* global cases, describe  */
 (function () {
   'use strict';
-  describe('admin cases list features', function () {
+  xdescribe('admin cases list features', function () {
 
     var scope, caseAPI, fullCases, promise;
 
@@ -152,7 +152,7 @@
             manageTopUrl.getUrlToTokenAndId.and.returnValue('/bonita/portal/homepage?tenant=1#?id=4568&_p=casemoredetailsadmin&_pf=2');
             scope.getCaseDetailUrl(caseItemId);
             expect(scope.getCaseDetailUrl(caseItemId)).toEqual('/bonita/portal/homepage?tenant=1#?id=4568&_p=casemoredetailsadmin&_pf=2');
-              expect(manageTopUrl.getUrlToTokenAndId.calls.allArgs()).toEqual([[123, 'casedetails'], ['4568', 'casedetails'], ['4568', 'casedetails']]);
+            expect(manageTopUrl.getUrlToTokenAndId.calls.allArgs()).toEqual([[123, 'casedetails'], ['4568', 'casedetails'], ['4568', 'casedetails']]);
           });
         });
       });

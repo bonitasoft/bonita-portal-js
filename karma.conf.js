@@ -33,6 +33,7 @@ module.exports = function(config) {
       'main/assets/angular-gettext/dist/angular-gettext.js',
       'main/assets/angular-smart-table/dist/smart-table.min.js',
       'main/assets/lrDragNDrop/lrDragNDrop.js',
+      'main/assets/bonita-js-components/src/**/*.js',
       'main/assets/jquery-resizable-columns/dist/jquery.resizableColumns.js',
       'main/assets/angular-animate/angular-animate.js',
       'main/assets/angular-growl-2/build/angular-growl.js',

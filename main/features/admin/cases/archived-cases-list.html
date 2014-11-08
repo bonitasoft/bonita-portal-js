@@ -29,7 +29,7 @@
               <tr>
                 <th class="case-checkbox"><select-all-checkbox checkboxes="cases"></th>
                 <th ng-repeat="col in columns  | filter : filterColumn"
-                    st-sort="{{col.sortName}}" class="case-column"><p ng-class="{'pull-right': col.align}">{{col.name | translate}}</p>
+                    ng-attr-bo-sorter="{{col.sortName}}" on-sort="searchForCases" sort-options="sortOptions" class="case-column">{{col.name | translate}}
                 </th>
                 <th style="width : 50px;"></th>
               </tr>

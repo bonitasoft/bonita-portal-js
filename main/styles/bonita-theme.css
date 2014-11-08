@@ -21,7 +21,7 @@
 }
 
 #case-list .case-column {
-  cursor: pointer;
+  /*cursor: pointer;*/
 }
 
 #case-list .case-row {
