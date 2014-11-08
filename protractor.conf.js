@@ -10,11 +10,13 @@ exports.config = {
         'test/e2e/**/*.e2e.js'
     ],
     suites : {
-      'case-list-deletion': ['test/e2e/features/admin/cases/case-list-buttons.e2e.js']
+      'case-list-deletion': ['test/e2e/features/admin/cases/case-list-buttons.e2e.js'],
+      'case-list': ['test/e2e/features/admin/cases/case-*.e2e.js'],
+      'arch-case-list': ['test/e2e/features/admin/cases/arch-case-list*.e2e.js']
     },
 
     capabilities: {
-        'browserName': 'chrome'
+        'browserName': 'firefox'
     },
 
     baseUrl: 'http://localhost:9002/',

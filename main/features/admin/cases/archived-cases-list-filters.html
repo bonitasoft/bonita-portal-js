@@ -21,16 +21,5 @@
         </ul>
       </div>
     </div>
-    <div class="col-md-3"><translate>State</translate> :&nbsp;
-      <div class="btn-group" dropdown id="case-app-status-filter">
-        <button type="button" class="btn btn-default dropdown-toggle">{{caseStatesValues[selectedStatus] | translate}} <span class="caret"></span></button>
-        <ul class="dropdown-menu" role="menu">
-          <li ng-click="selectCaseStatus(defaultFilters.caseStatus)"><a>{{defaultFilters.caseStatus | translate}}</a></li>
-          <li class="divider"></li>
-          <li ng-click="selectCaseStatus('started')"><a translate>Started</a></li>
-          <li ng-click="selectCaseStatus('error')"><a translate>Failed</a></li>
-        </ul>
-      </div>
-    </div>
   </div>
 </div>

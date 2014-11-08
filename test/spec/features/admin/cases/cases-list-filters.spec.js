@@ -3,7 +3,7 @@
   'use strict';
   describe('admin cases list features', function () {
 
-    var scope, globalProcesses , defaultFilters, caseStatusValues, store;
+    var scope, globalProcesses , defaultFilters, caseStatesValues, store;
     var storeLoadFunction = function (processes) {
       return function () {
         return {
@@ -17,11 +17,11 @@
     beforeEach(module('features/admin/cases/cases-list-filters.html'));
 
     beforeEach(module('org.bonita.features.admin.cases.list'));
-    beforeEach(inject(function ($rootScope, $compile, _defaultFilters_, _caseStatusValues_, _store_) {
+    beforeEach(inject(function ($rootScope, $compile, _defaultFilters_, _caseStatesValues_, _store_) {
       //{appVersion: 'All versions', appName: 'All apps', caseStatus: 'All states'}
       globalProcesses = [];
       defaultFilters = _defaultFilters_;
-      caseStatusValues = _caseStatusValues_;
+      caseStatesValues = _caseStatesValues_;
       store = _store_;
       scope = $rootScope.$new();
       scope.buildFilters = function() {};
