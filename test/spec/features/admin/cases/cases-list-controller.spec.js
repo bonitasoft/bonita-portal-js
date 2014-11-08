@@ -1,7 +1,7 @@
 /* global cases, describe  */
 (function () {
   'use strict';
-  xdescribe('admin cases list features', function () {
+  describe('admin cases list features', function () {
 
     var scope, caseAPI, fullCases, promise;
 
@@ -58,6 +58,7 @@
           });
         }));
         it('should not display all fields', function () {
+          scope.$apply();
           expect(scope.cases).toBeDefined();
           expect(scope.cases.length).toBe(4);
           for (var j = 0; j < scope.cases.length; j++) {
@@ -90,18 +91,8 @@
           });
         }));
 
-
-        xit('should define a list of columns', function () {
-          expect(scope.columns).toBeDefined();
-          for (var i = 0; i < scope.columns.length; i++) {
-            expect(scope.columns[i].name).toBeTruthy();
-            expect(scope.columns[i].sortName).toBeTruthy();
-            expect(scope.columns[i].path).toBeTruthy();
-            expect(scope.columns[i].path.length).toBeTruthy();
-          }
-        });
-
         it('should fill the scope cases', inject(function () {
+          scope.$apply();
           expect(scope.cases).toBeDefined();
           expect(scope.cases.length).toBe(4);
           for (var j = 0; j < scope.cases.length; j++) {
@@ -181,7 +172,7 @@
           });
         }));
         it('should call next Page without sort', function () {
-
+          scope.$apply();
           expect(scope.currentFirstResultIndex).toBe(1);
           expect(scope.currentLastResultIndex).toBe(2);
           scope.pagination.currentPage++;
@@ -199,8 +190,8 @@
           ]);
         });
         it('should call next Page on current sort', function () {
-
-          scope.searchForCases({sort: {predicate: 'name', reverse: true}});
+          scope.$apply();
+          scope.searchForCases({property: 'name', ascendant: false});
           expect(scope.currentFirstResultIndex).toBe(1);
           expect(scope.currentLastResultIndex).toBe(2);
           expect(anchorScroll).toHaveBeenCalled();
@@ -214,7 +205,7 @@
           expect(scope.currentFirstResultIndex).toBe(1);
           expect(scope.currentLastResultIndex).toBe(2);
           expect(anchorScroll).toHaveBeenCalled();
-          scope.searchForCases({sort: {predicate: 'version', reverse: false}});
+          scope.searchForCases({property: 'version', ascendant: true});
           expect(scope.currentFirstResultIndex).toBe(1);
           expect(scope.currentLastResultIndex).toBe(2);
           expect(anchorScroll).toHaveBeenCalled();
@@ -270,24 +261,18 @@
             expect(caseAPI.search.calls.allArgs()).toEqual([
               [
                 {p: 0, c: defaultPageSize, o: defaultSort + ' ASC', d: defaultDeployedFields, f: [], n: defaultActiveCounterFields}
-              ],
-              [
-                {p: 0, c: defaultPageSize, o: defaultSort + ' ASC', d: defaultDeployedFields, f: [], n: defaultActiveCounterFields}
               ]
             ]);
             expect(anchorScroll).toHaveBeenCalled();
           });
           it('should call search on application name sort desc', function () {
-            scope.searchForCases({sort: {predicate: 'name', reverse: true}});
+            scope.searchForCases({property: 'name', ascendant: false});
             expect(anchorScroll).toHaveBeenCalled();
-            scope.searchForCases({sort: {predicate: 'name', reverse: false}});
+            scope.searchForCases({property:'name', ascendant: true});
             expect(anchorScroll).toHaveBeenCalled();
-            scope.searchForCases({sort: {predicate: 'version', reverse: true}});
+            scope.searchForCases({property: 'version', ascendant: false});
             expect(anchorScroll).toHaveBeenCalled();
             expect(caseAPI.search.calls.allArgs()).toEqual([
-              [
-                {p: 0, c: defaultPageSize, o: defaultSort + ' ASC', d: defaultDeployedFields, f: [], n: defaultActiveCounterFields}
-              ],
               [
                 {p: 0, c: defaultPageSize, o: 'name DESC', d: defaultDeployedFields, f: [], n: defaultActiveCounterFields}
               ],
@@ -332,6 +317,7 @@
               },
               '$location': location
             });
+            scope.$apply();
             expect(location.url).toHaveBeenCalled();
             expect(location.url.calls.allArgs()).toEqual([
               ['/']
@@ -367,6 +353,7 @@
               },
               'growl': growl
             });
+            scope.$apply();
             expect(growl.error).toHaveBeenCalled();
             expect(growl.error.calls.allArgs()).toEqual([[
               error.status + ' ' + error.statusText + ' ' + error.data.message,

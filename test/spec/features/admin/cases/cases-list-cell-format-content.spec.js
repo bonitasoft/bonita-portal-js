@@ -1,6 +1,6 @@
 (function () {
   'use strict';
-  xdescribe('resizable column directive', function () {
+  describe('resizable column directive', function () {
 
     var scope, element, compile;
 
