@@ -180,7 +180,7 @@
         formerStartDateColumnLocation.then(function (oldPosition) {
           newStartDateColumnLocation.then(function (newPosition) {
             expect(oldPosition.x - newPosition.x).toBeGreaterThan(-5);
-            expect(oldPosition.x - newPosition.x).toBeLessThan(25);
+            expect(oldPosition.x - newPosition.x).toBeLessThan(32);
             expect(oldPosition.y - newPosition.y).toBe(0);
           });
         });
