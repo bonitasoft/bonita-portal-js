@@ -137,7 +137,6 @@
                 flownodeState = ' flownode-state="failed"';
                 flownodeTitle = 'Failed flownodes';
               }
-
               var flownodeTitle = ' flownode-title="' + flownodeTitle + '"';
               contents = '<flow-node-list-popover case="caseItem" label="' + $scope.caseItem[$scope.column.name] + '"' + flownodeState + flownodeTitle + '></flow-node-list-popover>';
               
@@ -224,7 +223,7 @@
           'flownodeTitle': '@',
           'flownodeState': '@'
         },
-        template: '<a href="javascript:return false;" focus-on-click popover-placement="top" popover-trigger="focus" popover-title="{{flownodeTitle}}" popover-html-template="features/admin/cases/flow-node-list-popover.html">{{ label }}</a>'
+        template: '<a href="javascript:return false;" class="badge" focus-on-click popover-placement="bottom" popover-popup-delay="0" popover-trigger="focus" popover-title="{{flownodeTitle}}" popover-html-template="features/admin/cases/flow-node-list-popover.html">{{ label }}</a>'
       };
     })
 
