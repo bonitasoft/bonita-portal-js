@@ -13,14 +13,27 @@
       growlProvider.globalPosition('top-center');
     }])
     .value('casesColumns', [
-      {name: 'Process name', sortName: 'name', path: ['processDefinitionId', 'name'], selected: true, linkToProcess : true},
+      {
+        name: 'Process name',
+        sortName: 'name',
+        path: ['processDefinitionId', 'name'],
+        selected: true,
+        linkToProcess: true
+      },
       {name: 'Version', sortName: 'version', path: ['processDefinitionId', 'version'], selected: true},
-      {name: 'ID', sortName: 'id', path: ['id'], selected: true, align: 'right', linkToCase : true},
+      {name: 'ID', sortName: 'id', path: ['id'], selected: true, align: 'right', linkToCase: true},
       {name: 'Start date', sortName: 'startDate', path: ['start'], selected: true, date: true},
       {name: 'Started by', sortName: 'username', path: ['started_by', 'userName'], selected: true},
       {name: 'State', sortName: 'stateId', path: ['state'], selected: true},
-      {name: 'Failed Nodes', sortName: 'failed', path: ['failedFlowNodes'], selected: true, popover : true},
-      {name: 'Pending Nodes', sortName: 'ongoing', path: ['activeFlowNodes'], selected: true, popover : true}
+      {
+        name: 'Failed Nodes',
+        sortName: 'failed',
+        path: ['failedFlowNodes'],
+        selected: true,
+        popoverFlowNode: true,
+        flowNodeFailedFilter: true
+      },
+      {name: 'Pending Nodes', sortName: 'ongoing', path: ['activeFlowNodes'], selected: true, popoverFlowNode: true}
     ])
     .value('caseStatusValues', {started: 'Started', error: 'Failed'})
     .value('moreDetailToken', 'casemoredetailsadmin')
@@ -29,7 +42,7 @@
     .value('defaultSort', 'id')
     .value('defaultFilters', {appVersion: 'All', appName: 'All', caseStatus: 'All'})
     .value('defaultDeployedFields', ['processDefinitionId', 'started_by', 'startedBySubstitute'])
-    .value('defaultActiveCounterFields', ['activeFlowNodes','failedFlowNodes'])
+    .value('defaultActiveCounterFields', ['activeFlowNodes', 'failedFlowNodes'])
     .value('activedTabName', '')
     .controller('ActiveCaseListCtrl', ['$scope', 'caseAPI', 'casesColumns', 'defaultPageSize', 'defaultSort', 'defaultDeployedFields', 'defaultActiveCounterFields', '$location', 'pageSizes', 'defaultFilters', '$filter', '$anchorScroll', 'growl', '$log', '$window', 'moreDetailToken', 'activedTabName', 'manageTopUrl', CaseListCtrl])
     .controller('ActiveCaseFilterController', ['$scope', 'store', 'processAPI', 'defaultFilters', 'caseStatusValues', 'activedTabName', CaseFilterController])
@@ -51,29 +64,38 @@
       };
     })
     .controller('DeleteCaseModalCtrl', ['$scope', '$modalInstance', 'caseItems', DeleteCaseModalCtrl])
-    .directive('formatContent', [ '$filter', 'manageTopUrl', '$compile',  function ($filter, manageTopUrl, $compile) {
+    .directive('formatContent', ['$filter', 'manageTopUrl', '$compile', function ($filter, manageTopUrl, $compile) {
       return {
-        template : '<div></div>',
-        replace : true,
-        restrict : 'AE',
-        scope : {
-          column : '=',
-          caseItem : '=',
-          getCurrentProfile : '&'
+        template: '<div></div>',
+        replace: true,
+        restrict: 'AE',
+        scope: {
+          column: '=',
+          caseItem: '=',
+          getCurrentProfile: '&'
         },
-        link : function($scope, $element){
+        link: function ($scope, $element) {
           var contents = '';
           if ($scope.column && $scope.column.date && $scope.caseItem[$scope.column.name] && typeof $scope.caseItem[$scope.column.name] === 'string') {
             //received date is in a non-standard format...
             // convert 2014-10-17 16:05:42.626 to ISO-8601 Format 2014-10-17T16:05:42.626Z
             contents = $filter('date')($scope.caseItem[$scope.column.name].replace(/ /, 'T'), 'yyyy-MM-dd HH:mm');
-          } else if($scope.column && $scope.column.popover){
-            
-            contents = '<a href="" popover-trigger popover-placement="top" popover="">'+$scope.caseItem[$scope.column.name]+'</a>';
-          } else if($scope.column && $scope.column.linkToProcess){
-            contents = '<a target="_top" href="'+manageTopUrl.getPath() + manageTopUrl.getSearch()+'#?id='+$scope.caseItem.processDefinitionId.id+'&_p=processmoredetailsadmin&'+manageTopUrl.getCurrentProfile()+'">'+$scope.caseItem[$scope.column.name]+'</a>';
-          } else if($scope.column && $scope.column.linkToCase){
-            contents = '<a target="_top" href="'+manageTopUrl.getPath() + manageTopUrl.getSearch()+'#?id='+$scope.caseItem.id+'&_p=casemoredetailsadmin&'+manageTopUrl.getCurrentProfile()+'">'+$scope.caseItem[$scope.column.name]+'</a>';
+          } else if ($scope.column && $scope.column.popoverFlowNode) {
+            var flownodeState = '';
+            var flownodeTitle = 'Active flownodes';
+
+            if ($scope.column.flowNodeFailedFilter) {
+              flownodeState = 'flownode-state="failed"';
+              flownodeTitle = 'Failed flownodes';
+            }
+            var flownodeTitle = ' flownode-title="' + flownodeTitle + '"';
+
+            contents = '<flow-node-list-popover case="caseItem" label="' + $scope.caseItem[$scope.column.name] + '"' + flownodeState + flownodeTitle + '></flow-node-list-popover>';
+            // contents = '<a href="" bs-popover="popover"  data-content="{{popover.content}}">' + $scope.caseItem[$scope.column.name] + '</a>';
+          } else if ($scope.column && $scope.column.linkToProcess) {
+            contents = '<a target="_top" href="' + manageTopUrl.getPath() + manageTopUrl.getSearch() + '#?id=' + $scope.caseItem.processDefinitionId.id + '&_p=processmoredetailsadmin&' + manageTopUrl.getCurrentProfile() + '">' + $scope.caseItem[$scope.column.name] + '</a>';
+          } else if ($scope.column && $scope.column.linkToCase) {
+            contents = '<a target="_top" href="' + manageTopUrl.getPath() + manageTopUrl.getSearch() + '#?id=' + $scope.caseItem.id + '&_p=casemoredetailsadmin&' + manageTopUrl.getCurrentProfile() + '">' + $scope.caseItem[$scope.column.name] + '</a>';
           } else {
             contents = $scope.caseItem[$scope.column.name];
           }
@@ -83,6 +105,76 @@
         }
       };
     }])
+
+
+    .directive('focusOnClick', ['$timeout', function ($timeout) {
+      return {
+        restrict: 'A',
+        link: function (scope, element) {
+          element.on('click', function () {
+            $timeout(function () {
+              element.focus();
+            }, 0);
+          });
+          scope.$on('$destroy', function () {
+
+            element.off('click');
+          });
+        }
+      };
+    }])
+    .directive('popoverHtmlTemplatePopup', function () {
+      return {
+        restrict: 'EA',
+        replace: true,
+        scope: {title: '@', content: '@', placement: '@', animation: '&', isOpen: '&'},
+        templateUrl: 'features/admin/cases/popover-html-template.html'
+      };
+    })
+
+    .directive('popoverHtmlTemplate', ['$tooltip', function ($tooltip) {
+      return $tooltip('popoverHtmlTemplate', 'popover', 'click');
+    }])
+
+    .controller('flowNodeListPopoverCtrl', ['$scope', 'flowNodeAPI', function ($scope, flowNodeAPI) {
+      $scope.case = $scope.$parent.$parent.$parent.case; // pretty ugly but could get the parent chain to work...
+      var filters = [];
+      filters.push("caseId="+$scope.case.id);
+      if($scope.$parent.$parent.$parent.flownodeState){
+        filters.push("state="+$scope.$parent.$parent.$parent.flownodeState);
+      }
+      var searchParams = {
+        p: 0,
+        c: 100000,
+        f: filters
+      };
+      
+
+      var flowNodeSearch = flowNodeAPI.search(searchParams);
+      var popoverContent = 'loading';
+      $scope.flownodesItems = null;
+      flowNodeSearch.$promise.then(function buildPopOverContent(flowNodes) {
+        $scope.flownodesItems = flowNodes.resource;
+      }, function (error) {
+        $scope.displayError(error);
+      });
+
+
+    }])
+
+    .directive('flowNodeListPopover', function () {
+      return {
+        restrict: 'EA',
+        scope: {
+          'case': '=',
+          'label': '@',
+          'flownodeTitle': '@',
+          'flownodeState': '@'
+        },
+        template: '<a href="" focus-on-click popover-placement="top" popover-trigger="focus" popover-title="{{flownodeTitle}}" popover-html-template="features/admin/cases/flow-node-list-popover.html">{{ label }}</a>'
+      };
+    })
+
     .directive('resizableColumn', ['$timeout', function ($timeout) {
       return {
         restrict: 'A',
@@ -101,7 +193,13 @@
       };
     }])
     .value('archivedCasesColumns', [
-      {name: 'Process name', sortName: 'name', path: ['processDefinitionId', 'name'], selected: true, linkToProcess : true},
+      {
+        name: 'Process name',
+        sortName: 'name',
+        path: ['processDefinitionId', 'name'],
+        selected: true,
+        linkToProcess: true
+      },
       {name: 'Version', sortName: 'version', path: ['processDefinitionId', 'version'], selected: true},
       {name: 'ID', sortName: 'id', path: ['sourceObjectId'], selected: true, align: 'right'},
       {name: 'Start date', sortName: 'startDate', path: ['start'], selected: true, date: true},
@@ -256,7 +354,7 @@
    * @requires caseAPI
    * @requires gettextCatalog
    */
-  function CaseDeleteCtrl ($scope, $modal, caseAPI, gettextCatalog) {
+  function CaseDeleteCtrl($scope, $modal, caseAPI, gettextCatalog) {
     /**
      * @ngdoc method
      * @name o.b.f.admin.cases.list.CaseDeleteCtrl#confirmDeleteSelectedCases
@@ -326,7 +424,10 @@
               currentPromise.finally(deleteNextId);
             } else {
               currentPromise.then(function () {
-                $scope.addAlert({type: 'success', status: gettextCatalog.getPlural(nbOfDeletedCases, '{{nbOfDeletedCases}} case deleted successfully', '{{nbOfDeletedCases}} cases deleted successfully', {nbOfDeletedCases : nbOfDeletedCases})});
+                $scope.addAlert({
+                  type: 'success',
+                  status: gettextCatalog.getPlural(nbOfDeletedCases, '{{nbOfDeletedCases}} case deleted successfully', '{{nbOfDeletedCases}} cases deleted successfully', {nbOfDeletedCases: nbOfDeletedCases})
+                });
               }).finally(function () {
                 $scope.pagination.currentPage = 1;
                 $scope.searchForCases();
@@ -429,8 +530,6 @@
      * the array of cases to display
      */
     $scope.cases = [];
-
-
     $scope.filters = [];
 
     manageTopUrl.replaceTab(tabName);
@@ -440,6 +539,7 @@
       $scope.pagination.currentPage = 1;
       $scope.searchForCases();
     };
+
     $scope.addAlert = function (msg) {
       var options = {ttl: 3000, disableCountDown: true, disableIcons: true};
       var content = ((msg.status || '') + ' ' + (msg.statusText || '') + ' ' + (msg.errorMsg || '')).trim();
@@ -538,8 +638,8 @@
 
     $scope.searchForCases();
 
-    $scope.getCaseDetailUrl = function (caseItemId){
-      if(caseItemId){
+    $scope.getCaseDetailUrl = function (caseItemId) {
+      if (caseItemId) {
         return manageTopUrl.getUrlToTokenAndId(caseItemId, moreDetailToken);
       }
     };
