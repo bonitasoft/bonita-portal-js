@@ -655,8 +655,6 @@
       }
     };
 
-    $scope.searchForCases();
-
     $scope.getCaseDetailUrl = function(caseItemId) {
       if (caseItemId) {
         return manageTopUrl.getUrlToTokenAndId(caseItemId, moreDetailToken);
