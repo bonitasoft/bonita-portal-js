@@ -74,7 +74,7 @@
       error: 'Failed',
       aborted: 'Aborted',
       completed: 'Completed',
-      canceled: 'Canceled',
+      canceled: 'Canceled'
     })
     .value('caseStatesValues', {
       started: 'Started',
@@ -137,9 +137,9 @@
                 flownodeState = ' flownode-state="failed"';
                 flownodeTitle = 'Failed flownodes';
               }
-              var flownodeTitle = ' flownode-title="' + flownodeTitle + '"';
+              flownodeTitle = ' flownode-title="' + flownodeTitle + '"';
               contents = '<flow-node-list-popover case="caseItem" label="' + $scope.caseItem[$scope.column.name] + '"' + flownodeState + flownodeTitle + '></flow-node-list-popover>';
-              
+
             } else if ($scope.column && $scope.column.linkToCase) {
               contents = '<a target="_top" href="' + manageTopUrl.getPath() + manageTopUrl.getSearch() + '#?id=' + $scope.caseItem.ID + '&_p=' + $scope.moreDetailToken + '&' + manageTopUrl.getCurrentProfile() + '">' + $scope.caseItem[$scope.column.name] + '</a>';
             } else if ($scope.column && $scope.column.linkToProcess) {
@@ -191,9 +191,9 @@
     .controller('flowNodeListPopoverCtrl', ['$scope', 'flowNodeAPI', function ($scope, flowNodeAPI) {
       $scope.case = $scope.$parent.$parent.$parent.case; // pretty ugly but could get the parent chain to work...
       var filters = [];
-      filters.push("caseId=" + $scope.case.id);
+      filters.push('caseId=' + $scope.case.id);
       if ($scope.$parent.$parent.$parent.flownodeState) {
-        filters.push("state=" + $scope.$parent.$parent.$parent.flownodeState);
+        filters.push('state=' + $scope.$parent.$parent.$parent.flownodeState);
       }
       var searchParams = {
         p: 0,
@@ -203,7 +203,7 @@
 
 
       var flowNodeSearch = flowNodeAPI.search(searchParams);
-      var popoverContent = 'loading';
+
       $scope.flownodesItems = null;
       flowNodeSearch.$promise.then(function buildPopOverContent(flowNodes) {
         $scope.flownodesItems = flowNodes.resource;
