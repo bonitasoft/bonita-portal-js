@@ -3,9 +3,9 @@
 
   angular.module('org.bonita.features.admin.cases', ['ui.router', 'org.bonita.features.admin.cases.list', 'ui.bootstrap', 'gettext'])
     .config([ '$stateProvider', '$urlRouterProvider', function ($stateProvider, $urlRouterProvider) {
-      $urlRouterProvider.when('/admin/cases/list/', '/admin/cases/list');
+      $urlRouterProvider.when('/pm/cases/list?processId&supervisor_id', '/admin/cases/list?processId&supervisor_id');
       $stateProvider.state('bonita.cases', {
-        url: '/admin/cases/list',
+        url: '/admin/cases/list?processId&supervisor_id',
         templateUrl: 'features/admin/cases/cases.html',
         abstract : true,
         controller: 'CaseCtrl'
@@ -16,6 +16,14 @@
             templateUrl: 'features/admin/cases/cases-list.html',
             controller: 'ActiveCaseListCtrl'
           }
+        },
+        resolve:{
+          supervisorId: ['$stateParams', function($stateParams){
+              return $stateParams.supervisor_id;
+          }],
+          processId: ['$stateParams', function($stateParams){
+              return $stateParams.processId;
+          }]
         }
       }).state('bonita.cases.archived', {
         url: '/archived',
@@ -24,6 +32,14 @@
             templateUrl: 'features/admin/cases/archived-cases-list.html',
             controller: 'ArchivedCaseListCtrl'
           }
+        },
+        resolve:{
+          supervisorId: ['$stateParams', function($stateParams){
+              return $stateParams.supervisor_id;
+          }],
+          processId: ['$stateParams', function($stateParams){
+              return $stateParams.processId;
+          }]
         }
       });
     }])
