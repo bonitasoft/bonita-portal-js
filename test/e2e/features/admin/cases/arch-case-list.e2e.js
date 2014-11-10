@@ -195,28 +195,23 @@
     describe('sort', function () {
       var tableHeader;
       beforeEach(function () {
-        tableHeader = element.all(by.css('table th'));
+        tableHeader = element.all(by.css('table th.pointer div'));
       });
       it('should order by date asc', function () {
-        tableHeader.get(4).click();
-        expect(element(by.css('.st-sort-ascent')).getText()).toContain('Start date');
-        expect(element(by.css('.st-sort-descent')).isElementPresent()).toBeFalsy();
+        tableHeader.get(2).click();
+        expect(tableHeader.get(2).getText()).toContain('Start date');
+        expect(element.all(by.xpath('//table//th[5]//div/span[2]')).getAttribute('class')).toEqual(['glyphicon glyphicon-chevron-up']);
+        expect(element.all(by.css('.glyphicon-chevron-up')).count()).toBe(1);
+        expect(element(by.css('.glyphicon-chevron-down')).isElementPresent()).toBeFalsy();
         expect(caseList.all(by.css('tbody tr')).get(0).all(by.css('td')).getText()).toEqual(['', 'Pool', '1.0', '1', '2014-10-16 16:05', 'william.jobs', '2014-11-02 10:07', 'started', '']);
       });
       it('should order by date desc', function () {
-        tableHeader.get(4).click();
-        tableHeader.get(4).click();
-        expect(element(by.css('.st-sort-descent')).getText()).toContain('Start date');
-        expect(element(by.css('.st-sort-ascent')).isElementPresent()).toBeFalsy();
+        tableHeader.get(2).click();
+        tableHeader.get(2).click();
+        expect(element.all(by.xpath('//table//th[5]//div/span[2]')).getAttribute('class')).toEqual(['glyphicon glyphicon-chevron-down']);
+        expect(element.all(by.css('.glyphicon-chevron-down')).count()).toBe(1);
+        expect(element(by.css('.glyphicon-chevron-up')).isElementPresent()).toBeFalsy();
         expect(caseList.all(by.css('tbody tr')).get(0).all(by.css('td')).getText()).toEqual(['', 'ProcessX', '2.0', '1', '2014-10-20 10:08', 'william.jobs', '2014-11-02 10:07', 'started', '']);
-      });
-      it('should order by id', function () {
-        tableHeader.get(4).click();
-        tableHeader.get(4).click();
-        tableHeader.get(4).click();
-        expect(element(by.css('.st-sort-ascent')).isElementPresent()).toBeFalsy();
-        expect(element(by.css('.st-sort-descent')).isElementPresent()).toBeFalsy();
-        expect(caseList.all(by.css('tbody tr')).get(0).all(by.css('td')).getText()).toEqual(['', 'Leave Request', '1.0', '1', '2014-10-17 16:05', 'walter.bates', '2014-11-02 10:07', 'started', '']);
       });
     });
 

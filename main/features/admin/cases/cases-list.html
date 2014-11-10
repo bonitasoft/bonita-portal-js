@@ -24,8 +24,11 @@
           <button active-case-delete id="delete-button" type="button" class='btn btn-default' ng-click="confirmDeleteSelectedCases()" ng-disabled="checkCaseIsNotSelected()" translate>Delete</button>
         </div>
         <div id="table-actions" class="col-md-6 text-right">
-          <div class="btn-group text-left" id='page-size'>
-            <label ng-repeat="pageSize in pageSizes" class="btn btn-default page-size" ng-click='changeItemPerPage(pageSize)' btn-radio="pageSize" ng-model="pagination.itemsPerPage">{{pageSize}}</label>
+          <div class="btn-group text-left" dropdown id='page-size'>
+            <button type="button" class="btn btn-default dropdown-toggle">{{pagination.itemsPerPage}}<span class="caret"></span></button>
+            <ul class="dropdown-menu" role="menu">
+              <li ng-repeat="pageSize in pageSizes" ng-click='changeItemPerPage(pageSize)' class="column-visibility"> <label>{{pageSize}}<label></li>
+            </ul>
           </div>
           <div class="btn-group text-left" dropdown id='columns-selection'>
             <button type="button" class="btn btn-default dropdown-toggle"><translate>Columns</translate> <span class="caret"></span></button>
@@ -61,8 +64,8 @@
               <td class="case-checkbox">
                 <input id="case-check-{{case.id}}" type="checkbox" ng-model="case.selected">
               </td>
-              <td class="{{'td'+col.name.replace(' ','')}}" ng-repeat="col in columns | filter : filterColumn"><p ng-class="{'text-right': col.align}"><format-content column="col" case-item="case" more-detail-token="{{moreDetailToken}}"></format-content></p></td>
-              <td><a id="case-detail-btn-{{case.id}}" target="_top" ng-href="{{getCaseDetailUrl(case.id)}}" class="btn btn-default"><span class="glyphicon glyphicon-eye-open"></span><a></td>
+              <td class="{{'td'+col.name.replace(' ','')}} case-detail" ng-repeat="col in columns | filter : filterColumn" ng-class="{'text-right': col.align}"><format-content column="col" case-item="case" more-detail-token="{{moreDetailToken}}"></format-content></td>
+              <td><a id="case-detail-btn-{{case.id}}" target="_top" ng-href="{{getCaseDetailUrl(case.id)}}" class="open-link"><span class="glyphicon glyphicon-eye-open"></span><a></td>
             </tr>
             </tbody>
 

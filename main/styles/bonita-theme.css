@@ -27,9 +27,9 @@
 #case-list .case-row {
   /*cursor: pointer;*/
 }
-#case-list .case-row a{
-  /*color: inherit; /* blue colors for links too */
-  /*text-decoration: inherit; /* no underline */
+#case-list a.open-link {
+  color: inherit; /* blue colors for links too*/
+  text-decoration: inherit; /* no underline */
 }
 
 #case-list .case-column.st-sort-ascent:after{
@@ -64,13 +64,22 @@
   margin-top: 20px;
 }
 
-#case-filters button{
+#case-list button{
   text-transform: capitalize;
 }
 
 #case-list .dropdown-menu {
   overflow-y: auto;
   max-height: 315px;
+}
+
+.glyphicon-none:before {
+    content: "\2122";
+    color: transparent !important;
+}
+
+.pointer{
+   cursor: pointer;
 }
 
 
