@@ -64,6 +64,16 @@
   margin-top: 20px;
 }
 
+#case-filters button{
+  text-transform: capitalize;
+}
+
+#case-list .dropdown-menu {
+  overflow-y: auto;
+  max-height: 315px;
+}
+
+
 .glyphicon-refresh-animate {
   -animation: spin .7s infinite linear;
   -webkit-animation: spin2 .7s infinite linear;
