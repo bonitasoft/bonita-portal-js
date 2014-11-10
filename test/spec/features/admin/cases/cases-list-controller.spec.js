@@ -54,7 +54,9 @@
               {name: 'AppName', sortName: 'name', path: ['processDefinitionId', 'name']},
               {name: 'Version', sortName: 'version', path: ['processDefinitionIdsdf', 'version']},
               {name: 'CaseId', sortName: 'id', path: ['idsdf']}
-            ]
+            ],
+            'processId' : undefined,
+            'supervisorId' : undefined
           });
         }));
         it('should not display all fields', function () {
@@ -87,7 +89,9 @@
             'defaultPageSize': defaultPageSize,
             'defaultSort': defaultSort,
             'defaultDeployedFields': defaultDeployedFields,
-            'defaultActiveCounterFields': defaultActiveCounterFields
+            'defaultActiveCounterFields': defaultActiveCounterFields,
+            'processId' : undefined,
+            'supervisorId' : undefined
           });
         }));
 
@@ -127,7 +131,9 @@
             '$scope': scope,
             '$window' : mockedWindow,
             'manageTopUrl' : manageTopUrl,
-            'moreDetailToken' : 'casedetails'
+            'moreDetailToken' : 'casedetails',
+            'processId' : undefined,
+            'supervisorId' : undefined
           });
         }));
         describe('go to case function', function(){
@@ -168,7 +174,9 @@
               {name: 'CaseId', sortName: 'id', path: ['id']}
             ],
             '$anchorScroll': anchorScroll,
-            'defaultActiveCounterFields': defaultActiveCounterFields
+            'defaultActiveCounterFields': defaultActiveCounterFields,
+            'processId' : undefined,
+            'supervisorId' : undefined
           });
         }));
         it('should call next Page without sort', function () {
@@ -251,7 +259,9 @@
                 {name: 'CaseId', sortName: 'id', path: ['id']}
               ],
               '$anchorScroll': anchorScroll,
-              'defaultActiveCounterFields': defaultActiveCounterFields
+              'defaultActiveCounterFields': defaultActiveCounterFields,
+              'processId' : undefined,
+              'supervisorId' : undefined
             });
           }));
           it('should call default sort on empty tableState', function () {
@@ -315,7 +325,9 @@
                   };
                 }
               },
-              '$location': location
+              '$location': location,
+              'processId' : undefined,
+              'supervisorId' : undefined
             });
             scope.$apply();
             expect(location.url).toHaveBeenCalled();
@@ -351,7 +363,9 @@
                   };
                 }
               },
-              'growl': growl
+              'growl': growl,
+              'processId' : undefined,
+              'supervisorId' : undefined
             });
             scope.$apply();
             expect(growl.error).toHaveBeenCalled();
@@ -367,7 +381,9 @@
     describe('change column visiblity', function () {
       beforeEach(inject(function ($controller) {
         $controller('ActiveCaseListCtrl', {
-          '$scope': scope
+          '$scope': scope,
+          'processId' : undefined,
+          'supervisorId' : undefined
         });
       }));
       it('should set selected to false when it was true', function () {
@@ -385,7 +401,9 @@
     describe('filter column ', function () {
       beforeEach(inject(function ($controller) {
         $controller('ActiveCaseListCtrl', {
-          '$scope': scope
+          '$scope': scope,
+          'processId' : undefined,
+          'supervisorId' : undefined
         });
       }));
       it('should return false when column is not selected', function () {
@@ -401,7 +419,9 @@
     describe('select nbItems in page ', function () {
       beforeEach(inject(function ($controller) {
         $controller('ActiveCaseListCtrl', {
-          '$scope': scope
+          '$scope': scope,
+          'processId' : undefined,
+          'supervisorId' : undefined
         });
         spyOn(scope, 'searchForCases');
       }));
@@ -426,7 +446,9 @@
       beforeEach(inject(function ($controller) {
         $controller('ActiveCaseListCtrl', {
           '$scope': scope,
-          'growl' : growl
+          'growl' : growl,
+          'processId' : undefined,
+          'supervisorId' : undefined
         });
       }));
       it('should call growl to add Notification error', function(){
@@ -471,7 +493,9 @@
     describe('reinitCases', function () {
       it('should remove sort and set page to 1', inject(function ($controller) {
         $controller('ActiveCaseListCtrl', {
-          '$scope': scope
+          '$scope': scope,
+          'processId' : undefined,
+          'supervisorId' : undefined
         });
         scope.searchSort = {};
         scope.pagination.currentPage = 10;
@@ -510,7 +534,9 @@
                 '$promise': localPromise
               };
             }
-          }
+          },
+          'processId' : undefined,
+          'supervisorId' : undefined
         });
         scope.$apply();
         spyOn(scope, 'searchForCases');
