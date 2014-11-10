@@ -1,0 +1,11 @@
+<script type="text/ng-template" id="features/admin/cases/flow-node-list-popover.html">
+<div ng-init="flowNodesItems = $parent.$parent.flowNodesItems">
+  <ul ng-if="flowNodesItems.length > 0">
+    <li ng-repeat="flowNodeItem in flowNodesItems">{{ flowNodeItem.displayName }}</li>
+  </ul>
+  <div ng-if="flowNodesItems.length == 0">
+    {{ "No result" | filter:translate }}
+  </div>
+</div>
+</script>
+<a href="javascript:void(0)" class="badge" focus-on-click popover-placement="right" ng-click="badge.showPopover()" popover-popup-delay="0" popover-trigger="popoverAsyncTrigger" popover-html-template="features/admin/cases/flow-node-list-popover.html">{{ label }}</a>

@@ -9,6 +9,8 @@
    */
 
   angular.module('org.bonita.features.admin.cases.list', ['org.bonita.common.resources',
+      'org.bonita.common.resources',
+      'org.bonita.features.admin.cases.list.flownodePopover',
     'gettext',
     'smart-table',
     'ui.bootstrap',
@@ -21,11 +23,9 @@
     'org.bonita.services.topurl',
     'org.bonita.sortable'
   ])
-    .config(['growlProvider',
-      function(growlProvider) {
+    .config(['growlProvider',function (growlProvider) {
         growlProvider.globalPosition('top-center');
-      }
-    ])
+      }])
     .value('casesColumns', [{
       name: 'Process name',
       sortName: 'name',
@@ -96,7 +96,7 @@
     .controller('ActiveCaseListCtrl', ['$scope', 'caseAPI', 'casesColumns', 'defaultPageSize', 'defaultSort', 'defaultDeployedFields', 'defaultActiveCounterFields', '$location', 'pageSizes', 'defaultFilters', '$filter', '$anchorScroll', 'growl', '$log', '$window', 'moreDetailToken', 'activedTabName', 'manageTopUrl', '$stateParams', 'processId', 'supervisorId', CaseListCtrl])
     .controller('ActiveCaseFilterController', ['$scope', 'store', 'processAPI', 'defaultFilters', 'caseStatesValues', 'activedTabName', CaseFilterController])
     .controller('ActiveCaseDeleteCtrl', ['$scope', '$modal', 'caseAPI', 'gettextCatalog', CaseDeleteCtrl])
-    .directive('activeCaseFilters', function() {
+    .directive('activeCaseFilters', function () {
       return {
         restrict: 'E',
         require: '^ActiveCaseListCtrl',
@@ -105,16 +105,16 @@
       };
     })
     .directive('activeCaseDelete',
-      function() {
-        return {
-          restrict: 'A',
-          require: '^ActiveCaseListCtrl',
-          controller: 'ActiveCaseDeleteCtrl'
-        };
-      })
+    function () {
+      return {
+        restrict: 'A',
+        require: '^ActiveCaseListCtrl',
+        controller: 'ActiveCaseDeleteCtrl'
+      };
+    })
     .controller('DeleteCaseModalCtrl', ['$scope', '$modalInstance', 'caseItems', DeleteCaseModalCtrl])
     .directive('formatContent', ['$filter', 'manageTopUrl', '$compile', 'gettextCatalog', 'allCaseStatesValues',
-      function($filter, manageTopUrl, $compile, gettextCatalog, allCaseStatesValues) {
+      function ($filter, manageTopUrl, $compile, gettextCatalog, allCaseStatesValues) {
         return {
           template: '<div></div>',
           replace: true,
@@ -123,24 +123,22 @@
             column: '=',
             caseItem: '=',
             getCurrentProfile: '&',
-            moreDetailToken: '@'
+            moreDetailToken: '@',
+            fillPopover: '&'
           },
-          link: function($scope, $element) {
+          link: function ($scope, $element) {
             var contents = '';
             if ($scope.column && $scope.column.date && $scope.caseItem[$scope.column.name] && typeof $scope.caseItem[$scope.column.name] === 'string') {
               //received date is in a non-standard format...
               // convert 2014-10-17 16:05:42.626 to ISO-8601 Format 2014-10-17T16:05:42.626Z
               contents = $filter('date')($scope.caseItem[$scope.column.name].replace(/ /, 'T'), 'yyyy-MM-dd HH:mm');
             } else if ($scope.column && $scope.column.popover) {
-              var flownodeState = '';
-              var flownodeTitle = ' Active flownodes';
-              if ($scope.column.flowNodeFailedFilter) {
-                flownodeState = ' flownode-state="failed"';
-                flownodeTitle = 'Failed flownodes';
+              var filter = '';
+              if($scope.column.flowNodeFailedFilter) {
+                filter = 'filter="state=failed"';
               }
-              flownodeTitle = ' flownode-title="' + flownodeTitle + '"';
-              contents = '<flow-node-list-popover case="caseItem" label="' + $scope.caseItem[$scope.column.name] + '"' + flownodeState + flownodeTitle + '></flow-node-list-popover>';
-
+              contents = '<flow-node-badge case-id="caseItem.id" ' + filter + ' label="' + $scope.caseItem[$scope.column.name] + '"></flow-node-badge>';
+              //contents = '<a href="javascript:return false;" ng-click="fillPopover('+$scope.caseItem.id+',\''+flownodeStateAttr+'\')">'+$scope.caseItem[$scope.column.name]+'</a>';
             } else if ($scope.column && $scope.column.linkToCase) {
               contents = '<a target="_top" href="' + manageTopUrl.getPath() + manageTopUrl.getSearch() + '#?id=' + $scope.caseItem.ID + '&_p=' + $scope.moreDetailToken + '&' + manageTopUrl.getCurrentProfile() + '">' + $scope.caseItem[$scope.column.name] + '</a>';
             } else if ($scope.column && $scope.column.linkToProcess) {
@@ -157,94 +155,14 @@
             $compile($element)($scope);
           }
         };
-      }
-    ])
+      }])
 
-
-  .directive('focusOnClick', ['$timeout',
-    function($timeout) {
+    .directive('resizableColumn', ['$timeout', function ($timeout) {
       return {
         restrict: 'A',
-        link: function(scope, element) {
-          element.on('click', function() {
-            $timeout(function() {
-              element.focus();
-            }, 0);
-          });
-          scope.$on('$destroy', function() {
-
-            element.off('click');
-          });
-        }
-      };
-    }
-  ])
-    .directive('popoverHtmlTemplatePopup', function() {
-      return {
-        restrict: 'EA',
-        replace: true,
-        scope: {
-          title: '@',
-          content: '@',
-          placement: '@',
-          animation: '&',
-          isOpen: '&'
-        },
-        templateUrl: 'features/admin/cases/popover-html-template.html'
-      };
-    })
-
-  .directive('popoverHtmlTemplate', ['$tooltip',
-    function($tooltip) {
-      return $tooltip('popoverHtmlTemplate', 'popover', 'click');
-    }
-  ])
-
-  .controller('flowNodeListPopoverCtrl', ['$scope', 'flowNodeAPI',
-    function($scope, flowNodeAPI) {
-      $scope.case = $scope.$parent.$parent.$parent.case; // pretty ugly but could get the parent chain to work...
-      var filters = [];
-      filters.push('caseId=' + $scope.case.id);
-      if ($scope.$parent.$parent.$parent.flownodeState) {
-        filters.push('state=' + $scope.$parent.$parent.$parent.flownodeState);
-      }
-      var searchParams = {
-        p: 0,
-        c: 100000,
-        f: filters
-      };
-
-
-      var flowNodeSearch = flowNodeAPI.search(searchParams);
-
-      $scope.flownodesItems = null;
-      flowNodeSearch.$promise.then(function buildPopOverContent(flowNodes) {
-        $scope.flownodesItems = flowNodes.resource;
-      }, function(error) {
-        $scope.displayError(error);
-      });
-    }
-  ])
-  .directive('flowNodeListPopover', function() {
-      return {
-        restrict: 'EA',
-        scope: {
-          'case': '=',
-          'label': '@',
-          'flownodeTitle': '@',
-          'flownodeState': '@'
-        },
-        template: '<a href="javascript:return false;" class="badge" focus-on-click popover-placement="bottom" popover-popup-delay="0" popover-trigger="focus" popover-title="{{flownodeTitle}}" popover-html-template="features/admin/cases/flow-node-list-popover.html">{{ label }}</a>'
-      };
-    })
-
-  .directive('resizableColumn', ['$timeout',
-    function($timeout) {
-      return {
-        restrict: 'A',
-        link: function(scope, $el) {
-          var resizeColumn = function() {
-            $timeout(function() {
+        link: function (scope, $el) {
+          var resizeColumn = function () {
+            $timeout(function () {
               var data = $el.data('resizableColumns');
               if (data) {
                 data.destroy();
@@ -258,45 +176,41 @@
         }
       };
     }
-  ])
-    .value('archivedCasesColumns', [{
-      name: 'Process name',
-      sortName: 'name',
-      path: ['processDefinitionId', 'name'],
-      selected: true,
-      linkToProcess: true
-    }, {
-      name: 'Version',
-      path: ['processDefinitionId', 'version'],
-      selected: true
-    }, {
-      name: 'ID',
-      sortName: 'id',
-      path: ['sourceObjectId'],
-      selected: true,
-      align: 'right',
-      linkToCase: true
-    }, {
-      name: 'Start date',
-      sortName: 'startDate',
-      path: ['start'],
-      selected: true,
-      date: true
-    }, {
-      name: 'Started by',
-      path: ['started_by', 'userName'],
-      selected: true
-    }, {
-      name: 'End date',
-      sortName: 'endDate',
-      path: ['end_date'],
-      selected: true,
-      date: true
-    }, {
-      name: 'State',
-      path: ['state'],
-      selected: true
-    }])
+    ])
+    .value('archivedCasesColumns', [
+      {
+        name: 'Version',
+        path: ['processDefinitionId', 'version'],
+        selected: true
+      }, {
+        name: 'ID',
+        sortName: 'id',
+        path: ['sourceObjectId'],
+        selected: true,
+        align: 'right',
+        linkToCase: true
+      }, {
+        name: 'Start date',
+        sortName: 'startDate',
+        path: ['start'],
+        selected: true,
+        date: true
+      }, {
+        name: 'Started by',
+        path: ['started_by', 'userName'],
+        selected: true
+      }, {
+        name: 'End date',
+        sortName: 'endDate',
+        path: ['end_date'],
+        selected: true,
+        date: true
+      }, {
+        name: 'State',
+        path: ['state'],
+        selected: true
+      }
+    ])
     .
   value('archivedCaseStatesValues', {
       started: 'Started',
@@ -326,9 +240,6 @@
         };
       })
     .controller('DeleteCaseModalCtrl', ['$scope', '$modalInstance', 'caseItems', DeleteCaseModalCtrl]);
-
-
-  //////////////////////
   /**
    * @ngdoc object
    * @name o.b.f.admin.cases.list.CaseFilterController
