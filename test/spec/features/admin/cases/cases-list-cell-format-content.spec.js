@@ -4,7 +4,7 @@
 
     var scope, element, compile;
 
-    beforeEach(module('org.bonita.features.admin.cases.list'));
+    beforeEach(module('org.bonita.features.admin.cases.list.formatContent'));
 
     beforeEach(inject(function ($rootScope) {
       scope = $rootScope.$new();

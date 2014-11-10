@@ -33,7 +33,7 @@
         },
         controller: 'flowNodeBadgeCtrl',
         controllerAs: 'badge',
-        templateUrl: 'features/admin/cases/flownode-badge.html',
+        templateUrl: 'features/admin/cases/list/flownode-badge.html',
         link: function(scope, element) {
           scope.triggerPopover = function() {
             $timeout(function() {
@@ -48,7 +48,7 @@
         restrict: 'EA',
         replace: true,
         scope: {title: '@', content: '@', placement: '@', animation: '&', isOpen: '&', flownodesItems: '='},
-        templateUrl: 'features/admin/cases/popover-html-template.html'
+        templateUrl: 'features/admin/cases/list/popover-html-template.html'
       };
     })
     .directive('focusOnClick', ['$timeout', function ($timeout) {

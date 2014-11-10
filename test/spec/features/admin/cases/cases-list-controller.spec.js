@@ -5,7 +5,7 @@
 
     var scope, caseAPI, fullCases, promise;
 
-    beforeEach(module('org.bonita.features.admin.cases.list'));
+    beforeEach(module('org.bonita.features.admin.cases.list.table'));
 
     beforeEach(inject(function ($rootScope) {
       //we use the casesListMocks.js in order to init data for the test

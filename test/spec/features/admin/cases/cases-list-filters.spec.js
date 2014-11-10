@@ -14,9 +14,9 @@
       };
     };
 
-    beforeEach(module('features/admin/cases/cases-list-filters.html'));
+    beforeEach(module('features/admin/cases/list/cases-list-filters.html'));
 
-    beforeEach(module('org.bonita.features.admin.cases.list'));
+    beforeEach(module('org.bonita.features.admin.cases.list.filters'));
     beforeEach(inject(function ($rootScope, $compile, _defaultFilters_, _caseStatesValues_, _store_) {
       //{appVersion: 'All versions', appName: 'All apps', caseStatus: 'All states'}
       globalProcesses = [];
