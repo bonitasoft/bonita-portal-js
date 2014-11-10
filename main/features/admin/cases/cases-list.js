@@ -15,6 +15,7 @@
       'gettext',
       'smart-table',
       'ui.bootstrap',
+      'ui.router',
       'lrDragNDrop',
       'org.bonita.common.resources.store',
       'org.bonita.common.directives.selectAll',
@@ -92,7 +93,7 @@
     .value('defaultDeployedFields', ['processDefinitionId', 'started_by', 'startedBySubstitute'])
     .value('defaultActiveCounterFields', ['activeFlowNodes', 'failedFlowNodes'])
     .value('activedTabName', '')
-    .controller('ActiveCaseListCtrl', ['$scope', 'caseAPI', 'casesColumns', 'defaultPageSize', 'defaultSort', 'defaultDeployedFields', 'defaultActiveCounterFields', '$location', 'pageSizes', 'defaultFilters', '$filter', '$anchorScroll', 'growl', '$log', '$window', 'moreDetailToken', 'activedTabName', 'manageTopUrl', CaseListCtrl])
+    .controller('ActiveCaseListCtrl', ['$scope', 'caseAPI', 'casesColumns', 'defaultPageSize', 'defaultSort', 'defaultDeployedFields', 'defaultActiveCounterFields', '$location', 'pageSizes', 'defaultFilters', '$filter', '$anchorScroll', 'growl', '$log', '$window', 'moreDetailToken', 'activedTabName', 'manageTopUrl', '$stateParams', 'processId', 'supervisorId', CaseListCtrl])
     .controller('ActiveCaseFilterController', ['$scope', 'store', 'processAPI', 'defaultFilters', 'caseStatesValues', 'activedTabName', CaseFilterController])
     .controller('ActiveCaseDeleteCtrl', ['$scope', '$modal', 'caseAPI', 'gettextCatalog', CaseDeleteCtrl])
     .directive('activeCaseFilters', function () {
@@ -221,7 +222,7 @@
     .value('archivedMoreDetailToken', 'archivedcasemoredetailsadmin')
     .value('archivedTabName', 'archived')
     .value('defaultArchivedCounterFields', [])
-    .controller('ArchivedCaseListCtrl', ['$scope', 'archivedCaseAPI', 'archivedCasesColumns', 'defaultPageSize', 'defaultSort', 'defaultDeployedFields', 'defaultArchivedCounterFields', '$location', 'pageSizes', 'defaultFilters', '$filter', '$anchorScroll', 'growl', '$log', '$window', 'archivedMoreDetailToken', 'archivedTabName', 'manageTopUrl', CaseListCtrl])
+    .controller('ArchivedCaseListCtrl', ['$scope', 'archivedCaseAPI', 'archivedCasesColumns', 'defaultPageSize', 'defaultSort', 'defaultDeployedFields', 'defaultArchivedCounterFields', '$location', 'pageSizes', 'defaultFilters', '$filter', '$anchorScroll', 'growl', '$log', '$window', 'archivedMoreDetailToken', 'archivedTabName', 'manageTopUrl', '$stateParams', 'processId', 'supervisorId', CaseListCtrl])
     .controller('ArchivedCaseFilterController', ['$scope', 'store', 'processAPI', 'defaultFilters', 'caseStatesValues', CaseFilterController])
     .controller('ArchivedCaseDeleteCtrl', ['$scope', '$modal', 'archivedCaseAPI', 'gettextCatalog', CaseDeleteCtrl])
     .directive('archivedCaseFilters', function () {
@@ -266,7 +267,11 @@
     $scope.appNames = [];
     $scope.allCasesSelected = false;
 
-    store.load(processAPI, {}).then(function (processes) {
+    var processFilter = [];
+    if($scope.supervisorId){
+      processFilter.push('supervisor_id='+$scope.supervisorId);
+    }
+    store.load(processAPI, {f : processFilter}).then(function (processes) {
       $scope.apps = processes;
       var appNamesArray = processes.map(function (process) {
         return process.name;
@@ -509,8 +514,7 @@
    * @requires $anchorScroll
    * @requires growl
    */
-  function CaseListCtrl($scope, caseAPI, casesColumns, defaultPageSize, defaultSort, defaultDeployedFields, defaultCounterFields, $location, pageSizes, defaultFilters, $filter, $anchorScroll, growl, $log, $window, moreDetailToken, tabName, manageTopUrl) {
-
+  function CaseListCtrl($scope, caseAPI, casesColumns, defaultPageSize, defaultSort, defaultDeployedFields, defaultCounterFields, $location, pageSizes, defaultFilters, $filter, $anchorScroll, growl, $log, $window, moreDetailToken, tabName, manageTopUrl, $stateParams, processId, supervisorId) {
     /**
      * @ngdoc property
      * @name o.b.f.admin.cases.list.CaseListCtrl#columns
@@ -544,7 +548,13 @@
     $scope.filters = [];
     $scope.moreDetailToken = moreDetailToken;
 
-    manageTopUrl.addOrReplaceParam('_tab', tabName);
+    var defaultFiltersArray = [];
+    if(supervisorId){
+      defaultFiltersArray.push('supervisor_id='+supervisorId);
+    }
+    $scope.supervisorId = supervisorId;
+
+    manageTopUrl.addOrReplaceParam('_tab',tabName);
 
     $scope.reinitCases = function () {
       delete $scope.searchSort;
@@ -580,7 +590,7 @@
     }, true);
 
     $scope.buildFilters = function () {
-      var filters = [];
+      var filters = defaultFiltersArray;
       if ($scope.selectedProcessDefinition) {
         filters.push('processDefinitionId=' + $scope.selectedProcessDefinition);
       } else if ($scope.selectedApp && $scope.selectedApp !== defaultFilters.appName) {

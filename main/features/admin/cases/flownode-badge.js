@@ -37,7 +37,7 @@
         link: function(scope, element) {
           scope.triggerPopover = function() {
             $timeout(function() {
-              element.find('button').trigger('popoverAsyncTrigger');
+              element.find('a').trigger('popoverAsyncTrigger');
             }, 0);
           };
         }
@@ -51,6 +51,21 @@
         templateUrl: 'features/admin/cases/popover-html-template.html'
       };
     })
+    .directive('focusOnClick', ['$timeout', function ($timeout) {
+      return {
+        restrict: 'A',
+        link: function (scope, element) {
+          element.on('click', function () {
+            $timeout(function () {
+              element.focus();
+            }, 0);
+          });
+          scope.$on('$destroy', function () {
+            element.off('click');
+          });
+        }
+      };
+    }])
     .directive('popoverHtmlTemplate', ['$tooltip', function ($tooltip) {
       return $tooltip('popoverHtmlTemplate', 'popover', 'click');
     }]);
