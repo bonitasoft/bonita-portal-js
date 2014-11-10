@@ -49,8 +49,8 @@
               <td class="case-checkbox">
                 <input id="case-check-{{case.id}}" type="checkbox" ng-model="case.selected">
               </td>
-              <td class="{{'td'+col.name.replace(' ','')}} case-detail" ng-repeat="col in columns | filter : filterColumn"><p ng-class="{'text-right': col.align}"><format-content column="col" case-item="case" more-detail-token="{{moreDetailToken}}"></format-content></p></td>
-              <td><a id="case-detail-btn-{{case.id}}" target="_top" ng-href="{{getCaseDetailUrl(case.id)}}" class="btn btn-default"><span class="glyphicon glyphicon-eye-open"></span><a></td>
+              <td class="{{'td'+col.name.replace(' ','')}} case-detail" ng-repeat="col in columns | filter : filterColumn" ng-class="{'text-right': col.align}"><format-content column="col" case-item="case" more-detail-token="{{moreDetailToken}}"></format-content></td>
+              <td><a id="case-detail-btn-{{case.id}}" target="_top" ng-href="{{getCaseDetailUrl(case.id)}}" class="open-link"><span class="glyphicon glyphicon-eye-open"></span><a></td>
             </tr>
             </tbody>
 

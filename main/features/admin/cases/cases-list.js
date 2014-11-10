@@ -177,7 +177,13 @@
       };
     }
     ])
-    .value('archivedCasesColumns', [
+    .value('archivedCasesColumns', [{
+        name: 'Process name',
+        sortName: 'name',
+        path: ['processDefinitionId', 'name'],
+        selected: true,
+        linkToProcess: true
+      },
       {
         name: 'Version',
         path: ['processDefinitionId', 'version'],
@@ -561,6 +567,7 @@
     if (supervisorId) {
       defaultFiltersArray.push('supervisor_id=' + supervisorId);
     }
+    $scope.filters = angular.copy(defaultFiltersArray);
     $scope.supervisorId = supervisorId;
 
     $scope.processId = processId;
