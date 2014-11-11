@@ -137,7 +137,6 @@
         delete $scope.selectedProcessDefinition;
         $scope.buildFilters();
       } else if ($scope.selectedApp !== defaultFilters.appName) {
-        console.log('on détruit ' + $scope.selectedApp);
         delete $scope.processId;
       }
     });

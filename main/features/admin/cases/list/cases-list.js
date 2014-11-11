@@ -97,6 +97,8 @@
 
     manageTopUrl.addOrReplaceParam('_tab', tabName);
 
+    manageTopUrl.addOrReplaceParam('_processId', processId || '');
+
     $scope.reinitCases = function() {
       delete $scope.searchSort;
       $scope.pagination.currentPage = 1;

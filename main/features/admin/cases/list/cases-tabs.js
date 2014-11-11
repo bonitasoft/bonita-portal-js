@@ -2,7 +2,7 @@
 (function() {
   'use strict';
 
-  angular.module('org.bonita.features.admin.cases.list', ['ui.router', 'org.bonita.features.admin.cases.list.table', 'ui.bootstrap', 'gettext'])
+  angular.module('org.bonita.features.admin.cases.list', ['ui.router', 'org.bonita.features.admin.cases.list.table', 'ui.bootstrap', 'gettext', 'org.bonita.services.topurl'])
     .config(['$stateProvider', '$urlRouterProvider',
       function($stateProvider, $urlRouterProvider) {
         $urlRouterProvider.when('/pm/cases/list?processId&supervisor_id', '/admin/cases/list?processId&supervisor_id');
@@ -27,7 +27,7 @@
               }
             ],
             processId: ['$stateParams',
-              function($stateParams) {
+              function($stateParams){
                 return $stateParams.processId;
               }
             ]
@@ -47,7 +47,7 @@
               }
             ],
             processId: ['$stateParams',
-              function($stateParams) {
+              function($stateParams){
                 return $stateParams.processId;
               }
             ]

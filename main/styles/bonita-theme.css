@@ -61,11 +61,12 @@
 }
 
 #case-list #cases-results-size{
-  margin-top: 20px;
+  margin: 28px 20px;
 }
 
 #case-list button{
   text-transform: capitalize;
+  min-width: 60px;
 }
 
 #case-list .dropdown-menu {
