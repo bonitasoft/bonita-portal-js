@@ -32,7 +32,7 @@
   }).run(['$templateCache', function($templateCache) {
     $templateCache.put('template/sortable/sorter.tpl.html',
       '<div ng-click="sort()"><span ng-transclude></span>\n' +
-      '<span ng-click="sort()" class="glyphicon" ng-class="{\'glyphicon-chevron-up\':sortOptions.ascendant &amp;&amp; sortOptions.property === property, \'glyphicon-chevron-down\':!sortOptions.ascendant &amp;&amp; sortOptions.property === property}"></span></div>\n' +
+      '<span class="glyphicon" ng-class="{\'glyphicon-chevron-up\':sortOptions.ascendant &amp;&amp; sortOptions.property === property, \'glyphicon-chevron-down\':!sortOptions.ascendant &amp;&amp; sortOptions.property === property}"></span></div>\n' +
       '');
   }]);
 })();

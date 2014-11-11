@@ -18,9 +18,7 @@ describe('sortable directive', function(){
     el.dispatchEvent(ev);
   };
 
-  beforeEach(module('bonitable'));
-  beforeEach(module('bonita.sortable'));
-  beforeEach(module('bonita.templates'));
+  beforeEach(module('org.bonita.sortable'));
 
   beforeEach(inject(function($rootScope, $compile, $httpBackend, _$timeout_) {
     scope = $rootScope.$new();
@@ -49,7 +47,7 @@ describe('sortable directive', function(){
       return scope.onSort;
     };
     element = $compile(markup)(scope);
-    scope.$digest();
+    scope.$apply();
   }));
 
 
@@ -72,13 +70,13 @@ describe('sortable directive', function(){
 
   describe('sorter', function() {
     it('should trigger onSort when click', function(){
-      var idHeader = element.find('[ng-transclude]');
+      var idHeader = element.find('div');
       click(idHeader.get(0));
       expect(scope.onSort).toHaveBeenCalledWith({property:'id', ascendant:true});
     });
 
     it('should reverse order if active th is clicked', function(){
-      var nameHeader = element.find('[ng-transclude]')[1];
+      var nameHeader = element.find('div')[1];
       expect(scope.sortOptions).toEqual({property:'name', ascendant:true});
       click(nameHeader);
       expect(scope.sortOptions).toEqual({property:'name', ascendant:false});
@@ -88,12 +86,12 @@ describe('sortable directive', function(){
 
   describe('icon class', function(){
     it('should reflect initial sortOption', function(){
-      var button = element.find('[ng-transclude]');
+      var button = element.find('div');
       expect(button.get(1).textContent.trim()).toEqual('Name');
     });
 
     it('should reflect sortOption when reverse order', function(){
-      var button = element.find('[ng-transclude]')[1];
+      var button = element.find('div')[1];
 
       click(button);
       expect(scope.sortOptions.ascendant).toBe(false);
