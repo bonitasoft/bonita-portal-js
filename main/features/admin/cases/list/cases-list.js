@@ -162,7 +162,8 @@
         d: defaultDeployedFields,
         o: $scope.searchSort,
         f: $scope.filters,
-        n: defaultCounterFields
+        n: defaultCounterFields,
+        s: $scope.currentSearch
       }).$promise.then(function mapCases(fullCases) {
         $scope.pagination.total = fullCases && fullCases.resource && fullCases.resource.pagination && fullCases.resource.pagination.total;
         $scope.currentFirstResultIndex = (($scope.pagination.currentPage - 1) * $scope.pagination.itemsPerPage) + 1;

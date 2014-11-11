@@ -21,5 +21,15 @@
         </ul>
       </div>
     </div>
+    <div class="col-md-6">
+      <form role="form" name="searchForm" novalidate ng-submit="submitSearch()">
+        <div class="form-group">
+          <div class="input-group">
+            <input type="text" class="form-control" ng-model="currentSearch" name="searchField" id="case-list-search" placeholder="{{ 'Search...' | translate }}">
+            <span ng-click="submitSearch()" class="input-group-addon pointer"><span class="glyphicon glyphicon-search"></span></span>
+          </div>
+        </div>
+      </form>
+    </div>
   </div>
 </div>

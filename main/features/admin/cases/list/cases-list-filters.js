@@ -50,6 +50,7 @@
     $scope.versions = [];
     $scope.appNames = [];
     $scope.allCasesSelected = false;
+    $scope.currentSearch = '';
 
     var processFilter = [];
     if ($scope.supervisorId) {
@@ -128,6 +129,11 @@
       } else {
         delete $scope.selectedProcessDefinition;
       }
+    };
+
+    $scope.submitSearch = function(){
+      console.log($scope.currentSearch);
+      $scope.searchForCases();
     };
     //we cannot watch the updateFilter function directly otherwise
     //it will not be mockable
