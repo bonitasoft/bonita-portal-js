@@ -22,6 +22,9 @@
 #case-list li[draggable=true]:hover{
   background: url(../img/dragndrophover.gif) repeat-y left;
 }
+#case-list li.lr-drop-target-before{
+  border-color: #999999;
+}
 #case-list .case-column {
   /*cursor: pointer;*/
 }
