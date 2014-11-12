@@ -5,7 +5,7 @@
 
     var scope, caseAPI, fullCases, promise;
 
-    beforeEach(module('org.bonita.features.admin.cases.list'));
+    beforeEach(module('org.bonita.features.admin.cases.list.table'));
 
     beforeEach(inject(function ($rootScope) {
       //we use the casesListMocks.js in order to init data for the test
@@ -75,7 +75,8 @@
             o: defaultSort + ' ASC',
             d: defaultDeployedFields,
             f: [],
-            n : defaultActiveCounterFields
+            n : defaultActiveCounterFields,
+            s : undefined
           });
         });
       });
@@ -111,7 +112,8 @@
             o: defaultSort + ' ASC',
             d: defaultDeployedFields,
             f: [],
-            n : defaultActiveCounterFields
+            n : defaultActiveCounterFields,
+            s : undefined
           });
         }));
       });
@@ -190,10 +192,10 @@
           expect(anchorScroll).toHaveBeenCalled();
           expect(caseAPI.search.calls.allArgs()).toEqual([
             [
-              {p: 0, c: defaultPageSize, o: defaultSort + ' ASC', d: defaultDeployedFields, f: [], n: defaultActiveCounterFields}
+              {p: 0, c: defaultPageSize, o: defaultSort + ' ASC', d: defaultDeployedFields, f: [], n: defaultActiveCounterFields, s : undefined}
             ],
             [
-              {p: 1, c: defaultPageSize, o: defaultSort + ' ASC', d: defaultDeployedFields, f: [], n: defaultActiveCounterFields}
+              {p: 1, c: defaultPageSize, o: defaultSort + ' ASC', d: defaultDeployedFields, f: [], n: defaultActiveCounterFields, s : undefined}
             ],
           ]);
         });
@@ -220,19 +222,19 @@
 
           expect(caseAPI.search.calls.allArgs()).toEqual([
             [
-              {p: 0, c: defaultPageSize, o: defaultSort + ' ASC', d: defaultDeployedFields, f: [], n: defaultActiveCounterFields}
+              {p: 0, c: defaultPageSize, o: defaultSort + ' ASC', d: defaultDeployedFields, f: [], n: defaultActiveCounterFields, s : undefined}
             ],
             [
-              {p: 0, c: defaultPageSize, o: 'name DESC', d: defaultDeployedFields, f: [], n: defaultActiveCounterFields}
+              {p: 0, c: defaultPageSize, o: 'name DESC', d: defaultDeployedFields, f: [], n: defaultActiveCounterFields, s : undefined}
             ],
             [
-              {p: 1, c: defaultPageSize, o: 'name DESC', d: defaultDeployedFields, f: [], n: defaultActiveCounterFields}
+              {p: 1, c: defaultPageSize, o: 'name DESC', d: defaultDeployedFields, f: [], n: defaultActiveCounterFields, s : undefined}
             ],
             [
-              {p: 0, c: defaultPageSize, o: 'name DESC', d: defaultDeployedFields, f: [], n: defaultActiveCounterFields}
+              {p: 0, c: defaultPageSize, o: 'name DESC', d: defaultDeployedFields, f: [], n: defaultActiveCounterFields, s : undefined}
             ],
             [
-              {p: 0, c: defaultPageSize, o: 'version ASC', d: defaultDeployedFields, f: [], n: defaultActiveCounterFields}
+              {p: 0, c: defaultPageSize, o: 'version ASC', d: defaultDeployedFields, f: [], n: defaultActiveCounterFields, s : undefined}
             ]
           ]);
         });
@@ -270,7 +272,7 @@
 
             expect(caseAPI.search.calls.allArgs()).toEqual([
               [
-                {p: 0, c: defaultPageSize, o: defaultSort + ' ASC', d: defaultDeployedFields, f: [], n: defaultActiveCounterFields}
+                {p: 0, c: defaultPageSize, o: defaultSort + ' ASC', d: defaultDeployedFields, f: [], n: defaultActiveCounterFields, s : undefined}
               ]
             ]);
             expect(anchorScroll).toHaveBeenCalled();
@@ -284,13 +286,13 @@
             expect(anchorScroll).toHaveBeenCalled();
             expect(caseAPI.search.calls.allArgs()).toEqual([
               [
-                {p: 0, c: defaultPageSize, o: 'name DESC', d: defaultDeployedFields, f: [], n: defaultActiveCounterFields}
+                {p: 0, c: defaultPageSize, o: 'name DESC', d: defaultDeployedFields, f: [], n: defaultActiveCounterFields, s : undefined}
               ],
               [
-                {p: 0, c: defaultPageSize, o: 'name ASC', d: defaultDeployedFields, f: [], n: defaultActiveCounterFields}
+                {p: 0, c: defaultPageSize, o: 'name ASC', d: defaultDeployedFields, f: [], n: defaultActiveCounterFields, s : undefined}
               ],
               [
-                {p: 0, c: defaultPageSize, o: 'version DESC', d: defaultDeployedFields, f: [], n: defaultActiveCounterFields}
+                {p: 0, c: defaultPageSize, o: 'version DESC', d: defaultDeployedFields, f: [], n: defaultActiveCounterFields, s : undefined}
               ]
             ]);
 

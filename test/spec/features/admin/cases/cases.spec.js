@@ -6,7 +6,7 @@
     var scope, state ;//= jasmine.createSpyObj('$stateProvider',['state']);
 
     describe('state provider for cases', function() {
-      beforeEach(module('org.bonita.features.admin.cases', function($stateProvider) {
+      beforeEach(module('org.bonita.features.admin.cases.list', function($stateProvider) {
         $stateProvider.state('bonita', {});
       }));
 
@@ -17,7 +17,7 @@
         var caseListStateConfig = state.get('bonita.cases');
         expect(caseListStateConfig.url).toBe('/admin/cases/list?processId&supervisor_id');
         expect(caseListStateConfig.abstract).toBeTruthy();
-        expect(caseListStateConfig.templateUrl).toBe('features/admin/cases/cases.html');
+        expect(caseListStateConfig.templateUrl).toBe('features/admin/cases/list/cases.html');
       }));
       it('should add a new state matching for the active case', inject(function () {
         var caseListStateConfig = state.get('bonita.cases.active');
@@ -25,7 +25,7 @@
         expect(caseListStateConfig.abstract).toBeFalsy();
         expect(caseListStateConfig.views).toEqual({
           'case-list': {
-            templateUrl: 'features/admin/cases/cases-list.html',
+            templateUrl: 'features/admin/cases/list/cases-list.html',
             controller: 'ActiveCaseListCtrl'
           }
         });
@@ -36,7 +36,7 @@
         expect(caseListStateConfig.abstract).toBeFalsy();
         expect(caseListStateConfig.views).toEqual({
           'case-list': {
-            templateUrl: 'features/admin/cases/archived-cases-list.html',
+            templateUrl: 'features/admin/cases/list/archived-cases-list.html',
             controller: 'ArchivedCaseListCtrl'
           }
         });

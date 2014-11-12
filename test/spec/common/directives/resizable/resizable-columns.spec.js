@@ -4,7 +4,7 @@
 
     var scope;
 
-    beforeEach(module('org.bonita.features.admin.cases.list'));
+    beforeEach(module('org.bonita.common.table.resizable'));
 
     beforeEach(inject(function ($rootScope) {
       scope = $rootScope.$new();
@@ -15,15 +15,16 @@
       compile = _$compile_;
       scope = $rootScope.$new();
       timeout = $timeout;
+      scope.columns = [];
     }));
 
     afterEach(function () {
       timeout.verifyNoPendingTasks();
     });
     it('should call the jQuery Plugin resizable-column function', function () {
-      var element = compile('<div><table resizable-column><thead><tr><th>column 1</th><th>column 2</th></tr></thead><tbody><tr><td>content 1</td><td>content 2</td></tr></tbody></table></div>')(scope);
+      var element = compile('<div><table resizable-column columns="columns"><thead><tr><th>column 1</th><th>column 2</th></tr></thead><tbody><tr><td>content 1</td><td>content 2</td></tr></tbody></table></div>')(scope);
       element[0].style.width = 1000;
-      scope.columns = [];
+      scope.columns.push('test2');
       scope.$apply();
       timeout.flush();
       expect(element.find('.rc-handle').length).toBe(1);
