@@ -38,12 +38,12 @@
         });
       });
       it('should contains table footer with result number', function () {
-        var resultsInfo = caseList.all(by.css('tfoot #cases-results-size'));
+        var resultsInfo = caseList.all(by.css('#cases-results-size'));
         expect(resultsInfo.count()).toBe(1);
         expect(resultsInfo.get(0).getText()).toBe('1 to 25 of 320');
       });
       it('should contains table footer with pagination', function () {
-        var pagination = caseList.all(by.css('tfoot .pagination'));
+        var pagination = caseList.all(by.css('.pagination'));
         expect(pagination.count()).toBe(1);
         expect(pagination.all(by.css('li')).getText()).toEqual(['«', '‹', '1', '2', '3', '4', '5', '›', '»']);
         expect(pagination.all(by.css('li.disabled')).getText()).toEqual(['«', '‹']);
@@ -250,12 +250,12 @@
         var caseCheckBoxes = element.all(by.css('#case-list tbody tr.case-row td.case-checkbox input'));
         expect(caseCheckBoxes.count()).toBe(25);
         // retrieve pager links
-        var pagination = caseList.all(by.css('tfoot .pagination li a'));
+        var pagination = caseList.all(by.css('.pagination li a'));
         // before clicking the pager is : |<<|<|1|2|3|4|5|>|>>|
         // click on the 6th element, the 4th page
         pagination.get(5).click();
         // now it must be |<<|<|2|3|4|5|6|>|>>| because we display 5 page links
-        var paginationListElementP4 = element.all(by.css('tfoot .pagination li'));
+        var paginationListElementP4 = element.all(by.css('.pagination li'));
         //check if the 4th page has active class
         expect(paginationListElementP4.get(4).getAttribute('class')).toContain('active');
         // check if we have 25 results because 4*25 < 300
@@ -266,13 +266,13 @@
         //return to the first page using the first pager link
         paginationListElementP4.get(0).element(by.css('a')).click();
         // now pager it must be |<<|<|1|2|3|4|5>|>>|
-        var paginationListElementsP1 = caseList.all(by.css('tfoot .pagination li'));
+        var paginationListElementsP1 = caseList.all(by.css('.pagination li'));
         //check if the first page is the active
         expect(paginationListElementsP1.get(2).getAttribute('class')).toContain('active');
         //click on last page
         paginationListElementsP1.get(8).element(by.css('a')).click();
         // now pager it must be |<<|<|9|10|11|12|13>|>>|
-        var paginationListElementsP8 = caseList.all(by.css('tfoot .pagination li'));
+        var paginationListElementsP8 = caseList.all(by.css('.pagination li'));
         //check if the last page is the last element before the > and >>
         expect(paginationListElementsP8.get(6).getAttribute('class')).toContain('active');
         // check if the last element is 13 => 320 / 25 = 13
@@ -286,10 +286,10 @@
         //browser.debugger();
         // |<<|<|1|2|3|4|5>|>>|
         //click on the 4th page
-        var pagination = caseList.all(by.css('tfoot .pagination li a'));
+        var pagination = caseList.all(by.css('.pagination li a'));
         pagination.get(5).click();
         // get the fourth page pager
-        var paginationP4 = caseList.all(by.css('tfoot .pagination li'));
+        var paginationP4 = caseList.all(by.css('.pagination li'));
 
         expect(paginationP4.get(4).getAttribute('class')).toContain('active');
         // click on the third number of page size buttons
@@ -297,7 +297,7 @@
         itemDisplayedNumber.click();
         element.all(by.css('.items-per-page')).get(2).click();
         // 1st page must be the active
-        expect(caseList.all(by.css('tfoot .pagination li')).get(2).getAttribute('class')).toContain('active');
+        expect(caseList.all(by.css('.pagination li')).get(2).getAttribute('class')).toContain('active');
       });
     });
 
