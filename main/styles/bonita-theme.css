@@ -17,9 +17,11 @@
 }
 
 #case-list .column-visibility-checkbox{
-    margin: 0 0 0 10px;
+    padding: 0 0 0 10px;
 }
-
+#case-list li[draggable=true]:hover{
+  background: url(../img/dragndrophover.gif) repeat-y left;
+}
 #case-list .case-column {
   /*cursor: pointer;*/
 }
