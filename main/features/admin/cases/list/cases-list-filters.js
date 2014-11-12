@@ -132,7 +132,7 @@
     };
 
     $scope.submitSearch = function(){
-      console.log($scope.currentSearch);
+      $scope.pagination.currentPage = 1;
       $scope.searchForCases();
     };
     //we cannot watch the updateFilter function directly otherwise

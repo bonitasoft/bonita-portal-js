@@ -12,7 +12,7 @@ exports.config = {
     suites : {
       'case-list-deletion': ['test/e2e/features/admin/cases/case-list-buttons.e2e.js'],
       'case-list': ['test/e2e/features/admin/cases/case-*.e2e.js'],
-      'arch-case-list': ['test/e2e/features/admin/cases/case-list-filter.e2e.js']
+      'arch-case-list': ['test/e2e/features/admin/cases/arch-case-list.e2e.js']
     },
 
     capabilities: {

@@ -22,13 +22,13 @@
     }])
   .controller('ActiveCaseListCtrl', ['$scope', 'caseAPI', 'casesColumns', 'defaultPageSize', 'defaultSort',
     'defaultDeployedFields', 'defaultActiveCounterFields', '$location', 'pageSizes', 'defaultFilters', '$filter',
-    '$anchorScroll', 'growl', '$log', '$window', 'moreDetailToken', 'activedTabName', 'manageTopUrl', '$stateParams',
+    '$anchorScroll', 'growl', '$window', 'moreDetailToken', 'activedTabName', 'manageTopUrl',
     'processId', 'supervisorId', CaseListCtrl])
 
 
   .controller('ArchivedCaseListCtrl', ['$scope', 'archivedCaseAPI', 'archivedCasesColumns', 'defaultPageSize',
     'defaultSort', 'defaultDeployedFields', 'defaultArchivedCounterFields', '$location', 'pageSizes', 'defaultFilters', '$filter',
-    '$anchorScroll', 'growl', '$log', '$window', 'archivedMoreDetailToken', 'archivedTabName', 'manageTopUrl', '$stateParams',
+    '$anchorScroll', 'growl', '$window', 'archivedMoreDetailToken', 'archivedTabName', 'manageTopUrl',
     'processId', 'supervisorId', CaseListCtrl]);
 
   /**
@@ -52,7 +52,7 @@
    * @requires growl
    */
   /* jshint -W003 */
-  function CaseListCtrl($scope, caseAPI, casesColumns, defaultPageSize, defaultSort, defaultDeployedFields, defaultCounterFields, $location, pageSizes, defaultFilters, $filter, $anchorScroll, growl, $log, $window, moreDetailToken, tabName, manageTopUrl, $stateParams, processId, supervisorId) {
+  function CaseListCtrl($scope, caseAPI, casesColumns, defaultPageSize, defaultSort, defaultDeployedFields, defaultCounterFields, $location, pageSizes, defaultFilters, $filter, $anchorScroll, growl, $window, moreDetailToken, tabName, manageTopUrl, processId, supervisorId) {
     /**
      * @ngdoc property
      * @name o.b.f.admin.cases.list.CaseListCtrl#columns
@@ -94,6 +94,7 @@
     $scope.supervisorId = supervisorId;
 
     $scope.processId = processId;
+    $scope.archivedTabName = !!tabName;
 
     manageTopUrl.addOrReplaceParam('_tab', tabName);
 
