@@ -17,15 +17,18 @@
 }
 
 #case-list .column-visibility-checkbox{
-    margin: 0 0 0 10px;
+    padding: 0 0 0 10px;
 }
-
-#case-list .case-column {
-  /*cursor: pointer;*/
+#case-list li[draggable=true]:hover{
+  background: url(../img/dragndrophover.gif) repeat-y left;
 }
-
-#case-list .case-row {
-  /*cursor: pointer;*/
+#case-list li.lr-drop-target-before{
+  border-color: #999999;
+}
+#case-list div.popover ul, #case-list div.popover ul li{
+  margin:0;
+  padding:0;
+  list-style: none;
 }
 #case-list a.open-link {
   color: inherit; /* blue colors for links too*/
