@@ -7,8 +7,7 @@
     'ui.router',
     'gettext',
     'org.bonita.services.i18n',
-    'org.bonita.common.resources',
-    'org.bonita.features.admin'
+    'org.bonita.common.resources'
   ]).config([ '$stateProvider', function ($stateProvider) {
     $stateProvider.state('bonita', {
       template : '<ui-view/>',
