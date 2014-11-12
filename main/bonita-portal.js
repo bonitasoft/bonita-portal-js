@@ -5,10 +5,12 @@
     'ngCookies',
     'ngResource',
     'ui.router',
+    'org.bonita.services.i18n',
     'gettext',
     'org.bonita.services.i18n',
     'org.bonita.common.resources'
-  ]).config([ '$stateProvider', function ($stateProvider) {
+  ])
+  .config([ '$stateProvider', function ($stateProvider) {
     $stateProvider.state('bonita', {
       template : '<ui-view/>',
       resolve : {
@@ -17,4 +19,3 @@
     });
   }]);
 })();
-
