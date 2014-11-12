@@ -22,9 +22,7 @@
     <link rel="stylesheet" href="assets/angular-growl-2/build/angular-growl.css" />
     <link rel="stylesheet" href="assets/bonita-js-components/src/sortable/sortable.css" />
   <!-- endbuild -->
-    <!-- build:css({.tmp,app}) styles/bonita-portal.css -->
-    <link rel="stylesheet" href="styles/bonita-theme.css">
-    <!-- endbuild -->
+    <link rel="stylesheet" href="../portal/themeResource?theme=portal&location=bonita-skin.css">
 </head>
 <body ng-app="org.bonita.portal">
 <!--[if lt IE 7]>
@@ -77,6 +75,7 @@
 <script src="common/resources/resources.js"></script>
 <script src="common/resources/store.js"></script>
 <script src="common/services/i18n.js"></script>
+<script src="common/services/manage-top-url.js"></script>
 <script src="features/admin/admin.js"></script>
 <script src="features/admin/cases/cases.js"></script>
 <script src="features/admin/cases/list/cases-list-delete.js"></script>
