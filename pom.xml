@@ -49,6 +49,7 @@
                 <configuration>
                   <executable>mkdir</executable>
                   <arguments>
+                    <argument>-p</argument>
                     <argument>test/e2e-reports</argument>
                   </arguments>
                 </configuration>
