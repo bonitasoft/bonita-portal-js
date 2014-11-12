@@ -25,12 +25,10 @@
 #case-list li.lr-drop-target-before{
   border-color: #999999;
 }
-#case-list .case-column {
-  /*cursor: pointer;*/
-}
-
-#case-list .case-row {
-  /*cursor: pointer;*/
+#case-list div.popover ul, #case-list div.popover ul li{
+  margin:0;
+  padding:0;
+  list-style: none;
 }
 #case-list a.open-link {
   color: inherit; /* blue colors for links too*/
