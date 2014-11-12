@@ -557,15 +557,15 @@
       describe('build filter', function () {
         it('should have process definition Id', function () {
           var processId = '2121354687951';
-          scope.selectedProcessDefinition = processId;
+          scope.selectedFilters.selectedProcessDefinition = processId;
           scope.buildFilters();
           expect(scope.filters).toEqual(['processDefinitionId=' + processId]);
           expect(scope.pagination.currentPage).toBe(1);
         });
         it('should have process definition Id only even id app name is set', function () {
           var processId = '2121354687951';
-          scope.selectedProcessDefinition = processId;
-          scope.selectedApp = 'Process1';
+          scope.selectedFilters.selectedProcessDefinition = processId;
+          scope.selectedFilters.selectedApp = 'Process1';
           scope.buildFilters();
           expect(scope.filters).toEqual(['processDefinitionId=' + processId]);
           expect(scope.pagination.currentPage).toBe(1);
@@ -573,7 +573,7 @@
         it('should have app name', function () {
           scope.$digest();
           var processName = 'Process1';
-          scope.selectedApp = processName;
+          scope.selectedFilters.selectedApp = processName;
           scope.buildFilters();
           expect(scope.filters).toEqual(['name=' + processName]);
           expect(scope.pagination.currentPage).toBe(1);

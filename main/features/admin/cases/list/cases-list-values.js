@@ -37,13 +37,13 @@
       path: ['started_by', 'userName'],
       selected: true
     }, {
-      name: 'Failed Tasks',
+      name: 'Failed tasks',
       path: ['failedFlowNodes'],
       selected: true,
       popover: true,
       flowNodeFailedFilter: true
     }, {
-      name: 'Pending Tasks',
+      name: 'Pending tasks',
       path: ['activeFlowNodes'],
       selected: true,
       popover: true

@@ -74,6 +74,7 @@
       currentPage: 1,
       total: 0
     };
+    $scope.selectedFilters = {};
     $scope.pageSizes = pageSizes;
     /**
      * @ngdoc property
@@ -93,7 +94,7 @@
     $scope.filters = angular.copy(defaultFiltersArray);
     $scope.supervisorId = supervisorId;
 
-    $scope.processId = processId;
+    $scope.selectedFilters.processId = processId;
     $scope.archivedTabName = !!tabName;
 
     manageTopUrl.addOrReplaceParam('_tab', tabName);
@@ -135,13 +136,13 @@
 
     $scope.buildFilters = function() {
       var filters = angular.copy(defaultFiltersArray);
-      if ($scope.selectedProcessDefinition) {
-        filters.push('processDefinitionId=' + $scope.selectedProcessDefinition);
-      } else if ($scope.selectedApp && $scope.selectedApp !== defaultFilters.appName) {
-        filters.push('name=' + $scope.selectedApp);
+      if ($scope.selectedFilters.selectedProcessDefinition) {
+        filters.push('processDefinitionId=' + $scope.selectedFilters.selectedProcessDefinition);
+      } else if ($scope.selectedFilters.selectedApp && $scope.selectedFilters.selectedApp !== defaultFilters.appName) {
+        filters.push('name=' + $scope.selectedFilters.selectedApp);
       }
-      if ($scope.selectedStatus && $scope.selectedStatus !== defaultFilters.caseStatus) {
-        filters.push('state=' + $scope.selectedStatus);
+      if ($scope.selectedFilters.selectedStatus && $scope.selectedFilters.selectedStatus !== defaultFilters.caseStatus) {
+        filters.push('state=' + $scope.selectedFilters.selectedStatus);
       }
       $scope.filters = filters;
     };
@@ -164,7 +165,7 @@
         o: $scope.searchSort,
         f: $scope.filters,
         n: defaultCounterFields,
-        s: $scope.currentSearch
+        s: $scope.selectedFilters.currentSearch
       }).$promise.then(function mapCases(fullCases) {
         $scope.pagination.total = fullCases && fullCases.resource && fullCases.resource.pagination && fullCases.resource.pagination.total;
         $scope.currentFirstResultIndex = (($scope.pagination.currentPage - 1) * $scope.pagination.itemsPerPage) + 1;

@@ -3,7 +3,7 @@
   <div class="panel-body">
     <div class="col-md-3"><translate>Process name</translate> :&nbsp;
       <div class="btn-group" dropdown id="case-app-name-filter">
-        <button type="button" class="btn btn-default dropdown-toggle">{{selectedApp | translate}} <span class="caret"></span></button>
+        <button type="button" class="btn btn-default dropdown-toggle">{{selectedFilters.selectedApp | translate}} <span class="caret"></span></button>
         <ul class="dropdown-menu" role="menu">
           <li ng-click="selectApp(defaultFilters.appName)"><a>{{defaultFilters.appName | translate}}</a></li>
           <li ng-if="appNames &amp;&amp; appNames.length>0" class="divider"></li>
@@ -13,7 +13,7 @@
     </div>
     <div class=" col-md-3"><translate>Process version</translate> :&nbsp;
       <div class="btn-group" dropdown id="case-app-version-filter">
-        <button type="button" class="btn btn-default dropdown-toggle" ng-disabled="selectedApp  === defaultFilters.appName">{{selectedVersion | translate}} <span class="caret"></span></button>
+        <button type="button" class="btn btn-default dropdown-toggle" ng-disabled="selectedFilters.selectedApp  === defaultFilters.appName">{{selectedFilters.selectedVersion | translate}} <span class="caret"></span></button>
         <ul class="dropdown-menu" role="menu">
           <li ng-click="selectVersion(defaultFilters.appVersion)"><a>{{defaultFilters.appVersion | translate}}</a></li>
           <li class="divider"></li>
@@ -23,7 +23,7 @@
     </div>
     <div class="col-md-2"><translate>State</translate> :&nbsp;
       <div class="btn-group" dropdown id="case-app-status-filter">
-        <button type="button" class="btn btn-default dropdown-toggle">{{caseStatesValues[selectedStatus] | translate}} <span class="caret"></span></button>
+        <button type="button" class="btn btn-default dropdown-toggle">{{caseStatesValues[selectedFilters.selectedStatus] | translate}} <span class="caret"></span></button>
         <ul class="dropdown-menu" role="menu">
           <li ng-click="selectCaseStatus(defaultFilters.caseStatus)"><a>{{defaultFilters.caseStatus | translate}}</a></li>
           <li class="divider"></li>
@@ -36,7 +36,7 @@
       <form role="form" name="searchForm" novalidate ng-submit="submitSearch()">
         <div class="form-group">
           <div class="input-group">
-            <input type="text" class="form-control" ng-model="currentSearch" name="searchField" id="case-list-search" placeholder="{{ 'Search...' | translate }}">
+            <input type="text" class="form-control" ng-model="selectedFilters.currentSearch" name="searchField" id="case-list-search" placeholder="{{ 'Search...' | translate }}">
             <span ng-click="submitSearch()" class="input-group-addon pointer"><span class="glyphicon glyphicon-search"></span></span>
           </div>
         </div>
