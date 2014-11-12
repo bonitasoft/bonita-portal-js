@@ -100,19 +100,19 @@
 
     //case admin
     when('GET', /^\/API\/bpm\/case\?c=.*&d=processDefinitionId&d=started_by&d=startedBySubstitute&n=activeFlowNodes&n=failedFlowNodes&o=id\+ASC&p=.*$/).respond(require('./admin/cases/list/cases-list-320-mocks.json'));
-    when('GET', /^\/API\/bpm\/case\?c=25&d=processDefinitionId&d=started_by&d=startedBySubstitute&n=activeFlowNodes&n=failedFlowNodes&o=startDate\+ASC&p=0$/).respond(require('./admin/cases/list/cases-list-28-mocks-ordered-by-date.json'));
-    when('GET', /^\/API\/bpm\/case\?c=25&d=processDefinitionId&d=started_by&d=startedBySubstitute&n=activeFlowNodes&n=failedFlowNodes&o=startDate\+DESC&p=0$/).respond(require('./admin/cases/list/cases-list-28-mocks-ordered-by-date-desc.json'));
-    when('GET', /^\/API\/bpm\/case\?c=25&d=processDefinitionId&d=started_by&d=startedBySubstitute&f=name%3DPoule&n=activeFlowNodes&n=failedFlowNodes&o=id\+ASC&p=0$/).respond(require('./admin/cases/list/cases-list-28-mocks-filtered-by-poule-app-name.json'));
-    when('GET', /^\/API\/bpm\/case\?c=25&d=processDefinitionId&d=started_by&d=startedBySubstitute&f=processDefinitionId%3D4910683075061293406&n=activeFlowNodes&n=failedFlowNodes&o=id\+ASC&p=0$/).respond(require('./admin/cases/list/cases-list-28-mocks-filtered-by-processx-id.json'));
-    when('GET', /^\/API\/bpm\/case\?c=25&d=processDefinitionId&d=started_by&d=startedBySubstitute&f=processDefinitionId%3D8967858817451251940&n=activeFlowNodes&n=failedFlowNodes&o=id\+ASC&p=0$/).respond(require('./admin/cases/list/cases-list-28-mocks-filtered-by-poule-2.0-app.json'));
+    when('GET', /^\/API\/bpm\/case\?c=25&d=processDefinitionId&d=started_by&d=startedBySubstitute&n=activeFlowNodes&n=failedFlowNodes&o=startDate\+ASC&p=0&s=$/).respond(require('./admin/cases/list/cases-list-28-mocks-ordered-by-date.json'));
+    when('GET', /^\/API\/bpm\/case\?c=25&d=processDefinitionId&d=started_by&d=startedBySubstitute&n=activeFlowNodes&n=failedFlowNodes&o=startDate\+DESC&p=0&s=$/).respond(require('./admin/cases/list/cases-list-28-mocks-ordered-by-date-desc.json'));
+    when('GET', /^\/API\/bpm\/case\?c=25&d=processDefinitionId&d=started_by&d=startedBySubstitute&f=name%3DPoule&n=activeFlowNodes&n=failedFlowNodes&o=id\+ASC&p=0&s=$/).respond(require('./admin/cases/list/cases-list-28-mocks-filtered-by-poule-app-name.json'));
+    when('GET', /^\/API\/bpm\/case\?c=25&d=processDefinitionId&d=started_by&d=startedBySubstitute&f=processDefinitionId%3D4910683075061293406&n=activeFlowNodes&n=failedFlowNodes&o=id\+ASC&p=0&s=$/).respond(require('./admin/cases/list/cases-list-28-mocks-filtered-by-processx-id.json'));
+    when('GET', /^\/API\/bpm\/case\?c=25&d=processDefinitionId&d=started_by&d=startedBySubstitute&f=processDefinitionId%3D8967858817451251940&n=activeFlowNodes&n=failedFlowNodes&o=id\+ASC&p=0&s=$/).respond(require('./admin/cases/list/cases-list-28-mocks-filtered-by-poule-2.0-app.json'));
 
     //Arch case Admi
     when('GET', /^\/API\/bpm\/archivedCase\?c=.*&d=processDefinitionId&d=started_by&d=startedBySubstitute&o=id\+ASC&p=.*$/).respond(require('./admin/cases/list/arch-cases-list-320-mocks.json'));
-    when('GET', /^\/API\/bpm\/archivedCase\?c=25&d=processDefinitionId&d=started_by&d=startedBySubstitute&o=startDate\+ASC&p=0$/).respond(require('./admin/cases/list/arch-cases-list-28-mocks-ordered-by-date.json'));
-    when('GET', /^\/API\/bpm\/archivedCase\?c=25&d=processDefinitionId&d=started_by&d=startedBySubstitute&o=startDate\+DESC&p=0$/).respond(require('./admin/cases/list/arch-cases-list-28-mocks-ordered-by-date-desc.json'));
-    when('GET', /^\/API\/bpm\/archivedCase\?c=25&d=processDefinitionId&d=started_by&d=startedBySubstitute&f=name%3DPoule&o=id\+ASC&p=0$/).respond(require('./admin/cases/list/arch-cases-list-28-mocks-filtered-by-poule-app-name.json'));
-    when('GET', /^\/API\/bpm\/archivedCase\?c=25&d=processDefinitionId&d=started_by&d=startedBySubstitute&f=processDefinitionId%3D4910683075061293406&o=id\+ASC&p=0$/).respond(require('./admin/cases/list/arch-cases-list-28-mocks-filtered-by-processx-id.json'));
-    when('GET', /^\/API\/bpm\/archivedCase\?c=25&d=processDefinitionId&d=started_by&d=startedBySubstitute&f=processDefinitionId%3D8967858817451251940&o=id\+ASC&p=0$/).respond(require('./admin/cases/list/arch-cases-list-28-mocks-filtered-by-poule-2.0-app.json'));
+    when('GET', /^\/API\/bpm\/archivedCase\?c=25&d=processDefinitionId&d=started_by&d=startedBySubstitute&o=startDate\+ASC&p=0&s=$/).respond(require('./admin/cases/list/arch-cases-list-28-mocks-ordered-by-date.json'));
+    when('GET', /^\/API\/bpm\/archivedCase\?c=25&d=processDefinitionId&d=started_by&d=startedBySubstitute&o=startDate\+DESC&p=0&s=$/).respond(require('./admin/cases/list/arch-cases-list-28-mocks-ordered-by-date-desc.json'));
+    when('GET', /^\/API\/bpm\/archivedCase\?c=25&d=processDefinitionId&d=started_by&d=startedBySubstitute&f=name%3DPoule&o=id\+ASC&p=0&s=$/).respond(require('./admin/cases/list/arch-cases-list-28-mocks-filtered-by-poule-app-name.json'));
+    when('GET', /^\/API\/bpm\/archivedCase\?c=25&d=processDefinitionId&d=started_by&d=startedBySubstitute&f=processDefinitionId%3D4910683075061293406&o=id\+ASC&p=0&s=$/).respond(require('./admin/cases/list/arch-cases-list-28-mocks-filtered-by-processx-id.json'));
+    when('GET', /^\/API\/bpm\/archivedCase\?c=25&d=processDefinitionId&d=started_by&d=startedBySubstitute&f=processDefinitionId%3D8967858817451251940&o=id\+ASC&p=0&s=$/).respond(require('./admin/cases/list/arch-cases-list-28-mocks-filtered-by-poule-2.0-app.json'));
 
 
     when('GET', /^\/API\/bpm\/process\?c=\d&p=0$/).respond(require('./admin/cases/list/process-def-4.json'));

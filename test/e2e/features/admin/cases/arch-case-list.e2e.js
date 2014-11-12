@@ -10,14 +10,11 @@
 
     beforeEach(function () {
       browser.get('#/admin/cases/list/archived');
-
-
       caseList = element(by.css('#case-list'));
       //browser.debugger(); //launch protractor with debug option and use 'c' in console to continue test execution
     });
 
-    xdescribe('table surroundings ', function () {
-
+    describe('table surroundings ', function () {
       it('should contains table headers', function () {
         var columnList = element.all(by.css('#case-list th'));
         expect(columnList.count()).toBe(9);
@@ -29,17 +26,9 @@
         expect(columnList.get(6).getText()).toContain('End date');
         expect(columnList.get(7).getText()).toContain('State');
       });
-
       it('should contains page size selection', function () {
-        caseList.getWebElement().findElements(By.css('.page-size')).then(function (pageSizes) {
-          expect(pageSizes[0].getText()).toContain('25');
-          expect(pageSizes[1].getText()).toContain('50');
-          expect(pageSizes[2].getText()).toContain('100');
-          expect(pageSizes[3].getText()).toContain('200');
-        });
-        expect(element(by.css('.page-size.active')).getText()).toBe('25');
+        expect(element(By.css('#page-size')).getText()).toBe('25');
       });
-
       it('should contains column selection button', function () {
         var columnSelectionButton = element.all(by.css('#columns-selection'));
         expect(columnSelectionButton.count()).toBe(1);
@@ -48,13 +37,11 @@
           expect(column.getWebElement().isDisplayed()).toBeFalsy();
         });
       });
-
       it('should contains table footer with result number', function () {
         var resultsInfo = caseList.all(by.css('tfoot #cases-results-size'));
         expect(resultsInfo.count()).toBe(1);
-        expect(resultsInfo.get(0).getText()).toBe('Results: 1 to 25 of 320');
+        expect(resultsInfo.get(0).getText()).toBe('1 to 25 of 320');
       });
-
       it('should contains table footer with pagination', function () {
         var pagination = caseList.all(by.css('tfoot .pagination'));
         expect(pagination.count()).toBe(1);
@@ -63,11 +50,11 @@
       });
     });
 
-    xdescribe('column selection', function () {
+    describe('column selection', function () {
       it('should display all columns when dropdown is clicked', function () {
-        var columnSelectionButton = element(by.css('#columns-selection'));
+        var columnSelectionButton = element(by.css('#columns-selection button'));
         columnSelectionButton.click();
-        var columnToShowList = columnSelectionButton.all(by.css('.column-visibility'));
+        var columnToShowList = element.all(by.css('#columns-selection li.column-visibility'));
         expect(columnToShowList.count()).toBe(7);
         columnToShowList.each(function (column) {
           expect(column.getWebElement().isDisplayed()).toBeTruthy();
@@ -75,47 +62,46 @@
         });
 
         columnSelectionButton.click();
-        columnToShowList = columnSelectionButton.all(by.css('.column-visibility'));
-        expect(columnToShowList.count()).toBe(7);
+        columnToShowList = columnSelectionButton.all(by.css('#columns-selection li.column-visibility'));
+        expect(columnToShowList.count()).toBe(0);
         columnToShowList.each(function (column) {
           expect(column.getWebElement().isDisplayed()).toBeFalsy();
         });
       });
       it('should hide a column when an item is unselected in dropdown and make it reappeared when clicked', function () {
-        var columnSelectionButton = element(by.css('#columns-selection'));
+        var columnSelectionButton = element(by.css('#columns-selection button'));
         columnSelectionButton.click();
-        var columnToShowList = columnSelectionButton.all(by.css('.column-visibility'));
-        columnToShowList.get(0).click();
-        expect(columnSelectionButton.all(by.css('.column-visibility')).get(0)
-          .all(by.css('input:checked')).count()).toBe(0);
+        var columnToShowNameList = element.all(by.css('#columns-selection .column-visibility-name'));
+
+        expect(element.all(by.css('#columns-selection input')).get(0).isSelected()).toBeTruthy();
+        columnToShowNameList.get(0).click();
+        expect(element.all(by.css('#columns-selection input')).get(0).isSelected()).toBeFalsy();
         var columnHeaders = caseList.all(by.css('th.case-column'));
         expect(columnHeaders.count()).toBe(6);
-        expect(columnHeaders.getText()).not.toContain(columnToShowList.get(0).getText());
+        expect(columnHeaders.getText()).not.toContain(columnToShowNameList.get(0).getText());
         expect(caseList.all(by.css('#caseId-1 td.case-detail')).count()).toBe(6);
 
-        var nextCheckedElement = columnSelectionButton.all(by.css('.column-visibility input:checked'));
+        var nextCheckedElement = element.all(by.css('.column-visibility input:checked'));
+        expect(nextCheckedElement.count()).toBe(6);
         nextCheckedElement.get(0).click();
 
-        expect(columnSelectionButton.all(by.css('.column-visibility')).get(1)
-          .all(by.css('input:checked')).count()).toBe(0);
+        expect(element.all(by.css('#columns-selection input')).count()).toBe(7);
+        expect(element.all(by.css('#columns-selection input')).get(1).isSelected()).toBeFalsy();
         expect(caseList.all(by.css('th.case-column')).count()).toBe(5);
         columnHeaders = caseList.all(by.css('th.case-column'));
         expect(columnHeaders.getText()).not.toContain(nextCheckedElement.get(0).getText());
         expect(caseList.all(by.css('#caseId-1 td.case-detail')).count()).toBe(5);
 
-        nextCheckedElement = columnSelectionButton.all(by.css('.column-visibility .column-visibility-name'));
+        nextCheckedElement = element.all(by.css('#columns-selection .column-visibility-name'));
         nextCheckedElement.get(2).click();
-        expect(columnSelectionButton.all(by.css('.column-visibility')).get(2)
-          .all(by.css('input:checked')).count()).toBe(0);
+        expect(element.all(by.css('#columns-selection input')).get(2).isSelected()).toBeFalsy();
         columnHeaders = caseList.all(by.css('th.case-column'));
         expect(columnHeaders.getText()).not.toContain(nextCheckedElement.get(2).getText());
         expect(caseList.all(by.css('th.case-column')).count()).toBe(4);
         expect(caseList.all(by.css('#caseId-1 td.case-detail')).count()).toBe(4);
 
-        nextCheckedElement = columnSelectionButton.all(by.css('.column-visibility .column-visibility-name'));
-        nextCheckedElement.get(2).click();
-        expect(columnSelectionButton.all(by.css('.column-visibility')).get(2)
-          .all(by.css('input:checked')).count()).toBe(1);
+        columnToShowNameList.get(2).click();
+        expect(element.all(by.css('#columns-selection input')).get(2).isSelected()).toBeTruthy();
         columnHeaders = caseList.all(by.css('th.case-column'));
         expect(columnHeaders.getText()).toContain(nextCheckedElement.get(2).getText());
         expect(caseList.all(by.css('th.case-column')).count()).toBe(5);
@@ -123,7 +109,7 @@
       });
     });
 
-    xdescribe('column resize', function () {
+    describe('column resize', function () {
       var resizeBars;
       beforeEach(function () {
         resizeBars = element.all(by.css('.rc-handle'));
@@ -178,7 +164,7 @@
         formerStartDateColumnLocation.then(function (oldPosition) {
           newStartDateColumnLocation.then(function (newPosition) {
             expect(oldPosition.x - newPosition.x).toBeGreaterThan(-5);
-            expect(oldPosition.x - newPosition.x).toBeLessThan(25);
+            expect(oldPosition.x - newPosition.x).toBeLessThan(32);
             expect(oldPosition.y - newPosition.y).toBe(0);
           });
         });
@@ -215,7 +201,7 @@
       });
     });
 
-    xdescribe('case admin list content', function () {
+    describe('case admin list content', function () {
       it('should display the list of the 25 first cases and check the specifi content of the first row', function () {
         expect(element.all(by.css('#case-list tr.case-row')).count()).toBe(25);
 
@@ -255,7 +241,7 @@
       });
     });
 
-    xdescribe('case admin pager', function () {
+    describe('case admin pager', function () {
       it('should display the list of the 25 first cases and navigate using pager', function () {
         var caseList = element(by.css('#case-list'));
         expect(caseList).toBeDefined();
@@ -307,38 +293,44 @@
 
         expect(paginationP4.get(4).getAttribute('class')).toContain('active');
         // click on the third number of page size buttons
-        var itemDisplayedNumber = caseList.all(by.css('#page-size label'));
-        itemDisplayedNumber.get(2).click();
+        var itemDisplayedNumber = caseList.all(by.css('#page-size button'));
+        itemDisplayedNumber.click();
+        element.all(by.css('.items-per-page')).get(2).click();
         // 1st page must be the active
         expect(caseList.all(by.css('tfoot .pagination li')).get(2).getAttribute('class')).toContain('active');
       });
     });
 
 
-    xdescribe('case admin displayed items per page', function () {
+    describe('case admin displayed items per page', function () {
       it('should reset the pager when item displayed number is clicked', function () {
         var caseList = element(by.css('#case-list'));
 
         // click on the third number of page size buttons
-        var itemDisplayedNumber = caseList.all(by.css('#page-size label'));
+        var itemDisplayedNumber = caseList.all(by.css('#page-size button'));
+        itemDisplayedNumber.click();
         browser.debugger();
 
-        itemDisplayedNumber.get(0).click();
+        var itemsPerPageChoices = element.all(by.css('.items-per-page'));
+        itemsPerPageChoices.get(0).click();
 
         // 1st page must be the active
         // by default it is the first value of the item number (25)
         var caseCheckBoxes25 = element.all(by.css('#case-list tbody tr.case-row td.case-checkbox input'));
         expect(caseCheckBoxes25.count()).toBe(25);
 
-        itemDisplayedNumber.get(1).click();
+        itemDisplayedNumber.click();
+        itemsPerPageChoices.get(1).click();
         var caseCheckBoxes50 = element.all(by.css('#case-list tbody tr.case-row td.case-checkbox input'));
         expect(caseCheckBoxes50.count()).toBe(50);
 
-        itemDisplayedNumber.get(2).click();
+        itemDisplayedNumber.click();
+        itemsPerPageChoices.get(2).click();
         var caseCheckBoxes100 = element.all(by.css('#case-list tbody tr.case-row td.case-checkbox input'));
         expect(caseCheckBoxes100.count()).toBe(100);
 
-        itemDisplayedNumber.get(3).click();
+        itemDisplayedNumber.click();
+        itemsPerPageChoices.get(3).click();
         caseCheckBoxes100 = element.all(by.css('#case-list tbody tr.case-row td.case-checkbox input'));
         expect(caseCheckBoxes100.count()).toBe(200);
 
@@ -346,36 +338,19 @@
     });
 
 
-    xdescribe('case admin select all buttons', function () {
+    describe('case admin select all buttons', function () {
       it('should select all checkboxes when selectAllCB is clicked', function () {
-        var caseList = element(by.css('#case-list'));
-
-        // click on the third number of page size buttons
-        var itemDisplayedNumber = caseList.all(by.css('#page-size label'));
-        browser.debugger();
-
-        itemDisplayedNumber.get(0).click();
-
-        // 1st page must be the active
-        // by default it is the first value of the item number (25)
-        var caseCheckBoxes25 = element.all(by.css('#case-list tbody tr.case-row td.case-checkbox input'));
-        expect(caseCheckBoxes25.count()).toBe(25);
-
-        itemDisplayedNumber.get(1).click();
-        var caseCheckBoxes50 = element.all(by.css('#case-list tbody tr.case-row td.case-checkbox input'));
-        expect(caseCheckBoxes50.count()).toBe(50);
-
-        itemDisplayedNumber.get(2).click();
-        var caseCheckBoxes100 = element.all(by.css('#case-list tbody tr.case-row td.case-checkbox input'));
-        expect(caseCheckBoxes100.count()).toBe(100);
-
-        itemDisplayedNumber.get(3).click();
-        caseCheckBoxes100 = element.all(by.css('#case-list tbody tr.case-row td.case-checkbox input'));
-        expect(caseCheckBoxes100.count()).toBe(200);
-
+        var selectAllCB = element(by.css('th.case-checkbox input'));
+        selectAllCB.click();
+        var checkedCasesCB = element.all(by.css('td.case-checkbox input:checked'));
+        expect(checkedCasesCB.count()).toBe(25);
+        checkedCasesCB.get(0).click();
+        checkedCasesCB = element.all(by.css('td.case-checkbox input:checked'));
+        expect(checkedCasesCB.count()).toBe(24);
+        selectAllCB.click();
+        checkedCasesCB = element.all(by.css('td.case-checkbox input:checked'));
+        expect(checkedCasesCB.count()).toBe(0);
       });
     });
-
-
   });
 })();

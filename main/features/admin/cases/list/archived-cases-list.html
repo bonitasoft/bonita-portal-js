@@ -15,7 +15,7 @@
           <div class="btn-group text-left" dropdown id='page-size'>
             <button type="button" class="btn btn-default dropdown-toggle">{{pagination.itemsPerPage}}<span class="caret"></span></button>
             <ul class="dropdown-menu" role="menu">
-              <li ng-repeat="pageSize in pageSizes" ng-click='changeItemPerPage(pageSize)' class="column-visibility"> <a>{{pageSize}}</a></li>
+              <li ng-repeat="pageSize in pageSizes" ng-click='changeItemPerPage(pageSize)' class="items-per-page"> <a>{{pageSize}}</a></li>
             </ul>
           </div>
           <div class="btn-group text-left" dropdown id='columns-selection'>

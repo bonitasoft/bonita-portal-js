@@ -24,8 +24,9 @@
             $scope.sortOptions.property = $scope.property;
             $scope.sortOptions.ascendant = true;
           }
-          $scope.onSort()($scope.sortOptions);
-
+          if($scope.property){
+            $scope.onSort()($scope.sortOptions);
+          }
         };
       }
     };
