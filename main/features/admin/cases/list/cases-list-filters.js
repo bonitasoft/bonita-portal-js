@@ -56,23 +56,27 @@
     if ($scope.supervisorId) {
       processFilter.push('supervisor_id=' + $scope.supervisorId);
     }
-    store.load(processAPI, {
-      f: processFilter
-    }).then(function(processes) {
+
+    $scope.initFilters = function(processes) {
       $scope.apps = processes;
       var appNamesArray = processes.map(function(process) {
         if ($scope.selectedFilters.processId && $scope.selectedFilters.processId === process.id) {
           $scope.selectedFilters.selectedApp = process.name;
+          $scope.filterVersion($scope.selectedFilters.selectedApp);
           $scope.selectedFilters.selectedVersion = process.version;
         }
         return process.name;
       });
       appNamesArray.forEach(function(processName) {
-        if (processName && $.inArray(processName, $scope.appNames) <= 0) {
+        if (processName && $.inArray(processName, $scope.appNames) < 0) {
           $scope.appNames.push(processName);
         }
       });
-    });
+    };
+
+    store.load(processAPI, {
+      f: processFilter
+    }).then($scope.initFilters);
 
     $scope.selectApp = function(selectedAppName) {
       if (selectedAppName) {

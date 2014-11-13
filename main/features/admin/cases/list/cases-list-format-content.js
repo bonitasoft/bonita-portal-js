@@ -14,8 +14,15 @@
     'gettext',
     'ui.bootstrap',
     'org.bonita.services.topurl'
-  ]).directive('formatContent', ['$filter', 'manageTopUrl', '$compile', 'gettextCatalog', 'allCaseStatesValues',
-      function ($filter, manageTopUrl, $compile, gettextCatalog, allCaseStatesValues) {
+  ]).controller('formatContentController', ['$scope', 'manageTopUrl', function($scope, manageTopUrl){
+    if ($scope.column && $scope.column.linkToProcess) {
+      $scope.linkToProcess = manageTopUrl.getPath() + manageTopUrl.getSearch() + '#?id=' + $scope.caseItem.processDefinitionId.id + '&_p=processmoredetailsadmin&' + manageTopUrl.getCurrentProfile();
+    } else if ($scope.column && $scope.column.linkToCase) {
+      $scope.linkToCase = manageTopUrl.getPath() + manageTopUrl.getSearch() + '#?id=' + $scope.caseItem.id + '&_p=' + $scope.moreDetailToken + '&' + manageTopUrl.getCurrentProfile();
+    }
+  }])
+    .directive('formatContent', ['$filter', '$compile',
+      function ($filter, $compile) {
         return {
           template: '<div></div>',
           replace: true,
@@ -23,10 +30,10 @@
           scope: {
             column: '=',
             caseItem: '=',
-            getCurrentProfile: '&',
             moreDetailToken: '@',
             fillPopover: '&'
           },
+          controller : 'formatContentController',
           link: function ($scope, $element) {
             var contents = '';
             if ($scope.column && $scope.column.date && $scope.caseItem[$scope.column.name] && typeof $scope.caseItem[$scope.column.name] === 'string') {
@@ -40,14 +47,10 @@
               }
               contents = '<flow-node-badge case-id="caseItem.id" ' + filter + ' label="' + $scope.caseItem[$scope.column.name] + '"></flow-node-badge>';
               //contents = '<a href="javascript:return false;" ng-click="fillPopover('+$scope.caseItem.id+',\''+flownodeStateAttr+'\')">'+$scope.caseItem[$scope.column.name]+'</a>';
-            } else if ($scope.column && $scope.column.linkToCase) {
-              contents = '<a target="_top" href="' + manageTopUrl.getPath() + manageTopUrl.getSearch() + '#?id=' + $scope.caseItem.id + '&_p=' + $scope.moreDetailToken + '&' + manageTopUrl.getCurrentProfile() + '">' + $scope.caseItem[$scope.column.name] + '</a>';
             } else if ($scope.column && $scope.column.linkToProcess) {
-              contents = '<a id="case-process-link-' + $scope.caseItem.id + '" target="_top" href="' + manageTopUrl.getPath() + manageTopUrl.getSearch() + '#?id=' + $scope.caseItem.processDefinitionId.id + '&_p=processmoredetailsadmin&' + manageTopUrl.getCurrentProfile() + '">' + $scope.caseItem[$scope.column.name] + '</a>';
+              contents = '<a id="case-process-link-' + $scope.caseItem.id + '" target="_top" href="' + $scope.linkToProcess + '">' + $scope.caseItem[$scope.column.name] + '</a>';
             } else if ($scope.column && $scope.column.linkToCase) {
-              contents = '<a id="case-detail-link-' + $scope.caseItem.id + '" target="_top" href="' + manageTopUrl.getPath() + manageTopUrl.getSearch() + '#?id=' + $scope.caseItem.ID + '&_p=' + $scope.moreDetailToken + '&' + manageTopUrl.getCurrentProfile() + '">' + $scope.caseItem[$scope.column.name] + '</a>';
-            } else if ($scope.column && $scope.column.stateToTranlate) {
-              contents = gettextCatalog.getString(allCaseStatesValues[$scope.caseItem[$scope.column.name]]);
+              contents = '<a id="case-detail-link-' + $scope.caseItem.id + '" target="_top" href="' + $scope.linkToCase + '">' + $scope.caseItem[$scope.column.name] + '</a>';
             } else {
               contents = $scope.caseItem[$scope.column.name];
             }
