@@ -113,9 +113,13 @@
               currentPromise.then(function() {
                 $scope.addAlert({
                   type: 'success',
-                  status: gettextCatalog.getPlural(nbOfDeletedCases, '{{nbOfDeletedCases}} case deleted successfully', '{{nbOfDeletedCases}} cases deleted successfully', {
+                  status: ((nbOfDeletedCases===1)?
+                    gettextCatalog.getString('{{nbOfDeletedCases}} case deleted successfully', {
                     nbOfDeletedCases: nbOfDeletedCases
-                  })
+                  }):
+                    gettextCatalog.getString('{{nbOfDeletedCases}} cases deleted successfully', {
+                    nbOfDeletedCases: nbOfDeletedCases
+                  }))
                 });
               }).finally(function() {
                 $scope.pagination.currentPage = 1;

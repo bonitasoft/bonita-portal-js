@@ -37,18 +37,13 @@
       path: ['started_by', 'userName'],
       selected: true
     }, {
-      name: 'State',
-      path: ['state'],
-      selected: true,
-      stateToTranlate: true
-    }, {
-      name: 'Failed Nodes',
+      name: 'Failed tasks',
       path: ['failedFlowNodes'],
       selected: true,
       popover: true,
       flowNodeFailedFilter: true
     }, {
-      name: 'Pending Nodes',
+      name: 'Pending tasks',
       path: ['activeFlowNodes'],
       selected: true,
       popover: true
@@ -61,8 +56,8 @@
       canceled: 'Canceled'
     })
     .value('caseStatesValues', {
-      started: 'Started',
-      error: 'Failed'
+      started: 'Healthy',
+      error: 'With failures'
     })
     .value('moreDetailToken', 'casemoredetailsadmin')
     .value('pageSizes', [25, 50, 100, 200])

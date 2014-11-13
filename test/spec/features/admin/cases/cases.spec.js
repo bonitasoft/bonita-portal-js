@@ -36,7 +36,7 @@
         expect(caseListStateConfig.abstract).toBeFalsy();
         expect(caseListStateConfig.views).toEqual({
           'case-list': {
-            templateUrl: 'features/admin/cases/list/archived-cases-list.html',
+            templateUrl: 'features/admin/cases/list/cases-list.html',
             controller: 'ArchivedCaseListCtrl'
           }
         });
@@ -56,7 +56,7 @@
       }));
       it('should init scope with state and cases tabs', function(){
         expect(scope.state).toBe(mockedState);
-        expect(scope.casesStates ).toEqual([{state : 'bonita.cases.active', title: 'Active Cases', htmlAttributeId:'TabActiveCases'}, {state : 'bonita.cases.archived', title: 'Archived Cases', htmlAttributeId:'TabArchivedCases'}]);
+        expect(scope.casesStates ).toEqual([{state : 'bonita.cases.active', title: 'Active', htmlAttributeId:'TabActiveCases'}, {state : 'bonita.cases.archived', title: 'Archived', htmlAttributeId:'TabArchivedCases'}]);
       });
     });
   });

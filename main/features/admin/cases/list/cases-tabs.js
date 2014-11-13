@@ -36,7 +36,7 @@
           url: '/archived',
           views: {
             'case-list': {
-              templateUrl: 'features/admin/cases/list/archived-cases-list.html',
+              templateUrl: 'features/admin/cases/list/cases-list.html',
               controller: 'ArchivedCaseListCtrl'
             }
           },
@@ -60,12 +60,12 @@
         $scope.casesStates = [];
         $scope.casesStates.push({
           state: 'bonita.cases.active',
-          title: 'Active Cases',
+          title: 'Active',
           htmlAttributeId: 'TabActiveCases'
         });
         $scope.casesStates.push({
           state: 'bonita.cases.archived',
-          title: 'Archived Cases',
+          title: 'Archived',
           htmlAttributeId: 'TabArchivedCases'
         });
         $scope.state = $state;

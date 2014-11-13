@@ -1,15 +1,19 @@
 
 <div>
 
-  <active-case-filters> </active-case-filters>
+  <div ng-switch on="archivedTabName">
+    <archived-case-filters ng-switch-when="true"> </archived-case-filters>
+    <active-case-filters ng-switch-default> </active-case-filters>
+  </div>
   <div class="panel panel-default">
 
     <div class="panel-heading"> <translate>Cases list</translate> <span ng-click="reinitCases()" class="case-list-refresh glyphicon glyphicon-repeat"></span></div>
     <div class="panel-body">
       <div growl></div>
       <div ng-if="cases.length">
-        <div class="col-md-6">
-          <button active-case-delete id="delete-button" type="button" class='btn btn-default' ng-click="confirmDeleteSelectedCases()" ng-disabled="checkCaseIsNotSelected()" translate>Delete</button>
+        <div class="col-md-6" ng-switch on="archivedTabName">
+          <button ng-switch-when="true" archived-case-delete id="delete-button" type="button" class='btn btn-default' ng-click="confirmDeleteSelectedCases()" ng-disabled="checkCaseIsNotSelected()">{{'Delete' | translate}}</button>
+          <button ng-switch-default active-case-delete id="delete-button" type="button" class='btn btn-default' ng-click="confirmDeleteSelectedCases()" ng-disabled="checkCaseIsNotSelected()">{{'Delete' | translate}}</button>
         </div>
         <div id="table-actions" class="col-md-6 text-right">
           <div class="btn-group text-left" dropdown id='page-size'>
@@ -21,7 +25,7 @@
           <div class="btn-group text-left" dropdown id='columns-selection'>
             <button type="button" class="btn btn-default dropdown-toggle"><translate>Columns</translate> <span class="caret"></span></button>
             <ul class="dropdown-menu" role="menu">
-              <li lr-drag-src="headers" lr-drop-target="headers"  ng-repeat="col in columns" ng-click="$event.stopPropagation();" class="column-visibility"><span class="column-visibility-checkbox"><input type="checkbox" ng-model="col.selected"></span><span ng-click="selectColumn(col)" class="column-visibility-name"> {{col.name | translate}}</span></li>
+              <li lr-drag-src="headers" lr-drop-target="headers" ng-repeat="col in columns" ng-click="$event.stopPropagation();" class="column-visibility"><span class="column-visibility-checkbox"><input type="checkbox" ng-model="col.selected"></span><span ng-click="selectColumn(col)" class="column-visibility-name"> {{col.name | translate}}</span></li>
             </ul>
           </div>
         </div>
@@ -51,11 +55,11 @@
             </tr>
             </tbody>
           </table>
-          <div class="col-md-12">
-            <div class="pull-right" ng-if="pagination.total > pagination.itemsPerPage">
-               <span id="cases-results-size" translate class="pull-left">{{currentFirstResultIndex}}  to {{currentLastResultIndex}} of {{pagination.total}}</span>
-               <pagination ng-click="searchForCases()" boundary-links="true" total-items="pagination.total" ng-model="pagination.currentPage" items-per-page="pagination.itemsPerPage " previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;" max-size="5"></pagination>
-            </div>
+        </div>
+        <div class="col-md-12">
+          <div class="pull-right" ng-if="pagination.total > pagination.itemsPerPage">
+             <span id="cases-results-size" translate class="pull-left">{{currentFirstResultIndex}} to {{currentLastResultIndex}} of {{pagination.total}}</span>
+             <pagination ng-click="searchForCases()" boundary-links="true" total-items="pagination.total" ng-model="pagination.currentPage" items-per-page="pagination.itemsPerPage " previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;" max-size="5"></pagination>
           </div>
         </div>
       </div>
@@ -63,7 +67,7 @@
         <p class="text-muted"><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> <translate>Loading</translate></p>
       </div>
       <div ng-show="cases &amp;&amp; cases.length===0">
-        <p class="text-muted animated fadeIn" translate>No case to display</p>
+        <p class="text-muted animated fadeIn" translate>No cases to display</p>
       </div>
     </div>
   </div>

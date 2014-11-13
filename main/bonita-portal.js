@@ -15,8 +15,7 @@
           template : '<ui-view/>',
           resolve : {
             translations : 'i18nService'
-          }
-        });
-    }]);
+      }
+    });
+  }]);
 })();
-

@@ -2,12 +2,11 @@
   'use strict';
 
   function Store($q) {
-    this.data = [];
     this.$q = $q;
   }
 
   Store.prototype.load = function (resource, options) {
-    var store = this;
+    var store = { data: [] };
     var deferred = this.$q.defer();
     this.resource = resource;
     options = options || {};
@@ -24,7 +23,8 @@
         p: 0,
         c: response.resource.pagination.total,
         d: options.d,
-        f: options.f
+        f: options.f,
+        o: options.o
       }, function (response) {
         angular.copy(response.data, store.data);
         deferred.resolve(store.data);

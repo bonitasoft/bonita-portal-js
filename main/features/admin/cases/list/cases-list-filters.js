@@ -40,9 +40,9 @@
    */
   /* jshint -W003 */
   function CaseFilterController($scope, store, processAPI, defaultFilters, caseStatesValues) {
-    $scope.selectedApp = defaultFilters.appName;
-    $scope.selectedVersion = defaultFilters.appVersion;
-    $scope.selectedStatus = defaultFilters.caseStatus;
+    $scope.selectedFilters.selectedApp = defaultFilters.appName;
+    $scope.selectedFilters.selectedVersion = defaultFilters.appVersion;
+    $scope.selectedFilters.selectedStatus = defaultFilters.caseStatus;
     $scope.defaultFilters = defaultFilters;
     $scope.caseStatesValues = caseStatesValues;
     $scope.caseStatesValues[defaultFilters.caseStatus] = defaultFilters.caseStatus;
@@ -50,7 +50,7 @@
     $scope.versions = [];
     $scope.appNames = [];
     $scope.allCasesSelected = false;
-    $scope.currentSearch = '';
+    $scope.selectedFilters.currentSearch = '';
 
     var processFilter = [];
     if ($scope.supervisorId) {
@@ -61,9 +61,9 @@
     }).then(function(processes) {
       $scope.apps = processes;
       var appNamesArray = processes.map(function(process) {
-        if ($scope.processId && $scope.processId === process.id) {
-          $scope.selectedApp = process.name;
-          $scope.selectedVersion = process.version;
+        if ($scope.selectedFilters.processId && $scope.selectedFilters.processId === process.id) {
+          $scope.selectedFilters.selectedApp = process.name;
+          $scope.selectedFilters.selectedVersion = process.version;
         }
         return process.name;
       });
@@ -76,34 +76,34 @@
 
     $scope.selectApp = function(selectedAppName) {
       if (selectedAppName) {
-        if (selectedAppName !== $scope.selectedApp) {
-          $scope.selectedApp = selectedAppName;
+        if (selectedAppName !== $scope.selectedFilters.selectedApp) {
+          $scope.selectedFilters.selectedApp = selectedAppName;
         }
         //selected App is the same than before, do nothing
       } else {
-        $scope.selectedApp = defaultFilters.appName;
+        $scope.selectedFilters.selectedApp = defaultFilters.appName;
       }
     };
 
     $scope.selectVersion = function(selectedAppVersion) {
       if (selectedAppVersion && selectedAppVersion !== defaultFilters.appVersion) {
-        $scope.selectedVersion = selectedAppVersion;
+        $scope.selectedFilters.selectedVersion = selectedAppVersion;
       } else {
-        $scope.selectedVersion = defaultFilters.appVersion;
+        $scope.selectedFilters.selectedVersion = defaultFilters.appVersion;
       }
     };
 
     $scope.selectCaseStatus = function(selectCaseStatus) {
       if (selectCaseStatus && selectCaseStatus !== defaultFilters.caseStatus) {
-        $scope.selectedStatus = selectCaseStatus;
+        $scope.selectedFilters.selectedStatus = selectCaseStatus;
       } else {
-        $scope.selectedStatus = defaultFilters.caseStatus;
+        $scope.selectedFilters.selectedStatus = defaultFilters.caseStatus;
       }
     };
 
     $scope.filterVersion = function(appName) {
       $scope.versions = [];
-      $scope.selectedVersion = defaultFilters.appVersion;
+      $scope.selectedFilters.selectedVersion = defaultFilters.appVersion;
       if ($scope.apps && $scope.apps.filter) {
         $scope.versions = $scope.apps.filter(function(app) {
           return app && app.name === appName && app.version;
@@ -112,45 +112,45 @@
         });
       }
       if ($scope && $scope.versions && $scope.versions.length === 1) {
-        $scope.selectedVersion = $scope.versions[0];
+        $scope.selectedFilters.selectedVersion = $scope.versions[0];
       }
     };
 
     $scope.filterProcessDefinition = function(selectedAppVersion) {
-      if (selectedAppVersion && $scope.selectedApp && $scope.apps) {
+      if (selectedAppVersion && $scope.selectedFilters.selectedApp && $scope.apps) {
         var matchingProcessDefs = $scope.apps.filter(function(app) {
-          return app && app.name === $scope.selectedApp && selectedAppVersion === app.version;
+          return app && app.name === $scope.selectedFilters.selectedApp && selectedAppVersion === app.version;
         });
         if (matchingProcessDefs && matchingProcessDefs.length) {
-          $scope.selectedProcessDefinition = matchingProcessDefs[0] && matchingProcessDefs[0].id;
+          $scope.selectedFilters.selectedProcessDefinition = matchingProcessDefs[0] && matchingProcessDefs[0].id;
         } else {
-          delete $scope.selectedProcessDefinition;
+          delete $scope.selectedFilters.selectedProcessDefinition;
         }
       } else {
-        delete $scope.selectedProcessDefinition;
+        delete $scope.selectedFilters.selectedProcessDefinition;
       }
     };
 
     $scope.submitSearch = function(){
-      console.log($scope.currentSearch);
+      $scope.pagination.currentPage = 1;
       $scope.searchForCases();
     };
     //we cannot watch the updateFilter function directly otherwise
     //it will not be mockable
-    $scope.$watch('selectedApp', function() {
-      if (!$scope.processId) {
-        $scope.filterVersion($scope.selectedApp);
-        delete $scope.selectedProcessDefinition;
+    $scope.$watch('selectedFilters.selectedApp', function() {
+      if (!$scope.selectedFilters.processId) {
+        $scope.filterVersion($scope.selectedFilters.selectedApp);
+        delete $scope.selectedFilters.selectedProcessDefinition;
         $scope.buildFilters();
-      } else if ($scope.selectedApp !== defaultFilters.appName) {
-        delete $scope.processId;
+      } else if ($scope.selectedFilters.selectedApp !== defaultFilters.appName) {
+        delete $scope.selectedFilters.processId;
       }
     });
-    $scope.$watch('selectedVersion', function() {
-      $scope.filterProcessDefinition($scope.selectedVersion);
+    $scope.$watch('selectedFilters.selectedVersion', function() {
+      $scope.filterProcessDefinition($scope.selectedFilters.selectedVersion);
       $scope.buildFilters();
     });
-    $scope.$watch('selectedStatus', function() {
+    $scope.$watch('selectedFilters.selectedStatus', function() {
       $scope.buildFilters();
     });
   }

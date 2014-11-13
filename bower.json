@@ -6,7 +6,7 @@
   "dependencies": {
     "angular": "1.3.0",
     "json3": "~3.2.6",
-    "es5-shim": "~2.1.0",
+    "es5-shim": "~2.3.0",
     "angular-cookies": "~1.3.x",
     "angular-resource": "~1.3.x",
     "angular-ui-router": "~0.2.10",
@@ -17,7 +17,7 @@
     "angular-gettext": "~0.4.0",
     "jquery": "~2.1.1",
     "lrDragNDrop": "git@github.com:lorenzofox3/lrDragNDrop.git",
-    "bonita-js-components": "git@github.com:bonitasoft/bonita-js-components#case-admin",
+    "bonita-js-components": "git@github.com:bonitasoft/bonita-js-components#0.2.1",
     "jquery-resizable-columns": "~0.1.3",
     "angular-growl-2": "~0.7.0",
     "angular-animate": "~1.3.x",
