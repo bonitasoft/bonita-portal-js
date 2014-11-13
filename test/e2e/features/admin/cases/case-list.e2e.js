@@ -15,7 +15,7 @@
     });
 
     describe('table surroundings ', function () {
-      xit('should contains table headers', function () {
+      it('should contains table headers', function () {
         var columnList = element.all(by.css('#case-list th'));
         expect(columnList.count()).toBe(9);
         expect(columnList.get(1).getText()).toContain('Process name');
@@ -26,10 +26,10 @@
         expect(columnList.get(6).getText()).toContain('Failed tasks');
         expect(columnList.get(7).getText()).toContain('Pending tasks');
       });
-      xit('should contains page size selection', function () {
+      it('should contains page size selection', function () {
         expect(element(By.css('#page-size')).getText()).toBe('25');
       });
-      xit('should contains column selection button', function () {
+      it('should contains column selection button', function () {
         var columnSelectionButton = element.all(by.css('#columns-selection'));
         expect(columnSelectionButton.count()).toBe(1);
         expect(columnSelectionButton.get(0).getText()).toBe('Columns');
@@ -37,12 +37,12 @@
           expect(column.getWebElement().isDisplayed()).toBeFalsy();
         });
       });
-      xit('should contains table footer with result number', function () {
+      it('should contains table footer with result number', function () {
         var resultsInfo = caseList.all(by.css('#cases-results-size'));
         expect(resultsInfo.count()).toBe(1);
         expect(resultsInfo.get(0).getText()).toBe('1 to 25 of 320');
       });
-      xit('should contains table footer with pagination', function () {
+      it('should contains table footer with pagination', function () {
         var pagination = caseList.all(by.css('.pagination'));
         expect(pagination.count()).toBe(1);
         expect(pagination.all(by.css('li')).getText()).toEqual(['«', '‹', '1', '2', '3', '4', '5', '›', '»']);
@@ -51,7 +51,7 @@
     });
 
     describe('column selection', function () {
-      xit('should display all columns when dropdown is clicked', function () {
+      it('should display all columns when dropdown is clicked', function () {
         var columnSelectionButton = element(by.css('#columns-selection button'));
         columnSelectionButton.click();
         var columnToShowList = element.all(by.css('#columns-selection li.column-visibility'));
@@ -68,7 +68,7 @@
           expect(column.getWebElement().isDisplayed()).toBeFalsy();
         });
       });
-      xit('should hide a column when an item is unselected in dropdown and make it reappeared when clicked', function () {
+      it('should hide a column when an item is unselected in dropdown and make it reappeared when clicked', function () {
         var columnSelectionButton = element(by.css('#columns-selection button'));
         columnSelectionButton.click();
         var columnToShowNameList = element.all(by.css('#columns-selection .column-visibility-name'));
@@ -114,7 +114,7 @@
       beforeEach(function () {
         resizeBars = element.all(by.css('.rc-handle'));
       });
-      xit('should change Version and ID column size ', function () {
+      it('should change Version and ID column size ', function () {
         var idColumnBar = resizeBars.get(2);
         var formerIdColumnLocation = element.all(by.css('table th')).get(3).getLocation();
         var formerVersionColumnLocation = element.all(by.css('table th')).get(2).getLocation();
@@ -143,7 +143,7 @@
           });
         });
       });
-      xit('should change increase started Date and Started By column sizes', function () {
+      it('should change increase started Date and Started By column sizes', function () {
         var startedByColumnBar = resizeBars.get(4);
         var formerStartedByColumnLocation = element.all(by.css('table th')).get(5).getLocation();
         var formerStartDateColumnLocation = element.all(by.css('table th')).get(4).getLocation();
@@ -183,7 +183,7 @@
       beforeEach(function () {
         tableHeader = element.all(by.css('table th.pointer div'));
       });
-      xit('should order by date asc', function () {
+      it('should order by date asc', function () {
         tableHeader.get(2).click();
         expect(tableHeader.get(2).getText()).toContain('Start date');
         expect(element.all(by.xpath('//table//th[5]//div/span[2]')).getAttribute('class')).toEqual(['glyphicon glyphicon-chevron-up']);
@@ -191,7 +191,7 @@
         expect(element(by.css('.glyphicon-chevron-down')).isElementPresent()).toBeFalsy();
         expect(caseList.all(by.css('tbody tr')).get(0).all(by.css('td')).getText()).toEqual(['', 'Pool', '1.0', '2', '2014-10-16 16:05', 'william.jobs', '0', '1', '']);
       });
-      xit('should order by date desc', function () {
+      it('should order by date desc', function () {
         tableHeader.get(2).click();
         tableHeader.get(2).click();
         expect(element.all(by.xpath('//table//th[5]//div/span[2]')).getAttribute('class')).toEqual(['glyphicon glyphicon-chevron-down']);
@@ -202,7 +202,7 @@
     });
 
     describe('case admin list content', function () {
-      xit('should display the list of the 25 first cases and check the specifi content of the first row', function () {
+      it('should display the list of the 25 first cases and check the specifi content of the first row', function () {
         expect(element.all(by.css('#case-list tr.case-row')).count()).toBe(25);
 
         caseList.all(by.css('#caseId-1 td')).then(function (poolCaseDetails) {
@@ -216,7 +216,7 @@
         });
       });
 
-      xit('should display the list of the 25 first cases and check its content', function () {
+      it('should display the list of the 25 first cases and check its content', function () {
         var caseList = element(by.css('#case-list'));
         expect(caseList).toBeDefined();
 
@@ -254,7 +254,7 @@
     });
 
     describe('case admin pager', function () {
-      xit('should display the list of the 25 first cases and navigate using pager', function () {
+      it('should display the list of the 25 first cases and navigate using pager', function () {
         var caseList = element(by.css('#case-list'));
         expect(caseList).toBeDefined();
         // check how many lines there are in the table
@@ -293,7 +293,7 @@
         var caseCheckBoxesP13 = element.all(by.css('#case-list tbody tr.case-row td.case-checkbox input'));
         expect(caseCheckBoxesP13.count()).toBe(20);
       });
-      xit('should reset the pager when item displayed number is clicked', function () {
+      it('should reset the pager when item displayed number is clicked', function () {
         var caseList = element(by.css('#case-list'));
         //browser.debugger();
         // |<<|<|1|2|3|4|5>|>>|
@@ -315,7 +315,7 @@
 
 
     describe('case admin displayed items per page', function () {
-      xit('should reset the pager when item displayed number is clicked', function () {
+      it('should reset the pager when item displayed number is clicked', function () {
         var caseList = element(by.css('#case-list'));
 
         // click on the third number of page size buttons
@@ -350,7 +350,7 @@
 
 
     describe('case admin select all buttons', function () {
-      xit('should select all checkboxes when selectAllCB is clicked', function () {
+      it('should select all checkboxes when selectAllCB is clicked', function () {
         var selectAllCB = element(by.css('th.case-checkbox input'));
         selectAllCB.click();
         var checkedCasesCB = element.all(by.css('td.case-checkbox input:checked'));
