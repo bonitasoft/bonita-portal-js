@@ -6,12 +6,56 @@
 
 
 
+    describe('formatContentController', function() {
+      var manageTopUrl;
+      beforeEach(module('org.bonita.features.admin.cases.list.formatContent'));
+
+      beforeEach(inject(function ($rootScope) {
+        scope = $rootScope.$new();
+        manageTopUrl = jasmine.createSpyObj('manageTopUrl', ['getPath', 'getSearch', 'getCurrentProfile']);
+        manageTopUrl.getPath.and.returnValue('/bonita');
+        manageTopUrl.getSearch.and.returnValue('');
+        manageTopUrl.getCurrentProfile.and.returnValue('pf=2');
+      }));
+
+      it('should set link to pm when supervisor is set', inject(function($controller){
+        scope.column = {linkToProcess : true};
+        scope.caseItem = {processDefinitionId :{ id : 123} };
+        scope.processManager = '1';
+        $controller('formatContentController',{
+          $scope : scope,
+          manageTopUrl : manageTopUrl
+        });
+        expect(scope.linkToProcess).toEqual('/bonita#?id=123&_p=processmoredetailspm&pf=2');
+      }));
+      it('should set link to admin when supervisor is not set', inject(function($controller){
+        scope.column = {linkToProcess : true};
+        scope.caseItem = {processDefinitionId :{ id : 123} };
+        scope.processManager = '0';
+        $controller('formatContentController',{
+          $scope : scope,
+          manageTopUrl : manageTopUrl
+        });
+        expect(scope.linkToProcess).toEqual('/bonita#?id=123&_p=processmoredetailsadmin&pf=2');
+      }));
+      it('should set link to admin when supervisor is undefined', inject(function($controller){
+        scope.column = {linkToProcess : true};
+        scope.caseItem = {processDefinitionId :{ id : 123} };
+        $controller('formatContentController',{
+          $scope : scope,
+          manageTopUrl : manageTopUrl
+        });
+        expect(scope.linkToProcess).toEqual('/bonita#?id=123&_p=processmoredetailsadmin&pf=2');
+      }));
+    });
+
     describe('formatContent', function () {
       beforeEach(module('org.bonita.features.admin.cases.list.formatContent', function($controllerProvider){
         $controllerProvider.register('formatContentController', function() {
 
         });
       }));
+
       beforeEach(inject(function ($rootScope) {
         scope = $rootScope.$new();
       }));

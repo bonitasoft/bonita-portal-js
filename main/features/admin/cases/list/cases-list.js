@@ -90,8 +90,9 @@
     var defaultFiltersArray = [];
     if (supervisorId) {
       defaultFiltersArray.push('supervisor_id=' + supervisorId);
-      moreDetailToken = moreDetailToken.replace('admin', 'pm');
+      $scope.moreDetailToken = moreDetailToken.replace('admin', 'pm');
     }
+    $scope.processManager = +!!supervisorId;
     $scope.filters = angular.copy(defaultFiltersArray);
     $scope.supervisorId = supervisorId;
 
@@ -220,7 +221,7 @@
 
     $scope.getCaseDetailUrl = function(caseItemId) {
       if (caseItemId) {
-        return manageTopUrl.getUrlToTokenAndId(caseItemId, moreDetailToken);
+        return manageTopUrl.getUrlToTokenAndId(caseItemId, $scope.moreDetailToken);
       }
     };
 

@@ -16,7 +16,9 @@
     'org.bonita.services.topurl'
   ]).controller('formatContentController', ['$scope', 'manageTopUrl', function($scope, manageTopUrl){
     if ($scope.column && $scope.column.linkToProcess) {
-      $scope.linkToProcess = manageTopUrl.getPath() + manageTopUrl.getSearch() + '#?id=' + $scope.caseItem.processDefinitionId.id + '&_p=processmoredetailsadmin&' + manageTopUrl.getCurrentProfile();
+      $scope.linkToProcess = manageTopUrl.getPath() + manageTopUrl.getSearch() + '#?id=' + $scope.caseItem.processDefinitionId.id + '&_p=processmoredetails'+
+        ((!!Number($scope.processManager))?'pm':'admin') +
+        '&' + manageTopUrl.getCurrentProfile();
     } else if ($scope.column && $scope.column.linkToCase) {
       $scope.linkToCase = manageTopUrl.getPath() + manageTopUrl.getSearch() + '#?id=' + $scope.caseItem.id + '&_p=' + $scope.moreDetailToken + '&' + manageTopUrl.getCurrentProfile();
     }
@@ -31,7 +33,8 @@
             column: '=',
             caseItem: '=',
             moreDetailToken: '@',
-            fillPopover: '&'
+            fillPopover: '&',
+            processManager : '@' //needs the processManager to be '0' or '1' order for controller to process it simply
           },
           controller : 'formatContentController',
           link: function ($scope, $element) {
