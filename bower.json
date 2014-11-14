@@ -17,7 +17,7 @@
     "angular-gettext": "~0.4.0",
     "jquery": "~2.1.1",
     "lrDragNDrop": "git@github.com:lorenzofox3/lrDragNDrop.git",
-    "bonita-js-components": "git@github.com:bonitasoft/bonita-js-components",
+    "bonita-js-components": "git@github.com:bonitasoft/bonita-js-components#0.2.1",
     "jquery-resizable-columns": "~0.1.3",
     "angular-growl-2": "~0.7.0",
     "angular-animate": "~1.3.x",
