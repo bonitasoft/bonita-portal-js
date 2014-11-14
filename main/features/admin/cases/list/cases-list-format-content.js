@@ -14,7 +14,7 @@
     'gettext',
     'ui.bootstrap',
     'org.bonita.services.topurl'
-  ]).controller('formatContentController', ['$scope', 'manageTopUrl', function ($scope, manageTopUrl) {
+  ]).controller('formatContentController', ['$scope', 'manageTopUrl', 'gettextCatalog', function ($scope, manageTopUrl, gettextCatalog) {
     if ($scope.column && $scope.column.linkToProcess) {
       $scope.linkToProcess = manageTopUrl.getPath() + manageTopUrl.getSearch() + '#?id=' + $scope.caseItem.processDefinitionId.id + '&_p=processmoredetails'+
         ((!!Number($scope.processManager))?'pm':'admin') +
@@ -22,8 +22,9 @@
     } else if ($scope.column && $scope.column.linkToCase) {
       $scope.linkToCase = manageTopUrl.getPath() + manageTopUrl.getSearch() + '#?id=' + $scope.caseItem.id + '&_p=' + $scope.moreDetailToken + '&' + manageTopUrl.getCurrentProfile();
     }
+    $scope.dateFormat = gettextCatalog.getString('MM/dd/yyyy h:mm:ss a');
   }])
-    .directive('formatContent', ['$filter', '$compile',
+    .directive('formatContent', ['$filter', '$compile', 'gettextCatalog',
       function ($filter, $compile) {
         return {
           template: '<div></div>',
@@ -42,7 +43,7 @@
             if ($scope.column && $scope.column.date && $scope.caseItem[$scope.column.name] && typeof $scope.caseItem[$scope.column.name] === 'string') {
               //received date is in a non-standard format...
               // convert 2014-10-17 16:05:42.626 to ISO-8601 Format 2014-10-17T16:05:42.626Z
-              contents = $filter('date')($scope.caseItem[$scope.column.name].replace(/ /, 'T'), 'yyyy-MM-dd HH:mm');
+              contents = $filter('date')($scope.caseItem[$scope.column.name].replace(/ /, 'T'), $scope.dateFormat);
             } else if ($scope.column && $scope.column.popover) {
               contents = '<span class="badge">' + $scope.caseItem[$scope.column.name] + '</span>';
             } else if ($scope.column && $scope.column.linkToProcess) {
