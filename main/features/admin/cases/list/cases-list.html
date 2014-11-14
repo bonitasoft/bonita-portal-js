@@ -12,7 +12,7 @@
       <div growl></div>
       <div ng-if="cases.length">
         <div class="col-md-6" ng-switch on="archivedTabName">
-          <button ng-switch-when="true" archived-case-delete id="delete-button" type="button" class='btn btn-default' ng-click="confirmDeleteSelectedCases()" ng-disabled="checkCaseIsNotSelected()">{{'Delete' | translate}}</button>
+          <button ng-switch-when="true" archived-case-delete id="delete-archived-button" type="button" class='btn btn-default' ng-click="confirmDeleteSelectedCases()" ng-disabled="checkCaseIsNotSelected()">{{'Delete' | translate}}</button>
           <button ng-switch-default active-case-delete id="delete-button" type="button" class='btn btn-default' ng-click="confirmDeleteSelectedCases()" ng-disabled="checkCaseIsNotSelected()">{{'Delete' | translate}}</button>
         </div>
         <div id="table-actions" class="col-md-6 text-right">
