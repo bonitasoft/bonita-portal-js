@@ -239,14 +239,14 @@
           });
         });
       });
-      
+
       it('should generate a good case link on the eye', function() {
         var caseList = element(by.css('#case-list'));
         var linkList = element.all(by.css('tr td a.open-link', caseList));
         var firstElt = linkList.get(0);
         firstElt.getAttribute('href').then(function(href) {
           expect(typeof href).toBe('string');
-          expect(href).toContain('/#?id=1&_p=casemoredetailsadmin&')
+          expect(href).toContain('/#?id=1&_p=casemoredetailsadmin&');
         });
       });
 

@@ -129,7 +129,6 @@
           expect(scope.defaultFilters.appName).toEqual(defaultSelectedApp);
         }));
       });
-
     });
 
     describe('filters', function () {
@@ -196,6 +195,17 @@
           expect(scope.filterVersion).toHaveBeenCalled();
           expect(scope.buildFilters).toHaveBeenCalled();
         });
+
+        it('should set process name, process version and available process version when processId is set', function () {
+          scope.selectedFilters.processId = 123;
+          var processes = [{id:123, name:'Process1', version:'1.0'}, {id:12, name:'Process1', version:'1.1'}, {id:3, name:'Process2', version:'1.0'}];
+          scope.initFilters(processes);
+          expect(scope.selectedFilters.selectedApp).toBe(processes[0].name);
+          expect(scope.selectedFilters.selectedVersion).toBe(processes[0].version);
+          expect(scope.filterVersion).toHaveBeenCalledWith(processes[0].name);
+          expect(scope.appNames).toEqual([processes[0].name, processes[2].name]);
+        });
+
       });
 
       describe('Version Contengency', function () {

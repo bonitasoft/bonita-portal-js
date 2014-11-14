@@ -90,6 +90,7 @@
     var defaultFiltersArray = [];
     if (supervisorId) {
       defaultFiltersArray.push('supervisor_id=' + supervisorId);
+      moreDetailToken = moreDetailToken.replace('admin', 'pm');
     }
     $scope.filters = angular.copy(defaultFiltersArray);
     $scope.supervisorId = supervisorId;
@@ -131,7 +132,11 @@
 
     $scope.$watch('filters', function() {
       $scope.pagination.currentPage = 1;
-      $scope.searchForCases();
+      //if processId is still set it means filters have not been process and need to
+      //wait for them to update
+      if(!$scope.selectedFilters.processId){
+        $scope.searchForCases();
+      }
     }, true);
 
     $scope.buildFilters = function() {

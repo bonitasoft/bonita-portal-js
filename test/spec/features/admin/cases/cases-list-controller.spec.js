@@ -117,28 +117,70 @@
           });
         }));
       });
+      describe('when supervisor', function () {
+        describe(' is set', function(){
+          beforeEach(inject(function ($controller) {
+            $controller('ActiveCaseListCtrl', {
+              '$scope': scope,
+              'caseAPI': caseAPI,
+              'defaultPageSize': defaultPageSize,
+              'defaultSort': defaultSort,
+              'defaultDeployedFields': defaultDeployedFields,
+              'defaultActiveCounterFields': defaultActiveCounterFields,
+              'processId' : undefined,
+              'supervisorId' : 1
+            });
+          }));
+
+          it('should fill ths filters with supervisor_id', inject(function () {
+            expect(scope.filters).toEqual(['supervisor_id=1']);
+          }));
+        });
+        describe(' is not set', function(){
+          beforeEach(inject(function ($controller) {
+            $controller('ActiveCaseListCtrl', {
+              '$scope': scope,
+              'caseAPI': caseAPI,
+              'defaultPageSize': defaultPageSize,
+              'defaultSort': defaultSort,
+              'defaultDeployedFields': defaultDeployedFields,
+              'defaultActiveCounterFields': defaultActiveCounterFields,
+              'processId' : undefined,
+              'supervisorId' : undefined
+            });
+          }));
+
+          it('should not fill ths filters with supervisor_id', inject(function () {
+            expect(scope.filters).toEqual([]);
+          }));
+        });
+      });
     });
 
     describe('sort behaviour', function () {
       describe('go to case details', function () {
         var mockedWindow,
           manageTopUrl = jasmine.createSpyObj('manageTopUrl', ['getUrlToTokenAndId', 'addOrReplaceParam']);
-        beforeEach(inject(function($controller){
+        beforeEach(function(){
           mockedWindow = {
               top : {
                 location:{}
               }
             };
-          $controller('ActiveCaseListCtrl', {
-            '$scope': scope,
-            '$window' : mockedWindow,
-            'manageTopUrl' : manageTopUrl,
-            'moreDetailToken' : 'casedetails',
-            'processId' : undefined,
-            'supervisorId' : undefined
-          });
-        }));
+        });
+
         describe('go to case function', function(){
+          beforeEach(inject(function($controller){
+            $controller('ActiveCaseListCtrl', {
+              '$scope': scope,
+              '$window' : mockedWindow,
+              'manageTopUrl' : manageTopUrl,
+              'moreDetailToken' : 'casemoredetailsadmin',
+              'processId' : undefined,
+              'supervisorId' : undefined
+            });
+            manageTopUrl.getUrlToTokenAndId.calls.reset();
+          }));
           it('should change top location hash to case detail', function () {
             expect(scope.getCaseDetailUrl()).toBeUndefined();
           });
@@ -151,8 +193,62 @@
             manageTopUrl.getUrlToTokenAndId.and.returnValue('/bonita/portal/homepage?tenant=1#?id=4568&_p=casemoredetailsadmin&_pf=2');
             scope.getCaseDetailUrl(caseItemId);
             expect(scope.getCaseDetailUrl(caseItemId)).toEqual('/bonita/portal/homepage?tenant=1#?id=4568&_p=casemoredetailsadmin&_pf=2');
-            expect(manageTopUrl.getUrlToTokenAndId.calls.allArgs()).toEqual([[123, 'casedetails'], ['4568', 'casedetails'], ['4568', 'casedetails']]);
+            expect(manageTopUrl.getUrlToTokenAndId.calls.allArgs()).toEqual([[123, 'casemoredetailsadmin'], ['4568', 'casemoredetailsadmin'], ['4568', 'casemoredetailsadmin']]);
           });
+        });
+        describe('go to case function', function(){
+          beforeEach(function(){
+            manageTopUrl.getUrlToTokenAndId.calls.reset();
+          });
+          it('should change top location hash to case detail', inject(function($controller){
+            $controller('ActiveCaseListCtrl', {
+              '$scope': scope,
+              '$window' : mockedWindow,
+              'manageTopUrl' : manageTopUrl,
+              'moreDetailToken' : 'casemoredetailsadmin',
+              'processId' : undefined,
+              'supervisorId' : 1
+            });
+            expect(scope.getCaseDetailUrl()).toBeUndefined();
+          }));
+
+          it('should change top location hash to case detail', inject(function($controller){
+            $controller('ActiveCaseListCtrl', {
+              '$scope': scope,
+              '$window' : mockedWindow,
+              'manageTopUrl' : manageTopUrl,
+              'moreDetailToken' : 'casemoredetailsadmin',
+              'processId' : undefined,
+              'supervisorId' : 1
+            });
+            manageTopUrl.getUrlToTokenAndId.and.returnValue('/bonita/portal/homepage?tenant=1#?id=123&_p=casemoredetailspm&_pf=2');
+            var caseItemId = 123;
+            expect(scope.getCaseDetailUrl(caseItemId)).toEqual('/bonita/portal/homepage?tenant=1#?id=123&_p=casemoredetailspm&_pf=2');
+            caseItemId = '4568';
+            manageTopUrl.getUrlToTokenAndId.and.returnValue('/bonita/portal/homepage?tenant=1#?id=4568&_p=casemoredetailspm&_pf=2');
+            scope.getCaseDetailUrl(caseItemId);
+            expect(scope.getCaseDetailUrl(caseItemId)).toEqual('/bonita/portal/homepage?tenant=1#?id=4568&_p=casemoredetailspm&_pf=2');
+            expect(manageTopUrl.getUrlToTokenAndId.calls.allArgs()).toEqual([[123, 'casemoredetailspm'], ['4568', 'casemoredetailspm'], ['4568', 'casemoredetailspm']]);
+          }));
+
+          it('should change top location hash to case detail', inject(function($controller){
+            $controller('ActiveCaseListCtrl', {
+              '$scope': scope,
+              '$window' : mockedWindow,
+              'manageTopUrl' : manageTopUrl,
+              'moreDetailToken' : 'casemoredetails',
+              'processId' : undefined,
+              'supervisorId' : 1
+            });
+            manageTopUrl.getUrlToTokenAndId.and.returnValue('/bonita/portal/homepage?tenant=1#?id=123&_p=casemoredetails&_pf=2');
+            var caseItemId = 123;
+            expect(scope.getCaseDetailUrl(caseItemId)).toEqual('/bonita/portal/homepage?tenant=1#?id=123&_p=casemoredetails&_pf=2');
+            caseItemId = '4568';
+            manageTopUrl.getUrlToTokenAndId.and.returnValue('/bonita/portal/homepage?tenant=1#?id=4568&_p=casemoredetails&_pf=2');
+            scope.getCaseDetailUrl(caseItemId);
+            expect(scope.getCaseDetailUrl(caseItemId)).toEqual('/bonita/portal/homepage?tenant=1#?id=4568&_p=casemoredetails&_pf=2');
+            expect(manageTopUrl.getUrlToTokenAndId.calls.allArgs()).toEqual([[123, 'casemoredetails'], ['4568', 'casemoredetails'], ['4568', 'casemoredetails']]);
+          }));
         });
       });
 
@@ -551,6 +647,16 @@
           scope.pagination.currentPage = 2;
           scope.$apply();
           expect(scope.searchForCases).toHaveBeenCalled();
+          expect(scope.pagination.currentPage).toBe(1);
+        });
+        it('should not call search when processId is set', function () {
+          scope.filters = [
+            {}
+          ];
+          scope.pagination.currentPage = 2;
+          scope.selectedFilters.processId = 1;
+          scope.$apply();
+          expect(scope.searchForCases).not.toHaveBeenCalled();
           expect(scope.pagination.currentPage).toBe(1);
         });
       });
