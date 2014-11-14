@@ -1,4 +1,4 @@
-(function() {
+(function () {
   'use strict';
   /**
    * @ngdoc overview
@@ -14,7 +14,7 @@
     'gettext',
     'ui.bootstrap',
     'org.bonita.services.topurl'
-  ]).controller('formatContentController', ['$scope', 'manageTopUrl', function($scope, manageTopUrl){
+  ]).controller('formatContentController', ['$scope', 'manageTopUrl', function ($scope, manageTopUrl) {
     if ($scope.column && $scope.column.linkToProcess) {
       $scope.linkToProcess = manageTopUrl.getPath() + manageTopUrl.getSearch() + '#?id=' + $scope.caseItem.processDefinitionId.id + '&_p=processmoredetails'+
         ((!!Number($scope.processManager))?'pm':'admin') +
@@ -36,7 +36,7 @@
             fillPopover: '&',
             processManager : '@' //needs the processManager to be '0' or '1' order for controller to process it simply
           },
-          controller : 'formatContentController',
+          controller: 'formatContentController',
           link: function ($scope, $element) {
             var contents = '';
             if ($scope.column && $scope.column.date && $scope.caseItem[$scope.column.name] && typeof $scope.caseItem[$scope.column.name] === 'string') {
@@ -44,12 +44,7 @@
               // convert 2014-10-17 16:05:42.626 to ISO-8601 Format 2014-10-17T16:05:42.626Z
               contents = $filter('date')($scope.caseItem[$scope.column.name].replace(/ /, 'T'), 'yyyy-MM-dd HH:mm');
             } else if ($scope.column && $scope.column.popover) {
-              var filter = '';
-              if($scope.column.flowNodeFailedFilter) {
-                filter = 'filter="state=failed"';
-              }
-              contents = '<flow-node-badge case-id="caseItem.id" ' + filter + ' label="' + $scope.caseItem[$scope.column.name] + '"></flow-node-badge>';
-              //contents = '<a href="javascript:return false;" ng-click="fillPopover('+$scope.caseItem.id+',\''+flownodeStateAttr+'\')">'+$scope.caseItem[$scope.column.name]+'</a>';
+              contents = '<span class="badge">' + $scope.caseItem[$scope.column.name] + '</span>';
             } else if ($scope.column && $scope.column.linkToProcess) {
               contents = '<a id="case-process-link-' + $scope.caseItem.id + '" target="_top" href="' + $scope.linkToProcess + '">' + $scope.caseItem[$scope.column.name] + '</a>';
             } else if ($scope.column && $scope.column.linkToCase) {

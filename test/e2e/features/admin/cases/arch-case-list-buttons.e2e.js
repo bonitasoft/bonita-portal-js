@@ -13,7 +13,7 @@
       //browser.debugger(); //launch protractor with debug option and use 'c' in console to continue test execution
     });
     function getDeleteButton(){
-      return element(by.css('#delete-button'), caseList);
+      return element(by.css('#delete-archived-button'), caseList);
     }
     function getModal(){
       return element(by.css('.modal-dialog'));
