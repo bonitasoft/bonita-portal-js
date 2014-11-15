@@ -11,7 +11,7 @@
       { id: 3 }
     ];
 
-    beforeEach(inject(function ($q, $rootScope, _$httpBackend_, _userAPI_, _store_) {
+    beforeEach(inject(function (_$httpBackend_, _userAPI_, _store_) {
       $httpBackend = _$httpBackend_;
       userAPI = _userAPI_;
       store = _store_;

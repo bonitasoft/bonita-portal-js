@@ -1,0 +1,15 @@
+ <div class="modal-header">
+    <h3 class="modal-title"><translate>Confirm delete?</translate></h3>
+</div>
+<div ng-switch on="caseItems.length">
+  <div class="modal-body" ng-switch-when="1">
+      {{'This case will be definitively deleted.' | translate}}
+  </div>
+  <div class="modal-body" ng-switch-default>
+      {{'These cases will be definitively deleted.' | translate}}
+  </div>
+</div>
+<div class="modal-footer">
+    <button id="ValidateCaseDeletionBtn" class="btn btn-default" ng-click="ok()" translate>Delete</button>
+    <button id="CancelCaseDeletionBtn" class="btn btn-default" ng-click="cancel()" translate>Cancel</button>
+</div>
