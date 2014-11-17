@@ -1,19 +1,20 @@
+/* jshint sub:true*/
 (function () {
   'use strict';
 
   angular.module('org.bonita.portal', [
     'ngCookies',
-    'ngResource',
+    'gettext',
     'ui.router',
     'org.bonita.services.i18n',
-    'gettext',
-    'org.bonita.common.resources'
-  ])
-  .config([ '$stateProvider', function ($stateProvider) {
-    $stateProvider.state('bonita', {
-      template : '<ui-view/>',
-      resolve : {
-        translations : 'i18nService'
+    'org.bonita.common.resources',
+    'org.bonita.features.admin'
+  ])//parent state to use for every state in order to have the translations loaded correctly...
+    .config([ '$stateProvider', function ($stateProvider) {
+      $stateProvider.state('bonita', {
+          template : '<ui-view/>',
+          resolve : {
+            translations : 'i18nService'
       }
     });
   }]);
