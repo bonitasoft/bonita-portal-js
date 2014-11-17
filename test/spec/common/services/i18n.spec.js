@@ -2,12 +2,12 @@ describe('i18nService', function () {
   'use strict';
 
 
-  var i18nService, i18nAPI, $cookies, gettextCatalog, deferred;
+  var i18nAPI, $cookies, gettextCatalog, deferred, rootScope;
 
-  beforeEach(module('org.bonita.portal'));
+  beforeEach(module('org.bonita.services.i18n'));
 
-  beforeEach(inject(function (_i18nService_, _i18nAPI_, _$cookies_, _gettextCatalog_, $q) {
-    i18nService = _i18nService_;
+  beforeEach(inject(function (_i18nAPI_, _$cookies_, _gettextCatalog_, $q, $rootScope) {
+    rootScope = $rootScope;
     i18nAPI = _i18nAPI_;
     $cookies = _$cookies_;
     gettextCatalog = _gettextCatalog_;
@@ -18,27 +18,28 @@ describe('i18nService', function () {
     });
   }));
 
-  it('should get english as default local if none found', function () {
+  it('should get english as default local if none found', inject(function ($injector) {
     /* jshint camelcase: false */
     $cookies.BOS_Locale = undefined;
-
-    i18nService.loadTranslations();
-
+    $injector.get('i18nService');
+    deferred.resolve([]);
+    rootScope.$apply();
     expect(i18nAPI.query).toHaveBeenCalledWith({
       f: 'locale=en'
     });
-  });
+  }));
 
-  it('should get the local found in the cookie', function () {
+  it('should get the local found in the cookie', inject(function ($injector) {
     /* jshint camelcase: false */
     $cookies.BOS_Locale = 'fr';
-
-    i18nService.loadTranslations();
+    $injector.get('i18nService');
+    deferred.resolve([]);
+    rootScope.$apply();
 
     expect(i18nAPI.query).toHaveBeenCalledWith({
       f: 'locale=fr'
     });
-  });
+  }));
 
   describe('resolution', function () {
 
@@ -53,28 +54,28 @@ describe('i18nService', function () {
 
     }));
 
-    it('should set gettextCatalog local', function () {
+    it('should set gettextCatalog local', inject(function ($injector) {
       /* jshint camelcase: false */
       $cookies.BOS_Locale = 'fr';
 
-      i18nService.loadTranslations();
+      $injector.get('i18nService');
       deferred.resolve([]);
       $rootScope.$apply();
 
       expect(gettextCatalog.currentLanguage).toBe('fr');
-    });
+    }));
 
-    it('should update catalog', function () {
+    it('should update catalog', inject(function ($injector) {
       /* jshint camelcase: false */
       $cookies.BOS_Locale = 'fr';
 
-      i18nService.loadTranslations();
+      $injector.get('i18nService');
       deferred.resolve([
         { key: 'Hello', value: 'Bonjour' }
       ]);
       $rootScope.$apply();
 
       expect(gettextCatalog.getString('Hello')).toBe('Bonjour');
-    });
+    }));
   });
 });
