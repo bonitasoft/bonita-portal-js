@@ -15,8 +15,9 @@ module.exports = function(config) {
     preprocessors: {
       'main/*.js': ['coverage'],
       'main/features/**/*.js': ['coverage'],
-      'main/common/**/*.js': ['coverage']
-    },
+      'main/common/**/*.js': ['coverage'],
+      'main/features/**/*.html': ['ng-html2js']
+      },
 
     // list of files / patterns to load in the browser
     files: [
@@ -30,9 +31,16 @@ module.exports = function(config) {
       'main/assets/bootstrap/dist/js/bootstrap.js',
       'main/assets/jqueryui/ui/jquery-ui.js',
       'main/assets/angular-gettext/dist/angular-gettext.js',
+      'main/assets/angular-smart-table/dist/smart-table.min.js',
+      'main/assets/lrDragNDrop/lrDragNDrop.js',
+      'main/assets/bonita-js-components/dist/bonita-lib-tpl.js',
+      'main/assets/jquery-resizable-columns/dist/jquery.resizableColumns.js',
+      'main/assets/angular-animate/angular-animate.js',
+      'main/assets/angular-growl-2/build/angular-growl.js',
       'main/bonita-portal.js',
       'main/common/**/*.js',
       'main/features/**/*.js',
+      'main/features/**/*.html',
       'test/spec/**/*.js'
     ],
 
@@ -70,7 +78,10 @@ module.exports = function(config) {
 
     junitReporter: {
       outputFile: 'test/reports.xml'
-    }
+    },
 
+    ngHtml2JsPreprocessor: {
+      stripPrefix: 'main/'
+    },
   });
 };

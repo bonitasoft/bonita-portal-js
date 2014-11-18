@@ -18,10 +18,11 @@
     <link rel="stylesheet" href="assets/bootstrap/dist/css/bootstrap.css" />
     <link rel="stylesheet" href="assets/animate.css/animate.css" />
     <!-- endbower -->
-    <!-- endbuild -->
-    <!-- build:css({.tmp,app}) styles/bonita-portal.css -->
-    <link rel="stylesheet" href="styles/main.css">
-    <!-- endbuild -->
+    <link rel="stylesheet" href="assets/jquery-resizable-columns/dist/jquery.resizableColumns.css" />
+    <link rel="stylesheet" href="assets/angular-growl-2/build/angular-growl.css" />
+    <link rel="stylesheet" href="assets/bonita-js-components/src/sortable/sortable.css" />
+  <!-- endbuild -->
+    <link rel="stylesheet" href="../portal/themeResource?theme=portal&location=bonita-skin.css">
 </head>
 <body ng-app="org.bonita.portal">
 <!--[if lt IE 7]>
@@ -30,17 +31,21 @@
 <![endif]-->
 
 <!-- Add your site or application content here -->
-<div class="container" ui-view=""></div>
+<div class="container-fluid" ui-view=""></div>
+
+<div class="footer">
+    <span id="footer">Bonitasoft © 2014</span>
+</div>
 
 <!--[if lt IE 9]>
-<script src="bower_components/es5-shim/es5-shim.js"></script>
-<script src="bower_components/json3/lib/json3.min.js"></script>
+<script src="assets/es5-shim/es5-shim.js"></script>
+<script src="assets
+/json3/lib/json3.min.js"></script>
 <![endif]-->
 
 <!-- build:js scripts/assets.js -->
 <!-- bower:js -->
 <script src="assets/jquery/dist/jquery.js"></script>
-<script src="assets/es5-shim/es5-shim.js"></script>
 <script src="assets/angular/angular.js"></script>
 <script src="assets/json3/lib/json3.min.js"></script>
 <script src="assets/angular-cookies/angular-cookies.js"></script>
@@ -50,18 +55,37 @@
 <script src="assets/bootstrap/dist/js/bootstrap.js"></script>
 <script src="assets/jqueryui/ui/jquery-ui.js"></script>
 <script src="assets/angular-gettext/dist/angular-gettext.js"></script>
+<script src="assets/lrDragNDrop/lrDragNDrop.js"></script>
+<script src="assets/bonita-js-components/dist/bonita-lib-tpl.js"></script>
+<script src="assets/jquery-resizable-columns/dist/jquery.resizableColumns.min.js"></script>
+<script src="assets/angular-growl-2/build/angular-growl.js"></script>
+<script src="assets/angular-animate/angular-animate.js"></script>
+<script src="assets/angular-sanitize/angular-sanitize.js"></script>
 <!-- endbower -->
-<!-- endbuild -->
-
-<!-- build:js -->
+<script src="assets/bonita-js-components/src/sortable/sortable.js"></script>
 <!-- endbuild -->
 
 <!-- build:js({.tmp,main}) scripts/bonita-portal.js -->
 <!-- injector:js -->
-<script src="common/directvies/urlified.js"></script>
+<script src="common/directives/resizable/resizable-columns.js"></script>
+<script src="common/directives/selectAllCheckBox.js"></script>
+<script src="common/directives/sortable/sortable.js"></script>
+<script src="common/directives/urlified.js"></script>
 <script src="common/filters/urlify.js"></script>
 <script src="common/resources/resources.js"></script>
 <script src="common/resources/store.js"></script>
+<script src="common/services/i18n.js"></script>
+<script src="common/services/manage-top-url.js"></script>
+<script src="features/admin/admin.js"></script>
+<script src="features/admin/cases/cases.js"></script>
+<script src="features/admin/cases/list/cases-list-delete.js"></script>
+<script src="features/admin/cases/list/cases-list-filters.js"></script>
+<script src="features/admin/cases/list/cases-list-format-content.js"></script>
+<script src="features/admin/cases/list/cases-list-table.js"></script>
+<script src="features/admin/cases/list/cases-list-values.js"></script>
+<script src="features/admin/cases/list/cases-list.js"></script>
+<script src="features/admin/cases/list/cases-tabs.js"></script>
+<script src="features/admin/cases/list/flownode-badge.js"></script>
 <script src="bonita-portal.js"></script>
 <!-- endinjector -->
 <!-- endbuild -->
