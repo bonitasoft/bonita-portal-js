@@ -86,6 +86,7 @@
     $scope.cases = undefined;
     $scope.filters = [];
     $scope.moreDetailToken = moreDetailToken;
+    $scope.loading = true;
 
     var defaultFiltersArray = [];
     if (supervisorId) {
@@ -163,7 +164,8 @@
           sortOptions.property : defaultSort) + ' ' + ((sortOptions && !sortOptions.ascendant) ? 'DESC' : 'ASC');
         $scope.pagination.currentPage = 1;
       }
-      delete $scope.cases;
+      $scope.loading = true;
+      $scope.cases = [];
       caseAPI.search({
         p: $scope.pagination.currentPage - 1,
         c: $scope.pagination.itemsPerPage,
@@ -176,19 +178,23 @@
         $scope.pagination.total = fullCases && fullCases.resource && fullCases.resource.pagination && fullCases.resource.pagination.total;
         $scope.currentFirstResultIndex = (($scope.pagination.currentPage - 1) * $scope.pagination.itemsPerPage) + 1;
         $scope.currentLastResultIndex = Math.min($scope.currentFirstResultIndex + $scope.pagination.itemsPerPage - 1, $scope.pagination.total);
-        $scope.cases = fullCases && fullCases.resource && fullCases.resource.map(function selectOnlyInterestingFields(fullCase) {
-          var simpleCase = {};
-          for (var i = 0; i < $scope.columns.length; i++) {
-            var currentCase = fullCase;
-            for (var j = 0; j < $scope.columns[i].path.length; j++) {
-              currentCase = currentCase && currentCase[$scope.columns[i].path[j]];
+        if(fullCases && fullCases.resource){
+          fullCases.resource.map(function selectOnlyInterestingFields(fullCase) {
+            var simpleCase = {};
+            for (var i = 0; i < $scope.columns.length; i++) {
+              var currentCase = fullCase;
+              for (var j = 0; j < $scope.columns[i].path.length; j++) {
+                currentCase = currentCase && currentCase[$scope.columns[i].path[j]];
+              }
+              simpleCase[$scope.columns[i].name] = currentCase;
             }
-            simpleCase[$scope.columns[i].name] = currentCase;
-          }
-          simpleCase.id = fullCase.id;
-          simpleCase.processDefinitionId = fullCase.processDefinitionId;
-          return simpleCase;
-        });
+            simpleCase.id = fullCase.id;
+            simpleCase.processDefinitionId = fullCase.processDefinitionId;
+            return simpleCase;
+          }).forEach(function(caseItem){
+            $scope.cases.push(caseItem);
+          });
+        }
       }, function(error) {
         $scope.pagination.total = 0;
         $scope.currentFirstResultIndex = 0;
@@ -196,6 +202,7 @@
         $scope.cases = [];
         $scope.displayError(error);
       }).finally(function() {
+        $scope.loading = false;
         $anchorScroll();
       });
     };

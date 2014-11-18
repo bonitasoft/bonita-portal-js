@@ -63,10 +63,10 @@
           </div>
         </div>
       </div>
-      <div ng-show="!cases">
+      <div ng-show="loading">
         <p class="text-muted"><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> <translate>Loading</translate></p>
       </div>
-      <div ng-show="cases &amp;&amp; cases.length===0">
+      <div ng-show="!loading &amp;&amp; cases &amp;&amp; cases.length===0">
         <p class="text-muted animated fadeIn" translate>No cases to display</p>
       </div>
     </div>
