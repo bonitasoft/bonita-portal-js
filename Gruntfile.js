@@ -18,6 +18,8 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-connect-rewrite');
   grunt.loadNpmTasks('grunt-angular-gettext');
   grunt.loadNpmTasks('grunt-ngdocs');
+  grunt.loadNpmTasks('grunt-protractor-runner');
+  grunt.loadNpmTasks('grunt-lineending');
 
   // Define the configuration for all the tasks
   grunt.initConfig({
@@ -37,8 +39,8 @@ module.exports = function (grunt) {
         tasks: ['bowerInstall']
       },
       js: {
-        files: ['<%= portaljs.app %>/features/**/*.js', '<%= portaljs.app %>/commons/**/*.js', '<%= portaljs.app %>/assets/**/*.js', '<%= portaljs.app %>/app.js'],
-        tasks: ['newer:jshint:all'],
+        files: ['<%= portaljs.app %>/*.js', '<%= portaljs.app %>/features/**/*.js', '<%= portaljs.app %>/commons/**/*.js', '<%= portaljs.app %>/assets/**/*.js'],
+        tasks: ['newer:jshint:all', 'ngdocs:all'],
         options: {
           livereload: true
         }
@@ -46,6 +48,10 @@ module.exports = function (grunt) {
       jsTest: {
         files: ['test/spec/**/*.js'],
         tasks: ['newer:jshint:test', 'karma']
+      },
+      e2eTest: {
+        files: ['test/e2e/**/*.js'],
+        tasks: ['protractor:e2e']
       },
       styles: {
         files: ['<%= portaljs.app %>/styles/{,*/}*.css'],
@@ -78,16 +84,24 @@ module.exports = function (grunt) {
         ]
       },
       server: {
-        proxies: [
-          {
-            context: [ '/bonita/API', '/bonita/portal/'],
-            host: 'localhost',
-            port: 8080,
-            https: false,
-            changeOrigin: false,
-            xforward: false
-          }
-        ]
+          proxies: (function () {
+              function forward(context) {
+                  return {
+                      context: context,
+                      host: 'localhost',
+                      port: 8080,
+                      https: false,
+                      changeOrigin: false,
+                      xforward: false
+                  };
+              }
+
+              return [
+                  forward('/bonita/apps'),
+                  forward('/bonita/API'),
+                  forward('/bonita/portal/')
+              ];
+          })()
       },
       rules: [
         // prefix web appliation
@@ -96,7 +110,6 @@ module.exports = function (grunt) {
       ],
       livereload: {
         options: {
-          open: true,
           base: [
             '.tmp',
             '<%= portaljs.app %>'
@@ -137,7 +150,25 @@ module.exports = function (grunt) {
       dist: {
         options: {
           port: 9002,
-          base: '<%= portaljs.dist %>'
+          base: '<%= portaljs.dist %>',
+          middleware: function (connect, options) {
+              if (!Array.isArray(options.base)) {
+               options.base = [options.base];
+              }
+              // Setup the proxy
+              var middlewares = [
+                  require('./test/dev/server-mock.js'),
+                  require('grunt-connect-proxy/lib/utils').proxyRequest,
+                  require('grunt-connect-rewrite/lib/utils').rewriteRequest];
+              // Serve static files.
+              options.base.forEach(function (base) {
+                  middlewares.push(connect.static(base));
+              });
+                   // Make directory browse-able.
+              var directory = options.directory || options.base[options.base.length - 1];
+              middlewares.push(connect.directory(directory));
+                   return middlewares;
+          }
         }
       }
     },
@@ -197,12 +228,7 @@ module.exports = function (grunt) {
     bowerInstall: {
       'community': {
         src: ['<%= portaljs.app %>/index.html'],
-        ignorePath: '<%= portaljs.app %>/',
-        'overrides': {
-          'ng-grid': {
-            'main': './build/ng-grid.js'
-          }
-        }
+        ignorePath: '<%= portaljs.app %>/'
       }
     },
 
@@ -376,10 +402,19 @@ module.exports = function (grunt) {
         args: {
           // Arguments passed to the command
         }
+      },
+      e2e: {
+        options: {
+          //configFile: "e2e.conf.js", // Target-specific config file
+          args: {
+            //suite : 'arch-case-list'
+          } // Target-specific arguments
+        }
       }
     },
 
-    /* jshint camelcase: false */
+
+      /* jshint camelcase: false */
     nggettext_extract: {
       pot: {
         files: {
@@ -392,10 +427,20 @@ module.exports = function (grunt) {
         dest: '<%= portaljs.app %>/docs',
         html5Mode: true,
         startPage: '/api',
-        title: 'Bonita Portal JS SP Documentation',
+        title: 'Bonita Portal JS Documentation',
         bestMatch: true
       },
       all: ['<%= portaljs.app %>/features/**/*.js', '<%= portaljs.app %>/common/**/*.js']
+    },
+    lineending: {
+      dist: {
+        options: {
+          eol: 'lf'
+        },
+        files: {
+          'main/index.html': ['main/index.html']
+        }
+      }
     }
   });
 
@@ -408,6 +453,7 @@ module.exports = function (grunt) {
       'clean:server',
       'bowerInstall',
       'injector',
+      'lineending',
       'concurrent:server',
       'configureRewriteRules',
       'configureProxies:server',
@@ -425,10 +471,36 @@ module.exports = function (grunt) {
     'karma'
   ]);
 
+  grunt.registerTask('buildE2e', [
+      'build',
+      'clean:server',
+      'concurrent:test',
+      'autoprefixer',
+      'connect:dist',
+      'karma',
+      'protractor:e2e'
+  ]);
+
+  grunt.registerTask('testE2e', [
+      'concurrent:test',
+      'autoprefixer',
+      'connect:dist',
+      'protractor:e2e'
+  ]);
+
+  grunt.registerTask('serveE2e', [
+      'concurrent:test',
+      'autoprefixer',
+      'connect:dist',
+      'protractor:e2e',
+      'watch'
+  ]);
+
   grunt.registerTask('build', [
     'clean:dist',
     'bowerInstall',
     'injector',
+    'lineending',
     'nggettext_extract',
     'useminPrepare',
     'concurrent:dist',
@@ -446,6 +518,7 @@ module.exports = function (grunt) {
   grunt.registerTask('default', [
     'newer:jshint',
     'test',
-    'build'
+    'build'//,
+    //'testE2e'
   ]);
 };
