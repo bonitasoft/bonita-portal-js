@@ -35,7 +35,8 @@
     }, {
       name: 'Started by',
       path: ['started_by', 'userName'],
-      selected: true
+      selected: true,
+      defaultValue : 'System'
     }, {
       name: 'Failed tasks',
       path: ['failedFlowNodes'],
@@ -97,7 +98,8 @@
     }, {
       name: 'Started by',
       path: ['started_by', 'userName'],
-      selected: true
+      selected: true,
+      defaultValue : 'System'
     }, {
       name: 'End date',
       sortName: 'endDate',
