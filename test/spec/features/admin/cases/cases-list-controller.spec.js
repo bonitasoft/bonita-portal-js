@@ -289,7 +289,7 @@
             ],
           ]);
         });
-        it('should call search twice with second call faster than the first, the second result should be displayed', function () {
+        it('should call search twice on second page with second call faster than the first, the second result should be displayed', function () {
           scope.$apply();
           scope.pagination.currentPage++;
           var secondDeferred = q.defer();
@@ -305,8 +305,33 @@
           scope.$apply();
           expect(scope.cases[0].id).toBe('2');
           expect(scope.cases[1].id).toBe('4');
+          expect(scope.cases.length).toBe(2);
           expect(scope.currentFirstResultIndex).toBe(3);
           expect(scope.currentLastResultIndex).toBe(4);
+        });
+        it('should call search twice with second call faster than the first, the second result should be displayed', function () {
+          scope.$apply();
+          var secondDeferred = q.defer();
+          caseAPI.search.and.returnValue({$promise : secondDeferred.promise, id:1});
+          scope.searchForCases();
+          var results = cases.slice(2,4);
+          results.pagination = {
+            total: 20
+          };
+          secondDeferred.resolve({resource : results});
+          scope.$apply();
+          results = cases.slice(0,2);
+          results.pagination = {
+            total: 6
+          };
+          deferred.resolve({resource : results});
+          scope.$apply();
+          expect(scope.cases[0].id).toBe('2');
+          expect(scope.cases[1].id).toBe('4');
+          expect(scope.cases.length).toBe(2);
+          expect(scope.currentFirstResultIndex).toBe(1);
+          expect(scope.currentLastResultIndex).toBe(2);
+          expect(scope.pagination.total).toBe(20);
         });
         it('should call next Page on current sort', function () {
           deferred.resolve(fullCases);

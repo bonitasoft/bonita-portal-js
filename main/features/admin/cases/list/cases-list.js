@@ -165,19 +165,23 @@
         $scope.pagination.currentPage = 1;
       }
       $scope.loading = true;
-      $scope.cases = [];
+      //these tmp variables are here to store currentSearch results
+      //and not store them directly in scope in case another search is called before
+      //the first one finishes. See cases-list-controller.spec.js#'page changes'
+      var casesForCurrentSearch = $scope.cases = [];
+      var paginationForCurrentSearch = $scope.pagination = angular.copy($scope.pagination);
       caseAPI.search({
-        p: $scope.pagination.currentPage - 1,
-        c: $scope.pagination.itemsPerPage,
+        p: paginationForCurrentSearch.currentPage - 1,
+        c: paginationForCurrentSearch.itemsPerPage,
         d: defaultDeployedFields,
         o: $scope.searchSort,
         f: $scope.filters,
         n: defaultCounterFields,
         s: $scope.selectedFilters.currentSearch
       }).$promise.then(function mapCases(fullCases) {
-        $scope.pagination.total = fullCases && fullCases.resource && fullCases.resource.pagination && fullCases.resource.pagination.total;
-        $scope.currentFirstResultIndex = (($scope.pagination.currentPage - 1) * $scope.pagination.itemsPerPage) + 1;
-        $scope.currentLastResultIndex = Math.min($scope.currentFirstResultIndex + $scope.pagination.itemsPerPage - 1, $scope.pagination.total);
+        paginationForCurrentSearch.total = fullCases && fullCases.resource && fullCases.resource.pagination && fullCases.resource.pagination.total;
+        $scope.currentFirstResultIndex = ((paginationForCurrentSearch.currentPage - 1) * paginationForCurrentSearch.itemsPerPage) + 1;
+        $scope.currentLastResultIndex = Math.min($scope.currentFirstResultIndex + paginationForCurrentSearch.itemsPerPage - 1, paginationForCurrentSearch.total);
         if(fullCases && fullCases.resource){
           fullCases.resource.map(function selectOnlyInterestingFields(fullCase) {
             var simpleCase = {};
@@ -192,11 +196,11 @@
             simpleCase.processDefinitionId = fullCase.processDefinitionId;
             return simpleCase;
           }).forEach(function(caseItem){
-            $scope.cases.push(caseItem);
+            casesForCurrentSearch.push(caseItem);
           });
         }
       }, function(error) {
-        $scope.pagination.total = 0;
+        paginationForCurrentSearch.total = 0;
         $scope.currentFirstResultIndex = 0;
         $scope.currentLastResultIndex = 0;
         $scope.cases = [];
