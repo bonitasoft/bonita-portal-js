@@ -10,6 +10,13 @@
 
   angular.module('org.bonita.features.admin.cases.list.values', [])
     .value('casesColumns', [{
+      name: 'ID',
+      sortName: 'id',
+      path: ['id'],
+      selected: true,
+      align: 'right',
+      linkToCase: true
+    }, {
       name: 'Process name',
       sortName: 'name',
       path: ['processDefinitionId', 'name'],
@@ -19,13 +26,6 @@
       name: 'Version',
       path: ['processDefinitionId', 'version'],
       selected: true
-    }, {
-      name: 'ID',
-      sortName: 'id',
-      path: ['id'],
-      selected: true,
-      align: 'right',
-      linkToCase: true
     }, {
       name: 'Start date',
       sortName: 'startDate',
@@ -40,14 +40,11 @@
     }, {
       name: 'Failed tasks',
       path: ['failedFlowNodes'],
-      selected: true,
-      popover: true,
-      flowNodeFailedFilter: true
+      selected: true
     }, {
       name: 'Pending tasks',
       path: ['activeFlowNodes'],
-      selected: true,
-      popover: true
+      selected: true
     }])
     .value('allCaseStatesValues', {
       started: 'Started',
@@ -73,6 +70,13 @@
     .value('defaultActiveCounterFields', ['activeFlowNodes', 'failedFlowNodes'])
     .value('activedTabName', '')
     .value('archivedCasesColumns', [{
+      name: 'ID',
+      sortName: 'id',
+      path: ['sourceObjectId'],
+      selected: true,
+      align: 'right',
+      linkToCase: true
+    }, {
       name: 'Process name',
       sortName: 'name',
       path: ['processDefinitionId', 'name'],
@@ -82,13 +86,6 @@
       name: 'Version',
       path: ['processDefinitionId', 'version'],
       selected: true
-    }, {
-      name: 'ID',
-      sortName: 'id',
-      path: ['sourceObjectId'],
-      selected: true,
-      align: 'right',
-      linkToCase: true
     }, {
       name: 'Start date',
       sortName: 'startDate',
