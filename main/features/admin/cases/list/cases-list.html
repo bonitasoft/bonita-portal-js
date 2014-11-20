@@ -35,7 +35,7 @@
               <tr>
                 <th class="case-checkbox"><select-all-checkbox checkboxes="cases"></select-all-checkbox></th>
                 <th ng-repeat="col in columns  | filter : filterColumn"
-                    ng-attr-bo-sorter="{{col.sortName}}" on-sort="searchForCases" sort-options="sortOptions" class="case-column">{{col.name | translate}}
+                    ng-attr-bo-sorter="{{col.sortName}}" on-sort="searchForCases" sort-options="sortOptions" class="case-column" ng-class="{'text-right': col.align}">{{col.name | translate}}
                 </th>
                 <th style="width : 50px;"></th>
               </tr>
@@ -63,10 +63,10 @@
           </div>
         </div>
       </div>
-      <div ng-show="!cases">
+      <div ng-show="loading">
         <p class="text-muted"><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> <translate>Loading</translate></p>
       </div>
-      <div ng-show="cases &amp;&amp; cases.length===0">
+      <div ng-show="!loading &amp;&amp; cases &amp;&amp; cases.length===0">
         <p class="text-muted animated fadeIn" translate>No cases to display</p>
       </div>
     </div>

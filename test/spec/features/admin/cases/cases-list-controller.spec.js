@@ -3,35 +3,22 @@
   'use strict';
   describe('admin cases list features', function () {
 
-    var scope, caseAPI, fullCases, promise;
+    var scope, caseAPI, fullCases, promise, q, deferred;
 
     beforeEach(module('org.bonita.features.admin.cases.list.table'));
 
-    beforeEach(inject(function ($rootScope) {
+    beforeEach(inject(function ($rootScope, $q) {
       //we use the casesListMocks.js in order to init data for the test
       fullCases = {resource: cases};
       fullCases.resource.pagination = {
         total: 4
       };
+      q = $q;
       scope = $rootScope.$new();
-      promise = {
-        then: function (method) {
-          method(fullCases);
-          return promise;
-        },
-        finally: function (finallyMethod) {
-          finallyMethod();
-          return promise;
-        }
-      };
-      caseAPI = {
-        search: function () {
-          return {
-            '$promise': promise
-          };
-        }
-      };
-      spyOn(caseAPI, 'search').and.callThrough();
+      deferred = q.defer();
+      promise = deferred.promise;
+      caseAPI = jasmine.createSpyObj('caseAPI', ['search']);
+      caseAPI.search.and.returnValue({$promise : promise});
     }));
 
     describe('controller initialization', function () {
@@ -60,6 +47,7 @@
           });
         }));
         it('should not display all fields', function () {
+          deferred.resolve(fullCases);
           scope.$apply();
           expect(scope.cases).toBeDefined();
           expect(scope.cases.length).toBe(4);
@@ -97,6 +85,7 @@
         }));
 
         it('should fill the scope cases', inject(function () {
+          deferred.resolve(fullCases);
           scope.$apply();
           expect(scope.cases).toBeDefined();
           expect(scope.cases.length).toBe(4);
@@ -278,11 +267,16 @@
           });
         }));
         it('should call next Page without sort', function () {
+          deferred.resolve(fullCases);
           scope.$apply();
           expect(scope.currentFirstResultIndex).toBe(1);
           expect(scope.currentLastResultIndex).toBe(2);
           scope.pagination.currentPage++;
+          // deferred = q.defer();
+          // caseAPI.search.and.returnValue({$promise : deferred.promise.then()});
+          // deferred.resolve(fullCases);
           scope.searchForCases();
+          scope.$apply();
           expect(scope.currentFirstResultIndex).toBe(3);
           expect(scope.currentLastResultIndex).toBe(4);
           expect(anchorScroll).toHaveBeenCalled();
@@ -295,7 +289,52 @@
             ],
           ]);
         });
+        it('should call search twice on second page with second call faster than the first, the second result should be displayed', function () {
+          scope.$apply();
+          scope.pagination.currentPage++;
+          var secondDeferred = q.defer();
+          caseAPI.search.and.returnValue({$promise : secondDeferred.promise, id:1});
+          scope.searchForCases();
+          var results = cases.slice(2,4);
+          results.pagination = fullCases.resource.pagination;
+          secondDeferred.resolve({resource : results});
+          scope.$apply();
+          results = cases.slice(0,2);
+          results.pagination = fullCases.resource.pagination;
+          deferred.resolve({resource : results});
+          scope.$apply();
+          expect(scope.cases[0].id).toBe('2');
+          expect(scope.cases[1].id).toBe('4');
+          expect(scope.cases.length).toBe(2);
+          expect(scope.currentFirstResultIndex).toBe(3);
+          expect(scope.currentLastResultIndex).toBe(4);
+        });
+        it('should call search twice with second call faster than the first, the second result should be displayed', function () {
+          scope.$apply();
+          var secondDeferred = q.defer();
+          caseAPI.search.and.returnValue({$promise : secondDeferred.promise, id:1});
+          scope.searchForCases();
+          var results = cases.slice(2,4);
+          results.pagination = {
+            total: 20
+          };
+          secondDeferred.resolve({resource : results});
+          scope.$apply();
+          results = cases.slice(0,2);
+          results.pagination = {
+            total: 6
+          };
+          deferred.resolve({resource : results});
+          scope.$apply();
+          expect(scope.cases[0].id).toBe('2');
+          expect(scope.cases[1].id).toBe('4');
+          expect(scope.cases.length).toBe(2);
+          expect(scope.currentFirstResultIndex).toBe(1);
+          expect(scope.currentLastResultIndex).toBe(2);
+          expect(scope.pagination.total).toBe(20);
+        });
         it('should call next Page on current sort', function () {
+          deferred.resolve(fullCases);
           scope.$apply();
           scope.searchForCases({property: 'name', ascendant: false});
           expect(scope.currentFirstResultIndex).toBe(1);
@@ -303,11 +342,13 @@
           expect(anchorScroll).toHaveBeenCalled();
           scope.pagination.currentPage++;
           scope.searchForCases();
+          scope.$apply();
           expect(scope.currentFirstResultIndex).toBe(3);
           expect(scope.currentLastResultIndex).toBe(4);
           expect(anchorScroll).toHaveBeenCalled();
           scope.pagination.currentPage--;
           scope.searchForCases();
+          scope.$apply();
           expect(scope.currentFirstResultIndex).toBe(1);
           expect(scope.currentLastResultIndex).toBe(2);
           expect(anchorScroll).toHaveBeenCalled();
@@ -363,7 +404,8 @@
             });
           }));
           it('should call default sort on empty tableState', function () {
-            scope.searchForCases();
+            deferred.resolve(fullCases);
+            scope.$apply();
             expect(anchorScroll).toHaveBeenCalled();
 
             expect(caseAPI.search.calls.allArgs()).toEqual([
@@ -374,13 +416,21 @@
             expect(anchorScroll).toHaveBeenCalled();
           });
           it('should call search on application name sort desc', function () {
+            deferred.resolve(fullCases);
+            scope.$apply();
             scope.searchForCases({property: 'name', ascendant: false});
+            scope.$apply();
             expect(anchorScroll).toHaveBeenCalled();
             scope.searchForCases({property:'name', ascendant: true});
+            scope.$apply();
             expect(anchorScroll).toHaveBeenCalled();
             scope.searchForCases({property: 'version', ascendant: false});
+            scope.$apply();
             expect(anchorScroll).toHaveBeenCalled();
             expect(caseAPI.search.calls.allArgs()).toEqual([
+              [
+                {p: 0, c: defaultPageSize, o : 'id ASC', d: defaultDeployedFields, f: [], n: defaultActiveCounterFields, s: undefined }
+              ],
               [
                 {p: 0, c: defaultPageSize, o: 'name DESC', d: defaultDeployedFields, f: [], n: defaultActiveCounterFields, s : undefined}
               ],
