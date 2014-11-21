@@ -12,7 +12,7 @@
       templateUrl: 'template/sortable/sorter.tpl.html',
       transclude: true,
       link: function($scope, iElm, attr) {
-        $scope.property =  (attr.id || attr.boSorter || '').trim();
+        $scope.property =  (attr.id || attr.boSortable || '').trim();
         if($scope.property){
           iElm.addClass('pointer');
         }
