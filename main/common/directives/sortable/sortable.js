@@ -2,7 +2,7 @@
   'use strict';
   angular
   .module('org.bonita.sortable',[])
-  .directive('boSorter', function(){
+  .directive('boSortable', function(){
     return {
       restrict: 'A',
       scope: {
