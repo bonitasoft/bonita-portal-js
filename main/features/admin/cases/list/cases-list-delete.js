@@ -8,20 +8,26 @@
   ])
   .controller('ActiveCaseDeleteCtrl', ['$scope', '$modal', 'caseAPI', 'gettextCatalog', CaseDeleteCtrl])
   .directive('activeCaseDelete',
-  function () {
-    return {
-      restrict: 'A',
-      require: '^ActiveCaseListCtrl',
-      controller: 'ActiveCaseDeleteCtrl'
-    };
-  })
+    function () {
+      return {
+        restrict: 'E',
+        require: '^ActiveCaseListCtrl',
+        transclude : true,
+        controller: 'ActiveCaseDeleteCtrl',
+        template : '<button id="delete-button" type="button" class="btn btn-default" ng-click="deleteCtrl.confirmDeleteSelectedCases()" ng-disabled="deleteCtrl.checkCaseIsNotSelected()"><div ng-transclude></div></button>',
+        controllerAs : 'deleteCtrl'
+      };
+    })
   .controller('ArchivedCaseDeleteCtrl', ['$scope', '$modal', 'archivedCaseAPI', 'gettextCatalog', CaseDeleteCtrl])
   .directive('archivedCaseDelete',
     function() {
       return {
-        restrict: 'A',
+        restrict: 'E',
         require: '^ArchivedCaseListCtrl',
-        controller: 'ArchivedCaseDeleteCtrl'
+        transclude : true,
+        template : '<button id="delete-archived-button" type="button" class="btn btn-default" ng-click="deleteCtrl.confirmDeleteSelectedCases()" ng-disabled="deleteCtrl.checkCaseIsNotSelected()"><div ng-transclude></div></button>',
+        controller: 'ArchivedCaseDeleteCtrl',
+        controllerAs : 'deleteCtrl'
       };
     })
   .controller('DeleteCaseModalCtrl', ['$scope', '$modalInstance', 'caseItems', DeleteCaseModalCtrl]);
@@ -40,6 +46,8 @@
    */
   /* jshint -W003 */
   function CaseDeleteCtrl($scope, $modal, caseAPI, gettextCatalog) {
+
+    var vm = this;
     /**
      * @ngdoc method
      * @name o.b.f.admin.cases.list.CaseDeleteCtrl#confirmDeleteSelectedCases
@@ -49,7 +57,7 @@
      * If the confirmation is selected, the {@link o.b.f.admin.cases.list.CaseDeleteCtrl#deleteSelectedCases deleteSelectedCases}
      * is called upon selected cases
      */
-    $scope.confirmDeleteSelectedCases = function confirmDeleteSelectedCases() {
+    vm.confirmDeleteSelectedCases = function confirmDeleteSelectedCases() {
       if ($scope.cases) {
         var caseItems = $scope.cases.filter(function filterSelectedOnly(caseItem) {
           return caseItem && caseItem.selected;
@@ -57,6 +65,7 @@
         $modal.open({
           templateUrl: 'features/admin/cases/list/cases-list-deletion-modal.html',
           controller: 'DeleteCaseModalCtrl',
+          controllerAs: 'deleteCaseModalCtrl',
           resolve: {
             caseItems: function() {
               return caseItems;
@@ -66,6 +75,7 @@
         }).result.then($scope.deleteSelectedCases);
       }
     };
+
     /**
      * @ngdoc method
      * @name o.b.f.admin.cases.list.CaseDeleteCtrl#checkCaseIsNotSelected
@@ -73,7 +83,7 @@
      * @description
      * @returns {Boolean} true if no case are selected
      */
-    $scope.checkCaseIsNotSelected = function checkCaseIsNotSelected() {
+    vm.checkCaseIsNotSelected = function checkCaseIsNotSelected() {
       return $scope.cases && $scope.cases.reduce(function(previousResult, caseItem) {
         return previousResult && !caseItem.selected;
       }, true);
@@ -88,7 +98,7 @@
      * calls until all calls have been made. finally, it displays a message indicating
      * how many items it has successfully deleted
      */
-    $scope.deleteSelectedCases = function deleteSelectedCases() {
+    vm.deleteSelectedCases = function deleteSelectedCases() {
       if ($scope.cases) {
         var caseIds = $scope.cases.filter(function(caseItem) {
           return caseItem && caseItem.selected && caseItem.id;
@@ -155,7 +165,7 @@
      * see {@link o.b.f.admin.cases.list.CaseDeleteCtrl#confirmDeleteSelectedCases confirmDeleteSelectedCases}
      *
      */
-    $scope.ok = function() {
+    this.ok = function() {
       $modalInstance.close();
     };
 
@@ -166,7 +176,7 @@
      * @description
      * cancels the case deletion and launch reject on modal promise
      */
-    $scope.cancel = function() {
+    this.cancel = function() {
       $modalInstance.dismiss('cancel');
     };
   }
