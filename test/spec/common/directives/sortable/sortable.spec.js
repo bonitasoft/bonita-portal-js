@@ -30,8 +30,8 @@ describe('sortable directive', function(){
         '<table>'+
         '  <thead>'+
         '    <tr>'+
-        '       <th bo-sorter="id" sort-options="sortOptions" on-sort="onSortFunction(options)">ID</th>'+
-        '       <th bo-sorter="name" sort-options="sortOptions" on-sort="onSortFunction(options)">Name</th>'+
+        '       <th bo-sortable="id" sort-options="sortOptions" on-sort="onSortFunction(options)">ID</th>'+
+        '       <th bo-sortable="name" sort-options="sortOptions" on-sort="onSortFunction(options)">Name</th>'+
         '    </tr>'+
         '  </thead>'+
         '</table>';
