@@ -94,28 +94,17 @@
       });
     });
 
-    describe('deleteSelectedCases', function () {
-      var promise, searchSpy, caseAPI;
-      beforeEach(inject(function ($controller) {
-        promise = {
-          then: function (successMethod, errorMethod) {
-            if (successMethod) {
-              successMethod();
-            } else if (errorMethod) {
-              errorMethod();
-            }
-            return promise;
-          },
-          finally: function(finallyMethod){
-            finallyMethod();
-            return promise;
-          }
-        };
+    describe('simple deleteSelectedCases', function () {
+      var promise, searchSpy, caseAPI, deferred;
+      beforeEach(inject(function ($controller, $q) {
+        deferred = $q.defer();
+        promise = deferred.promise;
         caseAPI = {
           search: function () {
             return {
               '$promise': {
                 then: function () {
+
                 }
               }
             };
@@ -144,11 +133,12 @@
         };
         scope.searchForCases = function () {
         };
-        scope.displayError = function () {
+        scope.handleHttpError = function () {
         };
         spyOn(scope, 'searchForCases');
-        spyOn(scope, 'displayError');
+        spyOn(scope, 'handleHttpError');
         spyOn(scope, 'addAlert');
+        deferred.resolve();
       }));
       it('should delete nothing if cases array is empty', function () {
         scope.deleteSelectedCases();
@@ -169,42 +159,74 @@
       it('should delete all selected cases', function () {
         scope.cases = [{selected: true, id: '1'}, {selected: true, id: '324'}];
         caseAPI.search.calls.reset();
-        var localPromise = {
-            then: function (success) {
-              var resource = [];
-              resource.pagination = {total: 0};
-              success({resource: resource});
-              return localPromise;
-            },
-            finally: function(){}
-          };
-        searchSpy.and.returnValue({
-          '$promise': localPromise
-        });
         scope.pagination = {currentPage : 4};
         scope.deleteSelectedCases();
+        scope.$apply();
         expect(scope.searchForCases).toHaveBeenCalled();
         expect(caseAPI.delete).toHaveBeenCalled();
-        expect(caseAPI.delete.calls.allArgs()).toEqual([[{id: '324'}], [{id: '1'}]]);
+        expect(caseAPI.delete.calls.allArgs()).toEqual([[{id: '1'}], [{id: '324'}]]);
         expect(scope.addAlert).toHaveBeenCalled();
         expect(scope.addAlert.calls.allArgs()).toEqual([[{type: 'success', status: '2 cases deleted successfully'}]]);
         expect(scope.pagination.currentPage).toBe(1);
       });
-      it('should delete all cases even if one of them fails', inject(function ($q) {
-        scope.cases = [{selected: true, id: '1'}, {selected: true, id: '324'}];
-        var deferredError = $q.defer();
-        var deferredSuccess = $q.defer();
-        promise = deferredError.promise;
-        promise.then(undefined, function () {
-          promise = deferredSuccess.promise;
+
+    });
+    describe('simple deleteSelectedCases', function () {
+      var searchSpy, caseAPI, successfullDeferred, failingDefered;
+      beforeEach(inject(function ($controller, $q) {
+        successfullDeferred = $q.defer();
+        failingDefered = $q.defer();
+
+        caseAPI = {
+          search: function () {
+            return {
+              '$promise': {
+                then: function () {
+                }
+              }
+            };
+          },
+        };
+        $controller('ActiveCaseDeleteCtrl', {
+          '$scope': scope,
+          'caseAPI': caseAPI,
+          'store': {
+            load: function () {
+              return {
+                then: function () {
+                }
+              };
+            }
+          },
         });
+        searchSpy = spyOn(caseAPI, 'search').and.callThrough();
+        scope.addAlert = function () {
+        };
+        scope.searchForCases = function () {
+        };
+        scope.handleHttpError = function () {
+        };
+        spyOn(scope, 'searchForCases');
+        spyOn(scope, 'handleHttpError');
+        spyOn(scope, 'addAlert');
+      }));
+      it('should try to delete every cases even if one of them fails', function () {
+        scope.cases = [{selected: true, id: '1'}, {selected: true, id: '324'}, , {selected: true, id: '6548'}, {selected: true, id: '1324'}];
+        caseAPI.delete = function(caseItem){
+            if(caseItem && +caseItem.id === 324){
+              return {'$promise' : failingDefered.promise };
+            } else {
+              return { '$promise' : successfullDeferred.promise };
+            }
+          };
+        spyOn(caseAPI, 'delete').and.callThrough();
         var error = {
           status: 500,
           statusText: 'Internal Server Error',
           data: {resource: 'bpm/case', message: 'impossible to delete'}
         };
-        deferredError.reject(error);
-        deferredSuccess.resolve();
+        failingDefered.reject(error);
+        successfullDeferred.resolve('1');
         caseAPI.search.calls.reset();
         searchSpy.and.returnValue({
           '$promise': {
@@ -220,23 +242,25 @@
         scope.$apply();
         expect(scope.searchForCases).toHaveBeenCalled();
         expect(caseAPI.delete).toHaveBeenCalled();
-        expect(caseAPI.delete.calls.allArgs()).toEqual([[{id: '324'}], [{id: '1'}]]);
-        expect(scope.displayError).toHaveBeenCalled();
-        expect(scope.displayError.calls.allArgs()).toEqual([[{ status : 500, statusText : 'Internal Server Error', data : { resource : 'bpm/case', message : 'impossible to delete' } }]]);
+        expect(caseAPI.delete.calls.allArgs()).toEqual([[{id: '1'}], [{id: '324'}], [{id: '6548'}], [{id: '1324'}]]);
+        expect(scope.handleHttpError).toHaveBeenCalled();
+        expect(scope.handleHttpError.calls.allArgs()).toEqual([[{ status : 500, statusText : 'Internal Server Error', data : { resource : 'bpm/case', message : 'impossible to delete' } }]]);
         expect(scope.addAlert).toHaveBeenCalled();
-        expect(scope.addAlert.calls.allArgs()).toEqual([[{type: 'success', status: '1 case deleted successfully'}]]);
+        expect(scope.addAlert.calls.allArgs()).toEqual([[{type: 'success', status: '3 cases deleted successfully'}]]);
         expect(scope.pagination.currentPage).toBe(1);
-      }));
-      it('should delete nothing even all fails', inject(function ($q) {
+      });
+      it('should delete nothing even all fails', function () {
         scope.cases = [{selected: true, id: '1'}, {selected: true, id: '324'}];
-        var deferredError = $q.defer();
-        promise = deferredError.promise;
+        caseAPI.delete = function(){
+            return {'$promise' : failingDefered.promise };
+          };
+        spyOn(caseAPI, 'delete').and.callThrough();
         var error = {
           status: 500,
           statusText: 'Internal Server Error',
           data: {resource: 'bpm/case', message: 'impossible to delete'}
         };
-        deferredError.reject(error);
+        failingDefered.reject(error);
         caseAPI.search.calls.reset();
         searchSpy.and.returnValue({
           '$promise': {
@@ -252,9 +276,9 @@
         expect(caseAPI.search).not.toHaveBeenCalled();
         scope.$apply();
         expect(caseAPI.delete).toHaveBeenCalled();
-        expect(caseAPI.delete.calls.allArgs()).toEqual([[{id: '324'}], [{id: '1'}]]);
-        expect(scope.displayError).toHaveBeenCalled();
-        expect(scope.displayError.calls.allArgs()).toEqual([
+        expect(caseAPI.delete.calls.allArgs()).toEqual([ [ { id : '1' } ], [ { id : '324' } ] ]);
+        expect(scope.handleHttpError).toHaveBeenCalled();
+        expect(scope.handleHttpError.calls.allArgs()).toEqual([
           [{ status : 500, statusText : 'Internal Server Error', data : { resource : 'bpm/case', message : 'impossible to delete' } }],
           [{ status : 500, statusText : 'Internal Server Error', data : { resource : 'bpm/case', message : 'impossible to delete' } }]
         ]);
@@ -262,7 +286,7 @@
         expect(scope.addAlert.calls.allArgs()).toEqual([[{type: 'success', status: '0 cases deleted successfully'}]]);
         expect(scope.searchForCases).toHaveBeenCalled();
         expect(scope.pagination.currentPage).toBe(1);
-      }));
+      });
     });
     describe('deleteCaseModalCtrl', function(){
       var modalInstance ;

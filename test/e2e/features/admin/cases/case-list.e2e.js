@@ -124,7 +124,7 @@
         formerIdColumnLocation.then(function (oldPosition) {
           newIdColumnLocation.then(function (newPosition) {
             //move is not very accurate, for instance, offset of 50 changed position of 53px
-            expect(oldPosition.x - newPosition.x).toBeGreaterThan(40);
+            expect(oldPosition.x - newPosition.x).toBeGreaterThan(30);
             expect(oldPosition.y - newPosition.y).toBe(0);
           });
         });

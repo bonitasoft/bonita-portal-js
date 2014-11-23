@@ -6,7 +6,7 @@
     'gettext',
     'ui.bootstrap',
   ])
-  .controller('ActiveCaseDeleteCtrl', ['$scope', '$modal', 'caseAPI', 'gettextCatalog', CaseDeleteCtrl])
+  .controller('ActiveCaseDeleteCtrl', ['$scope', '$modal', 'caseAPI', 'gettextCatalog', '$q',  CaseDeleteCtrl])
   .directive('activeCaseDelete',
     function () {
       return {
@@ -18,7 +18,7 @@
         controllerAs : 'deleteCtrl'
       };
     })
-  .controller('ArchivedCaseDeleteCtrl', ['$scope', '$modal', 'archivedCaseAPI', 'gettextCatalog', CaseDeleteCtrl])
+  .controller('ArchivedCaseDeleteCtrl', ['$scope', '$modal', 'archivedCaseAPI', 'gettextCatalog', '$q', CaseDeleteCtrl])
   .directive('archivedCaseDelete',
     function() {
       return {
@@ -45,7 +45,7 @@
    * @requires gettextCatalog
    */
   /* jshint -W003 */
-  function CaseDeleteCtrl($scope, $modal, caseAPI, gettextCatalog) {
+  function CaseDeleteCtrl($scope, $modal, caseAPI, gettextCatalog, $q) {
 
     var vm = this;
     /**
@@ -72,7 +72,7 @@
             }
           },
           size: 'sm'
-        }).result.then($scope.deleteSelectedCases);
+        }).result.then(vm.deleteSelectedCases);
       }
     };
 
@@ -105,43 +105,32 @@
         }).map(function(caseItem) {
           return caseItem.id;
         });
-        var nbOfDeletedCases = 0;
         if (caseIds && caseIds.length) {
-          //this function chains the case deletion
-          var deletePromise = function(id) {
-            var currentPromise = caseAPI.delete({
-              id: id
-            }).$promise.then(function() {
-              nbOfDeletedCases++;
-            }, $scope.displayError);
-            if (caseIds && caseIds.length) {
-              var deleteNextId = function deleteNextId() {
-                deletePromise(caseIds.pop());
-              };
-              currentPromise.finally(deleteNextId);
-            } else {
-              currentPromise.then(function() {
-                $scope.addAlert({
-                  type: 'success',
-                  status: ((nbOfDeletedCases===1)?
-                    gettextCatalog.getString('{{nbOfDeletedCases}} case deleted successfully', {
-                    nbOfDeletedCases: nbOfDeletedCases
-                  }):
-                    gettextCatalog.getString('{{nbOfDeletedCases}} cases deleted successfully', {
-                    nbOfDeletedCases: nbOfDeletedCases
-                  }))
-                });
-              }).finally(function() {
-                $scope.pagination.currentPage = 1;
-                $scope.searchForCases();
-              });
-            }
-          };
-          deletePromise(caseIds.pop());
+          var nbOfDeletedCases = 0;
+          $q.all(caseIds.map(function(caseId){
+            return caseAPI.delete({
+              id: caseId
+            }).$promise.then(function(){nbOfDeletedCases++;}, function(error){$scope.$emit('caselist:http-error', error);});
+          })).then(finishDeleteProcess);
         }
+      }
+      function finishDeleteProcess(){
+        $scope.$emit('caselist:notify', {
+          type: 'success',
+          status: ((nbOfDeletedCases===1)?
+            gettextCatalog.getString('{{nbOfDeletedCases}} case deleted successfully', {
+            nbOfDeletedCases: nbOfDeletedCases
+          }):
+            gettextCatalog.getString('{{nbOfDeletedCases}} cases deleted successfully', {
+            nbOfDeletedCases: nbOfDeletedCases
+          }))
+        });
+        $scope.pagination.currentPage = 1;
+        $scope.$emit('caselist:search');
       }
     };
   }
+
 
   /**
    * @ngdoc object

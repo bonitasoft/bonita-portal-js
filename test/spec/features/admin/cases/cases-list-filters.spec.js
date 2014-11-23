@@ -3,7 +3,7 @@
   'use strict';
   describe('admin cases list features', function () {
 
-    var scope, globalProcesses , defaultFilters, caseStatesValues, store;
+    var scope, globalProcesses , defaultFilters, caseStatesValues, store, caseFiltersCtrl;
     var storeLoadFunction = function (processes) {
       return function () {
         return {
@@ -433,7 +433,7 @@
         describe('filter status update', function(){
           var allStatus = 'allStatus';
           beforeEach(inject(function ($controller) {
-            $controller('ActiveCaseFilterController', {
+            caseFiltersCtrl = $controller('ActiveCaseFilterController', {
               '$scope': scope,
               'defaultFilters':  {caseStatus : allStatus},
               'store': {
@@ -446,21 +446,18 @@
               }
             });
             scope.$apply();
-            spyOn(scope, 'buildFilters');
           }));
 
           it('should update the filters when the selected case has change', function(){
-            scope.selectCaseStatus(allStatus);
+            caseFiltersCtrl.selectCaseStatus(allStatus);
             scope.$apply();
             expect(scope.selectedFilters.selectedStatus).toBe(allStatus);
-            expect(scope.buildFilters).not.toHaveBeenCalled();
           });
           it('should update the filters when the selected case has change', function(){
             var caseStatus = 'started';
-            scope.selectCaseStatus(caseStatus);
+            caseFiltersCtrl.selectCaseStatus(caseStatus);
             scope.$apply();
             expect(scope.selectedFilters.selectedStatus).toBe(caseStatus);
-            expect(scope.buildFilters).toHaveBeenCalled();
           });
         });
       });

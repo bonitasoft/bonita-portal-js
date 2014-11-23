@@ -75,7 +75,9 @@
       currentPage: 1,
       total: 0
     };
-    $scope.selectedFilters = {};
+    $scope.selectedFilters = {
+      processId : processId
+    };
     $scope.pageSizes = pageSizes;
     /**
      * @ngdoc property
@@ -98,7 +100,6 @@
     $scope.filters = angular.copy(defaultFiltersArray);
     $scope.supervisorId = supervisorId;
 
-    $scope.selectedFilters.processId = processId;
     $scope.archivedTabName = !!tabName;
 
     manageTopUrl.addOrReplaceParam('_tab', tabName);
@@ -111,12 +112,11 @@
       vm.searchForCases();
     };
 
-    $scope.$on('caselist:delete', addAlertEventHandler);
-    $scope.$watch('selectedFilters', buildFilters, true);
+    $scope.$on('caselist:http-error', handleHttpErrorEvent);
+    $scope.$on('caselist:notify', addAlertEventHandler);
+    $scope.$on('caselist:search', function(){vm.searchForCases();});
 
-    vm.closeAlert = function(index) {
-      $scope.alerts.splice(index, 1);
-    };
+    $scope.$watch('selectedFilters', buildFilters, true);
 
     $scope.$watch('filters', function() {
       $scope.pagination.currentPage = 1;
@@ -178,30 +178,11 @@
         paginationForCurrentSearch.total = 0;
         $scope.currentFirstResultIndex = 0;
         $scope.currentLastResultIndex = 0;
-        vm.displayError(error);
+        handleHttpErrorEvent(error);
       }).finally(function() {
         $scope.loading = false;
         $anchorScroll();
       });
-    };
-
-    vm.displayError = function(error) {
-      if (error) {
-        if (error.status === 401) {
-          $location.url('/');
-        } else {
-          var message = {
-            status: error.status,
-            statusText: error.statusText,
-            type: 'danger'
-          };
-          if (error.data) {
-            message.errorMsg = error.data.message;
-            message.resource = error.data.api + '/' + error.data.resource;
-          }
-          addAlertEventHandler(message);
-        }
-      }
     };
 
     vm.onDropComplete = function($index, $data, $event){
@@ -233,6 +214,7 @@
       }
     };
 
+    vm.addAlertEventHandler = addAlertEventHandler;
     function addAlertEventHandler(event, msg) {
       var options = {
         ttl: 3000,
@@ -252,6 +234,7 @@
       }
     }
 
+    vm.buildFilters = buildFilters;
     function buildFilters() {
       var filters = angular.copy(defaultFiltersArray);
       if ($scope.selectedFilters.selectedProcessDefinition) {
@@ -263,6 +246,26 @@
         filters.push('state=' + $scope.selectedFilters.selectedStatus);
       }
       $scope.filters = filters;
+    }
+
+    vm.handleHttpErrorEvent = handleHttpErrorEvent;
+    function handleHttpErrorEvent (event, error) {
+      if (error) {
+        if (error.status === 401) {
+          $location.url('/');
+        } else {
+          var message = {
+            status: error.status,
+            statusText: error.statusText,
+            type: 'danger'
+          };
+          if (error.data) {
+            message.errorMsg = error.data.message;
+            message.resource = error.data.api + '/' + error.data.resource;
+          }
+          addAlertEventHandler(message);
+        }
+      }
     }
   }
 })();
