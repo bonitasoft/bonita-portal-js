@@ -24,7 +24,7 @@
         controller: 'ArchivedCaseDeleteCtrl'
       };
     })
-  .controller('DeleteCaseModalCtrl', ['$scope', '$modalInstance', 'caseItems', DeleteCaseModalCtrl]);
+  .controller('DeleteCaseModalCtrl', ['$scope', '$modalInstance', 'typeOfCase', 'caseItems', DeleteCaseModalCtrl]);
 
 
   /**
@@ -49,7 +49,7 @@
      * If the confirmation is selected, the {@link o.b.f.admin.cases.list.CaseDeleteCtrl#deleteSelectedCases deleteSelectedCases}
      * is called upon selected cases
      */
-    $scope.confirmDeleteSelectedCases = function confirmDeleteSelectedCases() {
+    $scope.confirmDeleteSelectedCases = function confirmDeleteSelectedCases(type) {
       if ($scope.cases) {
         var caseItems = $scope.cases.filter(function filterSelectedOnly(caseItem) {
           return caseItem && caseItem.selected;
@@ -58,6 +58,9 @@
           templateUrl: 'features/admin/cases/list/cases-list-deletion-modal.html',
           controller: 'DeleteCaseModalCtrl',
           resolve: {
+            typeOfCase: function() {
+              return type || '';
+            },
             caseItems: function() {
               return caseItems;
             }
@@ -143,8 +146,9 @@
    * @requires $modalInstance
    * @requires caseItems
    */
-  function DeleteCaseModalCtrl($scope, $modalInstance, caseItems) {
+  function DeleteCaseModalCtrl($scope, $modalInstance, typeOfCase, caseItems) {
     $scope.caseItems = caseItems;
+    $scope.typeOfCase = typeOfCase;
 
     /**
      * @ngdoc method

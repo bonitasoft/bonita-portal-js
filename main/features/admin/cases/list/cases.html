@@ -1,4 +1,4 @@
-<h1 id="case-title" translate>Cases</h1>
+<h1 id="case-title">{{'Cases' | translate }}</h1>
 <div  id="case-list" class="col-md-12">
   <ul class="nav nav-tabs" role="tablist">
     <li role="presentation" ng-repeat="caseState in casesStates" ng-class="{active : state.includes(caseState.state)}"><a ui-sref="{{caseState.state}}({processId : undefined})" id="{{caseState.htmlAttributeId}}">{{caseState.title | translate}}</a></li>
