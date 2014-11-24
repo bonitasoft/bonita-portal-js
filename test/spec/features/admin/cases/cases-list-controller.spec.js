@@ -815,5 +815,27 @@
         });
       });
     });
+    describe('onDropComplete', function () {
+      beforeEach(inject(function($controller){
+        casesCtrl = $controller('ActiveCaseListCtrl', {
+          '$scope': scope,
+          'processId' : undefined,
+          'supervisorId' : undefined
+        });
+      }));
+
+      it('should put an element at the specified position and move the following ones', function () {
+        var col1 = {},col2 = {}, col3 = {}, col4 = {}, columns = [col1, col2, col3, col4];
+        scope.columns = columns;
+        casesCtrl.onDropComplete(1, col4);
+        expect(scope.columns).toEqual([col1, col2, col3, col4]);
+        scope.columns = [col1, col2, col3, col4];
+        casesCtrl.onDropComplete(3, col1);
+        expect(scope.columns).toEqual([col2, col3, col4, col1]);
+        scope.columns = [col1, col2, col3, col4];
+        casesCtrl.onDropComplete(0, col3);
+        expect(scope.columns).toEqual([col3, col1, col2, col4]);
+      });
+    });
   });
 })();

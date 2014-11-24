@@ -57,7 +57,7 @@
      * If the confirmation is selected, the {@link o.b.f.admin.cases.list.CaseDeleteCtrl#deleteSelectedCases deleteSelectedCases}
      * is called upon selected cases
      */
-    vm.confirmDeleteSelectedCases = function confirmDeleteSelectedCases() {
+    vm.confirmDeleteSelectedCases = function confirmDeleteSelectedCases(type) {
       if ($scope.cases) {
         var caseItems = $scope.cases.filter(function filterSelectedOnly(caseItem) {
           return caseItem && caseItem.selected;
