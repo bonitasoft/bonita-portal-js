@@ -178,7 +178,7 @@
         paginationForCurrentSearch.total = 0;
         $scope.currentFirstResultIndex = 0;
         $scope.currentLastResultIndex = 0;
-        handleHttpErrorEvent(error);
+        $scope.$emit('caselist:http-error', error);
       }).finally(function() {
         $scope.loading = false;
         $anchorScroll();
@@ -263,7 +263,7 @@
             message.errorMsg = error.data.message;
             message.resource = error.data.api + '/' + error.data.resource;
           }
-          addAlertEventHandler(message);
+          $scope.$emit('caselist:notify', message);
         }
       }
     }

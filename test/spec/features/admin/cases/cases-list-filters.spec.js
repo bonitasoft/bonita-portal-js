@@ -35,7 +35,7 @@
     describe('controller initialization', function () {
       describe('process filters init', function () {
         beforeEach(inject(function ($controller) {
-          $controller('ActiveCaseFilterController', {
+          caseFiltersCtrl = $controller('ActiveCaseFilterController', {
             '$scope': scope,
             'defaultFilters': {},
             'store': {
@@ -57,8 +57,7 @@
               }
             }
           });
-          spyOn(scope, 'filterVersion');
-          spyOn(scope, 'buildFilters').and.returnValue([]);
+          spyOn(caseFiltersCtrl, 'filterVersion');
         }));
 
         it('should have the default app value (all Apps) selected on init when there is no processes', inject(function ($controller) {
@@ -90,7 +89,7 @@
             {name: 'App3'}
           ]);
           store.load = storeLoadFunction(globalProcesses);
-          $controller('ActiveCaseFilterController', {
+          caseFiltersCtrl = $controller('ActiveCaseFilterController', {
             '$scope': scope,
             'defaultFilters': defaultFilters,
             'store' : store
@@ -116,7 +115,7 @@
               {name: 'App3'}
             ]);
           store.load = storeLoadFunction(globalProcesses);
-          $controller('ActiveCaseFilterController', {
+          caseFiltersCtrl = $controller('ActiveCaseFilterController', {
             '$scope': scope,
             'defaultFilters': defaultFilters,
             'store' : store
@@ -195,10 +194,10 @@
         it('should set process name, process version and available process version when processId is set', function () {
           scope.selectedFilters.processId = 123;
           var processes = [{id:123, name:'Process1', version:'1.0'}, {id:12, name:'Process1', version:'1.1'}, {id:3, name:'Process2', version:'1.0'}];
-          scope.initFilters(processes);
+          caseFiltersCtrl.initFilters(processes);
           expect(scope.selectedFilters.selectedApp).toBe(processes[0].name);
           expect(scope.selectedFilters.selectedVersion).toBe(processes[0].version);
-          expect(scope.filterVersion).toHaveBeenCalledWith(processes[0].name);
+          expect(caseFiltersCtrl.filterVersion).toHaveBeenCalledWith(processes[0].name);
           expect(scope.appNames).toEqual([processes[0].name, processes[2].name]);
         });
 
