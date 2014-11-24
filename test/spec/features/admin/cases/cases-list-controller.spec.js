@@ -122,7 +122,7 @@
           }));
 
           it('should fill ths filters with supervisor_id', inject(function () {
-            expect(scope.filters).toEqual(['supervisor_id=1']);
+            expect(scope.searchOptions.filters).toEqual(['supervisor_id=1']);
           }));
         });
         describe(' is not set', function(){
@@ -140,13 +140,116 @@
           }));
 
           it('should not fill ths filters with supervisor_id', inject(function () {
-            expect(scope.filters).toEqual([]);
+            expect(scope.searchOptions.filters).toEqual([]);
           }));
         });
+
+        describe('$on event handler', function(){
+          beforeEach(inject(function ($controller) {
+            spyOn(scope, '$on');
+            casesCtrl = $controller('ActiveCaseListCtrl', {
+              '$scope': scope,
+              'caseAPI': caseAPI,
+              'defaultPageSize': defaultPageSize,
+              'defaultSort': defaultSort,
+              'defaultDeployedFields': defaultDeployedFields,
+              'defaultActiveCounterFields': defaultActiveCounterFields,
+              'processId' : undefined,
+              'supervisorId' : 1
+            });
+          }));
+          it('should be set', function(){
+            expect(scope.$on.calls.allArgs()).toEqual([
+              ['caselist:http-error', casesCtrl.handleHttpErrorEvent],
+              ['caselist:notify', casesCtrl.addAlertEventHandler],
+              ['caselist:search', casesCtrl.searchForCases]
+            ]);
+          });
+        });
+
       });
     });
 
-    describe('sort behaviour', function () {
+    describe('handleHttpErrorEvent', function(){
+      var mockedLocation = jasmine.createSpyObj('$location', ['url']);
+      beforeEach(inject(function($controller){
+        casesCtrl = $controller('ActiveCaseListCtrl', {
+          '$scope': scope,
+          'caseAPI': caseAPI,
+          '$location' : mockedLocation,
+          'processId' : undefined,
+          'supervisorId' : 1
+        });
+        spyOn(scope, '$emit');
+      }));
+      it('should redirect to / when error contains a 401 status', function(){
+        casesCtrl.handleHttpErrorEvent(undefined, {status : 401});
+        expect(mockedLocation.url).toHaveBeenCalled();
+      });
+      it('should send a notification event with an error message', function(){
+        var error = {status : 500, statusText : 'TestError'};
+        casesCtrl.handleHttpErrorEvent(undefined, error);
+        expect(scope.$emit).toHaveBeenCalledWith('caselist:notify', {status: error.status, statusText: error.statusText, type: 'danger'});
+      });
+      it('should send a notification event with an error message that hold detail information', function(){
+        var error = {status : 500, statusText : 'TestError', data : {message : 'unvalid data', api : 'API/bpm', resource : 'flownode'}};
+        casesCtrl.handleHttpErrorEvent(undefined, error);
+        expect(scope.$emit).toHaveBeenCalledWith('caselist:notify', {status: error.status, statusText: error.statusText, type: 'danger', errorMsg : error.data.message, resource : 'API/bpm/flownode'});
+      });
+    });
+
+    describe('updateSortField', function(){
+      beforeEach(inject(function ($controller) {
+        casesCtrl = $controller('ActiveCaseListCtrl', {
+          '$scope': scope,
+          'caseAPI': caseAPI,
+          'processId' : undefined,
+          'supervisorId' : undefined
+        });
+      }));
+      it('should change searchSort value', function(){
+        scope.pagination.currentPage = 8;
+        expect(scope.searchOptions.searchSort).toEqual('id ASC');
+        casesCtrl.updateSortField({property: 'name', ascendant: false});
+        expect(scope.pagination.currentPage).toBe(1);
+        expect(scope.searchOptions.searchSort).toEqual('name DESC');
+
+        casesCtrl.updateSortField({property:'name', ascendant: true});
+        expect(scope.pagination.currentPage).toBe(1);
+        expect(scope.searchOptions.searchSort).toEqual('name ASC');
+
+        casesCtrl.updateSortField({property: 'version', ascendant: false});
+        expect(scope.searchOptions.searchSort).toEqual('version DESC');
+        expect(scope.pagination.currentPage).toBe(1);
+      });
+      it('should do nothing if nothing is pass', function(){
+        scope.pagination.currentPage = 8;
+        expect(scope.searchOptions.searchSort).toEqual('id ASC');
+        casesCtrl.updateSortField();
+        expect(scope.pagination.currentPage).toBe(8);
+        expect(scope.searchOptions.searchSort).toEqual('id ASC');
+      });
+      it('should set sort to default if strange things are passed', function(){
+        scope.pagination.currentPage = 8;
+        scope.searchOptions.searchSort = 'name ASC';
+        casesCtrl.updateSortField({});
+        expect(scope.pagination.currentPage).toBe(1);
+        expect(scope.searchOptions.searchSort).toEqual('id ASC');
+        scope.searchOptions.searchSort = 'name DESC';
+        scope.pagination.currentPage = 8;
+        casesCtrl.updateSortField({test : 'pouet', ascendant: false});
+
+        expect(scope.pagination.currentPage).toBe(1);
+        expect(scope.searchOptions.searchSort).toEqual('id DESC');
+        scope.searchOptions.searchSort = 'id DESC';
+        scope.pagination.currentPage = 8;
+        casesCtrl.updateSortField({property : 'name', fsdfr: false});
+        expect(scope.pagination.currentPage).toBe(1);
+        expect(scope.searchOptions.searchSort).toEqual('name ASC');
+      });
+    });
+
+    describe('top url behaviour', function () {
       describe('go to case details', function () {
         var mockedWindow,
           manageTopUrl = jasmine.createSpyObj('manageTopUrl', ['getUrlToTokenAndId', 'addOrReplaceParam']);
@@ -158,7 +261,7 @@
             };
         });
 
-        describe('go to case function', function(){
+        describe('without supervisorId', function(){
           beforeEach(inject(function($controller){
             casesCtrl = $controller('ActiveCaseListCtrl', {
               '$scope': scope,
@@ -185,7 +288,7 @@
             expect(manageTopUrl.getUrlToTokenAndId.calls.allArgs()).toEqual([[123, 'casemoredetailsadmin'], ['4568', 'casemoredetailsadmin'], ['4568', 'casemoredetailsadmin']]);
           });
         });
-        describe('go to case function', function(){
+        describe('with supervisorId', function(){
           beforeEach(function(){
             manageTopUrl.getUrlToTokenAndId.calls.reset();
           });
@@ -265,7 +368,20 @@
             'processId' : undefined,
             'supervisorId' : undefined
           });
+          spyOn(scope,'$emit');
         }));
+        it('should send a notification error when the search fails', function(){
+          scope.pagination.total = 300;
+          scope.currentFirstResultIndex = 10;
+          scope.currentLastResultIndex = 1321;
+          var error = {status : 401};
+          deferred.reject(error);
+          scope.$apply();
+          expect(scope.pagination.total).toBe(0);
+          expect(scope.currentFirstResultIndex).toBe(0);
+          expect(scope.currentLastResultIndex).toBe(0);
+          expect(scope.$emit.calls.allArgs()).toEqual([['caselist:http-error', error]]);
+        });
         it('should call next Page without sort', function () {
           deferred.resolve(fullCases);
           scope.$apply();
@@ -282,10 +398,10 @@
           expect(anchorScroll).toHaveBeenCalled();
           expect(caseAPI.search.calls.allArgs()).toEqual([
             [
-              {p: 0, c: defaultPageSize, o: defaultSort + ' ASC', d: defaultDeployedFields, f: [], n: defaultActiveCounterFields, s : undefined}
+              {p: 0, c: defaultPageSize, d: defaultDeployedFields, o: defaultSort + ' ASC', f: [], n: defaultActiveCounterFields, s : undefined}
             ],
             [
-              {p: 1, c: defaultPageSize, o: defaultSort + ' ASC', d: defaultDeployedFields, f: [], n: defaultActiveCounterFields, s : undefined}
+              {p: 1, c: defaultPageSize, d: defaultDeployedFields, o: defaultSort + ' ASC', f: [], n: defaultActiveCounterFields, s : undefined}
             ],
           ]);
         });
@@ -336,7 +452,8 @@
         it('should call next Page on current sort', function () {
           deferred.resolve(fullCases);
           scope.$apply();
-          casesCtrl.searchForCases({property: 'name', ascendant: false});
+          scope.searchOptions.searchSort = 'name DESC';
+          scope.$apply();
           expect(scope.currentFirstResultIndex).toBe(1);
           expect(scope.currentLastResultIndex).toBe(2);
           expect(anchorScroll).toHaveBeenCalled();
@@ -352,7 +469,8 @@
           expect(scope.currentFirstResultIndex).toBe(1);
           expect(scope.currentLastResultIndex).toBe(2);
           expect(anchorScroll).toHaveBeenCalled();
-          casesCtrl.searchForCases({property: 'version', ascendant: true});
+          scope.searchOptions.searchSort = 'version ASC';
+          scope.$apply();
           expect(scope.currentFirstResultIndex).toBe(1);
           expect(scope.currentLastResultIndex).toBe(2);
           expect(anchorScroll).toHaveBeenCalled();
@@ -418,13 +536,13 @@
           it('should call search on application name sort desc', function () {
             deferred.resolve(fullCases);
             scope.$apply();
-            casesCtrl.searchForCases({property: 'name', ascendant: false});
+            scope.searchOptions.searchSort = 'name DESC';
             scope.$apply();
             expect(anchorScroll).toHaveBeenCalled();
-            casesCtrl.searchForCases({property:'name', ascendant: true});
+            scope.searchOptions.searchSort = 'name ASC';
             scope.$apply();
             expect(anchorScroll).toHaveBeenCalled();
-            casesCtrl.searchForCases({property: 'version', ascendant: false});
+            scope.searchOptions.searchSort = 'version DESC';
             scope.$apply();
             expect(anchorScroll).toHaveBeenCalled();
             expect(caseAPI.search.calls.allArgs()).toEqual([
@@ -613,17 +731,14 @@
           'processId' : undefined,
           'supervisorId' : undefined
         });
-        scope.searchSort = {};
+        scope.searchOptions.searchSort = {};
         scope.pagination.currentPage = 10;
         spyOn(casesCtrl, 'searchForCases');
         casesCtrl.reinitCases();
-        expect(scope.searchSort).toBeUndefined();
+        expect(scope.searchOptions.searchSort).toBeUndefined();
         expect(scope.pagination.currentPage).toBe(1);
         expect(casesCtrl.searchForCases).toHaveBeenCalledWith();
       }));
-    });
-    describe('event received', function(){
-
     });
     describe('filter updates', function () {
       beforeEach(inject(function ($controller, $q) {
@@ -655,7 +770,7 @@
       }));
       describe('watch on filters', function () {
         it('should call search when filters update', function () {
-          scope.filters = [
+          scope.searchOptions.filters = [
             {}
           ];
           scope.pagination.currentPage = 2;
@@ -664,7 +779,7 @@
           expect(scope.pagination.currentPage).toBe(1);
         });
         it('should not call search when processId is set', function () {
-          scope.filters = [
+          scope.searchOptions.filters = [
             {}
           ];
           scope.pagination.currentPage = 1;
@@ -679,7 +794,7 @@
           var processId = '2121354687951';
           scope.selectedFilters.selectedProcessDefinition = processId;
           casesCtrl.buildFilters();
-          expect(scope.filters).toEqual(['processDefinitionId=' + processId]);
+          expect(scope.searchOptions.filters).toEqual(['processDefinitionId=' + processId]);
           expect(scope.pagination.currentPage).toBe(1);
         });
         it('should have process definition Id only even id app name is set', function () {
@@ -687,7 +802,7 @@
           scope.selectedFilters.selectedProcessDefinition = processId;
           scope.selectedFilters.selectedApp = 'Process1';
           casesCtrl.buildFilters();
-          expect(scope.filters).toEqual(['processDefinitionId=' + processId]);
+          expect(scope.searchOptions.filters).toEqual(['processDefinitionId=' + processId]);
           expect(scope.pagination.currentPage).toBe(1);
         });
         it('should have app name', function () {
@@ -695,7 +810,7 @@
           var processName = 'Process1';
           scope.selectedFilters.selectedApp = processName;
           casesCtrl.buildFilters();
-          expect(scope.filters).toEqual(['name=' + processName]);
+          expect(scope.searchOptions.filters).toEqual(['name=' + processName]);
           expect(scope.pagination.currentPage).toBe(1);
         });
       });

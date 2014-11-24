@@ -87,7 +87,6 @@
      * the array of cases to display
      */
     $scope.cases = undefined;
-    $scope.filters = [];
     $scope.moreDetailToken = moreDetailToken;
     $scope.loading = true;
 
@@ -97,28 +96,33 @@
       $scope.moreDetailToken = moreDetailToken.replace('admin', 'pm');
     }
     $scope.processManager = +!!supervisorId;
-    $scope.filters = angular.copy(defaultFiltersArray);
     $scope.supervisorId = supervisorId;
 
     $scope.archivedTabName = !!tabName;
+    $scope.searchOptions = {filters:[], searchSort : defaultSort + ' ' +  'ASC'};
+    $scope.searchOptions.filters = angular.copy(defaultFiltersArray);
+    //never used it but initialized in this scope in order to keep track of sortOptions on table reload
+    $scope.sortOptions = {
+      property: defaultSort
+    };
 
     manageTopUrl.addOrReplaceParam('_tab', tabName);
 
     manageTopUrl.addOrReplaceParam('_processId', processId || '');
 
     vm.reinitCases = function() {
-      delete $scope.searchSort;
+      delete $scope.searchOptions.searchSort;
       $scope.pagination.currentPage = 1;
       vm.searchForCases();
     };
 
     $scope.$on('caselist:http-error', handleHttpErrorEvent);
     $scope.$on('caselist:notify', addAlertEventHandler);
-    $scope.$on('caselist:search', function(){vm.searchForCases();});
+    $scope.$on('caselist:search', searchForCases);
 
     $scope.$watch('selectedFilters', buildFilters, true);
 
-    $scope.$watch('filters', function() {
+    $scope.$watch('searchOptions', function() {
       $scope.pagination.currentPage = 1;
       //if processId is still set it means filters have not been process and need to
       //wait for them to update
@@ -128,61 +132,12 @@
     }, true);
 
 
-    //never used it but initialized in this scope in order to keep track of sortOptions on table reload
-    $scope.sortOptions = {
-      property: 'defaultSort'
-    };
-
-    vm.searchForCases = function casesSearch(sortOptions) {
-      if (!$scope.searchSort || sortOptions) {
-        $scope.searchSort = ((sortOptions && sortOptions.property) ?
-          sortOptions.property : defaultSort) + ' ' + ((sortOptions && !sortOptions.ascendant) ? 'DESC' : 'ASC');
+    vm.updateSortField = function updateSortField(sortOptions){
+      if (!$scope.searchOptions.searchSort || sortOptions) {
+        $scope.searchOptions.searchSort = ((sortOptions && sortOptions.property) ?
+          sortOptions.property : defaultSort) + ' ' + ((sortOptions && sortOptions.ascendant===false) ? 'DESC' : 'ASC');
         $scope.pagination.currentPage = 1;
       }
-      $scope.loading = true;
-      //these tmp variables are here to store currentSearch results
-      //and not store them directly in scope in case another search is called before
-      //the first one finishes. See cases-list-controller.spec.js#'page changes'
-      var casesForCurrentSearch = $scope.cases = [];
-      var paginationForCurrentSearch = $scope.pagination = angular.copy($scope.pagination);
-      caseAPI.search({
-        p: paginationForCurrentSearch.currentPage - 1,
-        c: paginationForCurrentSearch.itemsPerPage,
-        d: defaultDeployedFields,
-        o: $scope.searchSort,
-        f: $scope.filters,
-        n: defaultCounterFields,
-        s: $scope.selectedFilters.currentSearch
-      }).$promise.then(function mapCases(fullCases) {
-        paginationForCurrentSearch.total = fullCases && fullCases.resource && fullCases.resource.pagination && fullCases.resource.pagination.total;
-        $scope.currentFirstResultIndex = ((paginationForCurrentSearch.currentPage - 1) * paginationForCurrentSearch.itemsPerPage) + 1;
-        $scope.currentLastResultIndex = Math.min($scope.currentFirstResultIndex + paginationForCurrentSearch.itemsPerPage - 1, paginationForCurrentSearch.total);
-        if(fullCases && fullCases.resource){
-          fullCases.resource.map(function selectOnlyInterestingFields(fullCase) {
-            var simpleCase = {};
-            for (var i = 0; i < $scope.columns.length; i++) {
-              var currentCase = fullCase;
-              for (var j = 0; j < $scope.columns[i].path.length; j++) {
-                currentCase = currentCase && currentCase[$scope.columns[i].path[j]];
-              }
-              simpleCase[$scope.columns[i].name] = currentCase;
-            }
-            simpleCase.id = fullCase.id;
-            simpleCase.processDefinitionId = fullCase.processDefinitionId;
-            return simpleCase;
-          }).forEach(function(caseItem){
-            casesForCurrentSearch.push(caseItem);
-          });
-        }
-      }, function(error) {
-        paginationForCurrentSearch.total = 0;
-        $scope.currentFirstResultIndex = 0;
-        $scope.currentLastResultIndex = 0;
-        $scope.$emit('caselist:http-error', error);
-      }).finally(function() {
-        $scope.loading = false;
-        $anchorScroll();
-      });
     };
 
     vm.onDropComplete = function($index, $data, $event){
@@ -245,7 +200,7 @@
       if ($scope.selectedFilters.selectedStatus && $scope.selectedFilters.selectedStatus !== defaultFilters.caseStatus) {
         filters.push('state=' + $scope.selectedFilters.selectedStatus);
       }
-      $scope.filters = filters;
+      $scope.searchOptions.filters = filters;
     }
 
     vm.handleHttpErrorEvent = handleHttpErrorEvent;
@@ -266,6 +221,53 @@
           $scope.$emit('caselist:notify', message);
         }
       }
+    }
+    vm.searchForCases = searchForCases;
+    function searchForCases() {
+      $scope.loading = true;
+      //these tmp variables are here to store currentSearch results
+      //and not store them directly in scope in case another search is called before
+      //the first one finishes. See cases-list-controller.spec.js#'page changes'
+      var casesForCurrentSearch = $scope.cases = [];
+      var paginationForCurrentSearch = $scope.pagination = angular.copy($scope.pagination);
+      caseAPI.search({
+        p: paginationForCurrentSearch.currentPage - 1,
+        c: paginationForCurrentSearch.itemsPerPage,
+        d: defaultDeployedFields,
+        o: $scope.searchOptions.searchSort,
+        f: $scope.searchOptions.filters,
+        n: defaultCounterFields,
+        s: $scope.selectedFilters.currentSearch
+      }).$promise.then(function mapCases(fullCases) {
+        paginationForCurrentSearch.total = fullCases && fullCases.resource && fullCases.resource.pagination && fullCases.resource.pagination.total;
+        $scope.currentFirstResultIndex = ((paginationForCurrentSearch.currentPage - 1) * paginationForCurrentSearch.itemsPerPage) + 1;
+        $scope.currentLastResultIndex = Math.min($scope.currentFirstResultIndex + paginationForCurrentSearch.itemsPerPage - 1, paginationForCurrentSearch.total);
+        if(fullCases && fullCases.resource){
+          fullCases.resource.map(function selectOnlyInterestingFields(fullCase) {
+            var simpleCase = {};
+            for (var i = 0; i < $scope.columns.length; i++) {
+              var currentCase = fullCase;
+              for (var j = 0; j < $scope.columns[i].path.length; j++) {
+                currentCase = currentCase && currentCase[$scope.columns[i].path[j]];
+              }
+              simpleCase[$scope.columns[i].name] = currentCase;
+            }
+            simpleCase.id = fullCase.id;
+            simpleCase.processDefinitionId = fullCase.processDefinitionId;
+            return simpleCase;
+          }).forEach(function(caseItem){
+            casesForCurrentSearch.push(caseItem);
+          });
+        }
+      }, function(error) {
+        paginationForCurrentSearch.total = 0;
+        $scope.currentFirstResultIndex = 0;
+        $scope.currentLastResultIndex = 0;
+        $scope.$emit('caselist:http-error', error);
+      }).finally(function() {
+        $scope.loading = false;
+        $anchorScroll();
+      });
     }
   }
 })();
