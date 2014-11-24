@@ -108,7 +108,7 @@
         //check the title
         expect(getModal().element(by.css('.modal-content h3.modal-title')).getText()).toEqual('Confirm delete?');
         // check the modal content
-        expect(getModal().element(by.css('.modal-content .modal-body')).getText()).toEqual('These cases will be definitively deleted.');
+        expect(getModal().element(by.css('.modal-content .modal-body')).getText()).toEqual('These deleted cases will be permanently deleted from the archives.');
       });
 
       it('should delete 2 cases when 2 cases are selected and the confirmation modal is approved', function () {
@@ -139,7 +139,7 @@
         //click on delete button
         getDeleteButton().click();
         // check the modal content
-        expect(getModal().element(by.css('.modal-content .modal-body')).getText()).toEqual('This case will be definitively deleted.');
+        expect(getModal().element(by.css('.modal-content .modal-body')).getText()).toEqual('The deleted cases will be permanently deleted from the archives.');
         // Cancel
         getModal().element(by.css('#CancelCaseDeletionBtn')).click();
         // click on the column check box to unselect all
@@ -158,7 +158,7 @@
         //click on delete button
         getDeleteButton().click();
         // check the modal content
-        expect(getModal().element(by.css('.modal-content .modal-body')).getText()).toEqual('These cases will be definitively deleted.');
+        expect(getModal().element(by.css('.modal-content .modal-body')).getText()).toEqual('These deleted cases will be permanently deleted from the archives.');
       });
       it('should select all items', function(){
         var selectAllCB = selectAllCheckbox.click();
