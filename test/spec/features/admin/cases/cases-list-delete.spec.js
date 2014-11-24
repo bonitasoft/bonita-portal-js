@@ -253,16 +253,20 @@
         caseDeleteCtrl = $controller('DeleteCaseModalCtrl', {
           '$scope' : scope,
           '$modalInstance' : modalInstance,
-          'caseItems' : []
+          'caseItems' : [],
+          'typeOfCase': ''
         });
       }));
+
       it('should set a caseItems list', function(){
         expect(scope.caseItems).toBeDefined();
       });
+
       it('should close modal when ok is clicked', function(){
         caseDeleteCtrl.ok();
         expect(modalInstance.close).toHaveBeenCalled();
       });
+
       it('should dismiss modal when cancel is clicked', function(){
         caseDeleteCtrl.cancel();
         expect(modalInstance.dismiss).toHaveBeenCalled();

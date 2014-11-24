@@ -30,7 +30,7 @@
         controllerAs : 'deleteCtrl'
       };
     })
-  .controller('DeleteCaseModalCtrl', ['$scope', '$modalInstance', 'caseItems', DeleteCaseModalCtrl]);
+  .controller('DeleteCaseModalCtrl', ['$scope', '$modalInstance', 'typeOfCase', 'caseItems', DeleteCaseModalCtrl]);
 
 
   /**
@@ -67,6 +67,9 @@
           controller: 'DeleteCaseModalCtrl',
           controllerAs: 'deleteCaseModalCtrl',
           resolve: {
+            typeOfCase: function() {
+              return type || '';
+            },
             caseItems: function() {
               return caseItems;
             }
@@ -142,8 +145,9 @@
    * @requires $modalInstance
    * @requires caseItems
    */
-  function DeleteCaseModalCtrl($scope, $modalInstance, caseItems) {
+  function DeleteCaseModalCtrl($scope, $modalInstance, typeOfCase, caseItems) {
     $scope.caseItems = caseItems;
+    $scope.typeOfCase = typeOfCase;
 
     /**
      * @ngdoc method

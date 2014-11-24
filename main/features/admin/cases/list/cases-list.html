@@ -7,7 +7,7 @@
   </div>
   <div class="panel panel-default">
 
-    <div class="panel-heading"> <translate>Cases list</translate> <span ng-click="reinitCases()" class="case-list-refresh glyphicon glyphicon-repeat"></span></div>
+    <div class="panel-heading">{{ 'Cases list' | translate }} <span ng-click="reinitCases()" class="case-list-refresh glyphicon glyphicon-repeat"></span></div>
     <div class="panel-body">
       <div growl></div>
       <div ng-if="cases.length">
@@ -23,7 +23,7 @@
             </ul>
           </div>
           <div class="btn-group text-left" dropdown id='columns-selection'>
-            <button type="button" class="btn btn-default dropdown-toggle"><translate>Columns</translate> <span class="caret"></span></button>
+            <button type="button" class="btn btn-default dropdown-toggle">{{ 'Columns' | translate}} <span class="caret"></span></button>
             <ul class="dropdown-menu" role="menu">
               <li ng-drop="true" ng-drop-success="caseCtrl.onDropComplete($index, $data,$event)" ng-repeat="col in columns" ng-click="$event.stopPropagation();" class="column-visibility"><div ng-drag="true" ng-drag-data="col"><span class="column-visibility-checkbox"><input type="checkbox" ng-model="col.selected"></span><span class="column-visibility-name"> {{::col.name | translate}}</span></li></div>
             </ul>
@@ -63,11 +63,11 @@
           </div>
         </div>
       </div>
-      <div ng-show="loading">
-        <p class="text-muted"><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> <translate>Loading</translate></p>
+      <div ng-if="loading">
+        <p class="text-muted"><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> {{ 'Loading' | translate}}</p>
       </div>
-      <div ng-show="!loading &amp;&amp; cases &amp;&amp; cases.length===0">
-        <p class="text-muted animated fadeIn" translate>No cases to display</p>
+      <div ng-if="!loading &amp;&amp; cases &amp;&amp; cases.length===0">
+        <p class="text-muted animated fadeIn">{{ 'No cases to display' | translate }}</p>
       </div>
     </div>
   </div>
