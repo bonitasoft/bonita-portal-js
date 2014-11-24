@@ -57,7 +57,7 @@
           expect(column.getWebElement().isDisplayed()).toBeFalsy();
         });
         expect(appNamesFilter.all(by.css('button')).getText()).toEqual(['Poule']);
-        element.all(by.xpath('//tbody//td[2]')).each(function(appNameColumn){
+        element.all(by.xpath('//tbody//td[3]')).each(function(appNameColumn){
           expect(appNameColumn.getText()).toBe('Poule');
         });
         expect(element.all(by.css('#cases-results-size')).count()).toBe(0);
@@ -68,10 +68,10 @@
         appFilterButton.click();
         appNamesFilter.all(by.css('ul li')).get(4).click();
         expect(appNamesFilter.all(by.css('button')).getText()).toEqual(['ProcessX']);
-        element.all(by.xpath('//tbody//td[2]')).each(function(appNameColumn){
+        element.all(by.xpath('//tbody//td[3]')).each(function(appNameColumn){
           expect(appNameColumn.getText()).toBe('ProcessX');
         });
-        element.all(by.xpath('//tbody//td[3]')).each(function(appNameColumn){
+        element.all(by.xpath('//tbody//td[4]')).each(function(appNameColumn){
           expect(appNameColumn.getText()).toBe('2.0');
         });
         var versionFilterButton = caseFilters.all(by.css('#case-app-version-filter button'));
