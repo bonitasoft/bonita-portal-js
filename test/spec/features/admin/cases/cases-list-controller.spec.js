@@ -612,26 +612,6 @@
       });
     });
 
-    describe('change column visiblity', function () {
-      beforeEach(inject(function ($controller) {
-        casesCtrl = $controller('ActiveCaseListCtrl', {
-          '$scope': scope,
-          'processId' : undefined,
-          'supervisorId' : undefined
-        });
-      }));
-      it('should set selected to false when it was true', function () {
-        var column = {selected: true};
-        casesCtrl.selectColumn(column);
-        expect(column.selected).toBeFalsy();
-      });
-      it('should set selected to true when it was false', function () {
-        var column = {selected: false};
-        casesCtrl.selectColumn(column);
-        expect(column.selected).toBeTruthy();
-      });
-    });
-
     describe('filter column ', function () {
       beforeEach(inject(function ($controller) {
         casesCtrl = $controller('ActiveCaseListCtrl', {
@@ -825,12 +805,12 @@
       }));
 
       it('should put an element at the specified position and move the following ones', function () {
-        var col1 = {},col2 = {}, col3 = {}, col4 = {}, columns = [col1, col2, col3, col4];
+        var col1 = {id:1},col2 = {id:2}, col3 = {id:3}, col4 = {id:4}, columns = [col1, col2, col3, col4];
         scope.columns = columns;
         casesCtrl.onDropComplete(1, col4);
-        expect(scope.columns).toEqual([col1, col2, col3, col4]);
+        expect(scope.columns).toEqual([col1, col4, col2, col3]);
         scope.columns = [col1, col2, col3, col4];
-        casesCtrl.onDropComplete(3, col1);
+        casesCtrl.onDropComplete(4, col1);
         expect(scope.columns).toEqual([col2, col3, col4, col1]);
         scope.columns = [col1, col2, col3, col4];
         casesCtrl.onDropComplete(0, col3);

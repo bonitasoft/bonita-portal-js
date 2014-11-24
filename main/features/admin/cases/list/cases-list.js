@@ -103,7 +103,8 @@
     $scope.searchOptions.filters = angular.copy(defaultFiltersArray);
     //never used it but initialized in this scope in order to keep track of sortOptions on table reload
     $scope.sortOptions = {
-      property: defaultSort
+      property: defaultSort,
+      ascendant : true
     };
 
     manageTopUrl.addOrReplaceParam('_tab', tabName);
@@ -140,20 +141,29 @@
       }
     };
 
-    vm.onDropComplete = function($index, $data, $event){
-      console.log($index, $data, $event);
-
+    vm.onDropComplete = function($index, $data){
+      if($scope.columns && $scope.columns && $data){
+        var formerIndex = $scope.columns.indexOf($data);
+        if(formerIndex !== $index-1 && formerIndex>-1){
+          var i;
+          if(formerIndex>$index){
+            for (i = formerIndex -1;  i >= $index; i--) {
+              $scope.columns[i+1] = $scope.columns[i];
+            }
+            $scope.columns[$index] = $data;
+          }else{
+            for (i = formerIndex + 1;  i < $index; i++) {
+              $scope.columns[i-1] = $scope.columns[i];
+            }
+            $scope.columns[$index-1] = $data;
+          }
+        }
+      }
     };
 
     vm.getCaseDetailUrl = function(caseItemId) {
       if (caseItemId) {
         return manageTopUrl.getUrlToTokenAndId(caseItemId, $scope.moreDetailToken);
-      }
-    };
-
-    vm.selectColumn = function(column) {
-      if (column) {
-        column.selected = !column.selected;
       }
     };
 
