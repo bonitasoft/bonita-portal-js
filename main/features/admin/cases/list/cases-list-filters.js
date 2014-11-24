@@ -14,7 +14,8 @@
       restrict: 'E',
       require: '^ActiveCaseListCtrl',
       templateUrl: 'features/admin/cases/list/cases-list-filters.html',
-      controller: 'ActiveCaseFilterController'
+      controller: 'ActiveCaseFilterController',
+      controllerAs : 'filterCtrl'
     };
   })
   .controller('ArchivedCaseFilterController', ['$scope', 'store', 'processAPI', 'defaultFilters', 'caseStatesValues', CaseFilterController])
@@ -23,7 +24,8 @@
       restrict: 'E',
       require: '^ArchivedCaseListCtrl',
       templateUrl: 'features/admin/cases/list/archived-cases-list-filters.html',
-      controller: 'ArchivedCaseFilterController'
+      controller: 'ArchivedCaseFilterController',
+      controllerAs : 'filterCtrl'
     };
   });
   /**
@@ -51,18 +53,19 @@
     $scope.appNames = [];
     $scope.allCasesSelected = false;
     $scope.selectedFilters.currentSearch = '';
+    var vm = this;
 
     var processFilter = [];
     if ($scope.supervisorId) {
       processFilter.push('supervisor_id=' + $scope.supervisorId);
     }
 
-    $scope.initFilters = function(processes) {
+    vm.initFilters = function(processes) {
       $scope.apps = processes;
       var appNamesArray = processes.map(function(process) {
         if ($scope.selectedFilters.processId && $scope.selectedFilters.processId === process.id) {
           $scope.selectedFilters.selectedApp = process.name;
-          $scope.filterVersion($scope.selectedFilters.selectedApp);
+          vm.filterVersion($scope.selectedFilters.selectedApp);
           $scope.selectedFilters.selectedVersion = process.version;
         }
         return process.name;
@@ -76,9 +79,9 @@
 
     store.load(processAPI, {
       f: processFilter
-    }).then($scope.initFilters);
+    }).then(vm.initFilters);
 
-    $scope.selectApp = function(selectedAppName) {
+    vm.selectApp = function(selectedAppName) {
       if (selectedAppName) {
         if (selectedAppName !== $scope.selectedFilters.selectedApp) {
           $scope.selectedFilters.selectedApp = selectedAppName;
@@ -89,7 +92,7 @@
       }
     };
 
-    $scope.selectVersion = function(selectedAppVersion) {
+    vm.selectVersion = function(selectedAppVersion) {
       if (selectedAppVersion && selectedAppVersion !== defaultFilters.appVersion) {
         $scope.selectedFilters.selectedVersion = selectedAppVersion;
       } else {
@@ -97,7 +100,7 @@
       }
     };
 
-    $scope.selectCaseStatus = function(selectCaseStatus) {
+    vm.selectCaseStatus = function(selectCaseStatus) {
       if (selectCaseStatus && selectCaseStatus !== defaultFilters.caseStatus) {
         $scope.selectedFilters.selectedStatus = selectCaseStatus;
       } else {
@@ -105,7 +108,7 @@
       }
     };
 
-    $scope.filterVersion = function(appName) {
+    vm.filterVersion = function(appName) {
       $scope.versions = [];
       $scope.selectedFilters.selectedVersion = defaultFilters.appVersion;
       if ($scope.apps && $scope.apps.filter) {
@@ -120,7 +123,7 @@
       }
     };
 
-    $scope.filterProcessDefinition = function(selectedAppVersion) {
+    vm.filterProcessDefinition = function(selectedAppVersion) {
       if (selectedAppVersion && $scope.selectedFilters.selectedApp && $scope.apps) {
         var matchingProcessDefs = $scope.apps.filter(function(app) {
           return app && app.name === $scope.selectedFilters.selectedApp && selectedAppVersion === app.version;
@@ -135,7 +138,7 @@
       }
     };
 
-    $scope.submitSearch = function(){
+    vm.submitSearch = function(){
       $scope.pagination.currentPage = 1;
       $scope.searchForCases();
     };
@@ -143,19 +146,14 @@
     //it will not be mockable
     $scope.$watch('selectedFilters.selectedApp', function() {
       if (!$scope.selectedFilters.processId) {
-        $scope.filterVersion($scope.selectedFilters.selectedApp);
+        vm.filterVersion($scope.selectedFilters.selectedApp);
         delete $scope.selectedFilters.selectedProcessDefinition;
-        $scope.buildFilters();
       } else if ($scope.selectedFilters.selectedApp !== defaultFilters.appName) {
         delete $scope.selectedFilters.processId;
       }
     });
     $scope.$watch('selectedFilters.selectedVersion', function() {
-      $scope.filterProcessDefinition($scope.selectedFilters.selectedVersion);
-      $scope.buildFilters();
-    });
-    $scope.$watch('selectedFilters.selectedStatus', function() {
-      $scope.buildFilters();
+      vm.filterProcessDefinition($scope.selectedFilters.selectedVersion);
     });
   }
 })();

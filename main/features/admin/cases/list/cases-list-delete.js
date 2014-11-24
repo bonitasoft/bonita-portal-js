@@ -6,22 +6,28 @@
     'gettext',
     'ui.bootstrap',
   ])
-  .controller('ActiveCaseDeleteCtrl', ['$scope', '$modal', 'caseAPI', 'gettextCatalog', CaseDeleteCtrl])
+  .controller('ActiveCaseDeleteCtrl', ['$scope', '$modal', 'caseAPI', 'gettextCatalog', '$q',  CaseDeleteCtrl])
   .directive('activeCaseDelete',
-  function () {
-    return {
-      restrict: 'A',
-      require: '^ActiveCaseListCtrl',
-      controller: 'ActiveCaseDeleteCtrl'
-    };
-  })
-  .controller('ArchivedCaseDeleteCtrl', ['$scope', '$modal', 'archivedCaseAPI', 'gettextCatalog', CaseDeleteCtrl])
+    function () {
+      return {
+        restrict: 'E',
+        require: '^ActiveCaseListCtrl',
+        transclude : true,
+        controller: 'ActiveCaseDeleteCtrl',
+        template : '<button id="delete-button" type="button" class="btn btn-default" ng-click="deleteCtrl.confirmDeleteSelectedCases()" ng-disabled="deleteCtrl.checkCaseIsNotSelected()"><div ng-transclude></div></button>',
+        controllerAs : 'deleteCtrl'
+      };
+    })
+  .controller('ArchivedCaseDeleteCtrl', ['$scope', '$modal', 'archivedCaseAPI', 'gettextCatalog', '$q', CaseDeleteCtrl])
   .directive('archivedCaseDelete',
     function() {
       return {
-        restrict: 'A',
+        restrict: 'E',
         require: '^ArchivedCaseListCtrl',
-        controller: 'ArchivedCaseDeleteCtrl'
+        transclude : true,
+        template : '<button id="delete-archived-button" type="button" class="btn btn-default" ng-click="deleteCtrl.confirmDeleteSelectedCases()" ng-disabled="deleteCtrl.checkCaseIsNotSelected()"><div ng-transclude></div></button>',
+        controller: 'ArchivedCaseDeleteCtrl',
+        controllerAs : 'deleteCtrl'
       };
     })
   .controller('DeleteCaseModalCtrl', ['$scope', '$modalInstance', 'typeOfCase', 'caseItems', DeleteCaseModalCtrl]);
@@ -39,7 +45,9 @@
    * @requires gettextCatalog
    */
   /* jshint -W003 */
-  function CaseDeleteCtrl($scope, $modal, caseAPI, gettextCatalog) {
+  function CaseDeleteCtrl($scope, $modal, caseAPI, gettextCatalog, $q) {
+
+    var vm = this;
     /**
      * @ngdoc method
      * @name o.b.f.admin.cases.list.CaseDeleteCtrl#confirmDeleteSelectedCases
@@ -49,7 +57,7 @@
      * If the confirmation is selected, the {@link o.b.f.admin.cases.list.CaseDeleteCtrl#deleteSelectedCases deleteSelectedCases}
      * is called upon selected cases
      */
-    $scope.confirmDeleteSelectedCases = function confirmDeleteSelectedCases(type) {
+    vm.confirmDeleteSelectedCases = function confirmDeleteSelectedCases(type) {
       if ($scope.cases) {
         var caseItems = $scope.cases.filter(function filterSelectedOnly(caseItem) {
           return caseItem && caseItem.selected;
@@ -57,6 +65,7 @@
         $modal.open({
           templateUrl: 'features/admin/cases/list/cases-list-deletion-modal.html',
           controller: 'DeleteCaseModalCtrl',
+          controllerAs: 'deleteCaseModalCtrl',
           resolve: {
             typeOfCase: function() {
               return type || '';
@@ -66,9 +75,10 @@
             }
           },
           size: 'sm'
-        }).result.then($scope.deleteSelectedCases);
+        }).result.then(vm.deleteSelectedCases);
       }
     };
+
     /**
      * @ngdoc method
      * @name o.b.f.admin.cases.list.CaseDeleteCtrl#checkCaseIsNotSelected
@@ -76,7 +86,7 @@
      * @description
      * @returns {Boolean} true if no case are selected
      */
-    $scope.checkCaseIsNotSelected = function checkCaseIsNotSelected() {
+    vm.checkCaseIsNotSelected = function checkCaseIsNotSelected() {
       return $scope.cases && $scope.cases.reduce(function(previousResult, caseItem) {
         return previousResult && !caseItem.selected;
       }, true);
@@ -91,50 +101,39 @@
      * calls until all calls have been made. finally, it displays a message indicating
      * how many items it has successfully deleted
      */
-    $scope.deleteSelectedCases = function deleteSelectedCases() {
+    vm.deleteSelectedCases = function deleteSelectedCases() {
       if ($scope.cases) {
         var caseIds = $scope.cases.filter(function(caseItem) {
           return caseItem && caseItem.selected && caseItem.id;
         }).map(function(caseItem) {
           return caseItem.id;
         });
-        var nbOfDeletedCases = 0;
         if (caseIds && caseIds.length) {
-          //this function chains the case deletion
-          var deletePromise = function(id) {
-            var currentPromise = caseAPI.delete({
-              id: id
-            }).$promise.then(function() {
-              nbOfDeletedCases++;
-            }, $scope.displayError);
-            if (caseIds && caseIds.length) {
-              var deleteNextId = function deleteNextId() {
-                deletePromise(caseIds.pop());
-              };
-              currentPromise.finally(deleteNextId);
-            } else {
-              currentPromise.then(function() {
-                $scope.addAlert({
-                  type: 'success',
-                  status: ((nbOfDeletedCases===1)?
-                    gettextCatalog.getString('{{nbOfDeletedCases}} case deleted successfully', {
-                    nbOfDeletedCases: nbOfDeletedCases
-                  }):
-                    gettextCatalog.getString('{{nbOfDeletedCases}} cases deleted successfully', {
-                    nbOfDeletedCases: nbOfDeletedCases
-                  }))
-                });
-              }).finally(function() {
-                $scope.pagination.currentPage = 1;
-                $scope.searchForCases();
-              });
-            }
-          };
-          deletePromise(caseIds.pop());
+          var nbOfDeletedCases = 0;
+          $q.all(caseIds.map(function(caseId){
+            return caseAPI.delete({
+              id: caseId
+            }).$promise.then(function(){nbOfDeletedCases++;}, function(error){$scope.$emit('caselist:http-error', error);});
+          })).then(finishDeleteProcess);
         }
+      }
+      function finishDeleteProcess(){
+        $scope.$emit('caselist:notify', {
+          type: 'success',
+          status: ((nbOfDeletedCases===1)?
+            gettextCatalog.getString('{{nbOfDeletedCases}} case deleted successfully', {
+            nbOfDeletedCases: nbOfDeletedCases
+          }):
+            gettextCatalog.getString('{{nbOfDeletedCases}} cases deleted successfully', {
+            nbOfDeletedCases: nbOfDeletedCases
+          }))
+        });
+        $scope.pagination.currentPage = 1;
+        $scope.$emit('caselist:search');
       }
     };
   }
+
 
   /**
    * @ngdoc object
@@ -159,7 +158,7 @@
      * see {@link o.b.f.admin.cases.list.CaseDeleteCtrl#confirmDeleteSelectedCases confirmDeleteSelectedCases}
      *
      */
-    $scope.ok = function() {
+    this.ok = function() {
       $modalInstance.close();
     };
 
@@ -170,7 +169,7 @@
      * @description
      * cancels the case deletion and launch reject on modal promise
      */
-    $scope.cancel = function() {
+    this.cancel = function() {
       $modalInstance.dismiss('cancel');
     };
   }
