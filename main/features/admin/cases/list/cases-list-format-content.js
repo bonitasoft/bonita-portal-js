@@ -14,10 +14,18 @@
     'gettext',
     'ui.bootstrap',
     'org.bonita.services.topurl'
-  ]).factory('contentFactory', function ($filter, manageTopUrl, gettextCatalog) {
+  ])
+  .factory('contentFactory', function ($filter, manageTopUrl, gettextCatalog) {
 
     var factory = {};
 
+    /**
+     * Define the content for an elemet and return a string of its format
+     * @param  {Object} column   Current column
+     * @param  {Object} caseItem Current case
+     * @param  {Object} opt      Other options
+     * @return {String}
+     */
     function defineContent(column, caseItem, opt) {
       if (column && column.date && caseItem[column.name] && typeof caseItem[column.name] === 'string') {
         //received date is in a non-standard format...
@@ -42,15 +50,16 @@
       }
     }
 
-    factory.load = function load(config, cb) {
-
-      var content;
-      cb = cb || angular.noop;
-      content = defineContent(config.col, config.caseItem, {
+    /**
+     * Load the template for an element from its content
+     * @param  {Objec}   config {col,caseItem,processManager,moreDetailToken} attr from the directive
+     * @return {void}
+     */
+    factory.load = function load(config) {
+      return defineContent(config.col, config.caseItem, {
         processManager: config.processManager,
         moreDetailToken: config.moreDetailToken
       });
-      cb(content);
     };
 
     return factory;
@@ -64,16 +73,13 @@
           scope: true,
           link: function (scope, element, attr) {
 
-            function loadContent(content) {
-              element.html(content);
-            }
-            contentFactory.load({
-              col: JSON.parse(attr.column),
-              caseItem: JSON.parse(attr.caseItem),
-              moreDetailToken: attr.moreDetailToken,
-              processManager: attr.processManager
-            }, loadContent);
-
+            element
+              .html(contentFactory.load({
+                col: JSON.parse(attr.column),
+                caseItem: JSON.parse(attr.caseItem),
+                moreDetailToken: attr.moreDetailToken,
+                processManager: attr.processManager
+              }));
           }
         };
       }]);
