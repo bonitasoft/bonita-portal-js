@@ -4,7 +4,7 @@
 
 <div ng-if="'archived' !==  typeOfCase">
   <div class="modal-body" ng-if="1 === caseItems.length">
-    {{ 'The deleted cases will be permanently deleted and will not be stored in the archives.' | translate }}
+    {{ 'The deleted case will be permanently deleted and will not be stored in the archives.' | translate }}
   </div>
 
   <div class="modal-body" ng-if="caseItems.length > 1">
@@ -14,7 +14,7 @@
 
 <div ng-if="'archived' === typeOfCase ">
   <div class="modal-body" ng-if="1 === caseItems.length">
-    {{ 'The deleted cases will be permanently deleted from the archives.' | translate }}
+    {{ 'The deleted case will be permanently deleted from the archives.' | translate }}
   </div>
 
   <div class="modal-body" ng-if="caseItems.length > 1">
@@ -23,6 +23,6 @@
 </div>
 
 <div class="modal-footer">
-    <button id="ValidateCaseDeletionBtn" class="btn btn-default" ng-click="ok()">{{ 'Delete' | translate }}</button>
-    <button id="CancelCaseDeletionBtn" class="btn btn-default" ng-click="cancel()">{{ 'Cancel' | translate }}</button>
+    <button id="ValidateCaseDeletionBtn" class="btn btn-default" ng-click="deleteCaseModalCtrl.ok()">{{ 'Delete' | translate }}</button>
+    <button id="CancelCaseDeletionBtn" class="btn btn-default" ng-click="deleteCaseModalCtrl.cancel()">{{ 'Cancel' | translate }}</button>
 </div>

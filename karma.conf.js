@@ -37,6 +37,7 @@ module.exports = function(config) {
       'main/assets/jquery-resizable-columns/dist/jquery.resizableColumns.js',
       'main/assets/angular-animate/angular-animate.js',
       'main/assets/angular-growl-2/build/angular-growl.js',
+      'main/assets/ngDraggable/ngDraggable.js',
       'main/bonita-portal.js',
       'main/common/**/*.js',
       'main/features/**/*.js',
