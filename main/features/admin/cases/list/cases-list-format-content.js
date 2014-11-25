@@ -15,7 +15,7 @@
     'ui.bootstrap',
     'org.bonita.services.topurl'
   ])
-  .factory('contentFactory', function ($filter, manageTopUrl, gettextCatalog) {
+  .factory('contentFactory', ['$filter', 'manageTopUrl', 'gettextCatalog', function ($filter, manageTopUrl, gettextCatalog) {
 
     var factory = {};
 
@@ -51,9 +51,8 @@
 
     factory.load = load;
     return factory;
-  })
-    .directive('formatContent', ['$compile', 'contentFactory',
-      function ($compile, contentFactory) {
+  }])
+    .directive('formatContent', ['$compile', 'contentFactory', function ($compile, contentFactory) {
         return {
           template: '<div></div>',
           replace: true,
