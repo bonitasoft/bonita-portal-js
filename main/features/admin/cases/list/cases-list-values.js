@@ -40,10 +40,12 @@
     }, {
       name: 'Failed Flow Nodes',
       path: ['failedFlowNodes'],
+      align: 'right',
       selected: true
     }, {
       name: 'Pending Flow Nodes',
       path: ['activeFlowNodes'],
+      align: 'right',
       selected: true
     }])
     .value('allCaseStatesValues', {
