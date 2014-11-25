@@ -139,7 +139,7 @@
         //click on delete button
         getDeleteButton().click();
         // check the modal content
-        expect(getModal().element(by.css('.modal-content .modal-body')).getText()).toEqual('The deleted cases will be permanently deleted from the archives.');
+        expect(getModal().element(by.css('.modal-content .modal-body')).getText()).toEqual('The deleted case will be permanently deleted from the archives.');
         // Cancel
         getModal().element(by.css('#CancelCaseDeletionBtn')).click();
         // click on the column check box to unselect all
