@@ -25,7 +25,7 @@
         restrict: 'E',
         require: '^ArchivedCaseListCtrl',
         transclude : true,
-        template : '<button id="delete-archived-button" type="button" class="btn btn-default" ng-click="deleteCtrl.confirmDeleteSelectedCases()" ng-disabled="deleteCtrl.checkCaseIsNotSelected()"><div ng-transclude></div></button>',
+        template : '<button id="delete-archived-button" type="button" class="btn btn-default" ng-click="deleteCtrl.confirmDeleteSelectedCases(\'archived\')" ng-disabled="deleteCtrl.checkCaseIsNotSelected()"><div ng-transclude></div></button>',
         controller: 'ArchivedCaseDeleteCtrl',
         controllerAs : 'deleteCtrl'
       };

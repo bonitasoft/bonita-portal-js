@@ -49,7 +49,6 @@
       beforeEach(module('org.bonita.features.admin.cases'));
 
       beforeEach(inject(function($rootScope, $controller){
-        mockedState = jasmine.createSpyObj('$state', ['get', 'includes']);
         scope = $rootScope.$new();
         $controller('CaseCtrl', {
           '$scope' : scope,
@@ -57,7 +56,6 @@
         });
       }));
       it('should init scope with state and cases tabs', function(){
-        expect(scope.state).toBe(mockedState);
         expect(scope.casesStates ).toEqual([{state : 'bonita.cases.active', title: 'Active', htmlAttributeId:'TabActiveCases'}, {state : 'bonita.cases.archived', title: 'Archived', htmlAttributeId:'TabArchivedCases'}]);
       });
     });

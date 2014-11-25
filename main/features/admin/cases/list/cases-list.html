@@ -11,7 +11,7 @@
     <div class="panel-body">
       <div growl></div>
       <div ng-if="cases.length">
-        <div class="col-md-6" ng-switch on="archivedTabName">
+        <div class="col-md-6" ng-switch on="archivedTabName" class="case-action">
           <div ng-switch-when="true"> <archived-case-delete >{{'Delete' | translate}}</archived-case-delete></div>
           <div ng-switch-default> <active-case-delete>{{'Delete' | translate}}</active-case-delete></div>
         </div>
@@ -25,7 +25,7 @@
           <div class="btn-group text-left" dropdown id='columns-selection'>
             <button type="button" class="btn btn-default dropdown-toggle">{{ 'Columns' | translate}} <span class="caret"></span></button>
             <ul class="dropdown-menu" role="menu">
-              <li ng-drop="true" ng-drop-success="caseCtrl.onDropComplete($index, $data,$event)" ng-repeat="col in columns" ng-click="$event.stopPropagation();" class="column-visibility"><div ><span class="column-visibility-checkbox"><input type="checkbox" ng-model="col.selected"></span><span class="column-visibility-name" ng-drag="true" ng-drag-data="col"> {{::col.name | translate}}</span></li></div>
+              <li ng-drop="true" ng-drop-success="caseCtrl.onDropComplete($index, $data,$event)" ng-repeat="col in columns" ng-click="$event.stopPropagation();" class="column-visibility"><div ><span class="column-visibility-checkbox"><input type="checkbox" ng-model="col.selected"></span><span class="column-visibility-name" ng-drag="true" ng-drag-data="col"> {{::col.name | translate}}</span></div></li>
             </ul>
           </div>
         </div>
@@ -41,12 +41,13 @@
               </tr>
               </thead>
             <tbody>
-            <tr ng-repeat="case in cases" id="caseId-{{::case.id}}" class="case-row"
-                ng-class="{'info' : case.selected}">
+
+            <tr ng-repeat="case in cases" id="caseId-{{::case.id}}" class="case-row" ng-class="{'info' : case.selected}">
               <td class="case-checkbox">
                 <input id="case-check-{{::case.id}}" type="checkbox" ng-model="case.selected">
               </td>
-              <td class="{{::'td'+col.name.replace(' ','')}} case-detail" ng-repeat="col in columns | filter : caseCtrl.filterColumn" ng-class="{'text-right': col.align}"><format-content column="col" case-item="case" process-manager='{{::processManager}}' more-detail-token="{{::moreDetailToken}}"></format-content></td>
+
+              <td class="{{::'td'+col.name.replace(' ','')}} case-detail" ng-repeat="col in columns | filter : caseCtrl.filterColumn" ng-class="{'text-right': col.align}"><format-content column="{{:: col}}" case-item="{{:: case}}" process-manager='{{:: processManager}}' more-detail-token="{{:: moreDetailToken}}"></format-content></td>
               <td>
                 <a id="case-detail-btn-{{::case.id}}" tooltip="Case details" tooltip-animation="false" target="_top" ng-href="{{::caseCtrl.getCaseDetailUrl(case.id)}}" class="open-link">
                   <span class="glyphicon glyphicon-eye-open"></span>
@@ -64,7 +65,7 @@
         </div>
       </div>
       <div ng-if="loading">
-        <p class="text-muted"><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> {{ 'Loading' | translate}}</p>
+        <p class="text-muted"><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span>&nbsp;{{ 'Loading' | translate}}</p>
       </div>
       <div ng-if="!loading &amp;&amp; cases &amp;&amp; cases.length===0">
         <p class="text-muted animated fadeIn">{{ 'No cases to display' | translate }}</p>

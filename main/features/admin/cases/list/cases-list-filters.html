@@ -1,7 +1,7 @@
 <div id="case-filters" class="panel panel-default">
-  <div class="panel-heading" translate>Filters</div>
+  <div class="panel-heading">{{'Filters' | translate}}</div>
   <div class="panel-body">
-    <div class="col-md-3"><translate>Process name</translate> :&nbsp;
+    <div class="col-md-3">{{'Process name' | translate}} :&nbsp;
       <div class="btn-group" dropdown id="case-app-name-filter">
         <button type="button" class="btn btn-default dropdown-toggle">{{selectedFilters.selectedApp | translate}} <span class="caret"></span></button>
         <ul class="dropdown-menu" role="menu">
@@ -11,7 +11,7 @@
         </ul>
       </div>
     </div>
-    <div class=" col-md-3"><translate>Process version</translate> :&nbsp;
+    <div class=" col-md-3">{{'Process version' | translate}} :&nbsp;
       <div class="btn-group" dropdown id="case-app-version-filter">
         <button type="button" class="btn btn-default dropdown-toggle" ng-disabled="selectedFilters.selectedApp  === defaultFilters.appName">{{selectedFilters.selectedVersion | translate}} <span class="caret"></span></button>
         <ul class="dropdown-menu" role="menu">
@@ -21,14 +21,14 @@
         </ul>
       </div>
     </div>
-    <div class="col-md-2"><translate>State</translate> :&nbsp;
+    <div class="col-md-2">{{'State' | translate}} :&nbsp;
       <div class="btn-group" dropdown id="case-app-status-filter">
         <button type="button" class="btn btn-default dropdown-toggle">{{caseStatesValues[selectedFilters.selectedStatus] | translate}} <span class="caret"></span></button>
         <ul class="dropdown-menu" role="menu">
           <li ng-click="filterCtrl.selectCaseStatus(defaultFilters.caseStatus)"><a>{{defaultFilters.caseStatus | translate}}</a></li>
           <li class="divider"></li>
-          <li ng-click="filterCtrl.selectCaseStatus('started')"><a translate>Healthy</a></li>
-          <li ng-click="filterCtrl.selectCaseStatus('error')"><a translate>With failures</a></li>
+          <li ng-click="filterCtrl.selectCaseStatus('started')"><a>{{'Healthy' | translate}}</a></li>
+          <li ng-click="filterCtrl.selectCaseStatus('error')"><a>{{'With failures' | translate}}</a></li>
         </ul>
       </div>
     </div>
