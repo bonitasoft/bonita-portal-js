@@ -20,48 +20,36 @@
     var factory = {};
 
     /**
-     * Define the content for an elemet and return a string of its format
-     * @param  {Object} column   Current column
-     * @param  {Object} caseItem Current case
-     * @param  {Object} opt      Other options
-     * @return {String}
-     */
-    function defineContent(column, caseItem, opt) {
-      if (column && column.date && caseItem[column.name] && typeof caseItem[column.name] === 'string') {
-        //received date is in a non-standard format...
-        // convert 2014-10-17 16:05:42.626 to ISO-8601 Format 2014-10-17T16:05:42.626Z
-        var dateFormat = gettextCatalog.getString('MM/dd/yyyy h:mm:ss a');
-        return $filter('date')(caseItem[column.name].replace(/ /, 'T'), dateFormat);
-      } else if (column && column.popover) {
-        return '<span class="badge">' + caseItem[column.name] + '</span>';
-
-      } else if (column && column.linkToProcess) {
-        var linkToProcess = manageTopUrl.getPath() + manageTopUrl.getSearch() + '#?id=' + caseItem.processDefinitionId.id + '&_p=processmoredetails'+
-          ((!!Number(opt.processManager))?'pm':'admin') +
-          '&' + manageTopUrl.getCurrentProfile();
-        return '<a id="case-process-link-' + caseItem.id + '" target="_top" href="' + linkToProcess + '">' + caseItem[column.name] + '</a>';
-
-      } else if (column && column.linkToCase) {
-        var linkToCase = manageTopUrl.getPath() + manageTopUrl.getSearch() + '#?id=' + caseItem.id + '&_p=' + opt.moreDetailToken + '&' + manageTopUrl.getCurrentProfile();
-        return '<a id="case-detail-link-' + caseItem.id + '" target="_top" href="' + linkToCase + '">' + caseItem[column.name] + '</a>';
-
-      } else {
-        return caseItem[column.name] || gettextCatalog.getString(column.defaultValue);
-      }
-    }
-
-    /**
      * Load the template for an element from its content
      * @param  {Objec}   config {col,caseItem,processManager,moreDetailToken} attr from the directive
      * @return {void}
      */
-    factory.load = function load(config) {
-      return defineContent(config.col, config.caseItem, {
-        processManager: config.processManager,
-        moreDetailToken: config.moreDetailToken
-      });
-    };
+    function load(config) {
 
+      if (config.col && config.col.date && config.caseItem[config.col.name] && typeof config.caseItem[config.col.name] === 'string') {
+        //received date is in a non-standard format...
+        // convert 2014-10-17 16:05:42.626 to ISO-8601 Format 2014-10-17T16:05:42.626Z
+        var dateFormat = gettextCatalog.getString('MM/dd/yyyy h:mm:ss a');
+        return $filter('date')(config.caseItem[config.col.name].replace(/ /, 'T'), dateFormat);
+      } else if (config.col && config.col.popover) {
+        return '<span class="badge">' + (config.caseItem[config.col.name] || '') + '</span>';
+
+      } else if (config.col && config.col.linkToProcess) {
+
+        var linkToProcess = manageTopUrl.getPath() + manageTopUrl.getSearch() + '#?id=' + config.caseItem.processDefinitionId.id + '&_p=processmoredetails'+ (!!Number(config.processManager) ? 'pm' : 'admin') + '&' + manageTopUrl.getCurrentProfile();
+        return '<a id="case-process-link-' + config.caseItem.id + '" target="_top" href="' + linkToProcess + '">' + config.caseItem[config.col.name] + '</a>';
+
+      } else if (config.col && config.col.linkToCase) {
+        var linkToCase = manageTopUrl.getPath() + manageTopUrl.getSearch() + '#?id=' + config.caseItem.id + '&_p=' + (config.moreDetailToken || '') + '&' + manageTopUrl.getCurrentProfile();
+        return '<a id="case-detail-link-' + config.caseItem.id + '" target="_top" href="' + linkToCase + '">' + config.caseItem[config.col.name] + '</a>';
+
+      } else {
+        return config.caseItem[config.col.name] || gettextCatalog.getString(config.col.defaultValue);
+      }
+    }
+
+
+    factory.load = load;
     return factory;
   })
     .directive('formatContent', ['$compile', 'contentFactory',
