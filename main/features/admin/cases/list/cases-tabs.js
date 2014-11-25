@@ -57,8 +57,8 @@
         });
       }
     ])
-    .controller('CaseCtrl', ['$scope', '$state',
-      function($scope, $state) {
+    .controller('CaseCtrl', ['$scope',
+      function($scope) {
         $scope.casesStates = [];
         $scope.casesStates.push({
           state: 'bonita.cases.active',
@@ -70,7 +70,6 @@
           title: 'Archived',
           htmlAttributeId: 'TabArchivedCases'
         });
-        $scope.state = $state;
       }
     ]);
 })();
