@@ -23,8 +23,8 @@
         expect(columnList.get(3).getText()).toContain('Version');
         expect(columnList.get(4).getText()).toContain('Start date');
         expect(columnList.get(5).getText()).toContain('Started by');
-        expect(columnList.get(6).getText()).toContain('Failed tasks');
-        expect(columnList.get(7).getText()).toContain('Pending tasks');
+        expect(columnList.get(6).getText()).toContain('Failed Flow Nodes');
+        expect(columnList.get(7).getText()).toContain('Pending Flow Nodes');
       });
       it('should contains page size selection', function () {
         expect(element(By.css('#page-size')).getText()).toBe('25');

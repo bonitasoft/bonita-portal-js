@@ -25,7 +25,7 @@
           <div class="btn-group text-left" dropdown id='columns-selection'>
             <button type="button" class="btn btn-default dropdown-toggle">{{ 'Columns' | translate}} <span class="caret"></span></button>
             <ul class="dropdown-menu" role="menu">
-              <li ng-drop="true" ng-drop-success="caseCtrl.onDropComplete($index, $data,$event)" ng-repeat="col in columns" ng-click="$event.stopPropagation();" class="column-visibility"><div ><span class="column-visibility-checkbox"><input type="checkbox" ng-model="col.selected"></span><span class="column-visibility-name" ng-drag="true" ng-drag-data="col"> {{::col.name | translate}}</span></li></div>
+              <li ng-drop="true" ng-drop-success="caseCtrl.onDropComplete($index, $data,$event)" ng-repeat="col in columns" ng-click="$event.stopPropagation();" class="column-visibility"><div ><span class="column-visibility-checkbox"><input type="checkbox" ng-model="col.selected"></span><span class="column-visibility-name" ng-drag="true" ng-drag-data="col"> {{::col.name | translate}}</span></div></li>
             </ul>
           </div>
         </div>
@@ -65,7 +65,7 @@
         </div>
       </div>
       <div ng-if="loading">
-        <p class="text-muted"><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> {{ 'Loading' | translate}}</p>
+        <p class="text-muted"><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span>&nbsp;{{ 'Loading' | translate}}</p>
       </div>
       <div ng-if="!loading &amp;&amp; cases &amp;&amp; cases.length===0">
         <p class="text-muted animated fadeIn">{{ 'No cases to display' | translate }}</p>
