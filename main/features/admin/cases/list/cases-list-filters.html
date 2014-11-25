@@ -27,8 +27,8 @@
         <ul class="dropdown-menu" role="menu">
           <li ng-click="filterCtrl.selectCaseStatus(defaultFilters.caseStatus)"><a>{{defaultFilters.caseStatus | translate}}</a></li>
           <li class="divider"></li>
-          <li ng-click="filterCtrl.selectCaseStatus('started')"><a translate>Healthy</a></li>
-          <li ng-click="filterCtrl.selectCaseStatus('error')"><a translate>With failures</a></li>
+          <li ng-click="filterCtrl.selectCaseStatus('started')"><a>{{'Healthy' | translate}}</a></li>
+          <li ng-click="filterCtrl.selectCaseStatus('error')"><a>{{'With failures' | translate}}</a></li>
         </ul>
       </div>
     </div>
