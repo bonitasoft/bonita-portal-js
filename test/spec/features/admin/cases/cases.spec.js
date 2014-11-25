@@ -13,31 +13,33 @@
       beforeEach(inject(function($state) {
         state = $state;
       }));
-      it('should add a new state matching for the case main entry point', inject(function () {
+      it('should add a new state matching the case main entry point', inject(function () {
         var caseListStateConfig = state.get('bonita.cases');
         expect(caseListStateConfig.url).toBe('/admin/cases/list?processId&supervisor_id');
         expect(caseListStateConfig.abstract).toBeTruthy();
         expect(caseListStateConfig.templateUrl).toBe('features/admin/cases/list/cases.html');
       }));
-      it('should add a new state matching for the active case', inject(function () {
+      it('should add a new state matching the active cases', inject(function () {
         var caseListStateConfig = state.get('bonita.cases.active');
         expect(caseListStateConfig.url).toBe('');
         expect(caseListStateConfig.abstract).toBeFalsy();
         expect(caseListStateConfig.views).toEqual({
           'case-list': {
             templateUrl: 'features/admin/cases/list/cases-list.html',
-            controller: 'ActiveCaseListCtrl'
+            controller: 'ActiveCaseListCtrl',
+            controllerAs : 'caseCtrl'
           }
         });
       }));
-      it('should add a new state matching for the case main entry point', inject(function () {
+      it('should add a new state matching the archive cases', inject(function () {
         var caseListStateConfig = state.get('bonita.cases.archived');
         expect(caseListStateConfig.url).toBe('/archived');
         expect(caseListStateConfig.abstract).toBeFalsy();
         expect(caseListStateConfig.views).toEqual({
           'case-list': {
             templateUrl: 'features/admin/cases/list/cases-list.html',
-            controller: 'ArchivedCaseListCtrl'
+            controller: 'ArchivedCaseListCtrl',
+            controllerAs : 'caseCtrl'
           }
         });
       }));

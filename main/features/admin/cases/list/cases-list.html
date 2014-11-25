@@ -12,20 +12,20 @@
       <div growl></div>
       <div ng-if="cases.length">
         <div class="col-md-6" ng-switch on="archivedTabName">
-          <button ng-switch-when="true" archived-case-delete id="delete-archived-button" type="button" class='btn btn-default' ng-click="confirmDeleteSelectedCases('archived')" ng-disabled="checkCaseIsNotSelected()">{{'Delete' | translate}}</button>
-          <button ng-switch-default active-case-delete id="delete-button" type="button" class='btn btn-default' ng-click="confirmDeleteSelectedCases()" ng-disabled="checkCaseIsNotSelected()">{{'Delete' | translate}}</button>
+          <div ng-switch-when="true"> <archived-case-delete >{{'Delete' | translate}}</archived-case-delete></div>
+          <div ng-switch-default> <active-case-delete>{{'Delete' | translate}}</active-case-delete></div>
         </div>
         <div id="table-actions" class="col-md-6 text-right">
           <div class="btn-group text-left" dropdown id='page-size'>
             <button type="button" class="btn btn-default dropdown-toggle">{{pagination.itemsPerPage}}<span class="caret"></span></button>
             <ul class="dropdown-menu" role="menu">
-              <li ng-repeat="pageSize in pageSizes" ng-click='changeItemPerPage(pageSize)' class="items-per-page"> <a>{{pageSize}}</a></li>
+              <li ng-repeat="pageSize in pageSizes" ng-click='caseCtrl.changeItemPerPage(pageSize)' class="items-per-page"> <a>{{::pageSize}}</a></li>
             </ul>
           </div>
           <div class="btn-group text-left" dropdown id='columns-selection'>
             <button type="button" class="btn btn-default dropdown-toggle">{{ 'Columns' | translate}} <span class="caret"></span></button>
             <ul class="dropdown-menu" role="menu">
-              <li lr-drag-src="headers" lr-drop-target="headers" ng-repeat="col in columns" ng-click="$event.stopPropagation();" class="column-visibility"><span class="column-visibility-checkbox"><input type="checkbox" ng-model="col.selected"></span><span ng-click="selectColumn(col)" class="column-visibility-name"> {{col.name | translate}}</span></li>
+              <li ng-drop="true" ng-drop-success="caseCtrl.onDropComplete($index, $data,$event)" ng-repeat="col in columns" ng-click="$event.stopPropagation();" class="column-visibility"><div ><span class="column-visibility-checkbox"><input type="checkbox" ng-model="col.selected"></span><span class="column-visibility-name" ng-drag="true" ng-drag-data="col"> {{::col.name | translate}}</span></li></div>
             </ul>
           </div>
         </div>
@@ -34,21 +34,22 @@
               <thead>
               <tr>
                 <th class="case-checkbox"><select-all-checkbox checkboxes="cases"></select-all-checkbox></th>
-                <th ng-repeat="col in columns  | filter : filterColumn"
-                    ng-attr-bo-sortable="{{col.sortName}}" on-sort="searchForCases" sort-options="sortOptions" class="case-column" ng-class="{'text-right': col.align}">{{col.name | translate}}
+                <th ng-repeat="col in columns | filter : caseCtrl.filterColumn"
+                    ng-attr-bo-sortable="{{::col.sortName}}" on-sort="caseCtrl.updateSortField" sort-options="sortOptions" class="case-column" ng-class="{'text-right': col.align}">{{::col.name | translate}}
                 </th>
                 <th style="width : 50px;"></th>
               </tr>
               </thead>
             <tbody>
-            <tr ng-repeat="case in cases" id="caseId-{{:: case.id}}" class="case-row"
-                ng-class="{'info' : case.selected}">
+
+            <tr ng-repeat="case in cases" id="caseId-{{::case.id}}" class="case-row" ng-class="{'info' : case.selected}">
               <td class="case-checkbox">
-                <input id="case-check-{{case.id}}" type="checkbox" ng-model="case.selected">
+                <input id="case-check-{{::case.id}}" type="checkbox" ng-model="case.selected">
               </td>
-              <td class="{{::'td'+col.name.replace(' ','')}} case-detail" ng-repeat="col in columns | filter : filterColumn" ng-class="{'text-right': col.align}"><format-content column="{{:: col}}" case-item="{{:: case}}" process-manager='{{:: processManager}}' more-detail-token="{{:: moreDetailToken}}"></format-content></td>
+
+              <td class="{{::'td'+col.name.replace(' ','')}} case-detail" ng-repeat="col in columns | filter : caseCtrl.filterColumn" ng-class="{'text-right': col.align}"><format-content column="{{:: col}}" case-item="{{:: case}}" process-manager='{{:: processManager}}' more-detail-token="{{:: moreDetailToken}}"></format-content></td>
               <td>
-                <a id="case-detail-btn-{{:: case.id}}" tooltip="Case details" tooltip-animation="false" target="_top" ng-href="{{getCaseDetailUrl(case.id)}}" class="open-link">
+                <a id="case-detail-btn-{{::case.id}}" tooltip="Case details" tooltip-animation="false" target="_top" ng-href="{{::caseCtrl.getCaseDetailUrl(case.id)}}" class="open-link">
                   <span class="glyphicon glyphicon-eye-open"></span>
                 </a>
               </td>
@@ -59,7 +60,7 @@
         <div class="col-md-12">
           <div class="pull-right" ng-if="pagination.total > pagination.itemsPerPage">
              <span id="cases-results-size" translate class="pull-left">{{currentFirstResultIndex}} to {{currentLastResultIndex}} of {{pagination.total}}</span>
-             <pagination ng-click="searchForCases()" boundary-links="true" total-items="pagination.total" ng-model="pagination.currentPage" items-per-page="pagination.itemsPerPage " previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;" max-size="5"></pagination>
+             <pagination ng-click="caseCtrl.searchForCases()" boundary-links="true" total-items="pagination.total" ng-model="pagination.currentPage" items-per-page="pagination.itemsPerPage " previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;" max-size="5"></pagination>
           </div>
         </div>
       </div>
