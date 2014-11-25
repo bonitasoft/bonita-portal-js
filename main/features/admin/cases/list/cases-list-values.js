@@ -38,11 +38,11 @@
       selected: true,
       defaultValue : 'System'
     }, {
-      name: 'Failed tasks',
+      name: 'Failed Flow Nodes',
       path: ['failedFlowNodes'],
       selected: true
     }, {
-      name: 'Pending tasks',
+      name: 'Pending Flow Nodes',
       path: ['activeFlowNodes'],
       selected: true
     }])

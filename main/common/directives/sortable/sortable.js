@@ -9,7 +9,7 @@
         sortOptions : '=',
         onSort : '&'
       },
-      templateUrl: 'template/sortable/sorter.tpl.html',
+      templateUrl: 'template/sortable/sortable.tpl.html',
       transclude: true,
       link: function($scope, iElm, attr) {
         $scope.property =  (attr.id || attr.boSortable || '').trim();
@@ -31,7 +31,7 @@
       }
     };
   }).run(['$templateCache', function($templateCache) {
-    $templateCache.put('template/sortable/sorter.tpl.html',
+    $templateCache.put('template/sortable/sortable.tpl.html',
       '<div ng-click="sort()"><span ng-transclude></span>\n' +
       '<span class="glyphicon" ng-class="{\'glyphicon-chevron-up\':sortOptions.ascendant &amp;&amp; sortOptions.property === property, \'glyphicon-chevron-down\':!sortOptions.ascendant &amp;&amp; sortOptions.property === property}"></span></div>\n' +
       '');
