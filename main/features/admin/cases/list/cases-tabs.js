@@ -17,7 +17,8 @@
           views: {
             'case-list': {
               templateUrl: 'features/admin/cases/list/cases-list.html',
-              controller: 'ActiveCaseListCtrl'
+              controller: 'ActiveCaseListCtrl',
+              controllerAs : 'caseCtrl'
             }
           },
           resolve: {
@@ -37,7 +38,8 @@
           views: {
             'case-list': {
               templateUrl: 'features/admin/cases/list/cases-list.html',
-              controller: 'ArchivedCaseListCtrl'
+              controller: 'ArchivedCaseListCtrl',
+              controllerAs : 'caseCtrl'
             }
           },
           resolve: {
@@ -55,20 +57,19 @@
         });
       }
     ])
-    .controller('CaseCtrl', ['$scope', '$state',
-      function($scope, $state) {
+    .controller('CaseCtrl', ['$scope',
+      function($scope) {
         $scope.casesStates = [];
         $scope.casesStates.push({
           state: 'bonita.cases.active',
-          title: 'Active',
+          title: 'Open cases',
           htmlAttributeId: 'TabActiveCases'
         });
         $scope.casesStates.push({
           state: 'bonita.cases.archived',
-          title: 'Archived',
+          title: 'Archived cases',
           htmlAttributeId: 'TabArchivedCases'
         });
-        $scope.state = $state;
       }
     ]);
 })();

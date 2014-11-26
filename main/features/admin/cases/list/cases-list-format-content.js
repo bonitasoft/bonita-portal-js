@@ -14,46 +14,66 @@
     'gettext',
     'ui.bootstrap',
     'org.bonita.services.topurl'
-  ]).controller('formatContentController', ['$scope', 'manageTopUrl', '$filter',  'gettextCatalog', function ($scope, manageTopUrl, $filter,  gettextCatalog) {
+  ])
+  .factory('contentFactory', ['$filter', 'manageTopUrl', 'gettextCatalog', function ($filter, manageTopUrl, gettextCatalog) {
 
-    if ($scope.column && $scope.column.date && $scope.caseItem[$scope.column.name] && typeof $scope.caseItem[$scope.column.name] === 'string') {
-      //received date is in a non-standard format...
-      // convert 2014-10-17 16:05:42.626 to ISO-8601 Format 2014-10-17T16:05:42.626Z
-      var dateFormat = gettextCatalog.getString('MM/dd/yyyy h:mm:ss a');
-      $scope.contents = $filter('date')($scope.caseItem[$scope.column.name].replace(/ /, 'T'), dateFormat);
-    } else if ($scope.column && $scope.column.popover) {
-      $scope.contents = '<span class="badge">' + $scope.caseItem[$scope.column.name] + '</span>';
-    } else if ($scope.column && $scope.column.linkToProcess) {
-      var linkToProcess = manageTopUrl.getPath() + manageTopUrl.getSearch() + '#?id=' + $scope.caseItem.processDefinitionId.id + '&_p=processmoredetails'+
-        ((!!Number($scope.processManager))?'pm':'admin') +
-        '&' + manageTopUrl.getCurrentProfile();
-      $scope.contents = '<a id="case-process-link-' + $scope.caseItem.id + '" target="_top" href="' + linkToProcess + '">' + $scope.caseItem[$scope.column.name] + '</a>';
-    } else if ($scope.column && $scope.column.linkToCase) {
-      var linkToCase = manageTopUrl.getPath() + manageTopUrl.getSearch() + '#?id=' + $scope.caseItem.id + '&_p=' + $scope.moreDetailToken + '&' + manageTopUrl.getCurrentProfile();
-      $scope.contents = '<a id="case-detail-link-' + $scope.caseItem.id + '" target="_top" href="' + linkToCase + '">' + $scope.caseItem[$scope.column.name] + '</a>';
-    } else {
-      $scope.contents = $scope.caseItem[$scope.column.name] || gettextCatalog.getString($scope.column.defaultValue);
+    var factory = {};
+
+    /**
+     * Load the template for an element from its content
+     * @param  {Objec}   config {col,caseItem,processManager,moreDetailToken} attr from the directive
+     * @return {void}
+     */
+    function load(config) {
+
+      if (config.col && config.col.date && config.caseItem[config.col.name] && typeof config.caseItem[config.col.name] === 'string') {
+        //received date is in a non-standard format...
+        // convert 2014-10-17 16:05:42.626 to ISO-8601 Format 2014-10-17T16:05:42.626Z
+        var dateFormat = gettextCatalog.getString('MM/dd/yyyy h:mm a');
+        return $filter('date')(config.caseItem[config.col.name].replace(/ /, 'T'), dateFormat);
+      } else if (config.col && config.col.popover) {
+        return '<span class="badge">' + (config.caseItem[config.col.name] || '') + '</span>';
+
+      } else if (config.col && config.col.warn) {
+        if(config.caseItem.fullCase && config.caseItem.fullCase.state === 'error'){
+          return '<span tooltip="{{\'One or more connectors on case start or case end failed\' | translate}}" tooltip-animation="false" tooltip-popup-delay="500" class="alert-error glyphicon glyphicon-exclamation-sign"></span> '+config.caseItem[config.col.name];
+        }else{
+          return config.caseItem[config.col.name];
+        }
+      } else if (config.col && config.col.linkToProcess) {
+
+        var linkToProcess = manageTopUrl.getPath() + manageTopUrl.getSearch() + '#?id=' + config.caseItem.processDefinitionId.id + '&_p=processmoredetails'+ (!!Number(config.processManager) ? 'pm' : 'admin') + '&' + manageTopUrl.getCurrentProfile();
+        return '<a id="case-process-link-' + config.caseItem.id + '" target="_top" href="' + linkToProcess + '">' + config.caseItem[config.col.name] + '</a>';
+
+      } else if (config.col && config.col.linkToCase) {
+        var linkToCase = manageTopUrl.getPath() + manageTopUrl.getSearch() + '#?id=' + config.caseItem.id + '&_p=' + (config.moreDetailToken || '') + '&' + manageTopUrl.getCurrentProfile();
+        return '<a id="case-detail-link-' + config.caseItem.id + '" target="_top" href="' + linkToCase + '">' + config.caseItem[config.col.name] + '</a>';
+
+      } else {
+        return config.caseItem[config.col.name] || gettextCatalog.getString(config.col.defaultValue);
+      }
     }
 
+
+    factory.load = load;
+    return factory;
   }])
-    .directive('formatContent', ['$compile',
-      function ($compile) {
+    .directive('formatContent', ['$compile', 'contentFactory', function ($compile, contentFactory) {
         return {
           template: '<div></div>',
           replace: true,
           restrict: 'AE',
-          scope: {
-            column: '=',
-            caseItem: '=',
-            moreDetailToken: '@',
-            fillPopover: '&',
-            processManager : '@' //needs the processManager to be '0' or '1' order for controller to process it simply
-          },
-          controller: 'formatContentController',
-          link: function ($scope, $element) {
-            $element.html($scope.contents);
-            //to enable directive injection, we need to compile the created element contents
-            $compile($element)($scope);
+          scope: true,
+          link: function (scope, element, attr) {
+
+            element
+              .html(contentFactory.load({
+                col: JSON.parse(attr.column),
+                caseItem: JSON.parse(attr.caseItem),
+                moreDetailToken: attr.moreDetailToken,
+                processManager: attr.processManager
+              }));
+            $compile(element)(scope);
           }
         };
       }]);

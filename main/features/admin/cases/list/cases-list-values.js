@@ -38,12 +38,15 @@
       selected: true,
       defaultValue : 'System'
     }, {
-      name: 'Failed tasks',
+      name: 'Failed Flow Nodes',
       path: ['failedFlowNodes'],
-      selected: true
+      align: 'right',
+      selected: true,
+      warn : true
     }, {
-      name: 'Pending tasks',
+      name: 'Pending Flow Nodes',
       path: ['activeFlowNodes'],
+      align: 'right',
       selected: true
     }])
     .value('allCaseStatesValues', {
@@ -54,7 +57,6 @@
       canceled: 'Canceled'
     })
     .value('caseStatesValues', {
-      started: 'Healthy',
       error: 'With failures'
     })
     .value('moreDetailToken', 'casemoredetailsadmin')
