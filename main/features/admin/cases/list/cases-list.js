@@ -264,6 +264,7 @@
             }
             simpleCase.id = fullCase.id;
             simpleCase.processDefinitionId = fullCase.processDefinitionId;
+            simpleCase.fullCase = fullCase;
             return simpleCase;
           }).forEach(function(caseItem){
             casesForCurrentSearch.push(caseItem);

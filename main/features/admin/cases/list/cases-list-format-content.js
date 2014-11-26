@@ -29,11 +29,17 @@
       if (config.col && config.col.date && config.caseItem[config.col.name] && typeof config.caseItem[config.col.name] === 'string') {
         //received date is in a non-standard format...
         // convert 2014-10-17 16:05:42.626 to ISO-8601 Format 2014-10-17T16:05:42.626Z
-        var dateFormat = gettextCatalog.getString('MM/dd/yyyy h:mm:ss a');
+        var dateFormat = gettextCatalog.getString('MM/dd/yyyy h:mm a');
         return $filter('date')(config.caseItem[config.col.name].replace(/ /, 'T'), dateFormat);
       } else if (config.col && config.col.popover) {
         return '<span class="badge">' + (config.caseItem[config.col.name] || '') + '</span>';
 
+      } else if (config.col && config.col.warn) {
+        if(config.caseItem.fullCase && config.caseItem.fullCase.state === 'error'){
+          return '<span tooltip="{{\'One or more connectors on case start or case end failed\' | translate}}" tooltip-animation="false" tooltip-popup-delay="500" class="alert-error glyphicon glyphicon-exclamation-sign"></span> '+config.caseItem[config.col.name];
+        }else{
+          return config.caseItem[config.col.name];
+        }
       } else if (config.col && config.col.linkToProcess) {
 
         var linkToProcess = manageTopUrl.getPath() + manageTopUrl.getSearch() + '#?id=' + config.caseItem.processDefinitionId.id + '&_p=processmoredetails'+ (!!Number(config.processManager) ? 'pm' : 'admin') + '&' + manageTopUrl.getCurrentProfile();
@@ -67,6 +73,7 @@
                 moreDetailToken: attr.moreDetailToken,
                 processManager: attr.processManager
               }));
+            $compile(element)(scope);
           }
         };
       }]);

@@ -7,7 +7,7 @@
   </div>
   <div class="panel panel-default">
 
-    <div class="panel-heading">{{ 'Cases list' | translate }} <span ng-click="reinitCases()" class="case-list-refresh glyphicon glyphicon-repeat"></span></div>
+    <div class="panel-heading title">{{ 'Cases list' | translate }} <span ng-click="reinitCases()" tooltip="{{ 'Refresh' | translate}}" tooltip-animation="false" tooltip-popup-delay="300" class="case-list-refresh glyphicon glyphicon-repeat"></span></div>
     <div class="panel-body">
       <div growl></div>
       <div ng-if="cases.length">
@@ -15,14 +15,14 @@
           <div ng-switch-when="true"> <archived-case-delete >{{'Delete' | translate}}</archived-case-delete></div>
           <div ng-switch-default> <active-case-delete>{{'Delete' | translate}}</active-case-delete></div>
         </div>
-        <div id="table-actions" class="col-md-6 text-right">
-          <div class="btn-group text-left" dropdown id='page-size'>
+        <div id="table-actions" class="col-md-6 text-right" >
+          <div class="btn-group text-left" dropdown id='page-size' tooltip="{{'items per page' | translate}}" tooltip-animation="false" tooltip-popup-delay="500">
             <button type="button" class="btn btn-default dropdown-toggle">{{pagination.itemsPerPage}}<span class="caret"></span></button>
             <ul class="dropdown-menu" role="menu">
               <li ng-repeat="pageSize in pageSizes" ng-click='caseCtrl.changeItemPerPage(pageSize)' class="items-per-page"> <a>{{::pageSize}}</a></li>
             </ul>
-          </div>
-          <div class="btn-group text-left" dropdown id='columns-selection'>
+          </div>&nbsp;
+          <div class="btn-group text-left" dropdown id='columns-selection' tooltip="{{'columns selection' | translate}}" tooltip-animation="false" tooltip-popup-delay="500">
             <button type="button" class="btn btn-default dropdown-toggle">{{ 'Columns' | translate}} <span class="caret"></span></button>
             <ul class="dropdown-menu" role="menu">
               <li ng-drop="true" ng-drop-success="caseCtrl.onDropComplete($index, $data,$event)" ng-repeat="col in columns" ng-click="$event.stopPropagation();" class="column-visibility"><div ><span class="column-visibility-checkbox"><input type="checkbox" ng-model="col.selected"></span><span class="column-visibility-name" ng-drag="true" ng-drag-data="col"> {{::col.name | translate}}</span></div></li>
@@ -48,8 +48,8 @@
               </td>
 
               <td class="{{::'td'+col.name.replace(' ','')}} case-detail" ng-repeat="col in columns | filter : caseCtrl.filterColumn" ng-class="{'text-right': col.align}"><format-content column="{{:: col}}" case-item="{{:: case}}" process-manager='{{:: processManager}}' more-detail-token="{{:: moreDetailToken}}"></format-content></td>
-              <td>
-                <a id="case-detail-btn-{{::case.id}}" tooltip="Case details" tooltip-animation="false" target="_top" ng-href="{{::caseCtrl.getCaseDetailUrl(case.id)}}" class="open-link">
+              <td class="case-link">
+                <a id="case-detail-btn-{{::case.id}}" tooltip="{{'Case details' | translate }}"  tooltip-popup-delay="500" tooltip-animation="false" target="_top" ng-href="{{::caseCtrl.getCaseDetailUrl(case.id)}}" class="open-link">
                   <span class="glyphicon glyphicon-eye-open"></span>
                 </a>
               </td>
