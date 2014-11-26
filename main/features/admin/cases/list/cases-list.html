@@ -11,7 +11,7 @@
     <div class="panel-body">
       <div growl></div>
       <div ng-if="cases.length">
-        <div class="col-md-6" ng-switch on="archivedTabName" class="case-action">
+        <div class="col-md-6 case-action" ng-switch on="archivedTabName">
           <div ng-switch-when="true"> <archived-case-delete >{{'Delete' | translate}}</archived-case-delete></div>
           <div ng-switch-default> <active-case-delete>{{'Delete' | translate}}</active-case-delete></div>
         </div>
