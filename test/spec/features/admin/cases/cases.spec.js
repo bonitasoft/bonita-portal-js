@@ -56,7 +56,7 @@
         });
       }));
       it('should init scope with state and cases tabs', function(){
-        expect(scope.casesStates ).toEqual([{state : 'bonita.cases.active', title: 'Open', htmlAttributeId:'TabActiveCases'}, {state : 'bonita.cases.archived', title: 'Archived', htmlAttributeId:'TabArchivedCases'}]);
+        expect(scope.casesStates ).toEqual([{state : 'bonita.cases.active', title: 'Open cases', htmlAttributeId:'TabActiveCases'}, {state : 'bonita.cases.archived', title: 'Archived cases', htmlAttributeId:'TabArchivedCases'}]);
       });
     });
   });
