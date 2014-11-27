@@ -11,11 +11,11 @@
     <div class="panel-body">
       <div growl></div>
       <div ng-if="cases.length">
-        <div class="col-md-6 case-action" ng-switch on="archivedTabName">
+        <div class="col-md-6 case-action table-buttons" ng-switch on="archivedTabName">
           <div ng-switch-when="true"> <archived-case-delete >{{'Delete' | translate}}</archived-case-delete></div>
           <div ng-switch-default> <active-case-delete>{{'Delete' | translate}}</active-case-delete></div>
         </div>
-        <div id="table-actions" class="col-md-6 text-right" >
+        <div id="table-actions" class="col-md-6 text-right table-buttons" >
           <div class="btn-group text-left" dropdown id='page-size' tooltip="{{'items per page' | translate}}" tooltip-animation="false" tooltip-popup-delay="500">
             <button type="button" class="btn btn-default dropdown-toggle">{{pagination.itemsPerPage}}<span class="caret"></span></button>
             <ul class="dropdown-menu" role="menu">
