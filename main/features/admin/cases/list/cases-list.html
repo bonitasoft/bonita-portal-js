@@ -59,7 +59,7 @@
         </div>
         <div class="col-md-12">
           <div class="pull-right" ng-if="pagination.total > pagination.itemsPerPage">
-             <span id="cases-results-size" translate class="pull-left">{{currentFirstResultIndex}} to {{currentLastResultIndex}} of {{pagination.total}}</span>
+             <span id="cases-results-size" class="pull-left">{{ currentFirstResultIndex + ' to ' + currentLastResultIndex + ' of ' + pagination.total | translate}}</span>
              <pagination ng-click="caseCtrl.searchForCases()" boundary-links="true" total-items="pagination.total" ng-model="pagination.currentPage" items-per-page="pagination.itemsPerPage " previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;" max-size="5"></pagination>
           </div>
         </div>
