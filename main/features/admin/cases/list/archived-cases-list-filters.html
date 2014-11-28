@@ -2,7 +2,7 @@
 
   <div class="panel-heading title">{{ 'Filters' | translate }}</div>
   <div class="panel-body">
-    <div class="col-md-3"> {{ 'Process name' | translate }}&nbsp;
+    <div class="col-md-3 button-filter"> {{ 'Process name' | translate }}&nbsp;
       <div class="btn-group" dropdown id="case-app-name-filter">
         <button type="button" class="btn btn-default dropdown-toggle">{{selectedFilters.selectedApp | translate}} <span class="caret"></span></button>
         <ul class="dropdown-menu" role="menu">
@@ -13,7 +13,7 @@
       </div>
     </div>
 
-    <div class=" col-md-3">{{'Process version' | translate }}&nbsp;
+    <div class="col-md-3 button-filter">{{'Process version' | translate }}&nbsp;
       <div class="btn-group" dropdown id="case-app-version-filter">
         <button type="button" class="btn btn-default dropdown-toggle" ng-disabled="selectedFilters.selectedApp  === defaultFilters.appName">{{selectedFilters.selectedVersion | translate}} <span class="caret"></span></button>
         <ul class="dropdown-menu" role="menu">
@@ -23,16 +23,14 @@
         </ul>
       </div>
     </div>
-    <div class="col-md-3">
+    <div class="col-md-3 button-filter">
     </div>
-    <div class="col-md-3">
+    <div class="col-md-3 button-filter">
       <form role="form" name="searchForm" novalidate ng-submit="filterCtrl.submitSearch()">
-        <div class="form-group">
           <div class="input-group">
             <input type="text" class="form-control" ng-model="selectedFilters.currentSearch" name="searchField" id="case-list-search" placeholder="{{ 'Search...' | translate }}">
             <span ng-click="filterCtrl.submitSearch()" class="input-group-addon pointer"><span class="glyphicon glyphicon-search"></span></span>
           </div>
-        </div>
       </form>
     </div>
   </div>
