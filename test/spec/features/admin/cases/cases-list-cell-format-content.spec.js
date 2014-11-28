@@ -59,6 +59,42 @@
       });
     });
 
+    describe('Define the content a column with warning on case error', function() {
+
+      it('should set content to flow node counter with tooltip and warning glyphicon', function(){
+        opt = {
+          col: {name : 'failedFlowNodes', warn : true},
+          caseItem: {'failedFlowNodes' : '3', fullCase : {state : 'error'}}
+        };
+        expect(factory.load(opt)).toEqual('<span tooltip="{{\'One or more connectors on case start or case end failed\' | translate}}" tooltip-animation="false" tooltip-popup-delay="500" class="alert-error glyphicon glyphicon-exclamation-sign"></span> '+opt.caseItem.failedFlowNodes);
+      });
+
+      it('should set content to flow node counter when case not in error', function(){
+        opt = {
+          col: {name : 'failedFlowNodes', warn : true},
+          caseItem: {'failedFlowNodes' : '3'}
+        };
+        expect(factory.load(opt)).toEqual(opt.caseItem.failedFlowNodes);
+      });
+
+      it('should set content to flow node counter when column is not in warn state and case in error', function(){
+        opt = {
+          col: {name : 'failedFlowNodes'},
+          caseItem: {'failedFlowNodes' : '3', fullCase : {state : 'error'}}
+        };
+        expect(factory.load(opt)).toEqual(opt.caseItem.failedFlowNodes);
+      });
+
+      it('should set content to flow node counter when state is ok and no warn on column', function(){
+        opt = {
+          col: {name : 'failedFlowNodes'},
+          caseItem: {'failedFlowNodes' : '3'}
+        };
+        expect(factory.load(opt)).toEqual(opt.caseItem.failedFlowNodes);
+      });
+
+    });
+
     describe('Define the content for a caseItem', function() {
       beforeEach(function() {
         opt = {
@@ -93,7 +129,7 @@
 
       it('should format date', function(){
         opt.caseItem.content = '2014-10-17 16:05:42.626';
-        expect(factory.load(opt)).toEqual('10/17/2014 4:05:42 PM');
+        expect(factory.load(opt)).toEqual('10/17/2014 4:05 PM');
       });
 
     });

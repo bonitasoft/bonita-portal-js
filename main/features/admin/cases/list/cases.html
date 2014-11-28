@@ -1,8 +1,8 @@
-<div class="col-lg-8 col-lg-offset-2">
+<div id="case-list" class="container">
   <h1 id="case-title">{{'Cases' | translate }}</h1>
-  <div  id="case-list">
+  <div>
     <ul class="nav nav-tabs" role="tablist">
-      <li role="presentation" ng-repeat="caseState in casesStates" ui-sref-active="active"><a ui-sref="{{caseState.state}}({processId : undefined})" id="{{:: caseState.htmlAttributeId}}">{{:: caseState.title | translate}}</a></li>
+      <li role="presentation" ng-repeat="caseState in casesStates" ui-sref-active="active"><a class="title" ui-sref="{{caseState.state}}({processId : undefined})" id="{{:: caseState.htmlAttributeId}}">{{:: caseState.title | translate}}</a></li>
     </ul>
     <div ui-view='case-list' id="case-list-tab-content"></div>
   </div>

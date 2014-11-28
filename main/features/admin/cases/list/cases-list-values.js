@@ -41,7 +41,8 @@
       name: 'Failed Flow Nodes',
       path: ['failedFlowNodes'],
       align: 'right',
-      selected: true
+      selected: true,
+      warn : true
     }, {
       name: 'Pending Flow Nodes',
       path: ['activeFlowNodes'],
@@ -56,7 +57,6 @@
       canceled: 'Canceled'
     })
     .value('caseStatesValues', {
-      started: 'Healthy',
       error: 'With failures'
     })
     .value('moreDetailToken', 'casemoredetailsadmin')

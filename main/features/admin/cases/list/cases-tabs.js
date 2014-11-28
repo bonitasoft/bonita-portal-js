@@ -2,7 +2,14 @@
 (function() {
   'use strict';
 
-  angular.module('org.bonita.features.admin.cases.list', ['ui.router', 'org.bonita.features.admin.cases.list.table', 'ui.bootstrap', 'gettext', 'org.bonita.services.topurl'])
+  angular.module('org.bonita.features.admin.cases.list', [
+    'ui.router',
+    'org.bonita.features.admin.cases.list.table',
+    'ui.bootstrap',
+    'gettext',
+    'org.bonita.services.topurl',
+    'org.bonita.features.admin.cases.list.values'
+  ])
     .config(['$stateProvider', '$urlRouterProvider',
       function($stateProvider, $urlRouterProvider) {
         $urlRouterProvider.when('/pm/cases/list?processId&supervisor_id', '/admin/cases/list?processId&supervisor_id');
@@ -22,13 +29,20 @@
             }
           },
           resolve: {
+            tabName : ['manageTopUrl', 'activedTabName',
+              function(manageTopUrl, tabName){
+                manageTopUrl.addOrReplaceParam('_tab', tabName);
+                return tabName;
+              }
+            ],
             supervisorId: ['$stateParams',
               function($stateParams) {
                 return $stateParams['supervisor_id'];
               }
             ],
-            processId: ['$stateParams',
-              function($stateParams){
+            processId: ['$stateParams', 'manageTopUrl',
+              function($stateParams, manageTopUrl){
+                manageTopUrl.addOrReplaceParam('_processId', $stateParams.processId || '');
                 return $stateParams.processId;
               }
             ]
@@ -43,13 +57,20 @@
             }
           },
           resolve: {
+            tabName : ['manageTopUrl', 'archivedTabName',
+              function(manageTopUrl, tabName){
+                manageTopUrl.addOrReplaceParam('_tab', tabName);
+                return tabName;
+              }
+            ],
             supervisorId: ['$stateParams',
               function($stateParams) {
                 return $stateParams['supervisor_id'];
               }
             ],
-            processId: ['$stateParams',
-              function($stateParams){
+            processId: ['$stateParams', 'manageTopUrl',
+              function($stateParams, manageTopUrl){
+                manageTopUrl.addOrReplaceParam('_processId', $stateParams.processId || '');
                 return $stateParams.processId;
               }
             ]
@@ -62,12 +83,12 @@
         $scope.casesStates = [];
         $scope.casesStates.push({
           state: 'bonita.cases.active',
-          title: 'Active',
+          title: 'Open cases',
           htmlAttributeId: 'TabActiveCases'
         });
         $scope.casesStates.push({
           state: 'bonita.cases.archived',
-          title: 'Archived',
+          title: 'Archived cases',
           htmlAttributeId: 'TabArchivedCases'
         });
       }

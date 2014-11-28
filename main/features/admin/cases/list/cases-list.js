@@ -22,13 +22,13 @@
     }])
   .controller('ActiveCaseListCtrl', ['$scope', 'caseAPI', 'casesColumns', 'defaultPageSize', 'defaultSort',
     'defaultDeployedFields', 'defaultActiveCounterFields', '$location', 'pageSizes', 'defaultFilters', '$filter',
-    '$anchorScroll', 'growl', '$window', 'moreDetailToken', 'activedTabName', 'manageTopUrl',
+    '$anchorScroll', 'growl', '$window', 'moreDetailToken', 'tabName', 'manageTopUrl',
     'processId', 'supervisorId', CaseListCtrl])
 
 
   .controller('ArchivedCaseListCtrl', ['$scope', 'archivedCaseAPI', 'archivedCasesColumns', 'defaultPageSize',
     'defaultSort', 'defaultDeployedFields', 'defaultArchivedCounterFields', '$location', 'pageSizes', 'defaultFilters', '$filter',
-    '$anchorScroll', 'growl', '$window', 'archivedMoreDetailToken', 'archivedTabName', 'manageTopUrl',
+    '$anchorScroll', 'growl', '$window', 'archivedMoreDetailToken', 'tabName', 'manageTopUrl',
     'processId', 'supervisorId', CaseListCtrl]);
 
   /**
@@ -106,10 +106,6 @@
       property: defaultSort,
       ascendant : true
     };
-
-    manageTopUrl.addOrReplaceParam('_tab', tabName);
-
-    manageTopUrl.addOrReplaceParam('_processId', processId || '');
 
     vm.reinitCases = function() {
       delete $scope.searchOptions.searchSort;
@@ -264,6 +260,7 @@
             }
             simpleCase.id = fullCase.id;
             simpleCase.processDefinitionId = fullCase.processDefinitionId;
+            simpleCase.fullCase = fullCase;
             return simpleCase;
           }).forEach(function(caseItem){
             casesForCurrentSearch.push(caseItem);
