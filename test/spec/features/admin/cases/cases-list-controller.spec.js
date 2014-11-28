@@ -19,6 +19,7 @@
       promise = deferred.promise;
       caseAPI = jasmine.createSpyObj('caseAPI', ['search']);
       caseAPI.search.and.returnValue({$promise : promise});
+      angular.module('org.bonita.features.admin.cases.list.table').value('tabName', 'active');
     }));
 
     describe('controller initialization', function () {
@@ -43,7 +44,8 @@
               {name: 'CaseId', sortName: 'id', path: ['idsdf']}
             ],
             'processId' : undefined,
-            'supervisorId' : undefined
+            'supervisorId' : undefined,
+            'tabName' : 'active'
           });
         }));
         it('should not display all fields', function () {
