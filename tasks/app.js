@@ -28,7 +28,7 @@ module.exports = function() {
   stream.done()
     .pipe(plumber())
     .pipe(sourcemaps.init())
-    .pipe(concat('app.js'))
+    .pipe(concat('bonita-portal.js'))
     .pipe(ngAnnotate({
       add: true,
       remove: true,
