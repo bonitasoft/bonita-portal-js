@@ -80,6 +80,7 @@
     ])
     .controller('CaseCtrl', ['$scope',
       function($scope) {
+
         $scope.casesStates = [];
         $scope.casesStates.push({
           state: 'bonita.cases.active',

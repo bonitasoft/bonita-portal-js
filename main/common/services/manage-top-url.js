@@ -13,8 +13,8 @@
         return '';
       };
 
-      manageTopUrlService.addOrReplaceParam = function (param, paramValue) {
-        if (paramValue !== undefined && $window.self !== $window.top) {
+      manageTopUrlService.addOrReplaceParam = function () {
+        /*if (paramValue !== undefined && $window.self !== $window.top) {
           var pageToken = manageTopUrlService.getCurrentPageToken();
           if (!!$window.top.location.hash) {
             var paramRegExp = new RegExp('(^|[&\\?])'+pageToken+param+'=[^&]*(&|$)');
@@ -36,7 +36,7 @@
               $window.top.location.hash = '#' + pageToken + param + '=' + paramValue;
             }
           }
-        }
+        }*/
       };
       manageTopUrlService.getCurrentProfile = function () {
         if ($window && $window.top && $window.top.location && $window.top.location.hash) {
