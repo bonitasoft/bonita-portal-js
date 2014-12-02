@@ -48,7 +48,9 @@
               </td>
 
               <td class="{{::'td'+col.name.replace(' ','')}} case-detail" ng-repeat="col in columns | filter : caseCtrl.filterColumn" ng-class="{'text-right': col.align}"><format-content column="{{:: col}}" case-item="{{:: case}}" process-manager='{{:: processManager}}' more-detail-token="{{:: moreDetailToken}}"></format-content></td>
+             
               <td class="case-link">
+              <case-visu process-id='{{::case.processDefinitionId.id}}' case-id='{{::case.id}}'></case-visu>
                 <a id="case-detail-btn-{{::case.id}}" tooltip="{{'Case details' | translate }}"  tooltip-popup-delay="500" tooltip-animation="false" target="_top" ng-href="{{::caseCtrl.getCaseDetailUrl(case.id)}}" class="open-link">
                   <span class="glyphicon glyphicon-eye-open"></span>
                 </a>
