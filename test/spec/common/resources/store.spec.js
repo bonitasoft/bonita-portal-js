@@ -30,14 +30,14 @@
       spyOn(userAPI, 'search').and.returnValue(userAPIResponse);
 
       var result;
-      store.load(userAPI, {f : ['supervisor_id=14']}).then(function(data){
+      store.load(userAPI, {f : ['supervisor_id=14'], n: ['openCases', 'failedCases']}).then(function(data){
         result = data;
       });
       //call to count()
       expect(userAPI.search.calls.allArgs()).toEqual([[{
         p: 0,
         c: 0,
-        f : ['supervisor_id=14']
+        f: ['supervisor_id=14']
       }]]);
       userAPI.search.calls.reset();
 
@@ -54,7 +54,7 @@
         p: 0,
         c: 10,
         d: undefined,
-        n: undefined,
+        n: ['openCases', 'failedCases'],
         f : ['supervisor_id=14'],
         o: undefined
       }, jasmine.any(Function), jasmine.any(Function)]]);
