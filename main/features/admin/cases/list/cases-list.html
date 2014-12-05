@@ -7,15 +7,15 @@
   </div>
   <div class="panel panel-default">
 
-    <div class="panel-heading title">{{ 'Cases list' | translate }} <span ng-click="reinitCases()" tooltip="{{ 'Refresh' | translate}}" tooltip-animation="false" tooltip-popup-delay="300" class="case-list-refresh glyphicon glyphicon-repeat"></span></div>
+    <div class="panel-heading title">{{ 'Case list' | translate }} <span ng-click="caseCtrl.reinitCases()" tooltip="{{ 'Refresh' | translate}}" tooltip-animation="false" tooltip-popup-delay="300" class="case-list-refresh glyphicon glyphicon-repeat"></span></div>
     <div class="panel-body">
       <div growl></div>
       <div ng-if="cases.length">
-        <div class="col-md-6 case-action" ng-switch on="archivedTabName">
+        <div class="col-md-6 case-action table-buttons" ng-switch on="archivedTabName">
           <div ng-switch-when="true"> <archived-case-delete >{{'Delete' | translate}}</archived-case-delete></div>
           <div ng-switch-default> <active-case-delete>{{'Delete' | translate}}</active-case-delete></div>
         </div>
-        <div id="table-actions" class="col-md-6 text-right" >
+        <div id="table-actions" class="col-md-6 text-right table-buttons" >
           <div class="btn-group text-left" dropdown id='page-size' tooltip="{{'items per page' | translate}}" tooltip-animation="false" tooltip-popup-delay="500">
             <button type="button" class="btn btn-default dropdown-toggle">{{pagination.itemsPerPage}}<span class="caret"></span></button>
             <ul class="dropdown-menu" role="menu">
@@ -48,9 +48,9 @@
               </td>
 
               <td class="{{::'td'+col.name.replace(' ','')}} case-detail" ng-repeat="col in columns | filter : caseCtrl.filterColumn" ng-class="{'text-right': col.align}"><format-content column="{{:: col}}" case-item="{{:: case}}" process-manager='{{:: processManager}}' more-detail-token="{{:: moreDetailToken}}"></format-content></td>
-             
+
               <td class="case-link">
-              <case-visu process-id='{{::case.processDefinitionId.id}}' case-id='{{::case.id}}'></case-visu>
+                <case-visu process-id='{{::case.processDefinitionId.id}}' case-id='{{::case.id}}'></case-visu>
                 <a id="case-detail-btn-{{::case.id}}" tooltip="{{'Case details' | translate }}"  tooltip-popup-delay="500" tooltip-animation="false" target="_top" ng-href="{{::caseCtrl.getCaseDetailUrl(case.id)}}" class="open-link">
                   <span class="glyphicon glyphicon-eye-open"></span>
                 </a>
@@ -61,7 +61,7 @@
         </div>
         <div class="col-md-12">
           <div class="pull-right" ng-if="pagination.total > pagination.itemsPerPage">
-             <span id="cases-results-size" translate class="pull-left">{{currentFirstResultIndex}} to {{currentLastResultIndex}} of {{pagination.total}}</span>
+             <span id="cases-results-size" class="pull-left">{{ currentFirstResultIndex + ' to ' + currentLastResultIndex + ' of ' + pagination.total | translate}}</span>
              <pagination ng-click="caseCtrl.searchForCases()" boundary-links="true" total-items="pagination.total" ng-model="pagination.currentPage" items-per-page="pagination.itemsPerPage " previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;" max-size="5"></pagination>
           </div>
         </div>
