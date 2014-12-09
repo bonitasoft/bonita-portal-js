@@ -1,5 +1,7 @@
-describe('', function() {
-    it('', function() {
+describe('', function () {
+  'use strict';
 
-    });
+  it('', function () {
+
+  });
 });

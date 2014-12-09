@@ -1,0 +1,37 @@
+<div id="case-filters" class="panel panel-default">
+
+  <div class="panel-heading title">{{ 'Filters' | translate }}</div>
+  <div class="panel-body">
+    <div class="col-md-3 button-filter"> {{ 'Process name' | translate }}&nbsp;
+      <div class="btn-group" dropdown id="case-app-name-filter">
+        <button type="button" class="btn btn-default dropdown-toggle">{{selectedFilters.selectedApp | translate}} <span class="caret"></span></button>
+        <ul class="dropdown-menu" role="menu">
+          <li ng-click="filterCtrl.selectApp(defaultFilters.appName)"><a>{{defaultFilters.appName | translate}}</a></li>
+          <li ng-if="appNames &amp;&amp; appNames.length>0" class="divider"></li>
+          <li ng-repeat="appName in appNames" ng-click="filterCtrl.selectApp(appName)"><a>{{appName}}</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="col-md-3 button-filter">{{'Process version' | translate }}&nbsp;
+      <div class="btn-group" dropdown id="case-app-version-filter">
+        <button type="button" class="btn btn-default dropdown-toggle" ng-disabled="selectedFilters.selectedApp  === defaultFilters.appName">{{selectedFilters.selectedVersion | translate}} <span class="caret"></span></button>
+        <ul class="dropdown-menu" role="menu">
+          <li ng-click="filterCtrl.selectVersion(defaultFilters.appVersion)"><a>{{defaultFilters.appVersion | translate}}</a></li>
+          <li class="divider"></li>
+          <li ng-repeat="version in versions" ng-click="filterCtrl.selectVersion(version)"><a>{{version}}</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="col-md-3 button-filter">
+    </div>
+    <div class="col-md-3 button-filter">
+      <form role="form" name="searchForm" novalidate ng-submit="filterCtrl.submitSearch()">
+          <div class="input-group">
+            <input type="text" class="form-control" ng-model="selectedFilters.currentSearch" name="searchField" id="case-list-search" placeholder="{{ 'Search...' | translate }}">
+            <span ng-click="filterCtrl.submitSearch()" class="input-group-addon pointer"><span class="glyphicon glyphicon-search"></span></span>
+          </div>
+      </form>
+    </div>
+  </div>
+</div>

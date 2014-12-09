@@ -1,0 +1,28 @@
+<div class="modal-header">
+  <h3 class="modal-title">{{ 'Confirm delete?' | translate }}</h3>
+</div>
+
+<div ng-if="'archived' !==  typeOfCase">
+  <div class="modal-body" ng-if="1 === caseItems.length">
+    {{ 'The deleted case will be permanently deleted and will not be stored in the archives.' | translate }}
+  </div>
+
+  <div class="modal-body" ng-if="caseItems.length > 1">
+    {{ 'These deleted cases will be permanently deleted and will not be stored in the archives.' | translate }}
+  </div>
+</div>
+
+<div ng-if="'archived' === typeOfCase ">
+  <div class="modal-body" ng-if="1 === caseItems.length">
+    {{ 'The deleted case will be permanently deleted from the archives.' | translate }}
+  </div>
+
+  <div class="modal-body" ng-if="caseItems.length > 1">
+    {{ 'These deleted cases will be permanently deleted from the archives.' | translate }}
+  </div>
+</div>
+
+<div class="modal-footer">
+    <button id="ValidateCaseDeletionBtn" class="btn btn-default" ng-click="deleteCaseModalCtrl.ok()">{{ 'Delete' | translate }}</button>
+    <button id="CancelCaseDeletionBtn" class="btn btn-default" ng-click="deleteCaseModalCtrl.cancel()">{{ 'Cancel' | translate }}</button>
+</div>
