@@ -131,6 +131,23 @@
     });
 
     describe('filters', function () {
+
+      describe('search', function(){
+        beforeEach(inject(function($controller){
+          caseFiltersCtrl = $controller('ActiveCaseFilterController', {
+            '$scope': scope
+          });
+          spyOn(scope, '$emit');
+          scope.pagination = {};
+        }));
+        it('should emit search event on submitSearch', function(){
+          scope.pagination.currentPage = 7;
+          caseFiltersCtrl.submitSearch();
+          expect(scope.$emit).toHaveBeenCalledWith('caselist:search');
+          expect(scope.pagination.currentPage).toBe(1);
+        });
+      });
+
       describe('AppName', function () {
         var allApps = 'AllApps';
         beforeEach(inject(function ($controller) {
