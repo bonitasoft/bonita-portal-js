@@ -37,7 +37,7 @@
                 <th ng-repeat="col in columns | filter : caseCtrl.filterColumn"
                     ng-attr-bo-sortable="{{::col.sortName}}" on-sort="caseCtrl.updateSortField" sort-options="sortOptions" class="case-column" ng-class="{'text-right': col.align}">{{::col.name | translate}}
                 </th>
-                <th style="width : 100px; min-width: 100px;"></th>
+                <th style="width : 100px; min-width: 100px;" class="text-center">{{'Actions'|translate}}</th>
               </tr>
               </thead>
             <tbody>
