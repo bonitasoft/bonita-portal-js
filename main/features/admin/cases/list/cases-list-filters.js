@@ -140,7 +140,7 @@
 
     vm.submitSearch = function(){
       $scope.pagination.currentPage = 1;
-      $scope.searchForCases();
+      $scope.$emit('caselist:search');
     };
     //we cannot watch the updateFilter function directly otherwise
     //it will not be mockable
