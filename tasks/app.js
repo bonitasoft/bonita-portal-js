@@ -23,7 +23,7 @@ module.exports = function() {
       .pipe(!utils.env.prod ? jshint() : utils.noop())
       .pipe(!utils.env.prod ? jshint.reporter(stylish) : utils.noop())
   );
-  stream.queue(gulp.src(utils.env.pathApp + 'bonita-portal-sp.js'));
+  stream.queue(gulp.src(utils.env.pathApp + '*.js'));
 
   stream.done()
     .pipe(plumber())

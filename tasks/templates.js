@@ -10,25 +10,13 @@ module.exports = function() {
 
   'use strict';
 
-  gulp.src([utils.env.pathFeatureAdmin + '**/*.html'])
+  gulp.src([utils.env.pathFeature + '**/*.html'])
     .pipe(plumber())
     .pipe(html2js({
-      moduleName: 'tpl',
-      prefix: 'features/admin/'
+      moduleName: 'org.bonita.portal',
+      prefix: 'features/'
     }))
     .pipe(concat('templates.js'))
-    .pipe(uglify())
-    .pipe(gulp.dest(utils.env.pathJsBuild))
-    .pipe(!utils.env.prod ? reload({stream:true}) : utils.noop());
-
-  gulp.src([utils.env.assets + 'bonita-portal-js/**/*.html'])
-    .pipe(plumber())
-    .pipe(html2js({
-      moduleName: 'org.bonita.features.admin',
-      stripPrefix: 'main/',
-      declareModule: false
-    }))
-    .pipe(concat('templatesPortaljs.js'))
     .pipe(uglify())
     .pipe(gulp.dest(utils.env.pathJsBuild))
     .pipe(!utils.env.prod ? reload({stream:true}) : utils.noop());
