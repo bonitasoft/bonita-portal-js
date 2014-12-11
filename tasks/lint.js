@@ -7,7 +7,7 @@ module.exports = function() {
 
   'use strict';
 
-  gulp.src(utils.env.pathFeatureAdmin + '**/*.js')
+  gulp.src(utils.env.pathFeature + '**/*.js')
     .pipe(jshint())
     .pipe(jshint.reporter(stylish))
     .pipe(jshint.reporter('fail'));

@@ -1,5 +1,5 @@
 var gulp        = require('gulp'),
-    utils = require('gulp-util'),
+    utils       = require('gulp-util'),
     openBrowser = require('gulp-open');
 
 module.exports = function() {
@@ -8,7 +8,7 @@ module.exports = function() {
 
   gulp.src(utils.env.pathBuild  + 'index.html')
     .pipe(openBrowser('google-chrome', {
-      url: 'http://127.0.0.1:8080/bonita/portal.js/'
+      url: 'http://127.0.0.1:9100/bonita/portal.js/'
     }));
 
 };

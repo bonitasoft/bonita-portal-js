@@ -8,7 +8,6 @@ var gulp         = require('gulp'),
     rev          = require('gulp-rev'),
     eol          = require('gulp-eol'),
     replace      = require('gulp-replace'),
-    uglify       = require('gulp-uglify'),
     autoprefixer = require('gulp-autoprefixer');
 
 module.exports = function() {
@@ -26,8 +25,7 @@ module.exports = function() {
     .pipe(plumber())
     .pipe(usemin({
       css: ['concat',autoprefixer({browsers: ['> 1%', 'IE 9']}),utils.env.prod ? cssmin() : utils.noop(),rev()],
-      html: [htmlmin(htmlminOpt),replace('{{randomAppCache}}','?' + Math.random().toString(36).substring(7))],
-      js: ['concat',utils.env.prod ? uglify() : utils.noop(),rev()]
+      html: [htmlmin(htmlminOpt),replace('{{randomAppCache}}','?' + Math.random().toString(36).substring(7))]
     }))
     .pipe(eol('\n'))
     .pipe(gulp.dest(utils.env.pathBuild));

@@ -16,7 +16,7 @@ module.exports = function() {
       moduleName: 'org.bonita.portal',
       prefix: 'features/'
     }))
-    .pipe(concat('templates.js'))
+    .pipe(concat('templates-' + utils.env.project + '.js'))
     .pipe(uglify())
     .pipe(gulp.dest(utils.env.pathJsBuild))
     .pipe(!utils.env.prod ? reload({stream:true}) : utils.noop());
