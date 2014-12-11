@@ -19,7 +19,7 @@ module.exports = function() {
   stream.queue(gulp.src(utils.env.pathCommon + '**/*.js'));
   stream.queue(
     // When we build for the prod, we have a lint task which breaks the pipe if there is an error.
-    gulp.src(utils.env.pathFeatureAdmin + '**/*.js')
+    gulp.src(utils.env.pathFeature + '**/*.js')
       .pipe(!utils.env.prod ? jshint() : utils.noop())
       .pipe(!utils.env.prod ? jshint.reporter(stylish) : utils.noop())
   );
