@@ -3,7 +3,7 @@
 var gulp  = require('gulp'),
     utils = require('gulp-util');
 
-utils.env.project = 'sp';
+utils.env.project = 'community';
 
 utils.env.pathApp                  = './main/';
 utils.env.pathFeature              = './main/features/';
