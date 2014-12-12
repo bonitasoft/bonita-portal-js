@@ -29,12 +29,10 @@
             }
           },
           resolve: {
-            tabName : ['manageTopUrl', 'activedTabName',
-              function(manageTopUrl, tabName){
-                manageTopUrl.addOrReplaceParam('_tab', tabName);
-                return tabName;
-              }
-            ],
+            tabName : function(manageTopUrl, activedTabName){
+              manageTopUrl.addOrReplaceParam('_tab', activedTabName);
+              return activedTabName;
+            },
             supervisorId: ['$stateParams',
               function($stateParams) {
                 return $stateParams['supervisor_id'];
@@ -57,12 +55,10 @@
             }
           },
           resolve: {
-            tabName : ['manageTopUrl', 'archivedTabName',
-              function(manageTopUrl, tabName){
-                manageTopUrl.addOrReplaceParam('_tab', tabName);
-                return tabName;
-              }
-            ],
+            tabName : function(manageTopUrl, archivedTabName){
+              manageTopUrl.addOrReplaceParam('_tab', archivedTabName);
+              return archivedTabName;
+            },
             supervisorId: ['$stateParams',
               function($stateParams) {
                 return $stateParams['supervisor_id'];
