@@ -12,7 +12,6 @@
     options = options || {};
 
     function loadData(response) {
-
       if (response.resource.pagination.total === 0) {
         angular.copy([], store.data);
         deferred.resolve(store.data);
@@ -23,6 +22,7 @@
         p: 0,
         c: response.resource.pagination.total,
         d: options.d,
+        n: options.n,
         f: options.f,
         o: options.o
       }, function (response) {
@@ -36,7 +36,8 @@
     function count() {
       return resource.search({
         p: 0,
-        c: 0
+        c: 0,
+        f: options.f
       }).$promise;
     }
 
