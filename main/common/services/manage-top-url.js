@@ -12,32 +12,6 @@
         }
         return '';
       };
-
-      manageTopUrlService.addOrReplaceParam = function () {
-        /*if (paramValue !== undefined && $window.self !== $window.top) {
-          var pageToken = manageTopUrlService.getCurrentPageToken();
-          if (!!$window.top.location.hash) {
-            var paramRegExp = new RegExp('(^|[&\\?])'+pageToken+param+'=[^&]*(&|$)');
-            var paramMatches = $window.top.location.hash.match(paramRegExp);
-            if (!paramMatches || !paramMatches.length) {
-              var currentHash = $window.top.location.hash;
-              if(paramValue) {
-                $window.top.location.hash += ((currentHash.indexOf('&', currentHash.length - 2) >= 0) ? '' : '&') + pageToken + param + '=' + paramValue;
-              }
-            } else {
-              var paramToSet = '';
-              if(paramValue){
-                paramToSet = pageToken + param + '=' + paramValue;
-              }
-              $window.top.location.hash = $window.top.location.hash.replace(paramRegExp, '$1'+ paramToSet + '$2');
-            }
-          } else {
-            if(paramValue) {
-              $window.top.location.hash = '#' + pageToken + param + '=' + paramValue;
-            }
-          }
-        }*/
-      };
       manageTopUrlService.getCurrentProfile = function () {
         if ($window && $window.top && $window.top.location && $window.top.location.hash) {
           var currentProfileMatcher = $window.top.location.hash.match(/\b_pf=\d+\b/);
