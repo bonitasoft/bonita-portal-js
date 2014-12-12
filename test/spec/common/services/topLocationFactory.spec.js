@@ -27,7 +27,7 @@ describe('topLocationFactory', function () {
   });
 
   it('should retrieve tenant from top window query string', function () {
-    $window.top.location.query = 'tenant=4';
+    $window.top.location.search = 'tenant=4';
     expect(topLocation.tenant).toBe('4');
   });
 

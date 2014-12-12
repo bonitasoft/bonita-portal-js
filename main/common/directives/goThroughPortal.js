@@ -40,6 +40,7 @@
           }
 
           var url = new Url('../portal/homepage');
+          console.log(topLocation.tenant);
           url.query.tenant = topLocation.tenant;
           url.hash._pf = topLocation._pf;
 

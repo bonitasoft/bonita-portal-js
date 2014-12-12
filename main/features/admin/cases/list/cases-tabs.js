@@ -8,7 +8,8 @@
     'ui.bootstrap',
     'gettext',
     'org.bonita.services.topurl',
-    'org.bonita.features.admin.cases.list.values'
+    'org.bonita.features.admin.cases.list.values',
+    'org.bonita.common.directives'
   ])
     .config(['$stateProvider', '$urlRouterProvider',
       function($stateProvider, $urlRouterProvider) {

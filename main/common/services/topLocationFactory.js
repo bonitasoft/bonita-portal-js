@@ -22,7 +22,7 @@
         },
         tenant: {
           get: function () {
-            return grab(/tenant=([1-9]*)/).from($window.top.location.query);
+            return grab(/tenant=([1-9]*)/).from($window.top.location.search);
           }
         }
       });
