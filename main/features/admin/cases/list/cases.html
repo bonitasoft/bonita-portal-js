@@ -8,7 +8,7 @@
            id="TabActiveCases">{{:: 'Open cases' | translate }}</a></li>
       <li role="presentation">
         <a class="title" target="_top"
-           ng-href="../portal/homepage?tenant=1#?_p=caselistingadmin&_pf=2&caselistingadmin_tab=archived"
+           go-to-portal="{ _p: caselistingadmin, _tab=archived }"
            id="TabArchivedCases">{{:: 'Archived cases' | translate }}</a></li>
     </ul>
     <div ui-view='case-list' id="case-list-tab-content"></div>
