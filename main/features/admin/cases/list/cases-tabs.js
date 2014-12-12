@@ -12,8 +12,11 @@
   ])
     .config(['$stateProvider', '$urlRouterProvider',
       function($stateProvider, $urlRouterProvider) {
-        $urlRouterProvider.when('/pm/cases/list?processId&supervisor_id', '/admin/cases/list?processId&supervisor_id');
-        $urlRouterProvider.when('/pm/cases/list/archived?processId&supervisor_id', '/admin/cases/list/archived?processId&supervisor_id');
+        $urlRouterProvider.rule(function ($injector, $location) {
+          if($location.path().indexOf('/pm')===0){
+            return $location.url().replace(/^\/pm/, '/admin');
+          }
+        });
         $stateProvider.state('bonita.cases', {
           url: '/admin/cases/list?processId&supervisor_id',
           templateUrl: 'features/admin/cases/list/cases.html',
@@ -78,8 +81,11 @@
         });
       }
     ])
-    .controller('CaseCtrl', ['$scope',
-      function($scope) {
+    .controller('CaseCtrl', ['$scope', '$state',
+      function($scope, $state) {
+        //ui-sref-active seems to bug when the processId is passed
+        //need to implement it ourselves...
+        $scope.state = $state;
         $scope.casesStates = [];
         $scope.casesStates.push({
           state: 'bonita.cases.active',

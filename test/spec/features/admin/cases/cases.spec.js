@@ -45,18 +45,17 @@
       }));
     });
     describe('bonita.cases Controller', function() {
-      var mockedState;
       beforeEach(module('org.bonita.features.admin.cases'));
 
       beforeEach(inject(function($rootScope, $controller){
         scope = $rootScope.$new();
         $controller('CaseCtrl', {
-          '$scope' : scope,
-          '$state' : mockedState
+          '$scope' : scope
         });
       }));
       it('should init scope with state and cases tabs', function(){
         expect(scope.casesStates ).toEqual([{state : 'bonita.cases.active', title: 'Open cases', htmlAttributeId:'TabActiveCases'}, {state : 'bonita.cases.archived', title: 'Archived cases', htmlAttributeId:'TabArchivedCases'}]);
+        expect(scope.state.is).toBeDefined();
       });
     });
   });
