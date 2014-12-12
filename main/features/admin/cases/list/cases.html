@@ -4,11 +4,10 @@
   <div>
     <ul class="nav nav-tabs" role="tablist">
       <li role="presentation" class="active">
-        <a class="title" target="_top" go-through-portal="{ _p: 'caselistingadmin' }"
+        <a class="title" go-through-portal="{ _p: 'caselistingadmin' }"
            id="TabActiveCases">{{:: 'Open cases' | translate }}</a></li>
       <li role="presentation">
-        <a class="title" target="_top"
-           go-through-portal="{ _p: 'caselistingadmin', tab: 'archived' }"
+        <a class="title" go-through-portal="{ _p: 'caselistingadmin', tab: 'archived' }"
            id="TabArchivedCases">{{:: 'Archived cases' | translate }}</a></li>
     </ul>
     <div ui-view='case-list' id="case-list-tab-content"></div>

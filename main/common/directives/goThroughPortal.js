@@ -40,7 +40,6 @@
           }
 
           var url = new Url('../portal/homepage');
-          console.log(topLocation.tenant);
           url.query.tenant = topLocation.tenant;
           url.hash._pf = topLocation._pf;
 
@@ -49,6 +48,7 @@
           url.hash[scope.location._p + '_tab'] = scope.location.tab;
 
           attrs.$set('href', url.toString());
+          attrs.$set('target', '_top');
         }
       };
     });

@@ -1,4 +1,4 @@
-describe('goThroughPortal', function () {
+ddescribe('goThroughPortal', function () {
   'use strict';
 
   var topLocation, compile;
@@ -62,5 +62,12 @@ describe('goThroughPortal', function () {
     var element = compile('<a go-through-portal="{ _p: \'token\', tab: \'archives\' }"></a>');
 
     expect(element.attr('href')).toBe('../portal/homepage#_p=token&token_tab=archives');
+  });
+
+  it('should add attribute target top to navigate onto top window', function () {
+
+    var element = compile('<a go-through-portal="{ _p: \'token\' }"></a>');
+
+    expect(element.attr('target')).toBe('_top');
   });
 });
