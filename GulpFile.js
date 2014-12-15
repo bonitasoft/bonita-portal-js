@@ -21,7 +21,12 @@ gulp.task('browser',require('./tasks/browser'));
 gulp.task('watch',require('./tasks/watch'));
 gulp.task('common',require('./tasks/common'));
 gulp.task('vendor',require('./tasks/vendor'));
-gulp.task('templates',require('./tasks/templates'));
+gulp.task('templates',function() {
+  require('./tasks/templates')({
+    moduleName: 'org.bonita.portal',
+    prefix: 'features/'
+  });
+});
 gulp.task('app',require('./tasks/app'));
 gulp.task('html:build',require('./tasks/htmlBuild'));
 
