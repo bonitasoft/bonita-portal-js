@@ -8,8 +8,7 @@
     'ui.bootstrap',
     'gettext',
     'org.bonita.services.topurl',
-    'org.bonita.features.admin.cases.list.values',
-    'org.bonita.common.directives'
+    'org.bonita.features.admin.cases.list.values'
   ])
     .config(['$stateProvider', '$urlRouterProvider',
       function($stateProvider, $urlRouterProvider) {
@@ -19,7 +18,8 @@
           url: '/admin/cases/list?processId&supervisor_id',
           templateUrl: 'features/admin/cases/list/cases.html',
           abstract: true,
-          controller: 'CaseCtrl'
+          controller: 'CaseCtrl',
+          controllerAs: 'caseCtrl'
         }).state('bonita.cases.active', {
           url: '',
           views: {
@@ -79,9 +79,17 @@
         });
       }
     ])
-    .controller('CaseCtrl', ['$scope',
-      function($scope) {
-
+    .controller('CaseCtrl', ['$scope','manageTopUrl',
+      function($scope, manageTopUrl) {
+        var vm = this;
+        vm.goTo = function(archivedToken){
+          var currentToken = manageTopUrl.getCurrentPageToken();
+          var params = [];
+          if(archivedToken){
+            params.push({'name': '_tab', 'value': archivedToken});
+          }
+          manageTopUrl.goTo(currentToken, params);
+        };
         $scope.casesStates = [];
         $scope.casesStates.push({
           state: 'bonita.cases.active',

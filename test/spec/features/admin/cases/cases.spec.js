@@ -45,18 +45,29 @@
       }));
     });
     describe('bonita.cases Controller', function() {
-      var mockedState;
       beforeEach(module('org.bonita.features.admin.cases'));
-
+      var caseCtrl, mockedManageTopUrl;
       beforeEach(inject(function($rootScope, $controller){
         scope = $rootScope.$new();
-        $controller('CaseCtrl', {
+        mockedManageTopUrl = jasmine.createSpyObj('manageTopUrl', ['goTo', 'getCurrentPageToken']);
+        caseCtrl = $controller('CaseCtrl', {
           '$scope' : scope,
-          '$state' : mockedState
+          'manageTopUrl' : mockedManageTopUrl
         });
+        mockedManageTopUrl.getCurrentPageToken.and.returnValue('caselistingadmin');
       }));
       it('should init scope with state and cases tabs', function(){
         expect(scope.casesStates ).toEqual([{state : 'bonita.cases.active', title: 'Open cases', htmlAttributeId:'TabActiveCases'}, {state : 'bonita.cases.archived', title: 'Archived cases', htmlAttributeId:'TabArchivedCases'}]);
+      });
+      it('should call manageTopUrl goTo method when tab is clicked', function(){
+        caseCtrl.goTo();
+        expect(mockedManageTopUrl.goTo.calls.allArgs()).toEqual([['caselistingadmin', []]]);
+      });
+      it('should call manageTopUrl goTo method when archived tab is clicked', function(){
+        mockedManageTopUrl.getCurrentPageToken.and.returnValue('caselistingpm');
+        var tab = 'archived';
+        caseCtrl.goTo(tab);
+        expect(mockedManageTopUrl.goTo.calls.allArgs()).toEqual([['caselistingpm', [{'name': '_tab', 'value':tab}]]]);
       });
     });
   });
