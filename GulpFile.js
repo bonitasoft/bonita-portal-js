@@ -31,6 +31,7 @@ gulp.task('app',require('./tasks/app'));
 gulp.task('html:build',require('./tasks/htmlBuild'));
 
 gulp.task('dev',['templates','common','vendor','app','html:build']);
+// gulp.task('server', require('./tasks/server'));
 gulp.task('server',['dev'], require('./tasks/server'));
 
 // Default task for the dev

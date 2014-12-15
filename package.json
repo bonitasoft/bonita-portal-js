@@ -52,7 +52,7 @@
   },
   "scripts": {
     "clean": "./node_modules/.bin/gulp clean",
-    "start": "npm run clean && ./node_modules/.bin/gulp",
+    "start": "./node_modules/.bin/gulp",
     "unit": "./node_modules/karma/bin/karma start karma.conf.js",
     "test": "npm run clean && ./node_modules/.bin/gulp dev && npm run unit",
     "testwatch": "./node_modules/karma/bin/karma start karma.conf.js --auto-watch --no-single-run",

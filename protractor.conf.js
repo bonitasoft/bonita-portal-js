@@ -7,7 +7,7 @@ exports.config = {
   seleniumArgs: [],
 
   specs: [
-      'test/e2e/**/*.e2e.js'
+    'test/e2e/**/*.e2e.js'
   ],
   suites : {
     'arch-case-list-deletion': ['test/e2e/features/admin/cases/arch-case-list-buttons.e2e.js'],
@@ -16,10 +16,10 @@ exports.config = {
   },
 
   capabilities: {
-      'browserName': 'firefox'
+    'browserName': 'firefox'
   },
 
-  baseUrl: 'http://localhost:9002/',
+  baseUrl: 'http://127.0.0.1:9100/bonita/portaljs/',
 
   rootElement: 'body',
 

@@ -1,4 +1,5 @@
 var url         = require('url'),
+    path       = require('path'),
     utils       = require('gulp-util'),
     proxy       = require('proxy-middleware'),
     browserSync = require('browser-sync');
@@ -15,20 +16,26 @@ module.exports = function() {
   }
 
   middlewares.push(proxify('/bonita/portaljs/', 'http://127.0.0.1:9100/'));
-  middlewares.push(proxify('/bonita/API', 'http://127.0.0.1:8080/bonita/API/'));
-  middlewares.push(proxify('/bonita/portal/', 'http://127.0.0.1:8080/bonita/portal/'));
 
   if(!utils.env.e2e) {
+    middlewares.push(proxify('/bonita/API', 'http://127.0.0.1:8080/bonita/API/'));
+    middlewares.push(proxify('/bonita/portal/', 'http://127.0.0.1:8080/bonita/portal/'));
     middlewares.push(proxify('/bonita/services/', 'http://127.0.0.1:8080/bonita/services/'));
+  }
+  middlewares = middlewares.map(proxy);
+
+  if(utils.env.e2e) {
+    middlewares.push(require('../test/dev/server-mock.js'));
   }
 
   browserSync({
     port: 9100,
     open: false,
     minify: false,
+    notify: false,
     server: {
       baseDir: utils.env.pathBuild,
-      middleware: middlewares.map(proxy)
+      middleware: middlewares
     }
   });
 };
