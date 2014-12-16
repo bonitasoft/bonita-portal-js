@@ -20,6 +20,7 @@
     "gulp-ng-html2js": "~0.1.8",
     "gulp-open": "~0.3.1",
     "gulp-plumber": "~0.6.6",
+    "gulp-protractor": "0.0.12",
     "gulp-replace": "~0.5.0",
     "gulp-rev": "~2.0.1",
     "gulp-sourcemaps": "~1.2.8",
@@ -59,7 +60,7 @@
     "tdd": "npm start & npm run testwatch",
     "postinstall": "bower cache clean && bower install",
     "build": "npm run clean & ./node_modules/.bin/gulp lint && ./node_modules/.bin/gulp build --prod && npm run unit",
-    "e2e": "sleep 5 && ./node_modules/.bin/protractor protractor.conf.js & ./node_modules/.bin/gulp server --e2e",
+    "e2e": "./node_modules/.bin/gulp e2e",
     "test:all": "npm test && npm test-e2e"
   }
 }
