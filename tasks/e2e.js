@@ -1,11 +1,11 @@
 var gulp       = require('gulp'),
     protractor = require('gulp-protractor').protractor;
 
-module.exports = function() {
+module.exports = function(testList) {
 
   'use strict';
 
-  gulp.src(['./test/e2e/**/*.e2e.js'],{read: false})
+  gulp.src(testList || ['./test/e2e/**/*.e2e.js'],{read: false})
     .pipe(protractor({
       configFile: './protractor.conf.js'
     }))
