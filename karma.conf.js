@@ -21,26 +21,13 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
-      'main/assets/jquery/dist/jquery.js',
-      'main/assets/angular/angular.js',
-      'main/assets/angular-cookies/angular-cookies.js',
-      'main/assets/angular-resource/angular-resource.js',
+      'dist/scripts/jQuery.vendor*.js',
+      'dist/scripts/angular.vendor*.js',
+      'dist/scripts/vendor*.js',
       'main/assets/angular-mocks/angular-mocks.js',
-      'main/assets/angular-ui-router/release/angular-ui-router.js',
-      'main/assets/angular-bootstrap/ui-bootstrap-tpls.js',
-      'main/assets/bootstrap/dist/js/bootstrap.js',
-      'main/assets/jqueryui/ui/jquery-ui.js',
-      'main/assets/angular-gettext/dist/angular-gettext.js',
-      'main/assets/angular-smart-table/dist/smart-table.min.js',
-      'main/assets/lrDragNDrop/lrDragNDrop.js',
-      'main/assets/bonita-js-components/dist/bonita-lib-tpl.js',
-      'main/assets/jquery-resizable-columns/dist/jquery.resizableColumns.js',
-      'main/assets/angular-animate/angular-animate.js',
-      'main/assets/angular-growl-2/build/angular-growl.js',
-      'main/assets/ngDraggable/ngDraggable.js',
-      'main/bonita-portal.js',
-      'main/common/**/*.js',
-      'main/features/**/*.js',
+
+      'dist/scripts/app-community.js',
+      'dist/scripts/templates-community.js',
       'main/features/**/*.html',
       'test/spec/**/*.js'
     ],
@@ -73,7 +60,7 @@ module.exports = function(config) {
 
     // Continuous Integration mode
     // if true, it capture browsers, run tests and exit
-    singleRun: false,
+    singleRun: true,
 
     reporters: ['dots', 'junit', 'coverage'],
 

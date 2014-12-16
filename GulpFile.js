@@ -5,13 +5,13 @@ var gulp  = require('gulp'),
 
 utils.env.project = 'community';
 
-utils.env.pathApp                  = './main/';
-utils.env.pathFeature              = './main/features/';
-utils.env.pathCommon               = './main/common/';
-utils.env.assets                   = './main/assets/';
-utils.env.pathCommonBuild          = './dist/common/';
-utils.env.pathJsBuild              = './dist/scripts';
-utils.env.pathBuild                = './dist/';
+utils.env.pathApp         = './main/';
+utils.env.pathFeature     = './main/features/';
+utils.env.pathCommon      = './main/common/';
+utils.env.assets          = './main/assets/';
+utils.env.pathCommonBuild = './dist/common/';
+utils.env.pathJsBuild     = './dist/scripts';
+utils.env.pathBuild       = './dist/';
 
 // These tasks do not have to be add to build or default. See package.json or readme
 gulp.task('lint',require('./tasks/lint'));
