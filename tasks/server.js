@@ -25,7 +25,7 @@ module.exports = function() {
   middlewares = middlewares.map(proxy);
 
   if(utils.env.e2e) {
-    middlewares.push(require('../test/dev/server-mock.js'));
+    middlewares.push(require(path.resolve(__dirname ,'../test/dev/server-mock.js')));
   }
 
   browserSync({

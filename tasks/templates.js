@@ -16,5 +16,5 @@ module.exports = function(opt) {
     .pipe(concat('templates-' + utils.env.project + '.js'))
     .pipe(uglify())
     .pipe(gulp.dest(utils.env.pathJsBuild))
-    .pipe(!utils.env.prod && !utils.env.watchCommunity ? reload({stream:true}) : utils.noop());
+    .pipe(!utils.env.prod && !utils.env.notRefreshCommunity ? reload({stream:true}) : utils.noop());
 };
