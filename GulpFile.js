@@ -40,18 +40,8 @@ gulp.task('default',['server','watch', 'browser']);
 gulp.task('build', ['dev']);
 
 gulp.task('e2e', function() {
-
-  var protractor = require('gulp-protractor').protractor;
+  // In order to launch the serveur with e2e configuration (mocks...)
   utils.env.e2e = true;
-
   gulp.start('server');
-
-  gulp.src(['./test/e2e/**/*.e2e.js'],{read: false})
-    .pipe(protractor({
-      configFile: './protractor.conf.js'
-    }))
-    .on('error', function(e) { throw e; })
-    .on('close', function() { process.exit(0); });
-
-
+  require('./tasks/e2e')();
 });

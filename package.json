@@ -61,6 +61,6 @@
     "postinstall": "bower cache clean && bower install",
     "build": "npm run clean & ./node_modules/.bin/gulp lint && ./node_modules/.bin/gulp build --prod && npm run unit",
     "e2e": "./node_modules/.bin/gulp e2e",
-    "test:all": "npm test && npm test-e2e"
+    "test:all": "npm test && npm run e2e"
   }
 }
