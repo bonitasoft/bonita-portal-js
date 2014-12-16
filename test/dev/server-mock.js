@@ -120,6 +120,7 @@
     when('GET', /API\/system\/i18ntranslation.*$/).respond([]);
     when('GET', /API\/system\/session.*$/).respond([]);
 
+
     /*when('POST', '/bonita/API/livingApps').respond(
         {
         "icon": "path/to/icon",
