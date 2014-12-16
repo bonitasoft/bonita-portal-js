@@ -37,5 +37,5 @@ module.exports = function() {
     .pipe(sourcemaps.write())
     .pipe(utils.env.prod ? uglify() : utils.noop())
     .pipe(gulp.dest(utils.env.pathJsBuild))
-    .pipe(!utils.env.prod ? reload({stream:true}) : utils.noop());
+    .pipe(!utils.env.prod && !utils.env.notRefreshCommunity ? reload({stream:true}) : utils.noop());
 };

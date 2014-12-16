@@ -9,7 +9,6 @@ var gulp    = require('gulp'),
 module.exports = function(opt) {
 
   'use strict';
-
   gulp.src([utils.env.pathFeature + '**/*.html'])
     .pipe(plumber())
     .pipe(html2js(opt))
