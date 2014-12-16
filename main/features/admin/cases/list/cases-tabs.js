@@ -8,7 +8,8 @@
     'ui.bootstrap',
     'gettext',
     'org.bonita.services.topurl',
-    'org.bonita.features.admin.cases.list.values'
+    'org.bonita.features.admin.cases.list.values',
+    'org.bonita.common.directives.bonitaHref'
   ])
     .config(['$stateProvider', '$urlRouterProvider',
       function($stateProvider, $urlRouterProvider) {
@@ -97,6 +98,7 @@
         //ui-sref-active seems to bug when the processId is passed
         //need to implement it ourselves...
         $scope.state = $state;
+        $scope.currentToken = manageTopUrl.getCurrentPageToken();
         $scope.casesStates = [];
         $scope.casesStates.push({
           state: 'bonita.cases.active',
