@@ -83,11 +83,12 @@
         });
       }
     ])
-    .controller('CaseCtrl', ['$scope', '$state',
-      function($scope, $state) {
+    .controller('CaseCtrl', ['$scope', '$state', 'manageTopUrl',
+      function($scope, $state, manageTopUrl) {
         //ui-sref-active seems to bug when the processId is passed
         //need to implement it ourselves...
         $scope.state = $state;
+        $scope.currentToken = manageTopUrl.getCurrentPageToken();
         $scope.casesStates = [];
         $scope.casesStates.push({
           state: 'bonita.cases.active',
