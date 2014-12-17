@@ -6,6 +6,8 @@ exports.config = {
   chromeDriver: './node_modules/protractor/selenium/chromedriver',
   seleniumArgs: [],
 
+
+  // Right now thanks to gulp-protractor it's not usefull since it does not care and add files from the stream
   specs: [
     'test/e2e/**/*.e2e.js'
   ],

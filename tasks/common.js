@@ -2,6 +2,10 @@ var gulp   = require('gulp'),
     utils  = require('gulp-util'),
     reload = require('browser-sync').reload;
 
+/**
+ * Move common assets
+ * @return {void}
+ */
 module.exports = function() {
   'use strict';
 

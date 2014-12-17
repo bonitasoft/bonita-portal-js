@@ -3,6 +3,10 @@ var gulp    = require('gulp'),
     jshint  = require('gulp-jshint'),
     stylish = require('jshint-stylish');
 
+/**
+ * Check the validity for productiobn
+ * @return {void}
+ */
 module.exports = function() {
 
   'use strict';

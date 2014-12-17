@@ -8,6 +8,11 @@ var gulp     = require('gulp'),
     bowerDep = require('main-bower-files');
 
 
+/**
+ * Load vendor to your application
+ * Create 3 files for better webperf (not one big file > 2Mo)
+ * @return {void}
+ */
 module.exports = function() {
   'use strict';
 

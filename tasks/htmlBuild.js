@@ -10,6 +10,14 @@ var gulp         = require('gulp'),
     replace      = require('gulp-replace'),
     autoprefixer = require('gulp-autoprefixer');
 
+/**
+ * Build the main html and css attach to it
+ * Prevent cache in browser thanks to a random string at the end of
+ * - template-*.js
+ * - app-*.js
+ * We replace {{randomAppCache}} in html with this UUID.
+ * @return {void}
+ */
 module.exports = function() {
 
   'use strict';

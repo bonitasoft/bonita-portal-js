@@ -6,6 +6,13 @@ var gulp    = require('gulp'),
     html2js = require('gulp-ng-html2js'),
     reload  = require('browser-sync').reload;
 
+/**
+ * Build a templateCache module for an Angular app.
+ * Read the content of HTML files and create a $templateCache
+ * Options: {@link https://github.com/fraserxu/gulp-html2js}
+ * @param  {Object} opt Config for the module
+ * @return {void}
+ */
 module.exports = function(opt) {
 
   'use strict';
