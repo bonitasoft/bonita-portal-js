@@ -58,7 +58,7 @@
     "test": "npm run clean && ./node_modules/.bin/gulp dev && npm run unit",
     "testwatch": "./node_modules/karma/bin/karma start karma.conf.js --auto-watch --no-single-run",
     "tdd": "npm start & npm run testwatch",
-    "postinstall": "bower cache clean && bower install",
+    "postinstall": "bower cache clean && bower install && node ./node_modules/protractor/bin/webdriver-manager update",
     "build": "npm run clean & ./node_modules/.bin/gulp lint && ./node_modules/.bin/gulp build --prod && npm run unit",
     "e2e": "./node_modules/.bin/gulp e2e",
     "test:all": "npm test && npm run e2e"
