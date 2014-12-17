@@ -30,7 +30,7 @@ module.exports = function() {
 
   browserSync({
     port: 9100,
-    open: false,
+    startPath: '/bonita/portaljs/#/admin/cases/list',
     minify: false,
     notify: false,
     server: {

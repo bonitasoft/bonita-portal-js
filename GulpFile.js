@@ -17,7 +17,6 @@ utils.env.pathBuild       = './dist/';
 gulp.task('lint',require('./tasks/lint'));
 gulp.task('clean',require('./tasks/clean'));
 
-gulp.task('browser',require('./tasks/browser'));
 gulp.task('watch',require('./tasks/watch'));
 gulp.task('common',require('./tasks/common'));
 gulp.task('vendor',require('./tasks/vendor'));
@@ -34,7 +33,7 @@ gulp.task('dev',['templates','common','vendor','app','html:build']);
 gulp.task('server',['dev'], require('./tasks/server'));
 
 // Default task for the dev
-gulp.task('default',['server','watch', 'browser']);
+gulp.task('default',['server','watch']);
 
 // Task for the prod
 gulp.task('build', ['dev']);
