@@ -41,6 +41,8 @@ gulp.task('build', ['dev']);
 gulp.task('e2e', function() {
   // In order to launch the serveur with e2e configuration (mocks...)
   utils.env.e2e = true;
+  utils.env.prod = true;
+
   gulp.start('server');
   require('./tasks/e2e')();
 });
