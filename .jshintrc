@@ -29,6 +29,7 @@
     "beforeEach": false,
     "browser": false,
     "describe": false,
+    "ddescribe": false,
     "element": false,
     "expect": false,
     "inject": false,
