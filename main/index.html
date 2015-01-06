@@ -20,8 +20,7 @@
     <!-- endbower -->
     <link rel="stylesheet" href="assets/jquery-resizable-columns/dist/jquery.resizableColumns.css" />
     <link rel="stylesheet" href="assets/angular-growl-2/build/angular-growl.css" />
-    <link rel="stylesheet" href="assets/bonita-js-components/src/sortable/sortable.css" />
-  <!-- endbuild -->
+    <!-- endbuild -->
     <link rel="stylesheet" href="../portal/themeResource?theme=portal&location=bonita-skin.css">
     <link rel="stylesheet" href="styles/bonita-theme.css">
 </head>
@@ -63,11 +62,12 @@
 <script src="assets/angular-sanitize/angular-sanitize.js"></script>
 <script src="assets/ngDraggable/ngDraggable.js"></script>
 <!-- endbower -->
-<script src="assets/bonita-js-components/src/sortable/sortable.js"></script>
 <!-- endbuild -->
 
 <!-- build:js({.tmp,main}) scripts/bonita-portal.js -->
 <!-- injector:js -->
+<script src="common/directives/bonita-href.js"></script>
+<script src="common/directives/module.js"></script>
 <script src="common/directives/resizable/resizable-columns.js"></script>
 <script src="common/directives/selectAllCheckBox.js"></script>
 <script src="common/directives/sortable/sortable.js"></script>
@@ -76,7 +76,7 @@
 <script src="common/resources/resources.js"></script>
 <script src="common/resources/store.js"></script>
 <script src="common/services/i18n.js"></script>
-<script src="common/services/manage-top-url.js"></script>
+<script src="common/services/topLocationFactory.js"></script>
 <script src="features/admin/admin.js"></script>
 <script src="features/admin/cases/cases.js"></script>
 <script src="features/admin/cases/list/cases-list-delete.js"></script>
