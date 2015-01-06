@@ -8,17 +8,22 @@
     'ui.bootstrap',
     'gettext',
     'org.bonita.services.topurl',
-    'org.bonita.features.admin.cases.list.values'
+    'org.bonita.features.admin.cases.list.values',
+    'org.bonita.common.directives.bonitaHref'
   ])
     .config(['$stateProvider', '$urlRouterProvider',
       function($stateProvider, $urlRouterProvider) {
-        $urlRouterProvider.when('/pm/cases/list?processId&supervisor_id', '/admin/cases/list?processId&supervisor_id');
-        $urlRouterProvider.when('/pm/cases/list/archived?processId&supervisor_id', '/admin/cases/list/archived?processId&supervisor_id');
+        $urlRouterProvider.rule(function ($injector, $location) {
+          if($location.path().indexOf('/pm')===0){
+            return $location.url().replace(/^\/pm/, '/admin');
+          }
+        });
         $stateProvider.state('bonita.cases', {
           url: '/admin/cases/list?processId&supervisor_id',
           templateUrl: 'features/admin/cases/list/cases.html',
           abstract: true,
-          controller: 'CaseCtrl'
+          controller: 'CaseCtrl',
+          controllerAs: 'caseCtrl'
         }).state('bonita.cases.active', {
           url: '',
           views: {
@@ -78,8 +83,12 @@
         });
       }
     ])
-    .controller('CaseCtrl', ['$scope',
-      function($scope) {
+    .controller('CaseCtrl', ['$scope', '$state', 'manageTopUrl',
+      function($scope, $state, manageTopUrl) {
+        //ui-sref-active seems to bug when the processId is passed
+        //need to implement it ourselves...
+        $scope.state = $state;
+        $scope.currentToken = manageTopUrl.getCurrentPageToken();
         $scope.casesStates = [];
         $scope.casesStates.push({
           state: 'bonita.cases.active',
@@ -89,6 +98,7 @@
         $scope.casesStates.push({
           state: 'bonita.cases.archived',
           title: 'Archived cases',
+          tabName : 'archived',
           htmlAttributeId: 'TabArchivedCases'
         });
       }
