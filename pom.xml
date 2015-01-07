@@ -55,7 +55,7 @@
                 </configuration>
               </execution>
               <execution>
-                <id>grunt-exec</id>
+                <id>gulp-exec-e2e</id>
                 <phase>prepare-package</phase>
                 <goals>
                   <goal>exec</goal>
