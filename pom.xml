@@ -30,7 +30,6 @@
                   </arguments>
                 </configuration>
               </execution>
-<!--
               <execution>
                 <id>init-selenium</id>
                 <phase>prepare-package</phase>
@@ -41,7 +40,6 @@
                   <executable>./init-selenium.sh</executable>
                 </configuration>
               </execution>
--->
               <execution>
                 <id>report-folder</id>
                 <phase>prepare-package</phase>
