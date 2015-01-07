@@ -61,9 +61,10 @@
                   <goal>exec</goal>
                 </goals>
                 <configuration>
-                  <executable>grunt</executable>
+                  <executable>npm</executable>
                   <arguments>
-                    <argument>buildE2e</argument>
+                    <argument>run</argument>
+                    <argument>test:all</argument>
                   </arguments>
                 </configuration>
               </execution>
@@ -108,7 +109,10 @@
 								<configuration>
 									<executable>cmd.exe</executable>
 									<arguments>
-										<argument>/c grunt</argument>
+										<argument>/c</argument>
+										<argument>npm</argument>
+										<argument>run</argument>
+										<argument>build</argument>
 									</arguments>
 								</configuration>
 							</execution>
@@ -171,7 +175,11 @@
 									<goal>exec</goal>
 								</goals>
 								<configuration>
-									<executable>grunt</executable>
+									<executable>npm</executable>
+									<arguments>
+										<argument>run</argument>
+										<argument>build</argument>
+									</arguments>
 								</configuration>
 							</execution>
 						</executions>

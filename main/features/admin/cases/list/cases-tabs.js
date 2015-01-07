@@ -79,18 +79,8 @@
         });
       }
     ])
-    .controller('CaseCtrl', ['$scope','manageTopUrl', '$state',
-      function($scope, manageTopUrl, $state) {
-        var vm = this;
-
-        vm.goTo = function(archivedToken){
-          var currentToken = manageTopUrl.getCurrentPageToken();
-          var params = [];
-          if(archivedToken){
-            params.push({'name': '_tab', 'value': archivedToken});
-          }
-          manageTopUrl.goTo(currentToken, params);
-        };
+    .controller('CaseCtrl', ['$scope', '$state', 'manageTopUrl',
+      function($scope, $state, manageTopUrl) {
         //ui-sref-active seems to bug when the processId is passed
         //need to implement it ourselves...
         $scope.state = $state;
