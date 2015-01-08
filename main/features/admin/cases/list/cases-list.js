@@ -4,7 +4,6 @@
     'org.bonita.common.resources',
     'org.bonita.common.table.resizable',
     'org.bonita.services.topurl',
-    'org.bonita.sortable',
     'org.bonita.features.admin.cases.list.values',
     'org.bonita.features.admin.cases.list.filters',
     'org.bonita.features.admin.cases.list.delete',
@@ -15,7 +14,12 @@
     'ngDraggable',
     'org.bonita.common.directives.selectAll',
     'angular-growl',
-    'ngAnimate'
+    'ngAnimate',
+    'bonitable',
+    'bonita.selectable',
+    'bonita.repeatable',
+    'bonita.sortable',
+    'bonita.templates'
   ])
   .config(['growlProvider',function (growlProvider) {
       growlProvider.globalPosition('top-center');
@@ -104,7 +108,7 @@
     //never used it but initialized in this scope in order to keep track of sortOptions on table reload
     $scope.sortOptions = {
       property: defaultSort,
-      ascendant : true
+      direction : true
     };
 
     vm.reinitCases = function() {
@@ -132,7 +136,7 @@
     vm.updateSortField = function updateSortField(sortOptions){
       if (!$scope.searchOptions.searchSort || sortOptions) {
         $scope.searchOptions.searchSort = ((sortOptions && sortOptions.property) ?
-          sortOptions.property : defaultSort) + ' ' + ((sortOptions && sortOptions.ascendant===false) ? 'DESC' : 'ASC');
+          sortOptions.property : defaultSort) + ' ' + ((sortOptions && sortOptions.direction===false) ? 'DESC' : 'ASC');
         $scope.pagination.currentPage = 1;
       }
     };
@@ -173,6 +177,10 @@
         $scope.pagination.currentPage = 1;
         vm.searchForCases();
       }
+    };
+
+    vm.getLinkToCase = function(caseItem){
+      return manageTopUrl.getPath() + manageTopUrl.getSearch() + '#?id=' + caseItem.id + '&_p=' + (moreDetailToken || '') + '&' + manageTopUrl.getCurrentProfile();
     };
 
     vm.addAlertEventHandler = addAlertEventHandler;

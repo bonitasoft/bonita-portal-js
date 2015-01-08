@@ -30,25 +30,78 @@
           </div>
         </div>
         <div class="col-md-12">
-          <table resizable-column class="table table-striped table-hover table-responsive">
-              <thead>
-              <tr>
-                <th class="case-checkbox"><select-all-checkbox checkboxes="cases"></select-all-checkbox></th>
-                <th ng-repeat="col in columns | filter : caseCtrl.filterColumn"
-                    ng-attr-bo-sortable="{{::col.sortName}}" on-sort="caseCtrl.updateSortField" sort-options="sortOptions" class="case-column" ng-class="{'text-right': col.align}">{{::col.name | translate}}
-                </th>
-                <th style="width : 100px; min-width: 100px;" class="text-center">{{'Actions'|translate}}</th>
-              </tr>
-              </thead>
+          <table ng-if="!archivedTabName" bonitable bo-repeatable  on-sort="caseCtrl.updateSortField(sortOptions)" sort-options="sortOptions" resizable-column class="table table-striped table-hover table-responsive">
+            <thead>
+            <tr data-headers>
+              <th class="case-checkbox" data-ignore><div bo-selectall></div></th>
+              <th bo-sorter="id">ID</th>
+              <th bo-sorter="name">Process name</th>
+              <th>Version</th>
+              <th bo-sorter="startDate">Start date</th>
+              <th>Started by</th>
+              <th>Failed Flow Nodes</th>
+              <th>Pending Flow Nodes</th>
+              <th data-ignore>{{'Actions' | translate}}</th>
+            </tr>
+            </thead>
             <tbody>
 
             <tr ng-repeat="case in cases" id="caseId-{{::case.id}}" class="case-row" ng-class="{'info' : case.selected}">
               <td class="case-checkbox">
-                <input id="case-check-{{::case.id}}" type="checkbox" ng-model="case.selected">
+                <input id="case-check-{{::case.id}}" type="checkbox" bo-selector="case" >
               </td>
 
-              <td class="{{::'td'+col.name.replace(' ','')}} case-detail" ng-repeat="col in columns | filter : caseCtrl.filterColumn" ng-class="{'text-right': col.align}"><format-content column="{{:: col}}" case-item="{{:: case}}" process-manager='{{:: processManager}}' more-detail-token="{{:: moreDetailToken}}"></format-content></td>
+              <!--<td class="{{::'td'+col.name.replace(' ','')}} case-detail" ng-repeat="col in columns | filter : caseCtrl.filterColumn" ng-class="{'text-right': col.align}"><format-content column="{{:: col}}" case-item="{{:: case}}" process-manager='{{:: processManager}}' more-detail-token="{{:: moreDetailToken}}"></format-content></td>
+              -->
 
+              <td><a id="case-detail-link-{{case.id}}" target="_top" href="{{::caseCtrl.getLinkToCase(case)}}">{{case['ID']}}</a></td>
+              <td><a id="case-process-link-{{caseItem.id}}" target="_top" href="{{::caseCtrl.linkToProcess(case)}}">{{case['Process name']}}</a></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td class="case-link text-center">
+                <case-visu process-id='{{::case.processDefinitionId.id}}' case-id='{{::case.ID}}'></case-visu>
+                <a id="case-detail-btn-{{::case.id}}" tooltip="{{'View case details' | translate }}"  tooltip-popup-delay="500" tooltip-animation="false" target="_top" ng-href="{{::caseCtrl.getCaseDetailUrl(case.id)}}" class="open-link">
+                  <span class="glyphicon glyphicon-eye-open"></span>
+                </a>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+          <table ng-if="archivedTabName" bonitable bo-repeatable sort-options="sortableOptions" on-sort="sortHandler(options)" resizable-column class="table table-striped table-hover table-responsive">
+            <thead>
+              <tr data-headers>
+                <th class="case-checkbox" data-ignore><div bo-selectall></div></th>
+                <th bo-sorter="id">ID</th>
+                <th bo-sorter="name">Process name</th>
+                <th>Version</th>
+                <th bo-sorter="startDate">Start date</th>
+                <th>Started by</th>
+                <th bo-sorter="endDate">End date</th>
+                <th bo-sorter="state">State</th>
+
+                <th data-ignore>{{'Actions' | translate}}</th>
+              </tr>
+            </thead>
+            <tbody>
+
+            <tr ng-repeat="case in cases" id="caseId-{{::case.id}}" class="case-row" ng-class="{'info' : case.selected}">
+              <td class="case-checkbox">
+                <input id="case-check-{{::case.id}}" type="checkbox" bo-selector="case" >
+              </td>
+
+              <!--<td class="{{::'td'+col.name.replace(' ','')}} case-detail" ng-repeat="col in columns | filter : caseCtrl.filterColumn" ng-class="{'text-right': col.align}"><format-content column="{{:: col}}" case-item="{{:: case}}" process-manager='{{:: processManager}}' more-detail-token="{{:: moreDetailToken}}"></format-content></td>
+              -->
+
+              <td><a id="case-detail-link-{{case.id}}" target="_top" href="{{::caseCtrl.getLinkToCase(case)}}">{{case['ID']}}</a></td>
+              <td><a id="case-process-link-{{caseItem.id}}" target="_top" href="{{::caseCtrl.linkToProcess(case)}}">{{case['Process name']}}</a></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
               <td class="case-link text-center">
                 <case-visu process-id='{{::case.processDefinitionId.id}}' case-id='{{::case.ID}}'></case-visu>
                 <a id="case-detail-btn-{{::case.id}}" tooltip="{{'View case details' | translate }}"  tooltip-popup-delay="500" tooltip-animation="false" target="_top" ng-href="{{::caseCtrl.getCaseDetailUrl(case.id)}}" class="open-link">
