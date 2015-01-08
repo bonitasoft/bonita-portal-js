@@ -2,9 +2,10 @@
 'use strict';
 exports.config = {
   //seleniumServerJar: './node_modules/protractor/selenium/selenium-server-standalone-2.42.0.jar',
-  seleniumPort: null,
+  //seleniumPort: null,
   chromeDriver: './node_modules/protractor/selenium/chromedriver',
-  seleniumArgs: [],
+  //seleniumArgs: [],
+  directConnect: true,
 
   specs: [
       'test/e2e/**/*.e2e.js'
