@@ -22,7 +22,7 @@
       timeout.verifyNoPendingTasks();
     });
     it('should call the jQuery Plugin resizable-column function', function () {
-      var element = compile('<div><table resizable-column columns="columns"><thead><tr><th>column 1</th><th>column 2</th></tr></thead><tbody><tr><td>content 1</td><td>content 2</td></tr></tbody></table></div>')(scope);
+      var element = compile('<div><table resizable-column="columns"><thead><tr><th>column 1</th><th>column 2</th></tr></thead><tbody><tr><td>content 1</td><td>content 2</td></tr></tbody></table></div>')(scope);
       element[0].style.width = 1000;
       scope.columns.push('test2');
       scope.$apply();

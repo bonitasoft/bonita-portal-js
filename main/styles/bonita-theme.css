@@ -1,0 +1,14 @@
+#case-list .bo-TableSettings-content {
+  min-width: 250px;
+  overflow: visible;
+}
+
+#case-list .table > thead > tr:nth-child(1) > th{
+  border: none;
+}
+#case-list .table > thead > tr:nth-child(2) > th {
+  border-top: none;
+}
+#case-list .bo-TableSettings-columns {
+  max-height: none;
+}

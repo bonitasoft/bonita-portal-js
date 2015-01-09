@@ -11,7 +11,6 @@
     'gettext',
     'ui.bootstrap',
     'ui.router',
-    'ngDraggable',
     'org.bonita.common.directives.selectAll',
     'angular-growl',
     'ngAnimate',
@@ -19,7 +18,9 @@
     'bonita.selectable',
     'bonita.repeatable',
     'bonita.sortable',
-    'bonita.templates'
+    'bonita.templates',
+    'bonita.settings',
+    'ui.sortable'
   ])
   .config(['growlProvider',function (growlProvider) {
       growlProvider.globalPosition('top-center');
