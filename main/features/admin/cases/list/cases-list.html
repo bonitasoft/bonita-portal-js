@@ -11,27 +11,19 @@
     <div class="panel-body">
       <div growl></div>
       <div ng-if="cases.length">
-        <div class="col-md-6 case-action table-buttons" ng-switch on="archivedTabName">
-          <div ng-switch-when="true"> <archived-case-delete >{{'Delete' | translate}}</archived-case-delete></div>
-          <div ng-switch-default> <active-case-delete>{{'Delete' | translate}}</active-case-delete></div>
-        </div>
-        <div id="table-actions" class="col-md-6 text-right table-buttons" >
-          <div class="btn-group text-left" dropdown id='page-size' tooltip="{{'items per page' | translate}}" tooltip-animation="false" tooltip-popup-delay="500">
-            <button type="button" class="btn btn-default dropdown-toggle">{{pagination.itemsPerPage}}<span class="caret"></span></button>
-            <ul class="dropdown-menu" role="menu">
-              <li ng-repeat="pageSize in pageSizes" ng-click='caseCtrl.changeItemPerPage(pageSize)' class="items-per-page"> <a>{{::pageSize}}</a></li>
-            </ul>
-          </div>&nbsp;
-          <div class="btn-group text-left" dropdown id='columns-selection' tooltip="{{'columns selection' | translate}}" tooltip-animation="false" tooltip-popup-delay="500">
-            <button type="button" class="btn btn-default dropdown-toggle">{{ 'Columns' | translate}} <span class="caret"></span></button>
-            <ul class="dropdown-menu" role="menu">
-              <li ng-drop="true" ng-drop-success="caseCtrl.onDropComplete($index, $data,$event)" ng-repeat="col in columns" ng-click="$event.stopPropagation();" class="column-visibility"><div ><span class="column-visibility-checkbox"><input type="checkbox" ng-model="col.selected"></span><span class="column-visibility-name" ng-drag="true" ng-drag-data="col"> {{::col.name | translate}}</span></div></li>
-            </ul>
-          </div>
-        </div>
         <div class="col-md-12">
-          <table ng-if="!archivedTabName" bonitable bo-repeatable  on-sort="caseCtrl.updateSortField(sortOptions)" sort-options="sortOptions" resizable-column class="table table-striped table-hover table-responsive">
+          <table ng-if="!archivedTabName" bonitable bo-repeatable  on-sort="caseCtrl.updateSortField(sortOptions)" sort-options="sortOptions" resizable-column="$columns" class="table table-striped table-hover table-responsive">
             <thead>
+            <tr>
+              <th colspan="{{$columns.length+2}}">
+                <div class="col-md-6 case-action table-buttons">
+                  <div class="case-action table-buttons"> <active-case-delete>{{'Delete' | translate}}</active-case-delete></div>
+                </div>
+                <div class="col-md-6 text-right table-buttons">
+                  <table-settings class="pull-right" page-size="pagination.itemsPerPage" sizes="pageSizes" columns="$columns"  update-visibility="visibilityHandler(field)" update-page-size="pageSizeHandler(size)"></table-settings>
+                </div>
+              </th>
+            </tr>
             <tr data-headers>
               <th class="case-checkbox" data-ignore><div bo-selectall></div></th>
               <th bo-sorter="id">ID</th>
@@ -82,7 +74,7 @@
                 <th bo-sorter="endDate">End date</th>
                 <th bo-sorter="state">State</th>
 
-                <th data-ignore>{{'Actions' | translate}}</th>
+                <th data-ignore class="text-center">{{'Actions' | translate}}</th>
               </tr>
             </thead>
             <tbody>
