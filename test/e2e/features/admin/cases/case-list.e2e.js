@@ -1,7 +1,7 @@
 /* global element, by */
 (function () {
   'use strict';
-  ddescribe('case admin list', function () {
+  describe('case admin list', function () {
 
     var caseList,
       width = 1280,
@@ -177,12 +177,11 @@
       });
     });
 
-    ddescribe('sort', function () {
+    describe('sort', function () {
       var tableHeader;
       beforeEach(function () {
         tableHeader = element.all(by.css('table th[bo-sorter] button'));
       });
-
       it('should order by date asc', function () {
         tableHeader.get(2).click();
         tableHeader.get(2).click();
@@ -243,7 +242,6 @@
           expect(href).toContain('/#?id=1&_p=casemoredetailsadmin&');
         });
       });
-
 
     });
 

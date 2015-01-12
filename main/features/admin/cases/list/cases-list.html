@@ -50,7 +50,7 @@
               <td class="case-detail"><a id="case-process-link-{{caseItem.id}}" target="_top" href="{{::caseCtrl.linkToProcess(case)}}">{{case['Process name']}}</a></td>
               <td class="case-detail">{{::case['Version']}}</td>
               <td class="case-detail">{{::caseCtrl.parseAndFormat(case['Start date'])}}</td>
-              <td class="case-detail">{{::case['Started by'] || (case.defaultValue | translate)}}</td>
+              <td class="case-detail">{{::case['Started by'] || ('System' | translate)}}</td>
               <td class="case-detail">
                 <div ng-if="case.fullCase.state === 'error'">
                   <span tooltip="{{'One or more connectors on case start or case end failed' | translate}}" tooltip-animation="false" tooltip-popup-delay="500" class="alert-error glyphicon glyphicon-exclamation-sign"></span>
@@ -105,7 +105,7 @@
               <td class="case-detail"><a id="case-process-link-{{caseItem.id}}" target="_top" href="{{::caseCtrl.linkToProcess(case)}}">{{case['Process name']}}</a></td>
               <td class="case-detail">{{::case['Version']}}</td>
               <td class="case-detail">{{::caseCtrl.parseAndFormat(case['Start date'])}}</td>
-              <td class="case-detail">{{::case['Started by'] || (case.defaultValue | translate)}}</td>
+              <td class="case-detail">{{::case['Started by'] || ('System' | translate)}}</td>
               <td class="case-detail">{{::caseCtrl.parseAndFormat(case['End date'])}}</td>
               <td class="case-detail">{{::case['State']}}</td>
               <td class="case-link text-center">

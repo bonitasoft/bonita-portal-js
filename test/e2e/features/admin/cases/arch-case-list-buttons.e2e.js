@@ -168,7 +168,7 @@
         });
       });
 
-      it('should unselect all if some item are selected and selectAll is click', function(){
+      it('should select all if some item are selected and selectAll is click', function(){
         checkboxes.get(0).click();
         expect(checkboxes.get(0).isSelected()).toBeTruthy();
         checkboxes.get(1).click();
@@ -179,7 +179,7 @@
         expect(checkboxes.get(12).isSelected()).toBeTruthy();
         selectAllCheckbox.click();
         checkboxes.each(function(cb){
-          expect(cb.isSelected()).toBeFalsy();
+          expect(cb.isSelected()).toBeTruthy();
         });
       });
     });
