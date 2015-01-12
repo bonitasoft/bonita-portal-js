@@ -304,35 +304,37 @@
 
     describe('case admin displayed items per page', function () {
       it('should reset the pager when item displayed number is clicked', function () {
-        var caseList = element(by.css('#case-list'));
+        var caseListSettingsButton = element(by.css('#case-list button.bo-Settings'));
+        caseListSettingsButton.click();
+
+        var settingsSection = element.all(by.css('.bo-TableSettings-content div'));
+        var pageNumberButtons = settingsSection.get(0).all(by.css('button'));
 
         // click on the third number of page size buttons
-        var itemDisplayedNumber = caseList.all(by.css('#page-size button'));
-        itemDisplayedNumber.click();
-        browser.debugger();
-
-        var itemsPerPageChoices = element.all(by.css('.items-per-page'));
-        itemsPerPageChoices.get(0).click();
+        pageNumberButtons.get(2).click();
+        caseListSettingsButton.click();
+        pageNumberButtons.get(0).click();
 
         // 1st page must be the active
         // by default it is the first value of the item number (25)
         var caseCheckBoxes25 = element.all(by.css('#case-list tbody tr.case-row td.case-checkbox input'));
         expect(caseCheckBoxes25.count()).toBe(25);
 
-        itemDisplayedNumber.click();
-        itemsPerPageChoices.get(1).click();
+        caseListSettingsButton.click();
+        pageNumberButtons.get(1).click();
         var caseCheckBoxes50 = element.all(by.css('#case-list tbody tr.case-row td.case-checkbox input'));
         expect(caseCheckBoxes50.count()).toBe(50);
 
-        itemDisplayedNumber.click();
-        itemsPerPageChoices.get(2).click();
+        caseListSettingsButton.click();
+        pageNumberButtons.get(2).click();
         var caseCheckBoxes100 = element.all(by.css('#case-list tbody tr.case-row td.case-checkbox input'));
         expect(caseCheckBoxes100.count()).toBe(100);
 
-        itemDisplayedNumber.click();
-        itemsPerPageChoices.get(3).click();
+        caseListSettingsButton.click();
+        pageNumberButtons.get(3).click();
         caseCheckBoxes100 = element.all(by.css('#case-list tbody tr.case-row td.case-checkbox input'));
         expect(caseCheckBoxes100.count()).toBe(200);
+
 
       });
     });

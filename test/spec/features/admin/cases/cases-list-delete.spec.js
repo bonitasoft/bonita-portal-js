@@ -64,7 +64,6 @@
         spyOn(modal, 'open').and.returnValue({'result': promise});
         spyOn(promise, 'then');
         var case1 = {selected: true};
-        var case2 = {selected: false};
         scope.$selectedItems = [case1];
         caseDeleteCtrl.confirmDeleteSelectedCases();
         expect(modal.open).toHaveBeenCalled();
