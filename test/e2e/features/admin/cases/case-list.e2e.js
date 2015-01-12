@@ -314,7 +314,7 @@
     });
 
 
-    describe('case admin displayed items per page', function () {
+    ddescribe('case admin displayed items per page', function () {
       it('should reset the pager when item displayed number is clicked', function () {
         var caseList = element(by.css('#case-list'));
 

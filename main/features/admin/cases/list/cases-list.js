@@ -7,7 +7,7 @@
     'org.bonita.features.admin.cases.list.values',
     'org.bonita.features.admin.cases.list.filters',
     'org.bonita.features.admin.cases.list.delete',
-    'org.bonita.features.admin.cases.list.formatContent',
+    'org.bonita.features.admin.cases.list.service',
     'gettext',
     'ui.bootstrap',
     'ui.router',
@@ -26,14 +26,14 @@
       growlProvider.globalPosition('top-center');
     }])
   .controller('ActiveCaseListCtrl', ['$scope', 'caseAPI', 'casesColumns', 'defaultPageSize', 'defaultSort',
-    'defaultDeployedFields', 'defaultActiveCounterFields', '$location', 'pageSizes', 'defaultFilters', '$filter',
-    '$anchorScroll', 'growl', '$window', 'moreDetailToken', 'tabName', 'manageTopUrl',
+    'defaultDeployedFields', 'defaultActiveCounterFields', '$location', 'pageSizes', 'defaultFilters', 'dateParser',
+    '$anchorScroll', 'growl', 'moreDetailToken', 'tabName', 'manageTopUrl',
     'processId', 'supervisorId', CaseListCtrl])
 
 
   .controller('ArchivedCaseListCtrl', ['$scope', 'archivedCaseAPI', 'archivedCasesColumns', 'defaultPageSize',
-    'defaultSort', 'defaultDeployedFields', 'defaultArchivedCounterFields', '$location', 'pageSizes', 'defaultFilters', '$filter',
-    '$anchorScroll', 'growl', '$window', 'archivedMoreDetailToken', 'tabName', 'manageTopUrl',
+    'defaultSort', 'defaultDeployedFields', 'defaultArchivedCounterFields', '$location', 'pageSizes', 'defaultFilters', 'dateParser',
+    '$anchorScroll', 'growl', 'archivedMoreDetailToken', 'tabName', 'manageTopUrl',
     'processId', 'supervisorId', CaseListCtrl]);
 
   /**
@@ -57,7 +57,7 @@
    * @requires growl
    */
   /* jshint -W003 */
-  function CaseListCtrl($scope, caseAPI, casesColumns, defaultPageSize, defaultSort, defaultDeployedFields, defaultCounterFields, $location, pageSizes, defaultFilters, $filter, $anchorScroll, growl, $window, moreDetailToken, tabName, manageTopUrl, processId, supervisorId) {
+  function CaseListCtrl($scope, caseAPI, casesColumns, defaultPageSize, defaultSort, defaultDeployedFields, defaultCounterFields, $location, pageSizes, defaultFilters, dateParser, $anchorScroll, growl, moreDetailToken, tabName, manageTopUrl, processId, supervisorId) {
     var vm = this;
     /**
      * @ngdoc property
@@ -133,6 +133,7 @@
       }
     }, true);
 
+    vm.parseAndFormat = dateParser.parseAndFormat;
 
     vm.updateSortField = function updateSortField(sortOptions){
       if (!$scope.searchOptions.searchSort || sortOptions) {
@@ -237,6 +238,9 @@
         }
       }
     }
+
+
+
     vm.searchForCases = searchForCases;
     function searchForCases() {
       $scope.loading = true;
