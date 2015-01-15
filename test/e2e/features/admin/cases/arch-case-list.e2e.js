@@ -1,7 +1,7 @@
 /* global element, by */
 (function () {
   'use strict';
-  describe('case admin list', function () {
+  ddescribe('case admin list', function () {
 
     var caseList,
       width = 1280,
@@ -34,7 +34,7 @@
         expect(columnSelectionButton.count()).toBe(1);
         expect(columnSelectionButton.get(0).getText()).toBe('Columns');
         columnSelectionButton.all(by.css('.column-visibility')).each(function (column) {
-          expect(column.getWebElement().isDisplayed()).toBeFalsy();
+          expect(column.isDisplayed()).toBeFalsy();
         });
       });
       it('should contains table footer with result number', function () {
@@ -57,7 +57,7 @@
         var columnToShowList = element.all(by.css('#columns-selection li.column-visibility'));
         expect(columnToShowList.count()).toBe(7);
         columnToShowList.each(function (column) {
-          expect(column.getWebElement().isDisplayed()).toBeTruthy();
+          expect(column.isDisplayed()).toBeTruthy();
           expect(column.all(by.css('input:checked')).count()).toBe(1);
         });
 
@@ -65,7 +65,7 @@
         columnToShowList = columnSelectionButton.all(by.css('#columns-selection li.column-visibility'));
         expect(columnToShowList.count()).toBe(0);
         columnToShowList.each(function (column) {
-          expect(column.getWebElement().isDisplayed()).toBeFalsy();
+          expect(column.isDisplayed()).toBeFalsy();
         });
       });
       it('should hide a column when an item is unselected in dropdown and make it reappeared when clicked', function () {
