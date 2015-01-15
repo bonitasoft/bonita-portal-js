@@ -32,7 +32,7 @@ module.exports = function() {
     return opt;
   }
 
-  middlewares.push(proxify('/bonita/portaljs/', 'http://127.0.0.1:9100/'));
+  middlewares.push(proxify('/bonita/portaljs/', 'http://127.0.0.1:9000/'));
 
   // Default proxy for dev mode to load data from the portal
   if(!utils.env.e2e) {
@@ -50,7 +50,7 @@ module.exports = function() {
   }
 
   browserSync({
-    port: 9100,
+    port: 9000,
     startPath: '/bonita/portaljs/#/admin/cases/list', // Default url to open
     host: '127.0.0.1',
     open: 'external',
