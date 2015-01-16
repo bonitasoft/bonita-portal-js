@@ -12,6 +12,14 @@
       <div growl></div>
       <div ng-if="cases.length">
         <div class="col-md-12">
+          <div class="pull-right" ng-if="pagination.total>pagination.itemsPerPage">
+             <pagination ng-click="caseCtrl.searchForCases()" boundary-links="true" total-items="pagination.total" ng-model="pagination.currentPage" items-per-page="pagination.itemsPerPage " previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;" max-size="5"></pagination>
+          </div>
+          <div class="pull-right" ng-if="pagination.total">
+             <span id="cases-results-size" class="pull-left">{{ currentFirstResultIndex + ' to ' + currentLastResultIndex + ' of ' + pagination.total | translate}}</span>
+          </div>
+        </div>
+        <div class="col-md-12">
           <table ng-if="!archivedTabName" bonitable bo-repeatable  on-sort="caseCtrl.updateSortField(sortOptions)" sort-options="sortOptions" resizable-column="$columns" resize-selector="tr th.case-column" class="table table-striped table-hover table-responsive">
             <thead>
               <tr>
@@ -119,9 +127,11 @@
           </table>
         </div>
         <div class="col-md-12">
-          <div class="pull-right" ng-if="pagination.total > pagination.itemsPerPage">
-             <span id="cases-results-size" class="pull-left">{{ currentFirstResultIndex + ' to ' + currentLastResultIndex + ' of ' + pagination.total | translate}}</span>
+          <div class="pull-right" ng-if="pagination.total>pagination.itemsPerPage">
              <pagination ng-click="caseCtrl.searchForCases()" boundary-links="true" total-items="pagination.total" ng-model="pagination.currentPage" items-per-page="pagination.itemsPerPage " previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;" max-size="5"></pagination>
+          </div>
+          <div class="pull-right" ng-if="pagination.total">
+             <span id="cases-results-size" class="pull-left">{{ currentFirstResultIndex + ' to ' + currentLastResultIndex + ' of ' + pagination.total | translate}}</span>
           </div>
         </div>
       </div>
