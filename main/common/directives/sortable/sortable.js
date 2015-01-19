@@ -2,17 +2,17 @@
   'use strict';
   angular
   .module('org.bonita.sortable',[])
-  .directive('boSorter', function(){
+  .directive('boSortable', function(){
     return {
       restrict: 'A',
       scope: {
         sortOptions : '=',
         onSort : '&'
       },
-      templateUrl: 'template/sortable/sorter.tpl.html',
+      templateUrl: 'template/sortable/sortable.tpl.html',
       transclude: true,
       link: function($scope, iElm, attr) {
-        $scope.property =  (attr.id || attr.boSorter || '').trim();
+        $scope.property =  (attr.id || attr.boSortable || '').trim();
         if($scope.property){
           iElm.addClass('pointer');
         }
@@ -31,7 +31,7 @@
       }
     };
   }).run(['$templateCache', function($templateCache) {
-    $templateCache.put('template/sortable/sorter.tpl.html',
+    $templateCache.put('template/sortable/sortable.tpl.html',
       '<div ng-click="sort()"><span ng-transclude></span>\n' +
       '<span class="glyphicon" ng-class="{\'glyphicon-chevron-up\':sortOptions.ascendant &amp;&amp; sortOptions.property === property, \'glyphicon-chevron-down\':!sortOptions.ascendant &amp;&amp; sortOptions.property === property}"></span></div>\n' +
       '');

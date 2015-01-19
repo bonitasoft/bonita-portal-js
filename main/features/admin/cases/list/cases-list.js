@@ -12,7 +12,7 @@
     'gettext',
     'ui.bootstrap',
     'ui.router',
-    'lrDragNDrop',
+    'ngDraggable',
     'org.bonita.common.directives.selectAll',
     'angular-growl',
     'ngAnimate'
@@ -22,13 +22,13 @@
     }])
   .controller('ActiveCaseListCtrl', ['$scope', 'caseAPI', 'casesColumns', 'defaultPageSize', 'defaultSort',
     'defaultDeployedFields', 'defaultActiveCounterFields', '$location', 'pageSizes', 'defaultFilters', '$filter',
-    '$anchorScroll', 'growl', '$window', 'moreDetailToken', 'activedTabName', 'manageTopUrl',
+    '$anchorScroll', 'growl', '$window', 'moreDetailToken', 'tabName', 'manageTopUrl',
     'processId', 'supervisorId', CaseListCtrl])
 
 
   .controller('ArchivedCaseListCtrl', ['$scope', 'archivedCaseAPI', 'archivedCasesColumns', 'defaultPageSize',
     'defaultSort', 'defaultDeployedFields', 'defaultArchivedCounterFields', '$location', 'pageSizes', 'defaultFilters', '$filter',
-    '$anchorScroll', 'growl', '$window', 'archivedMoreDetailToken', 'archivedTabName', 'manageTopUrl',
+    '$anchorScroll', 'growl', '$window', 'archivedMoreDetailToken', 'tabName', 'manageTopUrl',
     'processId', 'supervisorId', CaseListCtrl]);
 
   /**
@@ -53,6 +53,7 @@
    */
   /* jshint -W003 */
   function CaseListCtrl($scope, caseAPI, casesColumns, defaultPageSize, defaultSort, defaultDeployedFields, defaultCounterFields, $location, pageSizes, defaultFilters, $filter, $anchorScroll, growl, $window, moreDetailToken, tabName, manageTopUrl, processId, supervisorId) {
+    var vm = this;
     /**
      * @ngdoc property
      * @name o.b.f.admin.cases.list.CaseListCtrl#columns
@@ -74,7 +75,9 @@
       currentPage: 1,
       total: 0
     };
-    $scope.selectedFilters = {};
+    $scope.selectedFilters = {
+      processId : processId
+    };
     $scope.pageSizes = pageSizes;
     /**
      * @ngdoc property
@@ -84,8 +87,8 @@
      * the array of cases to display
      */
     $scope.cases = undefined;
-    $scope.filters = [];
     $scope.moreDetailToken = moreDetailToken;
+    $scope.loading = true;
 
     var defaultFiltersArray = [];
     if (supervisorId) {
@@ -93,22 +96,87 @@
       $scope.moreDetailToken = moreDetailToken.replace('admin', 'pm');
     }
     $scope.processManager = +!!supervisorId;
-    $scope.filters = angular.copy(defaultFiltersArray);
     $scope.supervisorId = supervisorId;
 
-    $scope.selectedFilters.processId = processId;
     $scope.archivedTabName = !!tabName;
-
-    manageTopUrl.addOrReplaceParam('_tab', tabName);
-
-    manageTopUrl.addOrReplaceParam('_processId', processId || '');
-
-    $scope.reinitCases = function() {
-      delete $scope.searchSort;
-      $scope.pagination.currentPage = 1;
-      $scope.searchForCases();
+    $scope.searchOptions = {filters:[], searchSort : defaultSort + ' ' +  'ASC'};
+    $scope.searchOptions.filters = angular.copy(defaultFiltersArray);
+    //never used it but initialized in this scope in order to keep track of sortOptions on table reload
+    $scope.sortOptions = {
+      property: defaultSort,
+      ascendant : true
     };
-    $scope.addAlert = function(msg) {
+
+    vm.reinitCases = function() {
+      delete $scope.searchOptions.searchSort;
+      $scope.pagination.currentPage = 1;
+      vm.searchForCases();
+    };
+
+    $scope.$on('caselist:http-error', handleHttpErrorEvent);
+    $scope.$on('caselist:notify', addAlertEventHandler);
+    $scope.$on('caselist:search', searchForCases);
+
+    $scope.$watch('selectedFilters', buildFilters, true);
+
+    $scope.$watch('searchOptions', function() {
+      $scope.pagination.currentPage = 1;
+      //if processId is still set it means filters have not been process and need to
+      //wait for them to update
+      if(!$scope.selectedFilters.processId){
+        vm.searchForCases();
+      }
+    }, true);
+
+
+    vm.updateSortField = function updateSortField(sortOptions){
+      if (!$scope.searchOptions.searchSort || sortOptions) {
+        $scope.searchOptions.searchSort = ((sortOptions && sortOptions.property) ?
+          sortOptions.property : defaultSort) + ' ' + ((sortOptions && sortOptions.ascendant===false) ? 'DESC' : 'ASC');
+        $scope.pagination.currentPage = 1;
+      }
+    };
+
+    vm.onDropComplete = function($index, $data){
+      if($scope.columns && $scope.columns && $data){
+        var formerIndex = $scope.columns.indexOf($data);
+        if(formerIndex !== $index-1 && formerIndex>-1){
+          var i;
+          if(formerIndex>$index){
+            for (i = formerIndex -1;  i >= $index; i--) {
+              $scope.columns[i+1] = $scope.columns[i];
+            }
+            $scope.columns[$index] = $data;
+          }else{
+            for (i = formerIndex + 1;  i < $index; i++) {
+              $scope.columns[i-1] = $scope.columns[i];
+            }
+            $scope.columns[$index-1] = $data;
+          }
+        }
+      }
+    };
+
+    vm.getCaseDetailUrl = function(caseItemId) {
+      if (caseItemId) {
+        return manageTopUrl.getUrlToTokenAndId(caseItemId, $scope.moreDetailToken);
+      }
+    };
+
+    vm.filterColumn = function(column) {
+      return column && column.selected;
+    };
+
+    vm.changeItemPerPage = function(pageSize) {
+      if (pageSize) {
+        $scope.pagination.itemsPerPage = pageSize;
+        $scope.pagination.currentPage = 1;
+        vm.searchForCases();
+      }
+    };
+
+    vm.addAlertEventHandler = addAlertEventHandler;
+    function addAlertEventHandler(event, msg) {
       var options = {
         ttl: 3000,
         disableCountDown: true,
@@ -125,22 +193,10 @@
         default:
           growl.info(content, options);
       }
-    };
+    }
 
-    $scope.closeAlert = function(index) {
-      $scope.alerts.splice(index, 1);
-    };
-
-    $scope.$watch('filters', function() {
-      $scope.pagination.currentPage = 1;
-      //if processId is still set it means filters have not been process and need to
-      //wait for them to update
-      if(!$scope.selectedFilters.processId){
-        $scope.searchForCases();
-      }
-    }, true);
-
-    $scope.buildFilters = function() {
+    vm.buildFilters = buildFilters;
+    function buildFilters() {
       var filters = angular.copy(defaultFiltersArray);
       if ($scope.selectedFilters.selectedProcessDefinition) {
         filters.push('processDefinitionId=' + $scope.selectedFilters.selectedProcessDefinition);
@@ -150,57 +206,11 @@
       if ($scope.selectedFilters.selectedStatus && $scope.selectedFilters.selectedStatus !== defaultFilters.caseStatus) {
         filters.push('state=' + $scope.selectedFilters.selectedStatus);
       }
-      $scope.filters = filters;
-    };
-    //never used it but initialized in this scope in order to keep track of sortOptions on table reload
-    $scope.sortOptions = {
-      property: 'defaultSort'
-    };
+      $scope.searchOptions.filters = filters;
+    }
 
-    $scope.searchForCases = function casesSearch(sortOptions) {
-      if (!$scope.searchSort || sortOptions) {
-        $scope.searchSort = ((sortOptions && sortOptions.property) ?
-          sortOptions.property : defaultSort) + ' ' + ((sortOptions && !sortOptions.ascendant) ? 'DESC' : 'ASC');
-        $scope.pagination.currentPage = 1;
-      }
-      delete $scope.cases;
-      caseAPI.search({
-        p: $scope.pagination.currentPage - 1,
-        c: $scope.pagination.itemsPerPage,
-        d: defaultDeployedFields,
-        o: $scope.searchSort,
-        f: $scope.filters,
-        n: defaultCounterFields,
-        s: $scope.selectedFilters.currentSearch
-      }).$promise.then(function mapCases(fullCases) {
-        $scope.pagination.total = fullCases && fullCases.resource && fullCases.resource.pagination && fullCases.resource.pagination.total;
-        $scope.currentFirstResultIndex = (($scope.pagination.currentPage - 1) * $scope.pagination.itemsPerPage) + 1;
-        $scope.currentLastResultIndex = Math.min($scope.currentFirstResultIndex + $scope.pagination.itemsPerPage - 1, $scope.pagination.total);
-        $scope.cases = fullCases && fullCases.resource && fullCases.resource.map(function selectOnlyInterestingFields(fullCase) {
-          var simpleCase = {};
-          for (var i = 0; i < $scope.columns.length; i++) {
-            var currentCase = fullCase;
-            for (var j = 0; j < $scope.columns[i].path.length; j++) {
-              currentCase = currentCase && currentCase[$scope.columns[i].path[j]];
-            }
-            simpleCase[$scope.columns[i].name] = currentCase;
-          }
-          simpleCase.id = fullCase.id;
-          simpleCase.processDefinitionId = fullCase.processDefinitionId;
-          return simpleCase;
-        });
-      }, function(error) {
-        $scope.pagination.total = 0;
-        $scope.currentFirstResultIndex = 0;
-        $scope.currentLastResultIndex = 0;
-        $scope.cases = [];
-        $scope.displayError(error);
-      }).finally(function() {
-        $anchorScroll();
-      });
-    };
-
-    $scope.displayError = function(error) {
+    vm.handleHttpErrorEvent = handleHttpErrorEvent;
+    function handleHttpErrorEvent (event, error) {
       if (error) {
         if (error.status === 401) {
           $location.url('/');
@@ -214,33 +224,57 @@
             message.errorMsg = error.data.message;
             message.resource = error.data.api + '/' + error.data.resource;
           }
-          $scope.addAlert(message);
+          $scope.$emit('caselist:notify', message);
         }
       }
-    };
-
-    $scope.getCaseDetailUrl = function(caseItemId) {
-      if (caseItemId) {
-        return manageTopUrl.getUrlToTokenAndId(caseItemId, $scope.moreDetailToken);
-      }
-    };
-
-    $scope.selectColumn = function(column) {
-      if (column) {
-        column.selected = !column.selected;
-      }
-    };
-
-    $scope.filterColumn = function(column) {
-      return column && column.selected;
-    };
-
-    $scope.changeItemPerPage = function(pageSize) {
-      if (pageSize) {
-        $scope.pagination.itemsPerPage = pageSize;
-        $scope.pagination.currentPage = 1;
-        $scope.searchForCases();
-      }
-    };
+    }
+    vm.searchForCases = searchForCases;
+    function searchForCases() {
+      $scope.loading = true;
+      //these tmp variables are here to store currentSearch results
+      //and not store them directly in scope in case another search is called before
+      //the first one finishes. See cases-list-controller.spec.js#'page changes'
+      var casesForCurrentSearch = $scope.cases = [];
+      var paginationForCurrentSearch = $scope.pagination = angular.copy($scope.pagination);
+      caseAPI.search({
+        p: paginationForCurrentSearch.currentPage - 1,
+        c: paginationForCurrentSearch.itemsPerPage,
+        d: defaultDeployedFields,
+        o: $scope.searchOptions.searchSort,
+        f: $scope.searchOptions.filters,
+        n: defaultCounterFields,
+        s: $scope.selectedFilters.currentSearch
+      }).$promise.then(function mapCases(fullCases) {
+        paginationForCurrentSearch.total = fullCases && fullCases.resource && fullCases.resource.pagination && fullCases.resource.pagination.total;
+        $scope.currentFirstResultIndex = ((paginationForCurrentSearch.currentPage - 1) * paginationForCurrentSearch.itemsPerPage) + 1;
+        $scope.currentLastResultIndex = Math.min($scope.currentFirstResultIndex + paginationForCurrentSearch.itemsPerPage - 1, paginationForCurrentSearch.total);
+        if(fullCases && fullCases.resource){
+          fullCases.resource.map(function selectOnlyInterestingFields(fullCase) {
+            var simpleCase = {};
+            for (var i = 0; i < $scope.columns.length; i++) {
+              var currentCase = fullCase;
+              for (var j = 0; j < $scope.columns[i].path.length; j++) {
+                currentCase = currentCase && currentCase[$scope.columns[i].path[j]];
+              }
+              simpleCase[$scope.columns[i].name] = currentCase;
+            }
+            simpleCase.id = fullCase.id;
+            simpleCase.processDefinitionId = fullCase.processDefinitionId;
+            simpleCase.fullCase = fullCase;
+            return simpleCase;
+          }).forEach(function(caseItem){
+            casesForCurrentSearch.push(caseItem);
+          });
+        }
+      }, function(error) {
+        paginationForCurrentSearch.total = 0;
+        $scope.currentFirstResultIndex = 0;
+        $scope.currentLastResultIndex = 0;
+        $scope.$emit('caselist:http-error', error);
+      }).finally(function() {
+        $scope.loading = false;
+        $anchorScroll();
+      });
+    }
   }
 })();

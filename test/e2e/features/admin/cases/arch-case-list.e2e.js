@@ -1,7 +1,7 @@
 /* global element, by */
 (function () {
   'use strict';
-  describe('case admin list', function () {
+  ddescribe('case admin list', function () {
 
     var caseList,
       width = 1280,
@@ -18,9 +18,9 @@
       it('should contains table headers', function () {
         var columnList = element.all(by.css('#case-list th'));
         expect(columnList.count()).toBe(9);
-        expect(columnList.get(1).getText()).toContain('Process name');
-        expect(columnList.get(2).getText()).toContain('Version');
-        expect(columnList.get(3).getText()).toContain('ID');
+        expect(columnList.get(1).getText()).toContain('ID');
+        expect(columnList.get(2).getText()).toContain('Process name');
+        expect(columnList.get(3).getText()).toContain('Version');
         expect(columnList.get(4).getText()).toContain('Start date');
         expect(columnList.get(5).getText()).toContain('Started by');
         expect(columnList.get(6).getText()).toContain('End date');
@@ -34,7 +34,7 @@
         expect(columnSelectionButton.count()).toBe(1);
         expect(columnSelectionButton.get(0).getText()).toBe('Columns');
         columnSelectionButton.all(by.css('.column-visibility')).each(function (column) {
-          expect(column.getWebElement().isDisplayed()).toBeFalsy();
+          expect(column.isDisplayed()).toBeFalsy();
         });
       });
       it('should contains table footer with result number', function () {
@@ -57,7 +57,7 @@
         var columnToShowList = element.all(by.css('#columns-selection li.column-visibility'));
         expect(columnToShowList.count()).toBe(7);
         columnToShowList.each(function (column) {
-          expect(column.getWebElement().isDisplayed()).toBeTruthy();
+          expect(column.isDisplayed()).toBeTruthy();
           expect(column.all(by.css('input:checked')).count()).toBe(1);
         });
 
@@ -65,20 +65,20 @@
         columnToShowList = columnSelectionButton.all(by.css('#columns-selection li.column-visibility'));
         expect(columnToShowList.count()).toBe(0);
         columnToShowList.each(function (column) {
-          expect(column.getWebElement().isDisplayed()).toBeFalsy();
+          expect(column.isDisplayed()).toBeFalsy();
         });
       });
       it('should hide a column when an item is unselected in dropdown and make it reappeared when clicked', function () {
         var columnSelectionButton = element(by.css('#columns-selection button'));
         columnSelectionButton.click();
-        var columnToShowNameList = element.all(by.css('#columns-selection .column-visibility-name'));
+        var columnToShowNameList = element.all(by.css('#columns-selection .column-visibility input'));
 
         expect(element.all(by.css('#columns-selection input')).get(0).isSelected()).toBeTruthy();
         columnToShowNameList.get(0).click();
         expect(element.all(by.css('#columns-selection input')).get(0).isSelected()).toBeFalsy();
         var columnHeaders = caseList.all(by.css('th.case-column'));
         expect(columnHeaders.count()).toBe(6);
-        expect(columnHeaders.getText()).not.toContain(columnToShowNameList.get(0).getText());
+        expect(columnHeaders.getText()).not.toContain('Process Name');
         expect(caseList.all(by.css('#caseId-1 td.case-detail')).count()).toBe(6);
 
         var nextCheckedElement = element.all(by.css('.column-visibility input:checked'));
@@ -92,18 +92,18 @@
         expect(columnHeaders.getText()).not.toContain(nextCheckedElement.get(0).getText());
         expect(caseList.all(by.css('#caseId-1 td.case-detail')).count()).toBe(5);
 
-        nextCheckedElement = element.all(by.css('#columns-selection .column-visibility-name'));
+        nextCheckedElement = element.all(by.css('#columns-selection .column-visibility input'));
         nextCheckedElement.get(2).click();
         expect(element.all(by.css('#columns-selection input')).get(2).isSelected()).toBeFalsy();
         columnHeaders = caseList.all(by.css('th.case-column'));
-        expect(columnHeaders.getText()).not.toContain(nextCheckedElement.get(2).getText());
+        expect(columnHeaders.getText()).not.toContain('ID');
         expect(caseList.all(by.css('th.case-column')).count()).toBe(4);
         expect(caseList.all(by.css('#caseId-1 td.case-detail')).count()).toBe(4);
 
         columnToShowNameList.get(2).click();
         expect(element.all(by.css('#columns-selection input')).get(2).isSelected()).toBeTruthy();
         columnHeaders = caseList.all(by.css('th.case-column'));
-        expect(columnHeaders.getText()).toContain(nextCheckedElement.get(2).getText());
+        expect(columnHeaders.getText()).toContain('Version');
         expect(caseList.all(by.css('th.case-column')).count()).toBe(5);
         expect(caseList.all(by.css('#caseId-1 td.case-detail')).count()).toBe(5);
       });
@@ -189,7 +189,7 @@
         expect(element.all(by.xpath('//table//th[5]//div/span[2]')).getAttribute('class')).toEqual(['glyphicon glyphicon-chevron-up']);
         expect(element.all(by.css('.glyphicon-chevron-up')).count()).toBe(1);
         expect(element(by.css('.glyphicon-chevron-down')).isElementPresent()).toBeFalsy();
-        expect(caseList.all(by.css('tbody tr')).get(0).all(by.css('td')).getText()).toEqual(['', 'Pool', '1.0', '1', '2014-10-16 16:05', 'william.jobs', '2014-11-02 10:07', 'started', '']);
+        expect(caseList.all(by.css('tbody tr')).get(0).all(by.css('td')).getText()).toEqual(['', '1', 'Pool', '1.0', '10/16/2014 4:05 PM', 'william.jobs', '11/02/2014 10:07 AM', 'started', '']);
       });
       it('should order by date desc', function () {
         tableHeader.get(2).click();
@@ -197,7 +197,7 @@
         expect(element.all(by.xpath('//table//th[5]//div/span[2]')).getAttribute('class')).toEqual(['glyphicon glyphicon-chevron-down']);
         expect(element.all(by.css('.glyphicon-chevron-down')).count()).toBe(1);
         expect(element(by.css('.glyphicon-chevron-up')).isElementPresent()).toBeFalsy();
-        expect(caseList.all(by.css('tbody tr')).get(0).all(by.css('td')).getText()).toEqual(['', 'ProcessX', '2.0', '1', '2014-10-20 10:08', 'william.jobs', '2014-11-02 10:07', 'started', '']);
+        expect(caseList.all(by.css('tbody tr')).get(0).all(by.css('td')).getText()).toEqual(['', '1', 'ProcessX', '2.0', '10/20/2014 10:08 AM', 'william.jobs', '11/02/2014 10:07 AM', 'started', '']);
       });
     });
 
@@ -206,12 +206,12 @@
         expect(element.all(by.css('#case-list tr.case-row')).count()).toBe(25);
 
         caseList.all(by.css('#caseId-1 td')).then(function (poolCaseDetails) {
-          expect(poolCaseDetails[1].getText()).toContain('Leave Request');
-          expect(poolCaseDetails[2].getText()).toContain('1.0');
-          expect(poolCaseDetails[3].getText()).toContain('1');
-          expect(poolCaseDetails[4].getText()).toContain('2014-10-17 16:05');
+          expect(poolCaseDetails[1].getText()).toContain('1');
+          expect(poolCaseDetails[2].getText()).toContain('Leave Request');
+          expect(poolCaseDetails[3].getText()).toContain('1.0');
+          expect(poolCaseDetails[4].getText()).toContain('10/17/2014 4:05 PM');
           expect(poolCaseDetails[5].getText()).toContain('walter.bates');
-          expect(poolCaseDetails[6].getText()).toContain('2014-11-02 10:07');
+          expect(poolCaseDetails[6].getText()).toContain('11/02/2014 10:07 AM');
           expect(poolCaseDetails[7].getText()).toContain('started');
         });
       });

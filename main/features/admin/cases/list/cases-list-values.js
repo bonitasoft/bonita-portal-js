@@ -10,6 +10,13 @@
 
   angular.module('org.bonita.features.admin.cases.list.values', [])
     .value('casesColumns', [{
+      name: 'ID',
+      sortName: 'id',
+      path: ['id'],
+      selected: true,
+      align: 'right',
+      linkToCase: true
+    }, {
       name: 'Process name',
       sortName: 'name',
       path: ['processDefinitionId', 'name'],
@@ -20,13 +27,6 @@
       path: ['processDefinitionId', 'version'],
       selected: true
     }, {
-      name: 'ID',
-      sortName: 'id',
-      path: ['id'],
-      selected: true,
-      align: 'right',
-      linkToCase: true
-    }, {
       name: 'Start date',
       sortName: 'startDate',
       path: ['start'],
@@ -35,18 +35,19 @@
     }, {
       name: 'Started by',
       path: ['started_by', 'userName'],
-      selected: true
+      selected: true,
+      defaultValue : 'System'
     }, {
-      name: 'Failed tasks',
+      name: 'Failed Flow Nodes',
       path: ['failedFlowNodes'],
+      align: 'right',
       selected: true,
-      popover: true,
-      flowNodeFailedFilter: true
+      warn : true
     }, {
-      name: 'Pending tasks',
+      name: 'Pending Flow Nodes',
       path: ['activeFlowNodes'],
-      selected: true,
-      popover: true
+      align: 'right',
+      selected: true
     }])
     .value('allCaseStatesValues', {
       started: 'Started',
@@ -56,7 +57,6 @@
       canceled: 'Canceled'
     })
     .value('caseStatesValues', {
-      started: 'Healthy',
       error: 'With failures'
     })
     .value('moreDetailToken', 'casemoredetailsadmin')
@@ -72,6 +72,13 @@
     .value('defaultActiveCounterFields', ['activeFlowNodes', 'failedFlowNodes'])
     .value('activedTabName', '')
     .value('archivedCasesColumns', [{
+      name: 'ID',
+      sortName: 'id',
+      path: ['sourceObjectId'],
+      selected: true,
+      align: 'right',
+      linkToCase: true
+    }, {
       name: 'Process name',
       sortName: 'name',
       path: ['processDefinitionId', 'name'],
@@ -82,13 +89,6 @@
       path: ['processDefinitionId', 'version'],
       selected: true
     }, {
-      name: 'ID',
-      sortName: 'id',
-      path: ['sourceObjectId'],
-      selected: true,
-      align: 'right',
-      linkToCase: true
-    }, {
       name: 'Start date',
       sortName: 'startDate',
       path: ['start'],
@@ -97,7 +97,8 @@
     }, {
       name: 'Started by',
       path: ['started_by', 'userName'],
-      selected: true
+      selected: true,
+      defaultValue : 'System'
     }, {
       name: 'End date',
       sortName: 'endDate',

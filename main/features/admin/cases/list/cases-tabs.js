@@ -2,32 +2,52 @@
 (function() {
   'use strict';
 
-  angular.module('org.bonita.features.admin.cases.list', ['ui.router', 'org.bonita.features.admin.cases.list.table', 'ui.bootstrap', 'gettext', 'org.bonita.services.topurl'])
+  angular.module('org.bonita.features.admin.cases.list', [
+    'ui.router',
+    'org.bonita.features.admin.cases.list.table',
+    'ui.bootstrap',
+    'gettext',
+    'org.bonita.services.topurl',
+    'org.bonita.features.admin.cases.list.values',
+    'org.bonita.common.directives.bonitaHref'
+  ])
     .config(['$stateProvider', '$urlRouterProvider',
       function($stateProvider, $urlRouterProvider) {
-        $urlRouterProvider.when('/pm/cases/list?processId&supervisor_id', '/admin/cases/list?processId&supervisor_id');
-        $urlRouterProvider.when('/pm/cases/list/archived?processId&supervisor_id', '/admin/cases/list/archived?processId&supervisor_id');
+        $urlRouterProvider.rule(function ($injector, $location) {
+          if($location.path().indexOf('/pm')===0){
+            return $location.url().replace(/^\/pm/, '/admin');
+          }
+        });
         $stateProvider.state('bonita.cases', {
           url: '/admin/cases/list?processId&supervisor_id',
           templateUrl: 'features/admin/cases/list/cases.html',
           abstract: true,
-          controller: 'CaseCtrl'
+          controller: 'CaseCtrl',
+          controllerAs: 'caseCtrl'
         }).state('bonita.cases.active', {
           url: '',
           views: {
             'case-list': {
               templateUrl: 'features/admin/cases/list/cases-list.html',
-              controller: 'ActiveCaseListCtrl'
+              controller: 'ActiveCaseListCtrl',
+              controllerAs : 'caseCtrl'
             }
           },
           resolve: {
+            tabName : ['manageTopUrl', 'activedTabName',
+              function(manageTopUrl, tabName){
+                manageTopUrl.addOrReplaceParam('_tab', tabName);
+                return tabName;
+              }
+            ],
             supervisorId: ['$stateParams',
               function($stateParams) {
                 return $stateParams['supervisor_id'];
               }
             ],
-            processId: ['$stateParams',
-              function($stateParams){
+            processId: ['$stateParams', 'manageTopUrl',
+              function($stateParams, manageTopUrl){
+                manageTopUrl.addOrReplaceParam('_processId', $stateParams.processId || '');
                 return $stateParams.processId;
               }
             ]
@@ -37,17 +57,25 @@
           views: {
             'case-list': {
               templateUrl: 'features/admin/cases/list/cases-list.html',
-              controller: 'ArchivedCaseListCtrl'
+              controller: 'ArchivedCaseListCtrl',
+              controllerAs : 'caseCtrl'
             }
           },
           resolve: {
+            tabName : ['manageTopUrl', 'archivedTabName',
+              function(manageTopUrl, tabName){
+                manageTopUrl.addOrReplaceParam('_tab', tabName);
+                return tabName;
+              }
+            ],
             supervisorId: ['$stateParams',
               function($stateParams) {
                 return $stateParams['supervisor_id'];
               }
             ],
-            processId: ['$stateParams',
-              function($stateParams){
+            processId: ['$stateParams', 'manageTopUrl',
+              function($stateParams, manageTopUrl){
+                manageTopUrl.addOrReplaceParam('_processId', $stateParams.processId || '');
                 return $stateParams.processId;
               }
             ]
@@ -55,20 +83,24 @@
         });
       }
     ])
-    .controller('CaseCtrl', ['$scope', '$state',
-      function($scope, $state) {
+    .controller('CaseCtrl', ['$scope', '$state', 'manageTopUrl',
+      function($scope, $state, manageTopUrl) {
+        //ui-sref-active seems to bug when the processId is passed
+        //need to implement it ourselves...
+        $scope.state = $state;
+        $scope.currentToken = manageTopUrl.getCurrentPageToken();
         $scope.casesStates = [];
         $scope.casesStates.push({
           state: 'bonita.cases.active',
-          title: 'Active',
+          title: 'Open cases',
           htmlAttributeId: 'TabActiveCases'
         });
         $scope.casesStates.push({
           state: 'bonita.cases.archived',
-          title: 'Archived',
+          title: 'Archived cases',
+          tabName : 'archived',
           htmlAttributeId: 'TabArchivedCases'
         });
-        $scope.state = $state;
       }
     ]);
 })();
