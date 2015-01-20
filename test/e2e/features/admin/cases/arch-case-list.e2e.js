@@ -177,7 +177,7 @@
       });
     });
 
-    ddescribe('sort', function () {
+    describe('sort', function () {
       var tableHeader;
       beforeEach(function () {
         tableHeader = element.all(by.css('table th[bo-sorter] button'));
