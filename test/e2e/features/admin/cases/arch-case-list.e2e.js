@@ -177,7 +177,7 @@
       });
     });
 
-    describe('sort', function () {
+    ddescribe('sort', function () {
       var tableHeader;
       beforeEach(function () {
         tableHeader = element.all(by.css('table th[bo-sorter] button'));
@@ -191,6 +191,14 @@
       it('should order by date desc', function () {
         tableHeader.get(2).click();
         expect(caseList.all(by.css('tbody tr')).get(0).all(by.css('td')).getText()).toEqual(['', '1', 'ProcessX', '2.0', '10/20/2014 10:08 AM', 'william.jobs', '11/02/2014 10:07 AM', 'started', '']);
+      });
+      it('should order by id desc', function () {
+        tableHeader.get(0).click();
+        tableHeader.get(0).click();
+        expect(element.all(by.xpath('//table//th[2]//div/span[2]')).getAttribute('class')).toEqual(['glyphicon glyphicon-chevron-down']);
+        expect(element.all(by.css('.glyphicon-chevron-down')).count()).toBe(1);
+        expect(element(by.css('.glyphicon-chevron-up')).isElementPresent()).toBeFalsy();
+        expect(caseList.all(by.css('tbody tr')).get(0).all(by.css('td')).getText()).toEqual(['', '1000', 'ProcessX', '2.0', '10/20/2014 10:08 AM', 'william.jobs', '11/02/2014 10:07 AM', 'started', '']);
       });
     });
 

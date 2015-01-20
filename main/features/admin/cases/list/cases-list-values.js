@@ -73,7 +73,7 @@
     .value('activedTabName', '')
     .value('archivedCasesColumns', [{
       name: 'ID',
-      sortName: 'id',
+      sortName: 'sourceObjectId',
       path: ['sourceObjectId'],
       selected: true,
       align: 'right',
