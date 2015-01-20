@@ -12,3 +12,14 @@
 #case-list .bo-TableSettings-columns {
   max-height: none;
 }
+
+#case-list .table > thead th .bo-SortButton{
+    font-weight: bold;
+}
+#case-list .table > thead th{
+
+}
+#cases-results-size-top{
+    margin: 4px 20px;
+    font-weight: normal;
+}
