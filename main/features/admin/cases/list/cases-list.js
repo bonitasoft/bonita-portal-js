@@ -54,6 +54,7 @@
   /* jshint -W003 */
   function CaseListCtrl($scope, caseAPI, casesColumns, defaultPageSize, defaultSort, defaultDeployedFields, defaultCounterFields, $location, pageSizes, defaultFilters, $filter, $anchorScroll, growl, $window, moreDetailToken, tabName, manageTopUrl, processId, supervisorId) {
     var vm = this;
+
     /**
      * @ngdoc property
      * @name o.b.f.admin.cases.list.CaseListCtrl#columns
