@@ -2,9 +2,10 @@
 'use strict';
 exports.config = {
   //seleniumServerJar: './node_modules/protractor/selenium/selenium-server-standalone-2.42.0.jar',
-  seleniumPort: null,
+  //seleniumPort: null,
   chromeDriver: './node_modules/protractor/selenium/chromedriver',
-  seleniumArgs: [],
+  //seleniumArgs: [],
+  directConnect: true,
 
 
   // Right now thanks to gulp-protractor it's not usefull since it does not care and add files from the stream
@@ -21,7 +22,7 @@ exports.config = {
     'browserName': 'firefox'
   },
 
-  baseUrl: 'http://127.0.0.1:9100/bonita/portaljs/',
+  baseUrl: 'http://127.0.0.1:9000/bonita/portaljs/',
 
   rootElement: 'body',
 

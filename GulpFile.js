@@ -12,6 +12,7 @@ utils.env.assets          = './main/assets/';
 utils.env.pathCommonBuild = './dist/common/';
 utils.env.pathJsBuild     = './dist/scripts';
 utils.env.pathBuild       = './dist/';
+utils.env.serverPort      = 9000;
 
 // These tasks do not have to be add to build or default. See package.json or readme
 gulp.task('lint',require('./tasks/lint'));
