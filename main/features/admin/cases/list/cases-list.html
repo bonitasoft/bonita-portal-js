@@ -80,6 +80,7 @@
                   </div>
                   <div class="col-md-6 table-buttons">
                     <table-settings class="pull-right" page-size="pagination.itemsPerPage" sizes="pageSizes" columns="$columns"  update-page-size="caseCtrl.changeItemPerPage(size)"></table-settings>
+                       <span  class="pull-right" ng-if="pagination.total" id="cases-results-size-top" class="pull-left">{{ currentFirstResultIndex + ' to ' + currentLastResultIndex + ' of ' + pagination.total | translate}}</span>
                   </div>
                 </th>
               </tr>
