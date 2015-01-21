@@ -1,7 +1,7 @@
 /* global element, by */
 (function () {
   'use strict';
-  describe('case admin list', function () {
+  ddescribe('case admin list', function () {
 
     var caseList,
       width = 1280,
