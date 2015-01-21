@@ -27,7 +27,7 @@
 
 
   .controller('ArchivedCaseListCtrl', ['$scope', 'archivedCaseAPI', 'archivedCasesColumns', 'defaultPageSize',
-    'defaultSort', 'defaultDeployedFields', 'defaultArchivedCounterFields', '$location', 'pageSizes', 'defaultFilters', '$filter',
+    'archivedDefaultSort', 'defaultDeployedFields', 'defaultArchivedCounterFields', '$location', 'pageSizes', 'defaultFilters', '$filter',
     '$anchorScroll', 'growl', '$window', 'archivedMoreDetailToken', 'tabName', 'manageTopUrl',
     'processId', 'supervisorId', CaseListCtrl]);
 
