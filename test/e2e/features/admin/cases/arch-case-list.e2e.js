@@ -1,7 +1,7 @@
 /* global element, by */
 (function () {
   'use strict';
-  ddescribe('case admin list', function () {
+  describe('case admin list', function () {
 
     var caseList,
       width = 1280,
@@ -35,8 +35,13 @@
         var caseListSettingsButton = element(by.css('#case-list button.bo-Settings'));
         caseListSettingsButton.click();
       });
+      it('should contains table header with result number', function () {
+        var resultsInfo = caseList.all(by.css('#cases-results-size-top'));
+        expect(resultsInfo.count()).toBe(1);
+        expect(resultsInfo.get(0).getText()).toBe('1 to 25 of 320');
+      });
       it('should contains table footer with result number', function () {
-        var resultsInfo = caseList.all(by.css('#cases-results-size'));
+        var resultsInfo = caseList.all(by.css('#cases-results-size-bottom'));
         expect(resultsInfo.count()).toBe(1);
         expect(resultsInfo.get(0).getText()).toBe('1 to 25 of 320');
       });
@@ -193,7 +198,6 @@
         expect(caseList.all(by.css('tbody tr')).get(0).all(by.css('td')).getText()).toEqual(['', '1', 'ProcessX', '2.0', '10/20/2014 10:08 AM', 'william.jobs', '11/02/2014 10:07 AM', 'started', '']);
       });
       it('should order by id desc', function () {
-        tableHeader.get(0).click();
         tableHeader.get(0).click();
         expect(caseList.all(by.css('tbody tr')).get(0).all(by.css('td')).getText()).toEqual(['', '1000', 'ProcessX', '2.0', '10/20/2014 10:08 AM', 'william.jobs', '11/02/2014 10:07 AM', 'started', '']);
       });

@@ -28,13 +28,17 @@
               <tr data-headers>
                 <th class="case-checkbox" data-ignore><div bo-selectall></div></th>
                 <th class="text-right case-column" bo-sorter="id" bo-sorter-title-asc="{{'sort by ID ascendant' | translate}}" bo-sorter-title-desc="{{'sort by ID descendant' | translate}}">{{'ID' | translate}}</th>
+
                 <th class="case-column" bo-sorter="name" bo-sorter-title-asc="{{'sort by Process name ascendant' | translate}}" bo-sorter-title-desc="{{'sort by Process name descendant' | translate}}">{{'Process name' | translate}}</th>
                 <th class="case-column" >{{'Version' | translate}}</th>
                 <th bo-sorter="startDate" class="case-column" bo-sorter-title-asc="{{'sort by Start date ascendant' | translate}}" bo-sorter-title-desc="{{'sort by Start date descendant' | translate}}">{{'Start date' | translate}}</th>
                 <th class="case-column">{{'Started by' | translate}}</th>
                 <th class="text-right case-column">{{'Failed Flow Nodes' | translate}}</th>
                 <th class="text-right case-column">{{'Pending Flow Nodes' | translate}}</th>
+                
+                
                 <th data-ignore class="text-center">{{'Actions' | translate}}</th>
+
               </tr>
             </thead>
             <tbody>
@@ -122,10 +126,10 @@
         </div>
         <div class="col-md-12">
           <div class="pull-right" ng-if="pagination.total>pagination.itemsPerPage">
-             <pagination ng-click="caseCtrl.searchForCases()" boundary-links="true" total-items="pagination.total" ng-model="pagination.currentPage" items-per-page="pagination.itemsPerPage " previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;" max-size="5"></pagination>
+             <pagination id="cases-results-pages" ng-click="caseCtrl.searchForCases()" boundary-links="true" total-items="pagination.total" ng-model="pagination.currentPage" items-per-page="pagination.itemsPerPage " previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;" max-size="5"></pagination>
           </div>
           <div class="pull-right" ng-if="pagination.total">
-             <span id="cases-results-size" class="pull-left">{{ currentFirstResultIndex + ' to ' + currentLastResultIndex + ' of ' + pagination.total | translate}}</span>
+             <span id="cases-results-size-bottom" class="pull-left">{{ currentFirstResultIndex + ' to ' + currentLastResultIndex + ' of ' + pagination.total | translate}}</span>
           </div>
         </div>
       </div>

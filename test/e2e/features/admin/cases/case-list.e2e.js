@@ -36,7 +36,12 @@
         caseListSettingsButton.click();
       });
       it('should contains table footer with result number', function () {
-        var resultsInfo = caseList.all(by.css('#cases-results-size'));
+        var resultsInfo = caseList.all(by.css('#cases-results-size-bottom'));
+        expect(resultsInfo.count()).toBe(1);
+        expect(resultsInfo.get(0).getText()).toBe('1 to 25 of 320');
+      });
+      it('should contains table header with result number', function () {
+        var resultsInfo = caseList.all(by.css('#cases-results-size-top'));
         expect(resultsInfo.count()).toBe(1);
         expect(resultsInfo.get(0).getText()).toBe('1 to 25 of 320');
       });
@@ -114,33 +119,35 @@
         resizeBars = element.all(by.css('.rc-handle'));
       });
       it('should change Version and ID column size ', function () {
-        var idColumnBar = resizeBars.get(2);
-        var formerIdColumnLocation = element.all(by.css('table th')).get(3).getLocation();
-        var formerVersionColumnLocation = element.all(by.css('table th')).get(2).getLocation();
-        var formerStartDateColumnLocation = element.all(by.css('table th')).get(4).getLocation();
-        browser.driver.actions().mouseDown(idColumnBar).mouseMove(idColumnBar, {x: -10}).mouseUp().perform();
-        var newIdColumnLocation = element.all(by.css('table th')).get(3).getLocation();
-        formerIdColumnLocation.then(function (oldPosition) {
-          newIdColumnLocation.then(function (newPosition) {
-            //move is not very accurate, for instance, offset of 50 changed position of 53px
-            expect(oldPosition.x - newPosition.x).toBeGreaterThan(5);
-            expect(oldPosition.y - newPosition.y).toBe(0);
-          });
-        });
-        var newVersionColumnLocation = element.all(by.css('table th')).get(2).getLocation();
+        var versionColumnBar = resizeBars.get(1);
+        var formerVersionColumnLocation = element.all(by.css('table th')).get(4).getLocation();
+        var formerProcessNameColumnLocation = element.all(by.css('table th')).get(3).getLocation();
+        
+        var formerStartDateColumnLocation = element.all(by.css('table th')).get(5).getLocation();
+        browser.driver.actions().mouseDown(versionColumnBar).mouseMove(versionColumnBar, {x: 10}).mouseUp().perform();
+        var newVersionColumnLocation = element.all(by.css('table th')).get(4).getLocation();
         formerVersionColumnLocation.then(function (oldPosition) {
           newVersionColumnLocation.then(function (newPosition) {
-            expect(oldPosition.x - newPosition.x).toBeGreaterThan(-1);
+            //move is not very accurate, for instance, offset of 50 changed position of 53px
+            expect(newPosition.x - oldPosition.x).toBeGreaterThan(5);
             expect(oldPosition.y - newPosition.y).toBe(0);
           });
         });
-        var newStartDateColumnLocation = element.all(by.css('table th')).get(4).getLocation();
+        var newProcessNameColumnLocation = element.all(by.css('table th')).get(3).getLocation();
+        formerProcessNameColumnLocation.then(function (oldPosition) {
+          newProcessNameColumnLocation.then(function (newPosition) {
+            expect(oldPosition.x - newPosition.x).toBe(0);
+            expect(oldPosition.y - newPosition.y).toBe(0);
+          });
+        });
+        var newStartDateColumnLocation = element.all(by.css('table th')).get(5).getLocation();
         formerStartDateColumnLocation.then(function (oldPosition) {
           newStartDateColumnLocation.then(function (newPosition) {
-            expect(oldPosition.x - newPosition.x).toBeLessThan(1);
+            expect(oldPosition.x - newPosition.x).toBe(0);
             expect(oldPosition.y - newPosition.y).toBe(0);
           });
         });
+        browser.debugger();
       });
       it('should change increase started Date and Started By column sizes', function () {
         var startedByColumnBar = resizeBars.get(4);
