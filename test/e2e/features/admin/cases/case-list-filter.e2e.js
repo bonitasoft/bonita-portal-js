@@ -80,7 +80,9 @@
         var versionFilterButton = caseFilters.all(by.css('#case-app-version-filter button'));
         expect(versionFilterButton.getText()).toEqual(['2.0']);
         expect(element.all(by.css('#case-app-version-filter button')).getAttribute('disabled')).toEqual([null]);
-        expect(element.all(by.css('#cases-results-size')).count()).toBe(0);
+        expect(element.all(by.css('#cases-results-size-bottom')).count()).toBe(1);
+        expect(element.all(by.css('#cases-results-size-top')).count()).toBe(1);
+        expect(element.all(by.css('#cases-results-pages')).count()).toBe(0);
       });
       it('should display the app names and appropriate content when an app is selected and then all apps is reselected', function(){
         var appNamesFilter = caseFilters.all(by.css('#case-app-name-filter'));
@@ -91,8 +93,8 @@
         appNamesFilter.all(by.css('ul li')).get(0).click();
         expect(appNamesFilterButton.getText()).toEqual(['All']);
         expect(element.all(by.xpath('//tbody//tr')).count()).toBe(25);
-        expect(element(by.css('#cases-results-size-top')).getText()).toBe('1 to 25 of 320');
-        expect(element(by.css('#cases-results-size-bottom')).getText()).toBe('1 to 25 of 320');
+        expect(element(by.css('#cases-results-size-top')).getText()).toBe('1-25 of 320');
+        expect(element(by.css('#cases-results-size-bottom')).getText()).toBe('1-25 of 320');
       });
       it('should display the Poule App - 2.0 and appropriate content when button filter is clicked and select Poule Process and select 2.0 version', function(){
         var appNamesFilter = caseFilters.all(by.css('#case-app-name-filter'));
@@ -126,8 +128,8 @@
         expect(element.all(by.css('#case-app-version-filter button')).getAttribute('disabled')).toEqual(['true']);
         expect(appNamesFilter.all(by.css('button')).getText()).toEqual(['All']);
 
-        expect(element(by.css('#cases-results-size-top')).getText()).toBe('1 to 25 of 320');
-        expect(element(by.css('#cases-results-size-bottom')).getText()).toBe('1 to 25 of 320');
+        expect(element(by.css('#cases-results-size-top')).getText()).toBe('1-25 of 320');
+        expect(element(by.css('#cases-results-size-bottom')).getText()).toBe('1-25 of 320');
       });
     });
   });

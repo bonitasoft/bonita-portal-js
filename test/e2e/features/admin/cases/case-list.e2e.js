@@ -38,12 +38,12 @@
       it('should contains table footer with result number', function () {
         var resultsInfo = caseList.all(by.css('#cases-results-size-bottom'));
         expect(resultsInfo.count()).toBe(1);
-        expect(resultsInfo.get(0).getText()).toBe('1 to 25 of 320');
+        expect(resultsInfo.get(0).getText()).toBe('1-25 of 320');
       });
       it('should contains table header with result number', function () {
         var resultsInfo = caseList.all(by.css('#cases-results-size-top'));
         expect(resultsInfo.count()).toBe(1);
-        expect(resultsInfo.get(0).getText()).toBe('1 to 25 of 320');
+        expect(resultsInfo.get(0).getText()).toBe('1-25 of 320');
       });
       it('should contains table footer with pagination', function () {
         var pagination = caseList.all(by.css('.pagination'));
