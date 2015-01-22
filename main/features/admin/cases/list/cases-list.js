@@ -3,6 +3,7 @@
   angular.module('org.bonita.features.admin.cases.list.table', [
     'org.bonita.common.resources',
     'org.bonita.common.table.resizable',
+    'org.bonita.common.filters.stringTemplater',
     'org.bonita.services.topurl',
     'org.bonita.features.admin.cases.list.values',
     'org.bonita.features.admin.cases.list.filters',
