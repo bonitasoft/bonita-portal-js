@@ -16,10 +16,10 @@
             <thead>
               <tr>
                 <th colspan="{{$columns.length+2}}">
-                  <div class="col-md-6 case-action table-buttons">
+                  <div class="pull-left case-action table-buttons">
                     <div class="case-action table-buttons"> <active-case-delete>{{'Delete' | translate}}</active-case-delete></div>
                   </div>
-                  <div class="col-md-6 table-buttons">
+                  <div class="pull-right table-buttons">
                     <table-settings class="pull-right" page-size="pagination.itemsPerPage" sizes="pageSizes" columns="$columns" update-page-size="caseCtrl.changeItemPerPage(size)"></table-settings>
                     <span  ng-if="pagination.total" id="cases-results-size-top" class="pull-right">{{ '{}-{} of {}' | translate | stringTemplater:[currentFirstResultIndex, currentLastResultIndex, pagination.total]}}</span>
                   </div>
@@ -79,10 +79,10 @@
             <thead>
               <tr>
                 <th colspan="{{$columns.length+2}}">
-                  <div class="col-md-6 case-action table-buttons">
+                  <div class="pull-left case-action table-buttons">
                     <div class="case-action table-buttons"> <archived-case-delete>{{'Delete' | translate}}</archived-case-delete></div>
                   </div>
-                  <div class="col-md-6 table-buttons">
+                  <div class="pull-right table-buttons">
                     <table-settings class="pull-right" page-size="pagination.itemsPerPage" sizes="pageSizes" columns="$columns"  update-page-size="caseCtrl.changeItemPerPage(size)"></table-settings>
                        <span ng-if="pagination.total" id="cases-results-size-top" class="pull-right">{{ '{}-{} of {}' | translate | stringTemplater:[currentFirstResultIndex, currentLastResultIndex, pagination.total]}}</span>
                   </div>

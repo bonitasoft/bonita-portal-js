@@ -1,4 +1,4 @@
-(function () {
+(function() {
   'use strict';
 
   angular.module('org.bonita.common.filters.stringTemplater', []).filter('stringTemplater', function() {
@@ -7,12 +7,12 @@
       if (!template || !replacement || typeof template !== 'string') {
         return template;
       }
-      if(replacement instanceof Array) {
-      	return replacement.reduce(function(newTemplate, currentReplacement){
-      		return newTemplate.replace(templteRE, currentReplacement);
-      	}, template).replace(/\{\}/g, '');
+      if (replacement instanceof Array) {
+        return replacement.reduce(function(newTemplate, currentReplacement) {
+          return newTemplate.replace(templteRE, currentReplacement);
+        }, template).replace(/\{\}/g, '');
       } else {
-      	return template.replace(templteRE, replacement).replace(/\{\}/g, '');
+        return template.replace(templteRE, replacement).replace(/\{\}/g, '');
       }
     };
   });
