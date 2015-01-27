@@ -7,7 +7,7 @@
   </div>
   <div class="panel panel-default">
 
-    <div class="panel-heading title">{{ 'Case list' | translate }} <span ng-click="caseCtrl.reinitCases()" tooltip="{{ 'Refresh' | translate}}" tooltip-animation="false" tooltip-popup-delay="300" class="case-list-refresh glyphicon glyphicon-repeat"></span></div>
+    <div class="panel-heading title">{{ 'Case list' | translate }} <span id="infoPopover" class="glyphicon glyphicon-info-sign" popover="{{'Only cases from root processes are displayed in the table below. No details are available for cases started by call activities.' | translate}}" popover-trigger="mouseenter"></span> <span ng-click="caseCtrl.reinitCases()" tooltip="{{ 'Refresh' | translate}}" tooltip-animation="false" tooltip-popup-delay="300" class="case-list-refresh glyphicon glyphicon-repeat"></span></div>
     <div class="panel-body">
       <div growl></div>
       <div ng-if="cases.length">
