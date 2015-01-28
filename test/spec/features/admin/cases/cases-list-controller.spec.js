@@ -212,15 +212,15 @@
       it('should change searchSort value', function(){
         scope.pagination.currentPage = 8;
         expect(scope.searchOptions.searchSort).toEqual('id ASC');
-        casesCtrl.updateSortField({property: 'name', ascendant: false});
+        casesCtrl.updateSortField({property: 'name', direction: false});
         expect(scope.pagination.currentPage).toBe(1);
         expect(scope.searchOptions.searchSort).toEqual('name DESC');
 
-        casesCtrl.updateSortField({property:'name', ascendant: true});
+        casesCtrl.updateSortField({property:'name', direction: true});
         expect(scope.pagination.currentPage).toBe(1);
         expect(scope.searchOptions.searchSort).toEqual('name ASC');
 
-        casesCtrl.updateSortField({property: 'version', ascendant: false});
+        casesCtrl.updateSortField({property: 'version', direction: false});
         expect(scope.searchOptions.searchSort).toEqual('version DESC');
         expect(scope.pagination.currentPage).toBe(1);
       });
@@ -239,7 +239,7 @@
         expect(scope.searchOptions.searchSort).toEqual('id ASC');
         scope.searchOptions.searchSort = 'name DESC';
         scope.pagination.currentPage = 8;
-        casesCtrl.updateSortField({test : 'pouet', ascendant: false});
+        casesCtrl.updateSortField({test : 'pouet', direction: false});
 
         expect(scope.pagination.currentPage).toBe(1);
         expect(scope.searchOptions.searchSort).toEqual('id DESC');

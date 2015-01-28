@@ -34,9 +34,8 @@
             }
           },
           resolve: {
-            tabName : ['manageTopUrl', 'activedTabName',
-              function(manageTopUrl, tabName){
-                manageTopUrl.addOrReplaceParam('_tab', tabName);
+            tabName : ['activedTabName',
+              function(tabName){
                 return tabName;
               }
             ],
@@ -45,9 +44,8 @@
                 return $stateParams['supervisor_id'];
               }
             ],
-            processId: ['$stateParams', 'manageTopUrl',
-              function($stateParams, manageTopUrl){
-                manageTopUrl.addOrReplaceParam('_processId', $stateParams.processId || '');
+            processId: ['$stateParams',
+              function($stateParams){
                 return $stateParams.processId;
               }
             ]
@@ -62,9 +60,8 @@
             }
           },
           resolve: {
-            tabName : ['manageTopUrl', 'archivedTabName',
-              function(manageTopUrl, tabName){
-                manageTopUrl.addOrReplaceParam('_tab', tabName);
+            tabName : ['archivedTabName',
+              function(tabName){
                 return tabName;
               }
             ],
@@ -73,9 +70,8 @@
                 return $stateParams['supervisor_id'];
               }
             ],
-            processId: ['$stateParams', 'manageTopUrl',
-              function($stateParams, manageTopUrl){
-                manageTopUrl.addOrReplaceParam('_processId', $stateParams.processId || '');
+            processId: ['$stateParams',
+              function($stateParams){
                 return $stateParams.processId;
               }
             ]

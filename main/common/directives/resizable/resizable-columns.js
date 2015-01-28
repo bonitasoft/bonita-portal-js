@@ -5,7 +5,8 @@
       return {
         restrict: 'A',
         scope : {
-          columns : '='
+          resizableColumn : '=',
+          resizeSelector : '@'
         },
         link: function (scope, $el) {
           var resizeColumn = function () {
@@ -15,11 +16,11 @@
                 data.destroy();
               }
               $el.resizableColumns({
-                selector: 'tr th'
+                selector: scope.resizeSelector || 'tr th'
               });
             }, 0);
           };
-          scope.$watch('columns', resizeColumn, true);
+          scope.$watch('resizableColumn', resizeColumn, true);
         }
       };
     }

@@ -112,9 +112,9 @@
     when('GET', /^\/API\/bpm\/archivedCase\?c=25&d=processDefinitionId&d=started_by&d=startedBySubstitute&o=startDate\+DESC&p=0&s=$/).respond(require('./admin/cases/list/arch-cases-list-28-mocks-ordered-by-date-desc.json'));
     when('GET', /^\/API\/bpm\/archivedCase\?c=25&d=processDefinitionId&d=started_by&d=startedBySubstitute&o=sourceObjectId\+ASC&p=0&s=$/).respond(require('./admin/cases/list/arch-cases-list-28-mocks-ordered-by-id-desc.json'));
     when('GET', /^\/API\/bpm\/archivedCase\?c=25&d=processDefinitionId&d=started_by&d=startedBySubstitute&o=sourceObjectId\+DESC&p=0&s=$/).respond(require('./admin/cases/list/arch-cases-list-28-mocks-ordered-by-id-desc.json'));
-    when('GET', /^\/API\/bpm\/archivedCase\?c=25&d=processDefinitionId&d=started_by&d=startedBySubstitute&f=name%3DPoule&o=id\+ASC&p=0&s=$/).respond(require('./admin/cases/list/arch-cases-list-28-mocks-filtered-by-poule-app-name.json'));
-    when('GET', /^\/API\/bpm\/archivedCase\?c=25&d=processDefinitionId&d=started_by&d=startedBySubstitute&f=processDefinitionId%3D4910683075061293406&o=id\+ASC&p=0&s=$/).respond(require('./admin/cases/list/arch-cases-list-28-mocks-filtered-by-processx-id.json'));
-    when('GET', /^\/API\/bpm\/archivedCase\?c=25&d=processDefinitionId&d=started_by&d=startedBySubstitute&f=processDefinitionId%3D8967858817451251940&o=id\+ASC&p=0&s=$/).respond(require('./admin/cases/list/arch-cases-list-28-mocks-filtered-by-poule-2.0-app.json'));
+    when('GET', /^\/API\/bpm\/archivedCase\?c=25&d=processDefinitionId&d=started_by&d=startedBySubstitute&f=name%3DPoule&o=sourceObjectId\+ASC&p=0&s=$/).respond(require('./admin/cases/list/arch-cases-list-28-mocks-filtered-by-poule-app-name.json'));
+    when('GET', /^\/API\/bpm\/archivedCase\?c=25&d=processDefinitionId&d=started_by&d=startedBySubstitute&f=processDefinitionId%3D4910683075061293406&o=sourceObjectId\+ASC&p=0&s=$/).respond(require('./admin/cases/list/arch-cases-list-28-mocks-filtered-by-processx-id.json'));
+    when('GET', /^\/API\/bpm\/archivedCase\?c=25&d=processDefinitionId&d=started_by&d=startedBySubstitute&f=processDefinitionId%3D8967858817451251940&o=sourceObjectId\+ASC&p=0&s=$/).respond(require('./admin/cases/list/arch-cases-list-28-mocks-filtered-by-poule-2.0-app.json'));
 
 
     when('GET', /^\/API\/bpm\/process\?c=\d&p=0$/).respond(require('./admin/cases/list/process-def-4.json'));
