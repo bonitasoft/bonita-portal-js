@@ -1,0 +1,45 @@
+<div id="app-details-container" class="container">
+  <div class="btn-toolbar">
+    <back-button></back-button>
+  </div>
+
+  <section id="app-edit-section" class="editable app-details-container">
+    <h1 id="app-details-title">{{app.displayName}} ({{app.version}}) <button id="app-edit-btn" class="clickable glyphicon glyphicon-pencil btn-action-edit" ng-click="applicationDetailsCtrl.update('lg', app )" aria-label="{{'Edit' | translate}}"  title="{{'Edit' | translate}}"></button></h1>
+
+    <p id="app-details-description" class="type-info">{{ app.description }}</p>
+
+    <div class="row">
+
+      <div class="col-md-4">
+        <dl class="dl-horizontal app-details-col">
+          <dt id="app-path-label">{{'URL' | translate}}</dt>
+          <dd id="app-path-value"><a target="_blank" title="../apps/{{ app.token }}" ng-href="../apps/{{ app.token }}">
+            ../apps/{{ app.token }}</a></dd>
+          <dt id="app-profile-label">{{'Profile' | translate}}</dt>
+          <dd id="app-profile-value">{{ app.profileId.name}}</dd>
+        </dl>
+      </div>
+      <div class="col-md-4">
+        <dl class="dl-horizontal">
+          <dt id="app-creation-on-label">{{'Creation on' | translate}}</dt>
+          <dd id="app-creation-on-value">{{ app.creationDate | dateI18n:'YYYY-MM-DD HH:mm:ss'}}</dd> <dt id="app-created-by-label">{{'Created by' | translate}}</dt>
+          <dd id="app-created-by-value">{{ app.createdBy.firstname }} {{app.createdBy.lastname}}</dd>
+        </dl>
+      </div>
+      <div class="col-md-4">
+        <dl class="dl-horizontal">
+          <dt id="app-updated-on-label">{{'Updated on' | translate}}</dt>
+          <dd id="app-updated-on-value">{{ app.lastUpdateDate | dateI18n:'YYYY-MM-DD HH:mm:ss'}}</dd>
+          <dt id="app-updated-by-label">{{'Updated by' | translate}}</dt>
+          <dd id="app-updated-by-value">{{ app.updatedBy.firstname }} {{ app.updatedBy.lastname }}</dd>
+        </dl>
+      </div>
+    </div>
+  </section>
+  <section id="application-page-list-section" ng-if="app.id">
+
+    <page-list id="page-list" application="app" class="col-md-6"></page-list>
+
+    <menu-creator id="menu-creator" app="app" class="col-md-6 menu-creator"></menu-creator>
+  </section>
+</div>

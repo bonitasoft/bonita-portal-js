@@ -1,0 +1,38 @@
+<form role="form" name="page.form" novalidate>
+  <div class="modal-header">
+    <h3 class="modal-title">{{ 'Add page' | translate }}</h3>
+  </div>
+
+  <div class="modal-body">
+    <alert ng-repeat="alert in alerts track by $id(alert)" type="{{ alert.type }}" close="closeAlert($index)">{{alert.msg}}</alert>
+    <bootstrap-form-control
+      id="page-form-control"
+      form="page.form"
+      label="{{ 'Page' | translate }}"
+      errors="{ $invalid: i18n.mandatory }"
+      class="select-form-container">
+      <select name="Page" id="page" ng-model="page.model.pageId" required>
+        <option ng-repeat="customPage in customPages" value="{{ customPage.id }}">
+          {{ customPage.urlToken }} - {{ customPage.displayName }}
+        </option>
+      </select>
+    </bootstrap-form-control>
+
+    <bootstrap-form-control
+      id="url-form-control"
+      form="page.form"
+      label="{{ 'URL' | translate }}"
+      errors="{ $invalid: i18n.mandatory, $duplicate: i18n.duplicateUrl }">
+      <div class="input-group">
+        <span class="input-group-addon">../apps/{{application.token}}/</span>
+        <input type="text" id="token" name="token" ng-model="page.model.token" required urlified ng-trim="false"/>
+      </div>
+    </bootstrap-form-control>
+
+  </div>
+  <div class="modal-footer">
+    <button id="add-page-pop-up-add-btn" class="btn btn-success btn-primary" type="submit" ng-click="add(page)" ng-disabled="page.form.$invalid">{{'Add' | translate}}
+    </button>
+    <button id="add-page-pop-up-cancel-btn" class="btn btn-default" ng-click="cancel()">{{'Cancel' | translate}}</button>
+  </div>
+</form>
