@@ -49,7 +49,7 @@
               </td>
 
               <td class="text-right case-detail"><a id="case-detail-link-{{case.id}}" target="_top" href="{{::caseCtrl.getLinkToCase(case)}}">{{case['ID']}}</a></td>
-              <td class="case-detail"><a id="case-process-link-{{caseItem.id}}" target="_top" href="{{::caseCtrl.linkToProcess(case)}}">{{case['Process name']}}</a></td>
+              <td class="case-detail"><a id="case-process-link-{{case.id}}" target="_top" href="{{::caseCtrl.linkToProcess(case)}}">{{case['Process name']}}</a></td>
               <td class="case-detail">{{::case['Version']}}</td>
               <td class="case-detail">{{::caseCtrl.parseAndFormat(case['Start date'])}}</td>
               <td class="case-detail">{{::case['Started by'] || ('System' | translate)}}</td>
@@ -108,7 +108,7 @@
               </td>
 
               <td class="case-detail text-right"><a id="case-detail-link-{{case.id}}" target="_top" href="{{::caseCtrl.getLinkToCase(case)}}">{{case['ID']}}</a></td>
-              <td class="case-detail"><a id="case-process-link-{{caseItem.id}}" target="_top" href="{{::caseCtrl.linkToProcess(case)}}">{{case['Process name']}}</a></td>
+              <td class="case-detail"><a id="case-process-link-{{case.id}}" target="_top" href="{{::caseCtrl.linkToProcess(case)}}">{{case['Process name']}}</a></td>
               <td class="case-detail">{{::case['Version']}}</td>
               <td class="case-detail">{{::caseCtrl.parseAndFormat(case['Start date'])}}</td>
               <td class="case-detail">{{::case['Started by'] || ('System' | translate)}}</td>
