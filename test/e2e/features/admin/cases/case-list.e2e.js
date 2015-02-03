@@ -202,18 +202,24 @@
     });
 
     describe('case admin list content', function () {
-      it('should display the list of the 25 first cases and check the specifi content of the first row', function () {
+      iit('should display the list of the 25 first cases and check the specifi content of the first row', function () {
         expect(element.all(by.css('#case-list tr.case-row')).count()).toBe(25);
 
-        caseList.all(by.css('#caseId-1 td')).then(function (poolCaseDetails) {
+        var firstCaseElements = caseList.all(by.css('#caseId-1 td'));
+        
+        firstCaseElements.then(function (poolCaseDetails) {
           expect(poolCaseDetails[1].getText()).toContain('1');
+          expect(poolCaseDetails[1].element(by.css('a')).getAttribute('href')).toContain('#?id=1&_p=casemoredetailsadmin&');
           expect(poolCaseDetails[2].getText()).toContain('Leave Request');
+          expect(poolCaseDetails[2].element(by.css('a')).getAttribute('href')).toContain('#?id=7626384556180392799&_p=processmoredetailsadmin&');
           expect(poolCaseDetails[3].getText()).toContain('1.0');
           expect(poolCaseDetails[4].getText()).toContain('10/17/2014 4:05 PM');
           expect(poolCaseDetails[5].getText()).toContain('walter.bates');
           expect(poolCaseDetails[6].getText()).toContain('0');
           expect(poolCaseDetails[7].getText()).toContain('1');
+          expect(poolCaseDetails[8].element(by.xpath('a')).getAttribute('href')).toContain('#?id=1&_p=casemoredetailsadmin&');
         });
+
       });
 
       it('should display the list of the 25 first cases and check its content', function () {

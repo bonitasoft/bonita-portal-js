@@ -60,6 +60,8 @@
   /* jshint -W003 */
   function CaseListCtrl($scope, caseAPI, casesColumns, defaultPageSize, defaultSort, defaultDeployedFields, defaultCounterFields, $location, pageSizes, defaultFilters, dateParser, $anchorScroll, growl, moreDetailToken, tabName, manageTopUrl, processId, supervisorId) {
     var vm = this;
+    var modeDetailProcessToken = 'processmoredetailsadmin';
+
     /**
      * @ngdoc property
      * @name o.b.f.admin.cases.list.CaseListCtrl#columns
@@ -93,13 +95,13 @@
      * the array of cases to display
      */
     $scope.cases = undefined;
-    $scope.moreDetailToken = moreDetailToken;
     $scope.loading = true;
 
     var defaultFiltersArray = [];
     if (supervisorId) {
       defaultFiltersArray.push('supervisor_id=' + supervisorId);
-      $scope.moreDetailToken = moreDetailToken.replace('admin', 'pm');
+      moreDetailToken = moreDetailToken.replace('admin', 'pm');
+      modeDetailProcessToken = modeDetailProcessToken.replace('admin', 'pm');
     }
     $scope.processManager = +!!supervisorId;
     $scope.supervisorId = supervisorId;
@@ -164,12 +166,6 @@
       }
     };
 
-    vm.getCaseDetailUrl = function(caseItemId) {
-      if (caseItemId) {
-        return manageTopUrl.getUrlToTokenAndId(caseItemId, $scope.moreDetailToken);
-      }
-    };
-
     vm.filterColumn = function(column) {
       return column && column.selected;
     };
@@ -183,7 +179,15 @@
     };
 
     vm.getLinkToCase = function(caseItem){
-      return manageTopUrl.getPath() + manageTopUrl.getSearch() + '#?id=' + caseItem.id + '&_p=' + (moreDetailToken || '') + '&' + manageTopUrl.getCurrentProfile();
+      if(caseItem){
+        return manageTopUrl.getPath() + manageTopUrl.getSearch() + '#?id=' + caseItem.id + '&_p=' + (moreDetailToken || '') + '&' + manageTopUrl.getCurrentProfile();
+      }
+    };
+
+    vm.getLinkToProcess = function(caseItem){
+      if(caseItem && caseItem.processDefinitionId){
+        return manageTopUrl.getPath() + manageTopUrl.getSearch() + '#?id=' + caseItem.processDefinitionId.id + '&_p=' + (modeDetailProcessToken || '') + '&' + manageTopUrl.getCurrentProfile();
+      }
     };
 
     vm.addAlertEventHandler = addAlertEventHandler;
