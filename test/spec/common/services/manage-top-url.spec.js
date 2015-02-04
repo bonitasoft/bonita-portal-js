@@ -2,7 +2,7 @@
   'use strict';
   describe('manage top url service', function () {
     var manageTopUrl;
-    beforeEach(module('org.bonita.services.topurl'));
+    beforeEach(module('org.bonitasoft.services.topurl'));
     var mockedWindow;
     beforeEach(function(){
       mockedWindow = {

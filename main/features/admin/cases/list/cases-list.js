@@ -1,19 +1,19 @@
 (function() {
   'use strict';
-  angular.module('org.bonita.features.admin.cases.list.table', [
-    'org.bonita.common.resources',
-    'org.bonita.common.table.resizable',
-    'org.bonita.services.topurl',
-    'org.bonita.sortable',
-    'org.bonita.features.admin.cases.list.values',
-    'org.bonita.features.admin.cases.list.filters',
-    'org.bonita.features.admin.cases.list.delete',
-    'org.bonita.features.admin.cases.list.formatContent',
+  angular.module('org.bonitasoft.features.admin.cases.list.table', [
+    'org.bonitasoft.common.resources',
+    'org.bonitasoft.common.table.resizable',
+    'org.bonitasoft.services.topurl',
+    'org.bonitasoft.sortable',
+    'org.bonitasoft.features.admin.cases.list.values',
+    'org.bonitasoft.features.admin.cases.list.filters',
+    'org.bonitasoft.features.admin.cases.list.delete',
+    'org.bonitasoft.features.admin.cases.list.formatContent',
     'gettext',
     'ui.bootstrap',
     'ui.router',
     'ngDraggable',
-    'org.bonita.common.directives.selectAll',
+    'org.bonitasoft.common.directives.selectAll',
     'angular-growl',
     'ngAnimate'
   ])

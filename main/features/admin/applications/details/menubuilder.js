@@ -1,4 +1,4 @@
-angular.module('com.bonita.features.admin.applications.details').controller('actionBarCtrl', ['$scope', '$modal', 'menuFactory',
+angular.module('org.bonitasoft.features.admin.applications.details').controller('actionBarCtrl', ['$scope', '$modal', 'menuFactory',
   function($scope, $modal, menuFactory) {
 
     'use strict';
@@ -107,7 +107,7 @@ angular.module('com.bonita.features.admin.applications.details').controller('act
   }
 ]);
 
-angular.module('com.bonita.features.admin.applications.details').controller('addCustomMenuCtrl', ['$scope', '$modalInstance', 'store', 'menuUtils', 'applicationPageAPI', 'AppID', 'customDataModal', 'i18nMsg',
+angular.module('org.bonitasoft.features.admin.applications.details').controller('addCustomMenuCtrl', ['$scope', '$modalInstance', 'store', 'menuUtils', 'applicationPageAPI', 'AppID', 'customDataModal', 'i18nMsg',
   function($scope, $modalInstance, store, menuUtils, applicationPageAPI, AppID, customDataModal, i18nMsg) {
 
     'use strict';
@@ -193,7 +193,7 @@ angular.module('com.bonita.features.admin.applications.details').controller('add
   }
 ]);
 
-angular.module('com.bonita.features.admin.applications.details').controller('menuCreatorCtrl', ['$rootScope', '$scope', '$modal', 'menuFactory',
+angular.module('org.bonitasoft.features.admin.applications.details').controller('menuCreatorCtrl', ['$rootScope', '$scope', '$modal', 'menuFactory',
   function($rootScope, $scope, $modal, menuFactory) {
 
     'use strict';
@@ -281,7 +281,7 @@ angular.module('com.bonita.features.admin.applications.details').controller('men
   }
 ]);
 
-angular.module('com.bonita.features.admin.applications.details').controller('menuListCtrl', ['$scope', 'menuFactory', 'menuConvertor', 'menuUtils',
+angular.module('org.bonitasoft.features.admin.applications.details').controller('menuListCtrl', ['$scope', 'menuFactory', 'menuConvertor', 'menuUtils',
   function($scope, menuFactory, menuConvertor, menuUtils) {
 
     'use strict';
@@ -332,7 +332,7 @@ angular.module('com.bonita.features.admin.applications.details').controller('men
   }
 ]);
 
-angular.module('com.bonita.features.admin.applications.details').directive('actionBar', function() {
+angular.module('org.bonitasoft.features.admin.applications.details').directive('actionBar', function() {
 
   'use strict';
 
@@ -354,7 +354,7 @@ angular.module('com.bonita.features.admin.applications.details').directive('acti
 
 });
 
-angular.module('com.bonita.features.admin.applications.details').directive('menuCreator', function() {
+angular.module('org.bonitasoft.features.admin.applications.details').directive('menuCreator', function() {
 
   'use strict';
 
@@ -370,7 +370,7 @@ angular.module('com.bonita.features.admin.applications.details').directive('menu
 
 });
 
-angular.module('com.bonita.features.admin.applications.details').directive('menuList', function() {
+angular.module('org.bonitasoft.features.admin.applications.details').directive('menuList', function() {
 
   'use strict';
 
@@ -384,7 +384,7 @@ angular.module('com.bonita.features.admin.applications.details').directive('menu
   };
 });
 
-angular.module('com.bonita.features.admin.applications.details').factory('menuConvertor', ['menuUtils',
+angular.module('org.bonitasoft.features.admin.applications.details').factory('menuConvertor', ['menuUtils',
   function(menuUtils) {
 
     'use strict';
@@ -497,7 +497,7 @@ angular.module('com.bonita.features.admin.applications.details').factory('menuCo
   }
 ]);
 
-angular.module('com.bonita.features.admin.applications.details').factory('menuUtils', function() {
+angular.module('org.bonitasoft.features.admin.applications.details').factory('menuUtils', function() {
 
   'use strict';
 
@@ -543,7 +543,7 @@ angular.module('com.bonita.features.admin.applications.details').factory('menuUt
 
 });
 
-angular.module('com.bonita.features.admin.applications.details').service('menuFactory', ['$rootScope', '$q', 'menuConvertor', 'applicationMenuAPI', 'menuUtils', 'store',
+angular.module('org.bonitasoft.features.admin.applications.details').service('menuFactory', ['$rootScope', '$q', 'menuConvertor', 'applicationMenuAPI', 'menuUtils', 'store',
   function($rootScope, $q, menuConvertor, applicationMenuAPI, menuUtils, store) {
 
     'use strict';

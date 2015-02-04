@@ -4,7 +4,7 @@
   describe('Controller: addCustomMenuCtrl', function () {
 
     var createController, scope, applicationPageAPI, store, loadRequest, modalInstance = {};
-    beforeEach(module('com.bonita.features.admin.applications.details'));
+    beforeEach(module('org.bonitasoft.features.admin.applications.details'));
     beforeEach(inject(function ($controller, $rootScope, $q, $injector) {
 
       scope = $rootScope.$new();

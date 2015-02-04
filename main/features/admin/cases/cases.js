@@ -1,4 +1,4 @@
 (function () {
     'use strict';
-    angular.module('org.bonita.features.admin.cases', ['org.bonita.features.admin.cases.list']);
+    angular.module('org.bonitasoft.features.admin.cases', ['org.bonitasoft.features.admin.cases.list']);
   })();

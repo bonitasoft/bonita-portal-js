@@ -1,7 +1,7 @@
 (function() {
   'use strict';
 
-  angular.module('com.bonita.common.i18n.factories',['gettext'])
+  angular.module('org.bonitasoft.common.i18n.factories',['gettext'])
 
     /**
      * This factory is to append the translations in each Object message for a form, a title attr etc.

@@ -5,7 +5,7 @@
 
     var scope;
 
-    beforeEach(module('org.bonita.features.admin.cases.list.flownodePopover'));
+    beforeEach(module('org.bonitasoft.features.admin.cases.list.flownodePopover'));
 
     beforeEach(inject(function ($rootScope) {
       scope = $rootScope.$new();

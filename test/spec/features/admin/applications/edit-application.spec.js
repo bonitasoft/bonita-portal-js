@@ -7,7 +7,7 @@ describe('Controller: addApplicationCtrl', function () {
     modalInstance,
     loadProfilesRequest;
 
-  beforeEach(module('com.bonita.features.admin.applications.edit'));
+  beforeEach(module('org.bonitasoft.features.admin.applications.edit'));
 
   beforeEach(inject(function ($controller, $rootScope, _applicationAPI_, store, $q) {
     loadProfilesRequest = $q.defer();

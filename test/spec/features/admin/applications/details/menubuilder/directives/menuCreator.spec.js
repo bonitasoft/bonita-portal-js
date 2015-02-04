@@ -9,7 +9,7 @@
         templateUrl = prefixUrl + 'menuCreator.html',
         templateSubDirective = prefixUrl + 'menuList.html';
 
-    beforeEach(module('com.bonita.features.admin.applications.details'));
+    beforeEach(module('org.bonitasoft.features.admin.applications.details'));
     beforeEach(module('main/' + templateUrl));
 
     beforeEach(inject(function ($injector, $rootScope, $compile, $templateCache, $q) {

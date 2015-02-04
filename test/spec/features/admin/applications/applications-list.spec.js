@@ -50,7 +50,7 @@
         templateUrl = prefixUrl + 'popverunsafe.html',
         templateBtnDetails = prefixUrl + 'application-details-app.html';
 
-    beforeEach(module('com.bonita.features.admin.applications.list'));
+    beforeEach(module('org.bonitasoft.features.admin.applications.list'));
     beforeEach(module('main/' + templateUrl));
     beforeEach(module('main/' + templateBtnDetails));
 

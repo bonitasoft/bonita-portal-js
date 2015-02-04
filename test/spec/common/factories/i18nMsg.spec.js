@@ -4,7 +4,7 @@ describe('Factory i18nMsg', function() {
 
   var factory;
 
-  beforeEach(module('com.bonita.common.i18n.factories'));
+  beforeEach(module('org.bonitasoft.common.i18n.factories'));
 
   beforeEach(inject(function ($injector) {
     factory = $injector.get('i18nMsg');

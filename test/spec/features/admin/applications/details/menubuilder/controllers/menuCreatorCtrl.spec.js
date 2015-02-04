@@ -8,7 +8,7 @@
     var createController, scope, applicationPageAPI, store, modal, loadRequest, loadRequestCreate, $httpBackend, rootScope, menuFactory;
 
 
-    beforeEach(module('com.bonita.features.admin.applications.details'));
+    beforeEach(module('org.bonitasoft.features.admin.applications.details'));
 
     beforeEach(inject(function ($controller, $rootScope, $q, $injector) {
 

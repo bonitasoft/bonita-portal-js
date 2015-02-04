@@ -2,13 +2,13 @@
   'use strict';
 
 
-  angular.module('com.bonita.features.admin.applications.details.page-list', [
+  angular.module('org.bonitasoft.features.admin.applications.details.page-list', [
     'ui.bootstrap',
-    'com.bonita.common.directives.bootstrap-form-control',
-    'com.bonita.features.admin.applications.edit',
-    'org.bonita.common.directives.urlified',
-    'com.bonita.common.resources',
-    'com.bonita.common.i18n.factories'
+    'org.bonitasoft.common.directives.bootstrap-form-control',
+    'org.bonitasoft.features.admin.applications.edit',
+    'org.bonitasoft.common.directives.urlified',
+    'org.bonitasoft.common.resources',
+    'org.bonitasoft.common.i18n.factories'
   ])
     .controller('addPageCtrl', function ($scope, customPageAPI, applicationPageAPI, applicationMenuAPI, $modalInstance, application, i18nMsg, store) {
 
