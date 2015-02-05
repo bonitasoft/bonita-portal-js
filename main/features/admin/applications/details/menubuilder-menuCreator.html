@@ -1,0 +1,14 @@
+<header class="page-header">
+  <h2>{{ 'Navigation' | translate }}</h2>
+</header>
+
+<div class="col-md-3">
+  <button id="menu-list-add-button" ng-click="menuCreatorCtrl.add()" ng-disabled="!hasPages" class="btn btn-success" title="{{'Add top-level menu' | translate}}">{{ 'Add' | translate }}</button>
+
+</div>
+<div class="col-md-9">
+  <div class="jumbotron" ng-if="!data.menuItemBuilder.length">
+    <em>{{ 'Specify the menu structure.' | translate }}<br> {{ 'You must add a page before you can reference it in a menu.' | translate }}</em>
+  </div>
+  <menu-list ng-model="data.menuItemBuilder" ng-if="data.menuItemBuilder.length"></menu-list>
+</div>

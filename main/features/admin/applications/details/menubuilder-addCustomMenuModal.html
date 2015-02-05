@@ -1,0 +1,64 @@
+<form role="form" name="menu.form" novalidate>
+
+  <header class="modal-header">
+
+    <h3 class="modal-title" ng-if="!isEdition && !isAddition">{{ 'Add menu' | translate}}</h3>
+    <h3 class="modal-title" ng-if="isAddition">{{ 'Add menu item' | translate}}</h3>
+    <h3 class="modal-title" ng-if="isEdition && isEditionParentMenu">{{ 'Edit menu' | translate}}</h3>
+    <h3 class="modal-title" ng-if="isEdition && !isEditionParentMenu">{{ 'Edit menu item' | translate}}</h3>
+  </header>
+  <div class="modal-body">
+
+    <section ng-show="!isEdition && !isAddition" class="menu-choice-container">
+
+      <div class="row">
+        <div class="col-md-11 col-centered">
+
+          <div class="radio-inline">
+            <label class="label-choice-inline">
+              <input type="radio" name="typeMenu" id="setTopLevelMenu" ng-model="isLabelOnly"  value="inactive">
+              {{'One-page menu' | translate}}
+            </label>
+            <label class="label-choice-inline">
+              <input type="radio" name="typeMenu" id="setpageMenu"  ng-model="isLabelOnly" value="active" ng-change="menu.model.page = null">
+              {{'Multi-page menu' | translate}}
+            </label>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <bootstrap-form-control
+      form="menu.form"
+      label="{{'Name' | translate}}"
+      errors="{ $invalid: i18n.mandatory, $duplicate: i18n.duplicateName }">
+
+      <input type="text" id="name" name="name" ng-model="menu.model.name" autofocus required ng-trim="false"/>
+    </bootstrap-form-control>
+
+    <p ng-if="'active' === isLabelOnly && !(isAddition || isEdition)">{{'Add pages in Navigation' | translate}}</p>
+
+    <bootstrap-form-control
+      form="menu.form"
+      label="{{'Page' | translate}}"
+      class="form-menu-pages select-form-container"
+      ng-if="'inactive' === isLabelOnly || ((isAddition || isEdition) && 'inactive' === isLabelOnly)">
+      <select name="Page" id="page" required ng-model="menu.model.page">
+        <option ng-repeat="page in pages track by $index" value="{{page.id}}" ng-selected="currentSelectedPageId == page.id">
+          {{ page.pageId.displayName }} - {{ page.token }}
+        </option>
+      </select>
+      <i>{{'Select the page' | translate}}</i>
+    </bootstrap-form-control>
+
+
+  </div>
+
+  <footer class="modal-footer modal-menu-footer">
+    <button id="add-page-pop-up-add-btn" class="btn btn-success btn-primary" ng-click="addCustomMenuCtrl.saveModal(menu)" ng-disabled="menu.form.$invalid" >{{ isEdition ? 'Save' : 'Add' | translate}}</button>
+
+    <button type="button" id="add-page-pop-up-cancel-btn" class="btn btn-default" ng-click="addCustomMenuCtrl.cancel()">{{'Cancel' | translate}}</button>
+  </footer>
+</form>
