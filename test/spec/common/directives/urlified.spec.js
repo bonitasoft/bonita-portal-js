@@ -3,7 +3,7 @@ describe('urlified', function () {
 
   var scope, $compile, urlify, ngModelCtrl, setInputValue;
 
-  beforeEach(module('org.bonita.common.directives.urlified'));
+  beforeEach(module('org.bonitasoft.common.directives.urlified'));
 
   beforeEach(module(function ($filterProvider) {
     urlify = jasmine.createSpy();

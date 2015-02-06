@@ -4,7 +4,7 @@ describe('i18nService', function () {
 
   var i18nAPI, $cookies, gettextCatalog, deferred, rootScope;
 
-  beforeEach(module('org.bonita.services.i18n'));
+  beforeEach(module('org.bonitasoft.services.i18n'));
 
   beforeEach(inject(function (_i18nAPI_, _$cookies_, _gettextCatalog_, $q, $rootScope) {
     rootScope = $rootScope;

@@ -1,7 +1,7 @@
 (function() {
   'use strict';
-  angular.module('org.bonita.features.admin.cases.list.flownodePopover',
-    ['org.bonita.common.resources',
+  angular.module('org.bonitasoft.features.admin.cases.list.flownodePopover',
+    ['org.bonitasoft.common.resources',
       'ui.bootstrap'
     ])
     .config(['$tooltipProvider',
