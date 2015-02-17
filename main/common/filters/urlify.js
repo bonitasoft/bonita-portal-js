@@ -1,7 +1,7 @@
 (function () {
   'use strict';
 
-  angular.module('org.bonita.common.filters.urlify', []).filter('urlify', function() {
+  angular.module('org.bonitasoft.common.filters.urlify', []).filter('urlify', function() {
     return function(input) {
       if (!input) {
         return input;

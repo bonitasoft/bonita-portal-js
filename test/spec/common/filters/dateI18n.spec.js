@@ -14,7 +14,7 @@ describe('Modules filters', function () {
       return $delegate;
     });
   }));
-  beforeEach(module('com.bonita.common.i18n.filters'));
+  beforeEach(module('org.bonitasoft.common.i18n.filters'));
 
 
   describe('Filter dateI18n', function () {
@@ -33,7 +33,7 @@ describe('Modules filters', function () {
     it('should throw an error if no output filter is set', function () {
       expect(function () {
         filter(Date.now());
-      }).toThrowError('[com.bonita.common.i18n.filters@dateI18nFilter] You cannot use the date filter without a format');
+      }).toThrowError('[com.bonitasoft.common.i18n.filters@dateI18nFilter] You cannot use the date filter without a format');
     });
 
     it('should throw an error if moment does not exist', function() {
@@ -41,7 +41,7 @@ describe('Modules filters', function () {
       delete window.moment;
       expect(function () {
         filter(Date.now(), 'YYYY');
-      }).toThrowError('[com.bonita.common.i18n.filters@dateI18nFilter] We need moment.js to translate our dates');
+      }).toThrowError('[com.bonitasoft.common.i18n.filters@dateI18nFilter] We need moment.js to translate our dates');
       window.moment = moment;
     });
 
@@ -134,7 +134,7 @@ describe('Modules filters', function () {
       }).toThrow();
       expect(function () {
         filter(Date.now());
-      }).toThrowError('[com.bonita.common.i18n.filters@dateAgoFilter] We need moment.js to translate our dates');
+      }).toThrowError('[com.bonitasoft.common.i18n.filters@dateAgoFilter] We need moment.js to translate our dates');
     });
 
     describe('Change the locale', function () {

@@ -4,7 +4,7 @@
   describe('Factory: utils', function () {
 
     var factory = {};
-    beforeEach(module('com.bonita.features.admin.applications.details'));
+    beforeEach(module('org.bonitasoft.features.admin.applications.details'));
 
     beforeEach(inject(function ($injector) {
       factory = $injector.get('menuUtils');

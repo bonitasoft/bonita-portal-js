@@ -3,7 +3,7 @@ describe('urlified', function () {
 
   var scope, $compile;
 
-  beforeEach(module('org.bonita.common.directives.selectAll'));
+  beforeEach(module('org.bonitasoft.common.directives.selectAll'));
 
   describe('directive', function(){
 

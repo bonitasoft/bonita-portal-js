@@ -2,14 +2,14 @@
 (function() {
   'use strict';
 
-  angular.module('org.bonita.features.admin.cases.list', [
+  angular.module('org.bonitasoft.features.admin.cases.list', [
     'ui.router',
-    'org.bonita.features.admin.cases.list.table',
+    'org.bonitasoft.features.admin.cases.list.table',
     'ui.bootstrap',
     'gettext',
-    'org.bonita.services.topurl',
-    'org.bonita.features.admin.cases.list.values',
-    'org.bonita.common.directives.bonitaHref'
+    'org.bonitasoft.services.topurl',
+    'org.bonitasoft.features.admin.cases.list.values',
+    'org.bonitasoft.common.directives.bonitaHref'
   ])
     .config(['$stateProvider', '$urlRouterProvider',
       function($stateProvider, $urlRouterProvider) {

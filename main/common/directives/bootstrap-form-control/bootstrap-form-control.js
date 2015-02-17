@@ -12,7 +12,7 @@
     });
   }
 
-  angular.module('com.bonita.common.directives.bootstrap-form-control', [])
+  angular.module('org.bonitasoft.common.directives.bootstrap-form-control', [])
     .directive('bootstrapFormControl', ['$log', function ($log) {
 
       return {

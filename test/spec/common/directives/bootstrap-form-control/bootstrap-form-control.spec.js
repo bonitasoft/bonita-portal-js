@@ -3,7 +3,7 @@ describe('Directive: bootstrapFormControl', function () {
 
   var $compile, scope;
 
-  beforeEach(module('com.bonita.common.directives.bootstrap-form-control'));
+  beforeEach(module('org.bonitasoft.common.directives.bootstrap-form-control'));
 
   beforeEach(inject(function (_$compile_, $rootScope) {
     $compile = _$compile_;

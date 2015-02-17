@@ -69,9 +69,9 @@
       }
     });
 
-    beforeEach(module('com.bonita.features.admin.applications.edit'));
-    beforeEach(module('com.bonita.common.resources'));
-    beforeEach(module('com.bonita.features.admin.applications.details'));
+    beforeEach(module('org.bonitasoft.features.admin.applications.edit'));
+    beforeEach(module('org.bonitasoft.common.resources'));
+    beforeEach(module('org.bonitasoft.features.admin.applications.details'));
 
     beforeEach(function () {
       // spyOn(console, 'debug');

@@ -4,7 +4,7 @@ describe('Utils module', function() {
 
   var filter;
 
-  beforeEach(module('com.bonita.common.utils.filters'));
+  beforeEach(module('org.bonitasoft.common.utils.filters'));
 
   beforeEach(inject(function($filter) {
     filter = $filter;

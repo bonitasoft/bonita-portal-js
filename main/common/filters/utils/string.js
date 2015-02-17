@@ -1,7 +1,7 @@
 (function() {
   'use strict';
 
-  angular.module('com.bonita.common.utils.filters',[])
+  angular.module('org.bonitasoft.common.utils.filters',[])
     .filter('ucfirst', function() {
       return function ucFirst(input) {
         input = input || '';
