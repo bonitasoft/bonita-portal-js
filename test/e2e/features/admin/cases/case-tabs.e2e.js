@@ -1,6 +1,6 @@
 (function () {
   'use strict';
-  describe('case admin list', function () {
+  describe('case admin tabs', function () {
 
     var activeCaseTab,
       archivedCaseTab,
