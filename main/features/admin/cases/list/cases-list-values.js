@@ -11,27 +11,20 @@
   angular.module('org.bonita.features.admin.cases.list.values', [])
     .value('casesColumns', [{
       name: 'ID',
-      sortName: 'id',
       path: ['id'],
-      selected: true,
-      align: 'right',
-      linkToCase: true
+      selected: true
     }, {
       name: 'Process name',
-      sortName: 'name',
       path: ['processDefinitionId', 'name'],
-      selected: true,
-      linkToProcess: true
+      selected: true
     }, {
       name: 'Version',
       path: ['processDefinitionId', 'version'],
       selected: true
     }, {
       name: 'Start date',
-      sortName: 'startDate',
       path: ['start'],
-      selected: true,
-      date: true
+      selected: true
     }, {
       name: 'Started by',
       path: ['started_by', 'userName'],
@@ -40,13 +33,10 @@
     }, {
       name: 'Failed Flow Nodes',
       path: ['failedFlowNodes'],
-      align: 'right',
-      selected: true,
-      warn : true
+      selected: true
     }, {
       name: 'Pending Flow Nodes',
       path: ['activeFlowNodes'],
-      align: 'right',
       selected: true
     }])
     .value('allCaseStatesValues', {
@@ -63,6 +53,7 @@
     .value('pageSizes', [25, 50, 100, 200])
     .value('defaultPageSize', 25)
     .value('defaultSort', 'id')
+    .value('archivedDefaultSort', 'sourceObjectId')
     .value('defaultFilters', {
       appVersion: 'All',
       appName: 'All',
@@ -73,27 +64,20 @@
     .value('activedTabName', '')
     .value('archivedCasesColumns', [{
       name: 'ID',
-      sortName: 'id',
       path: ['sourceObjectId'],
-      selected: true,
-      align: 'right',
-      linkToCase: true
+      selected: true
     }, {
       name: 'Process name',
-      sortName: 'name',
       path: ['processDefinitionId', 'name'],
-      selected: true,
-      linkToProcess: true
+      selected: true
     }, {
       name: 'Version',
       path: ['processDefinitionId', 'version'],
       selected: true
     }, {
       name: 'Start date',
-      sortName: 'startDate',
       path: ['start'],
-      selected: true,
-      date: true
+      selected: true
     }, {
       name: 'Started by',
       path: ['started_by', 'userName'],
@@ -101,10 +85,8 @@
       defaultValue : 'System'
     }, {
       name: 'End date',
-      sortName: 'endDate',
       path: ['end_date'],
-      selected: true,
-      date: true
+      selected: true
     }, {
       name: 'State',
       path: ['state'],
