@@ -3,32 +3,38 @@
   angular.module('org.bonita.features.admin.cases.list.table', [
     'org.bonita.common.resources',
     'org.bonita.common.table.resizable',
+    'org.bonita.common.filters.stringTemplater',
     'org.bonita.services.topurl',
-    'org.bonita.sortable',
     'org.bonita.features.admin.cases.list.values',
     'org.bonita.features.admin.cases.list.filters',
     'org.bonita.features.admin.cases.list.delete',
-    'org.bonita.features.admin.cases.list.formatContent',
+    'org.bonita.features.admin.cases.list.service',
     'gettext',
     'ui.bootstrap',
     'ui.router',
-    'ngDraggable',
     'org.bonita.common.directives.selectAll',
     'angular-growl',
-    'ngAnimate'
+    'ngAnimate',
+    'bonitable',
+    'bonita.selectable',
+    'bonita.repeatable',
+    'bonita.sortable',
+    'bonita.templates',
+    'bonita.settings',
+    'ui.sortable'
   ])
   .config(['growlProvider',function (growlProvider) {
       growlProvider.globalPosition('top-center');
     }])
   .controller('ActiveCaseListCtrl', ['$scope', 'caseAPI', 'casesColumns', 'defaultPageSize', 'defaultSort',
-    'defaultDeployedFields', 'defaultActiveCounterFields', '$location', 'pageSizes', 'defaultFilters', '$filter',
-    '$anchorScroll', 'growl', '$window', 'moreDetailToken', 'tabName', 'manageTopUrl',
+    'defaultDeployedFields', 'defaultActiveCounterFields', '$location', 'pageSizes', 'defaultFilters', 'dateParser',
+    '$anchorScroll', 'growl', 'moreDetailToken', 'tabName', 'manageTopUrl',
     'processId', 'supervisorId', CaseListCtrl])
 
 
   .controller('ArchivedCaseListCtrl', ['$scope', 'archivedCaseAPI', 'archivedCasesColumns', 'defaultPageSize',
-    'defaultSort', 'defaultDeployedFields', 'defaultArchivedCounterFields', '$location', 'pageSizes', 'defaultFilters', '$filter',
-    '$anchorScroll', 'growl', '$window', 'archivedMoreDetailToken', 'tabName', 'manageTopUrl',
+    'archivedDefaultSort', 'defaultDeployedFields', 'defaultArchivedCounterFields', '$location', 'pageSizes', 'defaultFilters', 'dateParser',
+    '$anchorScroll', 'growl', 'archivedMoreDetailToken', 'tabName', 'manageTopUrl',
     'processId', 'supervisorId', CaseListCtrl]);
 
   /**
@@ -52,8 +58,10 @@
    * @requires growl
    */
   /* jshint -W003 */
-  function CaseListCtrl($scope, caseAPI, casesColumns, defaultPageSize, defaultSort, defaultDeployedFields, defaultCounterFields, $location, pageSizes, defaultFilters, $filter, $anchorScroll, growl, $window, moreDetailToken, tabName, manageTopUrl, processId, supervisorId) {
+  function CaseListCtrl($scope, caseAPI, casesColumns, defaultPageSize, defaultSort, defaultDeployedFields, defaultCounterFields, $location, pageSizes, defaultFilters, dateParser, $anchorScroll, growl, moreDetailToken, tabName, manageTopUrl, processId, supervisorId) {
     var vm = this;
+    var modeDetailProcessToken = 'processmoredetailsadmin';
+
     /**
      * @ngdoc property
      * @name o.b.f.admin.cases.list.CaseListCtrl#columns
@@ -87,13 +95,13 @@
      * the array of cases to display
      */
     $scope.cases = undefined;
-    $scope.moreDetailToken = moreDetailToken;
     $scope.loading = true;
 
     var defaultFiltersArray = [];
     if (supervisorId) {
       defaultFiltersArray.push('supervisor_id=' + supervisorId);
-      $scope.moreDetailToken = moreDetailToken.replace('admin', 'pm');
+      moreDetailToken = moreDetailToken.replace('admin', 'pm');
+      modeDetailProcessToken = modeDetailProcessToken.replace('admin', 'pm');
     }
     $scope.processManager = +!!supervisorId;
     $scope.supervisorId = supervisorId;
@@ -104,7 +112,7 @@
     //never used it but initialized in this scope in order to keep track of sortOptions on table reload
     $scope.sortOptions = {
       property: defaultSort,
-      ascendant : true
+      direction : true
     };
 
     vm.reinitCases = function() {
@@ -128,11 +136,12 @@
       }
     }, true);
 
+    vm.parseAndFormat = dateParser.parseAndFormat;
 
     vm.updateSortField = function updateSortField(sortOptions){
       if (!$scope.searchOptions.searchSort || sortOptions) {
         $scope.searchOptions.searchSort = ((sortOptions && sortOptions.property) ?
-          sortOptions.property : defaultSort) + ' ' + ((sortOptions && sortOptions.ascendant===false) ? 'DESC' : 'ASC');
+          sortOptions.property : defaultSort) + ' ' + ((sortOptions && sortOptions.direction===false) ? 'DESC' : 'ASC');
         $scope.pagination.currentPage = 1;
       }
     };
@@ -157,12 +166,6 @@
       }
     };
 
-    vm.getCaseDetailUrl = function(caseItemId) {
-      if (caseItemId) {
-        return manageTopUrl.getUrlToTokenAndId(caseItemId, $scope.moreDetailToken);
-      }
-    };
-
     vm.filterColumn = function(column) {
       return column && column.selected;
     };
@@ -172,6 +175,18 @@
         $scope.pagination.itemsPerPage = pageSize;
         $scope.pagination.currentPage = 1;
         vm.searchForCases();
+      }
+    };
+
+    vm.getLinkToCase = function(caseItem){
+      if(caseItem){
+        return manageTopUrl.getPath() + manageTopUrl.getSearch() + '#?id=' + caseItem.id + '&_p=' + (moreDetailToken || '') + '&' + manageTopUrl.getCurrentProfile();
+      }
+    };
+
+    vm.getLinkToProcess = function(caseItem){
+      if(caseItem && caseItem.processDefinitionId){
+        return manageTopUrl.getPath() + manageTopUrl.getSearch() + '#?id=' + caseItem.processDefinitionId.id + '&_p=' + (modeDetailProcessToken || '') + '&' + manageTopUrl.getCurrentProfile();
       }
     };
 
@@ -228,6 +243,9 @@
         }
       }
     }
+
+
+
     vm.searchForCases = searchForCases;
     function searchForCases() {
       $scope.loading = true;
