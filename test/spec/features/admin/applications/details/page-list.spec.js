@@ -26,7 +26,7 @@
 
   describe('Module page list', function() {
 
-    beforeEach(module('com.bonita.features.admin.applications.details.page-list'));
+    beforeEach(module('org.bonitasoft.features.admin.applications.details.page-list'));
 
 
     describe('Factory pageModel', function() {
@@ -218,7 +218,7 @@
         loadRequest,
         modal;
 
-      beforeEach(module('com.bonita.features.admin.applications.details.page-list'));
+      beforeEach(module('org.bonitasoft.features.admin.applications.details.page-list'));
 
       beforeEach(inject(function($controller, $rootScope, $injector, $q) {
 
@@ -417,7 +417,7 @@
       var createController, scope, application, customPageAPI, applicationPageAPI, loadRequest, saveRequest, modalInstance = {}, store;
 
 
-      beforeEach(module('com.bonita.features.admin.applications.details.page-list', 'org.bonita.common.resources.store'));
+      beforeEach(module('org.bonitasoft.features.admin.applications.details.page-list', 'org.bonitasoft.common.resources.store'));
 
       beforeEach(inject(function($controller, $rootScope, $q, $injector) {
 

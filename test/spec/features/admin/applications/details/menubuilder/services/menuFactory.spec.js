@@ -4,7 +4,7 @@
   describe('Service: Menu factory', function () {
     var $httpBackend, service, loadRequest, applicationMenuAPI, menuConvertor, rootScope, qPromise;
 
-    beforeEach(module('com.bonita.features.admin.applications.details'));
+    beforeEach(module('org.bonitasoft.features.admin.applications.details'));
 
     beforeEach(inject(function ($injector, $q) {
       service = $injector.get('menuFactory');

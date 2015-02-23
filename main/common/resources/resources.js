@@ -50,7 +50,7 @@
   }];
 
 
-  var module = angular.module('org.bonita.common.resources', ['ngResource'])
+  var module = angular.module('org.bonitasoft.common.resources', ['ngResource'])
     .constant('API_PATH', API_PATH)
 
   /**
@@ -113,31 +113,18 @@
     'membershipAPI': 'identity/membership',
     'professionalDataAPI': 'identity/professionalcontactdata',
     'personalDataAPI': 'identity/personalcontactdata',
-    'i18nAPI': 'system/i18ntranslation'
+    'i18nAPI': 'system/i18ntranslation',
+    'applicationAPI': 'living/application',
+    'applicationPageAPI': 'living/application-page',
+    'applicationMenuAPI': 'living/application-menu',
+    'customPageAPI': 'portal/page'
   });
 
-  angular.module('com.bonita.common.resources', ['ngResource', 'org.bonita.common.resources'])
-
-    .factory('applicationAPI', ['API_PATH', '$resource', function (API_PATH, $resource) {
-      return $resource(API_PATH + 'living/application/:id', {id: '@id'});
-    }])
-    .factory('applicationPageAPI', ['API_PATH', '$resource', function (API_PATH, $resource) {
-      return $resource(API_PATH + 'living/application-page/:id', {id: '@id'});
-    }])
-    .factory('applicationMenuAPI', ['API_PATH', '$resource', function (API_PATH, $resource) {
-      return $resource(API_PATH + 'living/application-menu/:id', { id: '@id' });
-    }])
-    .factory('customPageAPI', ['API_PATH', '$resource', function (API_PATH, $resource) {
-      return $resource(API_PATH + 'portal/page/:id', {id: '@id'});
-    }])
-    .factory('importApplication', ['API_PATH', '$resource', function (API_PATH, $resource) {
+  module.factory('importApplication', ['API_PATH', '$resource', function (API_PATH, $resource) {
       return $resource('../services/application/import', {
         importPolicy: '@importPolicy',
         applicationsDataUpload: '@applicationsDataUpload'
       });
-    }])
-    .factory('profileAPI', ['API_PATH', '$resource', function (API_PATH, $resource) {
-      return $resource(API_PATH + 'portal/profile/:id', {id: '@id'});
     }]);
 
 })();

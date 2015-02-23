@@ -1,10 +1,10 @@
 (function () {
   'use strict';
 
-  angular.module('com.bonita.features.admin.applications.delete',
+  angular.module('org.bonitasoft.features.admin.applications.delete',
     [
       'ui.bootstrap',
-      'com.bonita.common.resources'
+      'org.bonitasoft.common.resources'
     ])
     .controller('deleteApplicationCtrl', ['$scope', 'applicationAPI', '$modalInstance', 'application', function ($scope, applicationAPI, $modalInstance, application) {
 

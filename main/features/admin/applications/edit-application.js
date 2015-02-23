@@ -1,13 +1,13 @@
 (function () {
   'use strict';
 
-  angular.module('com.bonita.features.admin.applications.edit', [
+  angular.module('org.bonitasoft.features.admin.applications.edit', [
     'ui.bootstrap',
-    'com.bonita.common.directives.bootstrap-form-control',
-    'org.bonita.common.directives.urlified',
-    'com.bonita.common.resources',
-    'org.bonita.common.resources.store',
-    'com.bonita.common.i18n.factories'
+    'org.bonitasoft.common.directives.bootstrap-form-control',
+    'org.bonitasoft.common.directives.urlified',
+    'org.bonitasoft.common.resources',
+    'org.bonitasoft.common.resources.store',
+    'org.bonitasoft.common.i18n.factories'
   ])
     .controller('addApplicationCtrl', ['$scope', 'applicationAPI', 'profileAPI', '$modalInstance', 'application', 'store','i18nMsg',
       function ($scope, applicationAPI, profileAPI, $modalInstance, application, store, i18nMsg) {

@@ -8,12 +8,12 @@
    * describes the case list components
    */
 
-  angular.module('org.bonita.features.admin.cases.list.formatContent', [
-    'org.bonita.features.admin.cases.list.values',
-    'org.bonita.features.admin.cases.list.flownodePopover',
+  angular.module('org.bonitasoft.features.admin.cases.list.formatContent', [
+    'org.bonitasoft.features.admin.cases.list.values',
+    'org.bonitasoft.features.admin.cases.list.flownodePopover',
     'gettext',
     'ui.bootstrap',
-    'org.bonita.services.topurl'
+    'org.bonitasoft.services.topurl'
   ])
   .factory('contentFactory', ['$filter', 'manageTopUrl', 'gettextCatalog', function ($filter, manageTopUrl, gettextCatalog) {
 

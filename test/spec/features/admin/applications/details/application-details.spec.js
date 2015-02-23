@@ -40,7 +40,7 @@
 
     var ctrl, scope, applicationAPI, modal, store, $httpBackend;
 
-    beforeEach(module('com.bonita.features.admin.applications.details', 'org.bonita.services.topurl'));
+    beforeEach(module('org.bonitasoft.features.admin.applications.details', 'org.bonitasoft.services.topurl'));
 
     beforeEach(inject(function ($controller, $injector, $rootScope, manageTopUrl) {
 
@@ -119,7 +119,7 @@
       $window,
       manageTopUrl;
 
-    beforeEach(module('com.bonita.features.admin.applications.details', 'org.bonita.services.topurl'));
+    beforeEach(module('org.bonitasoft.features.admin.applications.details', 'org.bonitasoft.services.topurl'));
 
     beforeEach(inject(function($injector, $rootScope) {
       $compile = $injector.get('$compile');

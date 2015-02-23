@@ -7,7 +7,7 @@ describe('Controller: deleteApplicationCtrl', function () {
     modalInstance,
     deleteRequest;
 
-  beforeEach(module('com.bonita.features.admin.applications.delete'));
+  beforeEach(module('org.bonitasoft.features.admin.applications.delete'));
 
   beforeEach(inject(function ($controller, $rootScope, _applicationAPI_, $q) {
     scope = $rootScope.$new();

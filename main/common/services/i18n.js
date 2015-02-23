@@ -2,11 +2,11 @@
 (function () {
   'use strict';
 
-  angular.module('org.bonita.services.i18n', [
+  angular.module('org.bonitasoft.services.i18n', [
     'ngCookies',
     'gettext',
     'ui.router',
-    'org.bonita.common.resources'
+    'org.bonitasoft.common.resources'
   ])
     .service('i18nService', ['gettextCatalog', '$cookies', 'i18nAPI', function (gettextCatalog, $cookies, i18nAPI) {
       function arrayToObject(array) {

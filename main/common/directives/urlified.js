@@ -1,7 +1,7 @@
 (function () {
   'use strict';
 
-  angular.module('org.bonita.common.directives.urlified', ['org.bonita.common.filters.urlify']).directive('urlified', function ($filter) {
+  angular.module('org.bonitasoft.common.directives.urlified', ['org.bonitasoft.common.filters.urlify']).directive('urlified', function ($filter) {
     return {
       restrict: 'A',
       require: 'ngModel',

@@ -5,7 +5,7 @@
 
     var scope, caseAPI, fullCases, promise, q, deferred, casesCtrl;
 
-    beforeEach(module('org.bonita.features.admin.cases.list.table'));
+    beforeEach(module('org.bonitasoft.features.admin.cases.list.table'));
 
     beforeEach(inject(function ($rootScope, $q) {
       //we use the casesListMocks.js in order to init data for the test
@@ -19,7 +19,7 @@
       promise = deferred.promise;
       caseAPI = jasmine.createSpyObj('caseAPI', ['search']);
       caseAPI.search.and.returnValue({$promise : promise});
-      angular.module('org.bonita.features.admin.cases.list.table').value('tabName', 'active');
+      angular.module('org.bonitasoft.features.admin.cases.list.table').value('tabName', 'active');
     }));
 
     describe('controller initialization', function () {

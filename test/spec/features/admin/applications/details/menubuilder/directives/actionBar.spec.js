@@ -5,7 +5,7 @@
 
     var $compile, scope, rootScope;
 
-    beforeEach(module('com.bonita.features.admin.applications.details'));
+    beforeEach(module('org.bonitasoft.features.admin.applications.details'));
 
     beforeEach(module('main/features/admin/applications/details/menubuilder-actionBar.html'));
 

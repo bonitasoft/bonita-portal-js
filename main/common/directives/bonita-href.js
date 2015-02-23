@@ -4,7 +4,7 @@
   /**
    * Attach a custom click event to a button, it provides routing for iframe too.
    */
-  angular.module('org.bonita.common.directives.bonitaHref', ['org.bonita.services.topurl'])
+  angular.module('org.bonitasoft.common.directives.bonitaHref', ['org.bonitasoft.services.topurl'])
   .directive('bonitaHref', ['manageTopUrl',
     function(manageTopUrl) {
       return {

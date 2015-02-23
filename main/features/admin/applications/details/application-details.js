@@ -1,13 +1,13 @@
 (function() {
   'use strict';
 
-  angular.module('com.bonita.features.admin.applications.details', [
+  angular.module('org.bonitasoft.features.admin.applications.details', [
     'ui.bootstrap',
-    'com.bonita.common.resources',
+    'org.bonitasoft.common.resources',
     'ui.router',
-    'com.bonita.common.directives.bootstrap-form-control',
-    'com.bonita.features.admin.applications.details.page-list',
-    'com.bonita.common.i18n.filters',
+    'org.bonitasoft.common.directives.bootstrap-form-control',
+    'org.bonitasoft.features.admin.applications.details.page-list',
+    'org.bonitasoft.common.i18n.filters',
     'ui.tree'
   ])
 

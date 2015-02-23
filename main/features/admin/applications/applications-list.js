@@ -1,20 +1,20 @@
 (function () {
   'use strict';
 
-  angular.module('com.bonita.features.admin.applications.list', [
+  angular.module('org.bonitasoft.features.admin.applications.list', [
     'ui.bootstrap',
     'angularFileUpload',
-    'org.bonita.common.directives.bonitaHref',
-    'com.bonita.common.resources',
-    'org.bonita.common.resources.store',
-    'com.bonita.features.admin.applications.edit',
-    'com.bonita.features.admin.applications.delete',
-    'com.bonita.common.i18n.filters',
+    'org.bonitasoft.common.directives.bonitaHref',
+    'org.bonitasoft.common.resources',
+    'org.bonitasoft.common.resources.store',
+    'org.bonitasoft.features.admin.applications.edit',
+    'org.bonitasoft.features.admin.applications.delete',
+    'org.bonitasoft.common.i18n.filters',
     'ui.router',
-    'org.bonita.services.topurl',
-    'bonitable',
-    'bonita.templates',
-    'bonita.sortable'
+    'org.bonitasoft.services.topurl',
+    'org.bonitasoft.bonitable',
+    'org.bonitasoft.templates',
+    'org.bonitasoft.sortable'
   ])
     .config(['$stateProvider', function ($stateProvider) {
       $stateProvider.state('bonita.applications', {

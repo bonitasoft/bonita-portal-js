@@ -1,6 +1,6 @@
 (function() {
   'use strict';
-  angular.module('org.bonita.common.table.resizable', [])
+  angular.module('org.bonitasoft.common.table.resizable', [])
     .directive('resizableColumn', ['$timeout', function ($timeout) {
       return {
         restrict: 'A',

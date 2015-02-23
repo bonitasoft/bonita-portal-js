@@ -5,7 +5,7 @@
 
     var  factory, opt;
 
-    beforeEach(module('org.bonita.features.admin.cases.list.formatContent', function ($provide) {
+    beforeEach(module('org.bonitasoft.features.admin.cases.list.formatContent', function ($provide) {
       $provide.decorator('gettextCatalog', function ($delegate) {
         $delegate.getString = function (str) {
           return str;
@@ -185,7 +185,7 @@
 
     describe('formatContent directive only', function () {
 
-      beforeEach(module('org.bonita.features.admin.cases.list.formatContent'));
+      beforeEach(module('org.bonitasoft.features.admin.cases.list.formatContent'));
 
       beforeEach(inject(function ($rootScope, $compile, $injector) {
         scope          = $rootScope.$new();

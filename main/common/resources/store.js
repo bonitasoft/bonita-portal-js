@@ -45,7 +45,7 @@
     return deferred.promise;
   };
 
-  angular.module('org.bonita.common.resources.store', ['org.bonita.common.resources'])
+  angular.module('org.bonitasoft.common.resources.store', ['org.bonitasoft.common.resources'])
     .service('store', ['$q', Store]);
 })();
 
