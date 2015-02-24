@@ -1,7 +1,7 @@
 (function() {
   'use strict';
 
-  angular.module('org.bonita.common.filters.stringTemplater', []).filter('stringTemplater', function() {
+  angular.module('org.bonitasoft.common.filters.stringTemplater', []).filter('stringTemplater', function() {
     return function(template, replacement) {
       var templteRE = /\{\}/;
       if (!template || !replacement || typeof template !== 'string') {
