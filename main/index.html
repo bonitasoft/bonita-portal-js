@@ -22,6 +22,7 @@
     <!-- endbower -->
     <link rel="stylesheet" href="assets/jquery-resizable-columns/dist/jquery.resizableColumns.css" />
     <link rel="stylesheet" href="assets/angular-growl-2/build/angular-growl.css" />
+    <link rel="stylesheet" href="assets/bonita-js-components/dist/bonita-lib.css">
     <!-- endbuild -->
     <link rel="stylesheet" href="../portal/themeResource?theme=portal&location=bonita-skin.css">
     <link rel="stylesheet" href="styles/bonita-theme.css">
@@ -34,10 +35,6 @@
 
 <!-- Add your site or application content here -->
 <div ui-view=""></div>
-
-<div class="footer">
-    <span id="footer">Bonitasoft © 2015</span>
-</div>
 
 <!--[if lt IE 9]>
 <script src="assets/es5-shim/es5-shim.js"></script>
@@ -63,7 +60,6 @@
 <script src="assets/angular-growl-2/build/angular-growl.js"></script>
 <script src="assets/angular-animate/angular-animate.js"></script>
 <script src="assets/angular-sanitize/angular-sanitize.js"></script>
-<script src="assets/ngDraggable/ngDraggable.js"></script>
 <script src="assets/moment/moment.js"></script>
 <script src="assets/numeral/numeral.js"></script>
 <script src="assets/numeral/languages.js"></script>
@@ -83,6 +79,7 @@
 <script src="common/directives/urlified.js"></script>
 <script src="common/factories/i18nMsg.js"></script>
 <script src="common/filters/dateI18n/datei18n.js"></script>
+<script src="common/filters/stringTemplater.js"></script>
 <script src="common/filters/urlify.js"></script>
 <script src="common/filters/utils/string.js"></script>
 <script src="common/resources/resources.js"></script>
@@ -97,13 +94,12 @@
 <script src="features/admin/applications/details/page-list.js"></script>
 <script src="features/admin/applications/edit-application.js"></script>
 <script src="features/admin/cases/cases.js"></script>
+<script src="features/admin/cases/list/cases-date-service.js"></script>
 <script src="features/admin/cases/list/cases-list-delete.js"></script>
 <script src="features/admin/cases/list/cases-list-filters.js"></script>
-<script src="features/admin/cases/list/cases-list-format-content.js"></script>
 <script src="features/admin/cases/list/cases-list-values.js"></script>
 <script src="features/admin/cases/list/cases-list.js"></script>
 <script src="features/admin/cases/list/cases-tabs.js"></script>
-<script src="features/admin/cases/list/flownode-badge.js"></script>
 <script src="bonita-portal.js"></script>
 <!-- endinjector -->
 <!-- endbuild -->
