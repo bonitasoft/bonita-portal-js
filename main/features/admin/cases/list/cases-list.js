@@ -9,20 +9,20 @@
     'org.bonitasoft.features.admin.cases.list.values',
     'org.bonitasoft.features.admin.cases.list.filters',
     'org.bonitasoft.features.admin.cases.list.delete',
-    'org.bonitasoft.features.admin.cases.list.formatContent',
     'gettext',
     'ui.bootstrap',
     'ui.router',
     'org.bonitasoft.common.directives.selectAll',
     'angular-growl',
     'ngAnimate',
-    'bonitable',
-    'bonita.selectable',
-    'bonita.repeatable',
-    'bonita.sortable',
-    'bonita.templates',
-    'bonita.settings',
-    'ui.sortable'
+    'org.bonitasoft.bonitable',
+    'org.bonitasoft.bonitable.selectable',
+    'org.bonitasoft.bonitable.repeatable',
+    'org.bonitasoft.bonitable.sortable',
+    'org.bonitasoft.bonitable.settings',
+    'org.bonitasoft.templates',
+    'ui.sortable',
+    'org.bonitasoft.features.admin.cases.list.service'
   ])
     .config(['growlProvider', function (growlProvider) {
       growlProvider.globalPosition('top-center');
