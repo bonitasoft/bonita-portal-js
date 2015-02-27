@@ -3,7 +3,7 @@
 
   describe('store', function () {
 
-    beforeEach(module('org.bonita.common.resources.store'));
+    beforeEach(module('org.bonitasoft.common.resources.store'));
 
     var $httpBackend, userAPI, store, rootScope, DATASET = [
       { id: 1 },

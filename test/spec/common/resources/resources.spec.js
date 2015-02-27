@@ -5,7 +5,7 @@
 
     var mockWindow = { top: { 'location' : {reload : function(){}}}};
 
-    beforeEach(module('org.bonita.common.resources'));
+    beforeEach(module('org.bonitasoft.common.resources'));
     beforeEach(module(function($provide) {$provide.value('$window', mockWindow);}));
 
 

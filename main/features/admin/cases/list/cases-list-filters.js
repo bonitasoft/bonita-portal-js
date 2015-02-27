@@ -1,12 +1,12 @@
 (function() {
   'use strict';
-  angular.module('org.bonita.features.admin.cases.list.filters', [
-    'org.bonita.common.resources',
-    'org.bonita.features.admin.cases.list.values',
+  angular.module('org.bonitasoft.features.admin.cases.list.filters', [
+    'org.bonitasoft.common.resources',
+    'org.bonitasoft.features.admin.cases.list.values',
     'gettext',
     'ui.bootstrap',
     'ui.router',
-    'org.bonita.common.resources.store'
+    'org.bonitasoft.common.resources.store'
   ])
   .controller('ActiveCaseFilterController', ['$scope', 'store', 'processAPI', 'defaultFilters', 'caseStatesValues', 'activedTabName', CaseFilterController])
   .directive('activeCaseFilters', function () {

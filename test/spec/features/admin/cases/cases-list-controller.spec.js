@@ -5,7 +5,7 @@
 
     var scope, caseAPI, fullCases, promise, q, deferred, casesCtrl;
 
-    beforeEach(module('org.bonita.features.admin.cases.list.table'));
+    beforeEach(module('org.bonitasoft.features.admin.cases.list.table'));
 
     beforeEach(inject(function ($rootScope, $q) {
       //we use the casesListMocks.js in order to init data for the test
@@ -19,7 +19,7 @@
       promise = deferred.promise;
       caseAPI = jasmine.createSpyObj('caseAPI', ['search']);
       caseAPI.search.and.returnValue({$promise : promise});
-      angular.module('org.bonita.features.admin.cases.list.table').value('tabName', 'active');
+      angular.module('org.bonitasoft.features.admin.cases.list.table').value('tabName', 'active');
     }));
 
     describe('controller initialization', function () {
@@ -212,15 +212,15 @@
       it('should change searchSort value', function(){
         scope.pagination.currentPage = 8;
         expect(scope.searchOptions.searchSort).toEqual('id ASC');
-        casesCtrl.updateSortField({property: 'name', ascendant: false});
+        casesCtrl.updateSortField({property: 'name', direction: false});
         expect(scope.pagination.currentPage).toBe(1);
         expect(scope.searchOptions.searchSort).toEqual('name DESC');
 
-        casesCtrl.updateSortField({property:'name', ascendant: true});
+        casesCtrl.updateSortField({property:'name', direction: true});
         expect(scope.pagination.currentPage).toBe(1);
         expect(scope.searchOptions.searchSort).toEqual('name ASC');
 
-        casesCtrl.updateSortField({property: 'version', ascendant: false});
+        casesCtrl.updateSortField({property: 'version', direction: false});
         expect(scope.searchOptions.searchSort).toEqual('version DESC');
         expect(scope.pagination.currentPage).toBe(1);
       });
@@ -239,7 +239,7 @@
         expect(scope.searchOptions.searchSort).toEqual('id ASC');
         scope.searchOptions.searchSort = 'name DESC';
         scope.pagination.currentPage = 8;
-        casesCtrl.updateSortField({test : 'pouet', ascendant: false});
+        casesCtrl.updateSortField({test : 'pouet', direction: false});
 
         expect(scope.pagination.currentPage).toBe(1);
         expect(scope.searchOptions.searchSort).toEqual('id DESC');
@@ -254,7 +254,7 @@
     describe('top url behaviour', function () {
       describe('go to case details', function () {
         var mockedWindow,
-          manageTopUrl = jasmine.createSpyObj('manageTopUrl', ['getUrlToTokenAndId', 'addOrReplaceParam']);
+          manageTopUrl = jasmine.createSpyObj('manageTopUrl', ['getPath', 'getSearch', 'getCurrentProfile']);
         beforeEach(function(){
           mockedWindow = {
               top : {
@@ -273,57 +273,69 @@
               'processId' : undefined,
               'supervisorId' : undefined
             });
-            manageTopUrl.getUrlToTokenAndId.calls.reset();
+            manageTopUrl.getPath.calls.reset();
+            manageTopUrl.getSearch.calls.reset();
+            manageTopUrl.getCurrentProfile.calls.reset();
           }));
           it('should change top location hash to case detail', function () {
-            expect(casesCtrl.getCaseDetailUrl()).toBeUndefined();
+            expect(casesCtrl.getLinkToCase()).toBeUndefined();
           });
 
           it('should change top location hash to case detail', function () {
-            manageTopUrl.getUrlToTokenAndId.and.returnValue('/bonita/portal/homepage?tenant=1#?id=123&_p=casemoredetailsadmin&_pf=2');
-            var caseItemId = 123;
-            expect(casesCtrl.getCaseDetailUrl(caseItemId)).toEqual('/bonita/portal/homepage?tenant=1#?id=123&_p=casemoredetailsadmin&_pf=2');
-            caseItemId = '4568';
-            manageTopUrl.getUrlToTokenAndId.and.returnValue('/bonita/portal/homepage?tenant=1#?id=4568&_p=casemoredetailsadmin&_pf=2');
-            casesCtrl.getCaseDetailUrl(caseItemId);
-            expect(casesCtrl.getCaseDetailUrl(caseItemId)).toEqual('/bonita/portal/homepage?tenant=1#?id=4568&_p=casemoredetailsadmin&_pf=2');
-            expect(manageTopUrl.getUrlToTokenAndId.calls.allArgs()).toEqual([[123, 'casemoredetailsadmin'], ['4568', 'casemoredetailsadmin'], ['4568', 'casemoredetailsadmin']]);
+            manageTopUrl.getPath.and.returnValue('/bonita/portal/homepage');
+            manageTopUrl.getSearch.and.returnValue('?tenant=1');
+            manageTopUrl.getCurrentProfile.and.returnValue('_pf=2');
+            var caseItem = {id : 123 , processDefinitionId : {id : 321}};
+            expect(casesCtrl.getLinkToCase(caseItem)).toEqual('/bonita/portal/homepage?tenant=1#?id=123&_p=casemoredetailsadmin&_pf=2');
+            expect(casesCtrl.getLinkToProcess(caseItem)).toEqual('/bonita/portal/homepage?tenant=1#?id=321&_p=processmoredetailsadmin&_pf=2');
+            caseItem = {id : '4568', processDefinitionId : {id : 3987}};
+            casesCtrl.getLinkToCase(caseItem);
+            casesCtrl.getLinkToProcess(caseItem);
+            expect(casesCtrl.getLinkToCase(caseItem)).toEqual('/bonita/portal/homepage?tenant=1#?id=4568&_p=casemoredetailsadmin&_pf=2');
+            expect(casesCtrl.getLinkToProcess(caseItem)).toEqual('/bonita/portal/homepage?tenant=1#?id=3987&_p=processmoredetailsadmin&_pf=2');
+            expect(manageTopUrl.getPath.calls.count()).toEqual(6);
+            expect(manageTopUrl.getSearch.calls.count()).toEqual(6);
+            expect(manageTopUrl.getCurrentProfile.calls.count()).toEqual(6);
           });
         });
         describe('with supervisorId', function(){
-          beforeEach(function(){
-            manageTopUrl.getUrlToTokenAndId.calls.reset();
+          beforeEach(inject(function($controller){
+            casesCtrl = $controller('ActiveCaseListCtrl', {
+              '$scope': scope,
+              '$window' : mockedWindow,
+              'manageTopUrl' : manageTopUrl,
+              'moreDetailToken' : 'casemoredetailsadmin',
+              'processId' : undefined,
+              'supervisorId' : 1
+            });
+            manageTopUrl.getPath.calls.reset();
+            manageTopUrl.getSearch.calls.reset();
+            manageTopUrl.getCurrentProfile.calls.reset();
+          }));
+          it('should change top location hash to case detail', function(){
+            
+            expect(casesCtrl.getLinkToCase()).toBeUndefined();
           });
-          it('should change top location hash to case detail', inject(function($controller){
-            casesCtrl = $controller('ActiveCaseListCtrl', {
-              '$scope': scope,
-              '$window' : mockedWindow,
-              'manageTopUrl' : manageTopUrl,
-              'moreDetailToken' : 'casemoredetailsadmin',
-              'processId' : undefined,
-              'supervisorId' : 1
-            });
-            expect(casesCtrl.getCaseDetailUrl()).toBeUndefined();
-          }));
 
-          it('should change top location hash to case detail', inject(function($controller){
-            casesCtrl = $controller('ActiveCaseListCtrl', {
-              '$scope': scope,
-              '$window' : mockedWindow,
-              'manageTopUrl' : manageTopUrl,
-              'moreDetailToken' : 'casemoredetailsadmin',
-              'processId' : undefined,
-              'supervisorId' : 1
-            });
-            manageTopUrl.getUrlToTokenAndId.and.returnValue('/bonita/portal/homepage?tenant=1#?id=123&_p=casemoredetailspm&_pf=2');
-            var caseItemId = 123;
-            expect(casesCtrl.getCaseDetailUrl(caseItemId)).toEqual('/bonita/portal/homepage?tenant=1#?id=123&_p=casemoredetailspm&_pf=2');
-            caseItemId = '4568';
-            manageTopUrl.getUrlToTokenAndId.and.returnValue('/bonita/portal/homepage?tenant=1#?id=4568&_p=casemoredetailspm&_pf=2');
-            casesCtrl.getCaseDetailUrl(caseItemId);
-            expect(casesCtrl.getCaseDetailUrl(caseItemId)).toEqual('/bonita/portal/homepage?tenant=1#?id=4568&_p=casemoredetailspm&_pf=2');
-            expect(manageTopUrl.getUrlToTokenAndId.calls.allArgs()).toEqual([[123, 'casemoredetailspm'], ['4568', 'casemoredetailspm'], ['4568', 'casemoredetailspm']]);
-          }));
+          it('should change top location hash to case detail', function(){
+            manageTopUrl.getPath.and.returnValue('/bonita/portal/homepage');
+            manageTopUrl.getSearch.and.returnValue('?tenant=1');
+            manageTopUrl.getCurrentProfile.and.returnValue('_pf=2');
+            var caseItem = {
+              id: 123,
+              processDefinitionId : {id : 321}
+            };
+            expect(casesCtrl.getLinkToCase(caseItem)).toEqual('/bonita/portal/homepage?tenant=1#?id=123&_p=casemoredetailspm&_pf=2');
+            expect(casesCtrl.getLinkToProcess(caseItem)).toEqual('/bonita/portal/homepage?tenant=1#?id=321&_p=processmoredetailspm&_pf=2');
+            caseItem = { id : '4568', processDefinitionId : {id : 78987}};
+            casesCtrl.getLinkToCase(caseItem);
+            casesCtrl.getLinkToProcess(caseItem);
+            expect(casesCtrl.getLinkToCase(caseItem)).toEqual('/bonita/portal/homepage?tenant=1#?id=4568&_p=casemoredetailspm&_pf=2');
+            expect(casesCtrl.getLinkToProcess(caseItem)).toEqual('/bonita/portal/homepage?tenant=1#?id=78987&_p=processmoredetailspm&_pf=2');
+            expect(manageTopUrl.getPath.calls.count()).toEqual(6);
+            expect(manageTopUrl.getSearch.calls.count()).toEqual(6);
+            expect(manageTopUrl.getCurrentProfile.calls.count()).toEqual(6);
+          });
 
           it('should change top location hash to case detail', inject(function($controller){
             casesCtrl = $controller('ActiveCaseListCtrl', {
@@ -334,14 +346,21 @@
               'processId' : undefined,
               'supervisorId' : 1
             });
-            manageTopUrl.getUrlToTokenAndId.and.returnValue('/bonita/portal/homepage?tenant=1#?id=123&_p=casemoredetails&_pf=2');
-            var caseItemId = 123;
-            expect(casesCtrl.getCaseDetailUrl(caseItemId)).toEqual('/bonita/portal/homepage?tenant=1#?id=123&_p=casemoredetails&_pf=2');
-            caseItemId = '4568';
-            manageTopUrl.getUrlToTokenAndId.and.returnValue('/bonita/portal/homepage?tenant=1#?id=4568&_p=casemoredetails&_pf=2');
-            casesCtrl.getCaseDetailUrl(caseItemId);
-            expect(casesCtrl.getCaseDetailUrl(caseItemId)).toEqual('/bonita/portal/homepage?tenant=1#?id=4568&_p=casemoredetails&_pf=2');
-            expect(manageTopUrl.getUrlToTokenAndId.calls.allArgs()).toEqual([[123, 'casemoredetails'], ['4568', 'casemoredetails'], ['4568', 'casemoredetails']]);
+            
+            manageTopUrl.getPath.and.returnValue('/bonita/portal/homepage');
+            manageTopUrl.getSearch.and.returnValue('?tenant=1');
+            manageTopUrl.getCurrentProfile.and.returnValue('_pf=2');
+            var caseItem = {id : 123, processDefinitionId : {id : 321}};
+            expect(casesCtrl.getLinkToCase(caseItem)).toEqual('/bonita/portal/homepage?tenant=1#?id=123&_p=casemoredetails&_pf=2');
+            expect(casesCtrl.getLinkToProcess(caseItem)).toEqual('/bonita/portal/homepage?tenant=1#?id=321&_p=processmoredetailspm&_pf=2');
+            caseItem = { id : '4568', processDefinitionId : {id : 54545}};
+            casesCtrl.getLinkToCase(caseItem);
+            casesCtrl.getLinkToProcess(caseItem);
+            expect(casesCtrl.getLinkToCase(caseItem)).toEqual('/bonita/portal/homepage?tenant=1#?id=4568&_p=casemoredetails&_pf=2');
+            expect(casesCtrl.getLinkToProcess(caseItem)).toEqual('/bonita/portal/homepage?tenant=1#?id=54545&_p=processmoredetailspm&_pf=2');
+            expect(manageTopUrl.getPath.calls.count()).toEqual(6);
+            expect(manageTopUrl.getSearch.calls.count()).toEqual(6);
+            expect(manageTopUrl.getCurrentProfile.calls.count()).toEqual(6);
           }));
         });
       });

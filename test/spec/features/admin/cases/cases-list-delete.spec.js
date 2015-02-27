@@ -5,14 +5,14 @@
 
     var scope, caseDeleteCtrl;
 
-    beforeEach(module('org.bonita.features.admin.cases.list.delete'));
+    beforeEach(module('org.bonitasoft.features.admin.cases.list.delete'));
 
     beforeEach(inject(function ($rootScope) {
       scope = $rootScope.$new();
     }));
 
     it('should load directive without any error', inject(function($compile){
-      $compile('<active-case-delete></active-case-delete')(scope);
+      $compile('<active-case-delete></active-case-delete>')(scope);
     }));
 
     describe('confirmDeleteSelectedCases', function () {
@@ -49,7 +49,7 @@
         };
         spyOn(modal, 'open').and.returnValue({'result': promise});
         spyOn(promise, 'then');
-        scope.cases = [];
+        scope.$selectedItems = [];
         caseDeleteCtrl.confirmDeleteSelectedCases();
         expect(modal.open).toHaveBeenCalled();
         expect(promise.then).toHaveBeenCalledWith(caseDeleteCtrl.deleteSelectedCases);
@@ -64,8 +64,7 @@
         spyOn(modal, 'open').and.returnValue({'result': promise});
         spyOn(promise, 'then');
         var case1 = {selected: true};
-        var case2 = {selected: false};
-        scope.cases = [case1, case2];
+        scope.$selectedItems = [case1];
         caseDeleteCtrl.confirmDeleteSelectedCases();
         expect(modal.open).toHaveBeenCalled();
         expect(promise.then).toHaveBeenCalledWith(caseDeleteCtrl.deleteSelectedCases);
@@ -82,15 +81,15 @@
       }));
       it('should return false when nothing is in the case array', function () {
         scope.cases = [];
-        expect(caseDeleteCtrl.checkCaseIsNotSelected()).toBeTruthy();
+        expect(caseDeleteCtrl.checkNoCasesSelected()).toBeTruthy();
       });
       it('should return false when nothing is selected', function () {
         scope.cases = [{selected: false}, {}];
-        expect(caseDeleteCtrl.checkCaseIsNotSelected()).toBeTruthy();
+        expect(caseDeleteCtrl.checkNoCasesSelected()).toBeTruthy();
       });
       it('should return true when somethings selected', function () {
         scope.cases = [{selected: true}, {}];
-        expect(caseDeleteCtrl.checkCaseIsNotSelected()).toBeFalsy();
+        expect(caseDeleteCtrl.checkNoCasesSelected()).toBeTruthy();
       });
     });
 
@@ -125,7 +124,7 @@
                 }
               };
             }
-          },
+          }
         });
         spyOn(caseAPI, 'delete').and.callThrough();
         spyOn(scope, '$emit');
@@ -148,7 +147,7 @@
         expect(scope.cases).toEqual([{selected: false, id: '1'}, {selected: true}]);
       });
       it('should delete all selected cases', function () {
-        scope.cases = [{selected: true, id: '1'}, {selected: true, id: '324'}];
+        scope.$selectedItems = [{selected: true, id: '1'}, {selected: true, id: '324'}];
         scope.pagination = {currentPage : 4};
         caseDeleteCtrl.deleteSelectedCases();
         scope.$apply();
@@ -185,12 +184,12 @@
                 }
               };
             }
-          },
+          }
         });
         spyOn(scope, '$emit');
       }));
       it('should try to delete every cases even if one of them fails', function () {
-        scope.cases = [{selected: true, id: '1'}, {selected: true, id: '324'}, , {selected: true, id: '6548'}, {selected: true, id: '1324'}];
+        scope.$selectedItems = [{selected: true, id: '1'}, {selected: true, id: '324'}, , {selected: true, id: '6548'}, {selected: true, id: '1324'}];
         caseAPI.delete = function(caseItem){
             if(caseItem && +caseItem.id === 324){
               return {'$promise' : failingDefered.promise };
@@ -220,7 +219,7 @@
         expect(scope.pagination.currentPage).toBe(1);
       });
       it('should delete nothing even all fails', function () {
-        scope.cases = [{selected: true, id: '1'}, {selected: true, id: '324'}];
+        scope.$selectedItems = [{selected: true, id: '1'}, {selected: true, id: '324'}];
         caseAPI.delete = function(){
             return {'$promise' : failingDefered.promise };
           };

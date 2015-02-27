@@ -2,14 +2,14 @@
 (function() {
   'use strict';
 
-  angular.module('org.bonita.features.admin.cases.list', [
+  angular.module('org.bonitasoft.features.admin.cases.list', [
     'ui.router',
-    'org.bonita.features.admin.cases.list.table',
+    'org.bonitasoft.features.admin.cases.list.table',
     'ui.bootstrap',
     'gettext',
-    'org.bonita.services.topurl',
-    'org.bonita.features.admin.cases.list.values',
-    'org.bonita.common.directives.bonitaHref'
+    'org.bonitasoft.services.topurl',
+    'org.bonitasoft.features.admin.cases.list.values',
+    'org.bonitasoft.common.directives.bonitaHref'
   ])
     .config(['$stateProvider', '$urlRouterProvider',
       function($stateProvider, $urlRouterProvider) {
@@ -34,9 +34,8 @@
             }
           },
           resolve: {
-            tabName : ['manageTopUrl', 'activedTabName',
-              function(manageTopUrl, tabName){
-                manageTopUrl.addOrReplaceParam('_tab', tabName);
+            tabName : ['activedTabName',
+              function(tabName){
                 return tabName;
               }
             ],
@@ -45,9 +44,8 @@
                 return $stateParams['supervisor_id'];
               }
             ],
-            processId: ['$stateParams', 'manageTopUrl',
-              function($stateParams, manageTopUrl){
-                manageTopUrl.addOrReplaceParam('_processId', $stateParams.processId || '');
+            processId: ['$stateParams',
+              function($stateParams){
                 return $stateParams.processId;
               }
             ]
@@ -62,9 +60,8 @@
             }
           },
           resolve: {
-            tabName : ['manageTopUrl', 'archivedTabName',
-              function(manageTopUrl, tabName){
-                manageTopUrl.addOrReplaceParam('_tab', tabName);
+            tabName : ['archivedTabName',
+              function(tabName){
                 return tabName;
               }
             ],
@@ -73,9 +70,8 @@
                 return $stateParams['supervisor_id'];
               }
             ],
-            processId: ['$stateParams', 'manageTopUrl',
-              function($stateParams, manageTopUrl){
-                manageTopUrl.addOrReplaceParam('_processId', $stateParams.processId || '');
+            processId: ['$stateParams',
+              function($stateParams){
                 return $stateParams.processId;
               }
             ]

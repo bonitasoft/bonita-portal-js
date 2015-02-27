@@ -1,8 +1,8 @@
 (function() {
   'use strict';
 
-  angular.module('org.bonita.features.admin.cases.list.delete', [
-    'org.bonita.common.resources',
+  angular.module('org.bonitasoft.features.admin.cases.list.delete', [
+    'org.bonitasoft.common.resources',
     'gettext',
     'ui.bootstrap',
   ])
@@ -14,7 +14,7 @@
         require: '^ActiveCaseListCtrl',
         transclude : true,
         controller: 'ActiveCaseDeleteCtrl',
-        template : '<button id="delete-button" type="button" class="btn btn-default" ng-click="deleteCtrl.confirmDeleteSelectedCases()" ng-disabled="deleteCtrl.checkCaseIsNotSelected()"><div ng-transclude></div></button>',
+        template : '<button id="delete-button" type="button" class="btn btn-default" ng-click="deleteCtrl.confirmDeleteSelectedCases()" ng-disabled="deleteCtrl.checkNoCasesSelected()"><div ng-transclude></div></button>',
         controllerAs : 'deleteCtrl'
       };
     })
@@ -25,7 +25,7 @@
         restrict: 'E',
         require: '^ArchivedCaseListCtrl',
         transclude : true,
-        template : '<button id="delete-archived-button" type="button" class="btn btn-default" ng-click="deleteCtrl.confirmDeleteSelectedCases(\'archived\')" ng-disabled="deleteCtrl.checkCaseIsNotSelected()"><div ng-transclude></div></button>',
+        template : '<button id="delete-archived-button" type="button" class="btn btn-default" ng-click="deleteCtrl.confirmDeleteSelectedCases(\'archived\')" ng-disabled="deleteCtrl.checkNoCasesSelected()"><div ng-transclude></div></button>',
         controller: 'ArchivedCaseDeleteCtrl',
         controllerAs : 'deleteCtrl'
       };
@@ -58,10 +58,7 @@
      * is called upon selected cases
      */
     vm.confirmDeleteSelectedCases = function confirmDeleteSelectedCases(type) {
-      if ($scope.cases) {
-        var caseItems = $scope.cases.filter(function filterSelectedOnly(caseItem) {
-          return caseItem && caseItem.selected;
-        });
+      if ($scope.$selectedItems) {
         $modal.open({
           templateUrl: 'features/admin/cases/list/cases-list-deletion-modal.html',
           controller: 'DeleteCaseModalCtrl',
@@ -71,7 +68,7 @@
               return type || '';
             },
             caseItems: function() {
-              return caseItems;
+              return $scope.$selectedItems;
             }
           },
           size: 'sm'
@@ -86,10 +83,8 @@
      * @description
      * @returns {Boolean} true if no case are selected
      */
-    vm.checkCaseIsNotSelected = function checkCaseIsNotSelected() {
-      return $scope.cases && $scope.cases.reduce(function(previousResult, caseItem) {
-        return previousResult && !caseItem.selected;
-      }, true);
+    vm.checkNoCasesSelected = function checkNoCasesSelected() {
+      return !($scope.$selectedItems && $scope.$selectedItems.length > 0);
     };
 
     /**
@@ -102,10 +97,9 @@
      * how many items it has successfully deleted
      */
     vm.deleteSelectedCases = function deleteSelectedCases() {
-      if ($scope.cases) {
-        var caseIds = $scope.cases.filter(function(caseItem) {
-          return caseItem && caseItem.selected && caseItem.id;
-        }).map(function(caseItem) {
+      var caseItems = $scope.$selectedItems;
+      if (caseItems) {
+        var caseIds = caseItems.map(function(caseItem) {
           return caseItem.id;
         });
         if (caseIds && caseIds.length) {

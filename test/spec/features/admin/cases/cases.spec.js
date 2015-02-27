@@ -7,7 +7,7 @@
     var scope, state; //= jasmine.createSpyObj('$stateProvider',['state']);
 
     describe('state provider for cases', function() {
-      beforeEach(module('org.bonita.features.admin.cases.list', function($stateProvider) {
+      beforeEach(module('org.bonitasoft.features.admin.cases.list', function($stateProvider) {
         $stateProvider.state('bonita', {});
       }));
 
@@ -46,7 +46,7 @@
       }));
     });
     describe('bonita.cases Controller', function()  {
-      beforeEach(module('org.bonita.features.admin.cases'));
+      beforeEach(module('org.bonitasoft.features.admin.cases'));
       beforeEach(inject(function($rootScope, $controller) {
         scope = $rootScope.$new();
         $controller('CaseCtrl',

@@ -2,13 +2,13 @@
 (function () {
   'use strict';
 
-  angular.module('org.bonita.portal', [
+  angular.module('org.bonitasoft.portal', [
     'ngCookies',
     'gettext',
     'ui.router',
-    'org.bonita.services.i18n',
-    'org.bonita.common.resources',
-    'org.bonita.features.admin'
+    'org.bonitasoft.services.i18n',
+    'org.bonitasoft.common.resources',
+    'org.bonitasoft.features.admin'
   ])//parent state to use for every state in order to have the translations loaded correctly...
     .config([ '$stateProvider', function ($stateProvider) {
       $stateProvider.state('bonita', {

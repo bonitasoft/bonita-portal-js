@@ -11,7 +11,7 @@
     };
   }
 
-  angular.module('org.bonita.services.navigation', [])
+  angular.module('org.bonitasoft.services.navigation', [])
 
     .factory('topLocation', function topLocationFactory($window) {
       return Object.create({}, {
