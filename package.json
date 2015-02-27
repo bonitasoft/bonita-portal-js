@@ -26,7 +26,7 @@
     "grunt-karma": "~0.8.3",
     "grunt-lineending": "^0.2.3",
     "grunt-newer": "~0.6.1",
-    "grunt-ng-annotate": "^0.7.0",
+    "grunt-ng-annotate": "0.10.x",
     "grunt-ngdocs": "^0.2.2",
     "grunt-protractor-runner": "^1.1.4",
     "grunt-rev": "~0.1.0",
