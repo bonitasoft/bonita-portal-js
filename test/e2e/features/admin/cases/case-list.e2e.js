@@ -202,7 +202,7 @@
     });
 
     describe('case admin list content', function () {
-      iit('should display the list of the 25 first cases and check the specifi content of the first row', function () {
+      it('should display the list of the 25 first cases and check the specifi content of the first row', function () {
         expect(element.all(by.css('#case-list tr.case-row')).count()).toBe(25);
 
         var firstCaseElements = caseList.all(by.css('#caseId-1 td'));
