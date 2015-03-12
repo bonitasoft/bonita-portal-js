@@ -18,6 +18,7 @@
     <link rel="stylesheet" href="assets/bootstrap/dist/css/bootstrap.css" />
     <link rel="stylesheet" href="assets/animate.css/animate.css" />
     <link rel="stylesheet" href="assets/ng-sortable/dist/ng-sortable.css" />
+    <link rel="stylesheet" href="assets/angular-ui-tree/dist/angular-ui-tree.min.css" />
     <!-- endbower -->
     <link rel="stylesheet" href="assets/jquery-resizable-columns/dist/jquery.resizableColumns.css" />
     <link rel="stylesheet" href="assets/angular-growl-2/build/angular-growl.css" />
@@ -26,7 +27,7 @@
     <link rel="stylesheet" href="../portal/themeResource?theme=portal&location=bonita-skin.css">
     <link rel="stylesheet" href="styles/bonita-theme.css">
 </head>
-<body ng-app="org.bonita.portal">
+<body ng-app="org.bonitasoft.portal">
 <!--[if lt IE 7]>
 <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade
     your browser</a> to improve your experience.</p>
@@ -59,24 +60,39 @@
 <script src="assets/angular-growl-2/build/angular-growl.js"></script>
 <script src="assets/angular-animate/angular-animate.js"></script>
 <script src="assets/angular-sanitize/angular-sanitize.js"></script>
+<script src="assets/moment/moment.js"></script>
+<script src="assets/numeral/numeral.js"></script>
+<script src="assets/numeral/languages.js"></script>
+<script src="assets/angular-file-upload/angular-file-upload.js"></script>
+<script src="assets/angular-ui-tree/dist/angular-ui-tree.js"></script>
 <!-- endbower -->
 <!-- endbuild -->
 
 <!-- build:js({.tmp,main}) scripts/bonita-portal.js -->
 <!-- injector:js -->
 <script src="common/directives/bonita-href.js"></script>
+<script src="common/directives/bootstrap-form-control/bootstrap-form-control.js"></script>
 <script src="common/directives/module.js"></script>
 <script src="common/directives/resizable/resizable-columns.js"></script>
 <script src="common/directives/selectAllCheckBox.js"></script>
 <script src="common/directives/sortable/sortable.js"></script>
 <script src="common/directives/urlified.js"></script>
+<script src="common/factories/i18nMsg.js"></script>
+<script src="common/filters/dateI18n/datei18n.js"></script>
 <script src="common/filters/stringTemplater.js"></script>
 <script src="common/filters/urlify.js"></script>
+<script src="common/filters/utils/string.js"></script>
 <script src="common/resources/resources.js"></script>
 <script src="common/resources/store.js"></script>
 <script src="common/services/i18n.js"></script>
 <script src="common/services/topLocationFactory.js"></script>
 <script src="features/admin/admin.js"></script>
+<script src="features/admin/applications/applications-list.js"></script>
+<script src="features/admin/applications/delete-application.js"></script>
+<script src="features/admin/applications/details/application-details.js"></script>
+<script src="features/admin/applications/details/menubuilder.js"></script>
+<script src="features/admin/applications/details/page-list.js"></script>
+<script src="features/admin/applications/edit-application.js"></script>
 <script src="features/admin/cases/cases.js"></script>
 <script src="features/admin/cases/list/cases-date-service.js"></script>
 <script src="features/admin/cases/list/cases-list-delete.js"></script>

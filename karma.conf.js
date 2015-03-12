@@ -21,6 +21,7 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
+      'test/spec/helpers/fakeModal.js',
       'main/assets/jquery/dist/jquery.js',
       'main/assets/angular/angular.js',
       'main/assets/angular-cookies/angular-cookies.js',
@@ -31,15 +32,18 @@ module.exports = function(config) {
       'main/assets/bootstrap/dist/js/bootstrap.js',
       'main/assets/jqueryui/ui/jquery-ui.js',
       'main/assets/angular-gettext/dist/angular-gettext.js',
+      'main/assets/angular-file-upload/angular-file-upload.min.js',
+      'main/assets/angular-ui-tree/dist/angular-ui-tree.js',
+      'main/assets/moment/min/moment-with-locales.js',
       'main/assets/bonita-js-components/dist/bonita-lib-tpl.js',
       'main/assets/jquery-resizable-columns/dist/jquery.resizableColumns.js',
       'main/assets/angular-animate/angular-animate.js',
       'main/assets/angular-growl-2/build/angular-growl.js',
       'main/assets/ng-sortable/dist/ng-sortable.js',
-      'main/bonita-portal.js',
       'main/common/**/*.js',
       'main/features/**/*.js',
       'main/features/**/*.html',
+      'main/bonita-portal.js',
       'test/spec/**/*.js'
     ],
 
@@ -77,10 +81,7 @@ module.exports = function(config) {
 
     junitReporter: {
       outputFile: 'test/reports.xml'
-    },
+    }
 
-    ngHtml2JsPreprocessor: {
-      stripPrefix: 'main/'
-    },
   });
 };

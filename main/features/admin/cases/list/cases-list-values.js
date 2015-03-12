@@ -8,7 +8,7 @@
    * set values to uses by the different case list components
    */
 
-  angular.module('org.bonita.features.admin.cases.list.values', [])
+  angular.module('org.bonitasoft.features.admin.cases.list.values', [])
     .value('casesColumns', [{
       name: 'ID',
       path: ['id'],

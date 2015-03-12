@@ -5,7 +5,7 @@
 
     var scope, caseDeleteCtrl;
 
-    beforeEach(module('org.bonita.features.admin.cases.list.delete'));
+    beforeEach(module('org.bonitasoft.features.admin.cases.list.delete'));
 
     beforeEach(inject(function ($rootScope) {
       scope = $rootScope.$new();

@@ -1,5 +1,5 @@
 (function () {
   'use strict';
 
-  angular.module('org.bonita.common.directives', []);
+  angular.module('org.bonitasoft.common.directives', []);
 })();

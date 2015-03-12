@@ -4,7 +4,7 @@
 
     var scope;
 
-    beforeEach(module('org.bonita.common.table.resizable'));
+    beforeEach(module('org.bonitasoft.common.table.resizable'));
 
     beforeEach(inject(function ($rootScope) {
       scope = $rootScope.$new();

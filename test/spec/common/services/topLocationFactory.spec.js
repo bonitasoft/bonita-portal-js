@@ -3,7 +3,7 @@ describe('topLocationFactory', function () {
 
   var topLocation, $window;
 
-  beforeEach(module('org.bonita.services.navigation'));
+  beforeEach(module('org.bonitasoft.services.navigation'));
 
   beforeEach(function () {
     $window = {top: {location: {}}};

@@ -1,8 +1,8 @@
 (function() {
   'use strict';
 
-  angular.module('org.bonita.features.admin.cases.list.delete', [
-    'org.bonita.common.resources',
+  angular.module('org.bonitasoft.features.admin.cases.list.delete', [
+    'org.bonitasoft.common.resources',
     'gettext',
     'ui.bootstrap',
   ])
