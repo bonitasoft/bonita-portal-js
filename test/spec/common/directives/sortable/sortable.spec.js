@@ -18,7 +18,7 @@ describe('sortable directive', function(){
     el.dispatchEvent(ev);
   };
 
-  beforeEach(module('org.bonita.sortable'));
+  beforeEach(module('org.bonitasoft.sortable'));
 
   beforeEach(inject(function($rootScope, $compile, $httpBackend, _$timeout_) {
     scope = $rootScope.$new();

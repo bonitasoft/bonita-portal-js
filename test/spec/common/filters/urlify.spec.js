@@ -3,7 +3,7 @@ describe('urlify', function() {
 
   var urlify;
 
-  beforeEach(module('org.bonita.common.filters.urlify'));
+  beforeEach(module('org.bonitasoft.common.filters.urlify'));
 
   beforeEach(inject(function($filter) {
     urlify = $filter('urlify');

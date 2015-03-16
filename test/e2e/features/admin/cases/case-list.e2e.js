@@ -122,7 +122,7 @@
         var versionColumnBar = resizeBars.get(1);
         var formerVersionColumnLocation = element.all(by.css('table th')).get(4).getLocation();
         var formerProcessNameColumnLocation = element.all(by.css('table th')).get(3).getLocation();
-        
+
         var formerStartDateColumnLocation = element.all(by.css('table th')).get(5).getLocation();
         browser.driver.actions().mouseDown(versionColumnBar).mouseMove(versionColumnBar, {x: 10}).mouseUp().perform();
         var newVersionColumnLocation = element.all(by.css('table th')).get(4).getLocation();
@@ -206,7 +206,7 @@
         expect(element.all(by.css('#case-list tr.case-row')).count()).toBe(25);
 
         var firstCaseElements = caseList.all(by.css('#caseId-1 td'));
-        
+
         firstCaseElements.then(function (poolCaseDetails) {
           expect(poolCaseDetails[1].getText()).toContain('1');
           expect(poolCaseDetails[1].element(by.css('a')).getAttribute('href')).toContain('#?id=1&_p=casemoredetailsadmin&');

@@ -1,7 +1,9 @@
 (function () {
-    'use strict';
+  'use strict';
 
-    angular.module('org.bonita.features.admin', ['org.bonita.features.admin.cases']);
+  angular.module('org.bonitasoft.features.admin', ['org.bonitasoft.features.admin.cases',
+    'org.bonitasoft.features.admin.applications.list',
+    'org.bonitasoft.features.admin.applications.details',
+    'org.bonitasoft.common.utils.filters']);
 
-  }
-)();
+})();

@@ -50,7 +50,7 @@
   }];
 
 
-  var module = angular.module('org.bonita.common.resources', ['ngResource'])
+  var module = angular.module('org.bonitasoft.common.resources', ['ngResource'])
     .constant('API_PATH', API_PATH)
 
   /**
@@ -105,7 +105,7 @@
   })({
     'userAPI': 'identity/user',
     'caseAPI': 'bpm/case',
-    'flowNodeAPI':'bpm/flowNode',
+    'flowNodeAPI': 'bpm/flowNode',
     'archivedCaseAPI': 'bpm/archivedCase',
     'processAPI': 'bpm/process',
     'humanTaskAPI': 'bpm/humanTask',
@@ -113,6 +113,18 @@
     'membershipAPI': 'identity/membership',
     'professionalDataAPI': 'identity/professionalcontactdata',
     'personalDataAPI': 'identity/personalcontactdata',
-    'i18nAPI': 'system/i18ntranslation'
+    'i18nAPI': 'system/i18ntranslation',
+    'applicationAPI': 'living/application',
+    'applicationPageAPI': 'living/application-page',
+    'applicationMenuAPI': 'living/application-menu',
+    'customPageAPI': 'portal/page'
   });
+
+  module.factory('importApplication', ['API_PATH', '$resource', function (API_PATH, $resource) {
+      return $resource('../services/application/import', {
+        importPolicy: '@importPolicy',
+        applicationsDataUpload: '@applicationsDataUpload'
+      });
+    }]);
+
 })();

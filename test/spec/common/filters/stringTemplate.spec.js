@@ -4,7 +4,7 @@
 
     var stringTemplater;
 
-    beforeEach(module('org.bonita.common.filters.stringTemplater'));
+    beforeEach(module('org.bonitasoft.common.filters.stringTemplater'));
 
     beforeEach(inject(function($filter) {
       stringTemplater = $filter('stringTemplater');

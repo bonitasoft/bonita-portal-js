@@ -3,7 +3,7 @@ describe('goThroughPortal', function () {
 
   var manageTopUrl, compile;
 
-  beforeEach(module('org.bonita.common.directives.bonitaHref'));
+  beforeEach(module('org.bonitasoft.common.directives.bonitaHref'));
 
   beforeEach(function () {
     manageTopUrl = jasmine.createSpyObj('manageTopUrl', ['goTo']);

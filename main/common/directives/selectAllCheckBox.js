@@ -1,7 +1,7 @@
 (function () {
   'use strict';
 
-  angular.module('org.bonita.common.directives.selectAll', [])
+  angular.module('org.bonitasoft.common.directives.selectAll', [])
   .directive('selectAllCheckbox', function () {
     return {
       replace: true,
