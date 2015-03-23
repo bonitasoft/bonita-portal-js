@@ -10,7 +10,13 @@
     'org.bonitasoft.common.directives.bonitaHref',
     'org.bonitasoft.common.directives.toggleButton',
     'org.bonitasoft.common.resources'
-  ])
+  ]).value('menuContent', [
+    {name:'Information', link: ''},
+    {name:'Configuration'},
+    {name:'Actor Mapping', link: '/actorsMapping', submenu : true},
+    {name:'Params', link: '/params', submenu : true},
+    {name:'Connectors', link: '/connectors', submenu : true}
+    ])
     .config(
       function($stateProvider) {
         $stateProvider.state('bonita.processesDetails', {
@@ -32,8 +38,10 @@
       }
     )
     .controller('processMenuCtrl',
-      function($scope) {
+      function($scope, menuContent) {
         $scope.enabled = true;
+        $scope.menuContent = menuContent;
+        console.log(menuContent);
         //process.get()
       }
     );

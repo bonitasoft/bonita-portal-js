@@ -13,17 +13,10 @@
         </div>
         <div class="navbar-collapse collapse sidebar-navbar-collapse">
           <ul class="nav navbar-nav">
-            <li class="active">
-            <a href="index.html">Information</a>
-          </li>
-          <li>
-            <a href="params.html">Configuration</a>
+            <li ng-repeat="item in menuContent" ng-class="{submenu : !!item.submenu}">
+              <a ng-if="!!item.link" href="{{item.link}}">{{item.name | translate}}</a>
+              <a ng-if="!item.link">{{item.name | translate}}</a>
             </li>
-            <li class="submenu"><a href="#">Actors Mapping</a></li>
-            <li class="submenu"><a href="params.html">Params</a></li>
-            <li class="submenu"><a href="#">Connectors</a></li>
-          <li><a href="#">Forms</a></li>
-          <li><a href="#">Scripts</a></li> 
           </ul>
         </div>
       </div>
@@ -38,7 +31,8 @@
           <!-- Split button -->
           <button type="button" class="btn btn-success">Start For</button>
           
-          <toggle-button on="Enabled" off="Disabled"> 
+          <toggle-button on="Enabled" off="Disabled" enabled="enabled"> </toggle-button>
+          <button type="button" class="btn btn-primary" ng-disabled="!!enabled">Delete</button>
       </div>
     </div>
   </div>

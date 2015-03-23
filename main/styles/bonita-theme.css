@@ -57,3 +57,23 @@
   }
 }
 .sidebar-nav .navbar-header{ float: none; }
+
+#process-details .btn {
+	height: 32px;
+}
+
+#process-details .bonita-toggle .btn {
+	position: absolute; 
+	padding: 3px 20px 6px 12px;
+	min-width: 1px;
+	height: 32px;
+}
+#process-details .bonita-toggle .btn.toggle-off {
+	padding-right: 5px;
+}
+#process-details .bonita-toggle span.btn.toggle-handle {
+	position: relative; 
+	padding: 6px 12px 6px 12px;
+	min-width: 1px;
+	height: 32px;
+}
