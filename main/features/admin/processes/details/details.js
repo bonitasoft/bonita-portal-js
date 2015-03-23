@@ -30,7 +30,7 @@
         });
       }
     )
-    .controller('processMenuCtrl', 
+    .controller('processMenuCtrl',
       function($scope) {
         $scope.enabled = true;
       }
