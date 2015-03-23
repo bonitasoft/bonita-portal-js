@@ -8,7 +8,8 @@
     'gettext',
     'org.bonitasoft.services.topurl',
     'org.bonitasoft.common.directives.bonitaHref',
-    'org.bonitasoft.directives.toggleButton'
+    'org.bonitasoft.common.directives.toggleButton',
+    'org.bonitasoft.common.resources'
   ])
     .config(
       function($stateProvider) {
@@ -33,6 +34,7 @@
     .controller('processMenuCtrl',
       function($scope) {
         $scope.enabled = true;
+        //process.get()
       }
     );
 })();
