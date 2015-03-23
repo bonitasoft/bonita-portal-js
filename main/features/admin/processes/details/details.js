@@ -28,7 +28,7 @@
           controllerAs: 'ctrl',
           resolve: {
             process : function(processAPI, $stateParams) {
-              return processAPI.get({id:$stateParams.processId});
+              return processAPI.get({id:$stateParams.processId, n:['openCases', 'failedCases']});
             }
           }
         }).state('bonita.processesDetails.information', {

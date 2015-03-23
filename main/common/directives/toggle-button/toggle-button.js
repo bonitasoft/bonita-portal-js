@@ -6,11 +6,11 @@
       restrict: 'E', // E = Element, A = Attribute, C = Class, M = Comment
       template: '<input type="checkbox">',
       scope : {
-        enabled : '='
+        enabled : '@'
       },
       replace: true,
       link: function(scope, iElm, iAttrs) {
-        iElm.prop('checked', !!scope.enabled);
+        iElm.prop('checked', scope.enabled === 'true');
         iElm.bootstrapToggle({
           on: iAttrs.on || 'on',
           off: iAttrs.off || 'off',
