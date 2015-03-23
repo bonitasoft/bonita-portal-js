@@ -1,0 +1,40 @@
+<div>
+  <h3>{{'Information' | translate }}</h3>
+  <ul class="nav nav-pills text-left">
+    <li class="col-md-4 " role="presentation">
+      <a href="">
+        {{ 'Version' | translate }}
+        <span class="label label-info">{{ctrl.process.version}}</span>
+      </a>
+    </li>
+    <li  class="col-md-4"  role="presentation">
+      <a href="">
+        {{ 'Configuration state' | translate }}
+        <span class="label label-info">{{ctrl.process.activationState}}</span>
+      </a>
+    </li>
+    <li  class="col-md-4" role="presentation">
+      <a href="">
+        {{ 'Last updated on' | translate }}
+        <span class="label label-info">{{::ctrl.parseAndFormat(ctrl.process.last_update_date)}}</span>
+      </a>
+    </li>
+    <li  class="col-md-4" role="presentation">
+      <a href="">
+        {{ 'Installed on' | translate }}
+        <span class="label label-info">{{::ctrl.parseAndFormat(ctrl.process.deploymentDate)}}</span>
+      </a>
+    </li>
+    <li  class="col-md-4" role="presentation">
+      <a href="">
+        {{ 'Installed by' | translate }}
+        <span class="label label-info">{{ctrl.process.activationState}}</span>
+      </a>
+    </li>
+  </ul>
+  <h3>{{ 'Description' | translate }}</h3>
+  <p>{{ctrl.process.description}}</p>
+  <monitoring-status></monitoring-status>  
+  
+  <h3>Process Manager</h3>
+</div>

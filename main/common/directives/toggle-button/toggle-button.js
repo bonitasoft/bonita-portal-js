@@ -13,7 +13,8 @@
         iElm.prop('checked', !!scope.enabled);
         iElm.bootstrapToggle({
           on: iAttrs.on || 'on',
-          off: iAttrs.off || 'off'
+          off: iAttrs.off || 'off',
+          style : 'bonita-toggle'
         });
         iElm.change(function() {
           scope.$apply();

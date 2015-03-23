@@ -9,7 +9,8 @@
     'org.bonitasoft.services.topurl',
     'org.bonitasoft.common.directives.bonitaHref',
     'org.bonitasoft.common.directives.toggleButton',
-    'org.bonitasoft.common.resources'
+    'org.bonitasoft.common.resources',
+    'com.bonitasoft.features.admin.processes.details.information'
   ]).value('menuContent', [
     {name:'Information', link: ''},
     {name:'Configuration'},
@@ -22,27 +23,27 @@
         $stateProvider.state('bonita.processesDetails', {
           url: '/admin/processes/details/:processId',
           templateUrl: 'features/admin/processes/details/menu.html',
-          //abstract: true,
+          abstract: true,
           controller: 'processMenuCtrl',
-          controllerAs: 'ctrl'
-        }).state('bonita.processesDetails.information', {
-          url: '/information',
-          /*views: {
-            'case-list': {
-              templateUrl: 'features/admin/cases/list/cases-list.html',
-              controller: 'ActiveCaseListCtrl',
-              controllerAs : 'caseCtrl'
+          controllerAs: 'ctrl',
+          resolve: {
+            process : function(processAPI, $stateParams) {
+              return processAPI.get({id:$stateParams.processId});
             }
-          }*/
+          }
+        }).state('bonita.processesDetails.information', {
+          url: '',
+          templateUrl: 'features/admin/processes/details/information.html',
+          controller: 'processInformationCtrl',
+          controllerAs : 'ctrl'
         });
       }
     )
     .controller('processMenuCtrl',
-      function($scope, menuContent) {
-        $scope.enabled = true;
-        $scope.menuContent = menuContent;
-        console.log(menuContent);
-        //process.get()
+      function($scope, menuContent, process) {
+        var vm  = this;
+        vm.menuContent = menuContent;
+        vm.process = process;
       }
     );
 })();
