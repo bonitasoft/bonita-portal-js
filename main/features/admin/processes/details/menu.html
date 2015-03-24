@@ -29,7 +29,7 @@
      <div class="col-md-5">
         <div class="actions">
           <!-- Split button -->
-          <button type="button" class="btn btn-success">Start For</button>
+          <start-for process="ctrl.process"></start-for>
           
           <toggle-button on="Enabled" off="Disabled" process-id="{{::ctrl.process.id}}" initial-state="{{::ctrl.process.activationState === 'ENABLED'}}"> </toggle-button>
           <button type="button" class="btn btn-primary" ng-disabled="ctrl.process.activationState === 'ENABLED'">Delete</button>

@@ -53,13 +53,13 @@
 }
 @media (min-width: 1200px) {
   .navbar {
-	  width: 262px;
+	  width: 240px;
   }
 }
 .sidebar-nav .navbar-header{ float: none; }
 
 #process-details .btn {
-	height: 32px;
+	height: 34px;
 }
 
 #process-details .bonita-toggle .btn {

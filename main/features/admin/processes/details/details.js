@@ -44,7 +44,8 @@
             process: function(processAPI, $stateParams) {
               return processAPI.get({
                 id: $stateParams.processId,
-                d: ['deployedBy']
+                d: ['deployedBy'],
+                n:['openCases', 'failedCases']
               });
             }
           }

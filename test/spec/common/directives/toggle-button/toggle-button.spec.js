@@ -5,8 +5,8 @@ describe('toggle/switch Button', function () {
 
   it('should call change enbaled value to true when element is clicked', inject(function ($compile, $rootScope) {
     var scope = $rootScope.$new();
-    scope.enabled = false;
-    var element = $compile('<toggle-button enabled="enabled"></toggle-button>')(scope);
+    scope.$emit= jasmine.createSpy();
+    var element = $compile('<toggle-button initial-state="false"></toggle-button>')(scope);
     scope.$apply();
     expect(element.parent().attr('class')).toContain('toggle btn btn-default off');
     element.click();
@@ -15,13 +15,13 @@ describe('toggle/switch Button', function () {
     //expect(element.parent().attr('class')).toContain('toggle btn btn-primary');
     expect(element.parent().find('.toggle-off').text()).toBe('off');
     expect(element.parent().find('.toggle-on').text()).toBe('on');
-    expect(scope.enabled).toBeTruthy();
+    expect(scope.$emit.calls.allArgs()).toEqual([ [ 'button.toggle', { value: true } ] ]);
   }));
 
   it('should call change enabled to false value when element is clicked', inject(function ($compile, $rootScope) {
     var scope = $rootScope.$new();
-    scope.enabled = true;
-    var element = $compile('<toggle-button enabled="enabled" on="Enabled" off="Disabled"></toggle-button>')(scope);
+    scope.$emit= jasmine.createSpy();
+    var element = $compile('<toggle-button initial-state="true" on="Enabled" off="Disabled"></toggle-button>')(scope);
     scope.$apply();
     expect(element.parent().attr('class')).toContain('toggle btn btn-primary');
     element.click();
@@ -30,16 +30,6 @@ describe('toggle/switch Button', function () {
     //expect(element.parent().attr('class')).toContain('toggle btn btn-default off');
     expect(element.parent().find('.toggle-off').text()).toBe('Disabled');
     expect(element.parent().find('.toggle-on').text()).toBe('Enabled');
-    expect(scope.enabled).toBeFalsy();
+    expect(scope.$emit.calls.allArgs()).toEqual([ [ 'button.toggle', { value: false } ] ]);
   }));
-
-  it('should throw error when no properties passed', inject(function ($compile, $rootScope) {
-    var scope = $rootScope.$new();
-    scope.enabled = false;
-    expect(function(){
-      $compile('<toggle-button></toggle-button>')(scope);
-      scope.$apply();
-    }).toThrow();
-  }));
-
 });
