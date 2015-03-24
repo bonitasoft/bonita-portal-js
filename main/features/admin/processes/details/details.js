@@ -71,8 +71,9 @@
         $scope.$on('button.toggle', function(event, args) {
           console.log('button.toggle', args);
           var state = args.value?'ENABLED':'DISABLED';
-          processAPI.update({id: process.id, activationState: state});
-          process.activationState = state;
+          processAPI.update({id: process.id, activationState: state}).$promise.then(function(){
+            process.activationState = state;
+          });
         });
 
       }
