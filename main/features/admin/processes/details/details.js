@@ -11,13 +11,27 @@
     'org.bonitasoft.common.directives.toggleButton',
     'org.bonitasoft.common.resources',
     'org.bonitasoft.features.admin.processes.details.information'
-  ]).value('menuContent', [
-    {name:'Information', link: ''},
-    {name:'Configuration'},
-    {name:'Actor Mapping', link: 'actorsMapping', submenu : true},
-    {name:'Params', link: 'params', submenu : true},
-    {name:'Connectors', link: 'connectors', submenu : true}
-    ])
+  ]).value('menuContent', [{
+    name: 'Information',
+    link: ''
+  }, {
+    name: 'Configuration'
+  }, {
+    name: 'Actor Mapping',
+    link: 'actorsMapping',
+    submenu: true
+  }, {
+    name: 'Params',
+    link: 'params',
+    submenu: true
+  }, {
+    name: 'Connectors',
+    link: 'connectors',
+    submenu: true
+  }, {
+    name: 'Categories',
+    link: 'categories'
+  }])
     .config(
       function($stateProvider) {
         $stateProvider.state('bonita.processesDetails', {
@@ -27,28 +41,38 @@
           controller: 'processMenuCtrl',
           controllerAs: 'ctrl',
           resolve: {
-            process : function(processAPI, $stateParams) {
-              return processAPI.get({id:$stateParams.processId});
+            process: function(processAPI, $stateParams) {
+              return processAPI.get({
+                id: $stateParams.processId,
+                d: ['deployedBy']
+              });
             }
           }
         }).state('bonita.processesDetails.information', {
           url: '',
           templateUrl: 'features/admin/processes/details/information.html',
           controller: 'processInformationCtrl',
-          controllerAs : 'processInformationCtrl'
+          controllerAs: 'processInformationCtrl'
         }).state('bonita.processesDetails.params', {
           url: '/params',
           templateUrl: 'features/admin/processes/details/params.html',
           controller: 'processParamsCtrl',
-          controllerAs : 'processParamsCtrl'
+          controllerAs: 'processParamsCtrl'
         });
       }
-    )
+  )
     .controller('processMenuCtrl',
-      function($scope, menuContent, process) {
-        var vm  = this;
+      function($scope, menuContent, process, processAPI) {
+        var vm = this;
         vm.menuContent = menuContent;
         vm.process = process;
+
+        $scope.$on('button.toggle', function(event, args) {
+          console.log('button.toggle', args);
+          //
+          processAPI.update({id: process.id, activationState: args.value?'ENABLED':'DISABLED'});
+        });
+
       }
-    );
+  );
 })();

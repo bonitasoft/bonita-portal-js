@@ -1,7 +1,7 @@
 (function() {
   'use strict';
 
-  angular.module('org.bonitasoft.features.admin.processes.details.information', ['org.bonitasoft.features.admin.cases.list.service'])
+  angular.module('org.bonitasoft.features.admin.processes.details.information', [])
   .controller('processInformationCtrl', function($scope, process, dateParser) {
     var vm = this;
     vm.process = process;

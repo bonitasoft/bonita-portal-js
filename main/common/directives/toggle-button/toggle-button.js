@@ -5,24 +5,23 @@
     return {
       restrict: 'E', // E = Element, A = Attribute, C = Class, M = Comment
       template: '<input type="checkbox">',
-      scope : {
-        enabled : '='
-      },
       replace: true,
       link: function(scope, iElm, iAttrs) {
-        iElm.prop('checked', !!scope.enabled);
+        iElm.prop('checked', !!iAttrs.initialState);
         iElm.bootstrapToggle({
           on: iAttrs.on || 'on',
           off: iAttrs.off || 'off',
-          style : 'bonita-toggle'
+          style : iAttrs.style || 'bonita-toggle'
         });
         iElm.change(function() {
           scope.$apply();
         });
         scope.$watch(function() {
           return iElm.prop('checked');
-        }, function() {
-          scope.enabled = iElm.prop('checked');
+        }, function(newVal, oldVal) {
+          if(oldVal !== newVal){
+            scope.$emit('button.toggle', {value : iElm.prop('checked')});
+          }
         });
       }
     };

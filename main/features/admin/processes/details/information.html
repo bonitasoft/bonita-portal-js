@@ -28,7 +28,7 @@
     <li  class="col-md-4" role="presentation">
       <a href="">
         {{ 'Installed by' | translate }}
-        <span class="label label-info">{{processInformationCtrl.process.activationState}}</span>
+        <span class="label label-info">{{processInformationCtrl.process.deployedBy.firstname + ' ' + processInformationCtrl.process.deployedBy.lastname}}</span>
       </a>
     </li>
   </ul>
