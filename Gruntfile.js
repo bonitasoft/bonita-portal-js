@@ -266,9 +266,17 @@ module.exports = function (grunt) {
     taskHelper: {
       useminPrepare: {
         options: {
-          handlerByFileSrc: function(src) {
-              if(/<link rel="stylesheet" href="(styles|common|features)\/.*css">/.test(grunt.file.read(src, {encoding: 'utf-8'}))){
-                throw new Error('It seems that you have local CSS files should not be packaged here but to be added in bonita-web/looknfeel');
+          handlerByFileSrc:
+            function(src) {
+              var regexp = /<link rel="stylesheet" href="(((styles)|(common)|(features))\/.*css)">/g;
+              var indexContent = grunt.file.read(src, {encoding: 'utf-8'});
+              var result;
+              if ((result = regexp.exec(indexContent))) {
+                var msg = result[1] + '\n';
+                while ((result = regexp.exec(indexContent)) !== null) {
+                  msg += result[1] + '\n';
+                }
+                throw new Error('It seems that you have local CSS files should not be packaged here but to be added in bonita-web/looknfeel : \n' + msg);
               }
             }
           },
