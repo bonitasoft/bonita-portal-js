@@ -11,13 +11,7 @@
     'org.bonitasoft.features.admin.cases.list.values',
     'org.bonitasoft.common.directives.bonitaHref'
   ])
-    .config(['$stateProvider', '$urlRouterProvider',
-      function($stateProvider, $urlRouterProvider) {
-        $urlRouterProvider.rule(function ($injector, $location) {
-          if($location.path().indexOf('/pm')===0){
-            return $location.url().replace(/^\/pm/, '/admin');
-          }
-        });
+    .config(function($stateProvider) {
         $stateProvider.state('bonita.cases', {
           url: '/admin/cases/list?processId&supervisor_id',
           templateUrl: 'features/admin/cases/list/cases.html',
@@ -78,7 +72,7 @@
           }
         });
       }
-    ])
+    )
     .controller('CaseCtrl', ['$scope', '$state', 'manageTopUrl',
       function($scope, $state, manageTopUrl) {
         //ui-sref-active seems to bug when the processId is passed

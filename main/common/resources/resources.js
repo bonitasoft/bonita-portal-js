@@ -117,7 +117,8 @@
     'applicationAPI': 'living/application',
     'applicationPageAPI': 'living/application-page',
     'applicationMenuAPI': 'living/application-menu',
-    'customPageAPI': 'portal/page'
+    'customPageAPI': 'portal/page',
+    'formMappingAPI': 'form/mapping'
   });
 
   module.factory('importApplication', ['API_PATH', '$resource', function (API_PATH, $resource) {

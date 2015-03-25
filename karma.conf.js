@@ -30,6 +30,7 @@ module.exports = function(config) {
       'main/assets/angular-ui-router/release/angular-ui-router.js',
       'main/assets/angular-bootstrap/ui-bootstrap-tpls.js',
       'main/assets/bootstrap/dist/js/bootstrap.js',
+      'main/assets/bootstrap-toggle/js/bootstrap-toggle.min.js',
       'main/assets/jqueryui/ui/jquery-ui.js',
       'main/assets/angular-gettext/dist/angular-gettext.js',
       'main/assets/angular-file-upload/angular-file-upload.min.js',
