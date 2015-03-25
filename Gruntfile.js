@@ -21,6 +21,7 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-protractor-runner');
   grunt.loadNpmTasks('grunt-lineending');
   grunt.loadNpmTasks('grunt-ng-annotate');
+  grunt.loadNpmTasks('grunt-task-helper');
 
   // Define the configuration for all the tasks
   grunt.initConfig({
@@ -260,6 +261,20 @@ module.exports = function (grunt) {
         }
       }
     },
+
+    //ensure locals CSS files are not included for packaging other bonita global theming will fail
+    taskHelper: {
+      useminPrepare: {
+        options: {
+          handlerByFileSrc: function(src) {
+              if(/<link rel="stylesheet" href="(styles|common|features)\/.*css">/.test(grunt.file.read(src, {encoding: 'utf-8'}))){
+                throw new Error('It seems that you have local CSS files should not be packaged here but to be added in bonita-web/looknfeel');
+              }
+            }
+          },
+          src: '<%= useminPrepare.html %>'
+        }
+      },
 
     // Reads HTML for usemin blocks to enable smart builds that automatically
     // concat, minify and revision files. Creates configurations in memory so
@@ -503,6 +518,7 @@ module.exports = function (grunt) {
     'injector',
     'lineending',
     'nggettext_extract',
+    'taskHelper',
     'useminPrepare',
     'concurrent:dist',
     'autoprefixer',

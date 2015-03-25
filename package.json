@@ -31,6 +31,7 @@
     "grunt-protractor-runner": "^1.1.4",
     "grunt-rev": "~0.1.0",
     "grunt-svgmin": "~0.2.0",
+    "grunt-task-helper": "^0.3.6",
     "grunt-usemin": "~2.0.0",
     "jasmine-core": "~2.1.x",
     "jasmine-reporters": "^0.4.1",
