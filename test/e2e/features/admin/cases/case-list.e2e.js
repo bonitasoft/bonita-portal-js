@@ -118,67 +118,79 @@
       beforeEach(function () {
         resizeBars = element.all(by.css('.rc-handle'));
       });
+
+      function removeColumns(columnIndexes) {
+        var caseListSettingsButton = element(by.css('#case-list button.bo-Settings'));
+        caseListSettingsButton.click();
+        var columnToShowNameList = element.all(by.css('.bo-TableSettings-columns li input'));
+        columnIndexes.forEach(function(index) {
+          columnToShowNameList.get(index).click();
+        });
+      }
+
       it('should change Version and ID column size ', function () {
+        removeColumns([4,5,6]);
+
+        var idColumnBar = resizeBars.get(0);
         var versionColumnBar = resizeBars.get(1);
+        browser.driver.actions().mouseDown(idColumnBar).mouseMove(idColumnBar, {x: -300}).mouseUp().perform();
         var formerVersionColumnLocation = element.all(by.css('table th')).get(4).getLocation();
         var formerProcessNameColumnLocation = element.all(by.css('table th')).get(3).getLocation();
 
         var formerStartDateColumnLocation = element.all(by.css('table th')).get(5).getLocation();
         browser.driver.actions().mouseDown(versionColumnBar).mouseMove(versionColumnBar, {x: 10}).mouseUp().perform();
         var newVersionColumnLocation = element.all(by.css('table th')).get(4).getLocation();
+
         formerVersionColumnLocation.then(function (oldPosition) {
           newVersionColumnLocation.then(function (newPosition) {
             //move is not very accurate, for instance, offset of 50 changed position of 53px
             expect(newPosition.x - oldPosition.x).toBeGreaterThan(5);
-            expect(oldPosition.y - newPosition.y).toBe(0);
           });
         });
         var newProcessNameColumnLocation = element.all(by.css('table th')).get(3).getLocation();
         formerProcessNameColumnLocation.then(function (oldPosition) {
           newProcessNameColumnLocation.then(function (newPosition) {
-            expect(oldPosition.x - newPosition.x).toBe(0);
-            expect(oldPosition.y - newPosition.y).toBe(0);
+            expect(oldPosition.x - newPosition.x).toBeGreaterThan(-5);
+            expect(oldPosition.x - newPosition.x).toBeLessThan(5);
           });
         });
         var newStartDateColumnLocation = element.all(by.css('table th')).get(5).getLocation();
         formerStartDateColumnLocation.then(function (oldPosition) {
           newStartDateColumnLocation.then(function (newPosition) {
-            expect(oldPosition.x - newPosition.x).toBe(0);
-            expect(oldPosition.y - newPosition.y).toBe(0);
+            expect(oldPosition.x - newPosition.x).toBeGreaterThan(-3);
+            expect(oldPosition.x - newPosition.x).toBeLessThan(3);
           });
         });
-        browser.debugger();
       });
       it('should change increase started Date and Started By column sizes', function () {
-        var startedByColumnBar = resizeBars.get(4);
-        var formerStartedByColumnLocation = element.all(by.css('table th')).get(5).getLocation();
-        var formerStartDateColumnLocation = element.all(by.css('table th')).get(4).getLocation();
-        var formerStateColumnLocation = element.all(by.css('table th')).get(6).getLocation();
+        removeColumns([0,1,2]);
+
+        var startedByColumnBar = resizeBars.get(0);
+        var formerStartDateColumnLocation = element.all(by.css('table th')).get(1).getLocation();
+        var formerStartedByColumnLocation = element.all(by.css('table th')).get(2).getLocation();
+        var formerStateColumnLocation = element.all(by.css('table th')).get(3).getLocation();
         browser.driver.actions().mouseDown(startedByColumnBar).mouseMove(startedByColumnBar, {
-          x: 100,
-          y: 50
+          x: 200
         }).mouseUp().perform();
-        var newStartedByColumnLocation = element.all(by.css('table th')).get(5).getLocation();
+        browser.debugger();
+        var newStartedByColumnLocation = element.all(by.css('table th')).get(2).getLocation();
         formerStartedByColumnLocation.then(function (oldPosition) {
           newStartedByColumnLocation.then(function (newPosition) {
             //move is not very accurate, for instance, offset of 50 changed position of 53px
             expect(oldPosition.x - newPosition.x).toBeLessThan(75);
-            expect(oldPosition.y - newPosition.y).toBe(0);
+            expect(oldPosition.x - newPosition.x).toBeGreaterThan(50);
           });
         });
-        var newStartDateColumnLocation = element.all(by.css('table th')).get(4).getLocation();
+        var newStartDateColumnLocation = element.all(by.css('table th')).get(1).getLocation();
         formerStartDateColumnLocation.then(function (oldPosition) {
           newStartDateColumnLocation.then(function (newPosition) {
-            expect(oldPosition.x - newPosition.x).toBeGreaterThan(-5);
-            expect(oldPosition.x - newPosition.x).toBeLessThan(32);
-            expect(oldPosition.y - newPosition.y).toBe(0);
+            expect(oldPosition.x - newPosition.x).toBe(0);
           });
         });
-        var newStateColumnLocation = element.all(by.css('table th')).get(6).getLocation();
+        var newStateColumnLocation = element.all(by.css('table th')).get(3).getLocation();
         formerStateColumnLocation.then(function (oldPosition) {
           newStateColumnLocation.then(function (newPosition) {
-            expect(oldPosition.x - newPosition.x).toBeLessThan(1);
-            expect(oldPosition.y - newPosition.y).toBe(0);
+            expect(newPosition.x - oldPosition.x).toBeGreaterThan(50);
           });
         });
       });
