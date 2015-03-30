@@ -63,12 +63,15 @@
     };
     vm.selectedUsers = [];
     vm.categories = alreadySelectedCategories;
+    var categoryIds = alreadySelectedCategories.map(function(category) {
+      return category.id;
+    });
     vm.categories.forEach(function(category){
       category.ticked = true;
     });
     store.load(categoryAPI).then(function(categories) {
       categories.forEach(function(category) {
-        if(vm.categories.indexOf(category) === -1){
+        if(categoryIds.indexOf(category.id) === -1){
           vm.categories.push(category);
         }
       });
