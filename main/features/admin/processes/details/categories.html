@@ -1,0 +1,23 @@
+<div id="categories" class="col-md-12 row">
+  <h3>{{ 'Categories' | translate }}</h3>
+  <button class="btn btn-success" tooltip="{{ 'Add the process to an existing category' | translate}}" ng-click="processCategoriesCtrl.openProcessCategoryMappingModal()">{{ 'Add...' | translate}}</button> &nbsp;
+  <button class="btn btn-success" tooltip="{{ 'Create a new category and map the current process to it' | translate}}" ng-click="processCategoriesCtrl.openCreateCategoryAnMapItModal()">{{ 'Create...' | translate}}</button>
+  <table class="table table-striped">
+      <thead>
+          <tr>
+              <th>{{ 'Name' | translate }}</th>
+              <th>{{ 'Description' | translate }}</th>
+              <th>{{ 'Creation date' | translate }}</th>
+              <th>{{ 'Actions' | translate }}</th>
+          </tr>
+      </thead>
+      <tbody>
+          <tr ng-repeat='category in processCategoriesCtrl.categories'>
+              <td>{{::category.displayName}}</td>
+              <td>{{::category.description}}</td>
+              <td>{{::processCategoriesCtrl.parseAndFormat(category.creation_date)}}</td>
+              <td><button tooltip="{{ 'Remove' | translate}}" class="glyphicon glyphicon-trash"></button></td>
+          </tr>
+      </tbody>
+  </table>
+</div>

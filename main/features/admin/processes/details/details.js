@@ -14,7 +14,8 @@
     'org.bonitasoft.common.directives.toggleButton',
     'org.bonitasoft.common.resources',
     'org.bonitasoft.services.topurl',
-    'org.bonitasoft.features.admin.processes.details.information'
+    'org.bonitasoft.features.admin.processes.details.information',
+    'org.bonitasoft.features.admin.processes.details.categories'
   ]).value('menuContent', [{
     name: 'Information',
     link: ''
@@ -57,6 +58,11 @@
           templateUrl: 'features/admin/processes/details/params.html',
           controller: 'processParamsCtrl',
           controllerAs: 'processParamsCtrl'
+        }).state('bonita.processesDetails.categories', {
+          url: '/categories',
+          templateUrl: 'features/admin/processes/details/categories.html',
+          controller: 'ProcessCategoriesCtrl',
+          controllerAs: 'processCategoriesCtrl'
         });
       }
   )

@@ -1,6 +1,6 @@
 #infoPopover {
     color: #808080;
-}
+}q
 
 #sidebar-wrapper {
 	background-color: #d03 ;
@@ -76,4 +76,15 @@
 	padding: 6px 12px 6px 12px;
 	min-width: 1px;
 	height: 32px;
+}
+
+#process-details #categories td button{
+  border: none;
+  font-weight: normal;
+  background-color: transparent;
+  min-width: 100%;
+  text-align: inherit;
+  padding: 1px 0;
+  white-space: nowrap;
+  text-transform: none !important;
 }
