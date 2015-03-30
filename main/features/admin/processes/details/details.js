@@ -2,6 +2,9 @@
 (function() {
   'use strict';
 
+  var processMenuCtrl = ProcessMenuCtrl;
+  processMenuCtrl.prototype.retrieveProcess = retrieveProcess;
+
   angular.module('org.bonitasoft.features.admin.processes.details', [
     'ui.router',
     'ui.bootstrap',
@@ -10,6 +13,7 @@
     'org.bonitasoft.common.directives.bonitaHref',
     'org.bonitasoft.common.directives.toggleButton',
     'org.bonitasoft.common.resources',
+    'org.bonitasoft.services.topurl',
     'org.bonitasoft.features.admin.processes.details.information'
   ]).value('menuContent', [{
     name: 'Information',
@@ -39,15 +43,9 @@
           templateUrl: 'features/admin/processes/details/menu.html',
           abstract: true,
           controller: 'processMenuCtrl',
-          controllerAs: 'ctrl',
+          controllerAs: 'processMenuCtrl',
           resolve: {
-            process: function(processAPI, $stateParams) {
-              return processAPI.get({
-                id: $stateParams.processId,
-                d: ['deployedBy'],
-                n:['openCases', 'failedCases']
-              });
-            }
+            process: retrieveProcess
           }
         }).state('bonita.processesDetails.information', {
           url: '',
@@ -62,20 +60,67 @@
         });
       }
   )
-    .controller('processMenuCtrl',
-      function($scope, menuContent, process, processAPI) {
-        var vm = this;
-        vm.menuContent = menuContent;
-        vm.process = process;
+    .controller('processMenuCtrl', processMenuCtrl
+      
+  ).controller('DeleteProcessModalInstanceCtrl', DeleteProcessModalInstanceCtrl);
 
-        $scope.$on('button.toggle', function(event, args) {
-          console.log('button.toggle', args);
-          var state = args.value?'ENABLED':'DISABLED';
-          processAPI.update({id: process.id, activationState: state}).$promise.then(function(){
-            process.activationState = state;
-          });
-        });
+  /* jshint -W003 */
+  function ProcessMenuCtrl($scope, menuContent, process, processAPI, $modal) {
+    var vm = this;
+    vm.menuContent = menuContent;
+    vm.process = process;
+    vm.toogleProcessActivation = toogleProcessActivation;
+    vm.deleteProcess = deleteProcess;
 
-      }
-  );
+    $scope.$on('button.toggle', toogleProcessActivation);
+    
+    function deleteProcess() {
+      $modal.open({
+        templateUrl: 'features/admin/processes/details/delete-process-modal.html',
+        controller: 'DeleteProcessModalInstanceCtrl',
+        controllerAs: 'deleteProcessModalInstanceCtrl',
+        size: 'sm',
+        resolve: {
+          process: function() {
+            return process;
+          }
+        }
+      });
+    }
+
+    function toogleProcessActivation(event, args) {
+      var state = args.value?'ENABLED':'DISABLED';
+      processAPI.update({id: process.id, activationState: state}).$promise.then(function(){
+        process.activationState = state;
+      }, function TODOmanageerror() {
+
+      });
+    }
+  }
+
+  function DeleteProcessModalInstanceCtrl($scope, processAPI, process, $modalInstance, manageTopUrl) {
+    var vm = this;
+    vm.process = process;
+    
+    vm.delete = function() {
+      processAPI.delete({id: process.id}).$promise.then(function(){
+        manageTopUrl.goTo({token:'processlistingadmin'});
+        $modalInstance.close();
+      }, function TODOmanageerror() {
+
+      });
+    };
+    vm.cancel = function(){
+      $modalInstance.dismiss();
+    };
+  }
+
+
+  function retrieveProcess(processAPI, $stateParams) {
+    return processAPI.get({
+      id: $stateParams.processId,
+      d: ['deployedBy'],
+      n:['openCases', 'failedCases']
+    });
+  }
 })();

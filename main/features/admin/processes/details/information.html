@@ -4,31 +4,31 @@
     <li class="col-md-4 " role="presentation">
       <a href="">
         {{ 'Version' | translate }}
-        <span class="label label-info">{{processInformationCtrl.process.version}}</span>
+        <span class="label label-default">{{processInformationCtrl.process.version}}</span>
       </a>
     </li>
     <li  class="col-md-4"  role="presentation">
       <a href="">
         {{ 'Configuration state' | translate }}
-        <span class="label label-info">{{processInformationCtrl.process.activationState}}</span>
+        <span class="label label-default">{{processInformationCtrl.process.activationState}}</span>
       </a>
     </li>
     <li  class="col-md-4" role="presentation">
       <a href="">
         {{ 'Last updated on' | translate }}
-        <span class="label label-info">{{::processInformationCtrl.parseAndFormat(processInformationCtrl.process.last_update_date)}}</span>
+        <span class="label label-default">{{::processInformationCtrl.parseAndFormat(processInformationCtrl.process.last_update_date)}}</span>
       </a>
     </li>
     <li  class="col-md-4" role="presentation">
       <a href="">
         {{ 'Installed on' | translate }}
-        <span class="label label-info">{{::processInformationCtrl.parseAndFormat(processInformationCtrl.process.deploymentDate)}}</span>
+        <span class="label label-default">{{::processInformationCtrl.parseAndFormat(processInformationCtrl.process.deploymentDate)}}</span>
       </a>
     </li>
     <li  class="col-md-4" role="presentation">
       <a href="">
         {{ 'Installed by' | translate }}
-        <span class="label label-info">{{(processInformationCtrl.process.deployedBy.id)?(processInformationCtrl.process.deployedBy.firstname + ' ' + processInformationCtrl.process.deployedBy.lastname):'System'}}</span>
+        <span class="label label-default">{{(processInformationCtrl.process.deployedBy.id)?(processInformationCtrl.process.deployedBy.firstname + ' ' + processInformationCtrl.process.deployedBy.lastname):'System'}}</span>
       </a>
     </li>
   </ul>
@@ -36,5 +36,5 @@
   <p>{{processInformationCtrl.process.description}}</p>
   <monitoring-status process='processInformationCtrl.process'></monitoring-status>  
   
-  <h3>Process Manager</h3>
+  <process-manager-mapping process='processInformationCtrl.process'></process-manager-mapping>  
 </div>
