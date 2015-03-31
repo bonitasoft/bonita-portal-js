@@ -1,3 +1,79 @@
 #infoPopover {
     color: #808080;
 }
+
+#sidebar-wrapper {
+	background-color: #d03 ;
+	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+	font-size: 18px;
+	color: black;
+}
+
+.actions {
+        padding: 20px 0 10px 0;
+}
+
+.sidebar-nav .submenu {
+	padding-left : 20px;
+	font-size: 14px;
+}
+
+
+/* make sidebar nav vertical */ 
+@media (min-width: 768px) {
+	
+  .navbar {
+	  width: 200px;
+  }
+
+  .sidebar-nav .navbar .navbar-collapse {
+	padding: 0;
+	max-height: none;
+  }
+  .sidebar-nav .navbar ul {
+	float: none;
+  }
+  .sidebar-nav .navbar ul:not {
+	display: block;
+
+  }
+  .sidebar-nav .navbar li {
+	float: none;
+	display: block;
+  }
+  .sidebar-nav .navbar li a {
+	padding-top: 12px;
+	padding-bottom: 12px;
+  }
+}
+@media (min-width: 992px) {
+  .navbar {
+	  width: 212px;
+  }
+}
+@media (min-width: 1200px) {
+  .navbar {
+	  width: 240px;
+  }
+}
+.sidebar-nav .navbar-header{ float: none; }
+
+#process-details .btn {
+	height: 34px;
+}
+
+#process-details .bonita-toggle .btn {
+	position: absolute; 
+	padding: 3px 20px 6px 12px;
+	min-width: 1px;
+	height: 32px;
+}
+#process-details .bonita-toggle .btn.toggle-off {
+	padding-right: 5px;
+}
+#process-details .bonita-toggle span.btn.toggle-handle {
+	position: relative; 
+	padding: 6px 12px 6px 12px;
+	min-width: 1px;
+	height: 32px;
+}

@@ -10,7 +10,12 @@
     'org.bonitasoft.common.resources',
     'org.bonitasoft.features.admin'
   ])//parent state to use for every state in order to have the translations loaded correctly...
-    .config([ '$stateProvider', function ($stateProvider) {
+    .config(function ($stateProvider, $urlRouterProvider) {
+      $urlRouterProvider.rule(function ($injector, $location) {
+          if($location.path().indexOf('/pm')===0){
+            return $location.url().replace(/^\/pm/, '/admin');
+          }
+        });
       $stateProvider.state('bonita', {
           template : '<ui-view/>',
           resolve : {
@@ -23,5 +28,5 @@
             }
       }
     });
-  }]);
+  });
 })();
