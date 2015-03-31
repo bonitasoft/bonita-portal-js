@@ -69,11 +69,11 @@
         });
       });
       describe('AddCategoryMappingModalInstanceCtrl', function() {
-        var addCategoryMappingModalInstanceCtrl, modalInstance, processCategoryAPI, categoryAPI, process, categories, store, deferred;
+        var addCategoryMappingModalInstanceCtrl, modalInstance, http, categoryAPI, process, categories, store, deferred;
         beforeEach(function() {
           modalInstance = jasmine.createSpyObj('modalInstance', ['close', 'dismiss']);
           store = jasmine.createSpyObj('store', ['load']);
-          processCategoryAPI = jasmine.createSpyObj('processCategoryAPI', ['post', 'delete']);
+          http = jasmine.createSpy();
           categoryAPI = jasmine.createSpyObj('categoryAPI', ['search']);
           process = {
               id: '1248',
@@ -89,7 +89,7 @@
             $modalInstance: modalInstance,
             store : store,
             categoryAPI : categoryAPI,
-            processCategoryAPI: processCategoryAPI,
+            $http: http,
             alreadySelectedCategories : []
           });
         });
@@ -101,12 +101,11 @@
           addCategoryMappingModalInstanceCtrl.categories = [cat1, cat2, cat3];
           addCategoryMappingModalInstanceCtrl.selectedCategories = [cat2, cat3];
           addCategoryMappingModalInstanceCtrl.updateCategories();
-          var postArgs = processCategoryAPI.post.calls.allArgs();
-          var deleteArgs = processCategoryAPI.delete.calls.allArgs();
-          expect(postArgs).toEqual([[{category_id: cat2.id,
-            process_id: process.id}], [{category_id: cat3.id,
-            process_id: process.id}]]);
-          expect(deleteArgs).toEqual([[[process.id + '/' + cat1.id]]]);
+          var postArgs = http.calls.allArgs();
+          expect(postArgs).toEqual([ [ { url: '../API/bpm/processCategory', method: 'DELETE', data: [ '1248/1' ] } ],
+            [ { url: '../API/bpm/processCategory', method: 'POST', data: { category_id: 2, process_id: '1248' } } ], 
+            [ { url: '../API/bpm/processCategory', method: 'POST', data: { category_id: 3, process_id: '1248' } } ] ]);
+          
         });
       });
     });
