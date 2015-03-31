@@ -118,7 +118,11 @@
     'applicationPageAPI': 'living/application-page',
     'applicationMenuAPI': 'living/application-menu',
     'customPageAPI': 'portal/page',
-    'formMappingAPI': 'form/mapping'
+    'formMappingAPI': 'form/mapping',
+    'actorAPI':'bpm/actor',
+    'actorMemberAPI':'bpm/actorMember',
+    'groupAPI': 'identity/group',
+    'roleAPI': 'identity/role'
   });
 
   module.factory('importApplication', ['API_PATH', '$resource', function (API_PATH, $resource) {
