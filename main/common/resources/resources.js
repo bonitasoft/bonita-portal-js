@@ -120,7 +120,6 @@
     'customPageAPI': 'portal/page',
     'formMappingAPI': 'form/mapping',
     'categoryAPI': 'bpm/category',
-    'processCategoryAPI': 'bpm/processCategory',
     'actorAPI':'bpm/actor',
     'actorMemberAPI':'bpm/actorMember',
     'groupAPI': 'identity/group',

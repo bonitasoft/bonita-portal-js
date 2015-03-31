@@ -12,7 +12,7 @@
         controller = $controller;
         q = $q;
       }));
-      describe('pProcessCategoriesCtrl', function() {
+      describe('ProcessCategoriesCtrl', function() {
         var processCategoriesCtrl, modal, categoryAPI, process, categories, store, deferred;
         beforeEach(function() {
           modal = jasmine.createSpyObj('modal', ['open']);
@@ -46,6 +46,7 @@
         });
         
         it('opens the create category modal when Create button is clicked', function() {
+          modal.open.and.returnValue({result : q.defer().promise});
           processCategoriesCtrl.openCreateCategoryAnMapItModal();
           expect(modal.open).toHaveBeenCalled();
           var options = modal.open.calls.mostRecent().args[0];
@@ -65,6 +66,47 @@
           expect(options.size).toEqual('sm');
           expect(options.resolve.process()).toBe(process);
           expect(options.resolve.alreadySelectedCategories()).toBe(processCategoriesCtrl.categories);
+        });
+      });
+      describe('AddCategoryMappingModalInstanceCtrl', function() {
+        var addCategoryMappingModalInstanceCtrl, modalInstance, processCategoryAPI, categoryAPI, process, categories, store, deferred;
+        beforeEach(function() {
+          modalInstance = jasmine.createSpyObj('modalInstance', ['close', 'dismiss']);
+          store = jasmine.createSpyObj('store', ['load']);
+          processCategoryAPI = jasmine.createSpyObj('processCategoryAPI', ['post', 'delete']);
+          categoryAPI = jasmine.createSpyObj('categoryAPI', ['search']);
+          process = {
+              id: '1248',
+              name: 'SupportProcess',
+              version: '1.12.008'
+            };
+          categories = [];
+          deferred = q.defer();
+          store.load.and.returnValue(deferred.promise);
+          addCategoryMappingModalInstanceCtrl = controller('AddCategoryMappingModalInstanceCtrl', {
+            $scope: scope,
+            process: process,
+            $modalInstance: modalInstance,
+            store : store,
+            categoryAPI : categoryAPI,
+            processCategoryAPI: processCategoryAPI,
+            alreadySelectedCategories : []
+          });
+        });
+
+        it('should update correctly the categories selected or not', function(){
+          var cat1 = {id:1, ticked: true, tickedInitially: true},
+           cat2 = {id:2},
+           cat3 = {id:3};
+          addCategoryMappingModalInstanceCtrl.categories = [cat1, cat2, cat3];
+          addCategoryMappingModalInstanceCtrl.selectedCategories = [cat2, cat3];
+          addCategoryMappingModalInstanceCtrl.updateCategories();
+          var postArgs = processCategoryAPI.post.calls.allArgs();
+          var deleteArgs = processCategoryAPI.delete.calls.allArgs();
+          expect(postArgs).toEqual([[{category_id: cat2.id,
+            process_id: process.id}], [{category_id: cat3.id,
+            process_id: process.id}]]);
+          expect(deleteArgs).toEqual([[[process.id + '/' + cat1.id]]]);
         });
       });
     });

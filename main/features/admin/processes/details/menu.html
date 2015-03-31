@@ -23,16 +23,20 @@
     </div>
   </div>
   <div class="col-sm-9 col-md-9 col-lg-10">
+    <div growl></div>
     <div class="col-md-7">
      <h2 class="">{{processMenuCtrl.process.displayName}} {{processMenuCtrl.process.version}}</h2>
      </div>
      <div class="col-md-5">
         <div class="actions">
-          <!-- Split button -->
+          <div class="col-md-6">
           <start-for process="processMenuCtrl.process"></start-for>
           
-          <toggle-button on="Enabled" off="Disabled" process-id="{{::processMenuCtrl.process.id}}" initial-state="{{::processMenuCtrl.process.activationState === 'ENABLED'}}"> </toggle-button>
           <button type="button" class="btn btn-primary" ng-disabled="processMenuCtrl.process.activationState === 'ENABLED'" ng-click="processMenuCtrl.deleteProcess()">Delete</button>
+          </div>
+          <div class="col-md-1">
+            <toggle-button on="Enabled" off="Disabled" process-id="{{::processMenuCtrl.process.id}}" initial-state="{{::processMenuCtrl.process.activationState === 'ENABLED'}}"> </toggle-button>
+          </div>
         </div>
     </div>
     <div class="col-md-12">

@@ -6,17 +6,17 @@
         <div 
             isteven-multi-select
             input-model="addCategoryMappingInstanceCtrl.categories"
-            output-model="addCategoryMappingInstanceCtrl.selectedUsers"
+            output-model="addCategoryMappingInstanceCtrl.selectedCategories"
             button-label="displayName"
             item-label="displayName"
-            max-height="300px"
+            max-height="200px"
             tick-property="ticked"
             translation="addCategoryMappingInstanceCtrl.localLang"
             helper-elements="filter">
       </div>
     </div>
     <div class="modal-footer">
-        <button ng-disabled="addCategoryMappingInstanceCtrl.selectedUsers.length === 0" class="start-for btn btn-primary" ng-click="addCategoryMappingInstanceCtrl.ok()">{{ 'OK' | translate }}</button>
+        <button class="start-for btn btn-primary" ng-click="addCategoryMappingInstanceCtrl.updateCategories()">{{ 'Save' | translate }}</button>
         <button class="btn btn-warning close_popup" ng-click="addCategoryMappingInstanceCtrl.cancel()">{{ 'Cancel' | translate }}</button>
     </div>
 </div>
