@@ -7,7 +7,7 @@
     'angular-growl',
     'org.bonitasoft.common.resources.store'
   ])
-    .controller('ProcessCategoriesCtrl', function($scope, process, store, categoryAPI, dateParser, $modal, growl, $q) {
+    .controller('ProcessCategoriesCtrl', function($scope, process, store, categoryAPI, dateParser, $modal, growl, $q, processCategoryAPI) {
       var vm = this;
       vm.process = process;
       vm.parseAndFormat = dateParser.parseAndFormat;
@@ -21,6 +21,7 @@
 
       vm.openCreateCategoryAnMapItModal = openCreateCategoryAnMapItModal;
       vm.openProcessCategoryMappingModal = openProcessCategoryMappingModal;
+      vm.deleteCategoryMapping = deleteCategoryMapping;
       var growlOpions = {
         ttl: 3000,
         disableCountDown: true,
@@ -28,12 +29,20 @@
       };
 
       /* jshint -W003 */
+      function deleteCategoryMapping(category){
+        processCategoryAPI.delete({
+          'category_id': category.id,
+          'process_id': process.id
+        }).then(function() {
+          vm.categories.splice(vm.categories.indexOf(category),1);
+        });
+      }
+
       function openCreateCategoryAnMapItModal() {
         var modalInstance = $modal.open({
           templateUrl: 'features/admin/processes/details/create-category-modal.html',
           controller: 'CreateCategoryModalInstanceCtrl',
           controllerAs: 'createCategoryModalInstanceCtrl',
-          size: 'sm',
           resolve: {
             process: function() {
               return process;
@@ -47,15 +56,16 @@
 
             growl.success('successfully updated categories', growlOpions);
           });
+        }, function() {
+          console.log('rejected!!!');
         });
       }
 
       function openProcessCategoryMappingModal() {
-        $modal.open({
+        var modalInstance = $modal.open({
           templateUrl: 'features/admin/processes/details/add-category-mapping-modal.html',
           controller: 'AddCategoryMappingModalInstanceCtrl',
           controllerAs: 'addCategoryMappingInstanceCtrl',
-          size: 'sm',
           resolve: {
             process: function() {
               return process;
@@ -65,8 +75,18 @@
             }
           }
         });
+        modalInstance.result.then(function(categoriesAndPromises) {
+          $q.all(categoriesAndPromises.promises).then(function() {
+            console.log('end of categories update');
+            vm.categories = categoriesAndPromises.categories;
+
+            growl.success('successfully updated categories', growlOpions);
+          });
+        }, function() {
+          console.log('rejected!!!');
+        });
       }
-    }).controller('CreateCategoryModalInstanceCtrl', function() {}).controller('AddCategoryMappingModalInstanceCtrl', function($scope, categoryAPI, process, gettextCatalog, $modalInstance, store, alreadySelectedCategories, $http, API_PATH) {
+    }).controller('CreateCategoryModalInstanceCtrl', function() {}).controller('AddCategoryMappingModalInstanceCtrl', function($scope, categoryAPI, process, gettextCatalog, $modalInstance, store, alreadySelectedCategories, processCategoryAPI) {
       var vm = this;
       vm.localLang = {
         search: gettextCatalog.getString('Type here to search for a category...'),
@@ -93,21 +113,30 @@
       vm.updateCategories = function() {
         var promises = [];
         vm.categories.forEach(function(category) {
-          if (vm.selectedCategories.indexOf(category) !== -1 && !category.ticked) {
+          if (categoryIsSelected(category) && !category.ticked) {
             console.log('adding ' + category.name);
-            promises.push($http({url: API_PATH + 'bpm/processCategory', method: 'POST', data: {
+            promises.push(processCategoryAPI.save({
               'category_id': category.id,
               'process_id': process.id
-            }}));
-          } else if (vm.selectedCategories.indexOf(category) === -1 && category.ticked) {
+            }));
+          } else if (!categoryIsSelected(category) && category.ticked) {
             console.log('removing ' + category.name);
-            promises.push($http({url: API_PATH + 'bpm/processCategory', method: 'DELETE', data: [process.id + '/' + category.id]}));
+            promises.push(processCategoryAPI.delete({
+              'category_id': category.id,
+              'process_id': process.id
+            }));
           }
         });
         $modalInstance.close({
           promises: promises,
           categories: vm.selectedCategories
         });
+
+        function categoryIsSelected(category) {
+          return !!vm.selectedCategories.filter(function(selectedCategory) {
+            return selectedCategory.id === category.id;
+          }).length;
+        }
       };
       vm.cancel = function() {
         $modalInstance.dismiss('cancel');

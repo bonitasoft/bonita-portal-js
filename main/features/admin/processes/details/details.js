@@ -28,7 +28,7 @@
     link: 'actorsMapping',
     submenu: true
   }, {
-    name: 'Params',
+    name: 'Parameters',
     link: 'params',
     submenu: true
   }, {

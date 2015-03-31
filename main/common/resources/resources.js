@@ -1,4 +1,4 @@
-(function () {
+(function() {
   'use strict';
   /**
    * @ngdoc service
@@ -29,25 +29,27 @@
     };
   }
 
-  var resourceDecorator = ['$delegate', function ($delegate) {
-    return function (url, paramDefaults, actions, options) {
-      actions = angular.extend({}, actions, {
-        'search': {
-          isArray: true,
-          interceptor: {
-            response: function (response) {
-              response.resource.pagination = parseContentRange(response.headers('Content-Range'));
-              return response;
+  var resourceDecorator = ['$delegate',
+    function($delegate) {
+      return function(url, paramDefaults, actions, options) {
+        actions = angular.extend({}, actions, {
+          'search': {
+            isArray: true,
+            interceptor: {
+              response: function(response) {
+                response.resource.pagination = parseContentRange(response.headers('Content-Range'));
+                return response;
+              }
             }
+          },
+          'update': {
+            method: 'PUT'
           }
-        },
-        'update': {
-          method: 'PUT'
-        }
-      });
-      return $delegate(url, paramDefaults, actions, options);
-    };
-  }];
+        });
+        return $delegate(url, paramDefaults, actions, options);
+      };
+    }
+  ];
 
 
   var module = angular.module('org.bonitasoft.common.resources', ['ngResource'])
@@ -62,21 +64,25 @@
    * function parsing the http header response to find the number of results
    * for the given resource search
    */
-    .config(['$provide', '$httpProvider', function ($provide, $httpProvider) {
+  .config(['$provide', '$httpProvider',
+    function($provide, $httpProvider) {
       $httpProvider.interceptors.push('unauthorizedResponseHandler');
       $provide.decorator('$resource', resourceDecorator);
-    }])
+    }
+  ])
 
-    .factory('unauthorizedResponseHandler', ['$q', '$window', function ($q, $window) {
+  .factory('unauthorizedResponseHandler', ['$q', '$window',
+    function($q, $window) {
       return {
-        'responseError': function (rejection) {
+        'responseError': function(rejection) {
           if (rejection.status === 401) {
             $window.top.location.reload();
           }
           return $q.reject(rejection);
         }
       };
-    }]);
+    }
+  ]);
 
 
   /**
@@ -92,15 +98,19 @@
    * We still can use the associated promise to use the data as soon as it gets back.
    *
    * user.$promise.then(function (user) {
-             *  console.log(user);
-             * });
+   *  console.log(user);
+   * });
    *
    **/
-  (function (resources) {
-    angular.forEach(resources, function (path, name) {
-      module.factory(name, ['$resource', function ($resource) {
-        return $resource(API_PATH + path + '/:id', { id: '@id' });
-      }]);
+  (function(resources) {
+    angular.forEach(resources, function(path, name) {
+      module.factory(name, ['$resource',
+        function($resource) {
+          return $resource(API_PATH + path + '/:id', {
+            id: '@id'
+          });
+        }
+      ]);
     });
   })({
     'userAPI': 'identity/user',
@@ -120,17 +130,42 @@
     'customPageAPI': 'portal/page',
     'formMappingAPI': 'form/mapping',
     'categoryAPI': 'bpm/category',
-    'actorAPI':'bpm/actor',
-    'actorMemberAPI':'bpm/actorMember',
+    'actorAPI': 'bpm/actor',
+    'actorMemberAPI': 'bpm/actorMember',
     'groupAPI': 'identity/group',
     'roleAPI': 'identity/role'
   });
 
-  module.factory('importApplication', ['API_PATH', '$resource', function (API_PATH, $resource) {
+  module.factory('importApplication', ['API_PATH', '$resource',
+    function(API_PATH, $resource) {
       return $resource('../services/application/import', {
         importPolicy: '@importPolicy',
         applicationsDataUpload: '@applicationsDataUpload'
       });
-    }]);
+    }
+  ]);
+
+
+  module.factory('processCategoryAPI', function(API_PATH, $http) {
+    var processCategoryAPI = {};
+    processCategoryAPI.save = function(options) {
+      return $http({
+        url: API_PATH + 'bpm/processCategory',
+        method: 'POST',
+        data: {
+          'category_id': ''+options.category_id,
+          'process_id': ''+options.process_id
+        }
+      });
+    };
+    processCategoryAPI.delete = function(options) {
+      return $http({
+        url: API_PATH + 'bpm/processCategory',
+        method: 'DELETE',
+        data: [options.process_id + '/' + options.category_id]
+      });
+    };
+    return processCategoryAPI;
+  });
 
 })();

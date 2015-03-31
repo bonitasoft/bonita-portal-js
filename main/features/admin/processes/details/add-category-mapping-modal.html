@@ -1,4 +1,5 @@
 <div id="start-for-modal">
+    <form ng-submit="addCategoryMappingInstanceCtrl.updateCategories()"
     <div class="modal-header header">
         <h3 class="modal-title">{{'Select Categories'| translate }}</h3>
     </div>
@@ -19,4 +20,5 @@
         <button class="start-for btn btn-primary" ng-click="addCategoryMappingInstanceCtrl.updateCategories()">{{ 'Save' | translate }}</button>
         <button class="btn btn-warning close_popup" ng-click="addCategoryMappingInstanceCtrl.cancel()">{{ 'Cancel' | translate }}</button>
     </div>
+    </form>
 </div>
