@@ -26,6 +26,7 @@
     "numeral": "~1.5.3",
     "angular-file-upload": "~1.1.5",
     "angular-ui-tree": "~2.1.5",
+    "angular-xeditable": "~0.1.8",
     "bootstrap-toggle": "~2.2.0"
   },
   "devDependencies": {

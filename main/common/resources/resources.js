@@ -120,7 +120,11 @@
     'customPageAPI': 'portal/page',
     'formMappingAPI': 'form/mapping',
     'categoryAPI': 'bpm/category',
-    'processCategoryAPI': 'bpm/processCategory'
+    'processCategoryAPI': 'bpm/processCategory',
+    'actorAPI':'bpm/actor',
+    'actorMemberAPI':'bpm/actorMember',
+    'groupAPI': 'identity/group',
+    'roleAPI': 'identity/role'
   });
 
   module.factory('importApplication', ['API_PATH', '$resource', function (API_PATH, $resource) {

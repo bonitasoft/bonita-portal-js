@@ -13,6 +13,8 @@
     'org.bonitasoft.common.directives.bonitaHref',
     'org.bonitasoft.common.directives.toggleButton',
     'org.bonitasoft.common.resources',
+    'org.bonitasoft.features.admin.processes.details.actorMapping',
+    'org.bonitasoft.features.admin.processes.editActorMembers',
     'org.bonitasoft.services.topurl',
     'org.bonitasoft.features.admin.processes.details.information',
     'org.bonitasoft.features.admin.processes.details.categories'

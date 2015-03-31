@@ -41,6 +41,7 @@ module.exports = function(config) {
       'main/assets/angular-animate/angular-animate.js',
       'main/assets/angular-growl-2/build/angular-growl.js',
       'main/assets/ng-sortable/dist/ng-sortable.js',
+      'main/assets/angular-xeditable/dist/js/xeditable.js',
       'main/common/**/*.js',
       'main/features/**/*.js',
       'main/features/**/*.html',

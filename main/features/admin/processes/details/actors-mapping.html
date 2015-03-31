@@ -1,0 +1,57 @@
+<div ng-init="actorsMappingCtrl.init()">
+  <div growl></div>
+  <div class="">
+    <table class="table table-hover table-bordered actorMappingList">
+      <thead>
+        <tr>
+          <th>Actor name</th>
+          <th>Users</th>
+          <th>Group</th>
+          <th>Role</th>
+          <th>Membership</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="actor in actors.data" ng-init="actorsMappingCtrl.getMembersForAnActor(actor)">
+          <td>{{actor.name}}</td>
+          <td >
+            <p class="members">
+              <a ng-click="actorsMappingCtrl.deleteMember(user.id)" ng-repeat="user in actorsMembers[actor.id].users.data" class="label label-primary outline member">{{user.user_id.firstname}} {{user.user_id.lastname}} <span class="glyphicon glyphicon-remove"></span></a>
+              <a ng-if="actorsMembers[actor.id].users.resource.pagination.total > membersPerCell" ng-click="editMapping(actor, 'USER')" class="label label-primary outline moreCount">{{actorsMembers[actor.id].users.resource.pagination.total - membersPerCell}} More</a>
+            </p>
+            <div class="moreMembers">
+              <a ng-click="editMapping(actor, 'USER')" class="label label-success outline">{{actorsMembers[actor.id].users.data.length>0 ? 'Edit' : 'Add'}} <span class="glyphicon glyphicon-pencil"></span></a>
+            </div>
+          </td>
+          <td>
+            <p class="members">
+              <a ng-click="actorsMappingCtrl.deleteMember(group.id)" ng-repeat="group in actorsMembers[actor.id].groups.data" class="label label-primary outline member">{{group.group_id.displayName}} <span class="glyphicon glyphicon-remove"></span></a>
+              <a ng-if="actorsMembers[actor.id].groups.resource.pagination.total > membersPerCell" ng-click="editMapping(actor, 'GROUP')" class="label label-primary outline moreCount">{{actorsMembers[actor.id].groups.resource.pagination.total - membersPerCell}} More</a>
+            </p>
+            <div class="moreMembers">
+              <a ng-click="editMapping(actor, 'GROUP')" class="label label-success outline">{{actorsMembers[actor.id].groups.data.length>0 ? 'Edit' : 'Add'}} <span class="glyphicon glyphicon-pencil"></span></a>
+            </div>
+          </td>
+          <td>
+            <p class="members">
+              <a ng-click="actorsMappingCtrl.deleteMember(role.id)" ng-repeat="role in actorsMembers[actor.id].roles.data" class="label label-primary outline member">{{role.role_id.displayName}} <span class="glyphicon glyphicon-remove"></span></a>
+              <a ng-if="actorsMembers[actor.id].roles.resource.pagination.total > membersPerCell" ng-click="editMapping(actor, 'ROLE') "class="label label-primary outline moreCount">{{actorsMembers[actor.id].roles.resource.pagination.total - membersPerCell}} More</a>
+            </p>
+            <div class="moreMembers">
+              <a ng-click="editMapping(actor, 'ROLE')" class="label label-success outline">{{actorsMembers[actor.id].roles.data.length>0 ? 'Edit' : 'Add'}} <span class="glyphicon glyphicon-pencil"></span></a>
+            </div>
+          </td>
+          <td>
+            <p class="members">
+              <a ng-click="actorsMappingCtrl.deleteMember(membership.id)" ng-repeat="membership in actorsMembers[actor.id].memberships.data" class="label label-primary outline member">{{membership.role_id.displayName}} of {{membership.group_id.displayName}}<span class="glyphicon glyphicon-remove"></span></a>
+              <a ng-if="actorsMembers[actor.id].memberships.resource.pagination.total > membersPerCell"  ng-click="editMapping(actor, 'MEMBERSHIP')" class="label label-primary outline moreCount">{{actorsMembers[actor.id].memberships.resource.pagination.total - membersPerCell}} More</a>
+            </p>
+            <div class="moreMembers">
+              <a ng-click="editMapping(actor, 'MEMBERSHIP')" class="label label-success outline">{{actorsMembers[actor.id].memberships.data.length>0 ? 'Edit' : 'Add'}} <span class="glyphicon glyphicon-pencil"></span></a>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
