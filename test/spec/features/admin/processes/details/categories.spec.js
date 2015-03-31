@@ -103,9 +103,8 @@
           addCategoryMappingModalInstanceCtrl.updateCategories();
           var postArgs = http.calls.allArgs();
           expect(postArgs).toEqual([ [ { url: '../API/bpm/processCategory', method: 'DELETE', data: [ '1248/1' ] } ],
-            [ { url: '../API/bpm/processCategory', method: 'POST', data: { category_id: 2, process_id: '1248' } } ], 
+            [ { url: '../API/bpm/processCategory', method: 'POST', data: { category_id: 2, process_id: '1248' } } ],
             [ { url: '../API/bpm/processCategory', method: 'POST', data: { category_id: 3, process_id: '1248' } } ] ]);
-          
         });
       });
     });
