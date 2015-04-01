@@ -2,20 +2,27 @@
   <h3>{{'Information' | translate }}</h3>
   <div class="col-md-12">
     
-    <div class="col-md-4">
-      {{ 'Configuration state' | translate }}
-      
-          <toggle-button on="Enabled" off="Disabled" process-id="{{::processMenuCtrl.process.id}}" initial-state="{{::processMenuCtrl.process.activationState === 'ENABLED'}}"> </toggle-button>
-      
+    <div class="col-md-4 row">
+      <div class="col-md-5 row">
+        {{ 'Configuration state' | translate }}
+      </div>
+      <div class="col-md-7">
+            <toggle-button on="Enabled" off="Disabled" process-id="{{::processMenuCtrl.process.id}}" initial-state="{{::processMenuCtrl.process.activationState === 'ENABLED'}}"> </toggle-button>
+      </div>
     </div>
     <div class="col-md-4">
       {{ 'Last updated on' | translate }}
       {{::processInformationCtrl.parseAndFormat(processInformationCtrl.process.last_update_date)}} <span class="glyphicon glyphicon-plus"></span>
     </div>
   </div>
-  <div class="col-md-12">
-      <js-tag  js-tag-mode="typeahead" js-tag-options="jsTagOptions"></js-tag>
+  <div class="col-md-12 row categories">
+    <div class="col-md-1">
+    Categories :
     </div>
+    <div class="col-md-11 bootstrap-tags">
+      <bonitags tags-suggestion="processInformationCtrl.categories" tags-selection="processInformationCtrl.selectedCategories" read-nly></bonitags>
+    </div>
+  </div>
   <div class="col-md-12">
 
   <h3>{{ 'Description' | translate }}</h3>
