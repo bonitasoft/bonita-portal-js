@@ -64,7 +64,7 @@
                 </div>
 
               </td>
-              <td class="case-detail text-right">{{::case['Pending Flow Nodes']}}</td>
+              <td class="case-detail text-right">{{::(case['Pending Flow Nodes'] - case['Failed Flow Nodes'])}}</td>
               <td class="case-link text-center">
                 <case-visu process-id='{{::case.processDefinitionId.id}}' case-id='{{::case.ID}}'></case-visu>
                 <a id="case-detail-btn-{{::case.id}}" tooltip="{{'View case details' | translate }}"  tooltip-popup-delay="500" tooltip-animation="false" target="_top" ng-href="{{::caseCtrl.getLinkToCase(case)}}" class="open-link">

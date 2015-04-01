@@ -214,7 +214,7 @@
     });
 
     describe('case admin list content', function () {
-      iit('should display the list of the 25 first cases and check the specifi content of the first row', function () {
+      it('should display the list of the 25 first cases and check the specifi content of the first row', function () {
         expect(element.all(by.css('#case-list tr.case-row')).count()).toBe(25);
 
         var firstCaseElements = caseList.all(by.css('#caseId-1 td'));
@@ -227,8 +227,8 @@
           expect(poolCaseDetails[3].getText()).toContain('1.0');
           expect(poolCaseDetails[4].getText()).toContain('10/17/2014 4:05 PM');
           expect(poolCaseDetails[5].getText()).toContain('walter.bates');
-          expect(poolCaseDetails[6].getText()).toContain('0');
-          expect(poolCaseDetails[7].getText()).toContain('1');
+          expect(poolCaseDetails[6].getText()).toContain('1');
+          expect(poolCaseDetails[7].getText()).toContain('0');
           expect(poolCaseDetails[8].element(by.xpath('a')).getAttribute('href')).toContain('#?id=1&_p=casemoredetailsadmin&');
         });
 
