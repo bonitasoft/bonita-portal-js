@@ -17,13 +17,13 @@
       template: '<div class="bootstrap-tags"></div>',
       // templateUrl: '',
       replace: true,
-      link: function($scope, iElm, iAttrs, controller) {
-          $timeout(function() {
-            $(iElm).tags({
+      link: function($scope, iElm, iAttrs) {
+        $timeout(function() {
+          $(iElm).tags({
               readOnly : iAttrs.readOnly ==='' || iAttrs.readOnly === 'true',
               tagData:['boilerplate', 'tags'],
               suggestions:['basic', 'suggestions']
-          });
+            });
         }, 0);
       }
     };

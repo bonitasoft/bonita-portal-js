@@ -114,8 +114,7 @@
       };
 
       $scope.editMapping = function editMapping(actor, memberType) {
-
-        var modalInstance = $modal.open({
+        $modal.open({
           templateUrl: 'features/admin/processes/details/edit-actor-members.html',
           controller: 'editActorMembersCtrl',
           controllerAs: 'editActorMembersCtrl',
@@ -131,14 +130,10 @@
               return actor;
             }
           }
-        });
-
-        modalInstance.result.then(function(selectedItem) {
-          $scope.selected = selectedItem;
-        }, function() {
-
-        });
+        }).result.then(function close(){self.init();},function cancel(){self.init();});
       };
+
+
 
 
     })

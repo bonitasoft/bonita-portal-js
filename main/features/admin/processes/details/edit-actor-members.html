@@ -6,37 +6,61 @@
   <div class="modal-body">
     <h4>{{members.length}} {{currentMemberLabel|lowercase}} already mapped</h4>
     <p class="members">
-      <a ng-click="editActorMembersCtrl.deleteMember(member.id)" ng-repeat="member in members" class="label label-primary outline member" ng-if="memberType===editActorMembersCtrl.constant.USER">
-        {{member.user_id.firstname}} {{member.user_id.lastname}} <span class="glyphicon glyphicon-remove"></span>
+      <a ng-click="editActorMembersCtrl.removeMember(member)" ng-repeat="member in members" class="label label-primary outline member">
+        {{member.removeLabel}} <span class="glyphicon glyphicon-remove"></span>
       </a>
-      <a ng-click="editActorMembersCtrl.deleteMember(member.id)" ng-repeat="member in members" class="label label-primary outline member" ng-if="memberType===editActorMembersCtrl.constant.GROUP">
-        {{member.group_id.displayName}} <span class="glyphicon glyphicon-remove"></span>
-      </a>
-      <a ng-click="editActorMembersCtrl.deleteMember(member.id)" ng-repeat="member in members" class="label label-primary outline member" ng-if="memberType===editActorMembersCtrl.constant.ROLE">
-        {{member.role_id.displayName}} <span class="glyphicon glyphicon-remove"></span>
-      </a>
-      <a ng-click="editActorMembersCtrl.deleteMember(member.id)" ng-repeat="member in members" class="label label-primary outline member" ng-if="memberType===editActorMembersCtrl.constant.MEMBERSHIP">
-        {{member.role_id.displayName}} of {{member.group_id.displayName}} <span class="glyphicon glyphicon-remove"></span>
-      </a>
-      <a ng-click="editActorMembersCtrl.removeAll()" class="label label-primary outline member" ng-if="members.length>0">Remove all <span class="glyphicon glyphicon-remove"></span></a>
+      <a ng-click="editActorMembersCtrl.removeAll()" class="label label-danger outline member" ng-if="members.length>0">Remove all <span class="glyphicon glyphicon-remove"></span></a>
     </p>
-    <p class="">
-      <label>Pickup new {{currentMemberLabel|lowercase}}</label>
+    <p>
+      <label ng-if="editActorMembersCtrl.scope.memberType!==editActorMembersCtrl.constant.MEMBERSHIP">Pickup new {{currentMemberLabel|lowercase}}</label>
+      <label ng-if="editActorMembersCtrl.scope.memberType===editActorMembersCtrl.constant.MEMBERSHIP">Create a new {{currentMemberLabel|lowercase}}</label>
       <isteven-multi-select
-      input-model="first200members"
-      output-model="arrayNewMembers"
-      button-label="displayedLabel"
-      item-label="displayedLabel"
+      ng-if="editActorMembersCtrl.scope.memberType!==editActorMembersCtrl.constant.MEMBERSHIP"
+      input-model="editActorMembersCtrl.scope.first200members"
+      output-model="editActorMembersCtrl.scope.arrayNewMembers"
+      button-label="buttonLabel"
+      item-label="listLabel"
       tick-property="selected"
       max-labels="5"
       max-height="200px"
-      translation="localLang"
+      translation="editActorMembersCtrl.scope.localLang"
       on-search-change="editActorMembersCtrl.multiselectOnSearch(data)"></isteven-multi-select>
-
-      <a ng-if="arrayNewMembers.length>0" class="btn btn-primary" ng-click="editActorMembersCtrl.saveSelectedMembers()">Save</a>
+      
+      <div>
+      <isteven-multi-select
+      ng-if="editActorMembersCtrl.scope.memberType===editActorMembersCtrl.constant.MEMBERSHIP"
+      input-model="editActorMembersCtrl.scope.first200roles"
+      output-model="editActorMembersCtrl.scope.newMembershipRole"
+      button-label="displayName"
+      item-label="displayName"
+      tick-property="selected"
+      max-labels="5"
+      max-height="200px"
+      translation="editActorMembersCtrl.scope.localLangRole"
+      on-search-change="editActorMembersCtrl.selectOnSearchRole(data)"
+      selection-mode="single"></isteven-multi-select>
+      </div>
+      
+      <span style="clear:both" ng-if="editActorMembersCtrl.scope.memberType===editActorMembersCtrl.constant.MEMBERSHIP">of</span>
+      <div>
+      <isteven-multi-select
+      ng-if="editActorMembersCtrl.scope.memberType===editActorMembersCtrl.constant.MEMBERSHIP"
+      input-model="first200groups"
+      output-model="editActorMembersCtrl.scope.newMembershipGroup"
+      button-label="displayName"
+      item-label="displayName"
+      tick-property="selected"
+      max-labels="5"
+      max-height="200px"
+      translation="editActorMembersCtrl.scope.localLangGroup"
+      on-search-change="editActorMembersCtrl.selectOnSearchGroup(data)"
+      selection-mode="single"></isteven-multi-select>
+      </div>
     </p>
   </div>
   <div class="modal-footer">
-
+    <a ng-click="editActorMembersCtrl.closeModal()" class="btn btn-default">Close</a>
+    <a ng-if="editActorMembersCtrl.scope.arrayNewMembers.length>0 && editActorMembersCtrl.scope.memberType!==editActorMembersCtrl.constant.MEMBERSHIP" class="btn btn-primary" ng-click="editActorMembersCtrl.saveSelectedMembers()">Add</a>
+    <a ng-if="editActorMembersCtrl.scope.newMembershipRole.length>0 && editActorMembersCtrl.scope.newMembershipGroup.length>0 && editActorMembersCtrl.scope.memberType==editActorMembersCtrl.constant.MEMBERSHIP" class="btn btn-primary" ng-click="editActorMembersCtrl.saveSelectedMembership()">Create membership</a>
   </div>
 </div>

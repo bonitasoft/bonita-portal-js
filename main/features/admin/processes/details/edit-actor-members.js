@@ -1,4 +1,4 @@
-(function() {
+(function () {
   'use strict';
 
   angular.module('org.bonitasoft.features.admin.processes.editActorMembers', [
@@ -13,28 +13,52 @@
     'org.bonitasoft.common.resources.store',
     'xeditable'
   ])
-    .controller('editActorMembersCtrl', function($scope, store, actorMemberAPI, userAPI, groupAPI, roleAPI, actor, memberType, process, growl) {
+    .controller('editActorMembersCtrl', function ($scope, $modalInstance, store, actorMemberAPI, userAPI, groupAPI, roleAPI, actor, memberType, process, growl) {
       var self = this;
-      $scope.memberType = memberType;
-      $scope.members = {};
-      $scope.arrayNewMembers = [];
+      self.scope = $scope;
+      self.scope.memberType = memberType;
+      self.scope.members = {};
+      self.scope.arrayNewMembers = [];
+      self.scope.newMembershipRole = {};
+      self.scope.newMembershipGroup = {};
+
+      var growlOptions ={
+        ttl: 3000,
+        disableCountDown: true,
+        disableIcons: true
+      };
       var mappedIds = [];
       var userIdAttribute = 'user_id';
       var groupIdAttribute = 'group_id';
       var roleIdAttribute = 'role_id';
       self.initObj = {};
+
       self.constant = {
         USER: 'USER',
         GROUP: 'GROUP',
         ROLE: 'ROLE',
         MEMBERSHIP: 'MEMBERSHIP'
       };
-      $scope.localLang = {
+
+      self.scope.localLang = {
         selectAll: 'Select all',
         selectNone: 'Select none',
         reset: 'Reset',
         search: 'Type here to search...'
       };
+      self.scope.localLangRole = {
+        selectAll: 'Select all',
+        selectNone: 'Select none',
+        reset: 'Reset',
+        search: 'Type here to search...'
+      };
+      self.scope.localLangGroup = {
+        selectAll: 'Select all',
+        selectNone: 'Select none',
+        reset: 'Reset',
+        search: 'Type here to search...'
+      };
+
       self.initView = function initView() {
         switch (memberType) {
           case self.constant.USER:
@@ -43,11 +67,12 @@
               o: 'firstname asc',
               realId: userIdAttribute,
               saveMethod: self.saveUserMembers,
-              searchMethod: self.searchUsers,
+              searchMethod: self.searchMembers,
               searchAPI: userAPI
             };
-            $scope.currentMemberLabel = 'Users';
+            self.scope.currentMemberLabel = 'Users';
             break;
+
           case self.constant.GROUP:
             self.initObj = {
               d: [groupIdAttribute],
@@ -57,8 +82,9 @@
               searchMethod: self.searchMembers,
               searchAPI: groupAPI
             };
-            $scope.currentMemberLabel = 'Groups';
+            self.scope.currentMemberLabel = 'Groups';
             break;
+
           case self.constant.ROLE:
             self.initObj = {
               d: [roleIdAttribute],
@@ -68,17 +94,22 @@
               searchMethod: self.searchMembers,
               searchAPI: roleAPI
             };
-            $scope.currentMemberLabel = 'Roles';
+            self.scope.currentMemberLabel = 'Roles';
             break;
+
           case self.constant.MEMBERSHIP:
             self.initObj = {
               d: [roleIdAttribute, groupIdAttribute],
-              o: 'displayName asc'
+              o: 'displayName asc',
+              realId: roleIdAttribute,
+              realId2: groupIdAttribute
             };
-            $scope.currentMemberLabel = 'Memberships';
+            self.scope.localLangGroup.nothingSelected = 'group selection';
+            self.scope.localLangRole.nothingSelected = 'role selection';
+            self.scope.currentMemberLabel = 'Membership';
             break;
         }
-        $scope.localLang.nothingSelected = $scope.currentMemberLabel + ' selection';
+        self.scope.localLang.nothingSelected = self.scope.currentMemberLabel + ' selection';
         self.initObj.f = ['actor_id=' + actor.id, 'member_type=' + memberType];
         self.loadMembers();
       };
@@ -89,55 +120,69 @@
           f: self.initObj.f,
           d: self.initObj.d
         }).then(function success(members) {
-          $scope.members = members;
-
-          if (memberType !== 'MEMBERSHIP') {
-            for (var i = 0; i < members.length; i++) {
-              mappedIds.push(members[i][self.initObj.realId].id);
+          members.forEach(function (currentMember, index) {
+            if (memberType === self.constant.USER) {
+              members[index].removeLabel = currentMember.user_id.firstname + ' ' + currentMember.user_id.lastname;
+            } else {
+              members[index].removeLabel = currentMember[self.initObj.realId].displayName;
+              if (self.initObj.realId2) members[index].removeLabel += ' of ' + currentMember[self.initObj.realId2].displayName;
             }
+          });
+          self.scope.members = members;
+          if (memberType !== self.constant.MEMBERSHIP) {
+            members.forEach(function (member) {
+              mappedIds.push(member[self.initObj.realId].id);
+            });
             self.initObj.searchMethod();
+          } else {
+            self.selectOnSearchGroup('');
+            self.selectOnSearchRole('');
           }
-        }, function error() {});
+        }, function error() {
+
+        });
       };
 
-      self.deleteMember = function deleteMember(memberId, notify) {
+      self.removeMember = function removeMember(member, notify) {
+
         actorMemberAPI.delete({
-          id: memberId
+          id: member.id
         }).$promise.then(
           function success() {
-            if (notify !== false) {
-              growl.success('Actor member deleted', {
-                ttl: 3000,
-                disableCountDown: true,
-                disableIcons: true
-              });
+            if (notify) {
+              notifyDeletion(member, true);
             }
             self.loadMembers();
           },
-          function error() {}
+          function error() {
+            if (notify) {
+              notifyDeletion(member, false);
+            }
+          }
         );
       };
 
-      self.searchUsers = function searchUsers(searchOptions) {
-        if (!searchOptions) {
-          searchOptions = {
-            p: 0,
-            c: 200
-          };
+      self.notifyDeletion = function notifyDeletion(member, success) {
+        var composedMessage = 'Actor ';
+        if (member.user_id.id) {
+          composedMessage = member.user_id.firstname + ' ' + member.user_id.lastname;
         }
-        searchOptions.o = self.initObj.o;
-        var finalArray = [];
-        userAPI.search(searchOptions).$promise.then(function success(response) {
-          for (var i in response.data) {
-            var index = mappedIds.indexOf(response.data[i].id);
-            if (index === -1) {
-              response.data[i].displayedLabel = response.data[i].firstname + response.data[i].lastname + '<small>(<i>' + response.data[i].userName + '</i>)</small>';
-              finalArray.push(response.data[i]);
-            }
+        if (member.role_id.displayName) {
+          composedMessage = member.role_id.displayName;
+        }
+        if (member.group_id.displayName) {
+          if (member.role_id.displayName) {
+            composedMessage = member.role_id.displayName + ' of ';
           }
-          $scope.first200members = finalArray;
-        });
-      };
+          composedMessage += member.group_id.displayName;
+        }
+        if (success) {
+          growl.success(composedMessage + ' was sucessfully deleted', growlOptions);
+        } else {
+          growl.error(composedMessage + ' was unsucessfully deleted', growlOptions);
+        }
+
+      }
 
       self.searchMembers = function searchMembers(searchOptions) {
         if (!searchOptions) {
@@ -149,35 +194,68 @@
         searchOptions.o = self.initObj.o;
         var finalArray = [];
         self.initObj.searchAPI.search(searchOptions).$promise.then(function success(response) {
-          for (var i in response.data) {
-            var index = mappedIds.indexOf(response.data[i].id);
+          response.data.forEach(function (currentMember, index) {
+            var index = mappedIds.indexOf(currentMember.id);
             if (index === -1) {
-              console.log(response.data[i]);
-              response.data[i].displayedLabel = response.data[i].displayName;
-              finalArray.push(response.data[i]);
+              if (self.scope.memberType === self.constant.USER) {
+                currentMember.listLabel = currentMember.firstname + ' ' + currentMember.lastname + '<small>(<i>' + currentMember.userName + '</i>)</small>';
+                currentMember.buttonLabel = currentMember.firstname + ' ' + currentMember.lastname;
+              } else {
+                currentMember.listLabel = currentMember.displayName;
+                currentMember.buttonLabel = currentMember.displayName;
+              }
+              finalArray.push(currentMember);
             }
-          }
-          $scope.first200members = finalArray;
+          });
+          self.scope.first200members = finalArray;
         });
       };
 
+      self.searchMembership = function searchMembership(searchOptions, resourceAPI) {
+        if (!searchOptions) {
+          searchOptions = {
+            p: 0,
+            c: 200
+          };
+        }
+        return resourceAPI.search(searchOptions).$promise;
+      };
+
+      var searchOptions = {
+        p: 0,
+        c: 200
+      };
 
 
       self.multiselectOnSearch = function multiselectOnSearch(search) {
         if (search.keyword !== '') {
-          var searchOptions = {
-            p: 0,
-            c: 200
-          };
           searchOptions.s = search.keyword;
-          self.searchUsers(searchOptions);
+          self.searchMembers(searchOptions);
         }
       };
 
+      self.selectOnSearchGroup = function selectOnSearchGroup(search) {
+        if (search === undefined || search.keyword !== '') {
+          searchOptions.s = search.keyword;
+          self.searchMembership(searchOptions, groupAPI).then(function mapGroup(response) {
+            self.scope.first200groups = response.data;
+          });
+        }
+      };
+      self.selectOnSearchRole = function selectOnSearchRole(search) {
+        if (search === undefined || search.keyword !== '') {
+          searchOptions.s = search.keyword;
+          self.searchMembership(searchOptions, roleAPI).then(function mapRole(response) {
+            self.scope.first200roles = response.data;
+          });
+        }
+      };
+
+
       self.saveSelectedMembers = function saveSelectedMembers() {
-        $scope.saveCallFinished = 0;
-        for (var i in $scope.arrayNewMembers) {
-          var member = $scope.arrayNewMembers[i];
+        self.saveCallFinished = 0;
+        for (var i in self.scope.arrayNewMembers) {
+          var member = self.scope.arrayNewMembers[i];
           var saveObj = {
             'actor_id': actor.id
           };
@@ -185,21 +263,41 @@
           self.actorMemberAPISave(saveObj);
         }
       };
+      self.saveSelectedMembership = function saveSelectedMembership() {
+        self.saveCallFinished = 0;
+        if(self.scope.newMembershipRole.length === 1 && self.scope.newMembershipGroup.length === 1){
+          actorMemberAPI.save({
+            'role_id': self.scope.newMembershipRole[0].id,
+            'group_id': self.scope.newMembershipGroup[0].id,
+            'actor_id': actor.id
+          }).$promise.then(function success(response){
+            console.log(self.scope.newMembershipRole);
+            growl.success(self.scope.newMembershipRole[0].displayName +' of '+self.scope.newMembershipGroup[0].displayName+' was sucessfully created');
+            self.loadMembers();
+          }, function error(response){
+            growl.error(response.data.message, growlOptions);
+          });
+        }
+      };
 
 
       self.actorMemberAPISave = function actorMemberAPISave(toSaveObj) {
         actorMemberAPI.save(toSaveObj).$promise.finally(function needToInit() {
-          $scope.saveCallFinished++;
-          if ($scope.saveCallFinished === $scope.arrayNewMembers.length) {
+          self.saveCallFinished++;
+          if (self.saveCallFinished === self.scope.arrayNewMembers.length) {
             self.loadMembers();
           }
         });
       };
 
       self.removeAll = function removeAll() {
-        for (var i in $scope.members) {
-          self.deleteMember($scope.members[i].id, false);
-        }
+        self.scope.members.forEach(function (member) {
+          self.removeMember(member, false);
+        });
+      };
+
+      self.closeModal = function closeModal() {
+        $modalInstance.close();
       };
 
     });
