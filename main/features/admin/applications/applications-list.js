@@ -8,6 +8,7 @@
     'org.bonitasoft.common.resources',
     'org.bonitasoft.common.resources.store',
     'org.bonitasoft.features.admin.applications.edit',
+    'org.bonitasoft.features.admin.applications.editLookNFeel',
     'org.bonitasoft.features.admin.applications.delete',
     'org.bonitasoft.common.i18n.filters',
     'ui.router',
@@ -44,7 +45,7 @@
         function reload() {
           store
             .load(applicationAPI, {
-              d: ['profileId', 'createdBy', 'updatedBy']
+              d: ['profileId', 'createdBy', 'updatedBy', 'layoutId']
             })
             .then(function(applications) {
               $scope.applications = applications;

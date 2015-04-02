@@ -1,0 +1,35 @@
+  <form role="form" name="application.form" novalidate>
+  <div class="modal-header">
+    <h3 class="modal-title">{{'Edit look & feel' | translate}}</h3>
+  </div>
+  <div class="modal-body">
+
+    <alert ng-repeat="alert in alerts" type="{{ alert.type }}" close="closeAlert($index)">{{alert.msg}}</alert>
+    <bootstrap-form-control form="application.form" class="select-form-container" label="{{ 'Layout' | translate }}">
+      <select id="profile"
+              name="profile" ng-model="application.model.layoutId"
+              ng-options="layoutPage.id as layoutPage.urlToken + ' - ' + layoutPage.displayName for layoutPage in layoutPages"></select>
+
+
+    </bootstrap-form-control>
+
+    <bootstrap-form-control form="application.form" class="select-form-container" label="{{ 'Theme' | translate }}">
+      <select id="theme"
+              name="layout" ng-model="application.model.themeId">
+        <option ng-repeat="layoutPage in layoutPages" value="{{ layoutPage.id }}">
+          {{ layoutPage.urlToken }} - {{ layoutPage.displayName }}
+        </option>
+      </select>
+    </bootstrap-form-control>
+  </div>
+  <div class="modal-footer">
+    <div class="form-group has-feedback">
+      <div>
+        <button id="btn-submit" type="submit" class="btn btn-success btn-primary" ng-disabled="application.form.$invalid"
+                ng-click="submit(application)">{{ "Save" | translate }}
+        </button>
+        <button id="btn-cancel" type="submit" class="btn btn-default" ng-click="cancel()">{{ 'Cancel' | translate}}</button>
+      </div>
+    </div>
+  </div>
+</form>

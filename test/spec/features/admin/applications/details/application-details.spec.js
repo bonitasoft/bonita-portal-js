@@ -70,7 +70,7 @@
 
       beforeEach(function() {
         $httpBackend
-          .expectGET('../API/living/application/2?d=createdBy&d=updatedBy&d=profileId')
+          .expectGET('../API/living/application/2?d=createdBy&d=updatedBy&d=profileId&d=layoutId')
           .respond({
             id: 2
           });
@@ -94,7 +94,6 @@
       it('should open the modal when we trigger the update() method', function() {
         var Ctrl = ctrl(2);
         Ctrl.update('sm');
-        expect(Ctrl.modal).not.toBeNull();
         expect(modal.open).toHaveBeenCalled();
         expect(modal.open).toHaveBeenCalledWith(mockModal);
       });
@@ -104,7 +103,7 @@
 
         spyOn(Ctrl, 'reload');
         Ctrl.update('sm');
-        Ctrl.modal.close();
+        fakeModal.close();
         expect(Ctrl.reload).toHaveBeenCalled();
       });
     });
