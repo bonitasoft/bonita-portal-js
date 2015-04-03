@@ -5,17 +5,8 @@
     <div class="modal-body body">
         <bonitags tags-suggestion="manageCategoryMappingInstanceCtrl.tags" tags-selection="manageCategoryMappingInstanceCtrl.selectedTags"></bonitags> 
     <hr>
-        <div 
-            isteven-multi-select
-            input-model="manageCategoryMappingInstanceCtrl.categories"
-            output-model="manageCategoryMappingInstanceCtrl.selectedCategories"
-            button-label="displayName"
-            item-label="displayName"
-            max-height="200px"
-            tick-property="ticked"
-            translation="manageCategoryMappingInstanceCtrl.localLang"
-            helper-elements="filter">
-      </div>
+        Use Arrow up and Arrow down keys to browse among existing categories. <br>
+        Entering an non existing category will create it and assign it to the current process
     </div>
     <div class="modal-footer">
         <button class="start-for btn btn-primary" ng-click="manageCategoryMappingInstanceCtrl.updateCategories()">{{ 'Save' | translate }}</button>

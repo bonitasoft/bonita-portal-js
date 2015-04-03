@@ -32,8 +32,11 @@
             process: function() {
               return process;
             },
-            alreadySelectedCategories: function() {
+            initiallySelectedCategories: function() {
               return vm.categories;
+            },
+            allCategories : function() {
+              return store.load(categoryAPI);
             }
           }
         });
