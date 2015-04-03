@@ -54,7 +54,10 @@
           url: '',
           templateUrl: 'features/admin/processes/details/information.html',
           controller: 'processInformationCtrl',
-          controllerAs: 'processInformationCtrl'
+          controllerAs: 'processInformationCtrl',
+          resolve : {
+            categories : retrieveCategories
+          }
         }).state('bonita.processesDetails.params', {
           url: '/params',
           templateUrl: 'features/admin/processes/details/params.html',
@@ -129,6 +132,12 @@
       id: $stateParams.processId,
       d: ['deployedBy'],
       n:['openCases', 'failedCases']
+    });
+  }
+
+  function retrieveCategories(store, categoryAPI, $stateParams){
+    return store.load(categoryAPI, {
+      f: ['id=' + $stateParams.processId]
     });
   }
 })();

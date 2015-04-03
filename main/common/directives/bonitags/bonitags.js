@@ -18,13 +18,23 @@
       // templateUrl: '',
       replace: true,
       link: function($scope, iElm, iAttrs) {
+        var iTags;
         $timeout(function() {
-          $(iElm).tags({
+          iTags = $(iElm).tags({
               readOnly : iAttrs.readOnly ==='' || iAttrs.readOnly === 'true',
-              tagData:['boilerplate', 'tags'],
-              suggestions:['basic', 'suggestions']
+              tagData: $scope.tagsSelection,
+              suggestions: $scope.tagsSuggestion,
+              tagClass : 'btn-primary',
+              promptText : ' ',
+              readOnlyEmptyMessage : ' '
             });
         }, 0);
+        $scope.$watch('tagsSelection', refreshTags, true);
+
+        /* jshint -W003 */
+        function refreshTags(){
+          iTags.renderReadOnly();
+        }
       }
     };
   });

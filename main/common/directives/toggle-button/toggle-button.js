@@ -11,7 +11,8 @@
         iElm.bootstrapToggle({
           on: iAttrs.on || 'on',
           off: iAttrs.off || 'off',
-          style: iAttrs.style || 'bonita-toggle'
+          style: iAttrs.style || 'bonita-toggle',
+          height : iAttrs.height || '25px'
         });
         iElm.change(function() {
           scope.$apply();

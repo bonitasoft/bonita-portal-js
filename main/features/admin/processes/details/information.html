@@ -1,34 +1,36 @@
 <div>
   <h3>{{'Information' | translate }}</h3>
-  <div class="col-md-12">
+  <div class="col-md-12 row">
     
-    <div class="col-md-4 row">
-      <div class="col-md-5 row">
+      <div class="col-md-2 row metatags-label text-right">
         {{ 'Configuration state' | translate }}
       </div>
-      <div class="col-md-7">
+      <div class="col-md-2">
             <toggle-button on="Enabled" off="Disabled" process-id="{{::processMenuCtrl.process.id}}" initial-state="{{::processMenuCtrl.process.activationState === 'ENABLED'}}"> </toggle-button>
       </div>
-    </div>
-    <div class="col-md-4">
+      <div class="col-md-6 metatags-label">
       {{ 'Last updated on' | translate }}
       {{::processInformationCtrl.parseAndFormat(processInformationCtrl.process.last_update_date)}} <span class="glyphicon glyphicon-plus"></span>
-    </div>
+      </div>
   </div>
   <div class="col-md-12 row categories">
-    <div class="col-md-1">
-    Categories :
+    <div class="col-md-2 row metatags-label text-right">
+    Categories <button class="glyphicon" ng-click="processInformationCtrl.openProcessCategoryManagementModal()"><span class="glyphicon glyphicon-edit"></span></button>
     </div>
-    <div class="col-md-11 bootstrap-tags">
-      <bonitags tags-suggestion="processInformationCtrl.categories" tags-selection="processInformationCtrl.selectedCategories" read-nly></bonitags>
+    <div class="col-md-10 bootstrap-tags">
+      <bonitags tags-suggestion="processInformationCtrl.categories" tags-selection="processInformationCtrl.selectedCategories" read-only></bonitags> 
     </div>
+  </div>
+  <div ng-if="processInformationCtrl.process.description" class="col-md-12">
+
+    <h3>{{ 'Description' | translate }}</h3>
+    <p>{{processInformationCtrl.process.description}}</p>
   </div>
   <div class="col-md-12">
 
-  <h3>{{ 'Description' | translate }}</h3>
-  <p>{{processInformationCtrl.process.description}}</p>
-  <monitoring-status process='processInformationCtrl.process'></monitoring-status>  
-  
-  <process-manager-mapping process='processInformationCtrl.process'></process-manager-mapping>  
+    <monitoring-status process='processInformationCtrl.process'></monitoring-status>  
+    
+    <!--process-manager-mapping process='processInformationCtrl.process'></process-manager-mapping-->  
+  </div>
   </div>
 </div>
