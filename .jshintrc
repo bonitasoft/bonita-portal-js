@@ -2,7 +2,7 @@
   "node": true,
   "browser": true,
   "esnext": true,
-  "camelcase": false,
+  "camelcase": true,
   "curly": true,
   "eqeqeq": true,
   "immed": true,

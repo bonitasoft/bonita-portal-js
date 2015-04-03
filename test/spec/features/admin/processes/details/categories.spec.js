@@ -109,6 +109,7 @@
         });
 
         it('should update correctly the categories selected or not', function(){
+          /*jshint camelcase: false */
           var cat1 = {id:1, ticked: true, tickedInitially: true},
            cat2 = {id:2},
            cat3 = {id:3},

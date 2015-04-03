@@ -147,6 +147,7 @@
 
 
   module.factory('processCategoryAPI', function(API_PATH, $http) {
+    /*jshint camelcase: false */
     var processCategoryAPI = {};
     processCategoryAPI.save = function(options) {
       return $http({

@@ -115,6 +115,7 @@
       };
 
       self.loadMembers = function loadMembers() {
+        /*jshint camelcase: false */
         mappedIds = [];
         store.load(actorMemberAPI, {
           f: self.initObj.f,
@@ -165,6 +166,7 @@
       };
 
       self.notifyDeletion = function notifyDeletion(member, success) {
+        /*jshint camelcase: false */
         var composedMessage = 'Actor ';
         if (member.user_id.id) {
           composedMessage = member.user_id.firstname + ' ' + member.user_id.lastname;
