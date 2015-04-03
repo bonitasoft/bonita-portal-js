@@ -1,4 +1,4 @@
-(function () {
+(function() {
   'use strict';
 
   angular.module('org.bonitasoft.features.admin.processes.editActorMembers', [
@@ -13,7 +13,7 @@
     'org.bonitasoft.common.resources.store',
     'xeditable'
   ])
-    .controller('editActorMembersCtrl', function ($scope, $modalInstance, store, actorMemberAPI, userAPI, groupAPI, roleAPI, actor, memberType, process, growl) {
+    .controller('editActorMembersCtrl', function($scope, $modalInstance, store, actorMemberAPI, userAPI, groupAPI, roleAPI, actor, memberType, process, growl) {
       var self = this;
       self.scope = $scope;
       self.scope.memberType = memberType;
@@ -22,7 +22,7 @@
       self.scope.newMembershipRole = {};
       self.scope.newMembershipGroup = {};
 
-      var growlOptions ={
+      var growlOptions = {
         ttl: 3000,
         disableCountDown: true,
         disableIcons: true
@@ -120,17 +120,19 @@
           f: self.initObj.f,
           d: self.initObj.d
         }).then(function success(members) {
-          members.forEach(function (currentMember, index) {
+          members.forEach(function(currentMember, index) {
             if (memberType === self.constant.USER) {
               members[index].removeLabel = currentMember.user_id.firstname + ' ' + currentMember.user_id.lastname;
             } else {
               members[index].removeLabel = currentMember[self.initObj.realId].displayName;
-              if (self.initObj.realId2) members[index].removeLabel += ' of ' + currentMember[self.initObj.realId2].displayName;
+              if (self.initObj.realId2)  {
+                members[index].removeLabel += ' of ' + currentMember[self.initObj.realId2].displayName;
+              }
             }
           });
           self.scope.members = members;
           if (memberType !== self.constant.MEMBERSHIP) {
-            members.forEach(function (member) {
+            members.forEach(function(member) {
               mappedIds.push(member[self.initObj.realId].id);
             });
             self.initObj.searchMethod();
@@ -150,13 +152,13 @@
         }).$promise.then(
           function success() {
             if (notify) {
-              notifyDeletion(member, true);
+              self.notifyDeletion(member, true);
             }
             self.loadMembers();
           },
           function error() {
             if (notify) {
-              notifyDeletion(member, false);
+              self.notifyDeletion(member, false);
             }
           }
         );
@@ -182,7 +184,7 @@
           growl.error(composedMessage + ' was unsucessfully deleted', growlOptions);
         }
 
-      }
+      };
 
       self.searchMembers = function searchMembers(searchOptions) {
         if (!searchOptions) {
@@ -194,7 +196,7 @@
         searchOptions.o = self.initObj.o;
         var finalArray = [];
         self.initObj.searchAPI.search(searchOptions).$promise.then(function success(response) {
-          response.data.forEach(function (currentMember, index) {
+          response.data.forEach(function(currentMember) {
             var index = mappedIds.indexOf(currentMember.id);
             if (index === -1) {
               if (self.scope.memberType === self.constant.USER) {
@@ -265,16 +267,16 @@
       };
       self.saveSelectedMembership = function saveSelectedMembership() {
         self.saveCallFinished = 0;
-        if(self.scope.newMembershipRole.length === 1 && self.scope.newMembershipGroup.length === 1){
+        if (self.scope.newMembershipRole.length === 1 && self.scope.newMembershipGroup.length === 1) {
           actorMemberAPI.save({
             'role_id': self.scope.newMembershipRole[0].id,
             'group_id': self.scope.newMembershipGroup[0].id,
             'actor_id': actor.id
-          }).$promise.then(function success(response){
+          }).$promise.then(function success() {
             console.log(self.scope.newMembershipRole);
-            growl.success(self.scope.newMembershipRole[0].displayName +' of '+self.scope.newMembershipGroup[0].displayName+' was sucessfully created');
+            growl.success(self.scope.newMembershipRole[0].displayName + ' of ' + self.scope.newMembershipGroup[0].displayName + ' was sucessfully created');
             self.loadMembers();
-          }, function error(response){
+          }, function error(response) {
             growl.error(response.data.message, growlOptions);
           });
         }
@@ -291,7 +293,7 @@
       };
 
       self.removeAll = function removeAll() {
-        self.scope.members.forEach(function (member) {
+        self.scope.members.forEach(function(member) {
           self.removeMember(member, false);
         });
       };

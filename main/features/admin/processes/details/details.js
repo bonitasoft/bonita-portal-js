@@ -65,16 +65,6 @@
           templateUrl: 'features/admin/processes/details/categories.html',
           controller: 'ProcessCategoriesCtrl',
           controllerAs: 'processCategoriesCtrl'
-        }).state('bonita.processesDetails.forms', {
-          url: '/forms',
-          templateUrl: 'features/admin/processes/details/forms.html',
-          controller: 'FormsListCtrl',
-          controllerAs: 'formMappingCtrl'
-        }).state('bonita.processesDetails.actorsMapping', {
-          url: '/actorsMapping',
-          templateUrl: 'features/admin/processes/details/actors-mapping.html',
-          controller: 'actorsMappingCtrl',
-          controllerAs: 'actorsMappingCtrl'
         });
       }
   )
