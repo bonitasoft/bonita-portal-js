@@ -2,77 +2,81 @@
   'use strict';
 
   angular.module('org.bonitasoft.features.admin.processes.details.information.categories', [
-      'org.bonitasoft.common.directives.bonitags',
-      'ui.bootstrap',
-      'org.bonitasoft.common.resources.store',
-      'gettext'
-    ]).controller('ManageCategoryMappingModalInstanceCtrl', function($scope, categoryAPI, process, gettextCatalog, $modalInstance, store, initiallySelectedCategories, allCategories, processCategoryAPI) {
-      var vm = this;
-      vm.localLang = {
-        search: gettextCatalog.getString('Type here to search for a category...'),
-        selectAll: gettextCatalog.getString('Select All'),
-        selectNone: gettextCatalog.getString('Select None'),
-        nothingSelected: gettextCatalog.getString('Select the categories you want to add...')
-      };
-      vm.selectedTags = initiallySelectedCategories.map(function (category) { return category.name; });
-      vm.tags = allCategories.map(function (category) { return category.name; });
+    'org.bonitasoft.common.directives.bonitags',
+    'ui.bootstrap',
+    'org.bonitasoft.common.resources.store',
+    'gettext'
+  ]).controller('ManageCategoryMappingModalInstanceCtrl', function($scope, categoryAPI, process, gettextCatalog, $modalInstance, store, initiallySelectedCategories, allCategories, categoryManager) {
+    var vm = this;
+    vm.selectedTags = initiallySelectedCategories.map(function(category) {
+      return category.name;
+    });
+    vm.tags = allCategories.map(function(category) {
+      return category.name;
+    });
 
-      
-      vm.updateCategories = function() {
-        var promises = [],
+    vm.updateCategories = function() {
+      $modalInstance.close(categoryManager.updateCategories(allCategories, initiallySelectedCategories, vm.selectedTags, vm.tags));
+    };
+    vm.cancel = function() {
+      $modalInstance.dismiss('cancel');
+    };
+  }).factory('categoryManager', function(processCategoryAPI, categoryAPI) {
+    var categoryManager = {};
+    categoryManager.updateCategories = function(allCategories, initiallySelectedCategories, selectedTags, tags) {
+      var promises = [],
         selectedCategories = [];
-        allCategories.forEach(function(category) {
-          if (categoryIsSelected(category)){
-            selectedCategories.push(category);
-            if(!categoryWasInitiallySelected(category)) {
-              console.log('adding ' + category.name);
-              promises.push(processCategoryAPI.save({
-                'category_id': category.id,
-                'process_id': process.id
-              }));
-            }
-          } else if (!categoryIsSelected(category) && categoryWasInitiallySelected(category)) {
-            console.log('removing ' + category.name);
-            promises.push(processCategoryAPI.delete({
+      allCategories.forEach(function(category) {
+        if (categoryManager.categoryIsSelected(category, selectedTags)) {
+          selectedCategories.push(category);
+          if (!categoryManager.categoryWasInitiallySelected(category, initiallySelectedCategories)) {
+            console.log('adding ' + category.name);
+            promises.push(processCategoryAPI.save({
               'category_id': category.id,
               'process_id': process.id
             }));
           }
-        });
-        [].push(promises, createNewCategories());
-        $modalInstance.close({
-          promises: promises,
-          categories: selectedCategories
-        });
+        } else if (!categoryManager.categoryIsSelected(category, selectedTags) && categoryManager.categoryWasInitiallySelected(category, initiallySelectedCategories)) {
+          console.log('removing ' + category.name);
+          promises.push(processCategoryAPI.delete({
+            'category_id': category.id,
+            'process_id': process.id
+          }));
+        }
+      });
+      [].push(promises, categoryManager.createNewCategories(selectedCategories, tags));
+      return {
+        promises: promises,
+        categories: selectedCategories
+      };
+    };
 
-        /* jshint -W003 */
-        function createNewCategories() {
-          return _.difference(vm.selectedTags, vm.tags).map(function(newTag) {
-            return categoryAPI.save({name:newTag}).$promise.then(function(category){
-              selectedCategories.push(category);
-              return processCategoryAPI.save({
-                'category_id': category.id,
-                'process_id': process.id
-              });
-            });
+    categoryManager.createNewCategories = function(selectedCategories, tags, selectedTags) {
+      return _.difference(selectedTags, tags).map(function(newTag) {
+        return categoryAPI.save({
+          name: newTag
+        }).$promise.then(function(category) {
+          selectedCategories.push(category);
+          return processCategoryAPI.save({
+            'category_id': category.id,
+            'process_id': process.id
           });
-        }
+        });
+      });
+    };
 
 
-        function categoryWasInitiallySelected(category) {
-          return !!initiallySelectedCategories.filter(function(selectedCategory) {
-            return selectedCategory.id === category.id;
-          }).length;
-        }
+    categoryManager.categoryWasInitiallySelected = function(category, initiallySelectedCategories) {
+      return !!initiallySelectedCategories.filter(function(selectedCategory) {
+        return selectedCategory.id === category.id;
+      }).length;
+    };
 
-        function categoryIsSelected(category) {
-          return !!vm.selectedTags.filter(function(selectedTag) {
-            return selectedTag === category.name;
-          }).length;
-        }
-      };
-      vm.cancel = function() {
-        $modalInstance.dismiss('cancel');
-      };
-    });
+    categoryManager.categoryIsSelected = function(category, selectedTags) {
+      return !!selectedTags.filter(function(selectedTag) {
+        return selectedTag === category.name;
+      }).length;
+    };
+    return categoryManager;
+  });
 })();

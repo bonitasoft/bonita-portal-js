@@ -1,9 +1,8 @@
 (function() {
   'use strict';
-  fdescribe('bonitags directive', function(){
+  describe('ProcessInformationCtrl', function(){
     var scope, controller, processInformationCtrl, process, categories, q, growl;
      
-    beforeEach(module('org.bonitasoft.common.filters.date.parser'));
     beforeEach(module('org.bonitasoft.features.admin.processes.details.information'));
 
     beforeEach(inject(function($rootScope, $controller, $q) {

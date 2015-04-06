@@ -23,7 +23,7 @@
           process = {};
           menu = {};
           scope.$on = jasmine.createSpy();
-          processMenuCtrl = controller('processMenuCtrl', {
+          processMenuCtrl = controller('ProcessMenuCtrl', {
             $scope: scope,
             process: process,
             processAPI: processAPI,
