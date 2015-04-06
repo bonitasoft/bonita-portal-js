@@ -4,6 +4,7 @@
 
   var processMenuCtrl = ProcessMenuCtrl;
   processMenuCtrl.prototype.retrieveProcess = retrieveProcess;
+  processMenuCtrl.prototype.retrieveCategories = retrieveCategories;
 
   angular.module('org.bonitasoft.features.admin.processes.details', [
     'ui.router',
@@ -45,7 +46,7 @@
           url: '/admin/processes/details/:processId',
           templateUrl: 'features/admin/processes/details/menu.html',
           abstract: true,
-          controller: 'processMenuCtrl',
+          controller: 'ProcessMenuCtrl',
           controllerAs: 'processMenuCtrl',
           resolve: {
             process: retrieveProcess
@@ -53,7 +54,7 @@
         }).state('bonita.processesDetails.information', {
           url: '',
           templateUrl: 'features/admin/processes/details/information.html',
-          controller: 'processInformationCtrl',
+          controller: 'ProcessInformationCtrl',
           controllerAs: 'processInformationCtrl',
           resolve : {
             categories : retrieveCategories
@@ -71,7 +72,7 @@
         });
       }
   )
-    .controller('processMenuCtrl', processMenuCtrl
+    .controller('ProcessMenuCtrl', processMenuCtrl
       
   ).controller('DeleteProcessModalInstanceCtrl', DeleteProcessModalInstanceCtrl);
 

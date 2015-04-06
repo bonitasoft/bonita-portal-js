@@ -20,7 +20,7 @@
       link: function($scope, iElm, iAttrs) {
         var iTags;
         $timeout(function() {
-          iTags = $(iElm).tags({
+          iTags = iElm.tags({
               readOnly : iAttrs.readOnly ==='' || iAttrs.readOnly === 'true',
               tagData: $scope.tagsSelection,
               suggestions: $scope.tagsSuggestion,
@@ -28,8 +28,8 @@
               promptText : ' ',
               readOnlyEmptyMessage : ' '
             });
+          $scope.$watch('tagsSelection', refreshTags, true);
         }, 0);
-        $scope.$watch('tagsSelection', refreshTags, true);
 
         /* jshint -W003 */
         function refreshTags(){

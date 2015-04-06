@@ -4,7 +4,8 @@
   angular.module('org.bonitasoft.features.admin.processes.details.information.categories', [
       'org.bonitasoft.common.directives.bonitags',
       'ui.bootstrap',
-      'org.bonitasoft.common.resources.store'
+      'org.bonitasoft.common.resources.store',
+      'gettext'
     ]).controller('ManageCategoryMappingModalInstanceCtrl', function($scope, categoryAPI, process, gettextCatalog, $modalInstance, store, initiallySelectedCategories, allCategories, processCategoryAPI) {
       var vm = this;
       vm.localLang = {

@@ -3,7 +3,7 @@
 
   describe('monitoringStatus Directive and Controller in Process More Details',
     function() {
-      var scope, controller, q, processMenuCtrl, processAPI, modal;
+      var scope, controller, q, processMenuCtrl, processAPI, categoryAPI, store, modal;
 
       beforeEach(module('org.bonitasoft.features.admin.processes.details'));
 
@@ -12,6 +12,8 @@
         controller = $controller;
         q = $q;
         processAPI = jasmine.createSpyObj('processAPI', ['get', 'update']);
+        categoryAPI = jasmine.createSpyObj('categoryAPI', ['get', 'update']);
+        store = jasmine.createSpyObj('store', ['load']);
         modal = jasmine.createSpyObj('$modal', ['open']);
       }));
 
@@ -32,6 +34,13 @@
         it('retrieveProcess should get the process from the API', function() {
           processAPI.get.and.returnValue(process);
           expect(processMenuCtrl.retrieveProcess(processAPI, {processId: 12})).toBe(process);
+        });
+        it('retrieveCategories should get the categories from the API', function() {
+          var categories = [];
+          store.load.and.returnValue(categories);
+          expect(processMenuCtrl.retrieveCategories(store, categoryAPI, {processId: 12})).toBe(categories);
+          expect(store.load.calls.mostRecent().args[0]).toBe(categoryAPI);
+          expect(store.load.calls.mostRecent().args[1]).toEqual({f: ['id=12']});
         });
         it('init should listen toggle event and push menu and process to view model', function(){
           expect(processMenuCtrl.menuContent).toEqual(menu);
