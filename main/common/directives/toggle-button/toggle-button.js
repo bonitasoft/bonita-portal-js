@@ -5,6 +5,9 @@
     return {
       restrict: 'E', // E = Element, A = Attribute, C = Class, M = Comment
       template: '<input type="checkbox">',
+      scope : {
+        enableToggle : '='
+      },
       replace: true,
       link: function(scope, iElm, iAttrs) {
         iElm.prop('checked', iAttrs.initialState === 'true');
@@ -12,10 +15,24 @@
           on: iAttrs.on || 'on',
           off: iAttrs.off || 'off',
           style: iAttrs.style || 'bonita-toggle',
-          height : iAttrs.height || '25px'
+          height : iAttrs.height || '25px',
         });
+        if(scope.enableToggle){
+          iElm.bootstrapToggle('enable');
+        } else {
+          iElm.bootstrapToggle('disable');
+        }
         iElm.change(function() {
           scope.$apply();
+        });
+        scope.$watch('enableToggle', function(newValue, oldValue) {
+          if(newValue !== oldValue){
+            if(newValue){
+              iElm.bootstrapToggle('disable');
+            } else {
+              iElm.bootstrapToggle('enable');
+            }
+          }
         });
         scope.$watch(function() {
           return iElm.prop('checked');

@@ -13,7 +13,7 @@
     .controller('ProcessInformationCtrl', ProcessInformationCtrl);
 
   /* jshint -W003 */
-  function ProcessInformationCtrl($scope, process, dateParser, store, categoryAPI, categories, $q, $modal, growl, gettextCatalog) {
+  function ProcessInformationCtrl($scope, process, dateParser, store, categoryAPI, categories, $q, $modal, growl, gettextCatalog, $log) {
     var vm = this;
     vm.process = process;
     vm.parseAndFormat = dateParser.parseAndFormat;
@@ -24,6 +24,7 @@
 
     vm.openProcessCategoryManagementModal = openProcessCategoryManagementModal;
     vm.waitForPromiseAndUpdateTagsAndAlertUser = waitForPromiseAndUpdateTagsAndAlertUser;
+    vm.isProcessResolved = isProcessResolved();
     var growlOpions = {
       ttl: 3000,
       disableCountDown: true,
@@ -47,8 +48,10 @@
           }
         }
       });
-      modalInstance.result.then(vm.waitForPromiseAndUpdateTagsAndAlertUser, function() {
-        growl.error('error during category update', growlOpions);
+      modalInstance.result.then(vm.waitForPromiseAndUpdateTagsAndAlertUser, function(data) {
+        if(data !== 'cancel') {
+          growl.error('error during category update', growlOpions);
+        }
       });
 
     }
@@ -60,8 +63,15 @@
         [].push.apply(vm.selectedCategories, categoriesAndPromises.categories.map(function(category) {
           return category.name;
         }));
-        growl.success(gettextCatalog.getString('successfully updated categories'), growlOpions);
+        growl.success(gettextCatalog.getString('Successfully updated categories'), growlOpions);
+      }, function(error) {
+        $log.error('category update failed :' , error);
+        growl.error(gettextCatalog.getString('An error occured during categories update') + ' : ' + error, growlOpions);
       });
+    }
+
+    function isProcessResolved() {
+      return process.configurationState === 'RESOLVED';
     }
   }
 })();
