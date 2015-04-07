@@ -110,7 +110,9 @@
             self.getActors();
           },
           function error() {}
-        );
+        ).then(function() {
+          $state.go($state.current, {}, {reload: true});
+        });
       };
 
       $scope.editMapping = function editMapping(actor, memberType) {
