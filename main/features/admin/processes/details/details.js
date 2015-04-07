@@ -36,9 +36,6 @@
     name: 'Connectors',
     link: 'connectors',
     submenu: true
-  }, {
-    name: 'Categories',
-    link: 'categories'
   }])
     .config(
       function($stateProvider) {

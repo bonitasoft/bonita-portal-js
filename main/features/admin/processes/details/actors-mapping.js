@@ -12,7 +12,7 @@
     'org.bonitasoft.bonitable.settings',
     'xeditable'
   ])
-    .controller('actorsMappingCtrl', function($scope, $modal, process, actorMemberAPI, actorAPI, growl, $state) {
+    .controller('actorsMappingCtrl', function($scope, $modal, process, actorMemberAPI, actorAPI, growl) {
       var self = this;
       var resourceInit = [];
       $scope.membersPerCell = 5;
@@ -111,7 +111,7 @@
           },
           function error() {}
         ).then(function() {
-          $state.go($state.current, {}, {reload: true});
+          $scope.$emit('process.refresh');
         });
       };
 
@@ -133,10 +133,10 @@
             }
           }
         }).result.then(function close(){
-          $state.go($state.current, {}, {reload: true});
+          $scope.$emit('process.refresh');
           self.init();
         },function cancel(){
-          $state.go($state.current, {}, {reload: true});
+          $scope.$emit('process.refresh');
           self.init();
         });
       };

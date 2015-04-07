@@ -122,6 +122,7 @@
     'caseAPI': 'bpm/case',
     'categoryAPI': 'bpm/category',
     'customPageAPI': 'portal/page',
+    'featureAPI': 'system/feature',
     'flowNodeAPI': 'bpm/flowNode',
     'formMappingAPI': 'form/mapping',
     'groupAPI': 'identity/group',
