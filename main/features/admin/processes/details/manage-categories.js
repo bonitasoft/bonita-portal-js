@@ -30,14 +30,12 @@
         if (categoryManager.categoryIsSelected(category, selectedTags)) {
           selectedCategories.push(category);
           if (!categoryManager.categoryWasInitiallySelected(category, initiallySelectedCategories)) {
-            console.log('adding ' + category.name);
             promises.push(processCategoryAPI.save({
               'category_id': category.id,
               'process_id': processId
             }));
           }
         } else if (!categoryManager.categoryIsSelected(category, selectedTags) && categoryManager.categoryWasInitiallySelected(category, initiallySelectedCategories)) {
-          console.log('removing ' + category.name);
           promises.push(processCategoryAPI.delete({
             'category_id': category.id,
             'process_id': processId

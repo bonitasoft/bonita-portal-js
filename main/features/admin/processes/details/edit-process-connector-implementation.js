@@ -13,16 +13,16 @@
     'org.bonitasoft.common.resources.store',
     'xeditable'
   ])
-    .controller('EditConnectorImplementationCtrl', function($scope, $modalInstance, store, processConnectorAPI, process, processConnector, FileUploader) {
+    .controller('EditConnectorImplementationCtrl', function($scope, $modalInstance, store, processConnectorAPI, process, processConnector, FileUploader, $log) {
       var self = this;
       self.scope = $scope;
-      console.log('controller',processConnector);
-      var growlOptions = {
+      console.log('controller', processConnector);
+      /*var growlOptions = {
         ttl: 3000,
         disableCountDown: true,
         disableIcons: true
-      }; 
-      var mappedIds = [];
+      };
+      var mappedIds = [];*/
       /**
        * Callback on uploadSuccess
        * @param  {FileObject} fileItem
@@ -31,11 +31,13 @@
        */
       self.successUpload = function successUpload(fileItem, page) {
 
-        fileItem = fileItem || {file:{}};
+        fileItem = fileItem || {
+          file: {}
+        };
 
         $scope.isUploadSuccess = true;
-        $scope.fileName        = fileItem.file.name;
-        $scope.filePath        = page || '';
+        $scope.fileName = fileItem.file.name;
+        $scope.filePath = page || '';
       };
 
       /**
@@ -55,10 +57,11 @@
         onErrorItem: self.errorUpload
       });
 
-      self.saveDefinition = function saveDefinition(){
-        console.log(processConnector);
+      self.saveDefinition = function saveDefinition() {
+        $log.info(processConnector);
+        /* jshint camelcase : false */
         processConnectorAPI.update({
-          id:process.id+'/'+processConnector.definition_id+'/'+processConnector.definition_version,
+          id: process.id + '/' + processConnector.definition_id + '/' + processConnector.definition_version,
           process_id: process.id,
           definition_id: processConnector.definition_id,
           definition_version: processConnector.definition_version,

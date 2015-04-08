@@ -18,7 +18,6 @@
     'org.bonitasoft.features.admin.processes.editActorMembers',
     'org.bonitasoft.services.topurl',
     'org.bonitasoft.features.admin.processes.details.information',
-    'org.bonitasoft.features.admin.processes.details.categories',
     'org.bonitasoft.features.admin.processes.details.processConnectors'
   ]).value('menuContent', [{
     name: 'Information',
@@ -54,8 +53,8 @@
           templateUrl: 'features/admin/processes/details/information.html',
           controller: 'ProcessInformationCtrl',
           controllerAs: 'processInformationCtrl',
-          resolve : {
-            categories : retrieveCategories
+          resolve: {
+            categories: retrieveCategories
           }
         }).state('bonita.processesDetails.params', {
           url: '/params',
@@ -73,10 +72,10 @@
           controller: 'ProcessConnectorsCtrl',
           controllerAs: 'processConnectorsCtrl'
         }).state('bonita.processesDetails.actorsMapping', {
-        url: '/actorsMapping',
-        templateUrl: 'features/admin/processes/details/actors-mapping.html',
-        controller: 'ActorsMappingCtrl',
-        controllerAs: 'actorsMappingCtrl'
+          url: '/actorsMapping',
+          templateUrl: 'features/admin/processes/details/actors-mapping.html',
+          controller: 'ActorsMappingCtrl',
+          controllerAs: 'actorsMappingCtrl'
         });
       }
   )
@@ -92,7 +91,7 @@
     vm.deleteProcess = deleteProcess;
 
     $scope.$on('button.toggle', toogleProcessActivation);
-    
+
     function deleteProcess() {
       $modal.open({
         templateUrl: 'features/admin/processes/details/delete-process-modal.html',
@@ -108,8 +107,11 @@
     }
 
     function toogleProcessActivation(event, args) {
-      var state = args.value?'ENABLED':'DISABLED';
-      processAPI.update({id: process.id, activationState: state}).$promise.then(function(){
+      var state = args.value ? 'ENABLED' : 'DISABLED';
+      processAPI.update({
+        id: process.id,
+        activationState: state
+      }).$promise.then(function() {
         process.activationState = state;
       }, function TODOmanageerror() {
 
@@ -120,16 +122,20 @@
   function DeleteProcessModalInstanceCtrl($scope, processAPI, process, $modalInstance, manageTopUrl) {
     var vm = this;
     vm.process = process;
-    
+
     vm.delete = function() {
-      processAPI.delete({id: process.id}).$promise.then(function(){
-        manageTopUrl.goTo({token:'processlistingadmin'});
+      processAPI.delete({
+        id: process.id
+      }).$promise.then(function() {
+        manageTopUrl.goTo({
+          token: 'processlistingadmin'
+        });
         $modalInstance.close();
       }, function TODOmanageerror() {
 
       });
     };
-    vm.cancel = function(){
+    vm.cancel = function() {
       $modalInstance.dismiss();
     };
   }
@@ -139,11 +145,11 @@
     return processAPI.get({
       id: $stateParams.processId,
       d: ['deployedBy'],
-      n:['openCases', 'failedCases']
+      n: ['openCases', 'failedCases']
     });
   }
 
-  function retrieveCategories(store, categoryAPI, $stateParams){
+  function retrieveCategories(store, categoryAPI, $stateParams) {
     return store.load(categoryAPI, {
       f: ['id=' + $stateParams.processId]
     });

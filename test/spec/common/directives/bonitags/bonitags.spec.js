@@ -38,7 +38,7 @@
       expect(options.readOnly).toEqual(false);
       expect(options.tagData).toEqual(scope.tagsSelection);
       expect(options.suggestions).toEqual(scope.tagsSuggestion);
-      expect(options.tagClass).toEqual('btn-primary');
+      expect(options.tagClass).toEqual('label-default');
       expect(options.promptText).toEqual(' ');
       expect(options.readOnlyEmptyMessage).toEqual(' ');
     });
@@ -55,7 +55,7 @@
       expect(options.readOnly).toEqual(true);
       expect(options.tagData).toEqual(scope.tagsSelection);
       expect(options.suggestions).toEqual(scope.tagsSuggestion);
-      expect(options.tagClass).toEqual('btn-primary');
+      expect(options.tagClass).toEqual('label-default');
       expect(options.promptText).toEqual(' ');
       expect(options.readOnlyEmptyMessage).toEqual(' ');
 
