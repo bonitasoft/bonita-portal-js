@@ -83,7 +83,7 @@
     .controller('DeleteProcessModalInstanceCtrl', DeleteProcessModalInstanceCtrl);
 
   /* jshint -W003 */
-  function ProcessMenuCtrl($scope, menuContent, process, processAPI, $modal) {
+  function ProcessMenuCtrl($scope, menuContent, process, processAPI, $modal, $stateParams) {
     var vm = this;
     vm.menuContent = menuContent;
     vm.process = process;
@@ -91,6 +91,7 @@
     vm.deleteProcess = deleteProcess;
 
     $scope.$on('button.toggle', toogleProcessActivation);
+    $scope.$on('process.refresh', refreshProcess);
 
     function deleteProcess() {
       $modal.open({
@@ -103,6 +104,12 @@
             return process;
           }
         }
+      });
+    }
+
+    function refreshProcess() {
+      retrieveProcess(processAPI, $stateParams).$promise.then(function(updatedProcess) {
+        process.configurationState = updatedProcess.configurationState;
       });
     }
 
@@ -139,6 +146,7 @@
       $modalInstance.dismiss();
     };
   }
+
 
 
   function retrieveProcess(processAPI, $stateParams) {

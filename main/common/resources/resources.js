@@ -32,8 +32,9 @@
   var resourceDecorator = ['$delegate',
     function($delegate) {
       return function(url, paramDefaults, actions, options) {
+        //in angular 1.4 use angular.merge instead of angular.extend
         actions = angular.extend({}, actions, {
-          'search': {
+          'search': angular.extend({
             isArray: true,
             interceptor: {
               response: function(response) {
@@ -41,10 +42,9 @@
                 return response;
               }
             }
-          },
-          'update': {
-            method: 'PUT'
-          }
+          },actions && actions.search),
+
+          'update': angular.extend({method: 'PUT'},actions && actions.update)
         });
         return $delegate(url, paramDefaults, actions, options);
       };
@@ -190,7 +190,7 @@
           delete data.process_id;
           delete data.definition_id;
           delete data.definition_version;
-          return data;
+          return angular.toJson(data);
         },
         //url: API_PATH+'bpm/processConnector/:process_id/:definition_id/:definition_version',
         method: 'PUT'
