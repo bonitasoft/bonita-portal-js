@@ -61,39 +61,19 @@
         expect(options.resolve.process()).toEqual(process);
         expect(options.resolve.initiallySelectedCategories()).toEqual(processInformationCtrl.categories);
         expect(options.resolve.allCategories()).toBe(deferredStore.promise);
-        expect(modalInstance.result.then).toHaveBeenCalledWith(processInformationCtrl.waitForPromiseAndUpdateTagsAndAlertUser, jasmine.any(Function));
+        expect(modalInstance.result.then).toHaveBeenCalledWith(processInformationCtrl.updateTagsAndAlertUser, jasmine.any(Function));
       });
-      describe('waitForPromiseAndUpdateTagsAndAlertUser function', function(){
+      describe('updateTagsAndAlertUser function', function(){
         it('should wait For Promise And Update Tags And Alert User', function(){
-          var deferred1 = q.defer(),
-            deferred2 = q.defer();
           var cat1 = {id:111, name: 'cate1'},
             cat2 = {id:222, name: 'cate2'},
             cat3 = {id:333, name: 'cate3'}, categories = [cat1, cat2, cat3];
-          deferred1.resolve();
-          deferred2.resolve();
-          processInformationCtrl.waitForPromiseAndUpdateTagsAndAlertUser({promises : [deferred1.promise, deferred2.promise], categories : categories});
+          
+          processInformationCtrl.updateTagsAndAlertUser(categories);
           scope.$apply();
           expect(processInformationCtrl.categories).toEqual(categories);
           expect(processInformationCtrl.selectedCategories).toEqual(['cate1', 'cate2', 'cate3']);
           expect(growl.success.calls.mostRecent().args[0]).toEqual('Successfully updated categories');
-        });
-
-        it('should wait For Promise To Fail And Alert User', function(){
-          var deferred1 = q.defer(),
-            deferred2 = q.defer();
-          var cat1 = {id:111, name: 'cate1'},
-            cat2 = {id:222, name: 'cate2'},
-            cat3 = {id:333, name: 'cate3'}, categories = [cat1, cat2, cat3];
-          deferred1.resolve();
-          var errorMessage = 'Impossible to Update Categories';
-          deferred2.reject('Impossible to Update Categories');
-          processInformationCtrl.waitForPromiseAndUpdateTagsAndAlertUser({promises : [deferred1.promise, deferred2.promise], categories : categories});
-          scope.$apply();
-          expect(processInformationCtrl.categories).not.toEqual(categories);
-          expect(processInformationCtrl.selectedCategories).not.toEqual(['cate1', 'cate2', 'cate3']);
-          expect(growl.error.calls.mostRecent().args[0]).toEqual('An error occured during categories update : ' + errorMessage);
-          expect(log.error).toHaveBeenCalledWith('category update failed :' , errorMessage);
         });
       });
     });

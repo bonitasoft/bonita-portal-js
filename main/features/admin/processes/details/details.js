@@ -87,11 +87,12 @@
     var vm = this;
     vm.menuContent = menuContent;
     vm.process = process;
-    vm.toogleProcessActivation = toogleProcessActivation;
+    vm.toggleProcessActivation = toggleProcessActivation;
+    vm.refreshProcess = refreshProcess;
     vm.deleteProcess = deleteProcess;
 
-    $scope.$on('button.toggle', toogleProcessActivation);
-    $scope.$on('process.refresh', refreshProcess);
+    $scope.$on('button.toggle', vm.toggleProcessActivation);
+    $scope.$on('process.refresh', vm.refreshProcess);
 
     function deleteProcess() {
       $modal.open({
@@ -113,7 +114,7 @@
       });
     }
 
-    function toogleProcessActivation(event, args) {
+    function toggleProcessActivation(event, args) {
       var state = args.value ? 'ENABLED' : 'DISABLED';
       processAPI.update({
         id: process.id,

@@ -33,7 +33,7 @@
 
         /* jshint -W003 */
         function refreshTags(){
-          if(iTags && iTags.readOnly) { iTags.renderReadOnly(); }
+          if(iTags && iTags.readOnly) {iTags.renderReadOnly();}
         }
       }
     };

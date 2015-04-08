@@ -98,15 +98,23 @@
 
       describe('createNewCategories', function() {
         it('should not throw error when nothing is passed ', function() {
-          expect(categoryManager.createNewCategories()).toEqual([]);
-          expect(categoryManager.createNewCategories([], [], [])).toEqual([]);
+          expect(categoryManager.createNewCategoriesPromises()).toEqual([]);
+          expect(categoryManager.createNewCategoriesPromises([], [], [])).toEqual([]);
         });
         it('should save not existing tags, create mapping and return promises ', function() {
-          // var deferred = q.defer();
-          // var newTag = 'catego4';
-          // categoryAPI.save.and.returnValue({$promise : deferred.promise});
-          // expect(categoryManager.createNewCategories([cat1], [cat2.name, cat3.name], [newTag])).toEqual([deferred.promise]);
-          // expect(categoryAPI.save).toHaveBeenCalledWith({name : newTag});
+          var deferredCategory = q.defer();
+          var deferredProcessCategory = q.defer();
+          var newTag = 'catego4';
+          categoryAPI.save.and.returnValue({$promise : deferredCategory.promise});
+          deferredCategory.resolve({id: 456});
+          processCategoryAPI.save.and.returnValue({$promise : deferredProcessCategory.promise});
+          categoryManager.createNewCategoriesPromises([cat1], [cat2.name, cat3.name], [newTag], process.id);
+          scope.$apply();
+          expect(categoryAPI.save).toHaveBeenCalledWith({name : newTag});
+          expect(processCategoryAPI.save).toHaveBeenCalledWith({
+            'category_id': 456,
+            'process_id': 123
+          });
         });
       });
     });

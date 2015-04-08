@@ -3,7 +3,7 @@
 
   describe('monitoringStatus Directive and Controller in Process More Details',
     function() {
-      var scope, controller, q, processMenuCtrl, processAPI, categoryAPI, store, modal;
+      var scope, controller, q, processMenuCtrl, processAPI, categoryAPI, store, modal, stateParams;
 
       beforeEach(module('org.bonitasoft.features.admin.processes.details'));
 
@@ -23,12 +23,14 @@
           process = {};
           menu = {};
           scope.$on = jasmine.createSpy();
+          stateParams = {processId : 1230};
           processMenuCtrl = controller('ProcessMenuCtrl', {
             $scope: scope,
             process: process,
             processAPI: processAPI,
             menuContent : menu,
-            $modal: modal
+            $modal: modal,
+            $stateParams: stateParams
           });
         });
         it('retrieveProcess should get the process from the API', function() {
@@ -45,25 +47,39 @@
         it('init should listen toggle event and push menu and process to view model', function(){
           expect(processMenuCtrl.menuContent).toEqual(menu);
           expect(processMenuCtrl.process).toEqual(process);
-          expect(scope.$on.calls.mostRecent().args).toEqual(['button.toggle', processMenuCtrl.toogleProcessActivation]);
+          expect(scope.$on.calls.allArgs()).toEqual([['button.toggle', processMenuCtrl.toggleProcessActivation], ['process.refresh', processMenuCtrl.refreshProcess]]);
         });
 
-        it('toogleProcessActivation should update process via REST API and process in view model', function(){
+        it('toggleProcessActivation should update process via REST API and process in view model', function(){
           var deferred = q.defer();
           process.id = 45654;
           processAPI.update.and.returnValue({$promise : deferred.promise});
-          processMenuCtrl.toogleProcessActivation({}, {value: true});
+          processMenuCtrl.toggleProcessActivation({}, {value: true});
           deferred.resolve();
           scope.$apply();
           expect(processAPI.update.calls.count()).toEqual(1);
           expect(processAPI.update.calls.mostRecent().args).toEqual([ { id: process.id, activationState: 'ENABLED' } ]);
           expect(process.activationState).toEqual('ENABLED');
           processAPI.update.calls.reset();
-          processMenuCtrl.toogleProcessActivation({}, {value: false});
+          processMenuCtrl.toggleProcessActivation({}, {value: false});
           scope.$apply();
           expect(processAPI.update.calls.count()).toEqual(1);
           expect(processAPI.update.calls.mostRecent().args).toEqual([ { id: process.id, activationState: 'DISABLED' } ]);
           expect(process.activationState).toEqual('DISABLED');
+        });
+
+        it('should refresh process configuration state from what is received from API when refreshProcess is called', function() {
+          var deferred = q.defer();
+          processAPI.get.and.returnValue({$promise: deferred.promise});
+          deferred.resolve({configurationState: 'RESOLVED'});
+          processMenuCtrl.refreshProcess();
+          scope.$apply();
+          expect(processAPI.get).toHaveBeenCalledWith({
+            id: stateParams.processId,
+            d: ['deployedBy'],
+            n: ['openCases', 'failedCases']
+          });
+          expect(process.configurationState).toEqual('RESOLVED');
         });
         
         it('opens the deletion modal when delete button is clicked', function() {
