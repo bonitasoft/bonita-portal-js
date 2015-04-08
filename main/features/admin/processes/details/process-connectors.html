@@ -1,0 +1,23 @@
+<div ng-init="processConnectorsCtrl.init()">
+  <div growl></div>
+  <div class="">
+    <table bonitable bo-repeatable class="table table-hover processConnectorsList">
+      <thead>
+        <tr data-headers>
+          <th>Type</th>
+          <th>Implementation Version</th>
+          <th>Class name</th>
+          <th>Edit</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="processConnector in processConnectors.data">
+          <td>{{processConnector.definition_id}}</td>
+          <td>{{processConnector.impl_version}}</td>
+          <td>{{processConnector.classname}}</td>
+          <td><a ng-click="processConnectorsCtrl.editConnectorImplementationModal(processConnector)" class="btn btn-primary">Upload new implementation</a></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

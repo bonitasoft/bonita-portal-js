@@ -18,7 +18,8 @@
     'org.bonitasoft.features.admin.processes.editActorMembers',
     'org.bonitasoft.services.topurl',
     'org.bonitasoft.features.admin.processes.details.information',
-    'org.bonitasoft.features.admin.processes.details.categories'
+    'org.bonitasoft.features.admin.processes.details.categories',
+    'org.bonitasoft.features.admin.processes.details.processConnectors'
   ]).value('menuContent', [{
     name: 'Information',
     link: ''
@@ -69,12 +70,21 @@
           templateUrl: 'features/admin/processes/details/categories.html',
           controller: 'ProcessCategoriesCtrl',
           controllerAs: 'processCategoriesCtrl'
+        }).state('bonita.processesDetails.processConnectors', {
+          url: '/connectors',
+          templateUrl: 'features/admin/processes/details/process-connectors.html',
+          controller: 'ProcessConnectorsCtrl',
+          controllerAs: 'processConnectorsCtrl'
+        }).state('bonita.processesDetails.actorsMapping', {
+        url: '/actorsMapping',
+        templateUrl: 'features/admin/processes/details/actors-mapping.html',
+        controller: 'ActorsMappingCtrl',
+        controllerAs: 'actorsMappingCtrl'
         });
       }
   )
-    .controller('ProcessMenuCtrl', processMenuCtrl
-      
-  ).controller('DeleteProcessModalInstanceCtrl', DeleteProcessModalInstanceCtrl);
+    .controller('ProcessMenuCtrl', processMenuCtrl)
+    .controller('DeleteProcessModalInstanceCtrl', DeleteProcessModalInstanceCtrl);
 
   /* jshint -W003 */
   function ProcessMenuCtrl($scope, menuContent, process, processAPI, $modal) {

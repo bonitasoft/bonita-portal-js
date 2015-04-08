@@ -13,7 +13,7 @@
     'org.bonitasoft.common.resources.store',
     'xeditable'
   ])
-    .controller('editActorMembersCtrl', function($scope, $modalInstance, store, actorMemberAPI, userAPI, groupAPI, roleAPI, actor, memberType, process, growl) {
+    .controller('EditActorMembersCtrl', function($scope, $modalInstance, store, actorMemberAPI, userAPI, groupAPI, roleAPI, actor, memberType, process, growl) {
       var self = this;
       self.scope = $scope;
       self.scope.memberType = memberType;
@@ -275,7 +275,6 @@
             'group_id': self.scope.newMembershipGroup[0].id,
             'actor_id': actor.id
           }).$promise.then(function success() {
-            console.log(self.scope.newMembershipRole);
             growl.success(self.scope.newMembershipRole[0].displayName + ' of ' + self.scope.newMembershipGroup[0].displayName + ' was sucessfully created');
             self.loadMembers();
           }, function error(response) {

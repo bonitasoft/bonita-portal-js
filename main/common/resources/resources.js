@@ -7,7 +7,7 @@
    * Define the resources accessible from the Bonita API
    */
 
-  var API_PATH = '../API/';
+   var API_PATH = '../API/';
 
   /**
    * @internal
@@ -15,7 +15,7 @@
    * @param  {String} strContentRange Content-Range header attribute
    * @return {Object}                 pagination object
    */
-  function parseContentRange(strContentRange) {
+   function parseContentRange(strContentRange) {
     if (strContentRange === null) {
       return {};
     }
@@ -30,30 +30,29 @@
   }
 
   var resourceDecorator = ['$delegate',
-    function($delegate) {
-      return function(url, paramDefaults, actions, options) {
-        actions = angular.extend({}, actions, {
-          'search': {
-            isArray: true,
-            interceptor: {
-              response: function(response) {
-                response.resource.pagination = parseContentRange(response.headers('Content-Range'));
-                return response;
-              }
+  function($delegate) {
+    return function(url, paramDefaults, actions, options) {
+      actions = angular.extend({}, actions, {
+        'search': {
+          isArray: true,
+          interceptor: {
+            response: function(response) {
+              response.resource.pagination = parseContentRange(response.headers('Content-Range'));
+              return response;
             }
-          },
-          'update': {
-            method: 'PUT'
           }
-        });
-        return $delegate(url, paramDefaults, actions, options);
-      };
-    }
+        },
+        'update': {
+          method: 'PUT'
+        }
+      });
+      return $delegate(url, paramDefaults, actions, options);
+    };
+  }
   ];
 
-
   var module = angular.module('org.bonitasoft.common.resources', ['ngResource'])
-    .constant('API_PATH', API_PATH)
+  .constant('API_PATH', API_PATH)
 
   /**
    * @ngdoc method
@@ -64,14 +63,13 @@
    * function parsing the http header response to find the number of results
    * for the given resource search
    */
-  .config(['$provide', '$httpProvider',
-    function($provide, $httpProvider) {
-      $httpProvider.interceptors.push('unauthorizedResponseHandler');
-      $provide.decorator('$resource', resourceDecorator);
-    }
-  ])
+   .config(function($provide, $httpProvider) {
+    $httpProvider.interceptors.push('unauthorizedResponseHandler');
+    $provide.decorator('$resource', resourceDecorator);
+  }
+  )
 
-  .factory('unauthorizedResponseHandler', ['$q', '$window',
+   .factory('unauthorizedResponseHandler', ['$q', '$window',
     function($q, $window) {
       return {
         'responseError': function(rejection) {
@@ -82,7 +80,7 @@
         }
       };
     }
-  ]);
+    ]);
 
 
   /**
@@ -102,7 +100,7 @@
    * });
    *
    **/
-  (function(resources) {
+   (function(resources) {
     angular.forEach(resources, function(path, name) {
       module.factory(name, ['$resource',
         function($resource) {
@@ -110,7 +108,7 @@
             id: '@id'
           });
         }
-      ]);
+        ]);
     });
   })({
     'actorAPI': 'bpm/actor',
@@ -143,7 +141,7 @@
         applicationsDataUpload: '@applicationsDataUpload'
       });
     }
-  ]);
+    ]);
 
 
   module.factory('processCategoryAPI', function(API_PATH, $http) {
@@ -168,5 +166,36 @@
     };
     return processCategoryAPI;
   });
+
+  module.factory('processConnectorAPI', function(API_PATH, $http, $resource) {
+    /*jshint camelcase: false */
+    return $resource(API_PATH+'bpm/processConnector/:process_id/:definition_id/:definition_version', {process_id: '@process_id', definition_id: '@definition_id',definition_version: '@definition_version'}, 
+    {
+      'search':{
+        isArray: true,
+        url: API_PATH+'bpm/processConnector/',
+        interceptor: {
+          response: function(response) {
+            response.resource.pagination = parseContentRange(response.headers('Content-Range'));
+            return response;
+          }
+        }
+      },
+      'update': {
+        // params: {process_id: '@process_id', definition_id: '@definition_id',definition_version: '@definition_version'},
+        transformRequest: function(data){
+          delete data.process_id;
+          delete data.definition_id;
+          delete data.definition_version;
+          return data;
+        },
+        //url: API_PATH+'bpm/processConnector/:process_id/:definition_id/:definition_version',
+        method:'PUT'
+      }
+
+    });
+  });
+
+
 
 })();
