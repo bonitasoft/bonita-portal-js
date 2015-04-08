@@ -109,7 +109,9 @@
             self.getActors();
           },
           function error() {}
-        );
+        ).then(function() {
+          $scope.$emit('process.refresh');
+        });
       };
 
       $scope.editMapping = function editMapping(actor, memberType) {
@@ -129,7 +131,13 @@
               return actor;
             }
           }
-        }).result.then(function close(){self.init();},function cancel(){self.init();});
+        }).result.then(function close(){
+          $scope.$emit('process.refresh');
+          self.init();
+        },function cancel(){
+          $scope.$emit('process.refresh');
+          self.init();
+        });
       };
 
 

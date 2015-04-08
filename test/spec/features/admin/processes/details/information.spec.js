@@ -1,7 +1,7 @@
 (function() {
   'use strict';
   describe('ProcessInformationCtrl', function(){
-    var scope, controller, processInformationCtrl, process, categories, q, growl;
+    var scope, controller, processInformationCtrl, process, categories, q, growl, log;
      
     beforeEach(module('org.bonitasoft.features.admin.processes.details.information'));
 
@@ -15,6 +15,7 @@
       categories = [cat1, cat2, cat3];
       process = {};
       growl = jasmine.createSpyObj('growl', ['success', 'error']);
+      log = jasmine.createSpyObj('$log', ['error']);
     }));
     it('should init the controller', function(){
       processInformationCtrl = controller('ProcessInformationCtrl', {
@@ -44,7 +45,8 @@
           store : store,
           categoryAPI : categoryAPI,
           $modal : modal,
-          growl : growl
+          growl : growl,
+          $log: log
         });
       });
       it('should open modal retrieving categories', function(){
@@ -74,7 +76,24 @@
           scope.$apply();
           expect(processInformationCtrl.categories).toEqual(categories);
           expect(processInformationCtrl.selectedCategories).toEqual(['cate1', 'cate2', 'cate3']);
-          expect(growl.success.calls.mostRecent().args[0]).toEqual('successfully updated categories');
+          expect(growl.success.calls.mostRecent().args[0]).toEqual('Successfully updated categories');
+        });
+
+        it('should wait For Promise To Fail And Alert User', function(){
+          var deferred1 = q.defer(),
+            deferred2 = q.defer();
+          var cat1 = {id:111, name: 'cate1'},
+            cat2 = {id:222, name: 'cate2'},
+            cat3 = {id:333, name: 'cate3'}, categories = [cat1, cat2, cat3];
+          deferred1.resolve();
+          var errorMessage = 'Impossible to Update Categories';
+          deferred2.reject('Impossible to Update Categories');
+          processInformationCtrl.waitForPromiseAndUpdateTagsAndAlertUser({promises : [deferred1.promise, deferred2.promise], categories : categories});
+          scope.$apply();
+          expect(processInformationCtrl.categories).not.toEqual(categories);
+          expect(processInformationCtrl.selectedCategories).not.toEqual(['cate1', 'cate2', 'cate3']);
+          expect(growl.error.calls.mostRecent().args[0]).toEqual('An error occured during categories update : ' + errorMessage);
+          expect(log.error).toHaveBeenCalledWith('category update failed :' , errorMessage);
         });
       });
     });

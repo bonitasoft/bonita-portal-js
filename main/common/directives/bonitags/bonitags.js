@@ -24,7 +24,7 @@
               readOnly : iAttrs.readOnly ==='' || iAttrs.readOnly === 'true',
               tagData: $scope.tagsSelection,
               suggestions: $scope.tagsSuggestion,
-              tagClass : 'btn-primary',
+              tagClass : iAttrs.tagClass || 'label-default',
               promptText : ' ',
               readOnlyEmptyMessage : ' '
             });

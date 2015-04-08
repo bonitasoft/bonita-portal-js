@@ -26,16 +26,26 @@
     <div growl></div>
     <div class="col-md-7">
      <h2 class="">{{processMenuCtrl.process.displayName}} ({{processMenuCtrl.process.version}})</h2>
-     </div>
-     <div class="col-md-5">
-        <div class="actions">
-          <start-for process="processMenuCtrl.process"></start-for>
-          
-          <button type="button" class="btn btn-primary" ng-disabled="processMenuCtrl.process.activationState === 'ENABLED'" ng-click="processMenuCtrl.deleteProcess()">Delete</button>
-        </div>
-    </div>
-    <div class="col-md-12">
-      <ui-view></ui-view>
+   </div>
+   <div class="col-md-5">
+    <div class="actions">
+      <start-for process="processMenuCtrl.process"></start-for>
+
+      <button type="button" class="btn btn-primary" ng-disabled="processMenuCtrl.process.activationState === 'ENABLED'" ng-click="processMenuCtrl.deleteProcess()">Delete</button>
     </div>
   </div>
+
+  <div class="col-md-12">
+    <div ng-if="processMenuCtrl.process.configurationState !== 'RESOLVED'" class="panel panel-danger">
+      <div class="panel-heading">{{ 'The Process cannot be enabled' | translate }}</div>
+      <div class="panel-body">
+        {{ 'Entity Mapping must be resolved before enabling the Process.' | translate }}
+      </div>
+    </div>
+  </div>
+  <div class="col-md-12">
+    <ui-view></ui-view>
+  </div>
+</div>
+
 </div>
