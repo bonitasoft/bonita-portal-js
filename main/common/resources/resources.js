@@ -51,7 +51,6 @@
     }
   ];
 
-
   var module = angular.module('org.bonitasoft.common.resources', ['ngResource'])
     .constant('API_PATH', API_PATH)
 
@@ -64,12 +63,10 @@
    * function parsing the http header response to find the number of results
    * for the given resource search
    */
-  .config(['$provide', '$httpProvider',
-    function($provide, $httpProvider) {
-      $httpProvider.interceptors.push('unauthorizedResponseHandler');
-      $provide.decorator('$resource', resourceDecorator);
-    }
-  ])
+  .config(function($provide, $httpProvider) {
+    $httpProvider.interceptors.push('unauthorizedResponseHandler');
+    $provide.decorator('$resource', resourceDecorator);
+  })
 
   .factory('unauthorizedResponseHandler', ['$q', '$window',
     function($q, $window) {
@@ -155,8 +152,8 @@
         url: API_PATH + 'bpm/processCategory',
         method: 'POST',
         data: {
-          'category_id': ''+options.category_id,
-          'process_id': ''+options.process_id
+          'category_id': '' + options.category_id,
+          'process_id': '' + options.process_id
         }
       });
     };
@@ -169,5 +166,39 @@
     };
     return processCategoryAPI;
   });
+
+  module.factory('processConnectorAPI', function(API_PATH, $http, $resource) {
+    /*jshint camelcase: false */
+    return $resource(API_PATH + 'bpm/processConnector/:process_id/:definition_id/:definition_version', {
+      process_id: '@process_id',
+      definition_id: '@definition_id',
+      definition_version: '@definition_version'
+    }, {
+      'search': {
+        isArray: true,
+        url: API_PATH + 'bpm/processConnector/',
+        interceptor: {
+          response: function(response) {
+            response.resource.pagination = parseContentRange(response.headers('Content-Range'));
+            return response;
+          }
+        }
+      },
+      'update': {
+        // params: {process_id: '@process_id', definition_id: '@definition_id',definition_version: '@definition_version'},
+        transformRequest: function(data) {
+          delete data.process_id;
+          delete data.definition_id;
+          delete data.definition_version;
+          return data;
+        },
+        //url: API_PATH+'bpm/processConnector/:process_id/:definition_id/:definition_version',
+        method: 'PUT'
+      }
+
+    });
+  });
+
+
 
 })();

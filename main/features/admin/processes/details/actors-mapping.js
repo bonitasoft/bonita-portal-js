@@ -12,7 +12,7 @@
     'org.bonitasoft.bonitable.settings',
     'xeditable'
   ])
-    .controller('actorsMappingCtrl', function($scope, $modal, process, actorMemberAPI, actorAPI, growl) {
+    .controller('ActorsMappingCtrl', function($scope, $modal, process, actorMemberAPI, actorAPI, growl) {
       var self = this;
       var resourceInit = [];
       $scope.membersPerCell = 5;
@@ -28,7 +28,6 @@
       $scope.actors = {
         resource: resourceInit
       };
-      $scope.actorsMember = [];
       $scope.actorsMembers = [];
       var actorUserFilterDeploy = {
         filter: 'member_type=USER',
@@ -91,7 +90,7 @@
           'o': 'name ASC',
           'f': 'process_id=' + process.id,
           'n': ['users', 'groups', 'roles', 'memberships']
-        }).$promise.then(function mapProcess(actorsResponse) {
+        }).$promise.then(function mapProcessActors(actorsResponse) {
           $scope.actors = actorsResponse;
         });
       };
@@ -118,7 +117,7 @@
       $scope.editMapping = function editMapping(actor, memberType) {
         $modal.open({
           templateUrl: 'features/admin/processes/details/edit-actor-members.html',
-          controller: 'editActorMembersCtrl',
+          controller: 'EditActorMembersCtrl',
           controllerAs: 'editActorMembersCtrl',
           size: 'lg',
           resolve: {
