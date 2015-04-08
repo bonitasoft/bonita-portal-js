@@ -17,8 +17,7 @@
     'org.bonitasoft.features.admin.processes.details.actorMapping',
     'org.bonitasoft.features.admin.processes.editActorMembers',
     'org.bonitasoft.services.topurl',
-    'org.bonitasoft.features.admin.processes.details.information',
-    'org.bonitasoft.features.admin.processes.details.categories'
+    'org.bonitasoft.features.admin.processes.details.information'
   ]).value('menuContent', [{
     name: 'Information',
     link: ''

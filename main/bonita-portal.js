@@ -6,7 +6,7 @@
     'ngCookies',
     'gettext',
     'ui.router',
-    'org.bonitasoft.common.security',
+    'org.bonitasoft.service.features',
     'org.bonitasoft.services.i18n',
     'org.bonitasoft.common.resources',
     'org.bonitasoft.features.admin'
