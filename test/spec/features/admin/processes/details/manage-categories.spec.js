@@ -117,6 +117,28 @@
           });
         });
       });
+      describe('updateCategories', function() {
+        xit('should save some categoryProcess, delete some and wait for promises to be resolved', function() {
+          cat1 = {id:111, name: 'catego1'};
+          cat2 = {id:222, name: 'catego2'};
+          cat3 = {id:333, name: 'catego3'};
+          categories = [cat1, cat2, cat3];
+          process = {id: 123};
+
+          categoryManager.saveCategoryProcessIfNotAlreadySelected = jasmine.createSpy();
+          categoryManager.deleteCategoryProcessIfNeeded = jasmine.createSpy();
+          categoryManager.createNewCategoriesPromises = jasmine.createSpy();
+          categoryManager.selectedCategoriesPopulatePromise = jasmine.createSpy();
+          var initiallySelectedCategories = [cat1, cat2];
+          var selectedTags = ['catego2', 'catego3', 'catego4'];
+          var tags = ['catego1', 'catego2', 'catego3'];
+          categoryManager.updateCategories(categories, initiallySelectedCategories, selectedTags, tags, 123);
+          expect(categoryManager.saveCategoryProcessIfNotAlreadySelected.calls.allArgs()).toBe([[cat2, initiallySelectedCategories, [], process.id], [cat3, initiallySelectedCategories, [], process.id]]);
+          expect(categoryManager.deleteCategoryProcessIfNeeded).toHaveBeenCalled();
+          expect(categoryManager.createNewCategoriesPromises).toHaveBeenCalled();
+          expect(categoryManager.selectedCategoriesPopulatePromise).toHaveBeenCalled();
+        });
+      });
     });
   });
 })();

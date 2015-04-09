@@ -24,35 +24,44 @@
     };
   }).factory('categoryManager', function(processCategoryAPI, categoryAPI, $q) {
     var categoryManager = {};
-    categoryManager.updateCategories = function(allCategories, initiallySelectedCategories, selectedTags, tags, processId) {
-      
-      function selectedCategoriesPopulatePromise(processCategoryPromises, newCategoryPromises){
-        return $q.all(newCategoryPromises).then(function(processNewCategoryPromises) {
-          return $q.all(processCategoryPromises.concat(processNewCategoryPromises)).then(function() {
-            return selectedCategories;
-          });
+    categoryManager.selectedCategoriesPopulatePromise = function (processCategoryPromises, newCategoryPromises, selectedCategories){
+      return $q.all(newCategoryPromises).then(function(processNewCategoryPromises) {
+        return $q.all(processCategoryPromises.concat(processNewCategoryPromises)).then(function() {
+          return selectedCategories;
         });
-      }
+      });
+    };
 
+    categoryManager.saveCategoryProcessIfNotAlreadySelected = function (category, initiallySelectedCategories, promises, processId) {
+      if (!categoryManager.categoryWasInitiallySelected(category, initiallySelectedCategories)) {
+        promises.push(processCategoryAPI.save({
+          'category_id': category.id,
+          'process_id': processId
+        }));
+      }
+    };
+
+    categoryManager.deleteCategoryProcessIfNeeded = function (category, initiallySelectedCategories, promises, processId, selectedTags) {
+      if (!categoryManager.categoryIsSelected(category, selectedTags) && categoryManager.categoryWasInitiallySelected(category, initiallySelectedCategories)) {
+        promises.push(processCategoryAPI.delete({
+          'category_id': category.id,
+          'process_id': processId
+        }));
+      }
+    };
+
+    categoryManager.updateCategories = function(allCategories, initiallySelectedCategories, selectedTags, tags, processId) {
       var promises = [],
         selectedCategories = [];
       allCategories.forEach(function(category) {
         if (categoryManager.categoryIsSelected(category, selectedTags)) {
           selectedCategories.push(category);
-          if (!categoryManager.categoryWasInitiallySelected(category, initiallySelectedCategories)) {
-            promises.push(processCategoryAPI.save({
-              'category_id': category.id,
-              'process_id': processId
-            }));
-          }
-        } else if (!categoryManager.categoryIsSelected(category, selectedTags) && categoryManager.categoryWasInitiallySelected(category, initiallySelectedCategories)) {
-          promises.push(processCategoryAPI.delete({
-            'category_id': category.id,
-            'process_id': processId
-          }));
+          categoryManager.saveCategoryProcessIfNotAlreadySelected(category, initiallySelectedCategories, promises, processId);
+        } else {
+          categoryManager.deleteCategoryProcessIfNeeded(category, initiallySelectedCategories, promises, processId, selectedTags);
         }
       });
-      return selectedCategoriesPopulatePromise(promises, categoryManager.createNewCategoriesPromises(selectedCategories, tags, selectedTags, processId));
+      return categoryManager.selectedCategoriesPopulatePromise(promises, categoryManager.createNewCategoriesPromises(selectedCategories, tags, selectedTags, processId), selectedCategories);
     };
 
 
