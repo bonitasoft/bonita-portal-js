@@ -5,6 +5,10 @@
   var processMenuCtrl = ProcessMenuCtrl;
   processMenuCtrl.prototype.retrieveProcess = retrieveProcess;
   processMenuCtrl.prototype.retrieveCategories = retrieveCategories;
+  var informationStateName = 'bonita.processesDetails.information';
+  var paramsStateName = 'bonita.processesDetails.params';
+  var processConnectorsStateName = 'bonita.processesDetails.processConnectors';
+  var actorsMappingStateName = 'bonita.processesDetails.actorsMapping';
 
   angular.module('org.bonitasoft.features.admin.processes.details', [
     'ui.router',
@@ -21,21 +25,20 @@
     'org.bonitasoft.features.admin.processes.details.processConnectors'
   ]).value('menuContent', [{
     name: 'Information',
-    link: ''
-  }, {
-    name: 'Configuration'
+    link: '',
+    state: informationStateName
   }, {
     name: 'Actor Mapping',
     link: 'actorsMapping',
-    submenu: true
+    state: actorsMappingStateName
   }, {
     name: 'Parameters',
     link: 'params',
-    submenu: true
+    state: paramsStateName
   }, {
     name: 'Connectors',
     link: 'connectors',
-    submenu: true
+    state: processConnectorsStateName
   }])
     .config(
       function($stateProvider) {
@@ -48,7 +51,7 @@
           resolve: {
             process: retrieveProcess
           }
-        }).state('bonita.processesDetails.information', {
+        }).state(informationStateName, {
           url: '',
           templateUrl: 'features/admin/processes/details/information.html',
           controller: 'ProcessInformationCtrl',
@@ -56,22 +59,17 @@
           resolve: {
             categories: retrieveCategories
           }
-        }).state('bonita.processesDetails.params', {
+        }).state(paramsStateName, {
           url: '/params',
           templateUrl: 'features/admin/processes/details/params.html',
           controller: 'processParamsCtrl',
           controllerAs: 'processParamsCtrl'
-        }).state('bonita.processesDetails.categories', {
-          url: '/categories',
-          templateUrl: 'features/admin/processes/details/categories.html',
-          controller: 'ProcessCategoriesCtrl',
-          controllerAs: 'processCategoriesCtrl'
-        }).state('bonita.processesDetails.processConnectors', {
+        }).state(processConnectorsStateName, {
           url: '/connectors',
           templateUrl: 'features/admin/processes/details/process-connectors.html',
           controller: 'ProcessConnectorsCtrl',
           controllerAs: 'processConnectorsCtrl'
-        }).state('bonita.processesDetails.actorsMapping', {
+        }).state(actorsMappingStateName, {
           url: '/actorsMapping',
           templateUrl: 'features/admin/processes/details/actors-mapping.html',
           controller: 'ActorsMappingCtrl',
@@ -83,8 +81,11 @@
     .controller('DeleteProcessModalInstanceCtrl', DeleteProcessModalInstanceCtrl);
 
   /* jshint -W003 */
-  function ProcessMenuCtrl($scope, menuContent, process, processAPI, $modal, $stateParams) {
+  function ProcessMenuCtrl($scope, menuContent, process, processAPI, $modal, $stateParams, $state) {
     var vm = this;
+    vm.getCurrentStateName = function() {
+      return $state.current.name;
+    };
     vm.menuContent = menuContent;
     vm.process = process;
     vm.toggleProcessActivation = toggleProcessActivation;
