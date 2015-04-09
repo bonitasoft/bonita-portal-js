@@ -126,6 +126,7 @@
     'humanTaskAPI': 'bpm/humanTask',
     'i18nAPI': 'system/i18ntranslation',
     'membershipAPI': 'identity/membership',
+    'parameterAPI': 'bpm/processParameter',
     'personalDataAPI': 'identity/personalcontactdata',
     'processAPI': 'bpm/process',
     'professionalDataAPI': 'identity/professionalcontactdata',

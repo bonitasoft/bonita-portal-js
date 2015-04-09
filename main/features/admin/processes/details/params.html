@@ -1,34 +1,23 @@
-<div id="params" class="col-md-9">
+<div id="params" class="col-md-12">
   <h3>Params</h3>
     <table class="table table-striped">
         <thead>
             <tr>
                 <th>Name</th>
+                <th>Description</th>
                 <th>Type</th>
                 <th>Value</th>
-                <th>Actions</th>
+                <th ng-if="processParamsCtrl.showActions">Actions</th>
             </tr>
         </thead>
-            <tr>
-                <td>Support Company</td>
-                <td>String</td>
-                <td>Bonitasoft</td>
-                <td><span class="glyphicon glyphicon-pencil"></span></td>
-            </tr>
-            <tr>
-                <td>License Year</td>
-                <td>String</td>
-                <td>2012-2015</td>
-                <td><span class="glyphicon glyphicon-pencil"></span></td>
-            </tr>
-            <tr>
-                <td>Welcome Text </td>
-                <td>String</td>
-                <td>Welcome to Bonita BPM Portal</td>
-                <td><span class="glyphicon glyphicon-pencil"></span></td>
-            </tr>
         <tbody>
-            
+            <tr ng-repeat="parameter in processParamsCtrl.parameters">
+                <td>{{parameter.name}}</td>
+                <td>{{parameter.description}}</td>
+                <td>{{parameter.type}}</td>
+                <td>{{parameter.value}}</td>
+                <td ng-if="processParamsCtrl.showActions"><edit-parameter-button parameter="parameter" process-id="{{::processParamsCtrl.process.id}}"></edit-parameter-button></td>
+            </tr>
         </tbody>
     </table>
 </div>
