@@ -5,6 +5,7 @@
   var processMenuCtrl = ProcessMenuCtrl;
   processMenuCtrl.prototype.retrieveProcess = retrieveProcess;
   processMenuCtrl.prototype.retrieveCategories = retrieveCategories;
+  processMenuCtrl.prototype.retrieveParameters = retrieveParameters;
   var informationStateName = 'bonita.processesDetails.information';
   var paramsStateName = 'bonita.processesDetails.params';
   var processConnectorsStateName = 'bonita.processesDetails.processConnectors';
@@ -22,9 +23,10 @@
     'org.bonitasoft.features.admin.processes.editActorMembers',
     'org.bonitasoft.services.topurl',
     'org.bonitasoft.features.admin.processes.details.information',
-    'org.bonitasoft.features.admin.processes.details.processConnectors'
+    'org.bonitasoft.features.admin.processes.details.processConnectors',
+    'org.bonitasoft.features.admin.processes.details.params'
   ]).value('menuContent', [{
-    name: 'Information',
+    name: 'General',
     link: '',
     state: informationStateName
   }, {
@@ -62,8 +64,11 @@
         }).state(paramsStateName, {
           url: '/params',
           templateUrl: 'features/admin/processes/details/params.html',
-          controller: 'processParamsCtrl',
-          controllerAs: 'processParamsCtrl'
+          controller: 'ProcessParamsCtrl',
+          controllerAs: 'processParamsCtrl',
+          resolve: {
+            parameters : retrieveParameters
+          }
         }).state(processConnectorsStateName, {
           url: '/connectors',
           templateUrl: 'features/admin/processes/details/process-connectors.html',
@@ -162,6 +167,13 @@
   function retrieveCategories(store, categoryAPI, $stateParams) {
     return store.load(categoryAPI, {
       f: ['id=' + $stateParams.processId]
+    });
+  }
+
+  function retrieveParameters(store, parameterAPI, $stateParams) {
+    return store.load(parameterAPI, {
+      f: ['process_id=' + $stateParams.processId],
+      o: ['name ASC']
     });
   }
 })();
