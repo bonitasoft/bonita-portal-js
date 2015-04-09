@@ -1,13 +1,14 @@
 (function() {
   'use strict';
   describe('ProcessInformationCtrl', function(){
-    var scope, processParamsCtrl, parameters, featureManager, controller;
+    var scope, processParamsCtrl, parameters, featureManager, controller, process;
      
     beforeEach(module('org.bonitasoft.features.admin.processes.details.params'));
 
     beforeEach(inject(function($rootScope, $controller) {
       scope = $rootScope.$new();
       parameters = [];
+      process = {id: 123};
       featureManager = jasmine.createSpyObj('FeatureManager', ['isFeatureAvailable']);
       controller = $controller;
     }));
@@ -16,6 +17,7 @@
       processParamsCtrl = controller('ProcessParamsCtrl',{
         $scope: scope,
         parameters: parameters,
+        process: process,
         FeatureManager: featureManager
       });
       expect(processParamsCtrl.parameters).toBe(parameters);
@@ -27,6 +29,7 @@
       processParamsCtrl = controller('ProcessParamsCtrl',{
         $scope: scope,
         parameters: parameters,
+        process: process,
         FeatureManager: featureManager
       });
       expect(processParamsCtrl.parameters).toBe(parameters);
