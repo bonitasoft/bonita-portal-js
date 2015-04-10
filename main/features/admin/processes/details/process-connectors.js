@@ -4,9 +4,7 @@
   angular.module('org.bonitasoft.features.admin.processes.details.processConnectors', [
     'ui.bootstrap',
     'angular-growl',
-    'org.bonitasoft.common.resources.store',
-    'org.bonitasoft.features.admin.processes.details.editConnectorImplementation'
-
+    'org.bonitasoft.common.resources.store'
   ])
     .controller('ProcessConnectorsCtrl', function($scope, process, store, $modal, growl, processConnectorAPI) {
       var self = this;
