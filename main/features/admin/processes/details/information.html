@@ -1,40 +1,41 @@
 <div>
-  <h3>{{'Information' | translate }}</h3>
   <div class="col-md-12 row">
     
-      <div class="col-md-2 row metatags-label text-right">
+      <div class="col-md-4 metatags-label">
+      {{ 'Configuration State' | translate }}
+      <span class="label label-default">{{::processInformationCtrl.process.configurationState}}</span>
+      </div>
+      <div class="col-md-2 row metatags-label">
         {{ 'Activation state' | translate }}
       </div>
       <div class="col-md-2">
             <toggle-button on="Enabled" off="Disabled" process-id="{{::processInformationCtrl.process.id}}" initial-state="{{::processInformationCtrl.process.activationState === 'ENABLED'}}" enable-toggle="processInformationCtrl.isProcessResolved"></toggle-button>
       </div>
+     
       <div class="col-md-4 metatags-label">
       {{ 'Last updated on' | translate }}
       {{::processInformationCtrl.parseAndFormat(processInformationCtrl.process.last_update_date)}} <span class="glyphicon glyphicon-plus"></span>
       </div>
 
-      <div class="col-md-4 metatags-label">
-      {{ 'Configuration State' | translate }}
-      <span class="label label-default">{{::processInformationCtrl.process.configurationState}}</span>
-      </div>
   </div>
+  <div class="col-md-12">
+
+    <p ng-if="processInformationCtrl.process.description" >{{processInformationCtrl.process.description}}</p>
+    <p ng-if="!processInformationCtrl.process.description" >{{'No Description.' | translate}}</p>
+  </div>
+  <div class="col-md-12">
   <div class="col-md-12 row categories">
-    <div class="col-md-2 row metatags-label text-right">
+    <div class="col-md-2 row metatags-label">
     Categories <button class="glyphicon" ng-click="processInformationCtrl.openProcessCategoryManagementModal()"><span class="glyphicon glyphicon-pencil"></span></button>
     </div>
     <div class="col-md-10 bootstrap-tags">
       <bonitags tags-suggestion="processInformationCtrl.categories" tags-selection="processInformationCtrl.selectedCategories" read-only></bonitags> 
     </div>
   </div>
-  <div ng-if="processInformationCtrl.process.description" class="col-md-12">
 
-    <h3>{{ 'Description' | translate }}</h3>
-    <p>{{processInformationCtrl.process.description}}</p>
+    <monitoring-status process='processInformationCtrl.process'></monitoring-status>  
+    
+    <process-manager-mapping process='processInformationCtrl.process'></process-manager-mapping>  
   </div>
-  <div class="col-md-12">
-    <monitoring-status process='processInformationCtrl.process'></monitoring-status>
-  </div>
-  <div class="col-md-12">
-    <process-manager-mapping process='processInformationCtrl.process'></process-manager-mapping>
   </div>
 </div>

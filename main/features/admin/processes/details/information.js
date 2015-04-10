@@ -23,7 +23,7 @@
     vm.categories = categories;
 
     vm.openProcessCategoryManagementModal = openProcessCategoryManagementModal;
-    vm.waitForPromiseAndUpdateTagsAndAlertUser = waitForPromiseAndUpdateTagsAndAlertUser;
+    vm.updateTagsAndAlertUser = updateTagsAndAlertUser;
     vm.isProcessResolved = isProcessResolved();
     var growlOpions = {
       ttl: 3000,
@@ -48,26 +48,22 @@
           }
         }
       });
-      modalInstance.result.then(vm.waitForPromiseAndUpdateTagsAndAlertUser, function(data) {
-        if(data !== 'cancel') {
-          growl.error('error during category update', growlOpions);
+      modalInstance.result.then(vm.updateTagsAndAlertUser, function(error) {
+        if(error !== 'cancel') {
+          $log.error('category update failed :' , error);
+          growl.error(gettextCatalog.getString('An error occured during categories update') + ' : ' + error, growlOpions);
         }
       });
 
     }
 
-    function waitForPromiseAndUpdateTagsAndAlertUser(categoriesAndPromises) {
-      $q.all(categoriesAndPromises.promises).then(function() {
-        vm.categories = categoriesAndPromises.categories;
-        vm.selectedCategories.length = 0;
-        [].push.apply(vm.selectedCategories, categoriesAndPromises.categories.map(function(category) {
-          return category.name;
-        }));
-        growl.success(gettextCatalog.getString('Successfully updated categories'), growlOpions);
-      }, function(error) {
-        $log.error('category update failed :' , error);
-        growl.error(gettextCatalog.getString('An error occured during categories update') + ' : ' + error, growlOpions);
-      });
+    function updateTagsAndAlertUser(categories) {
+      vm.categories = categories;
+      vm.selectedCategories.length = 0;
+      [].push.apply(vm.selectedCategories, categories.map(function(category) {
+        return category.name;
+      }));
+      growl.success(gettextCatalog.getString('Successfully updated categories'), growlOpions);
     }
 
     function isProcessResolved() {

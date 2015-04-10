@@ -25,10 +25,8 @@
       });
     });
     it('should call featuresAPI and populate FeatureManager when loading', function() {
-      var features = ['PM', 'Monitoring'];
-      deferred.resolve({
-        data: features
-      });
+      var features = [{name: 'PM'}, {name: 'Monitoring'}];
+      deferred.resolve(features);
       scope.$apply();
       expect(featureManager.isFeatureAvailable()).toBeFalsy();
       expect(featureManager.isFeatureAvailable('PM')).toBeTruthy();

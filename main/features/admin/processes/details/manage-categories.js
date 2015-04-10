@@ -5,6 +5,7 @@
     'org.bonitasoft.common.directives.bonitags',
     'ui.bootstrap',
     'org.bonitasoft.common.resources.store',
+    'angular-growl',
     'gettext'
   ]).controller('ManageCategoryMappingModalInstanceCtrl', function($scope, categoryAPI, process, gettextCatalog, $modalInstance, store, initiallySelectedCategories, allCategories, categoryManager) {
     var vm = this;
@@ -21,35 +22,50 @@
     vm.cancel = function() {
       $modalInstance.dismiss('cancel');
     };
-  }).factory('categoryManager', function(processCategoryAPI, categoryAPI) {
+  }).factory('categoryManager', function(processCategoryAPI, categoryAPI, $q) {
     var categoryManager = {};
+    categoryManager.selectedCategoriesPopulatePromise = function (processCategoryPromises, newCategoryPromises, selectedCategories){
+      return $q.all(newCategoryPromises).then(function(processNewCategoryPromises) {
+        return $q.all(processCategoryPromises.concat(processNewCategoryPromises)).then(function() {
+          return selectedCategories;
+        });
+      });
+    };
+
+    categoryManager.saveCategoryProcessIfNotAlreadySelected = function (category, initiallySelectedCategories, promises, processId) {
+      if (!categoryManager.categoryWasInitiallySelected(category, initiallySelectedCategories)) {
+        promises.push(processCategoryAPI.save({
+          'category_id': category.id,
+          'process_id': processId
+        }));
+      }
+    };
+
+    categoryManager.deleteCategoryProcessIfNeeded = function (category, initiallySelectedCategories, promises, processId, selectedTags) {
+      if (!categoryManager.categoryIsSelected(category, selectedTags) && categoryManager.categoryWasInitiallySelected(category, initiallySelectedCategories)) {
+        promises.push(processCategoryAPI.delete({
+          'category_id': category.id,
+          'process_id': processId
+        }));
+      }
+    };
+
     categoryManager.updateCategories = function(allCategories, initiallySelectedCategories, selectedTags, tags, processId) {
       var promises = [],
         selectedCategories = [];
       allCategories.forEach(function(category) {
         if (categoryManager.categoryIsSelected(category, selectedTags)) {
           selectedCategories.push(category);
-          if (!categoryManager.categoryWasInitiallySelected(category, initiallySelectedCategories)) {
-            promises.push(processCategoryAPI.save({
-              'category_id': category.id,
-              'process_id': processId
-            }));
-          }
-        } else if (!categoryManager.categoryIsSelected(category, selectedTags) && categoryManager.categoryWasInitiallySelected(category, initiallySelectedCategories)) {
-          promises.push(processCategoryAPI.delete({
-            'category_id': category.id,
-            'process_id': processId
-          }));
+          categoryManager.saveCategoryProcessIfNotAlreadySelected(category, initiallySelectedCategories, promises, processId);
+        } else {
+          categoryManager.deleteCategoryProcessIfNeeded(category, initiallySelectedCategories, promises, processId, selectedTags);
         }
       });
-      [].push(promises, categoryManager.createNewCategories(selectedCategories, tags, selectedTags, processId));
-      return {
-        promises: promises,
-        categories: selectedCategories
-      };
+      return categoryManager.selectedCategoriesPopulatePromise(promises, categoryManager.createNewCategoriesPromises(selectedCategories, tags, selectedTags, processId), selectedCategories);
     };
 
-    categoryManager.createNewCategories = function(selectedCategories, tags, selectedTags, processId) {
+
+    categoryManager.createNewCategoriesPromises = function(selectedCategories, tags, selectedTags, processId) {
       return _.difference(selectedTags, tags).map(function(newTag) {
         return categoryAPI.save({
           name: newTag

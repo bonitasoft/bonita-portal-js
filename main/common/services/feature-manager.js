@@ -22,6 +22,8 @@
   });
 
   function populateFeatures(featuresData) {
-    [].push.apply(featuresList,featuresData.data);
+    [].push.apply(featuresList,featuresData && featuresData.map(function(feature){
+      return feature.name;
+    }));
   }
 })();
