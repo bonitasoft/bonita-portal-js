@@ -4,10 +4,10 @@
     <table bonitable bo-repeatable class="table table-hover processConnectorsList">
       <thead>
         <tr data-headers>
-          <th>Type</th>
-          <th>Implementation Version</th>
-          <th>Class name</th>
-          <th>Edit</th>
+          <th>{{"Type" | translate}}</th>
+          <th>{{"Implementation" Version | translate}}</th>
+          <th>{{Class "name" | translate}}</th>
+          <th>{{"Edit" | translate}}</th>
         </tr>
       </thead>
       <tbody>
@@ -15,9 +15,10 @@
           <td>{{processConnector.definition_id}}</td>
           <td>{{processConnector.impl_version}}</td>
           <td>{{processConnector.classname}}</td>
-          <td><a ng-click="processConnectorsCtrl.editConnectorImplementationModal(processConnector)" class="btn btn-primary">Upload new implementation</a></td>
+          <td><edit-process-connector-implementation-link process-connector="processConnector" process="processConnectorsCtrl.scope.process"></edit-process-connector-implementation-link></td>
         </tr>
       </tbody>
     </table>
+    <pagination ng-click="processConnectorsCtrl.getConnectors()" boundary-links="true" total-items="processConnectors.resource.pagination.total" ng-model="processConnectors.resource.pagination.currentPage" items-per-page="processConnectors.resource.pagination.numberPerPage" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;" max-size="5"></pagination>
   </div>
 </div>

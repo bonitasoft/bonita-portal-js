@@ -275,7 +275,7 @@
             'group_id': self.scope.newMembershipGroup[0].id,
             'actor_id': actor.id
           }).$promise.then(function success() {
-            growl.success(self.scope.newMembershipRole[0].displayName + ' of ' + self.scope.newMembershipGroup[0].displayName + ' was sucessfully created');
+            growl.success(self.scope.newMembershipRole[0].displayName + ' of ' + self.scope.newMembershipGroup[0].displayName + ' was sucessfully created', growlOptions);
             self.loadMembers();
           }, function error(response) {
             growl.error(response.data.message, growlOptions);
