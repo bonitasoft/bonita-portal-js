@@ -30,7 +30,7 @@
     link: '',
     state: informationStateName
   }, {
-    name: 'Actor Mapping',
+    name: 'Actors',
     link: 'actorsMapping',
     state: actorsMappingStateName
   }, {
