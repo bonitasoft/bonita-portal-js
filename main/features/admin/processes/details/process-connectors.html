@@ -1,12 +1,12 @@
-<div ng-init="processConnectorsCtrl.init()">
+<div>
   <div class="">
-    <table bonitable bo-repeatable class="table table-hover processConnectorsList">
+    <table class="table table-hover processConnectorsList">
       <thead>
         <tr data-headers>
-          <th>{{"Type" | translate}}</th>
-          <th>{{"Implementation" Version | translate}}</th>
-          <th>{{Class "name" | translate}}</th>
-          <th>{{"Edit" | translate}}</th>
+          <th>{{'Type' | translate}}</th>
+          <th>{{'Implementation Version' | translate}}</th>
+          <th>{{'Class name' | translate}}</th>
+          <th ng-if="processConnectorsCtrl.showActions">{{'Actions' | translate}}</th>
         </tr>
       </thead>
       <tbody>
@@ -14,7 +14,7 @@
           <td>{{processConnector.definition_id}}</td>
           <td>{{processConnector.impl_version}}</td>
           <td>{{processConnector.classname}}</td>
-          <td><edit-process-connector-implementation-link process-connector="processConnector" process="processConnectorsCtrl.scope.process"></edit-process-connector-implementation-link></td>
+          <td ng-if="processConnectorsCtrl.showActions"><edit-process-connector-implementation-link process-connector="processConnector" process="processConnectorsCtrl.scope.process"></edit-process-connector-implementation-link></td>
         </tr>
       </tbody>
     </table>

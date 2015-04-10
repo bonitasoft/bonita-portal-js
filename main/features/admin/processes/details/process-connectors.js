@@ -4,12 +4,14 @@
   angular.module('org.bonitasoft.features.admin.processes.details.processConnectors', [
     'ui.bootstrap',
     'angular-growl',
+    'org.bonitasoft.service.features',
     'org.bonitasoft.common.resources.store'
   ])
-    .controller('ProcessConnectorsCtrl', function($scope, process, store, $modal, growl, processConnectorAPI) {
+    .controller('ProcessConnectorsCtrl', function($scope, process, store, $modal, growl, processConnectorAPI, FeatureManager) {
       var self = this;
       self.scope = $scope;
       self.scope.process = process;
+      self.showActions = FeatureManager.isFeatureAvailable('POST_DEPLOY_CONFIG');
       var resourceInit = [];
       
       resourceInit.pagination = {
@@ -22,10 +24,7 @@
       };
       $scope.$on('process.connectors.refresh', self.init);
 
-      self.init = function init() {
-        self.getConnectors();
-      };
-
+      
       self.getConnectors = function getConnectors() {
         processConnectorAPI.search({
           'p': $scope.processConnectors.resource.pagination.currentPage - 1,
@@ -36,6 +35,7 @@
           $scope.processConnectors = processConnectorsResponse;
         });
       };
+      self.getConnectors();
 
     });
 })();
