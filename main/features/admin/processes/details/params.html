@@ -1,23 +1,30 @@
-<div id="params" class="col-md-12">
-  <h3>Params</h3>
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Description</th>
-                <th>Type</th>
-                <th>Value</th>
-                <th ng-if="processParamsCtrl.showActions">Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr ng-repeat="parameter in processParamsCtrl.parameters">
-                <td>{{parameter.name}}</td>
-                <td>{{parameter.description}}</td>
-                <td>{{parameter.type}}</td>
-                <td>{{parameter.value}}</td>
-                <td ng-if="processParamsCtrl.showActions"><edit-parameter-button parameter="parameter" process-id="{{::processParamsCtrl.process.id}}"></edit-parameter-button></td>
-            </tr>
-        </tbody>
-    </table>
+<div id="params">
+  <div class="panel panel-default">
+    <div class="panel-heading"><span class="h4">Params</span></div>
+    <div ng-if="!processParamsCtrl.parameters.length" class="panel-body">
+      {{ 'The current Process has no parameter defined.'}}
+    </div>
+    <div ng-if="!!processParamsCtrl.parameters.length" class="panel-body">
+      <table class="table table-striped">
+          <thead>
+              <tr>
+                  <th>Name</th>
+                  <th>Description</th>
+                  <th>Type</th>
+                  <th>Value</th>
+                  <th ng-if="processParamsCtrl.showActions">Actions</th>
+              </tr>
+          </thead>
+          <tbody>
+              <tr ng-repeat="parameter in processParamsCtrl.parameters">
+                  <td>{{parameter.name}}</td>
+                  <td>{{parameter.description}}</td>
+                  <td>{{parameter.type}}</td>
+                  <td>{{parameter.value}}</td>
+                  <td ng-if="processParamsCtrl.showActions"><edit-parameter-button parameter="parameter" process-id="{{::processParamsCtrl.process.id}}"></edit-parameter-button></td>
+              </tr>
+          </tbody>
+      </table>
+    </div>
+  </div>
 </div>

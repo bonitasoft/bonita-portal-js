@@ -86,7 +86,7 @@
     .controller('DeleteProcessModalInstanceCtrl', DeleteProcessModalInstanceCtrl);
 
   /* jshint -W003 */
-  function ProcessMenuCtrl($scope, menuContent, process, processAPI, $modal, $stateParams, $state, manageTopUrl) {
+  function ProcessMenuCtrl($scope, menuContent, process, processAPI, $modal, $stateParams, $state, manageTopUrl, $window) {
     var vm = this;
     vm.getCurrentStateName = function() {
       return $state.current.name;
@@ -100,6 +100,10 @@
 
     $scope.$on('button.toggle', vm.toggleProcessActivation);
     $scope.$on('process.refresh', vm.refreshProcess);
+
+    vm.goBack = function() {
+      $window.history.back();
+    };
 
     function deleteProcess() {
       $modal.open({
