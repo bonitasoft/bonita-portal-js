@@ -15,16 +15,17 @@
     .controller('ActorsMappingCtrl', function($scope, $modal, process, actorMemberAPI, actorAPI, growl) {
       var self = this;
       var resourceInit = [];
-      $scope.membersPerCell = 5;
-      self.init = function init() {
-        self.getActors();
-      };
-
       resourceInit.pagination = {
         currentPage: 1,
         numberPerPage: 10
       };
 
+      $scope.membersPerCell = 5;
+      self.init = function init() {
+        self.getActors();
+      };
+
+      
       $scope.actors = {
         resource: resourceInit
       };

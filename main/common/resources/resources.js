@@ -186,14 +186,12 @@
         }
       },
       'update': {
-        // params: {process_id: '@process_id', definition_id: '@definition_id',definition_version: '@definition_version'},
         transformRequest: function(data) {
           delete data.process_id;
           delete data.definition_id;
           delete data.definition_version;
           return angular.toJson(data);
         },
-        //url: API_PATH+'bpm/processConnector/:process_id/:definition_id/:definition_version',
         method: 'PUT'
       }
 
