@@ -1,7 +1,7 @@
 <div id="process-details" class="process-details">
   <div class="col-md-12">
     <div class="col-md-2">
-    <button class="btn btn-default">Back</button>
+    <button class="btn btn-default" ng-click="processMenuCtrl.goBack()">Back</button>
     </div>
     <div class="col-md-10 text-right">
       <start-for process="processMenuCtrl.process"></start-for>
@@ -15,7 +15,9 @@
     <div ng-if="processMenuCtrl.process.configurationState !== 'RESOLVED'" style=" padding-bottom: 0px;" class="panel panel-danger">
       <div class="panel-heading">{{ 'The Process cannot be enabled' | translate }}</div>
       <div class="panel-body">
-        {{ 'Entity Mapping must be resolved before enabling the Process.' | translate }}
+        <div class="col-md-12">
+          {{ 'Entity Mapping must be resolved before enabling the Process.' | translate }}
+        </div>
       </div>
     </div>
   </div>
@@ -46,7 +48,7 @@
     <div growl></div>
     
 
-  <div class="col-md-12 row">
+  <div class="col-md-12">
     <ui-view></ui-view>
   </div>
 </div>

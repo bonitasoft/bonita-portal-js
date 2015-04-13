@@ -1,23 +1,41 @@
-<div id="params" class="col-md-12">
-  <h3>Params</h3>
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Description</th>
-                <th>Type</th>
-                <th>Value</th>
-                <th ng-if="processParamsCtrl.showActions">Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr ng-repeat="parameter in processParamsCtrl.parameters">
+<div id="params">
+  <div class="panel panel-default">
+    <div class="panel-heading"><span class="h4">Params</span></div>
+    <div ng-if="!processParamsCtrl.parameters.length" class="panel-body">
+      <div class="col-md-12">
+        {{ 'The current Process has no parameter defined.'}}
+      </div>
+    </div>
+    <div ng-if="!!processParamsCtrl.parameters.length" class="panel-body">
+      <table class="table table-striped">
+          <thead>
+              <tr>
+                  <th>Name</th>
+                  <th>Description</th>
+                  <th>Type</th>
+                  <th>Value</th>
+              </tr>
+          </thead>
+          <tbody>
+              <tr ng-repeat="parameter in processParamsCtrl.parameters">
                 <td>{{parameter.name}}</td>
                 <td>{{parameter.description}}</td>
                 <td>{{parameter.type}}</td>
-                <td>{{parameter.value}}</td>
-                <td ng-if="processParamsCtrl.showActions"><edit-parameter-button parameter="parameter" process-id="{{::processParamsCtrl.process.id}}"></edit-parameter-button></td>
-            </tr>
-        </tbody>
-    </table>
+                <td ng-if="!processParamsCtrl.showActions">{{parameter.value}}</td>
+                <td ng-if="processParamsCtrl.showActions" class="xeditable">
+                  <div ng-switch="parameter.type">
+                    <div ng-switch-when="java.lang.Boolean" class="form-group">
+                      <a href="" editable-select="parameter.value" onbeforesave="processParamsCtrl.updateParameter(parameter, $data)"  e-ng-options="s.value as s.value for s in processParamsCtrl.booleanValues">{{ parameter.value }}</a>
+                    </div>
+                    <div ng-switch-default class="form-group">
+                     <a href="" editable-text="parameter.value" e-style="width: 400px;" onbeforesave="processParamsCtrl.updateParameter(parameter, $data)" e-ng-options="s.value as s.value for s in processParamsCtrl.booleanValues">{{ parameter.value }}</a>
+                    </div>
+                  </div>
+                </td>
+                  <!-- <td ng-if="processParamsCtrl.showActions"><edit-parameter-button parameter="parameter" process-id="{{::processParamsCtrl.process.id}}"></edit-parameter-button></td> -->
+              </tr>
+          </tbody>
+      </table>
+    </div>
+  </div>
 </div>

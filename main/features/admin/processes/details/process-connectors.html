@@ -1,23 +1,35 @@
 <div>
   <div class="">
-    <table class="table table-hover processConnectorsList">
-      <thead>
-        <tr data-headers>
-          <th>{{'Type' | translate}}</th>
-          <th>{{'Implementation Version' | translate}}</th>
-          <th>{{'Class name' | translate}}</th>
-          <th ng-if="processConnectorsCtrl.showActions">{{'Actions' | translate}}</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr ng-repeat="processConnector in processConnectors.data">
-          <td>{{processConnector.definition_id}}</td>
-          <td>{{processConnector.impl_version}}</td>
-          <td>{{processConnector.classname}}</td>
-          <td ng-if="processConnectorsCtrl.showActions"><edit-process-connector-implementation-link process-connector="processConnector" process="processConnectorsCtrl.scope.process"></edit-process-connector-implementation-link></td>
-        </tr>
-      </tbody>
-    </table>
-    <pagination ng-click="processConnectorsCtrl.getConnectors()" boundary-links="true" total-items="processConnectors.resource.pagination.total" ng-model="processConnectors.resource.pagination.currentPage" items-per-page="processConnectors.resource.pagination.numberPerPage" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;" max-size="5"></pagination>
+    <div class="panel panel-default">
+      
+      <div class="panel-heading"><span class="h4">Connector Definitions Details</span></div>
+      
+      <div ng-if="!processConnectors.length" class="panel-body">
+        <div class="col-md-12">
+          {{ 'The current Process has no connectors defined.'}}
+        </div>
+      </div>
+      <div ng-if="!!processConnectors.length" class="panel-body">
+        <table class="table table-hover processConnectorsList">
+        <thead>
+          <tr data-headers>
+            <th>{{'Type' | translate}}</th>
+            <th>{{'Implementation Version' | translate}}</th>
+            <th>{{'Class name' | translate}}</th>
+            <th ng-if="processConnectorsCtrl.showActions">{{'Actions' | translate}}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="processConnector in processConnectors">
+            <td>{{processConnector.definition_id}}</td>
+            <td>{{processConnector.impl_version}}</td>
+            <td>{{processConnector.classname}}</td>
+            <td ng-if="processConnectorsCtrl.showActions"><edit-process-connector-implementation-link process-connector="processConnector" process="processConnectorsCtrl.scope.process"></edit-process-connector-implementation-link></td>
+          </tr>
+        </tbody>
+      </table>
+      <!-- <pagination ng-click="processConnectorsCtrl.getConnectors()" boundary-links="true" total-items="processConnectors.resource.pagination.total" ng-model="processConnectors.resource.pagination.currentPage" items-per-page="processConnectors.resource.pagination.numberPerPage" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;" max-size="5"></pagination> -->
+      </div>
+    </div>
   </div>
 </div>
