@@ -25,17 +25,13 @@
       $scope.$on('process.connectors.refresh', self.init);
 
       
-      self.getConnectors = function getConnectors() {
-        processConnectorAPI.search({
+      store.load(processConnectorAPI, {
           'p': $scope.processConnectors.resource.pagination.currentPage - 1,
           'c': $scope.processConnectors.resource.pagination.numberPerPage,
           'o': 'definition_id ASC',
           'f': 'process_id=' + self.scope.process.id,
-        }).$promise.then(function mapProcessConnectors(processConnectorsResponse) {
+        }).then(function mapProcessConnectors(processConnectorsResponse) {
           $scope.processConnectors = processConnectorsResponse;
         });
-      };
-      self.getConnectors();
-
     });
 })();

@@ -15,7 +15,9 @@
     <div ng-if="processMenuCtrl.process.configurationState !== 'RESOLVED'" style=" padding-bottom: 0px;" class="panel panel-danger">
       <div class="panel-heading">{{ 'The Process cannot be enabled' | translate }}</div>
       <div class="panel-body">
-        {{ 'Entity Mapping must be resolved before enabling the Process.' | translate }}
+        <div class="col-md-12">
+          {{ 'Entity Mapping must be resolved before enabling the Process.' | translate }}
+        </div>
       </div>
     </div>
   </div>
@@ -46,7 +48,7 @@
     <div growl></div>
     
 
-  <div class="col-md-12 row">
+  <div class="col-md-12">
     <ui-view></ui-view>
   </div>
 </div>
