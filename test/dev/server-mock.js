@@ -121,6 +121,7 @@
     //http://localhost:9002/API/system/i18ntranslation?f=locale%3Den
     when('GET', /^\/API\/system\/i18ntranslation.*$/).respond([]);
     when('GET', /^\/API\/system\/session\/unusedId$/).respond([]);
+    when('GET', /^\/API\/system\/feature\?c=0&p=0$/).respond([]);
 
     /*when('POST', '/bonita/API/livingApps').respond(
         {

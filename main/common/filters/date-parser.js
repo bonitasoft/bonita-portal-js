@@ -7,7 +7,7 @@
    * @description
    * describes the case list service that only includes the dateParser service
    */
-  angular.module('org.bonitasoft.features.admin.cases.list.service', ['gettext'])
+  angular.module('org.bonitasoft.common.filters.date.parser', ['gettext'])
   /**
    * @ngdoc object
    * @name o.b.f.admin.cases.list.CaseListCtrl
