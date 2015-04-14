@@ -51,7 +51,7 @@
           controller: 'ProcessMenuCtrl',
           controllerAs: 'processMenuCtrl',
           resolve: {
-            process: retrieveProcess
+            process: ['processAPI', '$stateParams', retrieveProcess]
           }
         }).state(informationStateName, {
           url: '',
@@ -59,7 +59,7 @@
           controller: 'ProcessInformationCtrl',
           controllerAs: 'processInformationCtrl',
           resolve: {
-            categories: retrieveCategories
+            categories: ['store', 'categoryAPI', '$stateParams', retrieveCategories]
           }
         }).state(paramsStateName, {
           url: '/params',
@@ -67,7 +67,7 @@
           controller: 'ProcessParamsCtrl',
           controllerAs: 'processParamsCtrl',
           resolve: {
-            parameters : retrieveParameters
+            parameters : ['store', 'parameterAPI', '$stateParams', retrieveParameters]
           }
         }).state(processConnectorsStateName, {
           url: '/connectors',

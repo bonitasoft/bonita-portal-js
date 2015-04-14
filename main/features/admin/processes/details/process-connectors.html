@@ -1,13 +1,13 @@
 <div>
   <div class="">
-    <h3>{{'Connector Definitions Details' | translate}}</h3>
+    <h3>{{'Connectors' | translate}}</h3>
     <div class="panel panel-default">
       
       <!-- <div class="panel-heading"><span class="h4">Connector Definitions Details</span></div> -->
       
       <div ng-if="!processConnectors.length" class="panel-body">
         <div class="col-md-12">
-          {{ 'The current Process has no connectors defined.' | translate}}
+          {{ 'The current process has no connectors defined.' | translate}}
         </div>
       </div>
       <div ng-if="!!processConnectors.length" class="panel-body">
@@ -15,7 +15,7 @@
         <thead>
           <tr data-headers>
             <th>{{'Type' | translate}}</th>
-            <th>{{'Implementation Version' | translate}}</th>
+            <th>{{'Implementation version' | translate}}</th>
             <th>{{'Class name' | translate}}</th>
             <th ng-if="processConnectorsCtrl.showActions">{{'Actions' | translate}}</th>
           </tr>
