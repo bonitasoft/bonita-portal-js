@@ -1,21 +1,17 @@
 <div>
-  <div class="col-md-12 row">
+  <div class="col-md-12 ">
     
-      <div class="col-md-4 metatags-label">
-      {{ 'Configuration State' | translate }}
-      <span class="label label-default">{{::processInformationCtrl.process.configurationState}}</span>
-      </div>
-      <div class="col-md-2 row metatags-label">
+        <div class="metatags-label form-group">{{ 'Configuration State' | translate }}
+        <span class="label label-default">{{::processInformationCtrl.process.configurationState}}</span></div>
+        <div class="metatags-label  form-group">
         {{ 'Activation state' | translate }}
-      </div>
-      <div class="col-md-2">
             <toggle-button on="Enabled" off="Disabled" process-id="{{::processInformationCtrl.process.id}}" initial-state="{{::processInformationCtrl.process.activationState === 'ENABLED'}}" enable-toggle="processInformationCtrl.isProcessResolved"></toggle-button>
-      </div>
-     
-      <div class="col-md-4 metatags-label">
+            </div>
+        <div class="metatags-label form-group">
+        
       {{ 'Last updated on' | translate }}
-      {{::processInformationCtrl.parseAndFormat(processInformationCtrl.process.last_update_date)}} <span class="glyphicon glyphicon-plus"></span>
-      </div>
+      {{::processInformationCtrl.parseAndFormat(processInformationCtrl.process.last_update_date)}}
+            </div>
 
   </div>
   <div class="col-md-12">
