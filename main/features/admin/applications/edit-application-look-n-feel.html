@@ -1,6 +1,7 @@
   <form role="form" name="application.form" novalidate>
   <div class="modal-header">
-    <h3 class="modal-title">{{'Edit look & feel' | translate}}</h3>
+    <h3 class="modal-title">{{ editionMode ? "Edit" : "Create" |
+     translate }} {{'an Application' | translate}}</h3>
   </div>
   <div class="modal-body">
 
