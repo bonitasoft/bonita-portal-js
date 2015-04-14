@@ -202,7 +202,7 @@
             var index = mappedIds.indexOf(currentMember.id);
             if (index === -1) {
               if (self.scope.memberType === self.constant.USER) {
-                currentMember.listLabel = currentMember.firstname + ' ' + currentMember.lastname + '<small>(<i>' + currentMember.userName + '</i>)</small>';
+                currentMember.listLabel = currentMember.firstname + ' ' + currentMember.lastname + '<small> (<i>' + currentMember.userName + '</i>)</small>';
                 currentMember.buttonLabel = currentMember.firstname + ' ' + currentMember.lastname;
               } else {
                 currentMember.listLabel = currentMember.displayName;
