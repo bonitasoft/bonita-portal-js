@@ -15,42 +15,43 @@
           <td class="actorName">{{actor.name}}</td>
           <td >
             <p class="members">
-              <a ng-click="actorsMappingCtrl.deleteMember(user.id)" ng-repeat="user in actorsMembers[actor.id].users.data" class="label label-primary outline member">{{user.user_id.firstname}} {{user.user_id.lastname}}&nbsp;<span class="glyphicon glyphicon-remove"></span></a>
-              <label ng-if="actorsMembers[actor.id].users.resource.pagination.total > membersPerCell" class="label label-primary outline moreCount">{{actorsMembers[actor.id].users.resource.pagination.total - membersPerCell}} More</label>
+              <a ng-click="actorsMappingCtrl.removeMember(user.id)" ng-repeat="user in actorsMembers[actor.id].users.data" class="label label-primary outline member">{{user.user_id.firstname}} {{user.user_id.lastname}}&nbsp;<span class="glyphicon glyphicon-remove"></span></a>
+              <label ng-if="actorsMembers[actor.id].users.resource.pagination.total > membersPerCell" class="label label-primary outline moreCount">{{actorsMembers[actor.id].users.resource.pagination.total - membersPerCell}}&nbsp;More</label>
             </p>
             <div class="moreMembers">
-              <a ng-click="editMapping(actor, 'USER')" class="label label-success outline">{{actorsMembers[actor.id].users.data.length>0 ? 'Edit' : 'Add'}} <span class="glyphicon glyphicon-pencil"></span></a>
+              <a ng-click="editMapping(actor, 'USER')" class="label label-success outline">{{actorsMembers[actor.id].users.data.length ? 'Edit' : 'Add'}}&nbsp;<span class="glyphicon" ng-class="{'glyphicon-pencil': actorsMembers[actor.id].users.data.length, 'glyphicon-plus': !actorsMembers[actor.id].users.data.length}"></span></a>
             </div>
           </td>
           <td>
             <p class="members">
-              <a ng-click="actorsMappingCtrl.deleteMember(group.id)" ng-repeat="group in actorsMembers[actor.id].groups.data" class="label label-primary outline member">{{group.group_id.displayName}}&nbsp;<span class="glyphicon glyphicon-remove"></span></a>
-              <label ng-if="actorsMembers[actor.id].groups.resource.pagination.total > membersPerCell" class="label label-primary outline moreCount">{{actorsMembers[actor.id].groups.resource.pagination.total - membersPerCell}} More</label>
+              <a ng-click="actorsMappingCtrl.removeMember(group.id)" ng-repeat="group in actorsMembers[actor.id].groups.data" class="label label-primary outline member">{{group.group_id.displayName}}&nbsp;<span class="glyphicon glyphicon-remove"></span></a>
+              <label ng-if="actorsMembers[actor.id].groups.resource.pagination.total > membersPerCell" class="label label-primary outline moreCount">{{actorsMembers[actor.id].groups.resource.pagination.total - membersPerCell}}&nbsp;More</label>
             </p>
             <div class="moreMembers">
-              <a ng-click="editMapping(actor, 'GROUP')" class="label label-success outline">{{actorsMembers[actor.id].groups.data.length>0 ? 'Edit' : 'Add'}} <span class="glyphicon glyphicon-pencil"></span></a>
+              <a ng-click="editMapping(actor, 'GROUP')" class="label label-success outline">{{actorsMembers[actor.id].groups.data.length ? 'Edit' : 'Add'}}&nbsp;<span class="glyphicon" ng-class="{'glyphicon-pencil': actorsMembers[actor.id].groups.data.length, 'glyphicon-plus': !actorsMembers[actor.id].groups.data.length}"></span></a>
             </div>
           </td>
           <td>
             <p class="members">
-              <a ng-click="actorsMappingCtrl.deleteMember(role.id)" ng-repeat="role in actorsMembers[actor.id].roles.data" class="label label-primary outline member">{{role.role_id.displayName}}&nbsp;<span class="glyphicon glyphicon-remove"></span></a>
-              <label ng-if="actorsMembers[actor.id].roles.resource.pagination.total > membersPerCell" class="label label-primary outline moreCount">{{actorsMembers[actor.id].roles.resource.pagination.total - membersPerCell}} More</label>
+              <a ng-click="actorsMappingCtrl.removeMember(role.id)" ng-repeat="role in actorsMembers[actor.id].roles.data" class="label label-primary outline member">{{role.role_id.displayName}}&nbsp;<span class="glyphicon glyphicon-remove"></span></a>
+              <label ng-if="actorsMembers[actor.id].roles.resource.pagination.total > membersPerCell" class="label label-primary outline moreCount">{{actorsMembers[actor.id].roles.resource.pagination.total - membersPerCell}}&nbsp;More</label>
             </p>
             <div class="moreMembers">
-              <a ng-click="editMapping(actor, 'ROLE')" class="label label-success outline">{{actorsMembers[actor.id].roles.data.length>0 ? 'Edit' : 'Add'}} <span class="glyphicon glyphicon-pencil"></span></a>
+              <a ng-click="editMapping(actor, 'ROLE')" class="label label-success outline">{{actorsMembers[actor.id].roles.data.length ? 'Edit' : 'Add'}}&nbsp;<span class="glyphicon" ng-class="{'glyphicon-pencil': actorsMembers[actor.id].roles.data.length, 'glyphicon-plus': !actorsMembers[actor.id].roles.data.length}"></span></a>
             </div>
           </td>
           <td>
             <p class="members">
-              <a ng-click="actorsMappingCtrl.deleteMember(membership.id)" ng-repeat="membership in actorsMembers[actor.id].memberships.data" class="label label-primary outline member">{{membership.role_id.displayName}} of {{membership.group_id.displayName}}&nbsp;<span class="glyphicon glyphicon-remove"></span></a>
-              <label ng-if="actorsMembers[actor.id].memberships.resource.pagination.total > membersPerCell" class="label label-primary outline moreCount">{{actorsMembers[actor.id].memberships.resource.pagination.total - membersPerCell}} More</label>
+              <a ng-click="actorsMappingCtrl.removeMember(membership.id)" ng-repeat="membership in actorsMembers[actor.id].memberships.data" class="label label-primary outline member">{{membership.role_id.displayName}} of {{membership.group_id.displayName}}&nbsp;<span class="glyphicon glyphicon-remove"></span></a>
+              <label ng-if="actorsMembers[actor.id].memberships.resource.pagination.total > membersPerCell" class="label label-primary outline moreCount">{{actorsMembers[actor.id].memberships.resource.pagination.total - membersPerCell}}&nbsp;More</label>
             </p>
             <div class="moreMembers">
-              <a ng-click="editMapping(actor, 'MEMBERSHIP')" class="label label-success outline">{{actorsMembers[actor.id].memberships.data.length>0 ? 'Edit' : 'Add'}} <span class="glyphicon glyphicon-pencil"></span></a>
+              <a ng-click="editMapping(actor, 'MEMBERSHIP')" class="label label-success outline">{{actorsMembers[actor.id].memberships.data.length ? 'Edit' : 'Add'}}&nbsp;<span class="glyphicon" ng-class="{'glyphicon-pencil': actorsMembers[actor.id].memberships.data.length, 'glyphicon-plus': !actorsMembers[actor.id].memberships.data.length}"></span></a>
             </div>
           </td>
         </tr>
       </tbody>
     </table>
+    <pagination ng-if="actors.resource.pagination.total>actors.resource.pagination.numberPerPage" ng-click="actorsMappingCtrl.getProcessActors()" boundary-links="true" total-items="actors.resource.pagination.total" ng-model="actors.resource.pagination.currentPage" items-per-page="actors.resource.pagination.numberPerPage " previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;" max-size="5"></pagination>
   </div>
 </div>

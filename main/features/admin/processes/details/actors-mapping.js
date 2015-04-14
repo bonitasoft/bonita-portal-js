@@ -12,20 +12,21 @@
     'org.bonitasoft.bonitable.settings',
     'xeditable'
   ])
-    .controller('ActorsMappingCtrl', function($scope, $modal, process, actorMemberAPI, actorAPI, growl) {
+    .constant('ACTOR_PER_PAGE', 10)
+    .constant('MEMBERS_PER_CELL', 5)
+    .controller('ActorsMappingCtrl', function($scope, $modal, process, actorMemberAPI, actorAPI, growl, ACTOR_PER_PAGE, MEMBERS_PER_CELL) {
       var self = this;
       var resourceInit = [];
       resourceInit.pagination = {
         currentPage: 1,
-        numberPerPage: 10
+        numberPerPage: ACTOR_PER_PAGE
       };
 
-      $scope.membersPerCell = 5;
+      $scope.membersPerCell = MEMBERS_PER_CELL;
       self.init = function init() {
-        self.getActors();
+        self.getProcessActors();
       };
 
-      
       $scope.actors = {
         resource: resourceInit
       };
@@ -84,7 +85,7 @@
       };
 
 
-      self.getActors = function getProcessActors() {
+      self.getProcessActors = function getProcessActors() {
         actorAPI.search({
           'p': $scope.actors.resource.pagination.currentPage - 1,
           'c': $scope.actors.resource.pagination.numberPerPage,
@@ -97,7 +98,7 @@
       };
 
 
-      self.deleteMember = function deleteMember(memberId) {
+      self.removeMember = function removeMember(memberId) {
         actorMemberAPI.delete({
           id: memberId
         }).$promise.then(
@@ -107,7 +108,7 @@
               disableCountDown: true,
               disableIcons: true
             });
-            self.getActors();
+            self.getProcessActors();
           },
           function error() {}
         ).then(function() {
@@ -140,9 +141,6 @@
           self.init();
         });
       };
-
-
-
 
     })
     .filter('dateInMillis', function() {
