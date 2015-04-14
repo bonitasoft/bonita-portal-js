@@ -25,7 +25,7 @@
     vm.openProcessCategoryManagementModal = openProcessCategoryManagementModal;
     vm.updateTagsAndAlertUser = updateTagsAndAlertUser;
     vm.isProcessResolved = isProcessResolved();
-    var growlOpions = {
+    var growlOptions = {
       ttl: 3000,
       disableCountDown: true,
       disableIcons: true
@@ -51,7 +51,7 @@
       modalInstance.result.then(vm.updateTagsAndAlertUser, function(error) {
         if(error !== 'cancel') {
           $log.error('category update failed :' , error);
-          growl.error(gettextCatalog.getString('An error occured during categories update') + ' : ' + error, growlOpions);
+          growl.error(gettextCatalog.getString('An error occured during categories update') + ' : ' + error, growlOptions);
         }
       });
 
@@ -63,7 +63,7 @@
       [].push.apply(vm.selectedCategories, categories.map(function(category) {
         return category.name;
       }));
-      growl.success(gettextCatalog.getString('Successfully updated categories'), growlOpions);
+      growl.success(gettextCatalog.getString('Successfully updated categories'), growlOptions);
     }
 
     function isProcessResolved() {

@@ -3,7 +3,7 @@
     
       <div class="col-md-4 metatags-label">
       {{ 'Configuration State' | translate }}
-      <span class="label label-default">{{::processInformationCtrl.process.configurationState}}</span>
+      <span class="label label-default">{{::processInformationCtrl.process.configurationState}}</span><span class="configurationState {{processInformationCtrl.process.configurationState | lowercase}}"></span>
       </div>
       <div class="col-md-2 row metatags-label">
         {{ 'Activation state' | translate }}
