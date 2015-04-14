@@ -29,7 +29,7 @@
                       <a href="" editable-select="parameter.value" onbeforesave="processParamsCtrl.updateParameter(parameter, $data)"  e-ng-options="s.value as s.value for s in processParamsCtrl.booleanValues">{{ parameter.value }}</a>
                     </div>
                     <div ng-switch-default class="form-group">
-                     <a href="" editable-text="parameter.value" e-style="width: 400px;" onbeforesave="processParamsCtrl.updateParameter(parameter, $data)" e-ng-options="s.value as s.value for s in processParamsCtrl.booleanValues">{{ parameter.value }}</a>
+                     <a href="" editable-text="parameter.value" e-style="width: 400px;" onbeforesave="processParamsCtrl.updateParameter(parameter, $data)" e-ng-options="s.value as s.value for s in processParamsCtrl.booleanValues">{{ parameter.value || 'No Value'}}</a>
                     </div>
                   </div>
                 </td>
