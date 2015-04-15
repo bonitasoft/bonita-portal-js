@@ -77,6 +77,29 @@
         expect(angular.noop).toHaveBeenCalledWith('success');
 
       });
+      xit('should call API to update parameter', function() {
+        var deferred = q.defer();
+        parameterAPI.update.and.returnValue({
+          $promise: deferred.promise
+        });
+        var parameter = {
+          name: 'paramName',
+          description: 'description',
+          type: 'java.lang.String',
+          'process_id' : 123
+        };
+        var value = 'newValue';
+        var errorMsg = {
+          data: {
+            message: 'error'
+          }
+        };
+        processParamsCtrl.updateParameter(parameter, value).then(function(){}, function(errorResult){
+          expect(errorResult).toBe(errorMsg.data.message);
+        });
+        deferred.reject(errorMsg);
+        scope.$apply();
+      });
     });
   });
 })();
