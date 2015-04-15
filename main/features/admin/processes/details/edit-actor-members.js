@@ -267,6 +267,7 @@
           saveObj[self.initObj.realId] = member.id;
           self.actorMemberAPISave(saveObj);
         }
+        self.closeModal();
       };
       self.saveSelectedMembership = function saveSelectedMembership() {
         self.saveCallFinished = 0;
@@ -277,7 +278,7 @@
             'actor_id': actor.id
           }).$promise.then(function success() {
             growl.success(self.scope.newMembershipRole[0].displayName + ' of ' + self.scope.newMembershipGroup[0].displayName + ' was sucessfully created', growlOptions);
-            self.loadMembers();
+            self.closeModal();
           }, function error(response) {
             growl.error(response.data.message, growlOptions);
           });
@@ -301,6 +302,7 @@
       };
 
       self.closeModal = function closeModal() {
+        self.loadMembers();
         $modalInstance.close();
       };
 

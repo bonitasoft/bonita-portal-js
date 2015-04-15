@@ -9,48 +9,43 @@
       <a ng-click="editActorMembersCtrl.removeMember(member)" ng-repeat="member in members" class="label label-primary outline member">
         {{member.removeLabel}} <span class="glyphicon glyphicon-remove"></span>
       </a>
-      <a ng-click="editActorMembersCtrl.removeAll()" class="label label-danger outline member" ng-if="members.length>0">{{'Remove all ' | translate}} <span class="glyphicon glyphicon-remove"></span></a>
+      <a ng-click="editActorMembersCtrl.removeAll()" class="label label-danger outline member" ng-if="members.length>0">{{'Remove all' | translate}} <span class="glyphicon glyphicon-remove"></span></a>
     </p>
-    <p>
-      <label ng-if="editActorMembersCtrl.scope.memberType!==editActorMembersCtrl.constant.MEMBERSHIP">{{'Pickup new {}' | translate | stringTemplater:[currentMemberLabel.toLowerCase()]}}</label>
-      <label ng-if="editActorMembersCtrl.scope.memberType===editActorMembersCtrl.constant.MEMBERSHIP">{{'Create a new {}' | translate | stringTemplater:[currentMemberLabel.toLowerCase()]}}</label>
+    <p ng-if="editActorMembersCtrl.scope.memberType!==editActorMembersCtrl.constant.MEMBERSHIP">
+      <label >{{'Add' | translate}}</label>
       <isteven-multi-select
-      ng-if="editActorMembersCtrl.scope.memberType!==editActorMembersCtrl.constant.MEMBERSHIP"
       input-model="editActorMembersCtrl.scope.first200members"
       output-model="editActorMembersCtrl.scope.arrayNewMembers"
       button-label="buttonLabel"
       item-label="listLabel"
-      helpers-elements="all filter none"
+      helper-elements="all filter none"
       tick-property="selected"
       max-labels="5"
       max-height="200px"
       translation="editActorMembersCtrl.scope.localLang"
       on-search-change="editActorMembersCtrl.multiselectOnSearch(data)"></isteven-multi-select>
-      
-      <div>
+    </p>
+    <p ng-if="editActorMembersCtrl.scope.memberType===editActorMembersCtrl.constant.MEMBERSHIP"
+      >  
+      <label>{{'Create a new membership' | translate}}</label>
       <isteven-multi-select
-      ng-if="editActorMembersCtrl.scope.memberType===editActorMembersCtrl.constant.MEMBERSHIP"
       input-model="editActorMembersCtrl.scope.first200roles"
       output-model="editActorMembersCtrl.scope.newMembershipRole"
       button-label="displayName"
       item-label="displayName"
-      helpers-elements="all filter none"
+      helper-elements="all filter none"
       tick-property="selected"
       max-labels="5"
       max-height="200px"
       translation="editActorMembersCtrl.scope.localLangRole"
       on-search-change="editActorMembersCtrl.selectOnSearchRole(data)"
       selection-mode="single"></isteven-multi-select>
-      </div>
-      
-      <span style="clear:both" ng-if="editActorMembersCtrl.scope.memberType===editActorMembersCtrl.constant.MEMBERSHIP">of</span>
-      <div>
+      <span style="clear:both"> of </span>
       <isteven-multi-select
-      ng-if="editActorMembersCtrl.scope.memberType===editActorMembersCtrl.constant.MEMBERSHIP"
       input-model="first200groups"
       output-model="editActorMembersCtrl.scope.newMembershipGroup"
       button-label="displayName"
-      helpers-elements="all filter none"
+      helper-elements="all filter none"
       item-label="displayName"
       tick-property="selected"
       max-labels="5"
@@ -58,7 +53,7 @@
       translation="editActorMembersCtrl.scope.localLangGroup"
       on-search-change="editActorMembersCtrl.selectOnSearchGroup(data)"
       selection-mode="single"></isteven-multi-select>
-      </div>
+      
     </p>
   </div>
   <div class="modal-footer">
