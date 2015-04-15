@@ -35,7 +35,7 @@
               return 'Error: value must be a double';
             }
             break;
-          case 'java.lang.Integer': 
+          case 'java.lang.Integer':
             if($data % 1 !== 0){
               return 'Error: value must be an integer';
             }
