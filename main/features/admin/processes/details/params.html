@@ -11,10 +11,10 @@
       <table class="table table-striped">
           <thead>
               <tr>
-                  <th>Name</th>
-                  <th>Description</th>
-                  <th>Type</th>
-                  <th>Value</th>
+                  <th translate>Name</th> 
+                  <th translate>Description</th>
+                  <th translate>Type</th>
+                  <th translate>Value</th>
               </tr>
           </thead>
           <tbody>
@@ -29,14 +29,13 @@
                       <a href="" editable-select="parameter.value" onbeforesave="processParamsCtrl.updateParameter(parameter, $data)"  e-ng-options="s.value as s.value for s in processParamsCtrl.booleanValues">{{ parameter.value }}</a>
                     </div>
                     <div ng-switch-default class="form-group">
-                     <a href="" editable-text="parameter.value" e-style="width: 400px;" onbeforesave="processParamsCtrl.updateParameter(parameter, $data)" e-ng-options="s.value as s.value for s in processParamsCtrl.booleanValues">{{ parameter.value || 'No Value'}}</a>
+                      <a href="" editable-text="parameter.value" e-style="width: 400px;" onbeforesave="processParamsCtrl.updateParameter(parameter, $data)" >{{ parameter.value || 'No Value'}}</a>
                     </div>
                   </div>
                 </td>
-                  <!-- <td ng-if="processParamsCtrl.showActions"><edit-parameter-button parameter="parameter" process-id="{{::processParamsCtrl.process.id}}"></edit-parameter-button></td> -->
               </tr>
           </tbody>
-      </table>
+      </table> 
     </div>
   </div>
 </div>

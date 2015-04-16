@@ -21,7 +21,8 @@
       self.scope.arrayNewMembers = [];
       self.scope.newMembershipRole = {};
       self.scope.newMembershipGroup = {};
-
+      self.scope.actor = actor;
+      
       var growlOptions = {
         ttl: 3000,
         disableCountDown: true,
