@@ -1,0 +1,64 @@
+<div id="editActorsMembersModal" ng-init="editActorMembersCtrl.initView()" class="process-details">
+
+  <div class="modal-header">
+    <h3 class="modal-title">{{'{} mapped to actor {}' | translate | stringTemplater:[currentMemberLabel, editActorMembersCtrl.scope.actor.displayname]}}</h3>
+  </div>
+  <div class="modal-body">
+    <h4>{{'{} {} already mapped' | translate | stringTemplater:[members.length, currentMemberLabel.toLowerCase()]}}</h4>
+    <p class="members">
+      <a ng-click="editActorMembersCtrl.removeMember(member)" ng-repeat="member in members" class="label label-primary outline member">
+        {{member.removeLabel}} <span class="glyphicon glyphicon-remove"></span>
+      </a>
+      <a ng-click="editActorMembersCtrl.removeAll()" class="label label-danger outline member" ng-if="members.length>0">{{'Remove all' | translate}} <span class="glyphicon glyphicon-remove"></span></a>
+    </p>
+    <p ng-if="editActorMembersCtrl.scope.memberType!==editActorMembersCtrl.constant.MEMBERSHIP">
+      <label >{{'Add' | translate}}</label>
+      <isteven-multi-select
+      input-model="editActorMembersCtrl.scope.first200members"
+      output-model="editActorMembersCtrl.scope.arrayNewMembers"
+      button-label="buttonLabel"
+      item-label="listLabel"
+      helper-elements="all filter none"
+      tick-property="selected"
+      max-labels="5"
+      max-height="200px"
+      translation="editActorMembersCtrl.scope.localLang"
+      on-search-change="editActorMembersCtrl.multiselectOnSearch(data)"></isteven-multi-select>
+    </p>
+    <p ng-if="editActorMembersCtrl.scope.memberType===editActorMembersCtrl.constant.MEMBERSHIP"
+      >  
+      <label>{{'Create a new membership' | translate}}</label>
+      <isteven-multi-select
+      input-model="editActorMembersCtrl.scope.first200roles"
+      output-model="editActorMembersCtrl.scope.newMembershipRole"
+      button-label="displayName"
+      item-label="displayName"
+      helper-elements="all filter none"
+      tick-property="selected"
+      max-labels="5"
+      max-height="200px"
+      translation="editActorMembersCtrl.scope.localLangRole"
+      on-search-change="editActorMembersCtrl.selectOnSearchRole(data)"
+      selection-mode="single"></isteven-multi-select>
+      <span style="clear:both"> of </span>
+      <isteven-multi-select
+      input-model="first200groups"
+      output-model="editActorMembersCtrl.scope.newMembershipGroup"
+      button-label="displayName"
+      helper-elements="all filter none"
+      item-label="displayName"
+      tick-property="selected"
+      max-labels="5"
+      max-height="200px"
+      translation="editActorMembersCtrl.scope.localLangGroup"
+      on-search-change="editActorMembersCtrl.selectOnSearchGroup(data)"
+      selection-mode="single"></isteven-multi-select>
+      
+    </p>
+  </div>
+  <div class="modal-footer">
+    <a ng-if="editActorMembersCtrl.scope.arrayNewMembers.length && editActorMembersCtrl.scope.memberType!==editActorMembersCtrl.constant.MEMBERSHIP" class="btn btn-primary" ng-click="editActorMembersCtrl.saveSelectedMembers()">Add</a>
+    <a ng-if="editActorMembersCtrl.scope.newMembershipRole.length && editActorMembersCtrl.scope.newMembershipGroup.length && editActorMembersCtrl.scope.memberType==editActorMembersCtrl.constant.MEMBERSHIP" class="btn btn-primary" ng-click="editActorMembersCtrl.saveSelectedMembership()">Create membership</a>
+    <a ng-click="editActorMembersCtrl.closeModal()" class="btn btn-default">{{'Close'|translate}}</a>
+  </div>
+</div>
