@@ -3,7 +3,7 @@
   /**
    * org.bonitasoft.features.admin.processes.details.params Module
    *
-   * list params
+   * list params 
    */
   angular.module('org.bonitasoft.features.admin.processes.details.params', [
     'org.bonitasoft.common.resources',

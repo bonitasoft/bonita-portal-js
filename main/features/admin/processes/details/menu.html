@@ -1,5 +1,5 @@
 <div id="process-details" class="process-details">
-  <div class="col-md-12">
+  <div class="col-md-12 actions">
     <div class="col-md-2">
     <a class="btn btn-default" bonita-href="{token: 'processlistingadmin'}">Back</a>
     </div>
@@ -8,8 +8,9 @@
 
       <button type="button" class="btn btn-primary" ng-disabled="processMenuCtrl.process.activationState === 'ENABLED'" ng-click="processMenuCtrl.deleteProcess()">Delete</button>
     </div>
+  </div>
   <div class="col-md-12">
-    <h1 >{{processMenuCtrl.process.displayName}} ({{processMenuCtrl.process.version}})</h1>
+    <h1 >{{processMenuCtrl.process.name}} ({{processMenuCtrl.process.version}})</h1>
   </div>
   <div class="col-md-12" style="padding-top: 10px;">
     <div ng-if="processMenuCtrl.process.configurationState !== 'RESOLVED'" style=" padding-bottom: 0px;" class="panel panel-danger">
