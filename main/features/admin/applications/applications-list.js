@@ -164,7 +164,7 @@
         $modalInstance.dismiss('cancel');
       };
     }])
-    .controller('importApplicationCtrl', ['$scope', '$modalInstance', 'FileUploader', 'importApplication', function ($scope, $modalInstance, FileUploader, importApplication) {
+    .controller('importApplicationCtrl', function ($scope, $modalInstance, FileUploader, importApplication, $log) {
 
       var self = this;
 
@@ -218,7 +218,7 @@
         $scope.totalImportedApps   = data.imported.length;
         $scope.imports             = data.imported;
         $scope.errorsApi           = data.errors;
-        console.debug('[importApplicationCtrl@successUpload] Import a new app');
+        $log.debug('[importApplicationCtrl@successUpload] Import a new app');
       }
 
       function errorImportCb(res) {
@@ -241,7 +241,7 @@
       this.closeModalSuccess = function closeModalSuccess() {
         $modalInstance.close();
       };
-    }])
+    })
     .service('templateAppDetailLoader', ['$interpolate', '$templateCache', '$http', '$q', function ($interpolate, $templateCache, $http, $q) {
 
       var self = this;
