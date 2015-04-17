@@ -59,6 +59,6 @@
   <div class="modal-footer">
     <a ng-if="editActorMembersCtrl.scope.arrayNewMembers.length>0 && editActorMembersCtrl.scope.memberType!==editActorMembersCtrl.constant.MEMBERSHIP" class="btn btn-primary" ng-click="editActorMembersCtrl.saveSelectedMembers()">{{'Add' | translate}}</a>
     <a ng-if="editActorMembersCtrl.scope.newMembershipRole.length>0 && editActorMembersCtrl.scope.newMembershipGroup.length>0 && editActorMembersCtrl.scope.memberType==editActorMembersCtrl.constant.MEMBERSHIP" class="btn btn-primary" ng-click="editActorMembersCtrl.saveSelectedMembership()">{{'Create membership' | translate}}</a>
-    <a ng-click="editActorMembersCtrl.closeModal()" class="btn btn-default">Cancel</a>
+    <a ng-click="editActorMembersCtrl.closeModal()" class="btn btn-default">{{'Close'|translate}}</a>
   </div>
 </div>

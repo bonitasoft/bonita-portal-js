@@ -408,7 +408,7 @@ module.exports = function (grunt) {
         options: {
           //configFile: "e2e.conf.js", // Target-specific config file
           args: {
-            //suite : 'arch-case-list'
+            //suite : 'process-details-information'
           } // Target-specific arguments
         }
       }
