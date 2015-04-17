@@ -1,14 +1,14 @@
 /* global element, by */
 (function () {
   'use strict';
-  ddescribe('process details', function () {
+  describe('process details', function () {
 
     var processDetails,
       width = 1280,
       height = 800;
     browser.driver.manage().window().setSize(width, height);
 
-    ddescribe('Resolved Process', function(){
+    describe('Resolved Process', function(){
 
       beforeEach(function () {
         browser.get('#/admin/processes/details/321');
