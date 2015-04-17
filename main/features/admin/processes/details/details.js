@@ -51,7 +51,8 @@
           controller: 'ProcessMenuCtrl',
           controllerAs: 'processMenuCtrl',
           resolve: {
-            process: ['processAPI', '$stateParams', retrieveProcess]
+            process: ['processAPI', '$stateParams', retrieveProcess],
+            processResolutionProblems : ['store', 'processResolutionProblemAPI', '$stateParams', retrieveProcessResolutionProblem]
           }
         }).state(informationStateName, {
           url: '',
@@ -73,7 +74,10 @@
           url: '/connectors',
           templateUrl: 'features/admin/processes/details/process-connectors.html',
           controller: 'ProcessConnectorsCtrl',
-          controllerAs: 'processConnectorsCtrl'
+          controllerAs: 'processConnectorsCtrl',
+          resolve: {
+            processConnectors: ['store', 'processConnectorAPI', '$stateParams', retrieveConnectors]
+          }
         }).state(actorsMappingStateName, {
           url: '/actorsMapping',
           templateUrl: 'features/admin/processes/details/actors-mapping.html',
@@ -86,7 +90,7 @@
     .controller('DeleteProcessModalInstanceCtrl', DeleteProcessModalInstanceCtrl);
 
   /* jshint -W003 */
-  function ProcessMenuCtrl($scope, menuContent, process, processAPI, $modal, $stateParams, $state, manageTopUrl, $window) {
+  function ProcessMenuCtrl($scope, menuContent, process, processAPI, $modal, $stateParams, $state, manageTopUrl, $window, processResolutionProblems) {
     var vm = this;
     vm.getCurrentStateName = function() {
       return $state.current.name;
@@ -97,6 +101,7 @@
     vm.refreshProcess = refreshProcess;
     vm.deleteProcess = deleteProcess;
     vm.currentPageToken = manageTopUrl.getCurrentPageToken();
+    vm.processResolutionProblems = processResolutionProblems;
 
     $scope.$on('button.toggle', vm.toggleProcessActivation);
     $scope.$on('process.refresh', vm.refreshProcess);
@@ -161,6 +166,12 @@
 
 
 
+  function retrieveProcessResolutionProblem(store, processResolutionProblemAPI, $stateParams) {
+    return store.load(processResolutionProblemAPI, {
+      f: ['process_id=' + $stateParams.processId]
+    });
+  }
+
   function retrieveProcess(processAPI, $stateParams) {
     return processAPI.get({
       id: $stateParams.processId,
@@ -179,6 +190,13 @@
     return store.load(parameterAPI, {
       f: ['process_id=' + $stateParams.processId],
       o: ['name ASC']
+    });
+  }
+
+  function retrieveConnectors(store, processConnectorAPI, $stateParams) {
+    return store.load(processConnectorAPI, {
+      o: 'definition_id ASC',
+      f: 'process_id=' + $stateParams.processId
     });
   }
 })();

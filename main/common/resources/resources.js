@@ -129,6 +129,7 @@
     'parameterAPI': 'bpm/processParameter',
     'personalDataAPI': 'identity/personalcontactdata',
     'processAPI': 'bpm/process',
+    'processResolutionProblemAPI': 'bpm/processResolutionProblem',
     'professionalDataAPI': 'identity/professionalcontactdata',
     'profileAPI': 'portal/profile',
     'roleAPI': 'identity/role',
