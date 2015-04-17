@@ -1,7 +1,7 @@
 /* global element, by */
 (function () {
   'use strict';
-  ddescribe('process details', function () {
+  describe('process details', function () {
 
     var processDetails,
       width = 1280,
@@ -17,20 +17,7 @@
       });
 
       describe('main elements', function() {
-        it('should display main action button', function() {
-          var mainActionButtons = processDetails.all(by.css('.actions .btn'));
-          expect(mainActionButtons.count()).toBe(2);
-          expect(mainActionButtons.get(0).getText()).toEqual('Back');
-          expect(mainActionButtons.get(0).getAttribute('bonita-href')).toEqual('{token: \'processlistingadmin\'}');
-
-          expect(processDetails.all(by.css('h1')).getText()).toEqual(['SupportProcess (1.0)']);
-          expect(processDetails.all(by.css('.panel-danger > div')).count()).toBe(0);
-        });
-
-        it('should not be able to click the delete button', function(){
-          expect(processDetails.all(by.css('.actions button.btn')).get(0).getAttribute('disabled')).toEqual('true');
-          
-        });
+        it('should display main action button', checkMainActions);
       });
 
       describe('navigation in menu ', function () {
@@ -54,10 +41,7 @@
           browser.get('#/admin/processes/details/321/actorsMapping');
 
           //Actors
-          var mainActionButtons = element.all(by.css('#process-details .actions .btn'));
-          expect(mainActionButtons.count()).toBe(2);
-          expect(element.all(by.css('h1')).getText()).toEqual(['SupportProcess (1.0)']);
-          expect(element.all(by.css('#process-details-actors')).count()).toBe(1);
+          checkMainActions();
           expect(menuItems.get(0).getAttribute('class')).not.toContain('active');
           expect(menuItems.get(1).getAttribute('class')).toContain('active');
           expect(menuItems.get(2).getAttribute('class')).not.toContain('active');
@@ -66,9 +50,7 @@
           //params
           //menuItems.get(2).all(by.css('a')).get(0).click();
           browser.get('#/admin/processes/details/321/params');
-          expect(mainActionButtons.count()).toBe(2);
-          expect(element.all(by.css('h1')).getText()).toEqual(['SupportProcess (1.0)']);
-          expect(element.all(by.css('#params')).count()).toBe(1);
+          checkMainActions();
           expect(menuItems.get(0).getAttribute('class')).not.toContain('active');
           expect(menuItems.get(1).getAttribute('class')).not.toContain('active');
           expect(menuItems.get(2).getAttribute('class')).toContain('active');
@@ -77,10 +59,7 @@
           //Connectors
           //menuItems.get(3).all(by.css('a')).get(0).click();
           browser.get('#/admin/processes/details/321/connectors');
-          mainActionButtons = element.all(by.css('#process-details .actions .btn'));
-          expect(mainActionButtons.count()).toBe(2);
-          expect(element.all(by.css('h1')).getText()).toEqual(['SupportProcess (1.0)']);
-          expect(element.all(by.css('#process-details-connectors')).count()).toBe(1);
+          checkMainActions();
           expect(menuItems.get(0).getAttribute('class')).not.toContain('active');
           expect(menuItems.get(1).getAttribute('class')).not.toContain('active');
           expect(menuItems.get(2).getAttribute('class')).not.toContain('active');
@@ -92,6 +71,17 @@
           expect(element.all(by.css('#process-details-information')).count()).toBe(1);
         });
       });
+
+      function checkMainActions() {
+        var mainActionButtons = processDetails.all(by.css('.actions .btn'));
+        
+        expect(mainActionButtons.get(0).getText()).toEqual('Back');
+        expect(mainActionButtons.get(0).getAttribute('bonita-href')).toEqual('{token: \'processlistingadmin\'}');
+
+        expect(processDetails.all(by.css('h1')).getText()).toEqual(['SupportProcess (1.0)']);
+        expect(processDetails.all(by.css('.panel-danger > div')).count()).toBe(0);
+        expect(processDetails.all(by.css('.actions button.btn-primary')).get(0).getAttribute('disabled')).toEqual('true');
+      }
     });
     describe('Resolved Process', function(){
 
@@ -104,14 +94,12 @@
       describe('main elements', function() {
         it('should display main action button', function() {
           var mainActionButtons = processDetails.all(by.css('.actions .btn'));
-          expect(mainActionButtons.count()).toBe(2);
+          expect(mainActionButtons.get(0).getText()).toEqual('Back');
+          expect(mainActionButtons.get(0).getAttribute('bonita-href')).toEqual('{token: \'processlistingadmin\'}');
+
           expect(processDetails.all(by.css('h1')).getText()).toEqual(['Rock\'N\'Roll Process (6.6.6)']);
           expect(processDetails.all(by.css('.panel-danger > div')).getText()).toEqual(['The Process cannot be enabled','Entity Mapping must be resolved before enabling the Process.']);
-        });
-
-        it('should delete current process', function(){
-          processDetails.all(by.css('.actions .btn')).get(0).click();
-          
+          processDetails.all(by.css('.actions .btn-primary')).get(0).click();
         });
       });
     });
