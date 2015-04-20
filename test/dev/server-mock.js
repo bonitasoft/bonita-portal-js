@@ -116,11 +116,19 @@
     when('GET', /^\/API\/bpm\/archivedCase\?c=25&d=processDefinitionId&d=started_by&d=startedBySubstitute&f=processDefinitionId%3D4910683075061293406&o=sourceObjectId\+ASC&p=0&s=$/).respond(require('./admin/cases/list/arch-cases-list-28-mocks-filtered-by-processx-id.json'));
     when('GET', /^\/API\/bpm\/archivedCase\?c=25&d=processDefinitionId&d=started_by&d=startedBySubstitute&f=processDefinitionId%3D8967858817451251940&o=sourceObjectId\+ASC&p=0&s=$/).respond(require('./admin/cases/list/arch-cases-list-28-mocks-filtered-by-poule-2.0-app.json'));
 
+    //process details
+    when('GET', /^\/API\/bpm\/process\/321\?d=deployedBy&n=openCases&n=failedCases$/).respond(require('./admin/processes/details/process-def-321.json'));
+    when('GET', /^\/API\/bpm\/process\/789\?d=deployedBy&n=openCases&n=failedCases$/).respond(require('./admin/processes/details/process-def-789.json'));
+    when('GET', /^\/API\/bpm\/category\?c=\d+&f=id%3D321&p=\d+$/).respond(require('./admin/processes/details/process-categories-321.json'));
+    when('GET', /^\/API\/bpm\/category\?c=\d+&f=id%3D789&p=\d+$/).respond([]);
+    when('GET', /^\/API\/bpm\/processParameter\?c=\d+&f=process_id%3D321&(.*&)?p=\d+$/).respond(require('./admin/processes/details/process-parameters-321.json'));
 
+    //global
     when('GET', /^\/API\/bpm\/process\?c=\d&p=0$/).respond(require('./admin/cases/list/process-def-4.json'));
     //http://localhost:9002/API/system/i18ntranslation?f=locale%3Den
     when('GET', /^\/API\/system\/i18ntranslation.*$/).respond([]);
     when('GET', /^\/API\/system\/session\/unusedId$/).respond([]);
+    when('GET', /^\/API\/system\/feature\?c=0&p=0$/).respond([]);
 
     /*when('POST', '/bonita/API/livingApps').respond(
         {

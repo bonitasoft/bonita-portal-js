@@ -1,40 +1,39 @@
-<div>
-  <h3>{{'Information' | translate }}</h3>
-  <ul class="nav nav-pills text-left">
-    <li class="col-md-4 " role="presentation">
-      <a href="">
-        {{ 'Version' | translate }}
-        <span class="label label-info">{{processInformationCtrl.process.version}}</span>
-      </a>
-    </li>
-    <li  class="col-md-4"  role="presentation">
-      <a href="">
-        {{ 'Configuration state' | translate }}
-        <span class="label label-info">{{processInformationCtrl.process.activationState}}</span>
-      </a>
-    </li>
-    <li  class="col-md-4" role="presentation">
-      <a href="">
-        {{ 'Last updated on' | translate }}
-        <span class="label label-info">{{::processInformationCtrl.parseAndFormat(processInformationCtrl.process.last_update_date)}}</span>
-      </a>
-    </li>
-    <li  class="col-md-4" role="presentation">
-      <a href="">
-        {{ 'Installed on' | translate }}
-        <span class="label label-info">{{::processInformationCtrl.parseAndFormat(processInformationCtrl.process.deploymentDate)}}</span>
-      </a>
-    </li>
-    <li  class="col-md-4" role="presentation">
-      <a href="">
-        {{ 'Installed by' | translate }}
-        <span class="label label-info">{{(processInformationCtrl.process.deployedBy.id)?(processInformationCtrl.process.deployedBy.firstname + ' ' + processInformationCtrl.process.deployedBy.lastname):'System'}}</span>
-      </a>
-    </li>
-  </ul>
-  <h3>{{ 'Description' | translate }}</h3>
-  <p>{{processInformationCtrl.process.description}}</p>
-  <monitoring-status process='processInformationCtrl.process'></monitoring-status>  
-  
-  <h3>Process Manager</h3>
+<div id="process-details-information">
+  <div class="col-md-12 ">
+    
+        <div class="metatags-label form-group">{{ 'Configuration state' | translate }}
+        <span class="label label-default">{{::processInformationCtrl.process.configurationState}}</span> <span class="configurationState {{processInformationCtrl.process.configurationState | lowercase}}"></span>
+        </div>
+        <div class="metatags-label  form-group">
+
+        {{ 'Activation state' | translate }}
+            <toggle-button on="Enabled" off="Disabled" process-id="{{::processInformationCtrl.process.id}}" initial-state="{{::processInformationCtrl.process.activationState === 'ENABLED'}}" enable-toggle="processInformationCtrl.isProcessResolved"></toggle-button>
+      </div>
+        <div class="metatags-label form-group">
+     
+      {{ 'Last updated on' | translate }}
+      {{::processInformationCtrl.parseAndFormat(processInformationCtrl.process.last_update_date)}}
+      </div>
+
+  </div>
+  <div class="col-md-12">
+
+    <p ng-if="processInformationCtrl.process.description" >{{processInformationCtrl.process.description}}</p>
+    <p ng-if="!processInformationCtrl.process.description" >{{'No description.' | translate}}</p>
+  </div>
+  <div class="col-md-12">
+  <div class="col-md-12 row categories">
+    <div class="col-md-2 row metatags-label">
+    Categories <button class="glyphicon" ng-click="processInformationCtrl.openProcessCategoryManagementModal()"><span class="glyphicon glyphicon-pencil"></span></button>
+    </div>
+    <div class="col-md-10 bootstrap-tags">
+      <bonitags tags-suggestion="processInformationCtrl.categories" tags-selection="processInformationCtrl.selectedCategories" read-only></bonitags> 
+    </div>
+  </div>
+
+    <monitoring-status process='processInformationCtrl.process'></monitoring-status>  
+    
+    <process-manager-mapping process='processInformationCtrl.process'></process-manager-mapping>  
+  </div>
+  </div>
 </div>
