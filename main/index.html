@@ -18,8 +18,11 @@
     <link rel="stylesheet" href="assets/bootstrap/dist/css/bootstrap.css" />
     <link rel="stylesheet" href="assets/animate.css/animate.css" />
     <link rel="stylesheet" href="assets/ng-sortable/dist/ng-sortable.css" />
+    <link rel="stylesheet" href="assets/angular-multi-select/isteven-multi-select.css" />
     <link rel="stylesheet" href="assets/angular-ui-tree/dist/angular-ui-tree.min.css" />
+    <link rel="stylesheet" href="assets/angular-xeditable/dist/css/xeditable.css" />
     <link rel="stylesheet" href="assets/bootstrap-toggle/css/bootstrap-toggle.min.css" />
+    <link rel="stylesheet" href="assets/bootstrap-tags/dist/css/bootstrap-tags.css" />
     <!-- endbower -->
     <link rel="stylesheet" href="assets/jquery-resizable-columns/dist/jquery.resizableColumns.css" />
     <link rel="stylesheet" href="assets/angular-growl-2/build/angular-growl.css" />
@@ -61,19 +64,24 @@
 <script src="assets/jquery-resizable-columns/dist/jquery.resizableColumns.min.js"></script>
 <script src="assets/angular-growl-2/build/angular-growl.js"></script>
 <script src="assets/angular-animate/angular-animate.js"></script>
+<script src="assets/angular-multi-select/isteven-multi-select.js"></script>
 <script src="assets/angular-sanitize/angular-sanitize.js"></script>
 <script src="assets/moment/moment.js"></script>
 <script src="assets/numeral/numeral.js"></script>
 <script src="assets/numeral/languages.js"></script>
 <script src="assets/angular-file-upload/angular-file-upload.js"></script>
 <script src="assets/angular-ui-tree/dist/angular-ui-tree.js"></script>
+<script src="assets/angular-xeditable/dist/js/xeditable.js"></script>
 <script src="assets/bootstrap-toggle/js/bootstrap-toggle.min.js"></script>
+<script src="assets/lodash/lodash.js"></script>
+<script src="assets/bootstrap-tags/dist/js/bootstrap-tags.js"></script>
 <!-- endbower -->
 <!-- endbuild -->
 
 <!-- build:js({.tmp,main}) scripts/bonita-portal.js -->
 <!-- injector:js -->
 <script src="common/directives/bonita-href.js"></script>
+<script src="common/directives/bonitags/bonitags.js"></script>
 <script src="common/directives/bootstrap-form-control/bootstrap-form-control.js"></script>
 <script src="common/directives/module.js"></script>
 <script src="common/directives/resizable/resizable-columns.js"></script>
@@ -82,12 +90,14 @@
 <script src="common/directives/toggle-button/toggle-button.js"></script>
 <script src="common/directives/urlified.js"></script>
 <script src="common/factories/i18nMsg.js"></script>
+<script src="common/filters/date-parser.js"></script>
 <script src="common/filters/dateI18n/datei18n.js"></script>
 <script src="common/filters/stringTemplater.js"></script>
 <script src="common/filters/urlify.js"></script>
 <script src="common/filters/utils/string.js"></script>
 <script src="common/resources/resources.js"></script>
 <script src="common/resources/store.js"></script>
+<script src="common/services/feature-manager.js"></script>
 <script src="common/services/i18n.js"></script>
 <script src="common/services/topLocationFactory.js"></script>
 <script src="features/admin/admin.js"></script>
@@ -99,15 +109,18 @@
 <script src="features/admin/applications/edit-application-look-n-feel.js"></script>
 <script src="features/admin/applications/edit-application.js"></script>
 <script src="features/admin/cases/cases.js"></script>
-<script src="features/admin/cases/list/cases-date-service.js"></script>
 <script src="features/admin/cases/list/cases-list-delete.js"></script>
 <script src="features/admin/cases/list/cases-list-filters.js"></script>
 <script src="features/admin/cases/list/cases-list-values.js"></script>
 <script src="features/admin/cases/list/cases-list.js"></script>
 <script src="features/admin/cases/list/cases-tabs.js"></script>
+<script src="features/admin/processes/details/actors-mapping.js"></script>
 <script src="features/admin/processes/details/details.js"></script>
+<script src="features/admin/processes/details/edit-actor-members.js"></script>
 <script src="features/admin/processes/details/information.js"></script>
+<script src="features/admin/processes/details/manage-categories.js"></script>
 <script src="features/admin/processes/details/params.js"></script>
+<script src="features/admin/processes/details/process-connectors.js"></script>
 <script src="features/admin/processes/processes.js"></script>
 <script src="bonita-portal.js"></script>
 <!-- endinjector -->
