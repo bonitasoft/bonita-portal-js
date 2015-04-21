@@ -6,6 +6,7 @@
   var paramsStateName = 'bonita.processesDetails.params';
   var processConnectorsStateName = 'bonita.processesDetails.processConnectors';
   var actorsMappingStateName = 'bonita.processesDetails.actorsMapping';
+  /*eslint "angular/ng_di":0*/
   angular.module('org.bonitasoft.features.admin.processes.details', [
     'ui.router',
     'ui.bootstrap',
@@ -19,7 +20,8 @@
     'org.bonitasoft.services.topurl',
     'org.bonitasoft.features.admin.processes.details.information',
     'org.bonitasoft.features.admin.processes.details.processConnectors',
-    'org.bonitasoft.features.admin.processes.details.params'
+    'org.bonitasoft.features.admin.processes.details.params',
+    'org.bonitasoft.service.process.resolution'
   ])
     .value('menuContent', [{
       name: 'General',
@@ -37,11 +39,17 @@
       name: 'Connectors',
       link: 'connectors',
       state: processConnectorsStateName
-    }]).service('ProcessMoreDetailsResolveService', function(store, processConnectorAPI, parameterAPI, categoryAPI, processAPI, processResolutionProblemAPI) {
+    }]).service('ProcessMoreDetailsResolveService', function(store, processConnectorAPI, parameterAPI, categoryAPI, processAPI, processResolutionProblemAPI, ProcessProblemResolutionService) {
       var processMoreDetailsResolveService = {};
       processMoreDetailsResolveService.retrieveProcessResolutionProblem = function(processId) {
         return store.load(processResolutionProblemAPI, {
           f: ['process_id=' + processId]
+        }).then(function (processResolutionProblems) {
+          return ProcessProblemResolutionService.buildProblemsList(processResolutionProblems.map(function(resolutionProblem) {
+              /* jshint camelcase: false */
+              return resolutionProblem.target_type;
+              /* jshint camelcase: true */
+            }));
         });
       };
 
