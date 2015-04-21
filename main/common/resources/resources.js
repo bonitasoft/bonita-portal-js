@@ -42,9 +42,9 @@
                 return response;
               }
             }
-          },actions && actions.search),
+          }, actions && actions.search),
 
-          'update': angular.extend({method: 'PUT'},actions && actions.update)
+          'update': angular.extend({method: 'PUT'}, actions && actions.update)
         });
         return $delegate(url, paramDefaults, actions, options);
       };
@@ -68,7 +68,7 @@
     $provide.decorator('$resource', resourceDecorator);
   })
 
-  .factory('unauthorizedResponseHandler', ['$q', '$window',
+  .factory('unauthorizedResponseHandler',
     function($q, $window) {
       return {
         'responseError': function(rejection) {
@@ -79,7 +79,7 @@
         }
       };
     }
-  ]);
+  );
 
 
   /**
@@ -136,17 +136,17 @@
     'userAPI': 'identity/user'
   });
 
-  module.factory('importApplication', ['API_PATH', '$resource',
-    function(API_PATH, $resource) {
+  module.factory('importApplication',
+    function($resource) {
       return $resource('../services/application/import', {
         importPolicy: '@importPolicy',
         applicationsDataUpload: '@applicationsDataUpload'
       });
     }
-  ]);
+  );
 
 
-  module.factory('processCategoryAPI', function(API_PATH, $http) {
+  module.factory('processCategoryAPI', function($http) {
     /*jshint camelcase: false */
     var processCategoryAPI = {};
     processCategoryAPI.save = function(options) {
@@ -169,12 +169,12 @@
     return processCategoryAPI;
   });
 
-  module.factory('processConnectorAPI', function(API_PATH, $http, $resource) {
+  module.factory('processConnectorAPI', function($http, $resource) {
     /*jshint camelcase: false */
     return $resource(API_PATH + 'bpm/processConnector/:process_id/:definition_id/:definition_version', {
-      process_id: '@process_id',
-      definition_id: '@definition_id',
-      definition_version: '@definition_version'
+      'process_id': '@process_id',
+      'definition_id': '@definition_id',
+      'definition_version': '@definition_version'
     }, {
       'search': {
         isArray: true,
@@ -198,7 +198,4 @@
 
     });
   });
-
-
-
 })();

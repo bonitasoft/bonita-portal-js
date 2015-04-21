@@ -21,59 +21,59 @@
     'org.bonitasoft.features.admin.processes.details.processConnectors',
     'org.bonitasoft.features.admin.processes.details.params'
   ])
-  .value('menuContent', [{
-    name: 'General',
-    link: '',
-    state: informationStateName
-  }, {
-    name: 'Actors',
-    link: 'actorsMapping',
-    state: actorsMappingStateName
-  }, {
-    name: 'Parameters',
-    link: 'params',
-    state: paramsStateName
-  }, {
-    name: 'Connectors',
-    link: 'connectors',
-    state: processConnectorsStateName
-  }]).service('ProcessMoreDetailsResolveService', function(store, processConnectorAPI, parameterAPI, categoryAPI, processAPI, processResolutionProblemAPI){
-    var processMoreDetailsResolveService = {};
-    processMoreDetailsResolveService.retrieveProcessResolutionProblem = function (processId) {
-    return store.load(processResolutionProblemAPI, {
-      f: ['process_id=' + processId]
-    });
-  };
+    .value('menuContent', [{
+      name: 'General',
+      link: '',
+      state: informationStateName
+    }, {
+      name: 'Actors',
+      link: 'actorsMapping',
+      state: actorsMappingStateName
+    }, {
+      name: 'Parameters',
+      link: 'params',
+      state: paramsStateName
+    }, {
+      name: 'Connectors',
+      link: 'connectors',
+      state: processConnectorsStateName
+    }]).service('ProcessMoreDetailsResolveService', function(store, processConnectorAPI, parameterAPI, categoryAPI, processAPI, processResolutionProblemAPI) {
+      var processMoreDetailsResolveService = {};
+      processMoreDetailsResolveService.retrieveProcessResolutionProblem = function(processId) {
+        return store.load(processResolutionProblemAPI, {
+          f: ['process_id=' + processId]
+        });
+      };
 
-  processMoreDetailsResolveService.retrieveProcess = function (processId) {
-    return processAPI.get({
-      id: processId,
-      d: ['deployedBy'],
-      n: ['openCases', 'failedCases']
-    });
-  };
+      processMoreDetailsResolveService.retrieveProcess = function(processId) {
+        return processAPI.get({
+          id: processId,
+          d: ['deployedBy'],
+          n: ['openCases', 'failedCases']
+        });
+      };
 
-  processMoreDetailsResolveService.retrieveCategories = function (processId) {
-    return store.load(categoryAPI, {
-      f: ['id=' + processId]
-    });
-  };
+      processMoreDetailsResolveService.retrieveCategories = function(processId) {
+        return store.load(categoryAPI, {
+          f: ['id=' + processId]
+        });
+      };
 
-  processMoreDetailsResolveService.retrieveParameters = function (processId) {
-    return store.load(parameterAPI, {
-      f: ['process_id=' + processId],
-      o: ['name ASC']
-    });
-  };
+      processMoreDetailsResolveService.retrieveParameters = function(processId) {
+        return store.load(parameterAPI, {
+          f: ['process_id=' + processId],
+          o: ['name ASC']
+        });
+      };
 
-  processMoreDetailsResolveService.retrieveConnectors = function (processId) {
-    return store.load(processConnectorAPI, {
-      o: 'definition_id ASC',
-      f: 'process_id=' + processId
-    });
-  };
-    return processMoreDetailsResolveService;
-  })
+      processMoreDetailsResolveService.retrieveConnectors = function(processId) {
+        return store.load(processConnectorAPI, {
+          o: 'definition_id ASC',
+          f: 'process_id=' + processId
+        });
+      };
+      return processMoreDetailsResolveService;
+    })
     .config(
       function($stateProvider) {
         $stateProvider.state('bonita.processesDetails', {
@@ -132,7 +132,7 @@
     .controller('DeleteProcessModalInstanceCtrl', DeleteProcessModalInstanceCtrl);
 
   /* jshint -W003 */
-  function ProcessMenuCtrl($scope, menuContent, process, processAPI, $modal, $stateParams, $state, manageTopUrl, $window, processResolutionProblems, processMoreDetailsResolveService) {
+  function ProcessMenuCtrl($scope, menuContent, process, processAPI, $modal, $stateParams, $state, manageTopUrl, $window, processResolutionProblems, ProcessMoreDetailsResolveService) {
     var vm = this;
     vm.getCurrentStateName = function() {
       return $state.current.name;
@@ -167,7 +167,7 @@
     }
 
     function refreshProcess() {
-      processMoreDetailsResolveService.retrieveProcess($stateParams.processId).$promise.then(function(updatedProcess) {
+      ProcessMoreDetailsResolveService.retrieveProcess($stateParams.processId).$promise.then(function(updatedProcess) {
         process.configurationState = updatedProcess.configurationState;
       });
     }

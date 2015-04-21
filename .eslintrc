@@ -27,6 +27,7 @@
     iit: false
     fit: false
     jasmine: false
+    module: false
     require: false
     spyOn: false
     xdescribe: false

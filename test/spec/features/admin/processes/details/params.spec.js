@@ -61,7 +61,7 @@
           name: 'paramName',
           description: 'description',
           type: 'java.lang.String',
-          'process_id' : 123
+          'process_id': 123
         };
         var value = 'newValue';
         processParamsCtrl.updateParameter(parameter, value);
@@ -86,7 +86,7 @@
           name: 'paramName',
           description: 'description',
           type: 'java.lang.String',
-          'process_id' : 123
+          'process_id': 123
         };
         var value = 'newValue';
         var errorMsg = {
