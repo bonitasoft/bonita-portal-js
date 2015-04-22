@@ -7,10 +7,11 @@
     'org.bonitasoft.service.features',
     'org.bonitasoft.common.resources.store'
   ])
-    .controller('ProcessConnectorsCtrl', function($scope, process, store, $modal, growl, processConnectorAPI, FeatureManager) {
+    .controller('ProcessConnectorsCtrl', function($scope, process, store, $modal, growl, processConnectorAPI, FeatureManager, processConnectors) {
       var vm = this;
       vm.scope = $scope;
       vm.scope.process = process;
+      vm.processConnectors = processConnectors;
       vm.showActions = FeatureManager.isFeatureAvailable('POST_DEPLOY_CONFIG');
       var resourceInit = [];
 
@@ -23,15 +24,5 @@
         resource: resourceInit
       };
       $scope.$on('process.connectors.refresh', vm.init);
-
-
-      store.load(processConnectorAPI, {
-        'p': $scope.processConnectors.resource.pagination.currentPage - 1,
-        'c': $scope.processConnectors.resource.pagination.numberPerPage,
-        'o': 'definition_id ASC',
-        'f': 'process_id=' + vm.scope.process.id
-      }).then(function mapProcessConnectors(processConnectorsResponse) {
-        vm.processConnectors = processConnectorsResponse;
-      });
     });
 })();
