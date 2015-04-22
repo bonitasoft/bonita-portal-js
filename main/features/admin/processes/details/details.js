@@ -140,7 +140,7 @@
     .controller('DeleteProcessModalInstanceCtrl', DeleteProcessModalInstanceCtrl);
 
   /* jshint -W003 */
-  function ProcessMenuCtrl($scope, menuContent, process, processAPI, $modal, $stateParams, $state, manageTopUrl, $window, processResolutionProblems, ProcessMoreDetailsResolveService) {
+  function ProcessMenuCtrl($scope, menuContent, process, processAPI, $modal, $state, manageTopUrl, $window, processResolutionProblems, ProcessMoreDetailsResolveService) {
     var vm = this;
     vm.getCurrentStateName = function() {
       return $state.current.name;
@@ -175,7 +175,7 @@
     }
 
     function refreshProcess() {
-      ProcessMoreDetailsResolveService.retrieveProcess($stateParams.processId).$promise.then(function(updatedProcess) {
+      ProcessMoreDetailsResolveService.retrieveProcess(process.id).$promise.then(function(updatedProcess) {
         process.configurationState = updatedProcess.configurationState;
       });
     }

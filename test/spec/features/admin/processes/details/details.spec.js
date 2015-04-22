@@ -3,7 +3,7 @@
 
   describe('monitoringStatus Directive and Controller in Process More Details',
     function() {
-      var scope, controller, q, processMenuCtrl, processAPI, categoryAPI, processResolutionProblemAPI, parameterAPI, processConnectorAPI, store, modal, stateParams, state, processResolutionProblems, processMoreDetailsResolveService, processProblemResolutionService;
+      var scope, controller, q, processMenuCtrl, processAPI, categoryAPI, processResolutionProblemAPI, parameterAPI, processConnectorAPI, store, modal, state, processResolutionProblems, processMoreDetailsResolveService, processProblemResolutionService;
 
       beforeEach(module('org.bonitasoft.features.admin.processes.details'));
 
@@ -40,7 +40,7 @@
       describe('processMenuCtrl', function() {
         var menu, process;
         beforeEach(function() {
-          process = {};
+          process = {id: 1230};
           menu = [{
             name: 'Information',
             link: '',
@@ -59,9 +59,6 @@
             state: 'processConnectorsStateName'
           }];
           scope.$on = jasmine.createSpy();
-          stateParams = {
-            processId: 1230
-          };
           state = {
             current: {
               name: 'information'
@@ -73,7 +70,6 @@
             processAPI: processAPI,
             menuContent: menu,
             $modal: modal,
-            $stateParams: stateParams,
             $state: state,
             processResolutionProblems: processResolutionProblems
           });
@@ -194,7 +190,7 @@
           processMenuCtrl.refreshProcess();
           scope.$apply();
           expect(processAPI.get).toHaveBeenCalledWith({
-            id: stateParams.processId,
+            id: process.id,
             d: ['deployedBy'],
             n: ['openCases', 'failedCases']
           });
