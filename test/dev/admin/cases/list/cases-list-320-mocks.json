@@ -2,7 +2,7 @@
   {
     "id":"1",
     "end_date": "",
-    "failedFlowNodes" : "0",
+    "failedFlowNodes" : "1",
     "activeFlowNodes" : "1",
     "startedBySubstitute": {
       "last_connection": "2014-10-20 18:11:09.372",
