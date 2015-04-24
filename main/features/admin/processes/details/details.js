@@ -47,7 +47,7 @@
         }).then(function (processResolutionProblems) {
           return ProcessProblemResolutionService.buildProblemsList(processResolutionProblems.map(function(resolutionProblem) {
               /* jshint camelcase: false */
-              return resolutionProblem.target_type;
+              return {type: resolutionProblem.target_type, 'ressource_id': resolutionProblem.ressource_id};
               /* jshint camelcase: true */
             }));
         });
