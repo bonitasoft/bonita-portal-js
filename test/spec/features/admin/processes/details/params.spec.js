@@ -73,8 +73,9 @@
           type: 'java.lang.String'
         });
         deferred.resolve('success');
+        scope.$emit = jasmine.createSpy();
         scope.$apply();
-        expect(angular.noop).toHaveBeenCalledWith('success');
+        expect(scope.$emit).toHaveBeenCalledWith('process.refresh');
 
       });
       xit('should call API to update parameter', function() {
