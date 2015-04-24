@@ -126,7 +126,6 @@
     'humanTaskAPI': 'bpm/humanTask',
     'i18nAPI': 'system/i18ntranslation',
     'membershipAPI': 'identity/membership',
-    'parameterAPI': 'bpm/processParameter',
     'personalDataAPI': 'identity/personalcontactdata',
     'processAPI': 'bpm/process',
     'processResolutionProblemAPI': 'bpm/processResolutionProblem',
@@ -169,6 +168,13 @@
     return processCategoryAPI;
   });
 
+  var contentRangeInterceptor = {
+    response: function(response) {
+      response.resource.pagination = parseContentRange(response.headers('Content-Range'));
+      return response;
+    }
+  };
+
   module.factory('processConnectorAPI', function($http, $resource) {
     /*jshint camelcase: false */
     return $resource(API_PATH + 'bpm/processConnector/:process_id/:definition_id/:definition_version', {
@@ -179,12 +185,7 @@
       'search': {
         isArray: true,
         url: API_PATH + 'bpm/processConnector/',
-        interceptor: {
-          response: function(response) {
-            response.resource.pagination = parseContentRange(response.headers('Content-Range'));
-            return response;
-          }
-        }
+        interceptor: contentRangeInterceptor
       },
       'update': {
         transformRequest: function(data) {
@@ -196,6 +197,29 @@
         method: 'PUT'
       }
 
+    });
+  });
+
+
+  module.factory('parameterAPI', function($http, $resource) {
+    /*jshint camelcase: false */
+    return $resource(API_PATH + 'bpm/processParameter/:process_id/:name', {
+      'process_id': '@process_id',
+      'name': '@name'
+    }, {
+      'search': {
+        isArray: true,
+        url: API_PATH + 'bpm/processParameter/',
+        interceptor: contentRangeInterceptor
+      },
+      'update': {
+        transformRequest: function(data) {
+          delete data.process_id;
+          delete data.name;
+          return angular.toJson(data);
+        },
+        method: 'PUT'
+      }
     });
   });
 })();
