@@ -9,6 +9,13 @@
 
   var API_PATH = '../API/';
 
+  var contentRangeInterceptor = {
+    response: function(response) {
+      response.resource.pagination = parseContentRange(response.headers('Content-Range'));
+      return response;
+    }
+  };
+
   /**
    * @internal
    * Parse Content-Range header and return an object with pagination infos
@@ -36,12 +43,7 @@
         actions = angular.extend({}, actions, {
           'search': angular.extend({
             isArray: true,
-            interceptor: {
-              response: function(response) {
-                response.resource.pagination = parseContentRange(response.headers('Content-Range'));
-                return response;
-              }
-            }
+            interceptor: contentRangeInterceptor
           }, actions && actions.search),
 
           'update': angular.extend({method: 'PUT'}, actions && actions.update)
@@ -168,12 +170,6 @@
     return processCategoryAPI;
   });
 
-  var contentRangeInterceptor = {
-    response: function(response) {
-      response.resource.pagination = parseContentRange(response.headers('Content-Range'));
-      return response;
-    }
-  };
 
   module.factory('processConnectorAPI', function($http, $resource) {
     /*jshint camelcase: false */
