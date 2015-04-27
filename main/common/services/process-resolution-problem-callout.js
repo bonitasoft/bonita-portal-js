@@ -30,6 +30,7 @@
 
       processProblemResolutionService.isActorResolutionFailing = function(problemsStateList) {
         return problemsStateList && problemsStateList.indexOf && problemsStateList.indexOf(ProcessResolutionProblemItem.VALUE_STATE_TARGET_TYPE_ACTOR) >= 0;
+            type: key,
       };
 
       processProblemResolutionService.isConnectorResolutionFailing = function(problemsStateList) {

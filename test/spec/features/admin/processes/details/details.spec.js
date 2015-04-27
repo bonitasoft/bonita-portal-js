@@ -207,6 +207,17 @@
           expect(options.size).toEqual('sm');
           expect(options.resolve.process()).toEqual(process);
         });
+
+        describe('hasResolutionProblem', function() {
+          it('should find the resolution message of a given problem type', function() {
+            processMenuCtrl.processResolutionProblems = [];
+            expect(processMenuCtrl.hasResolutionProblem('parameter')).toBeFalsy();
+            processMenuCtrl.processResolutionProblems.push({type: 'parameter'}, {type: 'actor'});
+            expect(processMenuCtrl.hasResolutionProblem('parameter')).toBeTruthy();
+            expect(processMenuCtrl.hasResolutionProblem('connector')).toBeFalsy();
+            expect(processMenuCtrl.hasResolutionProblem('actor')).toBeTruthy();
+          });
+        });
       });
     });
 })();
