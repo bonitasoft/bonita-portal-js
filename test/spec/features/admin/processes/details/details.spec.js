@@ -43,26 +43,27 @@
           process = {id: 1230};
           menu = [{
             name: 'Information',
-            link: '',
+            resolutionLabel: 'general',
             state: 'informationStateName'
           }, {
             name: 'Actor Mapping',
-            link: 'actorsMapping',
+            resolutionLabel: 'actor',
             state: 'actorsMappingStateName'
           }, {
             name: 'Parameters',
-            link: 'params',
+            resolutionLabel: 'parameter',
             state: 'paramsStateName'
           }, {
             name: 'Connectors',
-            link: 'connectors',
+            resolutionLabel: 'connector',
             state: 'processConnectorsStateName'
           }];
           scope.$on = jasmine.createSpy();
           state = {
             current: {
               name: 'information'
-            }
+            },
+            includes: jasmine.createSpy()
           };
           processMenuCtrl = controller('ProcessMenuCtrl', {
             $scope: scope,
@@ -138,11 +139,13 @@
           expect(processMenuCtrl.menuContent).toEqual(menu);
           processMenuCtrl.menuContent.forEach(function(entry) {
             expect(entry.state).toBeDefined();
-            expect(entry.link).toBeDefined();
+            expect(entry.resolutionLabel).toBeDefined();
             expect(entry.name).toBeDefined();
           });
           expect(processMenuCtrl.process).toEqual(process);
-          expect(processMenuCtrl.getCurrentStateName()).toEqual(state.current.name);
+          state.includes.and.returnValue(true);
+          expect(processMenuCtrl.includesCurrentState('parameter')).toBeTruthy();
+          expect(state.includes).toHaveBeenCalledWith('parameter');
           expect(scope.$on.calls.allArgs()).toEqual([
             ['button.toggle', processMenuCtrl.toggleProcessActivation],
             ['process.refresh', processMenuCtrl.refreshProcess]
