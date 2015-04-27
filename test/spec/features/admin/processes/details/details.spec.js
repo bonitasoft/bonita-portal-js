@@ -1,13 +1,13 @@
-(function() {
+(function () {
   'use strict';
 
   describe('monitoringStatus Directive and Controller in Process More Details',
-    function() {
+    function () {
       var scope, controller, q, processMenuCtrl, processAPI, categoryAPI, processResolutionProblemAPI, parameterAPI, processConnectorAPI, store, modal, state, processResolutionProblems, processMoreDetailsResolveService, processProblemResolutionService;
 
       beforeEach(module('org.bonitasoft.features.admin.processes.details'));
 
-      beforeEach(function() {
+      beforeEach(function () {
         processAPI = jasmine.createSpyObj('processAPI', ['get', 'update']);
         categoryAPI = jasmine.createSpyObj('categoryAPI', ['get', 'update']);
         processResolutionProblemAPI = jasmine.createSpyObj('processResolutionProblemAPI', ['get', 'update']);
@@ -16,7 +16,7 @@
         store = jasmine.createSpyObj('store', ['load']);
         processProblemResolutionService = jasmine.createSpyObj('processProblemResolutionService', ['buildProblemsList']);
 
-        module(function($provide) {
+        module(function ($provide) {
           $provide.value('processAPI', processAPI);
           $provide.value('categoryAPI', categoryAPI);
           $provide.value('processResolutionProblemAPI', processResolutionProblemAPI);
@@ -27,7 +27,7 @@
         });
       });
 
-      beforeEach(inject(function($rootScope, $compile, $controller, $q, ProcessMoreDetailsResolveService) {
+      beforeEach(inject(function ($rootScope, $compile, $controller, $q, ProcessMoreDetailsResolveService) {
         scope = $rootScope.$new();
         controller = $controller;
         q = $q;
@@ -37,10 +37,12 @@
       }));
 
 
-      describe('processMenuCtrl', function() {
+      describe('processMenuCtrl', function () {
         var menu, process;
-        beforeEach(function() {
-          process = {id: 1230};
+        beforeEach(function () {
+          process = {
+            id: 1230
+          };
           menu = [{
             name: 'Information',
             link: '',
@@ -75,12 +77,12 @@
           });
         });
 
-        describe('processMoreDetailsResolveService', function() {
-          it('retrieveProcess should get the process from the API', function() {
+        describe('processMoreDetailsResolveService', function () {
+          it('retrieveProcess should get the process from the API', function () {
             processAPI.get.and.returnValue(process);
             expect(processMoreDetailsResolveService.retrieveProcess(12)).toBe(process);
           });
-          it('retrieveCategories should get the categories from the API', function() {
+          it('retrieveCategories should get the categories from the API', function () {
             var categories = [];
             store.load.and.returnValue(categories);
             expect(processMoreDetailsResolveService.retrieveCategories(12)).toBe(categories);
@@ -90,7 +92,7 @@
             });
           });
 
-          it('retrieveProcessResolutionProblem should get the ProcessResolutionProblem from the API', function() {
+          it('retrieveProcessResolutionProblem should get the ProcessResolutionProblem from the API', function () {
             var processResolutionProblem = [{
                 message: 'Parameter \'copyrightYear\' is not set.',
                 'ressource_id': '',
@@ -100,7 +102,7 @@
             store.load.and.returnValue(deferred.promise);
             processProblemResolutionService.buildProblemsList.and.returnValue('Parameters must be resolved before enabling the Process.');
             deferred.resolve(processResolutionProblem);
-            processMoreDetailsResolveService.retrieveProcessResolutionProblem(12).then(function(problems){
+            processMoreDetailsResolveService.retrieveProcessResolutionProblem(12).then(function (problems) {
               expect(problems).toEqual('Parameters must be resolved before enabling the Process.');
             });
             scope.$apply();
@@ -111,7 +113,7 @@
             expect(processProblemResolutionService.buildProblemsList).toHaveBeenCalledWith(['parameter']);
           });
 
-          it('retrieveParameters should get the Parameters from the API', function() {
+          it('retrieveParameters should get the Parameters from the API', function () {
             var parameters = [];
             store.load.and.returnValue(parameters);
             expect(processMoreDetailsResolveService.retrieveParameters(12)).toBe(parameters);
@@ -122,7 +124,7 @@
             });
           });
 
-          it('retrieveConnectors should get the Connectors from the API', function() {
+          it('retrieveConnectors should get the Connectors from the API', function () {
             var connectors = [];
             store.load.and.returnValue(connectors);
             expect(processMoreDetailsResolveService.retrieveConnectors(12)).toBe(connectors);
@@ -134,9 +136,9 @@
           });
         });
 
-        it('init should listen toggle event and push menu and process to view model', function() {
+        it('init should listen toggle event and push menu and process to view model', function () {
           expect(processMenuCtrl.menuContent).toEqual(menu);
-          processMenuCtrl.menuContent.forEach(function(entry) {
+          processMenuCtrl.menuContent.forEach(function (entry) {
             expect(entry.state).toBeDefined();
             expect(entry.link).toBeDefined();
             expect(entry.name).toBeDefined();
@@ -149,7 +151,7 @@
           ]);
         });
 
-        it('toggleProcessActivation should update process via REST API and process in view model', function() {
+        it('toggleProcessActivation should update process via REST API and process in view model', function () {
           var deferred = q.defer();
           process.id = 45654;
           processAPI.update.and.returnValue({
@@ -179,14 +181,19 @@
           expect(process.activationState).toEqual('DISABLED');
         });
 
-        it('should refresh process configuration state from what is received from API when refreshProcess is called', function() {
+        it('should refresh process configuration state from what is received from API when refreshProcess is called', function () {
           var deferred = q.defer();
+          var deferredPbs = q.defer();
           processAPI.get.and.returnValue({
             $promise: deferred.promise
           });
           deferred.resolve({
             configurationState: 'RESOLVED'
           });
+          var pbs = [];
+          deferredPbs.resolve(pbs);
+          processMoreDetailsResolveService.retrieveProcessResolutionProblem = jasmine.createSpy();
+          processMoreDetailsResolveService.retrieveProcessResolutionProblem.and.returnValue(deferredPbs.promise);
           processMenuCtrl.refreshProcess();
           scope.$apply();
           expect(processAPI.get).toHaveBeenCalledWith({
@@ -194,10 +201,12 @@
             d: ['deployedBy'],
             n: ['openCases', 'failedCases']
           });
+          expect(processMoreDetailsResolveService.retrieveProcessResolutionProblem).toHaveBeenCalledWith(process.id);
           expect(process.configurationState).toEqual('RESOLVED');
+          expect(processMenuCtrl.processResolutionProblems).toBe(pbs);
         });
 
-        it('opens the deletion modal when delete button is clicked', function() {
+        it('opens the deletion modal when delete button is clicked', function () {
           processMenuCtrl.deleteProcess();
           expect(modal.open).toHaveBeenCalled();
           var options = modal.open.calls.mostRecent().args[0];

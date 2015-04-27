@@ -1,7 +1,7 @@
 <div id="process-details" class="process-details">
   <div class="col-md-12 actions">
     <div class="col-md-2">
-    <a class="btn btn-default" bonita-href="{token: 'processlistingadmin'}">Back</a>
+      <a class="btn btn-default" bonita-href="{token: 'processlistingadmin'}">Back</a>
     </div>
     <div class="col-md-10 text-right">
       <start-for process="processMenuCtrl.process"></start-for>
@@ -10,11 +10,11 @@
     </div>
   </div>
   <div class="col-md-12">
-    <h1 >{{processMenuCtrl.process.name}} ({{processMenuCtrl.process.version}})</h1>
+    <h1>{{processMenuCtrl.process.name}} ({{processMenuCtrl.process.version}})</h1>
   </div>
   <div class="col-md-12" style="padding-top: 10px;">
     <div ng-if="processMenuCtrl.process.configurationState !== 'RESOLVED'" style=" padding-bottom: 0px;" class="panel panel-danger">
-      <div class="panel-heading">{{ 'The Process cannot be enabled' | translate }}</div>
+      <div class="panel-heading"><span class="glyphicon glyphicon-exclamation-sign"></span> {{ 'The Process cannot be enabled' | translate }}</div>
       <div class="panel-body">
         <div class="col-md-12">
           <ul>
@@ -28,7 +28,7 @@
   </div>
   <div class="col-sm-3 col-md-3 col-lg-2">
     <div class="list-group">
-      <a class="list-group-item" ng-repeat="item in processMenuCtrl.menuContent" ng-class="{active: processMenuCtrl.getCurrentStateName() === item.state }" ui-sref="{{item.state}}">{{item.name | translate}}</a>
+      <a class="list-group-item" ng-repeat="item in processMenuCtrl.menuContent" ng-class="{active: processMenuCtrl.getCurrentStateName() === item.state }" ui-sref="{{item.state}}"><span ng-if=""class="glyphicon glyphicon-exclamation-sign" ng-class="{'text-danger': processMenuCtrl.getCurrentStateName() !== item.state }"></span> {{item.name | translate}}</a>
     </div>
     <!-- <div class="sidebar-nav">
       <div class="navbar navbar-default" role="navigation">
@@ -54,11 +54,11 @@
   </div>
   <div class="col-sm-9 col-md-9 col-lg-10">
     <div growl></div>
-    
 
-  <div class="col-md-12">
-    <ui-view></ui-view>
+
+    <div class="col-md-12">
+      <ui-view></ui-view>
+    </div>
   </div>
-</div>
 
 </div>
