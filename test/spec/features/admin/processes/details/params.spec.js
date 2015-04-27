@@ -66,7 +66,7 @@
         var value = 'newValue';
         processParamsCtrl.updateParameter(parameter, value);
         expect(parameterAPI.update).toHaveBeenCalledWith({
-          id: '123/paramName',
+          'process_id': 123,
           description: parameter.description,
           name: parameter.name,
           value: value,

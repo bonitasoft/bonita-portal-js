@@ -44,7 +44,7 @@
         }
         /* jshint camelcase : false */
         return parameterAPI.update({
-          'id': parameter.process_id + '/' + parameter.name,
+          'process_id': parameter.process_id,
           description: parameter.description,
           name: parameter.name,
           value: data,
