@@ -21,7 +21,8 @@
       'org.bonitasoft.features.admin.processes.details.information',
       'org.bonitasoft.features.admin.processes.details.processConnectors',
       'org.bonitasoft.features.admin.processes.details.params',
-      'org.bonitasoft.service.process.resolution'
+      'org.bonitasoft.service.process.resolution',
+      'org.bonitasoft.common.filters.stringTemplater'
     ])
     .value('menuContent', [{
       name: 'General',
