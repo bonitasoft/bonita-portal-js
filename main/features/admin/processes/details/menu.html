@@ -28,7 +28,7 @@
   </div>
   <div class="col-sm-3 col-md-3 col-lg-2">
     <div class="list-group">
-      <a class="list-group-item" ng-repeat="item in processMenuCtrl.menuContent" ng-class="{active: processMenuCtrl.getCurrentStateName() === item.state }" href="" bonita-href="{'token': processMenuCtrl.currentPageToken , 'id': processMenuCtrl.process.id, 'tab' : item.link, prependToken: false}">{{item.name | translate}}</a>
+      <a class="list-group-item" ng-repeat="item in processMenuCtrl.menuContent" ng-class="{active: processMenuCtrl.getCurrentStateName() === item.state }" ui-sref="{{item.state}}">{{item.name | translate}}</a>
     </div>
     <!-- <div class="sidebar-nav">
       <div class="navbar navbar-default" role="navigation">

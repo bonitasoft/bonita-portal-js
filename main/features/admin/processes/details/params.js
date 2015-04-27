@@ -10,7 +10,7 @@
     'org.bonitasoft.service.features',
     'xeditable'
   ])
-    .controller('ProcessParamsCtrl', function(parameters, FeatureManager, process, parameterAPI, $log) {
+    .controller('ProcessParamsCtrl', function(parameters, FeatureManager, process, parameterAPI, $log, $scope) {
       var vm = this;
       vm.parameters = parameters;
       vm.process = process;
@@ -49,7 +49,9 @@
           name: parameter.name,
           value: data,
           type: parameter.type
-        }).$promise.then(angular.noop, function(errorData) {
+        }).$promise.then(function() {
+          $scope.$emit('process.refresh');
+        }, function(errorData) {
           $log.error('error updating parameter : ', errorData);
           return errorData.data.message;
         });
