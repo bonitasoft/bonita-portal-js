@@ -93,7 +93,7 @@
           it('retrieveProcessResolutionProblem should get the ProcessResolutionProblem from the API', function() {
             var processResolutionProblem = [{
                 message: 'Parameter \'copyrightYear\' is not set.',
-                'ressource_id': '',
+                'ressource_id': undefined,
                 'target_type': 'parameter'
               }],
               deferred = q.defer();
@@ -108,7 +108,7 @@
             expect(store.load.calls.mostRecent().args[1]).toEqual({
               f: ['process_id=12']
             });
-            expect(processProblemResolutionService.buildProblemsList).toHaveBeenCalledWith(['parameter']);
+            expect(processProblemResolutionService.buildProblemsList).toHaveBeenCalledWith([{type: 'parameter', 'ressource_id': undefined}]);
           });
 
           it('retrieveParameters should get the Parameters from the API', function() {
