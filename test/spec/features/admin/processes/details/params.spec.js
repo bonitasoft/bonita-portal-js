@@ -41,7 +41,7 @@
       expect(featureManager.isFeatureAvailable).toHaveBeenCalledWith('POST_DEPLOY_CONFIG');
     });
 
-    fdescribe('updateParameter method', function() {
+    describe('updateParameter method', function() {
       beforeEach(function() {
         angular.noop = jasmine.createSpy();
         processParamsCtrl = controller('ProcessParamsCtrl', {
@@ -61,7 +61,7 @@
           name: 'paramName',
           description: 'description',
           type: 'java.lang.String',
-          'process_id' : 123
+          'process_id': 123
         };
         var value = 'newValue';
         processParamsCtrl.updateParameter(parameter, value);
@@ -86,7 +86,7 @@
           name: 'paramName',
           description: 'description',
           type: 'java.lang.String',
-          'process_id' : 123
+          'process_id': 123
         };
         var value = 'newValue';
         var errorMsg = {

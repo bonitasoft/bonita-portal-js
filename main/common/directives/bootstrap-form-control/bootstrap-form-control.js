@@ -13,7 +13,7 @@
   }
 
   angular.module('org.bonitasoft.common.directives.bootstrap-form-control', [])
-    .directive('bootstrapFormControl', ['$log', function ($log) {
+    .directive('bootstrapFormControl', function ($log) {
 
       return {
         restrict: 'AE',
@@ -36,7 +36,7 @@
             element.toggleClass('error has-error', !!scope.error);
           });
 
-          if (name === undefined) {
+          if (angular.isUndefined(name)) {
             $log.error(scope.id + ' doesn\'t specify a name attribute');
           } else {
             for (var property in scope.errors) {
@@ -51,5 +51,5 @@
           }
         }
       };
-    }]);
+    });
 })();
