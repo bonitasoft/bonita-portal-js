@@ -3,7 +3,7 @@
     <back-button></back-button>
   </div>
 
-  <section id="app-edit-section" class="editable app-details-container">
+  <section id="app-edit-section" class="app-details-container">
     <h1 id="app-details-title">{{app.displayName}} ({{app.version}})
       <button id="app-edit-btn" class="clickable glyphicon glyphicon-pencil btn-action-edit"
               ng-click="applicationDetailsCtrl.update('lg', app )" aria-label="{{'Edit' | translate}}"
@@ -45,18 +45,18 @@
     </div>
 
   </section>
-  <section id="look-n-feel-edit-section" class="editable app-details-container col-md-12">
+  <section id="look-n-feel-edit-section" class="col-md-12">
 
-    <h2>{{'Look & Feel' | translate}}
-      <button id="app-edit-btn" class="clickable glyphicon glyphicon-pencil btn-action-edit"
-              ng-click="applicationDetailsCtrl.updateLookNFeel('lg', app )" aria-label="{{'Edit' | translate}}"
-              title="{{'Edit' | translate}}"></button>
-    </h2>
+    <h2>{{'Look & Feel' | translate}}</h2>
     <div class="row">
       <div class="col-md-4">
         <dl class="dl-horizontal app-details-col">
           <dt id="app-layout-label">{{'Layout' | translate}}</dt>
-          <dd id="app-layout-value">{{ app.layoutId.displayName}}</dd>
+          <dd id="app-layout-value">
+            <div  ng-if="!applicationDetailsCtrl.isEditLayoutAvailable">{{app.layoutId.displayName}}</div>
+            <a  ng-if="applicationDetailsCtrl.isEditLayoutAvailable"  href="" editable-select="app.layoutId" onbeforesave="applicationDetailsCtrl.updateLayout(app, $data)"
+                                        e-ng-options="layoutPage as layoutPage.urlToken + ' - ' + layoutPage.displayName for layoutPage in layoutPages track by layoutPage.id">{{ app.layoutId.displayName }}</a>
+          </dd>
         </dl>
       </div>
     </div>

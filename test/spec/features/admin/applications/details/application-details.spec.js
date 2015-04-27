@@ -38,11 +38,11 @@
 
   describe('Controller: applicationDetailsCtrl', function() {
 
-    var ctrl, scope, applicationAPI, modal, store, $httpBackend;
+    var ctrl, scope, applicationAPI, modal, store, $httpBackend, $q;
 
     beforeEach(module('org.bonitasoft.features.admin.applications.details', 'org.bonitasoft.services.topurl'));
 
-    beforeEach(inject(function ($controller, $injector, $rootScope, manageTopUrl) {
+    beforeEach(inject(function ($controller, $injector, $rootScope, manageTopUrl, _$q_) {
 
       scope = $rootScope.$new();
       applicationAPI = $injector.get('applicationAPI');
@@ -50,6 +50,7 @@
       modal = $injector.get('$modal');
       manageTopUrl =  $injector.get('manageTopUrl');
       $httpBackend = $injector.get('$httpBackend');
+      $q = _$q_;
       spyOn(modal, 'open').and.returnValue(fakeModal);
 
       ctrl = function(id) {
@@ -70,10 +71,16 @@
 
       beforeEach(function() {
         $httpBackend
+          .expectGET('../API/portal/page?c=0&p=0')
+          .respond([],{'Content-Range': '0-3/3'});
+        $httpBackend
           .expectGET('../API/living/application/2?d=createdBy&d=updatedBy&d=profileId&d=layoutId')
           .respond({
             id: 2
           });
+        $httpBackend
+          .expectGET('../API/portal/page?c=3&p=0')
+          .respond([{id: 1},{id: 2},{id: 3}]);
       });
 
       it('should load application details', function() {
@@ -81,6 +88,12 @@
         $httpBackend.flush();
         scope.$apply();
         expect(scope.app.id).toBe(2);
+      });
+      it('should load custom pages', function() {
+        ctrl(2);
+        $httpBackend.flush();
+        scope.$apply();
+        expect(scope.layoutPages.length).toBe(3);
       });
 
       afterEach(function() {
@@ -105,6 +118,54 @@
         Ctrl.update('sm');
         fakeModal.close();
         expect(Ctrl.reload).toHaveBeenCalled();
+      });
+    });
+
+    describe('We will update the layout thanks to an edit in line', function() {
+      var Ctrl;
+      beforeEach(function() {
+        spyOn(applicationAPI, 'get').and.returnValue({ $promise: $q.when({}) });
+        spyOn(store, 'load').and.returnValue($q.when({}));
+        Ctrl = ctrl(2);
+
+      });
+
+      it('should updateLayout method reload application on success', function() {
+        spyOn(applicationAPI, 'update').and.returnValue({ $promise: $q.when({id: 2, layoutId: 3}) });
+        spyOn(Ctrl, 'reload');
+
+        Ctrl.updateLayout({'id':'2'},{'id':'3'});
+        scope.$apply();
+
+        expect(Ctrl.reload).toHaveBeenCalledWith({id: 2, layoutId: 3});
+
+      });
+
+      it('should updateLayout method reload application on success', function() {
+        spyOn(applicationAPI, 'update').and.returnValue({ $promise: $q.when({id: 2, layoutId: 3}) });
+        spyOn(Ctrl, 'reload');
+
+        Ctrl.updateLayout({'id':'2'},{'id':'3'});
+        scope.$apply();
+
+        expect(Ctrl.reload).toHaveBeenCalledWith({id: 2, layoutId: 3});
+
+      });
+
+      it('should updateLayout method handleErrors on error', function() {
+
+        spyOn(applicationAPI, 'update').and.returnValue({ $promise: $q.reject({response: {data: {message: 'Erreur 500'}}}) });
+        spyOn(Ctrl, 'handleErrors');
+
+        Ctrl.updateLayout({'id':'2'},{'id':'3'});
+        scope.$apply();
+
+        expect(Ctrl.handleErrors).toHaveBeenCalledWith({response: {data: {message: 'Erreur 500'}}});
+
+      });
+
+      it('should handleErrors return error message', function() {
+        expect(Ctrl.handleErrors({data: {message: 'Erreur 500'}})).toEqual('Erreur 500');
       });
     });
 
