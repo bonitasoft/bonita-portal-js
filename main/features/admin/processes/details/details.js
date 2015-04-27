@@ -146,8 +146,8 @@
   /* jshint -W003 */
   function ProcessMenuCtrl($scope, menuContent, process, processAPI, $modal, $state, manageTopUrl, $window, processResolutionProblems, ProcessMoreDetailsResolveService) {
     var vm = this;
-    vm.getCurrentStateName = function() {
-      return $state.current.name;
+    vm.includesCurrentState = function(state) {
+      return $state.includes(state);
     };
     vm.menuContent = menuContent;
     vm.process = process;
