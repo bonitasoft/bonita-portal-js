@@ -8,6 +8,7 @@
   var actorsMappingStateName = 'bonita.processesDetails.actorsMapping';
   /*eslint "angular/ng_di":0*/
   angular.module('org.bonitasoft.features.admin.processes.details', [
+      'ngAnimate',
       'ui.router',
       'ui.bootstrap',
       'gettext',
@@ -188,6 +189,9 @@
     function refreshProcess() {
       ProcessMoreDetailsResolveService.retrieveProcess(process.id).$promise.then(function(updatedProcess) {
         process.configurationState = updatedProcess.configurationState;
+      });
+      ProcessMoreDetailsResolveService.retrieveProcessResolutionProblem(process.id).then(function (problems) {
+        vm.processResolutionProblems = problems;
       });
     }
 
