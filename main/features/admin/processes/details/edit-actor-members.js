@@ -3,6 +3,7 @@
 
   angular.module('org.bonitasoft.features.admin.processes.editActorMembers', [
     'ui.bootstrap',
+    'gettext',
     'ui.router',
     'angular-growl',
     'org.bonitasoft.bonitable',
@@ -13,7 +14,7 @@
     'org.bonitasoft.common.resources.store',
     'xeditable'
   ])
-    .controller('EditActorMembersCtrl', function($scope, $modalInstance, store, actorMemberAPI, userAPI, groupAPI, roleAPI, actor, memberType, process, growl) {
+    .controller('EditActorMembersCtrl', function($scope, $modalInstance, store, actorMemberAPI, userAPI, groupAPI, roleAPI, actor, memberType, process, growl, gettextCatalog) {
       var self = this;
       self.scope = $scope;
       self.scope.memberType = memberType;
@@ -42,16 +43,16 @@
       };
 
       self.scope.localLang = {
-        selectAll: 'Select all',
-        selectNone: 'Select none',
-        reset: 'Reset',
-        search: 'Type here to search...'
+        selectAll: gettextCatalog.getString('Select all'),
+        selectNone: gettextCatalog.getString('Select none'),
+        reset: gettextCatalog.getString('Reset'),
+        search: gettextCatalog.getString('Type here to search...')
       };
       self.scope.localLangRole = {
-        selectAll: 'Select all',
-        selectNone: 'Select none',
-        reset: 'Reset',
-        search: 'Type here to search...'
+        selectAll: gettextCatalog.getString('Select all'),
+        selectNone: gettextCatalog.getString('Select none'),
+        reset: gettextCatalog.getString('Reset'),
+        search: gettextCatalog.getString('Type here to search...')
       };
       self.scope.localLangGroup = {
         selectAll: 'Select all',

@@ -8,9 +8,10 @@
   angular.module('org.bonitasoft.features.admin.processes.details.params', [
     'org.bonitasoft.common.resources',
     'org.bonitasoft.service.features',
-    'xeditable'
+    'xeditable',
+    'gettext'
   ])
-    .controller('ProcessParamsCtrl', function(parameters, FeatureManager, process, parameterAPI, $log, $scope) {
+    .controller('ProcessParamsCtrl', function(parameters, FeatureManager, process, parameterAPI, $log, $scope, gettextCatalog) {
       var vm = this;
       vm.parameters = parameters;
       vm.process = process;
@@ -28,17 +29,17 @@
         switch(parameter.type){
           case 'java.lang.Boolean':
             if(data !== 'true' && data !== 'false'){
-              return 'Error: value must be a boolean';
+              return gettextCatalog.getString('Error: value must be a boolean');
             }
             break;
           case 'java.lang.Double':
             if(isNaN(parseFloat(data))){
-              return 'Error: value must be a double';
+              return gettextCatalog.getString('Error: value must be a double');
             }
             break;
           case 'java.lang.Integer':
             if(data % 1 !== 0){
-              return 'Error: value must be an integer';
+              return gettextCatalog.getString('Error: value must be an integer');
             }
             break;
         }

@@ -10,11 +10,12 @@
     'org.bonitasoft.bonitable.repeatable',
     'org.bonitasoft.bonitable.sortable',
     'org.bonitasoft.bonitable.settings',
-    'xeditable'
+    'xeditable',
+    'gettext'
   ])
     .constant('ACTOR_PER_PAGE', 10)
     .constant('MEMBERS_PER_CELL', 5)
-    .controller('ActorsMappingCtrl', function($scope, $modal, process, actorMemberAPI, actorAPI, growl, ACTOR_PER_PAGE, MEMBERS_PER_CELL) {
+    .controller('ActorsMappingCtrl', function($scope, $modal, process, actorMemberAPI, actorAPI, growl, ACTOR_PER_PAGE, MEMBERS_PER_CELL, gettextCatalog) {
       var self = this;
       var resourceInit = [];
       resourceInit.pagination = {
@@ -103,7 +104,7 @@
           id: memberId
         }).$promise.then(
           function success() {
-            growl.success('Actor member deleted', {
+            growl.success(gettextCatalog.getString('Actor member deleted'), {
               ttl: 3000,
               disableCountDown: true,
               disableIcons: true
@@ -133,10 +134,10 @@
               return actor;
             }
           }
-        }).result.then(function close(){
+        }).result.then(function close() {
           $scope.$emit('process.refresh');
           self.init();
-        },function cancel(){
+        }, function cancel() {
           $scope.$emit('process.refresh');
           self.init();
         });
