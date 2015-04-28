@@ -42,23 +42,11 @@
         MEMBERSHIP: 'MEMBERSHIP'
       };
 
-      self.scope.localLang = {
+      self.scope.localLang = self.scope.localLangRole = self.scope.localLangGroup = {
         selectAll: gettextCatalog.getString('Select all'),
         selectNone: gettextCatalog.getString('Select none'),
         reset: gettextCatalog.getString('Reset'),
         search: gettextCatalog.getString('Type here to search...')
-      };
-      self.scope.localLangRole = {
-        selectAll: gettextCatalog.getString('Select all'),
-        selectNone: gettextCatalog.getString('Select none'),
-        reset: gettextCatalog.getString('Reset'),
-        search: gettextCatalog.getString('Type here to search...')
-      };
-      self.scope.localLangGroup = {
-        selectAll: 'Select all',
-        selectNone: 'Select none',
-        reset: 'Reset',
-        search: 'Type here to search...'
       };
 
       self.initView = function initView() {
