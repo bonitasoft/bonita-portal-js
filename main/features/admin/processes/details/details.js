@@ -8,48 +8,52 @@
   var actorsMappingStateName = 'bonita.processesDetails.actorsMapping';
   /*eslint "angular/ng_di":0*/
   angular.module('org.bonitasoft.features.admin.processes.details', [
-    'ui.router',
-    'ui.bootstrap',
-    'gettext',
-    'org.bonitasoft.services.topurl',
-    'org.bonitasoft.common.directives.bonitaHref',
-    'org.bonitasoft.common.directives.toggleButton',
-    'org.bonitasoft.common.resources',
-    'org.bonitasoft.features.admin.processes.details.actorMapping',
-    'org.bonitasoft.features.admin.processes.editActorMembers',
-    'org.bonitasoft.services.topurl',
-    'org.bonitasoft.features.admin.processes.details.information',
-    'org.bonitasoft.features.admin.processes.details.processConnectors',
-    'org.bonitasoft.features.admin.processes.details.params',
-    'org.bonitasoft.service.process.resolution'
-  ])
+      'ui.router',
+      'ui.bootstrap',
+      'gettext',
+      'org.bonitasoft.services.topurl',
+      'org.bonitasoft.common.directives.bonitaHref',
+      'org.bonitasoft.common.directives.toggleButton',
+      'org.bonitasoft.common.resources',
+      'org.bonitasoft.features.admin.processes.details.actorMapping',
+      'org.bonitasoft.features.admin.processes.editActorMembers',
+      'org.bonitasoft.services.topurl',
+      'org.bonitasoft.features.admin.processes.details.information',
+      'org.bonitasoft.features.admin.processes.details.processConnectors',
+      'org.bonitasoft.features.admin.processes.details.params',
+      'org.bonitasoft.service.process.resolution',
+      'org.bonitasoft.common.filters.stringTemplater'
+    ])
     .value('menuContent', [{
       name: 'General',
-      link: '',
+      resolutionLabel: 'general',
       state: informationStateName
     }, {
       name: 'Actors',
-      link: 'actorsMapping',
+      resolutionLabel: 'actor',
       state: actorsMappingStateName
     }, {
       name: 'Parameters',
-      link: 'params',
+      resolutionLabel: 'parameter',
       state: paramsStateName
     }, {
       name: 'Connectors',
-      link: 'connectors',
+      resolutionLabel: 'connector',
       state: processConnectorsStateName
     }]).service('ProcessMoreDetailsResolveService', function(store, processConnectorAPI, parameterAPI, categoryAPI, processAPI, processResolutionProblemAPI, ProcessProblemResolutionService) {
       var processMoreDetailsResolveService = {};
       processMoreDetailsResolveService.retrieveProcessResolutionProblem = function(processId) {
         return store.load(processResolutionProblemAPI, {
           f: ['process_id=' + processId]
-        }).then(function (processResolutionProblems) {
+        }).then(function(processResolutionProblems) {
           return ProcessProblemResolutionService.buildProblemsList(processResolutionProblems.map(function(resolutionProblem) {
-              /* jshint camelcase: false */
-              return resolutionProblem.target_type;
-              /* jshint camelcase: true */
-            }));
+            /* jshint camelcase: false */
+            return {
+              type: resolutionProblem.target_type,
+              'ressource_id': resolutionProblem.ressource_id
+            };
+            /* jshint camelcase: true */
+          }));
         });
       };
 
@@ -135,15 +139,14 @@
           controllerAs: 'actorsMappingCtrl'
         });
       }
-  )
+    )
     .controller('ProcessMenuCtrl', ProcessMenuCtrl)
     .controller('DeleteProcessModalInstanceCtrl', DeleteProcessModalInstanceCtrl);
 
   /* jshint -W003 */
   function ProcessMenuCtrl($scope, menuContent, process, processAPI, $modal, $state, manageTopUrl, $window, processResolutionProblems, ProcessMoreDetailsResolveService) {
     var vm = this;
-    vm.getCurrentStateName = function(state) {
-      
+    vm.includesCurrentState = function(state) {
       return $state.includes(state);
     };
     vm.menuContent = menuContent;
@@ -153,6 +156,7 @@
     vm.deleteProcess = deleteProcess;
     vm.currentPageToken = manageTopUrl.getCurrentPageToken();
     vm.processResolutionProblems = processResolutionProblems;
+    vm.hasResolutionProblem = hasResolutionProblem;
 
     $scope.$on('button.toggle', vm.toggleProcessActivation);
     $scope.$on('process.refresh', vm.refreshProcess);
@@ -160,6 +164,12 @@
     vm.goBack = function() {
       $window.history.back();
     };
+
+    function hasResolutionProblem(problemType) {
+      return vm.processResolutionProblems.some(function(resolutionProblem) {
+        return resolutionProblem.type === problemType;
+      });
+    }
 
     function deleteProcess() {
       $modal.open({
