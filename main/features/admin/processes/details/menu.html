@@ -14,12 +14,12 @@
   </div>
   <div class="col-md-12" style="padding-top: 10px;">
     <div ng-if="processMenuCtrl.process.configurationState !== 'RESOLVED'" style=" padding-bottom: 0px;" class="panel panel-danger">
-      <div class="panel-heading">{{ 'The Process cannot be enabled' | translate }}</div>
+      <div class="panel-heading"><span class="glyphicon glyphicon-exclamation-sign"></span>{{ 'The Process cannot be enabled' | translate }}</div>
       <div class="panel-body">
         <div class="col-md-12">
           <ul>
             <li ng-repeat="problem in processMenuCtrl.processResolutionProblems">
-              {{problem}}
+              {{problem.message | translate | stringTemplater: problem.args}}
             </li>
           </ul>
         </div>
@@ -28,7 +28,7 @@
   </div>
   <div class="col-sm-3 col-md-3 col-lg-2">
     <div class="list-group">
-      <a class="list-group-item" ng-repeat="item in processMenuCtrl.menuContent" ng-class="{active: processMenuCtrl.getCurrentStateName() === item.state }" ui-sref="{{item.state}}">{{item.name | translate}}</a>
+      <a class="list-group-item" ng-repeat="item in processMenuCtrl.menuContent" ng-class="{active: processMenuCtrl.includesCurrentState(item.state) }" ui-sref="{{item.defaultDestinationState || item.state}}">{{item.name | translate}} <span ng-if="processMenuCtrl.hasResolutionProblem(item.resolutionLabel)" ng-class="{'text-danger': processMenuCtrl.getCurrentStateName() !== item.state }" class="glyphicon glyphicon-exclamation-sign"></span> </a>
     </div>
     <!-- <div class="sidebar-nav">
       <div class="navbar navbar-default" role="navigation">

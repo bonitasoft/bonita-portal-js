@@ -43,26 +43,27 @@
           process = {id: 1230};
           menu = [{
             name: 'Information',
-            link: '',
+            resolutionLabel: 'general',
             state: 'informationStateName'
           }, {
             name: 'Actor Mapping',
-            link: 'actorsMapping',
+            resolutionLabel: 'actor',
             state: 'actorsMappingStateName'
           }, {
             name: 'Parameters',
-            link: 'params',
+            resolutionLabel: 'parameter',
             state: 'paramsStateName'
           }, {
             name: 'Connectors',
-            link: 'connectors',
+            resolutionLabel: 'connector',
             state: 'processConnectorsStateName'
           }];
           scope.$on = jasmine.createSpy();
           state = {
             current: {
               name: 'information'
-            }
+            },
+            includes: jasmine.createSpy()
           };
           processMenuCtrl = controller('ProcessMenuCtrl', {
             $scope: scope,
@@ -93,7 +94,7 @@
           it('retrieveProcessResolutionProblem should get the ProcessResolutionProblem from the API', function() {
             var processResolutionProblem = [{
                 message: 'Parameter \'copyrightYear\' is not set.',
-                'ressource_id': '',
+                'ressource_id': undefined,
                 'target_type': 'parameter'
               }],
               deferred = q.defer();
@@ -108,7 +109,7 @@
             expect(store.load.calls.mostRecent().args[1]).toEqual({
               f: ['process_id=12']
             });
-            expect(processProblemResolutionService.buildProblemsList).toHaveBeenCalledWith(['parameter']);
+            expect(processProblemResolutionService.buildProblemsList).toHaveBeenCalledWith([{type: 'parameter', 'ressource_id': undefined}]);
           });
 
           it('retrieveParameters should get the Parameters from the API', function() {
@@ -138,11 +139,13 @@
           expect(processMenuCtrl.menuContent).toEqual(menu);
           processMenuCtrl.menuContent.forEach(function(entry) {
             expect(entry.state).toBeDefined();
-            expect(entry.link).toBeDefined();
+            expect(entry.resolutionLabel).toBeDefined();
             expect(entry.name).toBeDefined();
           });
           expect(processMenuCtrl.process).toEqual(process);
-          expect(processMenuCtrl.getCurrentStateName()).toEqual(state.current.name);
+          state.includes.and.returnValue(true);
+          expect(processMenuCtrl.includesCurrentState('parameter')).toBeTruthy();
+          expect(state.includes).toHaveBeenCalledWith('parameter');
           expect(scope.$on.calls.allArgs()).toEqual([
             ['button.toggle', processMenuCtrl.toggleProcessActivation],
             ['process.refresh', processMenuCtrl.refreshProcess]
@@ -206,6 +209,17 @@
           expect(options.controllerAs).toEqual('deleteProcessModalInstanceCtrl');
           expect(options.size).toEqual('sm');
           expect(options.resolve.process()).toEqual(process);
+        });
+
+        describe('hasResolutionProblem', function() {
+          it('should find the resolution message of a given problem type', function() {
+            processMenuCtrl.processResolutionProblems = [];
+            expect(processMenuCtrl.hasResolutionProblem('parameter')).toBeFalsy();
+            processMenuCtrl.processResolutionProblems.push({type: 'parameter'}, {type: 'actor'});
+            expect(processMenuCtrl.hasResolutionProblem('parameter')).toBeTruthy();
+            expect(processMenuCtrl.hasResolutionProblem('connector')).toBeFalsy();
+            expect(processMenuCtrl.hasResolutionProblem('actor')).toBeTruthy();
+          });
         });
       });
     });
