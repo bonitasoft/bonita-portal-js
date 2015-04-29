@@ -12,7 +12,7 @@
         link: function(scope, element, attr) {
           //we do not override ngClick value in case
           element.bind('click', function() {
-            manageTopUrl.goTo(scope.$eval(attr.bonitaHref));
+            manageTopUrl.goTo(scope.$eval(attr.bonitaHref) || attr.bonitaHref);
           });
         }
       };

@@ -153,7 +153,7 @@
         scope.$apply();
         expect(caseAPI.delete).toHaveBeenCalled();
         expect(caseAPI.delete.calls.allArgs()).toEqual([[{id: '1'}], [{id: '324'}]]);
-        expect(scope.$emit.calls.allArgs()).toEqual([['caselist:notify', {type: 'success', status: '2 cases deleted successfully'}], ['caselist:search']]);
+        expect(scope.$emit.calls.allArgs()).toEqual([['caselist:notify', {type: 'success', status: '2 cases have been deleted'}], ['caselist:search']]);
         expect(scope.pagination.currentPage).toBe(1);
       });
 
@@ -213,7 +213,7 @@
         expect(caseAPI.delete.calls.allArgs()).toEqual([[{id: '1'}], [{id: '324'}], [{id: '6548'}], [{id: '1324'}]]);
         expect(scope.$emit.calls.allArgs()).toEqual([
           ['caselist:http-error', { status : 500, statusText : 'Internal Server Error', data : { resource : 'bpm/case', message : 'impossible to delete' } }],
-          ['caselist:notify', {type: 'success', status: '3 cases deleted successfully'}],
+          ['caselist:notify', {type: 'success', status: '3 cases have been deleted'}],
           ['caselist:search']
         ]);
         expect(scope.pagination.currentPage).toBe(1);
@@ -239,7 +239,7 @@
         expect(scope.$emit.calls.allArgs()).toEqual([
           ['caselist:http-error', { status : 500, statusText : 'Internal Server Error', data : { resource : 'bpm/case', message : 'impossible to delete' } }],
           ['caselist:http-error', { status : 500, statusText : 'Internal Server Error', data : { resource : 'bpm/case', message : 'impossible to delete' } }],
-          ['caselist:notify', {type: 'success', status: '0 cases deleted successfully'}],
+          ['caselist:notify', {type: 'success', status: '0 cases have been deleted'}],
           ['caselist:search']
         ]);
         expect(scope.pagination.currentPage).toBe(1);
