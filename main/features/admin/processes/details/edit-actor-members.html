@@ -1,10 +1,10 @@
 <div id="editActorsMembersModal" ng-init="editActorMembersCtrl.initView()" class="process-details">
 
   <div class="modal-header">
-    <h3 class="modal-title">{{'{} mapped to actor {}' | translate | stringTemplater:[currentMemberLabel, editActorMembersCtrl.scope.actor.displayname]}}</h3>
+    <h3 class="modal-title">{{editActorMembersCtrl.title | translate | stringTemplater:[editActorMembersCtrl.scope.actor.displayName]}}</h3>
   </div>
   <div class="modal-body">
-    <h4>{{'{} {} already mapped' | translate | stringTemplater:[members.length, currentMemberLabel.toLowerCase()]}}</h4>
+    <h4>{{'{} mapped' | translate | stringTemplater:[currentMemberLabel]}}</h4>
     <p class="members">
       <span ng-repeat="member in members">
         <label class="label label-default" >
@@ -42,7 +42,7 @@
       translation="editActorMembersCtrl.scope.localLangRole"
       on-search-change="editActorMembersCtrl.selectOnSearchRole(data)"
       selection-mode="single"></isteven-multi-select>
-      <span style="clear:both"> {{'of' | translate }} </span>
+      <span style="clear:both">{{' of ' | translate }}</span>
       <isteven-multi-select
       input-model="first200groups"
       output-model="editActorMembersCtrl.scope.newMembershipGroup"

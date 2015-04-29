@@ -2,14 +2,15 @@
   <h3>{{'Actors' | translate}}</h3>
   <div class="panel panel-default">
     <div class="panel-body">
+      <p class="text-muted">{{'Select the entities (users, groups, roles, memberships) to map to the actors. These entities will do the human tasks in the process.' | translate}}</p>
       <table class="table  actorMappingList">
         <thead>
           <tr>
-            <th translate>{{'Actor name' | translate}}</th>
-            <th translate>{{'Users' | translate}}</th>
-            <th translate>{{'Roles' | translate}}</th>
-            <th translate>{{'Groups' | translate}}</th>
-            <th translate>{{'Memberships' | translate}}</th>
+            <th>{{'Actor name' | translate}}</th>
+            <th>{{'Users' | translate}}</th>
+            <th>{{'Roles' | translate}}</th>
+            <th>{{'Groups' | translate}}</th>
+            <th>{{'Memberships' | translate}}</th>
           </tr>
         </thead>
         <tbody>
@@ -19,26 +20,25 @@
               <span ng-repeat="user in actorsMembers[actor.id].users.data">
                 <label class="label label-default">{{user.user_id.firstname}} {{user.user_id.lastname}}</label>
               </span>
-              <label ng-if="actorsMembers[actor.id].users.resource.pagination.total > membersPerCell" class="label label-default">{{actorsMembers[actor.id].users.resource.pagination.total - membersPerCell}}&nbsp;{{'More' | translate}}</label>
+              <label ng-if="actorsMembers[actor.id].users.resource.pagination.total > membersPerCell" class="label label-default">{{'{} more' | translate | stringTemplater: actorsMembers[actor.id].users.resource.pagination.total - membersPerCell}}</label>
             </td>
             <td class="members">
               <span ng-repeat="role in actorsMembers[actor.id].roles.data">
                 <label class="label label-default">{{role.role_id.displayName}}</label>
               </span>
-              <label ng-if="actorsMembers[actor.id].roles.resource.pagination.total > membersPerCell" class="label label-default">{{actorsMembers[actor.id].roles.resource.pagination.total - membersPerCell}}&nbsp;{{'More'|translate}}</label>
+              <label ng-if="actorsMembers[actor.id].roles.resource.pagination.total > membersPerCell" class="label label-default">{{'{} more'|translate}} | stringTemplater: actorsMembers[actor.id].roles.resource.pagination.total - membersPerCell</label>
             </td>
             <td class="members">
               <span ng-repeat="group in actorsMembers[actor.id].groups.data">
                 <label class="label label-default">{{group.group_id.displayName}}</label>
               </span>
-              <label ng-if="actorsMembers[actor.id].groups.resource.pagination.total > membersPerCell" class="label label-default">{{actorsMembers[actor.id].groups.resource.pagination.total - membersPerCell}}&nbsp;{{'More' | translate}}</label>
-              </div>
+              <label ng-if="actorsMembers[actor.id].groups.resource.pagination.total > membersPerCell" class="label label-default">{{'{} more' | translate | stringTemplater: actorsMembers[actor.id].groups.resource.pagination.total - membersPerCell}}</label>
             </td>
             <td class="members">
               <span ng-repeat="membership in actorsMembers[actor.id].memberships.data">
-                <label class="label label-default">{{membership.role_id.displayName}} of {{membership.group_id.displayName}}</label>
+                <label class="label label-default">{{'{} of {}' | translate | stringTemplater: [membership.role_id.displayName, membership.group_id.displayName]}}</label>
               </span>
-              <label ng-if="actorsMembers[actor.id].memberships.resource.pagination.total > membersPerCell" class="label label-default outline moreCount">{{actorsMembers[actor.id].memberships.resource.pagination.total - membersPerCell}}&nbsp;{{'More' | translate}}</label>
+              <label ng-if="actorsMembers[actor.id].memberships.resource.pagination.total > membersPerCell" class="label label-default">{{'{} more' | translate | stringTemplater: actorsMembers[actor.id].memberships.resource.pagination.total - membersPerCell}}</label>
             </td>
           </tr>
           <tr ng-repeat-end class="mappingEdition-actions">
@@ -75,6 +75,7 @@
         </tbody>
       </table>
       <pagination ng-if="actors.resource.pagination.total>actors.resource.pagination.numberPerPage" ng-click="actorsMappingCtrl.getProcessActors()" boundary-links="true" total-items="actors.resource.pagination.total" ng-model="actors.resource.pagination.currentPage" items-per-page="actors.resource.pagination.numberPerPage " previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;" max-size="5"></pagination>
+      <p class="text-muted">{{'For each actor, check that each entity (user, group, role, membership) has the relevant user profile in the Portal.' | translate}} {{'To do so, go to' | translate}} <a href="" bonita-href="profilelisting">{{'Profiles' | translate}}</a>.</p>
     </div>
   </div>
 </div>
