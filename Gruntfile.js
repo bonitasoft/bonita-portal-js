@@ -21,6 +21,7 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-protractor-runner');
   grunt.loadNpmTasks('grunt-lineending');
   grunt.loadNpmTasks('grunt-ng-annotate');
+  grunt.loadNpmTasks('grunt-task-helper');
 
   // Define the configuration for all the tasks
   grunt.initConfig({
@@ -261,6 +262,28 @@ module.exports = function (grunt) {
       }
     },
 
+    //ensure locals CSS files are not included for packaging other bonita global theming will fail
+    taskHelper: {
+      useminPrepare: {
+        options: {
+          handlerByFileSrc:
+            function(src) {
+              var regexp = /<link rel="stylesheet" href="(((styles)|(common)|(features))\/.*css)">/g;
+              var indexContent = grunt.file.read(src, {encoding: 'utf-8'});
+              var result;
+              if ((result = regexp.exec(indexContent))) {
+                var msg = result[1] + '\n';
+                while ((result = regexp.exec(indexContent)) !== null) {
+                  msg += result[1] + '\n';
+                }
+                throw new Error('It seems that you have local CSS files should not be packaged here but to be added in bonita-web/looknfeel : \n' + msg);
+              }
+            }
+          },
+          src: '<%= useminPrepare.html %>'
+        }
+      },
+
     // Reads HTML for usemin blocks to enable smart builds that automatically
     // concat, minify and revision files. Creates configurations in memory so
     // additional tasks can operate on them
@@ -408,7 +431,7 @@ module.exports = function (grunt) {
         options: {
           //configFile: "e2e.conf.js", // Target-specific config file
           args: {
-            //suite : 'arch-case-list'
+            //suite : 'process-details-information'
           } // Target-specific arguments
         }
       }
@@ -503,6 +526,7 @@ module.exports = function (grunt) {
     'injector',
     'lineending',
     'nggettext_extract',
+    'taskHelper',
     'useminPrepare',
     'concurrent:dist',
     'autoprefixer',
