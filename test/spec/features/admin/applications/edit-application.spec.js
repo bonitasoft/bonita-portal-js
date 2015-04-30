@@ -4,6 +4,7 @@ describe('Controller: addApplicationCtrl', function () {
   var scope,
     applicationAPI,
     createCtrl,
+    spyOnLoad,
     modalInstance,
     loadProfilesRequest;
 
@@ -14,9 +15,12 @@ describe('Controller: addApplicationCtrl', function () {
 
     scope = $rootScope.$new();
     applicationAPI = _applicationAPI_;
-    spyOn(store, 'load').and.returnValue(loadProfilesRequest.promise);
     modalInstance = jasmine.createSpyObj('modalInstance', ['dismiss', 'close']);
 
+
+    spyOnLoad = function(promise){
+      spyOn(store, 'load').and.returnValue(promise);
+    };
     createCtrl = function (application) {
       $controller('addApplicationCtrl', {
         '$scope': scope,
@@ -37,6 +41,7 @@ describe('Controller: addApplicationCtrl', function () {
   });
 
   it('should load profiles on creation', function () {
+    spyOnLoad(loadProfilesRequest.promise);
     createCtrl();
 
     loadProfilesRequest.resolve(['foo', 'bar']);
@@ -51,6 +56,8 @@ describe('Controller: addApplicationCtrl', function () {
 
     beforeEach(inject(function ($controller, $rootScope, _applicationAPI_, store, $q) {
       saveRequest = $q.defer();
+      loadProfilesRequest = $q.defer();
+      spyOnLoad(loadProfilesRequest.promise);
       spyOn(applicationAPI, 'save').and.returnValue({ $promise: saveRequest.promise });
       createCtrl();
     }));

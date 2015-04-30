@@ -163,6 +163,9 @@
           profileId: {
             id: 42
           },
+          layoutId: {
+            id: 39
+          },
           createdBy: {
             id: 69
           },
@@ -173,6 +176,7 @@
 
         var appUpdate = {
           homePageId: 24,
+          layoutId: 39,
           profileId: 42,
           createdBy: 69,
           updatedBy: 1337

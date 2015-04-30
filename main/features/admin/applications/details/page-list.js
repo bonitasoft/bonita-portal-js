@@ -213,6 +213,7 @@
         var dataToUpdate = {
           homePageId: page.id,
           profileId: app.profileId.id,
+          layoutId: app.layoutId.id,
           createdBy: app.createdBy.id,
           updatedBy: app.updatedBy.id
         };
