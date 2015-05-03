@@ -26,10 +26,12 @@
     var categoryManager = {};
     categoryManager.selectedCategoriesPopulatePromise = function (processCategoryPromises, newCategoryPromises, selectedCategories){
       return $q.all(newCategoryPromises).then(function(processNewCategoryPromises) {
+        console.log('inside first promise : ', processNewCategoryPromises);
         return $q.all(processCategoryPromises.concat(processNewCategoryPromises)).then(function() {
+          console.log('the end');
           return selectedCategories;
-        });
-      });
+        }, console.log);
+      }, console.log);
     };
 
     categoryManager.saveCategoryProcessIfNotAlreadySelected = function (category, initiallySelectedCategories, promises, processId) {
@@ -37,7 +39,7 @@
         promises.push(processCategoryAPI.save({
           'category_id': category.id,
           'process_id': processId
-        }));
+        }).$promise);
       }
     };
 
@@ -46,7 +48,7 @@
         promises.push(processCategoryAPI.delete({
           'category_id': category.id,
           'process_id': processId
-        }));
+        }).$promise);
       }
     };
 
