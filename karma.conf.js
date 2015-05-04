@@ -21,6 +21,7 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
+      'main/assets/lodash/lodash.js',
       'test/spec/helpers/fakeModal.js',
       'main/assets/jquery/dist/jquery.js',
       'main/assets/angular/angular.js',
