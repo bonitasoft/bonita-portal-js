@@ -23,7 +23,7 @@
     }
     ])
 
-    .controller('applicationDetailsCtrl', ['$rootScope', '$scope', '$modal', 'applicationAPI', '$stateParams','FeatureManager', 'store', 'customPageAPI', 'gettextCatalog', function ($rootScope, $scope, $modal, applicationAPI, $stateParams, FeatureManager, store, customPageAPI, gettextCatalog) {
+    .controller('applicationDetailsCtrl', ['$rootScope', '$scope', '$modal', 'applicationAPI', '$stateParams', 'FeatureManager', 'store', 'customPageAPI', function ($rootScope, $scope, $modal, applicationAPI, $stateParams, FeatureManager, store, customPageAPI) {
 
       var ctrl = this;
       ctrl.modal = null;
