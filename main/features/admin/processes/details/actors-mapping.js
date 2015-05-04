@@ -4,17 +4,17 @@
   angular.module('org.bonitasoft.features.admin.processes.details.actorMapping', [
     'ui.bootstrap',
     'ui.router',
-    'angular-growl',
     'org.bonitasoft.bonitable',
     'org.bonitasoft.bonitable.selectable',
     'org.bonitasoft.bonitable.repeatable',
     'org.bonitasoft.bonitable.sortable',
     'org.bonitasoft.bonitable.settings',
-    'xeditable'
+    'xeditable',
+    'gettext'
   ])
     .constant('ACTOR_PER_PAGE', 10)
     .constant('MEMBERS_PER_CELL', 5)
-    .controller('ActorsMappingCtrl', function($scope, $modal, process, actorMemberAPI, actorAPI, growl, ACTOR_PER_PAGE, MEMBERS_PER_CELL) {
+    .controller('ActorsMappingCtrl', function($scope, $modal, process, actorMemberAPI, actorAPI, ACTOR_PER_PAGE, MEMBERS_PER_CELL) {
       var self = this;
       var resourceInit = [];
       resourceInit.pagination = {
@@ -96,61 +96,10 @@
           $scope.actors = actorsResponse;
         });
       };
-
-
-      self.removeMember = function removeMember(memberId) {
-        actorMemberAPI.delete({
-          id: memberId
-        }).$promise.then(
-          function success() {
-            growl.success('Actor member deleted', {
-              ttl: 3000,
-              disableCountDown: true,
-              disableIcons: true
-            });
-            self.getProcessActors();
-          },
-          function error() {}
-        ).then(function() {
-          $scope.$emit('process.refresh');
-        });
-      };
-
-      $scope.editMapping = function editMapping(actor, memberType) {
-        $modal.open({
-          templateUrl: 'features/admin/processes/details/edit-actor-members.html',
-          controller: 'EditActorMembersCtrl',
-          controllerAs: 'editActorMembersCtrl',
-          size: 'lg',
-          resolve: {
-            process: function resolveProcess() {
-              return process;
-            },
-            memberType: function resolveMemberType() {
-              return memberType;
-            },
-            actor: function resolveActor() {
-              return actor;
-            }
-          }
-        }).result.then(function close(){
-          $scope.$emit('process.refresh');
-          self.init();
-        },function cancel(){
-          $scope.$emit('process.refresh');
-          self.init();
-        });
-      };
-
     })
     .filter('dateInMillis', function() {
       return function(dateString) {
         return Date.parse(dateString);
       };
-    })
-    .config(['growlProvider',
-      function(growlProvider) {
-        growlProvider.globalPosition('top-center');
-      }
-    ]);
+    });
 })();
