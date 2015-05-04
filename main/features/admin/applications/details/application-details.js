@@ -30,7 +30,7 @@
       ctrl.isEditLayoutAvailable = FeatureManager.isFeatureAvailable('APPLICATION_LOOK_N_FEEL');
 
       store
-        .load(customPageAPI)
+        .load(customPageAPI, {f:'contentType=layout'})
         .then(function (layoutPages) {
           $scope.layoutPages = layoutPages;
         });

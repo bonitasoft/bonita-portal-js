@@ -71,7 +71,7 @@
 
       beforeEach(function() {
         $httpBackend
-          .expectGET('../API/portal/page?c=0&p=0')
+          .expectGET('../API/portal/page?c=0&f=contentType%3Dlayout&p=0')
           .respond([],{'Content-Range': '0-3/3'});
         $httpBackend
           .expectGET('../API/living/application/2?d=createdBy&d=updatedBy&d=profileId&d=layoutId')
@@ -79,7 +79,7 @@
             id: 2
           });
         $httpBackend
-          .expectGET('../API/portal/page?c=3&p=0')
+          .expectGET('../API/portal/page?c=3&f=contentType%3Dlayout&p=0')
           .respond([{id: 1},{id: 2},{id: 3}]);
       });
 

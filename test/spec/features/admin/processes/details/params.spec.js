@@ -41,7 +41,7 @@
       expect(featureManager.isFeatureAvailable).toHaveBeenCalledWith('POST_DEPLOY_CONFIG');
     });
 
-    fdescribe('updateParameter method', function() {
+    describe('updateParameter method', function() {
       beforeEach(function() {
         angular.noop = jasmine.createSpy();
         processParamsCtrl = controller('ProcessParamsCtrl', {
