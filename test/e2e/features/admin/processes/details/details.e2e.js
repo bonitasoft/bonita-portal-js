@@ -23,17 +23,17 @@
       describe('navigation in menu ', function () {
         var menuItems;
         beforeEach(function() {
-          menuItems = processDetails.all(by.css('.nav.navbar-nav > li'));
+          menuItems = processDetails.all(by.css('.list-group > a.list-group-item'));
         });
         it('should display 4 items in menu', function() {
           expect(menuItems.get(0).getAttribute('class')).toContain('active');
           expect(menuItems.get(1).getAttribute('class')).not.toContain('active');
           expect(menuItems.get(2).getAttribute('class')).not.toContain('active');
           expect(menuItems.get(3).getAttribute('class')).not.toContain('active');
-          expect(menuItems.get(0).all(by.css('a')).getText()).toEqual(['General']);
-          expect(menuItems.get(1).all(by.css('a')).getText()).toEqual(['Actors']);
-          expect(menuItems.get(2).all(by.css('a')).getText()).toEqual(['Parameters']);
-          expect(menuItems.get(3).all(by.css('a')).getText()).toEqual(['Connectors']);
+          expect(menuItems.get(0).getText()).toEqual('General');
+          expect(menuItems.get(1).getText()).toEqual('Actors');
+          expect(menuItems.get(2).getText()).toEqual('Parameters');
+          expect(menuItems.get(3).getText()).toEqual('Connectors');
         });
 
         it('should navigate among sections', function() {
@@ -46,7 +46,7 @@
           expect(menuItems.get(1).getAttribute('class')).toContain('active');
           expect(menuItems.get(2).getAttribute('class')).not.toContain('active');
           expect(menuItems.get(3).getAttribute('class')).not.toContain('active');
-          
+
           //params
           //menuItems.get(2).all(by.css('a')).get(0).click();
           browser.get('#/admin/processes/details/321/params');
@@ -64,7 +64,7 @@
           expect(menuItems.get(1).getAttribute('class')).not.toContain('active');
           expect(menuItems.get(2).getAttribute('class')).not.toContain('active');
           expect(menuItems.get(3).getAttribute('class')).toContain('active');
-          
+
           //General
           browser.get('#/admin/processes/details/321');
           //menuItems.get(0).all(by.css('a')).get(0).click();
@@ -74,7 +74,7 @@
 
       function checkMainActions() {
         var mainActionButtons = processDetails.all(by.css('.actions .btn'));
-        
+
         expect(mainActionButtons.get(0).getText()).toEqual('Back');
         expect(mainActionButtons.get(0).getAttribute('bonita-href')).toEqual('{token: \'processlistingadmin\'}');
 
@@ -98,7 +98,7 @@
           expect(mainActionButtons.get(0).getAttribute('bonita-href')).toEqual('{token: \'processlistingadmin\'}');
 
           expect(processDetails.all(by.css('h1')).getText()).toEqual(['Rock\'N\'Roll Process (6.6.6)']);
-          expect(processDetails.all(by.css('.panel-danger > div')).getText()).toEqual(['The Process cannot be enabled','Entity Mapping must be resolved before enabling the Process.']);
+          expect(processDetails.all(by.css('.panel-danger > div')).getText()).toEqual(['The Process cannot be enabled', 'Entity Mapping must be resolved before enabling the Process.\nParameters must be resolved before enabling the Process.']);
           processDetails.all(by.css('.actions .btn-primary')).get(0).click();
         });
       });

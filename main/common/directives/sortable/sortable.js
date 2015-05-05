@@ -1,18 +1,18 @@
 (function(){
   'use strict';
   angular
-  .module('org.bonitasoft.sortable',[])
+  .module('org.bonitasoft.sortable', [])
   .directive('boSortable', function(){
     return {
       restrict: 'A',
       scope: {
-        sortOptions : '=',
-        onSort : '&'
+        sortOptions: '=',
+        onSort: '&'
       },
       templateUrl: 'template/sortable/sortable.tpl.html',
       transclude: true,
       link: function($scope, iElm, attr) {
-        $scope.property =  (attr.id || attr.boSortable || '').trim();
+        $scope.property = (attr.id || attr.boSortable || '').trim();
         if($scope.property){
           iElm.addClass('pointer');
         }
