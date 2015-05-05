@@ -74,12 +74,18 @@
           .expectGET('../API/portal/page?c=0&f=contentType%3Dlayout&p=0')
           .respond([],{'Content-Range': '0-3/3'});
         $httpBackend
-          .expectGET('../API/living/application/2?d=createdBy&d=updatedBy&d=profileId&d=layoutId')
+          .expectGET('../API/portal/page?c=0&f=contentType%3Dtheme&p=0')
+          .respond([],{'Content-Range': '0-3/3'});
+        $httpBackend
+          .expectGET('../API/living/application/2?d=createdBy&d=updatedBy&d=profileId&d=layoutId&d=themeId')
           .respond({
             id: 2
           });
         $httpBackend
           .expectGET('../API/portal/page?c=3&f=contentType%3Dlayout&p=0')
+          .respond([{id: 1},{id: 2},{id: 3}]);
+        $httpBackend
+          .expectGET('../API/portal/page?c=3&f=contentType%3Dtheme&p=0')
           .respond([{id: 1},{id: 2},{id: 3}]);
       });
 
@@ -141,23 +147,35 @@
 
       });
 
-      it('should updateLayout method reload application on success', function() {
-        spyOn(applicationAPI, 'update').and.returnValue({ $promise: $q.when({id: 2, layoutId: 3}) });
-        spyOn(Ctrl, 'reload');
-
-        Ctrl.updateLayout({'id':'2'},{'id':'3'});
-        scope.$apply();
-
-        expect(Ctrl.reload).toHaveBeenCalledWith({id: 2, layoutId: 3});
-
-      });
-
       it('should updateLayout method handleErrors on error', function() {
 
         spyOn(applicationAPI, 'update').and.returnValue({ $promise: $q.reject({response: {data: {message: 'Erreur 500'}}}) });
         spyOn(Ctrl, 'handleErrors');
 
         Ctrl.updateLayout({'id':'2'},{'id':'3'});
+        scope.$apply();
+
+        expect(Ctrl.handleErrors).toHaveBeenCalledWith({response: {data: {message: 'Erreur 500'}}});
+
+      });
+
+      it('should updateTheme method reload application on success', function() {
+        spyOn(applicationAPI, 'update').and.returnValue({ $promise: $q.when({id: 2, themeId: 3}) });
+        spyOn(Ctrl, 'reload');
+
+        Ctrl.updateTheme({'id':'2'},{'id':'3'});
+        scope.$apply();
+
+        expect(Ctrl.reload).toHaveBeenCalledWith({id: 2, themeId: 3});
+
+      });
+
+      it('should updateTheme method handleErrors on error', function() {
+
+        spyOn(applicationAPI, 'update').and.returnValue({ $promise: $q.reject({response: {data: {message: 'Erreur 500'}}}) });
+        spyOn(Ctrl, 'handleErrors');
+
+        Ctrl.updateTheme({'id':'2'},{'id':'3'});
         scope.$apply();
 
         expect(Ctrl.handleErrors).toHaveBeenCalledWith({response: {data: {message: 'Erreur 500'}}});

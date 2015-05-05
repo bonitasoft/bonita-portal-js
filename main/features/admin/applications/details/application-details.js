@@ -35,10 +35,16 @@
           $scope.layoutPages = layoutPages;
         });
 
+      store
+        .load(customPageAPI, {f:'contentType=theme'})
+        .then(function (themePages) {
+          $scope.themePages = themePages;
+        });
+
       ctrl.reload = function reload() {
         $scope.app = applicationAPI.get({
           id: $stateParams.id,
-          d: ['createdBy', 'updatedBy', 'profileId', 'layoutId']
+          d: ['createdBy', 'updatedBy', 'profileId', 'layoutId', 'themeId']
         });
       };
 
@@ -68,6 +74,16 @@
         return applicationAPI.update(model)
           .$promise.then(ctrl.reload, ctrl.handleErrors);
       };
+
+      ctrl.updateTheme = function updateLayout(application, $data) {
+        var model = {};
+        model.id = application.id;
+        model.themeId = $data.id;
+
+        return applicationAPI.update(model)
+          .$promise.then(ctrl.reload, ctrl.handleErrors);
+      };
+
 
       ctrl.handleErrors = function handleErrors(response) {
         return response.data.message;

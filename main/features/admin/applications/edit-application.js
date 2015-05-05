@@ -24,6 +24,8 @@
           $scope.application.model.profileId = application.profileId && application.profileId.id || application.profileId;
           // in case layout is deployed
           $scope.application.model.layoutId = application.layoutId && application.layoutId.id || application.layoutId;
+          // in case layout is deployed
+          $scope.application.model.themeId = application.themeId && application.themeId.id || application.themeId;
         } else {
           $scope.application = {
             model: {

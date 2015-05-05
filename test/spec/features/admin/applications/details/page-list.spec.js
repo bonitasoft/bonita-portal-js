@@ -166,6 +166,9 @@
           layoutId: {
             id: 39
           },
+          themeId: {
+            id: 40
+          },
           createdBy: {
             id: 69
           },
@@ -177,6 +180,7 @@
         var appUpdate = {
           homePageId: 24,
           layoutId: 39,
+          themeId: 40,
           profileId: 42,
           createdBy: 69,
           updatedBy: 1337
