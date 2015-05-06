@@ -195,9 +195,9 @@
             scope.$digest();
 
             var result;
-            createNewCategoryDeferred.resolve('smth');
-            saveNewCategoryMappingDeferred.resolve('smth2');
-            categoryMappingDeferred.resolve('smth3');
+            saveNewCategoryMappingDeferred.resolve();
+            createNewCategoryDeferred.resolve(saveNewCategoryMappingDeferred.promise);
+            categoryMappingDeferred.resolve();
             categoryManager.selectedCategoriesPopulatePromise([categoryMappingDeferred.promise], [createNewCategoryDeferred.promise], categories);
             scope.$apply();
             expect(result).toEqual(categories);
