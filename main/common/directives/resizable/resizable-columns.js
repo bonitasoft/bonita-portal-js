@@ -1,12 +1,12 @@
 (function() {
   'use strict';
   angular.module('org.bonitasoft.common.table.resizable', [])
-    .directive('resizableColumn', ['$timeout', function ($timeout) {
+    .directive('resizableColumn', function ($timeout) {
       return {
         restrict: 'A',
-        scope : {
-          resizableColumn : '=',
-          resizeSelector : '@'
+        scope: {
+          resizableColumn: '=',
+          resizeSelector: '@'
         },
         link: function (scope, $el) {
           var resizeColumn = function () {
@@ -23,7 +23,5 @@
           scope.$watch('resizableColumn', resizeColumn, true);
         }
       };
-    }
-    ]);
-
+    });
 })();

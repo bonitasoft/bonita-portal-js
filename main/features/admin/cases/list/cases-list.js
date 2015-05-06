@@ -12,7 +12,6 @@
     'gettext',
     'ui.bootstrap',
     'ui.router',
-    'org.bonitasoft.common.directives.selectAll',
     'angular-growl',
     'ngAnimate',
     'org.bonitasoft.bonitable',
