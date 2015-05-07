@@ -8,22 +8,23 @@
   var actorsMappingStateName = 'bonita.processesDetails.actorsMapping';
   /*eslint "angular/ng_di":0*/
   angular.module('org.bonitasoft.features.admin.processes.details', [
-      'ui.router',
-      'ui.bootstrap',
-      'gettext',
-      'org.bonitasoft.services.topurl',
-      'org.bonitasoft.common.directives.bonitaHref',
-      'org.bonitasoft.common.directives.toggleButton',
-      'org.bonitasoft.common.resources',
-      'org.bonitasoft.features.admin.processes.details.actorMapping',
-      'org.bonitasoft.features.admin.processes.editActorMembers',
-      'org.bonitasoft.services.topurl',
-      'org.bonitasoft.features.admin.processes.details.information',
-      'org.bonitasoft.features.admin.processes.details.processConnectors',
-      'org.bonitasoft.features.admin.processes.details.params',
-      'org.bonitasoft.service.process.resolution',
-      'org.bonitasoft.common.filters.stringTemplater'
-    ])
+    'ui.router',
+    'ui.bootstrap',
+    'gettext',
+    'org.bonitasoft.service.token',
+    'org.bonitasoft.services.topurl',
+    'org.bonitasoft.common.directives.bonitaHref',
+    'org.bonitasoft.common.directives.toggleButton',
+    'org.bonitasoft.common.resources',
+    'org.bonitasoft.features.admin.processes.details.actorMapping',
+    'org.bonitasoft.features.admin.processes.editActorMembers',
+    'org.bonitasoft.services.topurl',
+    'org.bonitasoft.features.admin.processes.details.information',
+    'org.bonitasoft.features.admin.processes.details.processConnectors',
+    'org.bonitasoft.features.admin.processes.details.params',
+    'org.bonitasoft.service.process.resolution',
+    'org.bonitasoft.common.filters.stringTemplater'
+  ])
     .value('menuContent', [{
       name: 'General',
       resolutionLabel: 'general',
@@ -89,7 +90,7 @@
     .config(
       function($stateProvider) {
         $stateProvider.state('bonita.processesDetails', {
-          url: '/admin/processes/details/:processId',
+          url: '/admin/processes/details/:processId?supervisor_id',
           templateUrl: 'features/admin/processes/details/menu.html',
           abstract: true,
           controller: 'ProcessMenuCtrl',
@@ -100,6 +101,10 @@
             },
             processResolutionProblems: function($stateParams, ProcessMoreDetailsResolveService) {
               return ProcessMoreDetailsResolveService.retrieveProcessResolutionProblem($stateParams.processId);
+            },
+            supervisorId: function($stateParams, TokenExtensionService) {
+              TokenExtensionService.tokenExtensionValue = (angular.isDefined($stateParams['supervisor_id']) ? 'pm' : 'admin');
+              return $stateParams['supervisor_id'];
             }
           }
         }).state(informationStateName, {
@@ -139,12 +144,12 @@
           controllerAs: 'actorsMappingCtrl'
         });
       }
-    )
+  )
     .controller('ProcessMenuCtrl', ProcessMenuCtrl)
     .controller('DeleteProcessModalInstanceCtrl', DeleteProcessModalInstanceCtrl);
 
   /* jshint -W003 */
-  function ProcessMenuCtrl($scope, menuContent, process, processAPI, $modal, $state, manageTopUrl, $window, processResolutionProblems, ProcessMoreDetailsResolveService) {
+  function ProcessMenuCtrl($scope, menuContent, process, processAPI, $modal, $state, manageTopUrl, $window, processResolutionProblems, ProcessMoreDetailsResolveService, TokenExtensionService) {
     var vm = this;
     vm.includesCurrentState = function(state) {
       return $state.includes(state);
@@ -182,6 +187,10 @@
             return process;
           }
         }
+      }).result.then(function() {
+        manageTopUrl.goTo({
+          token: 'processlisting' + TokenExtensionService.tokenExtensionValue
+        });
       });
     }
 
@@ -204,7 +213,7 @@
     }
   }
 
-  function DeleteProcessModalInstanceCtrl($scope, processAPI, process, $modalInstance, manageTopUrl) {
+  function DeleteProcessModalInstanceCtrl($scope, processAPI, process, $modalInstance) {
     var vm = this;
     vm.process = process;
 
@@ -212,9 +221,6 @@
       processAPI.delete({
         id: process.id
       }).$promise.then(function() {
-        manageTopUrl.goTo({
-          token: 'processlistingadmin'
-        });
         $modalInstance.close();
       }, function TODOmanageerror() {
 

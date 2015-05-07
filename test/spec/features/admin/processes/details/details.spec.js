@@ -3,7 +3,7 @@
 
   describe('monitoringStatus Directive and Controller in Process More Details',
     function() {
-      var scope, controller, q, processMenuCtrl, processAPI, categoryAPI, processResolutionProblemAPI, parameterAPI, processConnectorAPI, store, modal, state, processResolutionProblems, processMoreDetailsResolveService, processProblemResolutionService;
+      var scope, controller, q, processMenuCtrl, processAPI, categoryAPI, processResolutionProblemAPI, parameterAPI, processConnectorAPI, store, modal, state, processResolutionProblems, processMoreDetailsResolveService, processProblemResolutionService, manageTopUrl, tokenExtensionService;
 
       beforeEach(module('org.bonitasoft.features.admin.processes.details'));
 
@@ -15,7 +15,8 @@
         processConnectorAPI = jasmine.createSpyObj('processConnectorAPI', ['get', 'update']);
         store = jasmine.createSpyObj('store', ['load']);
         processProblemResolutionService = jasmine.createSpyObj('processProblemResolutionService', ['buildProblemsList']);
-
+        manageTopUrl = jasmine.createSpyObj('manageTopUrl', ['goTo', 'getCurrentPageToken']);
+          
         module(function($provide) {
           $provide.value('processAPI', processAPI);
           $provide.value('categoryAPI', categoryAPI);
@@ -24,6 +25,7 @@
           $provide.value('processConnectorAPI', processConnectorAPI);
           $provide.value('store', store);
           $provide.value('ProcessProblemResolutionService', processProblemResolutionService);
+          $provide.value('manageTopUrl', manageTopUrl);
         });
       });
 
@@ -34,13 +36,16 @@
         modal = jasmine.createSpyObj('$modal', ['open']);
         processResolutionProblems = jasmine.createSpyObj('processResolutionProblems', ['retrieveProcess']);
         processMoreDetailsResolveService = ProcessMoreDetailsResolveService;
+        tokenExtensionService = { tokenExtensionValue: 'admin'};
       }));
 
 
       describe('processMenuCtrl', function() {
         var menu, process;
         beforeEach(function() {
-          process = {id: 1230};
+          process = {
+            id: 1230
+          };
           menu = [{
             name: 'Information',
             resolutionLabel: 'general',
@@ -72,7 +77,8 @@
             menuContent: menu,
             $modal: modal,
             $state: state,
-            processResolutionProblems: processResolutionProblems
+            processResolutionProblems: processResolutionProblems,
+            TokenExtensionService: tokenExtensionService
           });
         });
 
@@ -101,7 +107,7 @@
             store.load.and.returnValue(deferred.promise);
             processProblemResolutionService.buildProblemsList.and.returnValue('Parameters must be resolved before enabling the Process.');
             deferred.resolve(processResolutionProblem);
-            processMoreDetailsResolveService.retrieveProcessResolutionProblem(12).then(function(problems){
+            processMoreDetailsResolveService.retrieveProcessResolutionProblem(12).then(function(problems) {
               expect(problems).toEqual('Parameters must be resolved before enabling the Process.');
             });
             scope.$apply();
@@ -109,7 +115,10 @@
             expect(store.load.calls.mostRecent().args[1]).toEqual({
               f: ['process_id=12']
             });
-            expect(processProblemResolutionService.buildProblemsList).toHaveBeenCalledWith([{type: 'parameter', 'ressource_id': undefined}]);
+            expect(processProblemResolutionService.buildProblemsList).toHaveBeenCalledWith([{
+              type: 'parameter',
+              'ressource_id': undefined
+            }]);
           });
 
           it('retrieveParameters should get the Parameters from the API', function() {
@@ -200,8 +209,14 @@
           expect(process.configurationState).toEqual('RESOLVED');
         });
 
-        it('opens the deletion modal when delete button is clicked', function() {
+        it('opens the deletion modal when delete button is clicked and redirect to admin listing page', function() {
+          var deferred = q.defer();
+          modal.open.and.returnValue({
+            result: deferred.promise
+          });
+          deferred.resolve();
           processMenuCtrl.deleteProcess();
+          scope.$apply();
           expect(modal.open).toHaveBeenCalled();
           var options = modal.open.calls.mostRecent().args[0];
           expect(options.templateUrl).toEqual('features/admin/processes/details/delete-process-modal.html');
@@ -209,13 +224,46 @@
           expect(options.controllerAs).toEqual('deleteProcessModalInstanceCtrl');
           expect(options.size).toEqual('sm');
           expect(options.resolve.process()).toEqual(process);
+          expect(manageTopUrl.goTo).toHaveBeenCalledWith({
+            token: 'processlistingadmin'
+          });
+
+        });
+
+        it('delete is done, do a redirect to params.spec.js listing page', function() {
+          var deferred = q.defer();
+          tokenExtensionService.tokenExtensionValue = 'pm';
+          modal.open.and.returnValue({
+            result: deferred.promise
+          });
+          deferred.resolve();
+          controller('ProcessMenuCtrl', {
+            $scope: scope,
+            process: process,
+            processAPI: processAPI,
+            menuContent: menu,
+            $modal: modal,
+            $state: state,
+            processResolutionProblems: processResolutionProblems,
+            TokenExtensionService: tokenExtensionService
+          }).deleteProcess();
+          scope.$apply();
+          
+          expect(manageTopUrl.goTo).toHaveBeenCalledWith({
+            token: 'processlistingpm'
+          });
+
         });
 
         describe('hasResolutionProblem', function() {
           it('should find the resolution message of a given problem type', function() {
             processMenuCtrl.processResolutionProblems = [];
             expect(processMenuCtrl.hasResolutionProblem('parameter')).toBeFalsy();
-            processMenuCtrl.processResolutionProblems.push({type: 'parameter'}, {type: 'actor'});
+            processMenuCtrl.processResolutionProblems.push({
+              type: 'parameter'
+            }, {
+              type: 'actor'
+            });
             expect(processMenuCtrl.hasResolutionProblem('parameter')).toBeTruthy();
             expect(processMenuCtrl.hasResolutionProblem('connector')).toBeFalsy();
             expect(processMenuCtrl.hasResolutionProblem('actor')).toBeTruthy();
