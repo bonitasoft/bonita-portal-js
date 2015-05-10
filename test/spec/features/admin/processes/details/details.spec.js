@@ -236,7 +236,7 @@
           expect(modal.open).toHaveBeenCalled();
         });
 
-        fdescribe('DeleteProcessModalInstanceCtrl', function() {
+        describe('DeleteProcessModalInstanceCtrl', function() {
           var modalInstance, deleteCtrl;
           beforeEach(function() {
             modalInstance = jasmine.createSpyObj('$modalInstance', ['close', 'dismiss']);

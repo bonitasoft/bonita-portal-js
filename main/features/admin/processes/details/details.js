@@ -174,7 +174,7 @@
 
     function deleteProcess() {
       var growlOptions = {
-        ttl: 30000,
+        ttl: 3000,
         disableCountDown: true,
         disableIcons: true
       };

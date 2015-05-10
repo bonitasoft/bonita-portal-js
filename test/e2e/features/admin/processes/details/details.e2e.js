@@ -16,10 +16,6 @@
         //browser.debugger(); //launch protractor with debug option and use 'c' in console to continue test execution
       });
 
-      describe('main elements', function() {
-        it('should display main action button', checkMainActions);
-      });
-
       describe('navigation in menu ', function() {
         var menuItems;
         beforeEach(function() {
@@ -99,7 +95,20 @@
 
           expect(processDetails.all(by.css('h1')).getText()).toEqual(['Rock\'N\'Roll Process (6.6.6)']);
           expect(processDetails.all(by.css('.panel-danger > div')).getText()).toEqual(['The Process cannot be enabled', 'Entity Mapping must be resolved before enabling the Process.\nParameters must be resolved before enabling the Process.']);
-          processDetails.all(by.css('.actions .btn-primary')).get(0).click();
+        });
+      });
+      describe('Delete button', function() {
+        it('should open a popup asking for deletion with Delete and Cancel', function() {
+          var deleteButton = processDetails.all(by.css('.actions .btn-primary')).get(0);
+          expect(deleteButton.getText()).toEqual('Delete');
+          //click on delete
+          deleteButton.click();
+          var deleteModal = element(by.css('#delete-process-modal'));
+          expect(deleteModal.all(by.css('.modal-title')).getText()).toEqual(['Delete process']);
+          expect(deleteModal.all(by.css('.modal-body')).getText()).toEqual(['Delete the process Rock\'N\'Roll Process']);
+
+          expect(deleteModal.all(by.css('.btn')).get(0).getText()).toEqual('Delete');
+          expect(deleteModal.all(by.css('.btn')).get(1).getText()).toEqual('Cancel');
         });
       });
     });
