@@ -125,6 +125,7 @@
   when('GET', /^\/API\/bpm\/process\/789\?d=deployedBy&n=openCases&n=failedCases$/).respond(require('./admin/processes/details/process-def-789.json'));
   when('GET', /^\/API\/bpm\/category\?c=\d+&f=id%3D321&p=\d+$/).respond(require('./admin/processes/details/process-categories-321.json'));
   when('GET', /^\/API\/bpm\/category\?c=\d+&f=id%3D789&p=\d+$/).respond([]);
+  when('GET', /^\/API\/identity\/user\?c=\d+&f=enabled%3Dtrue&f=process_id%3D4987303186260428866&o=firstname,lastname&p=\d+$/).respond('./admin/processes/details/users-list.json');
   when('GET', /^\/API\/bpm\/processConnector\?c=\d+&f=process_id%3D321&p=\d+$/).respond([]);
   when('GET', /^\/API\/bpm\/processParameter\?c=\d+&f=process_id%3D321&(.*&)?p=\d+$/).respond(require('./admin/processes/details/process-parameters-321.json'));
   when('GET', /^\/API\/bpm\/processResolutionProblem\?c=\d+&f=process_id%3D321&p=\d+$/).respond([]);

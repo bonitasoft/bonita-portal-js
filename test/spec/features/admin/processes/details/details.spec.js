@@ -3,12 +3,12 @@
 
   describe('monitoringStatus Directive and Controller in Process More Details',
     function() {
-      var scope, controller, q, processMenuCtrl, processAPI, categoryAPI, processResolutionProblemAPI, parameterAPI, processConnectorAPI, store, modal, state, processResolutionProblems, processMoreDetailsResolveService, processProblemResolutionService;
+      var scope, controller, q, processMenuCtrl, processAPI, categoryAPI, processResolutionProblemAPI, parameterAPI, processConnectorAPI, store, modal, state, processResolutionProblems, processMoreDetailsResolveService, processProblemResolutionService, growl, manageTopUrl;
 
       beforeEach(module('org.bonitasoft.features.admin.processes.details'));
 
       beforeEach(function() {
-        processAPI = jasmine.createSpyObj('processAPI', ['get', 'update']);
+        processAPI = jasmine.createSpyObj('processAPI', ['get', 'update', 'delete']);
         categoryAPI = jasmine.createSpyObj('categoryAPI', ['get', 'update']);
         processResolutionProblemAPI = jasmine.createSpyObj('processResolutionProblemAPI', ['get', 'update']);
         parameterAPI = jasmine.createSpyObj('parameterAPI', ['get', 'update']);
@@ -34,6 +34,8 @@
         modal = jasmine.createSpyObj('$modal', ['open']);
         processResolutionProblems = jasmine.createSpyObj('processResolutionProblems', ['retrieveProcess']);
         processMoreDetailsResolveService = ProcessMoreDetailsResolveService;
+        growl = jasmine.createSpyObj('growl', ['error']);
+        manageTopUrl = jasmine.createSpyObj('manageTopUrl', ['goTo']);
       }));
 
 
@@ -72,7 +74,8 @@
             menuContent: menu,
             $modal: modal,
             $state: state,
-            processResolutionProblems: processResolutionProblems
+            processResolutionProblems: processResolutionProblems,
+            growl: growl
           });
         });
 
@@ -200,8 +203,12 @@
           expect(process.configurationState).toEqual('RESOLVED');
         });
 
-        it('opens the deletion modal when delete button is clicked', function() {
+        it('opens the deletion modal when delete button is clicked and display error on deletion failure', function() {
+          var deferred = q.defer();
+          modal.open.and.returnValue({result: deferred.promise});
+          deferred.reject({message: 'Network Unreachable'});
           processMenuCtrl.deleteProcess();
+          scope.$apply();
           expect(modal.open).toHaveBeenCalled();
           var options = modal.open.calls.mostRecent().args[0];
           expect(options.templateUrl).toEqual('features/admin/processes/details/delete-process-modal.html');
@@ -209,6 +216,59 @@
           expect(options.controllerAs).toEqual('deleteProcessModalInstanceCtrl');
           expect(options.size).toEqual('sm');
           expect(options.resolve.process()).toEqual(process);
+        });
+
+        it('opens the deletion modal when delete button is clicked and do noop on success', function() {
+          var deferred = q.defer();
+          modal.open.and.returnValue({result: deferred.promise});
+          deferred.resolve();
+          processMenuCtrl.deleteProcess();
+          scope.$apply();
+          expect(modal.open).toHaveBeenCalled();
+        });
+
+        it('opens the deletion modal when delete button is clicked and do noop on cancel', function() {
+          var deferred = q.defer();
+          modal.open.and.returnValue({result: deferred.promise});
+          deferred.reject();
+          processMenuCtrl.deleteProcess();
+          scope.$apply();
+          expect(modal.open).toHaveBeenCalled();
+        });
+
+        fdescribe('DeleteProcessModalInstanceCtrl', function() {
+          var modalInstance, deleteCtrl;
+          beforeEach(function() {
+            modalInstance = jasmine.createSpyObj('$modalInstance', ['close', 'dismiss']);
+            deleteCtrl = controller('DeleteProcessModalInstanceCtrl', {
+              $scope: scope,
+              processAPI: processAPI,
+              process: process,
+              $modalInstance: modalInstance,
+              manageTopUrl: manageTopUrl
+            });
+          });
+          it('should call API to deletel goTo on manageTopUrl when DELETE is clicked', function() {
+            var deferred = q.defer();
+            processAPI.delete.and.returnValue({$promise: deferred.promise});
+            deferred.resolve();
+            deleteCtrl.delete();
+            scope.$apply();
+            expect(modalInstance.close).toHaveBeenCalled();
+            expect(manageTopUrl.goTo).toHaveBeenCalledWith({
+              token: 'processlistingadmin'
+            });
+          });
+          it('should call API to deletel goTo on manageTopUrl when DELETE is clicked', function() {
+            var deferred = q.defer();
+            processAPI.delete.and.returnValue({$promise: deferred.promise});
+            var error = {message: 'Network Unreachable'};
+            deferred.reject(error);
+            deleteCtrl.delete();
+            scope.$apply();
+            expect(modalInstance.close).not.toHaveBeenCalled();
+            expect(modalInstance.dismiss).toHaveBeenCalledWith(error);
+          });
         });
 
         describe('hasResolutionProblem', function() {

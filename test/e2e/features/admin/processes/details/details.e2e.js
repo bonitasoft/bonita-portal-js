@@ -1,16 +1,16 @@
 /* global element, by */
-(function () {
+(function() {
   'use strict';
-  describe('process details', function () {
+  describe('process details', function() {
 
     var processDetails,
       width = 1280,
       height = 800;
     browser.driver.manage().window().setSize(width, height);
 
-    describe('Resolved Process', function(){
+    describe('Resolved Process', function() {
 
-      beforeEach(function () {
+      beforeEach(function() {
         browser.get('#/admin/processes/details/321');
         processDetails = element(by.css('#process-details'));
         //browser.debugger(); //launch protractor with debug option and use 'c' in console to continue test execution
@@ -20,7 +20,7 @@
         it('should display main action button', checkMainActions);
       });
 
-      describe('navigation in menu ', function () {
+      describe('navigation in menu ', function() {
         var menuItems;
         beforeEach(function() {
           menuItems = processDetails.all(by.css('.list-group > a.list-group-item'));
@@ -83,9 +83,9 @@
         expect(processDetails.all(by.css('.actions button.btn-primary')).get(0).getAttribute('disabled')).toEqual('true');
       }
     });
-    describe('Resolved Process', function(){
+    describe('Resolved Process', function() {
 
-      beforeEach(function () {
+      beforeEach(function() {
         browser.get('#/admin/processes/details/789');
         processDetails = element(by.css('#process-details'));
         //browser.debugger(); //launch protractor with debug option and use 'c' in console to continue test execution
