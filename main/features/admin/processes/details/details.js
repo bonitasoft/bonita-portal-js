@@ -8,22 +8,23 @@
   var actorsMappingStateName = 'bonita.processesDetails.actorsMapping';
   /*eslint "angular/ng_di":0*/
   angular.module('org.bonitasoft.features.admin.processes.details', [
-      'ui.router',
-      'ui.bootstrap',
-      'gettext',
-      'org.bonitasoft.services.topurl',
-      'org.bonitasoft.common.directives.bonitaHref',
-      'org.bonitasoft.common.directives.toggleButton',
-      'org.bonitasoft.common.resources',
-      'org.bonitasoft.features.admin.processes.details.actorMapping',
-      'org.bonitasoft.features.admin.processes.editActorMembers',
-      'org.bonitasoft.services.topurl',
-      'org.bonitasoft.features.admin.processes.details.information',
-      'org.bonitasoft.features.admin.processes.details.processConnectors',
-      'org.bonitasoft.features.admin.processes.details.params',
-      'org.bonitasoft.service.process.resolution',
-      'org.bonitasoft.common.filters.stringTemplater'
-    ])
+    'ui.router',
+    'ui.bootstrap',
+    'gettext',
+    'angular-growl',
+    'org.bonitasoft.services.topurl',
+    'org.bonitasoft.common.directives.bonitaHref',
+    'org.bonitasoft.common.directives.toggleButton',
+    'org.bonitasoft.common.resources',
+    'org.bonitasoft.features.admin.processes.details.actorMapping',
+    'org.bonitasoft.features.admin.processes.editActorMembers',
+    'org.bonitasoft.services.topurl',
+    'org.bonitasoft.features.admin.processes.details.information',
+    'org.bonitasoft.features.admin.processes.details.processConnectors',
+    'org.bonitasoft.features.admin.processes.details.params',
+    'org.bonitasoft.service.process.resolution',
+    'org.bonitasoft.common.filters.stringTemplater'
+  ])
     .value('menuContent', [{
       name: 'General',
       resolutionLabel: 'general',
@@ -139,12 +140,12 @@
           controllerAs: 'actorsMappingCtrl'
         });
       }
-    )
+  )
     .controller('ProcessMenuCtrl', ProcessMenuCtrl)
     .controller('DeleteProcessModalInstanceCtrl', DeleteProcessModalInstanceCtrl);
 
   /* jshint -W003 */
-  function ProcessMenuCtrl($scope, menuContent, process, processAPI, $modal, $state, manageTopUrl, $window, processResolutionProblems, ProcessMoreDetailsResolveService) {
+  function ProcessMenuCtrl($scope, menuContent, process, processAPI, $modal, $state, manageTopUrl, $window, processResolutionProblems, ProcessMoreDetailsResolveService, growl, $log) {
     var vm = this;
     vm.includesCurrentState = function(state) {
       return $state.includes(state);
@@ -172,6 +173,11 @@
     }
 
     function deleteProcess() {
+      var growlOptions = {
+        ttl: 3000,
+        disableCountDown: true,
+        disableIcons: true
+      };
       $modal.open({
         templateUrl: 'features/admin/processes/details/delete-process-modal.html',
         controller: 'DeleteProcessModalInstanceCtrl',
@@ -181,6 +187,11 @@
           process: function() {
             return process;
           }
+        }
+      }).result.then(angular.noop, function(error){
+        if(angular.isDefined(error)) {
+          $log.error('An Error occurred during process deletion', error);
+          growl.error('An Error occurred during process deletion: '+ error.message, growlOptions);
         }
       });
     }
@@ -198,8 +209,6 @@
         activationState: state
       }).$promise.then(function() {
         process.activationState = state;
-      }, function TODOmanageerror() {
-
       });
     }
   }
@@ -216,8 +225,8 @@
           token: 'processlistingadmin'
         });
         $modalInstance.close();
-      }, function TODOmanageerror() {
-
+      }, function closePopupWithError(error) {
+        $modalInstance.dismiss(error);
       });
     };
     vm.cancel = function() {
