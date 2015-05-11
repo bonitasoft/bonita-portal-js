@@ -22,16 +22,14 @@
     vm.cancel = function() {
       $modalInstance.dismiss('cancel');
     };
-  }).factory('categoryManager', function(processCategoryAPI, categoryAPI, $q) {
+  }).factory('categoryManager', function(processCategoryAPI, categoryAPI, $q, $log) {
     var categoryManager = {};
     categoryManager.selectedCategoriesPopulatePromise = function (processCategoryPromises, newCategoryPromises, selectedCategories){
       return $q.all(newCategoryPromises).then(function(processNewCategoryPromises) {
-        console.log('inside first promise : ', processNewCategoryPromises);
         return $q.all(processCategoryPromises.concat(processNewCategoryPromises)).then(function() {
-          console.log('the end');
           return selectedCategories;
-        }, console.log);
-      }, console.log);
+        }, $log.log);
+      }, $log.log);
     };
 
     categoryManager.saveCategoryProcessIfNotAlreadySelected = function (category, initiallySelectedCategories, promises, processId) {
