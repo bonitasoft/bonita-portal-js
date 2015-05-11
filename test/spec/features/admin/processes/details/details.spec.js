@@ -3,7 +3,7 @@
 
   describe('monitoringStatus Directive and Controller in Process More Details',
     function() {
-      var scope, controller, q, processMenuCtrl, processAPI, categoryAPI, processResolutionProblemAPI, parameterAPI, processConnectorAPI, store, modal, state, processResolutionProblems, processMoreDetailsResolveService, processProblemResolutionService, manageTopUrl, tokenExtensionService;
+      var scope, controller, q, processMenuCtrl, processAPI, categoryAPI, processResolutionProblemAPI, parameterAPI, processConnectorAPI, store, modal, state, processResolutionProblems, processMoreDetailsResolveService, processProblemResolutionService, manageTopUrl, tokenExtensionService, $window;
 
       beforeEach(module('org.bonitasoft.features.admin.processes.details'));
 
@@ -37,6 +37,9 @@
         processResolutionProblems = jasmine.createSpyObj('processResolutionProblems', ['retrieveProcess']);
         processMoreDetailsResolveService = ProcessMoreDetailsResolveService;
         tokenExtensionService = { tokenExtensionValue: 'admin'};
+        $window = {
+          history: jasmine.createSpyObj('history', ['back'])
+        };
       }));
 
 
@@ -71,6 +74,7 @@
             includes: jasmine.createSpy()
           };
           processMenuCtrl = controller('ProcessMenuCtrl', {
+            $window: $window,
             $scope: scope,
             process: process,
             processAPI: processAPI,
@@ -142,6 +146,11 @@
               f: 'process_id=12'
             });
           });
+        });
+
+        it('should call browser history on back function', function() {
+          processMenuCtrl.goBack();
+          expect($window.history.back).toHaveBeenCalled();
         });
 
         it('init should listen toggle event and push menu and process to view model', function() {
