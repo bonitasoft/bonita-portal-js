@@ -3,7 +3,7 @@
 
   describe('monitoringStatus Directive and Controller in Process More Details',
     function() {
-      var scope, controller, q, processMenuCtrl, processAPI, categoryAPI, processResolutionProblemAPI, parameterAPI, processConnectorAPI, store, modal, state, processResolutionProblems, processMoreDetailsResolveService, processProblemResolutionService, growl, manageTopUrl, window;
+      var scope, controller, q, processMenuCtrl, processAPI, categoryAPI, processResolutionProblemAPI, parameterAPI, processConnectorAPI, store, modal, state, processResolutionProblems, processMoreDetailsResolveService, processProblemResolutionService, growl, manageTopUrl, $window;
 
       beforeEach(module('org.bonitasoft.features.admin.processes.details'));
 
