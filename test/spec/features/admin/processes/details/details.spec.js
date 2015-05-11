@@ -3,7 +3,7 @@
 
   describe('monitoringStatus Directive and Controller in Process More Details',
     function() {
-      var scope, controller, q, processMenuCtrl, processAPI, categoryAPI, processResolutionProblemAPI, parameterAPI, processConnectorAPI, store, modal, state, processResolutionProblems, processMoreDetailsResolveService, processProblemResolutionService, growl, manageTopUrl;
+      var scope, controller, q, processMenuCtrl, processAPI, categoryAPI, processResolutionProblemAPI, parameterAPI, processConnectorAPI, store, modal, state, processResolutionProblems, processMoreDetailsResolveService, processProblemResolutionService, growl, manageTopUrl, window;
 
       beforeEach(module('org.bonitasoft.features.admin.processes.details'));
 
@@ -36,13 +36,18 @@
         processMoreDetailsResolveService = ProcessMoreDetailsResolveService;
         growl = jasmine.createSpyObj('growl', ['error']);
         manageTopUrl = jasmine.createSpyObj('manageTopUrl', ['goTo']);
+        $window = {
+          history: jasmine.createSpyObj('history', ['back'])
+        };
       }));
 
 
       describe('processMenuCtrl', function() {
         var menu, process;
         beforeEach(function() {
-          process = {id: 1230};
+          process = {
+            id: 1230
+          };
           menu = [{
             name: 'Information',
             resolutionLabel: 'general',
@@ -68,6 +73,7 @@
             includes: jasmine.createSpy()
           };
           processMenuCtrl = controller('ProcessMenuCtrl', {
+            $window: $window,
             $scope: scope,
             process: process,
             processAPI: processAPI,
@@ -104,7 +110,7 @@
             store.load.and.returnValue(deferred.promise);
             processProblemResolutionService.buildProblemsList.and.returnValue('Parameters must be resolved before enabling the Process.');
             deferred.resolve(processResolutionProblem);
-            processMoreDetailsResolveService.retrieveProcessResolutionProblem(12).then(function(problems){
+            processMoreDetailsResolveService.retrieveProcessResolutionProblem(12).then(function(problems) {
               expect(problems).toEqual('Parameters must be resolved before enabling the Process.');
             });
             scope.$apply();
@@ -112,7 +118,10 @@
             expect(store.load.calls.mostRecent().args[1]).toEqual({
               f: ['process_id=12']
             });
-            expect(processProblemResolutionService.buildProblemsList).toHaveBeenCalledWith([{type: 'parameter', 'ressource_id': undefined}]);
+            expect(processProblemResolutionService.buildProblemsList).toHaveBeenCalledWith([{
+              type: 'parameter',
+              'ressource_id': undefined
+            }]);
           });
 
           it('retrieveParameters should get the Parameters from the API', function() {
@@ -136,6 +145,11 @@
               f: 'process_id=12'
             });
           });
+        });
+
+        it('should call browser history on back function', function() {
+          processMenuCtrl.goBack();
+          expect($window.history.back).toHaveBeenCalled();
         });
 
         it('init should listen toggle event and push menu and process to view model', function() {
@@ -275,7 +289,11 @@
           it('should find the resolution message of a given problem type', function() {
             processMenuCtrl.processResolutionProblems = [];
             expect(processMenuCtrl.hasResolutionProblem('parameter')).toBeFalsy();
-            processMenuCtrl.processResolutionProblems.push({type: 'parameter'}, {type: 'actor'});
+            processMenuCtrl.processResolutionProblems.push({
+              type: 'parameter'
+            }, {
+              type: 'actor'
+            });
             expect(processMenuCtrl.hasResolutionProblem('parameter')).toBeTruthy();
             expect(processMenuCtrl.hasResolutionProblem('connector')).toBeFalsy();
             expect(processMenuCtrl.hasResolutionProblem('actor')).toBeTruthy();

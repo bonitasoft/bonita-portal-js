@@ -28,7 +28,7 @@
     "grunt-newer": "~0.6.1",
     "grunt-ng-annotate": "0.10.x",
     "grunt-ngdocs": "^0.2.2",
-    "grunt-protractor-runner": "^1.1.4",
+    "grunt-protractor-runner": "^2.0.0",
     "grunt-rev": "~0.1.0",
     "grunt-svgmin": "~0.2.0",
     "grunt-task-helper": "^0.3.6",
@@ -51,7 +51,7 @@
     "karma-safari-launcher": "~0.1.1",
     "load-grunt-tasks": "~0.4.0",
     "ngdocs": "^0.1.0",
-    "protractor": "^1.4.0",
+    "protractor": "^2.0.0",
     "time-grunt": "~0.2.1"
   },
   "engines": {
