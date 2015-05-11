@@ -430,7 +430,7 @@ module.exports = function (grunt) {
         options: {
           //configFile: "e2e.conf.js", // Target-specific config file
           args: {
-            //suite: 'process-details-information'
+            suite: 'process-details-information'
           } // Target-specific arguments
         }
       }

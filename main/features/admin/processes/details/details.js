@@ -12,6 +12,7 @@
     'ui.bootstrap',
     'gettext',
     'org.bonitasoft.service.token',
+    'angular-growl',
     'org.bonitasoft.services.topurl',
     'org.bonitasoft.common.directives.bonitaHref',
     'org.bonitasoft.common.directives.toggleButton',
@@ -149,7 +150,7 @@
     .controller('DeleteProcessModalInstanceCtrl', DeleteProcessModalInstanceCtrl);
 
   /* jshint -W003 */
-  function ProcessMenuCtrl($scope, menuContent, process, processAPI, $modal, $state, manageTopUrl, $window, processResolutionProblems, ProcessMoreDetailsResolveService, TokenExtensionService) {
+  function ProcessMenuCtrl($scope, menuContent, process, processAPI, $modal, $state, manageTopUrl, $window, processResolutionProblems, ProcessMoreDetailsResolveService, TokenExtensionService, growl, $log) {
     var vm = this;
     vm.includesCurrentState = function(state) {
       return $state.includes(state);
@@ -177,6 +178,11 @@
     }
 
     function deleteProcess() {
+      var growlOptions = {
+        ttl: 3000,
+        disableCountDown: true,
+        disableIcons: true
+      };
       $modal.open({
         templateUrl: 'features/admin/processes/details/delete-process-modal.html',
         controller: 'DeleteProcessModalInstanceCtrl',
@@ -191,6 +197,11 @@
         manageTopUrl.goTo({
           token: 'processlisting' + TokenExtensionService.tokenExtensionValue
         });
+      }, function(error){
+        if(angular.isDefined(error)) {
+          $log.error('An Error occurred during process deletion', error);
+          growl.error('An Error occurred during process deletion: '+ error.message, growlOptions);
+        }
       });
     }
 
@@ -207,8 +218,6 @@
         activationState: state
       }).$promise.then(function() {
         process.activationState = state;
-      }, function TODOmanageerror() {
-
       });
     }
   }
@@ -222,8 +231,8 @@
         id: process.id
       }).$promise.then(function() {
         $modalInstance.close();
-      }, function TODOmanageerror() {
-
+      }, function closePopupWithError(error) {
+        $modalInstance.dismiss(error);
       });
     };
     vm.cancel = function() {
