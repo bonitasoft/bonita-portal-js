@@ -3,6 +3,7 @@
 
   angular.module('org.bonitasoft.features.admin.processes.editActorMembers', [
     'ui.bootstrap',
+    'gettext',
     'ui.router',
     'angular-growl',
     'org.bonitasoft.bonitable',
@@ -13,7 +14,7 @@
     'org.bonitasoft.common.resources.store',
     'xeditable'
   ])
-    .controller('EditActorMembersCtrl', function($scope, $modalInstance, store, actorMemberAPI, userAPI, groupAPI, roleAPI, actor, memberType, process, growl) {
+    .controller('EditActorMembersCtrl', function($scope, $modalInstance, store, actorMemberAPI, userAPI, groupAPI, roleAPI, actor, memberType, process, growl, gettextCatalog, $filter) {
       var self = this;
       self.scope = $scope;
       self.scope.memberType = memberType;
@@ -22,7 +23,7 @@
       self.scope.newMembershipRole = {};
       self.scope.newMembershipGroup = {};
       self.scope.actor = actor;
-      
+
       var growlOptions = {
         ttl: 3000,
         disableCountDown: true,
@@ -42,23 +43,13 @@
       };
 
       self.scope.localLang = {
-        selectAll: 'Select all',
-        selectNone: 'Select none',
-        reset: 'Reset',
-        search: 'Type here to search...'
+        selectAll: gettextCatalog.getString('Select all'),
+        selectNone: gettextCatalog.getString('Select none'),
+        reset: gettextCatalog.getString('Reset'),
+        search: gettextCatalog.getString('Type here to search...')
       };
-      self.scope.localLangRole = {
-        selectAll: 'Select all',
-        selectNone: 'Select none',
-        reset: 'Reset',
-        search: 'Type here to search...'
-      };
-      self.scope.localLangGroup = {
-        selectAll: 'Select all',
-        selectNone: 'Select none',
-        reset: 'Reset',
-        search: 'Type here to search...'
-      };
+      self.scope.localLangRole = angular.copy(self.scope.localLang);
+      self.scope.localLangGroup = angular.copy(self.scope.localLang);
 
       self.initView = function initView() {
         switch (memberType) {
@@ -71,7 +62,9 @@
               searchMethod: self.searchMembers,
               searchAPI: userAPI
             };
-            self.scope.currentMemberLabel = 'Users';
+            self.scope.currentMemberLabel = gettextCatalog.getString('Users');
+            self.title = gettextCatalog.getString('Users mapped to {}');
+            self.scope.localLang.nothingSelected = gettextCatalog.getString('Select users...');
             break;
 
           case self.constant.GROUP:
@@ -83,7 +76,9 @@
               searchMethod: self.searchMembers,
               searchAPI: groupAPI
             };
-            self.scope.currentMemberLabel = 'Groups';
+            self.title = gettextCatalog.getString('Groups mapped to {}');
+            self.scope.currentMemberLabel = gettextCatalog.getString('Groups');
+            self.scope.localLang.nothingSelected = gettextCatalog.getString('Select groups...');
             break;
 
           case self.constant.ROLE:
@@ -95,7 +90,9 @@
               searchMethod: self.searchMembers,
               searchAPI: roleAPI
             };
-            self.scope.currentMemberLabel = 'Roles';
+            self.title = gettextCatalog.getString('Roles mapped to {}');
+            self.scope.currentMemberLabel = gettextCatalog.getString('Roles');
+            self.scope.localLang.nothingSelected = gettextCatalog.getString('Select roles...');
             break;
 
           case self.constant.MEMBERSHIP:
@@ -105,12 +102,12 @@
               realId: roleIdAttribute,
               realId2: groupIdAttribute
             };
-            self.scope.localLangGroup.nothingSelected = 'group selection';
-            self.scope.localLangRole.nothingSelected = 'role selection';
-            self.scope.currentMemberLabel = 'Membership';
+            self.title = gettextCatalog.getString('Memberships mapped to {}');
+            self.scope.localLangGroup.nothingSelected = gettextCatalog.getString('Select a group...');
+            self.scope.localLangRole.nothingSelected = gettextCatalog.getString('Select a role...');
+            self.scope.currentMemberLabel = 'memberships';
             break;
         }
-        self.scope.localLang.nothingSelected = self.scope.currentMemberLabel + ' selection';
         self.initObj.f = ['actor_id=' + actor.id, 'member_type=' + memberType];
         self.loadMembers();
       };
@@ -127,8 +124,8 @@
               members[index].removeLabel = currentMember.user_id.firstname + ' ' + currentMember.user_id.lastname;
             } else {
               members[index].removeLabel = currentMember[self.initObj.realId].displayName;
-              if (self.initObj.realId2)  {
-                members[index].removeLabel += ' of ' + currentMember[self.initObj.realId2].displayName;
+              if (self.initObj.realId2) {
+                members[index].removeLabel += gettextCatalog.getString(' of ') + currentMember[self.initObj.realId2].displayName;
               }
             }
           });
@@ -168,7 +165,7 @@
 
       self.notifyDeletion = function notifyDeletion(member, success) {
         /*jshint camelcase: false */
-        var composedMessage = 'Actor ';
+        var composedMessage = '';
         if (member.user_id.id) {
           composedMessage = member.user_id.firstname + ' ' + member.user_id.lastname;
         }
@@ -182,9 +179,9 @@
           composedMessage += member.group_id.displayName;
         }
         if (success) {
-          growl.success(composedMessage + ' was sucessfully deleted', growlOptions);
+          growl.success($filter('stringTemplater')(gettextCatalog.getString('Actor {} was sucessfully deleted'), composedMessage), growlOptions);
         } else {
-          growl.error(composedMessage + ' was unsucessfully deleted', growlOptions);
+          growl.error($filter('stringTemplater')(gettextCatalog.getString('Actor {} has been deleted'), composedMessage), growlOptions);
         }
 
       };
@@ -277,7 +274,7 @@
             'group_id': self.scope.newMembershipGroup[0].id,
             'actor_id': actor.id
           }).$promise.then(function success() {
-            growl.success(self.scope.newMembershipRole[0].displayName + ' of ' + self.scope.newMembershipGroup[0].displayName + ' was sucessfully created', growlOptions);
+            growl.success($filter('stringTemplater')('{} has been created', self.scope.newMembershipRole[0].displayName + gettextCatalog.getString(' of ') + self.scope.newMembershipGroup[0].displayName), growlOptions);
             self.closeModal();
           }, function error(response) {
             growl.error(response.data.message, growlOptions);
