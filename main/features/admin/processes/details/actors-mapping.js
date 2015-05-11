@@ -83,7 +83,31 @@
           }
         });
       };
-
+      $scope.editMapping = function editMapping(actor, memberType) {
+        $modal.open({
+          templateUrl: 'features/admin/processes/details/edit-actor-members.html',
+          controller: 'EditActorMembersCtrl',
+          controllerAs: 'editActorMembersCtrl',
+          size: 'lg',
+          resolve: {
+            process: function resolveProcess() {
+              return process;
+            },
+            memberType: function resolveMemberType() {
+              return memberType;
+            },
+            actor: function resolveActor() {
+              return actor;
+            }
+          }
+        }).result.then(function close() {
+          $scope.$emit('process.refresh');
+          self.init();
+        }, function cancel() {
+          $scope.$emit('process.refresh');
+          self.init();
+        });
+      };
 
       self.getProcessActors = function getProcessActors() {
         actorAPI.search({
