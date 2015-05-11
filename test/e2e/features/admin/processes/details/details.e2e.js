@@ -1,4 +1,4 @@
-/* global element, by */
+/* global element, by, protractor */
 (function() {
   'use strict';
   describe('process details', function() {
@@ -66,6 +66,31 @@
           //menuItems.get(0).all(by.css('a')).get(0).click();
           expect(element.all(by.css('#process-details-information')).count()).toBe(1);
         });
+
+        describe('Enable/Disable Button', function() {
+          it('should disable process and enable delete then enable process and disable delete', function() {
+            element(by.css('.bonita-toggle')).click();
+            expect(processDetails.all(by.css('.actions .btn-primary')).get(0).getAttribute('disabled')).toEqual(null);
+            element(by.css('.bonita-toggle')).click();
+            expect(processDetails.all(by.css('.actions .btn-primary')).get(0).getAttribute('disabled')).toEqual('true');
+          });
+        });
+
+        describe('Categories', function() {
+          iit('should add new category and remove some others', function() {
+            expect(element(by.css('.tags')).getText()).toEqual('  Support  \n  R&D  \n  Séverin  \n  jQuery+  ');
+            element(by.css('.metatags-label button')).click();
+            var categoriesModal = element(by.css('#manage-categories-modal'));
+            expect(categoriesModal.all(by.css('.tags')).getText()).toEqual(['Support\nR&D\nSéverin\njQuery+']);
+            var tagsInput = categoriesModal.all(by.css('input')).get(0);
+            tagsInput.click();
+            tagsInput.sendKeys('Red', protractor.Key.ENTER);
+            tagsInput.sendKeys('F');
+            categoriesModal.all(by.css('.tags-suggestion')).get(0).click();
+            categoriesModal.all(by.css('.tags .tag i')).get(2).click();
+            categoriesModal.all(by.css('.btn-primary')).get(0).click();
+          });
+        });
       });
 
       function checkMainActions() {
@@ -79,7 +104,7 @@
         expect(processDetails.all(by.css('.actions button.btn-primary')).get(0).getAttribute('disabled')).toEqual('true');
       }
     });
-    describe('Resolved Process', function() {
+    describe('Unresolved Process', function() {
 
       beforeEach(function() {
         browser.get('#/admin/processes/details/789');
