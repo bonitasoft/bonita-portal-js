@@ -72,7 +72,7 @@
         var mainActionButtons = processDetails.all(by.css('.actions .btn'));
 
         expect(mainActionButtons.get(0).getText()).toEqual('Back');
-        expect(mainActionButtons.get(0).getAttribute('bonita-href')).toEqual('{token: \'processlistingadmin\'}');
+        expect(mainActionButtons.get(0).getAttribute('ng-click')).toEqual('processMenuCtrl.goBack()');
 
         expect(processDetails.all(by.css('h1')).getText()).toEqual(['SupportProcess (1.0)']);
         expect(processDetails.all(by.css('.panel-danger > div')).count()).toBe(0);
@@ -91,7 +91,7 @@
         it('should display main action button', function() {
           var mainActionButtons = processDetails.all(by.css('.actions .btn'));
           expect(mainActionButtons.get(0).getText()).toEqual('Back');
-          expect(mainActionButtons.get(0).getAttribute('bonita-href')).toEqual('{token: \'processlistingadmin\'}');
+          expect(mainActionButtons.get(0).getAttribute('ng-click')).toEqual('processMenuCtrl.goBack()');
 
           expect(processDetails.all(by.css('h1')).getText()).toEqual(['Rock\'N\'Roll Process (6.6.6)']);
           expect(processDetails.all(by.css('.panel-danger > div')).getText()).toEqual(['The Process cannot be enabled', 'Entity Mapping must be resolved before enabling the Process.\nParameters must be resolved before enabling the Process.']);
