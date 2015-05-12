@@ -28,7 +28,7 @@
   </div>
   <div class="col-sm-3 col-md-3 col-lg-2">
     <div class="list-group">
-      <a class="list-group-item" ng-repeat="item in processMenuCtrl.menuContent" ng-class="{active: processMenuCtrl.includesCurrentState(item.state) }" ui-sref="{{item.defaultDestinationState || item.state}}">{{item.name | translate}} <span ng-if="processMenuCtrl.hasResolutionProblem(item.resolutionLabel)" ng-class="{'text-danger': processMenuCtrl.getCurrentStateName() !== item.state }" class="glyphicon glyphicon-exclamation-sign"></span> </a>
+      <a class="list-group-item" ng-repeat="item in processMenuCtrl.menuContent" ng-class="{active: processMenuCtrl.includesCurrentState(item.state) }" ui-sref="{{item.defaultDestinationState || item.state}}">{{item.name | translate}} <span ng-if="processMenuCtrl.hasResolutionProblem(item.resolutionLabel)" ng-class="{'text-danger': !processMenuCtrl.includesCurrentState(item.state) }" class="glyphicon glyphicon-exclamation-sign"></span> </a>
     </div>
   </div>
   <div class="col-sm-9 col-md-9 col-lg-10">
