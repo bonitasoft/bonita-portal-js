@@ -6,13 +6,13 @@
     'gettext',
     'ui.router',
     'angular-growl',
+    'isteven-multi-select',
     'org.bonitasoft.bonitable',
     'org.bonitasoft.bonitable.selectable',
     'org.bonitasoft.bonitable.repeatable',
     'org.bonitasoft.bonitable.sortable',
     'org.bonitasoft.bonitable.settings',
-    'org.bonitasoft.common.resources.store',
-    'xeditable'
+    'org.bonitasoft.common.resources.store'
   ])
     .controller('EditActorMembersCtrl', function($scope, $modalInstance, store, actorMemberAPI, userAPI, groupAPI, roleAPI, actor, memberType, process, growl, gettextCatalog, $filter) {
       var self = this;

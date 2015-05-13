@@ -18,27 +18,27 @@
             <td class="actorName">{{actor.name}}</td>
             <td class="members">
               <span ng-repeat="user in actorsMembers[actor.id].users.data">
-                <label class="label label-default">{{user.user_id.firstname}} {{user.user_id.lastname}}</label>
+                <label class="label label-default member">{{user.user_id.firstname}} {{user.user_id.lastname}}</label>
               </span>
-              <label ng-if="actorsMembers[actor.id].users.resource.pagination.total > membersPerCell" class="label label-default">{{'{} more' | translate | stringTemplater: actorsMembers[actor.id].users.resource.pagination.total - membersPerCell}}</label>
+              <label ng-if="actorsMembers[actor.id].users.resource.pagination.total > membersPerCell" class="label label-default member">{{'{} more' | translate | stringTemplater: actorsMembers[actor.id].users.resource.pagination.total - membersPerCell}}</label>
             </td>
             <td class="members">
               <span ng-repeat="role in actorsMembers[actor.id].roles.data">
-                <label class="label label-default">{{role.role_id.displayName}}</label>
+                <label class="label label-default member">{{role.role_id.displayName}}</label>
               </span>
-              <label ng-if="actorsMembers[actor.id].roles.resource.pagination.total > membersPerCell" class="label label-default">{{'{} more'|translate}} | stringTemplater: actorsMembers[actor.id].roles.resource.pagination.total - membersPerCell</label>
+              <label ng-if="actorsMembers[actor.id].roles.resource.pagination.total > membersPerCell" class="label label-default member">{{'{} more'|translate}} | stringTemplater: actorsMembers[actor.id].roles.resource.pagination.total - membersPerCell</label>
             </td>
             <td class="members">
               <span ng-repeat="group in actorsMembers[actor.id].groups.data">
-                <label class="label label-default">{{group.group_id.displayName}}</label>
+                <label class="label label-default member">{{group.group_id.displayName}}</label>
               </span>
-              <label ng-if="actorsMembers[actor.id].groups.resource.pagination.total > membersPerCell" class="label label-default">{{'{} more' | translate | stringTemplater: actorsMembers[actor.id].groups.resource.pagination.total - membersPerCell}}</label>
+              <label ng-if="actorsMembers[actor.id].groups.resource.pagination.total > membersPerCell" class="label label-default member">{{'{} more' | translate | stringTemplater: actorsMembers[actor.id].groups.resource.pagination.total - membersPerCell}}</label>
             </td>
             <td class="members">
               <span ng-repeat="membership in actorsMembers[actor.id].memberships.data">
-                <label class="label label-default">{{'{} of {}' | translate | stringTemplater: [membership.role_id.displayName, membership.group_id.displayName]}}</label>
+                <label class="label label-default member">{{'{} of {}' | translate | stringTemplater: [membership.role_id.displayName, membership.group_id.displayName]}}</label>
               </span>
-              <label ng-if="actorsMembers[actor.id].memberships.resource.pagination.total > membersPerCell" class="label label-default">{{'{} more' | translate | stringTemplater: actorsMembers[actor.id].memberships.resource.pagination.total - membersPerCell}}</label>
+              <label ng-if="actorsMembers[actor.id].memberships.resource.pagination.total > membersPerCell" class="label label-default member">{{'{} more' | translate | stringTemplater: actorsMembers[actor.id].memberships.resource.pagination.total - membersPerCell}}</label>
             </td>
           </tr>
           <tr ng-repeat-end class="mappingEdition-actions">
