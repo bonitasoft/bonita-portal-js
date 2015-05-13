@@ -7,10 +7,9 @@
     'org.bonitasoft.service.features',
     'org.bonitasoft.common.resources.store'
   ])
-    .controller('ProcessConnectorsCtrl', function($scope, process, store, $modal, growl, FeatureManager, processConnectors) {
+    .controller('ProcessConnectorsCtrl', function($scope, process, FeatureManager, processConnectors) {
       var vm = this;
-      vm.scope = $scope;
-      vm.scope.process = process;
+      vm.process = process;
       vm.processConnectors = processConnectors;
       vm.showActions = FeatureManager.isFeatureAvailable('POST_DEPLOY_CONFIG');
     });
