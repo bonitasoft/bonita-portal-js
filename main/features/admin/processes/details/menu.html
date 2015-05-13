@@ -1,12 +1,12 @@
 <div id="process-details" class="process-details">
   <div class="col-md-12 actions">
     <div class="col-md-2">
-    <a class="btn btn-default" bonita-href="{token: 'processlistingadmin'}">Back</a>
+    <a class="btn btn-default" ng-click="processMenuCtrl.goBack()">{{'Back' | translate}}</a>
     </div>
     <div class="col-md-10 text-right">
       <start-for process="processMenuCtrl.process"></start-for>
 
-      <button type="button" class="btn btn-primary" ng-disabled="processMenuCtrl.process.activationState === 'ENABLED'" ng-click="processMenuCtrl.deleteProcess()">Delete</button>
+      <button type="button" class="btn btn-primary" ng-disabled="processMenuCtrl.process.activationState === 'ENABLED'" ng-click="processMenuCtrl.deleteProcess()">{{'Delete' | translate}}</button>
     </div>
   </div>
   <div class="col-md-12">
@@ -33,11 +33,9 @@
   </div>
   <div class="col-sm-9 col-md-9 col-lg-10">
     <div growl></div>
-    
 
-  <div class="col-md-12">
-    <ui-view></ui-view>
+    <div class="col-md-12">
+      <ui-view></ui-view>
+    </div>
   </div>
-</div>
-
 </div>

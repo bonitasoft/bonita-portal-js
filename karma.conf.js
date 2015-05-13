@@ -38,6 +38,7 @@ module.exports = function(config) {
       'main/assets/angular-file-upload/angular-file-upload.min.js',
       'main/assets/angular-ui-tree/dist/angular-ui-tree.js',
       'main/assets/moment/min/moment-with-locales.js',
+      'main/assets/angular-multi-select/isteven-multi-select.js',
       'main/assets/bonita-js-components/dist/bonita-lib-tpl.js',
       'main/assets/jquery-resizable-columns/dist/jquery.resizableColumns.js',
       'main/assets/angular-animate/angular-animate.js',

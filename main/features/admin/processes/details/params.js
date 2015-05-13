@@ -3,14 +3,34 @@
   /**
    * org.bonitasoft.features.admin.processes.details.params Module
    *
-   * list params 
+   * list params
    */
   angular.module('org.bonitasoft.features.admin.processes.details.params', [
     'org.bonitasoft.common.resources',
     'org.bonitasoft.service.features',
-    'xeditable'
-  ])
-    .controller('ProcessParamsCtrl', function(parameters, FeatureManager, process, parameterAPI, $log, $scope) {
+    'xeditable',
+    'gettext'
+  ]).constant('TYPE_ERROR_MESSAGE', {
+    'java.lang.Boolean': {
+      message: 'Error: value must be a boolean',
+      checkvalueMatchType: function(data) {
+        return data === 'true' || data === 'false' || data === true || data === false;
+      }
+    },
+    'java.lang.Double': {
+      message: 'Error: value must be a double',
+      checkvalueMatchType: function(data) {
+        return (_.isString(data) && !isNaN(parseFloat(data))) || _.isNumber(data);
+      }
+    },
+    'java.lang.Integer': {
+      message: 'Error: value must be an integer',
+      checkvalueMatchType: function(data) {
+        return (_.isString(data) && Number(data) % 1 === 0) || (_.isNumber(data) && data % 1 === 0);
+      }
+    }
+  })
+    .controller('ProcessParamsCtrl', function(parameters, FeatureManager, process, parameterAPI, $log, $scope, gettextCatalog, TYPE_ERROR_MESSAGE) {
       var vm = this;
       vm.parameters = parameters;
       vm.process = process;
@@ -23,24 +43,9 @@
       vm.showActions = FeatureManager.isFeatureAvailable('POST_DEPLOY_CONFIG');
 
 
-      vm.updateParameter = function(parameter, data){
-
-        switch(parameter.type){
-          case 'java.lang.Boolean':
-            if(data !== 'true' && data !== 'false'){
-              return 'Error: value must be a boolean';
-            }
-            break;
-          case 'java.lang.Double':
-            if(isNaN(parseFloat(data))){
-              return 'Error: value must be a double';
-            }
-            break;
-          case 'java.lang.Integer':
-            if(data % 1 !== 0){
-              return 'Error: value must be an integer';
-            }
-            break;
+      vm.updateParameter = function(parameter, data) {
+        if (angular.isDefined(TYPE_ERROR_MESSAGE[parameter.type]) && !TYPE_ERROR_MESSAGE[parameter.type].checkvalueMatchType(data)) {
+          return gettextCatalog.getString(TYPE_ERROR_MESSAGE[parameter.type].message);
         }
         /* jshint camelcase : false */
         return parameterAPI.update({
