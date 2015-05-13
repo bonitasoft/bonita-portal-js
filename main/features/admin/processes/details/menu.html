@@ -13,7 +13,7 @@
     <h1 >{{processMenuCtrl.process.name}} ({{processMenuCtrl.process.version}})</h1>
   </div>
   <div class="col-md-12" style="padding-top: 10px;">
-    <div ng-if="processMenuCtrl.process.configurationState !== 'RESOLVED'" style=" padding-bottom: 0px;" class="panel panel-danger">
+    <div ng-if="processMenuCtrl.process.configurationState !== 'RESOLVED'" style=" padding-bottom: 0px;" class="panel panel-danger slide">
       <div class="panel-heading"><span class="glyphicon glyphicon-exclamation-sign"></span> {{ 'The Process cannot be enabled' | translate }}</div>
       <div class="panel-body">
         <div class="col-md-12">

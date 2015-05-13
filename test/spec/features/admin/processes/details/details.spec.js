@@ -206,12 +206,17 @@
 
         it('should refresh process configuration state from what is received from API when refreshProcess is called', function() {
           var deferred = q.defer();
+          var deferredPbs = q.defer();
           processAPI.get.and.returnValue({
             $promise: deferred.promise
           });
           deferred.resolve({
             configurationState: 'RESOLVED'
           });
+          var pbs = [];
+          deferredPbs.resolve(pbs);
+          processMoreDetailsResolveService.retrieveProcessResolutionProblem = jasmine.createSpy();
+          processMoreDetailsResolveService.retrieveProcessResolutionProblem.and.returnValue(deferredPbs.promise);
           processMenuCtrl.refreshProcess();
           scope.$apply();
           expect(processAPI.get).toHaveBeenCalledWith({
@@ -219,7 +224,9 @@
             d: ['deployedBy'],
             n: ['openCases', 'failedCases']
           });
+          expect(processMoreDetailsResolveService.retrieveProcessResolutionProblem).toHaveBeenCalledWith(process.id);
           expect(process.configurationState).toEqual('RESOLVED');
+          expect(processMenuCtrl.processResolutionProblems).toBe(pbs);
         });
 
         it('opens the deletion modal when delete button is clicked and display error on deletion failure', function() {
