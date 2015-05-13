@@ -9,17 +9,23 @@
     'org.bonitasoft.bonitable.repeatable',
     'org.bonitasoft.bonitable.sortable',
     'org.bonitasoft.bonitable.settings',
+    'org.bonitasoft.common.filters.stringTemplater',
     'xeditable',
     'gettext'
   ])
     .constant('ACTOR_PER_PAGE', 10)
     .constant('MEMBERS_PER_CELL', 5)
-    .controller('ActorsMappingCtrl', function($scope, $modal, process, actorMemberAPI, actorAPI, ACTOR_PER_PAGE, MEMBERS_PER_CELL) {
+    .controller('ActorsMappingCtrl', function($scope, $modal, process, actorMemberAPI, actorAPI, ACTOR_PER_PAGE, MEMBERS_PER_CELL, growl, gettextCatalog, $log, $filter) {
       var self = this;
       var resourceInit = [];
       resourceInit.pagination = {
         currentPage: 1,
         numberPerPage: ACTOR_PER_PAGE
+      };
+      var growlOptions = {
+        ttl: 3000,
+        disableCountDown: true,
+        disableIcons: true
       };
 
       $scope.membersPerCell = MEMBERS_PER_CELL;
@@ -100,10 +106,15 @@
               return actor;
             }
           }
-        }).result.then(function close() {
+        }).result.then(function close(results) {
+          results = _.compact(results);
+          $log.debug('Actor mapping results', results);
+          growl.success($filter('stringTemplater')(gettextCatalog.getString('{} actor mapping updates succeeded'), results.length), growlOptions);
           $scope.$emit('process.refresh');
           self.init();
-        }, function cancel() {
+        }, function cancel(errors) {
+          $log.error('Actor mapping errors', errors);
+          growl.error($filter('stringTemplater')(gettextCatalog.getString('{} errors on mapping updates'), errors.length), growlOptions);
           $scope.$emit('process.refresh');
           self.init();
         });
