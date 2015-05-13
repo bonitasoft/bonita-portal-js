@@ -1,4 +1,4 @@
-<div id="process-details-actors" ng-init="actorsMappingCtrl.init()">
+<div id="process-details-actors">
   <h3>{{'Actors' | translate}}</h3>
   <div class="panel panel-default">
     <div class="panel-body">
@@ -14,7 +14,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr ng-repeat-start="actor in actors.data" ng-init="actorsMappingCtrl.getMembersForAnActor(actor)">
+          <tr ng-repeat-start="actor in actors" ng-init="actorsMappingCtrl.getMembersForAnActor(actor)">
             <td class="actorName">{{actor.name}}</td>
             <td class="members">
               <span ng-repeat="user in actorsMembers[actor.id].users.data">
@@ -45,28 +45,28 @@
             <td></td>
             <td>
               <div class="cellFooter pull-right">
-                <button ng-click="editMapping(actor, 'USER')" class="glyphicon">
+                <button ng-click="editMapping(actor, 'users')" class="glyphicon">
                   <span class="glyphicon" ng-class="{'glyphicon-pencil': actorsMembers[actor.id].users.data.length, 'glyphicon-plus': !actorsMembers[actor.id].users.data.length}"></span>
                 </button>
               </div>
             </td>
             <td>
                <div class="cellFooter pull-right">
-                <button ng-click="editMapping(actor, 'ROLE')" class="btn btn-info glyphicon">
+                <button ng-click="editMapping(actor, 'roles')" class="btn btn-info glyphicon">
                   <span class="glyphicon" ng-class="{'glyphicon-pencil': actorsMembers[actor.id].roles.data.length, 'glyphicon-plus': !actorsMembers[actor.id].roles.data.length}"></span>
                 </button>
               </div>
             </td>
             <td>
                <div class="cellFooter pull-right">
-                <button ng-click="editMapping(actor, 'GROUP')" class="btn btn-info glyphicon">
+                <button ng-click="editMapping(actor, 'groups')" class="btn btn-info glyphicon">
                   <span class="glyphicon" ng-class="{'glyphicon-pencil': actorsMembers[actor.id].groups.data.length, 'glyphicon-plus': !actorsMembers[actor.id].groups.data.length}"></span>
                 </button>
               </div>
             </td>
             <td>
               <div class="cellFooter pull-right">
-                <button ng-click="editMapping(actor, 'MEMBERSHIP')" class="glyphicon">
+                <button ng-click="editMapping(actor, 'memberships')" class="glyphicon">
                   <span class="glyphicon" ng-class="{'glyphicon-pencil': actorsMembers[actor.id].memberships.data.length, 'glyphicon-plus': !actorsMembers[actor.id].memberships.data.length}"></span>
                 </button>
               </div>

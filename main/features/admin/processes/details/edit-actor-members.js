@@ -235,7 +235,7 @@
         promises = promises.concat(saveSelectedMembers());
         promises = promises.concat(saveSelectedMembership());
         promises = promises.concat(deleteMembers(self.membersToDelete));
-        $q.all(promises).then($modalInstance.close, $modalInstance.dismiss);
+        $q.all(promises).then($modalInstance.close, self.cancel);
       };
 
       function deleteMembers(membersToDelete) {

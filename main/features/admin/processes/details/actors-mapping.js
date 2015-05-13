@@ -15,7 +15,7 @@
   ])
     .constant('ACTOR_PER_PAGE', 10)
     .constant('MEMBERS_PER_CELL', 5)
-    .controller('ActorsMappingCtrl', function($scope, $modal, process, actorMemberAPI, actorAPI, ACTOR_PER_PAGE, MEMBERS_PER_CELL, growl, gettextCatalog, $log, $filter) {
+    .controller('ActorsMappingCtrl', function($scope, $modal, process, actorMemberAPI, actorAPI, ACTOR_PER_PAGE, MEMBERS_PER_CELL, growl, gettextCatalog, $log, $filter, processActors) {
       var self = this;
       var resourceInit = [];
       resourceInit.pagination = {
@@ -29,64 +29,66 @@
       };
 
       $scope.membersPerCell = MEMBERS_PER_CELL;
-      self.init = function init() {
-        self.getProcessActors();
-      };
-
-      $scope.actors = {
-        resource: resourceInit
-      };
+      $scope.actors = processActors;
       $scope.actorsMembers = [];
-      var actorUserFilterDeploy = {
-        filter: 'member_type=USER',
-        deploy: ['user_id']
-      };
-      var actorGroupFilterDeploy = {
-        filter: 'member_type=GROUP',
-        deploy: ['group_id']
-      };
-      var actorRoleFilterDeploy = {
-        filter: 'member_type=ROLE',
-        deploy: ['role_id']
-      };
-      var actorMembershipFilterDeploy = {
-        filter: 'member_type=MEMBERSHIP',
-        deploy: ['role_id', 'group_id']
+      var actorProfiles = {
+        users: {
+          deploy: {
+            filter: 'member_type=USER',
+            deploy: ['user_id']
+          },
+          type: 'users',
+          name: 'USER'
+        },
+        groups:{
+          deploy: {
+            filter: 'member_type=GROUP',
+            deploy: ['group_id']
+          },
+          type: 'groups',
+          name: 'GROUP'
+        },
+        roles: {
+          deploy: {
+            filter: 'member_type=ROLE',
+            deploy: ['role_id']
+          },
+          type: 'roles',
+          name: 'ROLE'
+        },
+        memberships: {
+          deploy: {
+            filter: 'member_type=MEMBERSHIP',
+            deploy: ['role_id', 'group_id']
+          },
+          type: 'memberships',
+          name: 'MEMBERSHIP'
+        }
       };
 
       self.getMembersForAnActor = function getMembersForAnActor(actor) {
-        self.getActorMembers(actor, actorUserFilterDeploy);
-        self.getActorMembers(actor, actorGroupFilterDeploy);
-        self.getActorMembers(actor, actorRoleFilterDeploy);
-        self.getActorMembers(actor, actorMembershipFilterDeploy);
+        angular.forEach(actorProfiles, function(actorProfile){
+          getMemberForActorProfile(actor, actorProfile);
+        });
       };
+
+      function getMemberForActorProfile(actor, actorProfile) {
+        self.getActorMembers(actor, actorProfile.deploy).$promise.then(function mapActorMembers(actorMembers) {
+          if (!$scope.actorsMembers[actor.id]) {
+            $scope.actorsMembers[actor.id] = {};
+          }
+          $scope.actorsMembers[actor.id][actorProfile.type] = actorMembers;
+        });
+      }
 
       self.getActorMembers = function getActorMembers(actor, filterDeploy) {
         var filter = ['process_id=' + process.id, 'actor_id=' + actor.id];
         filter = filter.concat(filterDeploy.filter);
-        actorMemberAPI.search({
+        return actorMemberAPI.search({
           'p': 0,
           'c': $scope.membersPerCell,
           'f': filter,
           'd': filterDeploy.deploy
-        }).$promise.then(function mapActorMembers(actorMembers) {
-          if (!$scope.actorsMembers[actor.id]) {
-            $scope.actorsMembers[actor.id] = {};
-          }
-          switch (filterDeploy) {
-            case actorUserFilterDeploy:
-              $scope.actorsMembers[actor.id].users = actorMembers;
-              break;
-            case actorGroupFilterDeploy:
-              $scope.actorsMembers[actor.id].groups = actorMembers;
-              break;
-            case actorRoleFilterDeploy:
-              $scope.actorsMembers[actor.id].roles = actorMembers;
-              break;
-            case actorMembershipFilterDeploy:
-              $scope.actorsMembers[actor.id].memberships = actorMembers;
-              break;
-          }
         });
       };
       $scope.editMapping = function editMapping(actor, memberType) {
@@ -100,7 +102,7 @@
               return process;
             },
             memberType: function resolveMemberType() {
-              return memberType;
+              return actorProfiles[memberType].name;
             },
             actor: function resolveActor() {
               return actor;
@@ -111,24 +113,12 @@
           $log.debug('Actor mapping results', results);
           growl.success($filter('stringTemplater')(gettextCatalog.getString('{} actor mapping updates succeeded'), results.length), growlOptions);
           $scope.$emit('process.refresh');
-          self.init();
+          getMemberForActorProfile(actor, actorProfiles[memberType]);
         }, function cancel(errors) {
           $log.error('Actor mapping errors', errors);
           growl.error($filter('stringTemplater')(gettextCatalog.getString('{} errors on mapping updates'), errors.length), growlOptions);
           $scope.$emit('process.refresh');
-          self.init();
-        });
-      };
-
-      self.getProcessActors = function getProcessActors() {
-        actorAPI.search({
-          'p': $scope.actors.resource.pagination.currentPage - 1,
-          'c': $scope.actors.resource.pagination.numberPerPage,
-          'o': 'name ASC',
-          'f': 'process_id=' + process.id,
-          'n': ['users', 'groups', 'roles', 'memberships']
-        }).$promise.then(function mapProcessActors(actorsResponse) {
-          $scope.actors = actorsResponse;
+          getMemberForActorProfile(actor, actorProfiles[memberType]);
         });
       };
     })
