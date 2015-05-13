@@ -1,5 +1,5 @@
 /* jshint sub:true */
-(function() {
+(function () {
   'use strict';
 
   var informationStateName = 'bonita.processesDetails.information';
@@ -43,13 +43,13 @@
       name: 'Connectors',
       resolutionLabel: 'connector',
       state: processConnectorsStateName
-    }]).service('ProcessMoreDetailsResolveService', function(store, processConnectorAPI, parameterAPI, categoryAPI, processAPI, processResolutionProblemAPI, ProcessProblemResolutionService) {
+    }]).service('ProcessMoreDetailsResolveService', function (store, processConnectorAPI, parameterAPI, categoryAPI, processAPI, processResolutionProblemAPI, ProcessProblemResolutionService) {
       var processMoreDetailsResolveService = {};
-      processMoreDetailsResolveService.retrieveProcessResolutionProblem = function(processId) {
+      processMoreDetailsResolveService.retrieveProcessResolutionProblem = function (processId) {
         return store.load(processResolutionProblemAPI, {
           f: ['process_id=' + processId]
         }).then(function(processResolutionProblems) {
-          return ProcessProblemResolutionService.buildProblemsList(processResolutionProblems.map(function(resolutionProblem) {
+          return ProcessProblemResolutionService.buildProblemsList(processResolutionProblems.map(function (resolutionProblem) {
             /* jshint camelcase: false */
             return {
               type: resolutionProblem.target_type,
@@ -60,7 +60,7 @@
         });
       };
 
-      processMoreDetailsResolveService.retrieveProcess = function(processId) {
+      processMoreDetailsResolveService.retrieveProcess = function (processId) {
         return processAPI.get({
           id: processId,
           d: ['deployedBy'],
@@ -68,20 +68,20 @@
         });
       };
 
-      processMoreDetailsResolveService.retrieveCategories = function(processId) {
+      processMoreDetailsResolveService.retrieveCategories = function (processId) {
         return store.load(categoryAPI, {
           f: ['id=' + processId]
         });
       };
 
-      processMoreDetailsResolveService.retrieveParameters = function(processId) {
+      processMoreDetailsResolveService.retrieveParameters = function (processId) {
         return store.load(parameterAPI, {
           f: ['process_id=' + processId],
           o: ['name ASC']
         });
       };
 
-      processMoreDetailsResolveService.retrieveConnectors = function(processId) {
+      processMoreDetailsResolveService.retrieveConnectors = function (processId) {
         return store.load(processConnectorAPI, {
           o: 'definition_id ASC',
           f: 'process_id=' + processId
@@ -90,7 +90,7 @@
       return processMoreDetailsResolveService;
     })
     .config(
-      function($stateProvider) {
+      function ($stateProvider) {
         $stateProvider.state('bonita.processesDetails', {
           url: '/admin/processes/details/:processId?supervisor_id',
           templateUrl: 'features/admin/processes/details/menu.html',
@@ -98,10 +98,10 @@
           controller: 'ProcessMenuCtrl',
           controllerAs: 'processMenuCtrl',
           resolve: {
-            process: function($stateParams, ProcessMoreDetailsResolveService) {
+            process: function ($stateParams, ProcessMoreDetailsResolveService) {
               return ProcessMoreDetailsResolveService.retrieveProcess($stateParams.processId);
             },
-            processResolutionProblems: function($stateParams, ProcessMoreDetailsResolveService) {
+            processResolutionProblems: function ($stateParams, ProcessMoreDetailsResolveService) {
               return ProcessMoreDetailsResolveService.retrieveProcessResolutionProblem($stateParams.processId);
             },
             supervisorId: function($stateParams, TokenExtensionService) {
@@ -115,7 +115,7 @@
           controller: 'ProcessInformationCtrl',
           controllerAs: 'processInformationCtrl',
           resolve: {
-            categories: function($stateParams, ProcessMoreDetailsResolveService) {
+            categories: function ($stateParams, ProcessMoreDetailsResolveService) {
               return ProcessMoreDetailsResolveService.retrieveCategories($stateParams.processId);
             }
           }
@@ -125,7 +125,7 @@
           controller: 'ProcessParamsCtrl',
           controllerAs: 'processParamsCtrl',
           resolve: {
-            parameters: function($stateParams, ProcessMoreDetailsResolveService) {
+            parameters: function ($stateParams, ProcessMoreDetailsResolveService) {
               return ProcessMoreDetailsResolveService.retrieveParameters($stateParams.processId);
             }
           }
@@ -135,7 +135,7 @@
           controller: 'ProcessConnectorsCtrl',
           controllerAs: 'processConnectorsCtrl',
           resolve: {
-            processConnectors: function($stateParams, ProcessMoreDetailsResolveService) {
+            processConnectors: function ($stateParams, ProcessMoreDetailsResolveService) {
               return ProcessMoreDetailsResolveService.retrieveConnectors($stateParams.processId);
             }
           }
@@ -146,7 +146,7 @@
           controllerAs: 'actorsMappingCtrl'
         });
       }
-  )
+    )
     .controller('ProcessMenuCtrl', ProcessMenuCtrl)
     .controller('DeleteProcessModalInstanceCtrl', DeleteProcessModalInstanceCtrl);
 
@@ -168,7 +168,7 @@
     $scope.$on('button.toggle', vm.toggleProcessActivation);
     $scope.$on('process.refresh', vm.refreshProcess);
 
-    vm.goBack = function() {
+    vm.goBack = function () {
       $window.history.back();
     };
 
@@ -190,7 +190,7 @@
         controllerAs: 'deleteProcessModalInstanceCtrl',
         size: 'sm',
         resolve: {
-          process: function() {
+          process: function () {
             return process;
           }
         }
@@ -207,7 +207,7 @@
     }
 
     function refreshProcess() {
-      ProcessMoreDetailsResolveService.retrieveProcess(process.id).$promise.then(function(updatedProcess) {
+      ProcessMoreDetailsResolveService.retrieveProcess(process.id).$promise.then(function (updatedProcess) {
         process.configurationState = updatedProcess.configurationState;
       });
       ProcessMoreDetailsResolveService.retrieveProcessResolutionProblem(process.id).then(function (problems) {
@@ -220,7 +220,7 @@
       processAPI.update({
         id: process.id,
         activationState: state
-      }).$promise.then(function() {
+      }).$promise.then(function () {
         process.activationState = state;
       });
     }
@@ -230,16 +230,16 @@
     var vm = this;
     vm.process = process;
 
-    vm.delete = function() {
+    vm.delete = function () {
       processAPI.delete({
         id: process.id
-      }).$promise.then(function() {
+      }).$promise.then(function () {
         $modalInstance.close();
       }, function closePopupWithError(error) {
         $modalInstance.dismiss(error);
       });
     };
-    vm.cancel = function() {
+    vm.cancel = function () {
       $modalInstance.dismiss();
     };
   }

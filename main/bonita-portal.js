@@ -10,18 +10,23 @@
     'org.bonitasoft.services.i18n',
     'org.bonitasoft.common.resources',
     'org.bonitasoft.features.admin'
-  ]).provider('bonita', function(){
+  ]).provider('bonita', function() {
     var stateResolve = {
-        translations : 'i18nService',
-        csrfToken : [ '$http', function($http){
-          return $http({method: 'GET', url: '../API/system/session/unusedId'})
+      translations: 'i18nService',
+      csrfToken: ['$http',
+        function($http) {
+          return $http({
+              method: 'GET',
+              url: '../API/system/session/unusedId'
+            })
             .success(function(data, status, headers) {
-                $http.defaults.headers.common['X-Bonita-API-Token'] = headers('X-Bonita-API-Token');
+              $http.defaults.headers.common['X-Bonita-API-Token'] = headers('X-Bonita-API-Token');
             });
-        }]
-      };
+        }
+      ]
+    };
     this.stateResolve = stateResolve;
-    this.$get = function(){ 
+    this.$get = function() {
       return stateResolve;
     };
   })

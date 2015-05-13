@@ -35,8 +35,8 @@
                 <th class="case-column">{{'Started by' | translate}}</th>
                 <th class="text-right case-column">{{'Failed Flow Nodes' | translate}}</th>
                 <th class="text-right case-column">{{'Pending Flow Nodes' | translate}}</th>
-                
-                
+
+
                 <th data-ignore class="text-center">{{'Actions' | translate}}</th>
 
               </tr>
@@ -68,7 +68,7 @@
               <td class="case-link text-center">
                 <case-visu process-id='{{::case.processDefinitionId.id}}' case-id='{{::case.ID}}'></case-visu>
                 <a id="case-detail-btn-{{::case.id}}" tooltip="{{'View case details' | translate }}"  tooltip-popup-delay="500" tooltip-animation="false" target="_top" ng-href="{{::caseCtrl.getLinkToCase(case)}}" class="open-link">
-                  <span class="glyphicon glyphicon-eye-open"></span>
+                  <span class="glyphicon glyphicon-option-horizontal"></span>
                 </a>
               </td>
             </tr>
@@ -117,7 +117,7 @@
               <td class="case-link text-center">
                 <case-visu process-id='{{::case.processDefinitionId.id}}' case-id='{{::case.ID}}'></case-visu>
                 <a id="case-detail-btn-{{::case.id}}" tooltip="{{'View case details' | translate }}"  tooltip-popup-delay="500" tooltip-animation="false" target="_top" ng-href="{{::caseCtrl.getLinkToCase(case)}}" class="open-link">
-                  <span class="glyphicon glyphicon-eye-open"></span>
+                  <span class="glyphicon glyphicon-option-horizontal"></span>
                 </a>
               </td>
             </tr>
