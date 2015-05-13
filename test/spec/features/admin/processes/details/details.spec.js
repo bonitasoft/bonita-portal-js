@@ -3,7 +3,7 @@
 
   describe('monitoringStatus Directive and Controller in Process More Details',
     function() {
-      var scope, controller, q, processMenuCtrl, processAPI, categoryAPI, processResolutionProblemAPI, parameterAPI, processConnectorAPI, store, modal, state, processResolutionProblems, processMoreDetailsResolveService, processProblemResolutionService, growl, manageTopUrl, $window;
+      var scope, controller, q, processMenuCtrl, processAPI, categoryAPI, processResolutionProblemAPI, parameterAPI, processConnectorAPI, store, modal, state, processResolutionProblems, processMoreDetailsResolveService, processProblemResolutionService, growl, manageTopUrl, tokenExtensionService, $window;
 
       beforeEach(module('org.bonitasoft.features.admin.processes.details'));
 
@@ -15,6 +15,7 @@
         processConnectorAPI = jasmine.createSpyObj('processConnectorAPI', ['get', 'update']);
         store = jasmine.createSpyObj('store', ['load']);
         processProblemResolutionService = jasmine.createSpyObj('processProblemResolutionService', ['buildProblemsList']);
+        manageTopUrl = jasmine.createSpyObj('manageTopUrl', ['goTo', 'getCurrentPageToken']);
 
         module(function($provide) {
           $provide.value('processAPI', processAPI);
@@ -24,6 +25,7 @@
           $provide.value('processConnectorAPI', processConnectorAPI);
           $provide.value('store', store);
           $provide.value('ProcessProblemResolutionService', processProblemResolutionService);
+          $provide.value('manageTopUrl', manageTopUrl);
         });
       });
 
@@ -34,8 +36,9 @@
         modal = jasmine.createSpyObj('$modal', ['open']);
         processResolutionProblems = jasmine.createSpyObj('processResolutionProblems', ['retrieveProcess']);
         processMoreDetailsResolveService = ProcessMoreDetailsResolveService;
+        tokenExtensionService = { tokenExtensionValue: 'admin'};
         growl = jasmine.createSpyObj('growl', ['error']);
-        manageTopUrl = jasmine.createSpyObj('manageTopUrl', ['goTo']);
+        manageTopUrl = jasmine.createSpyObj('manageTopUrl', ['goTo', 'getCurrentPageToken']);
         $window = {
           history: jasmine.createSpyObj('history', ['back'])
         };
@@ -81,7 +84,9 @@
             $modal: modal,
             $state: state,
             processResolutionProblems: processResolutionProblems,
-            growl: growl
+            TokenExtensionService: tokenExtensionService,
+            growl: growl,
+            manageTopUrl: manageTopUrl
           });
         });
 
@@ -232,6 +237,38 @@
           expect(options.resolve.process()).toEqual(process);
         });
 
+
+        it('opens the deletion modal when delete button is clicked and redirect to admin listing page', function() {
+          var deferred = q.defer();
+          modal.open.and.returnValue({
+            result: deferred.promise
+          });
+          deferred.resolve();
+          processMenuCtrl.deleteProcess();
+          scope.$apply();
+          expect(modal.open).toHaveBeenCalled();
+          expect(manageTopUrl.goTo).toHaveBeenCalledWith({
+            token: 'processlistingadmin'
+          });
+
+        });
+
+        it('delete is done, do a redirect to listing page', function() {
+          var deferred = q.defer();
+          tokenExtensionService.tokenExtensionValue = 'pm';
+          modal.open.and.returnValue({
+            result: deferred.promise
+          });
+          deferred.resolve();
+          processMenuCtrl.deleteProcess();
+          scope.$apply();
+
+          expect(manageTopUrl.goTo).toHaveBeenCalledWith({
+            token: 'processlistingpm'
+          });
+
+        });
+
         it('opens the deletion modal when delete button is clicked and do noop on success', function() {
           var deferred = q.defer();
           modal.open.and.returnValue({result: deferred.promise});
@@ -269,9 +306,6 @@
             deleteCtrl.delete();
             scope.$apply();
             expect(modalInstance.close).toHaveBeenCalled();
-            expect(manageTopUrl.goTo).toHaveBeenCalledWith({
-              token: 'processlistingadmin'
-            });
           });
           it('should call API to deletel goTo on manageTopUrl when DELETE is clicked', function() {
             var deferred = q.defer();

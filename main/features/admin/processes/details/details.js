@@ -11,6 +11,7 @@
     'ui.router',
     'ui.bootstrap',
     'gettext',
+    'org.bonitasoft.service.token',
     'angular-growl',
     'org.bonitasoft.services.topurl',
     'org.bonitasoft.common.directives.bonitaHref',
@@ -90,7 +91,7 @@
     .config(
       function($stateProvider) {
         $stateProvider.state('bonita.processesDetails', {
-          url: '/admin/processes/details/:processId',
+          url: '/admin/processes/details/:processId?supervisor_id',
           templateUrl: 'features/admin/processes/details/menu.html',
           abstract: true,
           controller: 'ProcessMenuCtrl',
@@ -101,6 +102,10 @@
             },
             processResolutionProblems: function($stateParams, ProcessMoreDetailsResolveService) {
               return ProcessMoreDetailsResolveService.retrieveProcessResolutionProblem($stateParams.processId);
+            },
+            supervisorId: function($stateParams, TokenExtensionService) {
+              TokenExtensionService.tokenExtensionValue = (angular.isDefined($stateParams['supervisor_id']) ? 'pm' : 'admin');
+              return $stateParams['supervisor_id'];
             }
           }
         }).state(informationStateName, {
@@ -145,7 +150,7 @@
     .controller('DeleteProcessModalInstanceCtrl', DeleteProcessModalInstanceCtrl);
 
   /* jshint -W003 */
-  function ProcessMenuCtrl($scope, menuContent, process, processAPI, $modal, $state, manageTopUrl, $window, processResolutionProblems, ProcessMoreDetailsResolveService, growl, $log) {
+  function ProcessMenuCtrl($scope, menuContent, process, processAPI, $modal, $state, manageTopUrl, $window, processResolutionProblems, ProcessMoreDetailsResolveService, TokenExtensionService, growl, $log) {
     var vm = this;
     vm.includesCurrentState = function(state) {
       return $state.includes(state);
@@ -188,7 +193,11 @@
             return process;
           }
         }
-      }).result.then(angular.noop, function(error){
+      }).result.then(function() {
+        manageTopUrl.goTo({
+          token: 'processlisting' + TokenExtensionService.tokenExtensionValue
+        });
+      }, function(error){
         if(angular.isDefined(error)) {
           $log.error('An Error occurred during process deletion', error);
           growl.error('An Error occurred during process deletion: '+ error.message, growlOptions);
@@ -213,7 +222,7 @@
     }
   }
 
-  function DeleteProcessModalInstanceCtrl($scope, processAPI, process, $modalInstance, manageTopUrl) {
+  function DeleteProcessModalInstanceCtrl($scope, processAPI, process, $modalInstance) {
     var vm = this;
     vm.process = process;
 
@@ -221,9 +230,6 @@
       processAPI.delete({
         id: process.id
       }).$promise.then(function() {
-        manageTopUrl.goTo({
-          token: 'processlistingadmin'
-        });
         $modalInstance.close();
       }, function closePopupWithError(error) {
         $modalInstance.dismiss(error);
