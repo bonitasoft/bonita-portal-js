@@ -115,10 +115,10 @@
         $scope.$emit('caselist:notify', {
           type: 'success',
           status: ((nbOfDeletedCases===1)?
-            gettextCatalog.getString('{{nbOfDeletedCases}} case deleted successfully', {
+            gettextCatalog.getString('{{nbOfDeletedCases}} case has been deleted', {
             nbOfDeletedCases: nbOfDeletedCases
           }):
-            gettextCatalog.getString('{{nbOfDeletedCases}} cases deleted successfully', {
+            gettextCatalog.getString('{{nbOfDeletedCases}} cases have been deleted', {
             nbOfDeletedCases: nbOfDeletedCases
           }))
         });
