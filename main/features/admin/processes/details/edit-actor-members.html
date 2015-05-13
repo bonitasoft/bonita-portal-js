@@ -1,15 +1,17 @@
 <div id="editActorsMembersModal" ng-init="editActorMembersCtrl.initView()" class="process-details">
 
   <div class="modal-header">
-    <h3 class="modal-title">{{'{} mapped to actor {}' | translate | stringTemplater:[currentMemberLabel, editActorMembersCtrl.scope.actor.displayname]}}</h3>
+    <h3 class="modal-title">{{editActorMembersCtrl.title | translate | stringTemplater:[editActorMembersCtrl.scope.actor.displayName]}}</h3>
   </div>
   <div class="modal-body">
-    <h4>{{'{} {} already mapped' | translate | stringTemplater:[members.length, currentMemberLabel.toLowerCase()]}}</h4>
+    <h4>{{'{} mapped' | translate | stringTemplater:[currentMemberLabel]}}</h4>
     <p class="members">
-      <a ng-click="editActorMembersCtrl.removeMember(member)" ng-repeat="member in members" class="label label-primary outline member">
-        {{member.removeLabel}} <span class="glyphicon glyphicon-remove"></span>
-      </a>
-      <a ng-click="editActorMembersCtrl.removeAll()" class="label label-danger outline member" ng-if="members.length>0">{{'Remove all' | translate}} <span class="glyphicon glyphicon-remove"></span></a>
+      <span ng-repeat="member in members">
+        <label class="label label-default" >
+          {{member.removeLabel}} <span ng-click="editActorMembersCtrl.removeMember(member)" class="glyphicon glyphicon-remove"></span>
+        </label>&nbsp;
+      </span>
+      <label ng-click="editActorMembersCtrl.removeAll()" class="label label-danger" ng-if="members.length>0"> <span class="glyphicon glyphicon-remove"></span> {{'Remove all' | translate}}</label>
     </p>
     <p ng-if="editActorMembersCtrl.scope.memberType!==editActorMembersCtrl.constant.MEMBERSHIP">
       <label >{{'Add' | translate}}</label>
@@ -40,7 +42,7 @@
       translation="editActorMembersCtrl.scope.localLangRole"
       on-search-change="editActorMembersCtrl.selectOnSearchRole(data)"
       selection-mode="single"></isteven-multi-select>
-      <span style="clear:both"> of </span>
+      <span style="clear:both">{{' of ' | translate }}</span>
       <isteven-multi-select
       input-model="first200groups"
       output-model="editActorMembersCtrl.scope.newMembershipGroup"
@@ -57,8 +59,8 @@
     </p>
   </div>
   <div class="modal-footer">
-    <a ng-if="editActorMembersCtrl.scope.arrayNewMembers.length && editActorMembersCtrl.scope.memberType!==editActorMembersCtrl.constant.MEMBERSHIP" class="btn btn-primary" ng-click="editActorMembersCtrl.saveSelectedMembers()">Add</a>
-    <a ng-if="editActorMembersCtrl.scope.newMembershipRole.length && editActorMembersCtrl.scope.newMembershipGroup.length && editActorMembersCtrl.scope.memberType==editActorMembersCtrl.constant.MEMBERSHIP" class="btn btn-primary" ng-click="editActorMembersCtrl.saveSelectedMembership()">Create membership</a>
+    <a ng-if="editActorMembersCtrl.scope.arrayNewMembers.length && editActorMembersCtrl.scope.memberType!==editActorMembersCtrl.constant.MEMBERSHIP" class="btn btn-primary" ng-click="editActorMembersCtrl.saveSelectedMembers()">{{'Add' | translate }}</a>
+    <a ng-if="editActorMembersCtrl.scope.newMembershipRole.length && editActorMembersCtrl.scope.newMembershipGroup.length && editActorMembersCtrl.scope.memberType==editActorMembersCtrl.constant.MEMBERSHIP" class="btn btn-primary" ng-click="editActorMembersCtrl.saveSelectedMembership()">{{'Create membership' | translate }}</a>
     <a ng-click="editActorMembersCtrl.closeModal()" class="btn btn-default">{{'Close'|translate}}</a>
   </div>
 </div>

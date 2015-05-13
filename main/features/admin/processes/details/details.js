@@ -8,9 +8,12 @@
   var actorsMappingStateName = 'bonita.processesDetails.actorsMapping';
   /*eslint "angular/ng_di":0*/
   angular.module('org.bonitasoft.features.admin.processes.details', [
+    'ngAnimate',
     'ui.router',
     'ui.bootstrap',
     'gettext',
+    'org.bonitasoft.service.token',
+    'angular-growl',
     'org.bonitasoft.services.topurl',
     'org.bonitasoft.common.directives.bonitaHref',
     'org.bonitasoft.common.directives.toggleButton',
@@ -21,29 +24,37 @@
     'org.bonitasoft.features.admin.processes.details.information',
     'org.bonitasoft.features.admin.processes.details.processConnectors',
     'org.bonitasoft.features.admin.processes.details.params',
-    'org.bonitasoft.service.process.resolution'
+    'org.bonitasoft.service.process.resolution',
+    'org.bonitasoft.common.filters.stringTemplater'
   ])
     .value('menuContent', [{
       name: 'General',
+      resolutionLabel: 'general',
       state: informationStateName
     }, {
       name: 'Actors',
+      resolutionLabel: 'actor',
       state: actorsMappingStateName
     }, {
       name: 'Parameters',
+      resolutionLabel: 'parameter',
       state: paramsStateName
     }, {
       name: 'Connectors',
+      resolutionLabel: 'connector',
       state: processConnectorsStateName
     }]).service('ProcessMoreDetailsResolveService', function (store, processConnectorAPI, parameterAPI, categoryAPI, processAPI, processResolutionProblemAPI, ProcessProblemResolutionService) {
       var processMoreDetailsResolveService = {};
       processMoreDetailsResolveService.retrieveProcessResolutionProblem = function (processId) {
         return store.load(processResolutionProblemAPI, {
           f: ['process_id=' + processId]
-        }).then(function (processResolutionProblems) {
+        }).then(function(processResolutionProblems) {
           return ProcessProblemResolutionService.buildProblemsList(processResolutionProblems.map(function (resolutionProblem) {
             /* jshint camelcase: false */
-            return resolutionProblem.target_type;
+            return {
+              type: resolutionProblem.target_type,
+              'ressource_id': resolutionProblem.ressource_id
+            };
             /* jshint camelcase: true */
           }));
         });
@@ -81,7 +92,7 @@
     .config(
       function ($stateProvider) {
         $stateProvider.state('bonita.processesDetails', {
-          url: '/admin/processes/details/:processId',
+          url: '/admin/processes/details/:processId?supervisor_id',
           templateUrl: 'features/admin/processes/details/menu.html',
           abstract: true,
           controller: 'ProcessMenuCtrl',
@@ -92,6 +103,10 @@
             },
             processResolutionProblems: function ($stateParams, ProcessMoreDetailsResolveService) {
               return ProcessMoreDetailsResolveService.retrieveProcessResolutionProblem($stateParams.processId);
+            },
+            supervisorId: function($stateParams, TokenExtensionService) {
+              TokenExtensionService.tokenExtensionValue = (angular.isDefined($stateParams['supervisor_id']) ? 'pm' : 'admin');
+              return $stateParams['supervisor_id'];
             }
           }
         }).state(informationStateName, {
@@ -136,10 +151,10 @@
     .controller('DeleteProcessModalInstanceCtrl', DeleteProcessModalInstanceCtrl);
 
   /* jshint -W003 */
-  function ProcessMenuCtrl($scope, menuContent, process, processAPI, $modal, $state, manageTopUrl, $window, processResolutionProblems, ProcessMoreDetailsResolveService) {
+  function ProcessMenuCtrl($scope, menuContent, process, processAPI, $modal, $state, manageTopUrl, $window, processResolutionProblems, ProcessMoreDetailsResolveService, TokenExtensionService, growl, $log) {
     var vm = this;
-    vm.getCurrentStateName = function () {
-      return $state.current.name;
+    vm.includesCurrentState = function(state) {
+      return $state.includes(state);
     };
     vm.menuContent = menuContent;
     vm.process = process;
@@ -148,6 +163,7 @@
     vm.deleteProcess = deleteProcess;
     vm.currentPageToken = manageTopUrl.getCurrentPageToken();
     vm.processResolutionProblems = processResolutionProblems;
+    vm.hasResolutionProblem = hasResolutionProblem;
 
     $scope.$on('button.toggle', vm.toggleProcessActivation);
     $scope.$on('process.refresh', vm.refreshProcess);
@@ -156,7 +172,18 @@
       $window.history.back();
     };
 
+    function hasResolutionProblem(problemType) {
+      return vm.processResolutionProblems.some(function(resolutionProblem) {
+        return resolutionProblem.type === problemType;
+      });
+    }
+
     function deleteProcess() {
+      var growlOptions = {
+        ttl: 3000,
+        disableCountDown: true,
+        disableIcons: true
+      };
       $modal.open({
         templateUrl: 'features/admin/processes/details/delete-process-modal.html',
         controller: 'DeleteProcessModalInstanceCtrl',
@@ -166,6 +193,15 @@
           process: function () {
             return process;
           }
+        }
+      }).result.then(function() {
+        manageTopUrl.goTo({
+          token: 'processlisting' + TokenExtensionService.tokenExtensionValue
+        });
+      }, function(error){
+        if(angular.isDefined(error)) {
+          $log.error('An Error occurred during process deletion', error);
+          growl.error('An Error occurred during process deletion: '+ error.message, growlOptions);
         }
       });
     }
@@ -186,13 +222,11 @@
         activationState: state
       }).$promise.then(function () {
         process.activationState = state;
-      }, function TODOmanageerror() {
-
       });
     }
   }
 
-  function DeleteProcessModalInstanceCtrl($scope, processAPI, process, $modalInstance, manageTopUrl) {
+  function DeleteProcessModalInstanceCtrl($scope, processAPI, process, $modalInstance) {
     var vm = this;
     vm.process = process;
 
@@ -200,12 +234,9 @@
       processAPI.delete({
         id: process.id
       }).$promise.then(function () {
-        manageTopUrl.goTo({
-          token: 'processlistingadmin'
-        });
         $modalInstance.close();
-      }, function TODOmanageerror() {
-
+      }, function closePopupWithError(error) {
+        $modalInstance.dismiss(error);
       });
     };
     vm.cancel = function () {

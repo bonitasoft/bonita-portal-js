@@ -1,25 +1,25 @@
 <div id="process-details" class="process-details">
   <div class="col-md-12 actions">
     <div class="col-md-2">
-      <a class="btn btn-default" bonita-href="{token: 'processlistingadmin'}">Back</a>
+    <a class="btn btn-default" ng-click="processMenuCtrl.goBack()">{{'Back' | translate}}</a>
     </div>
     <div class="col-md-10 text-right">
       <start-for process="processMenuCtrl.process"></start-for>
 
-      <button type="button" class="btn btn-primary" ng-disabled="processMenuCtrl.process.activationState === 'ENABLED'" ng-click="processMenuCtrl.deleteProcess()">Delete</button>
+      <button type="button" class="btn btn-primary" ng-disabled="processMenuCtrl.process.activationState === 'ENABLED'" ng-click="processMenuCtrl.deleteProcess()">{{'Delete' | translate}}</button>
     </div>
   </div>
   <div class="col-md-12">
     <h1>{{processMenuCtrl.process.name}} ({{processMenuCtrl.process.version}})</h1>
   </div>
   <div class="col-md-12" style="padding-top: 10px;">
-    <div ng-if="processMenuCtrl.process.configurationState !== 'RESOLVED'" style=" padding-bottom: 0px;" class="panel panel-danger">
+    <div ng-if="processMenuCtrl.process.configurationState !== 'RESOLVED'" style=" padding-bottom: 0px;" class="panel panel-danger slide">
       <div class="panel-heading"><span class="glyphicon glyphicon-exclamation-sign"></span> {{ 'The Process cannot be enabled' | translate }}</div>
       <div class="panel-body">
         <div class="col-md-12">
           <ul>
             <li ng-repeat="problem in processMenuCtrl.processResolutionProblems">
-              {{problem}}
+              {{problem.message | translate | stringTemplater: problem.args}}
             </li>
           </ul>
         </div>
@@ -28,37 +28,14 @@
   </div>
   <div class="col-sm-3 col-md-3 col-lg-2">
     <div class="list-group">
-      <a class="list-group-item" ng-repeat="item in processMenuCtrl.menuContent" ng-class="{active: processMenuCtrl.getCurrentStateName() === item.state }" ui-sref="{{item.state}}"><span ng-if=""class="glyphicon glyphicon-exclamation-sign" ng-class="{'text-danger': processMenuCtrl.getCurrentStateName() !== item.state }"></span> {{item.name | translate}}</a>
+      <a class="list-group-item" ng-repeat="item in processMenuCtrl.menuContent" ng-class="{active: processMenuCtrl.includesCurrentState(item.state) }" ui-sref="{{item.defaultDestinationState || item.state}}">{{item.name | translate}} <span ng-if="processMenuCtrl.hasResolutionProblem(item.resolutionLabel)" ng-class="{'text-danger': !processMenuCtrl.includesCurrentState(item.state) }" class="glyphicon glyphicon-exclamation-sign"></span> </a>
     </div>
-    <!-- <div class="sidebar-nav">
-      <div class="navbar navbar-default" role="navigation">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".sidebar-navbar-collapse">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <span class="visible-xs navbar-brand">Process menu</span>
-        </div>
-        <div class="navbar-collapse collapse sidebar-navbar-collapse">
-          <ul class="nav navbar-nav">
-            <li ng-repeat="item in processMenuCtrl.menuContent" ng-class="{active: processMenuCtrl.getCurrentStateName() === item.state }">
-              <a href="" bonita-href="{'token': processMenuCtrl.currentPageToken , 'id': processMenuCtrl.process.id, 'tab' : item.link, prependToken: false}">{{item.name | translate}}</a>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </div> -->
-
   </div>
   <div class="col-sm-9 col-md-9 col-lg-10">
     <div growl></div>
-
 
     <div class="col-md-12">
       <ui-view></ui-view>
     </div>
   </div>
-
 </div>
