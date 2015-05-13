@@ -36,7 +36,9 @@
         modal = jasmine.createSpyObj('$modal', ['open']);
         processResolutionProblems = jasmine.createSpyObj('processResolutionProblems', ['retrieveProcess']);
         processMoreDetailsResolveService = ProcessMoreDetailsResolveService;
-        tokenExtensionService = { tokenExtensionValue: 'admin'};
+        tokenExtensionService = {
+          tokenExtensionValue: 'admin'
+        };
         growl = jasmine.createSpyObj('growl', ['error']);
         manageTopUrl = jasmine.createSpyObj('manageTopUrl', ['goTo', 'getCurrentPageToken']);
         $window = {
@@ -204,14 +206,24 @@
           expect(process.activationState).toEqual('DISABLED');
         });
 
-        it('should refresh process configuration state from what is received from API when refreshProcess is called', function() {
+        fit('should refresh process configuration state from what is received from API when refreshProcess is called', function() {
+          processMoreDetailsResolveService.retrieveProcessResolutionProblem = jasmine.createSpy();
+
           var deferred = q.defer();
+          var deferredProblems = q.defer();
           processAPI.get.and.returnValue({
             $promise: deferred.promise
           });
+          var problems = [{
+            type: 'business data',
+            message: 'The business data: [ {} ] uses Business Objects which are not defined in the current Business Data model. Deploy a compatible Business Data model before enabling the process.',
+            args: 'news, labels,...'
+          }];
+          processMoreDetailsResolveService.retrieveProcessResolutionProblem.and.returnValue(deferredProblems.promise);
           deferred.resolve({
             configurationState: 'RESOLVED'
           });
+          deferredProblems.resolve(problems);
           processMenuCtrl.refreshProcess();
           scope.$apply();
           expect(processAPI.get).toHaveBeenCalledWith({
@@ -220,12 +232,17 @@
             n: ['openCases', 'failedCases']
           });
           expect(process.configurationState).toEqual('RESOLVED');
+          expect(processMenuCtrl.processResolutionProblems).toEqual(problems);
         });
 
         it('opens the deletion modal when delete button is clicked and display error on deletion failure', function() {
           var deferred = q.defer();
-          modal.open.and.returnValue({result: deferred.promise});
-          deferred.reject({message: 'Network Unreachable'});
+          modal.open.and.returnValue({
+            result: deferred.promise
+          });
+          deferred.reject({
+            message: 'Network Unreachable'
+          });
           processMenuCtrl.deleteProcess();
           scope.$apply();
           expect(modal.open).toHaveBeenCalled();
@@ -271,7 +288,9 @@
 
         it('opens the deletion modal when delete button is clicked and do noop on success', function() {
           var deferred = q.defer();
-          modal.open.and.returnValue({result: deferred.promise});
+          modal.open.and.returnValue({
+            result: deferred.promise
+          });
           deferred.resolve();
           processMenuCtrl.deleteProcess();
           scope.$apply();
@@ -280,7 +299,9 @@
 
         it('opens the deletion modal when delete button is clicked and do noop on cancel', function() {
           var deferred = q.defer();
-          modal.open.and.returnValue({result: deferred.promise});
+          modal.open.and.returnValue({
+            result: deferred.promise
+          });
           deferred.reject();
           processMenuCtrl.deleteProcess();
           scope.$apply();
@@ -301,7 +322,9 @@
           });
           it('should call API to deletel goTo on manageTopUrl when DELETE is clicked', function() {
             var deferred = q.defer();
-            processAPI.delete.and.returnValue({$promise: deferred.promise});
+            processAPI.delete.and.returnValue({
+              $promise: deferred.promise
+            });
             deferred.resolve();
             deleteCtrl.delete();
             scope.$apply();
@@ -309,8 +332,12 @@
           });
           it('should call API to deletel goTo on manageTopUrl when DELETE is clicked', function() {
             var deferred = q.defer();
-            processAPI.delete.and.returnValue({$promise: deferred.promise});
-            var error = {message: 'Network Unreachable'};
+            processAPI.delete.and.returnValue({
+              $promise: deferred.promise
+            });
+            var error = {
+              message: 'Network Unreachable'
+            };
             deferred.reject(error);
             deleteCtrl.delete();
             scope.$apply();
