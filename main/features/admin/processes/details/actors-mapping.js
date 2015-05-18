@@ -112,11 +112,10 @@
           results = _.compact(results);
           $log.debug('Actor mapping results', results);
           growl.success($filter('stringTemplater')(gettextCatalog.getString('{} actor mapping updates succeeded'), results.length), growlOptions);
-          $scope.$emit('process.refresh');
-          getMemberForActorProfile(actor, actorProfiles[memberType]);
         }, function cancel(errors) {
           $log.error('Actor mapping errors', errors);
           growl.error($filter('stringTemplater')(gettextCatalog.getString('{} errors on mapping updates'), errors.length), growlOptions);
+        }).finally(function() {
           $scope.$emit('process.refresh');
           getMemberForActorProfile(actor, actorProfiles[memberType]);
         });
