@@ -67,6 +67,8 @@
           'o': 'name ASC',
           'f': 'process_id=' + processId,
           'n': ['users', 'groups', 'roles', 'memberships']
+        }).$promise.then(function(result){
+          return result.data;
         });
       };
 

@@ -16,21 +16,19 @@
   ])
     .constant('ACTOR_PER_PAGE', 10)
     .constant('MEMBERS_PER_CELL', 5)
-    .service('ActorMappingService', function(actorMemberAPI, MEMBERS_PER_CELL){
+    .service('ActorMappingService', function(actorMemberAPI, MEMBERS_PER_CELL, $q) {
       var actorMappingService = {};
 
       actorMappingService.getMembersForAnActor = function(actor, actorProfiles, process) {
-        angular.forEach(actorProfiles, function(actorProfile){
-          actorMappingService.getMemberForActorProfile(actor, actorProfile, process);
+        var promises = [],
+          actorMembers = {};
+        angular.forEach(actorProfiles, function(actorProfile) {
+          promises.push(actorMappingService.getActorMembers(actor, actorProfile.deploy, process).then(function mapActorMembers(actors) {
+            actorMembers[actorProfile.type] = actors;
+          }));
         });
-      };
-
-      actorMappingService.getMemberForActorProfile = function(actor, actorProfile, process) {
-        actorMappingService.getActorMembers(actor, actorProfile.deploy, process).$promise.then(function mapActorMembers(actors) {
-          if (!actorMappingService.actorsMembers[actor.id]) {
-            actorMappingService.actorsMembers[actor.id] = {};
-          }
-          actorMappingService.actorsMembers[actor.id][actorProfile.type] = actors;
+        return $q.all(promises).then(function (){
+          return actorMembers;
         });
       };
 
@@ -42,11 +40,11 @@
           'c': MEMBERS_PER_CELL,
           'f': filter,
           'd': filterDeploy.deploy
-        });
+        }).$promise;
       };
       return actorMappingService;
     })
-    .controller('ActorsMappingCtrl', function($scope, $modal, process, actorMemberAPI, actorAPI, ACTOR_PER_PAGE, MEMBERS_PER_CELL, growl, gettextCatalog, $log, $filter, processActors, ActorMappingService) {
+    .controller('ActorsMappingCtrl', function($scope, $modal, process, ACTOR_PER_PAGE, MEMBERS_PER_CELL, growl, gettextCatalog, $log, $filter, processActors, ActorMappingService) {
       var vm = this;
       var resourceInit = [];
       resourceInit.pagination = {
@@ -60,7 +58,8 @@
       };
 
       vm.actors = processActors;
-      vm.actorsMembers = [];
+      vm.membersPerCell = MEMBERS_PER_CELL;
+      vm.actorsMembers = {};
       vm.actorProfiles = {
         users: {
           deploy: {
@@ -70,7 +69,7 @@
           type: 'users',
           name: 'USER'
         },
-        groups:{
+        groups: {
           deploy: {
             filter: 'member_type=GROUP',
             deploy: ['group_id']
@@ -95,8 +94,10 @@
           name: 'MEMBERSHIP'
         }
       };
-      vm.actors.forEach(function(actor){
-        ActorMappingService.getMembersForAnActor(actor, vm.actorProfiles, process);
+      vm.actors.forEach(function(actor) {
+        ActorMappingService.getMembersForAnActor(actor, vm.actorProfiles, process).then(function(actorMembers) {
+          vm.actorsMembers[actor.id] = actorMembers;
+        });
       });
       vm.editMapping = function(actor, memberType) {
         $modal.open({
@@ -123,7 +124,9 @@
           growl.error($filter('stringTemplater')(gettextCatalog.getString('{} errors on mapping updates'), errors.length), growlOptions);
         }).finally(function() {
           $scope.$emit('process.refresh');
-          ActorMappingService.getMemberForActorProfile(actor, vm.actorProfiles[memberType]);
+          ActorMappingService.getActorMembers(actor, vm.actorProfiles[memberType].deploy, process).$promise.then(function(actors) {
+            vm.actorsMembers[actor.id][memberType] = actors;
+          });
         });
       };
     })
