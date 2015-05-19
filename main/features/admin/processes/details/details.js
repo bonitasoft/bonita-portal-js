@@ -43,7 +43,7 @@
       name: 'Connectors',
       resolutionLabel: 'connector',
       state: processConnectorsStateName
-    }]).service('ProcessMoreDetailsResolveService', function (store, processConnectorAPI, parameterAPI, categoryAPI, processAPI, processResolutionProblemAPI, ProcessProblemResolutionService) {
+    }]).service('ProcessMoreDetailsResolveService', function (store, processConnectorAPI, parameterAPI, categoryAPI, processAPI, actorAPI, processResolutionProblemAPI, ProcessProblemResolutionService) {
       var processMoreDetailsResolveService = {};
       processMoreDetailsResolveService.retrieveProcessResolutionProblem = function (processId) {
         return store.load(processResolutionProblemAPI, {
@@ -57,6 +57,18 @@
             };
             /* jshint camelcase: true */
           }));
+        });
+      };
+
+      processMoreDetailsResolveService.retrieveProcessActors = function(processId, pagination) {
+        return actorAPI.search({
+          'p': pagination.currentPage - 1,
+          'c': pagination.numberPerPage,
+          'o': 'name ASC',
+          'f': 'process_id=' + processId,
+          'n': ['users', 'groups', 'roles', 'memberships']
+        }).$promise.then(function(result){
+          return result.data;
         });
       };
 
@@ -90,7 +102,7 @@
       return processMoreDetailsResolveService;
     })
     .config(
-      function ($stateProvider) {
+      function ($stateProvider, ACTOR_PER_PAGE) {
         $stateProvider.state('bonita.processesDetails', {
           url: '/admin/processes/details/:processId?supervisor_id',
           templateUrl: 'features/admin/processes/details/menu.html',
@@ -143,7 +155,15 @@
           url: '/actorsMapping',
           templateUrl: 'features/admin/processes/details/actors-mapping.html',
           controller: 'ActorsMappingCtrl',
-          controllerAs: 'actorsMappingCtrl'
+          controllerAs: 'actorsMappingCtrl',
+          resolve: {
+            processActors: function ($stateParams, ProcessMoreDetailsResolveService) {
+              return ProcessMoreDetailsResolveService.retrieveProcessActors($stateParams.processId, {
+                currentPage: 1,
+                numberPerPage: ACTOR_PER_PAGE
+              });
+            }
+          }
         });
       }
     )
