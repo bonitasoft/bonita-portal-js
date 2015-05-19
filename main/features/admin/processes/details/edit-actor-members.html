@@ -16,9 +16,9 @@
     <p class="text-muted" ng-if="!members.length">
       {{'No mapping' | translate}}
     </p>
-    <p ng-if="editActorMembersCtrl.scope.memberType!==editActorMembersCtrl.constant.MEMBERSHIP">
-      <label >{{'Add' | translate}}</label>
-      <isteven-multi-select
+    <div ng-if="!editActorMembersCtrl.isMembershipEdit()">
+      <h4>{{'Add' | translate}}</h4>
+      <p><isteven-multi-select
       input-model="editActorMembersCtrl.scope.first200members"
       output-model="editActorMembersCtrl.scope.arrayNewMembers"
       button-label="buttonLabel"
@@ -28,12 +28,11 @@
       max-labels="5"
       max-height="200px"
       translation="editActorMembersCtrl.scope.localLang"
-      on-search-change="editActorMembersCtrl.multiselectOnSearch(data)"></isteven-multi-select>
-    </p>
-    <p ng-if="editActorMembersCtrl.scope.memberType===editActorMembersCtrl.constant.MEMBERSHIP"
-      >
-      <label>{{'Create a new membership' | translate}}</label>
-      <isteven-multi-select
+      on-search-change="editActorMembersCtrl.multiselectOnSearch(data)"></isteven-multi-select></p>
+    </div>
+    <div ng-if="editActorMembersCtrl.isMembershipEdit()">
+      <h4>{{'Create a new membership' | translate}}</h4>
+      <p><isteven-multi-select
       input-model="editActorMembersCtrl.scope.first200roles"
       output-model="editActorMembersCtrl.scope.newMembershipRole"
       button-label="displayName"
@@ -58,8 +57,8 @@
       translation="editActorMembersCtrl.scope.localLangGroup"
       on-search-change="editActorMembersCtrl.selectOnSearchGroup(data)"
       selection-mode="single"></isteven-multi-select>
-
-    </p>
+      </p>
+    </div>
     <div ng-if="!!editActorMembersCtrl.membersToDelete.length">
       <h4>{{'{} mappings to delete' | translate | stringTemplater:[currentMemberLabel]}}</h4>
       <p class="members">

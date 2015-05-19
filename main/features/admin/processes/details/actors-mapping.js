@@ -105,6 +105,7 @@
           controller: 'EditActorMembersCtrl',
           controllerAs: 'editActorMembersCtrl',
           size: 'lg',
+          backdrop: false,
           resolve: {
             process: function resolveProcess() {
               return process;
@@ -120,11 +121,13 @@
           results = _.compact(results);
           growl.success($filter('stringTemplater')(gettextCatalog.getString('{} actor mapping updates succeeded'), results.length), growlOptions);
         }, function cancel(errors) {
-          $log.error('Actor mapping errors', errors);
-          growl.error($filter('stringTemplater')(gettextCatalog.getString('{} errors on mapping updates'), errors.length), growlOptions);
+          if(angular.isDefined(errors) && _.isArray(errors)) {
+            $log.error('Actor mapping errors', errors);
+            growl.error($filter('stringTemplater')(gettextCatalog.getString('{} errors on mapping updates'), errors.length), growlOptions);
+          }
         }).finally(function() {
           $scope.$emit('process.refresh');
-          ActorMappingService.getActorMembers(actor, vm.actorProfiles[memberType].deploy, process).$promise.then(function(actors) {
+          ActorMappingService.getActorMembers(actor, vm.actorProfiles[memberType].deploy, process).then(function(actors) {
             vm.actorsMembers[actor.id][memberType] = actors;
           });
         });

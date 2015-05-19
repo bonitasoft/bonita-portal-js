@@ -1,6 +1,6 @@
 (function() {
   'use strict';
-  describe('Manage Category Mapping Modal Instance', function() {
+  fdescribe('Manage Category Mapping Modal Instance', function() {
     var scope, controller, manageCategoryMappingModalInstanceCtrl,
       process, categories, q, selectedCategories, modalInstance, categoryManager,
       cat1, cat2, cat3;
@@ -175,7 +175,21 @@
           categoryManager.updateCategories(categories, initiallySelectedCategories, selectedTags, tags, 123);
         });
         describe('selectedCategoriesPopulatePromise', function() {
-          xit('should return the selected categories from the final promise', function() {
+
+          it('should set new test value on test value change', function () {
+            var deferred = q.defer();
+            categories = [];
+          
+            deferred.resolve();
+            var all = categoryManager.simple([deferred.promise], categories);
+            all.then(function(qallResult) {
+              expect(qallResult).toBe(categories);
+              expect(true).toBeFalsy();
+            });
+            scope.$apply();
+            console.log(all, deferred.promise);
+          });
+          it('should return the selected categories from the final promise', function() {
             var createNewCategoryDeferred = q.defer();
             var saveNewCategoryMappingDeferred = q.defer();
             var categoryMappingDeferred = q.defer();
@@ -192,15 +206,15 @@
               name: 'catego3'
             };
             categories = [cat1, cat2, cat3];
-            scope.$digest();
 
-            var result;
             saveNewCategoryMappingDeferred.resolve();
             createNewCategoryDeferred.resolve(saveNewCategoryMappingDeferred.promise);
             categoryMappingDeferred.resolve();
-            categoryManager.selectedCategoriesPopulatePromise([categoryMappingDeferred.promise], [createNewCategoryDeferred.promise], categories);
             scope.$apply();
-            expect(result).toEqual(categories);
+            categoryManager.selectedCategoriesPopulatePromise([categoryMappingDeferred.promise], [createNewCategoryDeferred.promise], categories).then(function(qallResult) {
+              expect(qallResult).toEqual(categories);
+            });
+            scope.$apply();
           });
         });
         describe('saveCategoryProcessIfNotAlreadySelected', function() {
@@ -216,9 +230,7 @@
             process = {
               id: 123
             };
-            processCategoryAPI.save.and.returnValue({
-              $promise: deferredProcessCategory.promise
-            });
+            processCategoryAPI.save.and.returnValue(deferredProcessCategory.promise);
             categoryManager.saveCategoryProcessIfNotAlreadySelected(cat1, initiallySelectedCategories, promises, process.id);
             expect(promises).toEqual([deferredProcessCategory.promise]);
           });
@@ -252,9 +264,7 @@
             process = {
               id: 123
             };
-            processCategoryAPI.delete.and.returnValue({
-              $promise: deferredProcessCategory.promise
-            });
+            processCategoryAPI.delete.and.returnValue(deferredProcessCategory.promise);
             categoryManager.deleteCategoryProcessIfNeeded(cat1, initiallySelectedCategories, promises, process.id, selectedTags);
             expect(promises).toEqual([deferredProcessCategory.promise]);
           });

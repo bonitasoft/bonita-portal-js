@@ -47,6 +47,9 @@
       self.scope.localLangRole = angular.copy(self.scope.localLang);
       self.scope.localLangGroup = angular.copy(self.scope.localLang);
 
+      self.isMembershipEdit = function() {
+        return self.scope.memberType === self.constant.MEMBERSHIP;
+      };
       self.initView = function initView() {
         switch (memberType) {
           case self.constant.USER:
@@ -231,11 +234,14 @@
       };
 
       self.apply = function() {
+        console.log('end all', new Date());
         var promises = [];
         promises = promises.concat(saveSelectedMembers());
         promises = promises.concat(saveSelectedMembership());
         promises = promises.concat(deleteMembers(self.membersToDelete));
-        $q.all(promises).then($modalInstance.close, self.cancel);
+        $q.all(promises).then(function(results) {
+          return results;
+        }).then($modalInstance.close, self.cancel);
       };
 
       function deleteMembers(membersToDelete) {
@@ -243,7 +249,7 @@
         membersToDelete.forEach(function(member) {
           promises.push(actorMemberAPI.delete({
             id: member.id
-          }));
+          }).$promise);
         });
         return promises;
       }
@@ -255,7 +261,7 @@
             'actor_id': actor.id
           };
           actorMapping[self.searchMemberParams.actorId] = newMember.id;
-          promises.push(self.actorMemberAPISave(actorMapping));
+          promises.push(self.actorMemberAPISave(actorMapping).$promise);
         });
         return promises;
       }
@@ -267,7 +273,7 @@
             'role_id': self.scope.newMembershipRole[0].id,
             'group_id': self.scope.newMembershipGroup[0].id,
             'actor_id': actor.id
-          });
+          }).$promise;
         }
       }
 
