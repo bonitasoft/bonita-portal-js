@@ -77,7 +77,7 @@
         });
 
         describe('Categories', function() {
-          iit('should add new category and remove some others', function() {
+          it('should add new category and remove some others', function() {
             expect(element(by.css('.tags')).getText()).toEqual('  Support  \n  R&D  \n  Séverin  \n  jQuery+  ');
             element(by.css('.metatags-label button')).click();
             var categoriesModal = element(by.css('#manage-categories-modal'));
