@@ -69,8 +69,10 @@
           $provide.value('categoryAPI', categoryAPI);
         });
 
-        inject(function($injector) {
+        inject(function($injector, $q, $rootScope) {
+          scope = $rootScope.$new();
           categoryManager = $injector.get('categoryManager');
+          q = $q;
         });
       });
       describe('categoryIsSelected', function() {
@@ -176,19 +178,6 @@
         });
         describe('selectedCategoriesPopulatePromise', function() {
 
-          it('should set new test value on test value change', function () {
-            var deferred = q.defer();
-            categories = [];
-          
-            deferred.resolve();
-            var all = categoryManager.simple([deferred.promise], categories);
-            all.then(function(qallResult) {
-              expect(qallResult).toBe(categories);
-              expect(true).toBeFalsy();
-            });
-            scope.$apply();
-            console.log(all, deferred.promise);
-          });
           it('should return the selected categories from the final promise', function() {
             var createNewCategoryDeferred = q.defer();
             var saveNewCategoryMappingDeferred = q.defer();
@@ -210,7 +199,6 @@
             saveNewCategoryMappingDeferred.resolve();
             createNewCategoryDeferred.resolve(saveNewCategoryMappingDeferred.promise);
             categoryMappingDeferred.resolve();
-            scope.$apply();
             categoryManager.selectedCategoriesPopulatePromise([categoryMappingDeferred.promise], [createNewCategoryDeferred.promise], categories).then(function(qallResult) {
               expect(qallResult).toEqual(categories);
             });

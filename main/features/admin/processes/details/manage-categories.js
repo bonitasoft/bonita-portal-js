@@ -24,11 +24,6 @@
     };
   }).service('categoryManager', function(processCategoryAPI, categoryAPI, $q) {
     var categoryManager = {};
-    categoryManager.simple = function (promises, categories){
-      return $q.all(promises).then(function() {
-        return categories;
-      });
-    };
     categoryManager.selectedCategoriesPopulatePromise = function (processCategoryPromises, newCategoryPromises, selectedCategories){
       return $q.all(processCategoryPromises.concat(newCategoryPromises)).then(function() {
         return selectedCategories;
