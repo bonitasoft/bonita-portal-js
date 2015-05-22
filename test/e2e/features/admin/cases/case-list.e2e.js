@@ -240,7 +240,7 @@
 
       });
 
-      iit('should display the list of the 25 first cases and check its content', function () {
+      it('should display the list of the 25 first cases and check its content', function () {
         var caseList = element(by.css('#case-list'));
         expect(caseList).toBeDefined();
 
