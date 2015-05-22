@@ -1,13 +1,13 @@
-(function() {
+(function () {
   'use strict';
 
   describe('monitoringStatus Directive and Controller in Process More Details',
-    function() {
-      var scope, controller, q, processMenuCtrl, processAPI, categoryAPI, processResolutionProblemAPI, parameterAPI, processConnectorAPI, store, modal, state, processResolutionProblems, processMoreDetailsResolveService, processProblemResolutionService, growl, manageTopUrl, $window;
+    function () {
+      var scope, controller, q, processMenuCtrl, processAPI, categoryAPI, processResolutionProblemAPI, parameterAPI, processConnectorAPI, store, modal, state, processResolutionProblems, processMoreDetailsResolveService, processProblemResolutionService, growl, manageTopUrl, tokenExtensionService, $window;
 
       beforeEach(module('org.bonitasoft.features.admin.processes.details'));
 
-      beforeEach(function() {
+      beforeEach(function () {
         processAPI = jasmine.createSpyObj('processAPI', ['get', 'update', 'delete']);
         categoryAPI = jasmine.createSpyObj('categoryAPI', ['get', 'update']);
         processResolutionProblemAPI = jasmine.createSpyObj('processResolutionProblemAPI', ['get', 'update']);
@@ -15,8 +15,9 @@
         processConnectorAPI = jasmine.createSpyObj('processConnectorAPI', ['get', 'update']);
         store = jasmine.createSpyObj('store', ['load']);
         processProblemResolutionService = jasmine.createSpyObj('processProblemResolutionService', ['buildProblemsList']);
+        manageTopUrl = jasmine.createSpyObj('manageTopUrl', ['goTo', 'getCurrentPageToken']);
 
-        module(function($provide) {
+        module(function ($provide) {
           $provide.value('processAPI', processAPI);
           $provide.value('categoryAPI', categoryAPI);
           $provide.value('processResolutionProblemAPI', processResolutionProblemAPI);
@@ -24,27 +25,29 @@
           $provide.value('processConnectorAPI', processConnectorAPI);
           $provide.value('store', store);
           $provide.value('ProcessProblemResolutionService', processProblemResolutionService);
+          $provide.value('manageTopUrl', manageTopUrl);
         });
       });
 
-      beforeEach(inject(function($rootScope, $compile, $controller, $q, ProcessMoreDetailsResolveService) {
+      beforeEach(inject(function ($rootScope, $compile, $controller, $q, ProcessMoreDetailsResolveService) {
         scope = $rootScope.$new();
         controller = $controller;
         q = $q;
         modal = jasmine.createSpyObj('$modal', ['open']);
         processResolutionProblems = jasmine.createSpyObj('processResolutionProblems', ['retrieveProcess']);
         processMoreDetailsResolveService = ProcessMoreDetailsResolveService;
+        tokenExtensionService = { tokenExtensionValue: 'admin'};
         growl = jasmine.createSpyObj('growl', ['error']);
-        manageTopUrl = jasmine.createSpyObj('manageTopUrl', ['goTo']);
+        manageTopUrl = jasmine.createSpyObj('manageTopUrl', ['goTo', 'getCurrentPageToken']);
         $window = {
           history: jasmine.createSpyObj('history', ['back'])
         };
       }));
 
 
-      describe('processMenuCtrl', function() {
+      describe('processMenuCtrl', function () {
         var menu, process;
-        beforeEach(function() {
+        beforeEach(function () {
           process = {
             id: 1230
           };
@@ -81,16 +84,18 @@
             $modal: modal,
             $state: state,
             processResolutionProblems: processResolutionProblems,
-            growl: growl
+            TokenExtensionService: tokenExtensionService,
+            growl: growl,
+            manageTopUrl: manageTopUrl
           });
         });
 
-        describe('processMoreDetailsResolveService', function() {
-          it('retrieveProcess should get the process from the API', function() {
+        describe('processMoreDetailsResolveService', function () {
+          it('retrieveProcess should get the process from the API', function () {
             processAPI.get.and.returnValue(process);
             expect(processMoreDetailsResolveService.retrieveProcess(12)).toBe(process);
           });
-          it('retrieveCategories should get the categories from the API', function() {
+          it('retrieveCategories should get the categories from the API', function () {
             var categories = [];
             store.load.and.returnValue(categories);
             expect(processMoreDetailsResolveService.retrieveCategories(12)).toBe(categories);
@@ -100,7 +105,7 @@
             });
           });
 
-          it('retrieveProcessResolutionProblem should get the ProcessResolutionProblem from the API', function() {
+          it('retrieveProcessResolutionProblem should get the ProcessResolutionProblem from the API', function () {
             var processResolutionProblem = [{
                 message: 'Parameter \'copyrightYear\' is not set.',
                 'ressource_id': undefined,
@@ -124,7 +129,7 @@
             }]);
           });
 
-          it('retrieveParameters should get the Parameters from the API', function() {
+          it('retrieveParameters should get the Parameters from the API', function () {
             var parameters = [];
             store.load.and.returnValue(parameters);
             expect(processMoreDetailsResolveService.retrieveParameters(12)).toBe(parameters);
@@ -135,7 +140,7 @@
             });
           });
 
-          it('retrieveConnectors should get the Connectors from the API', function() {
+          it('retrieveConnectors should get the Connectors from the API', function () {
             var connectors = [];
             store.load.and.returnValue(connectors);
             expect(processMoreDetailsResolveService.retrieveConnectors(12)).toBe(connectors);
@@ -152,9 +157,9 @@
           expect($window.history.back).toHaveBeenCalled();
         });
 
-        it('init should listen toggle event and push menu and process to view model', function() {
+        it('init should listen toggle event and push menu and process to view model', function () {
           expect(processMenuCtrl.menuContent).toEqual(menu);
-          processMenuCtrl.menuContent.forEach(function(entry) {
+          processMenuCtrl.menuContent.forEach(function (entry) {
             expect(entry.state).toBeDefined();
             expect(entry.resolutionLabel).toBeDefined();
             expect(entry.name).toBeDefined();
@@ -169,7 +174,7 @@
           ]);
         });
 
-        it('toggleProcessActivation should update process via REST API and process in view model', function() {
+        it('toggleProcessActivation should update process via REST API and process in view model', function () {
           var deferred = q.defer();
           process.id = 45654;
           processAPI.update.and.returnValue({
@@ -199,14 +204,19 @@
           expect(process.activationState).toEqual('DISABLED');
         });
 
-        it('should refresh process configuration state from what is received from API when refreshProcess is called', function() {
+        it('should refresh process configuration state from what is received from API when refreshProcess is called', function () {
           var deferred = q.defer();
+          var deferredPbs = q.defer();
           processAPI.get.and.returnValue({
             $promise: deferred.promise
           });
           deferred.resolve({
             configurationState: 'RESOLVED'
           });
+          var pbs = [];
+          deferredPbs.resolve(pbs);
+          processMoreDetailsResolveService.retrieveProcessResolutionProblem = jasmine.createSpy();
+          processMoreDetailsResolveService.retrieveProcessResolutionProblem.and.returnValue(deferredPbs.promise);
           processMenuCtrl.refreshProcess();
           scope.$apply();
           expect(processAPI.get).toHaveBeenCalledWith({
@@ -214,7 +224,9 @@
             d: ['deployedBy'],
             n: ['openCases', 'failedCases']
           });
+          expect(processMoreDetailsResolveService.retrieveProcessResolutionProblem).toHaveBeenCalledWith(process.id);
           expect(process.configurationState).toEqual('RESOLVED');
+          expect(processMenuCtrl.processResolutionProblems).toBe(pbs);
         });
 
         it('opens the deletion modal when delete button is clicked and display error on deletion failure', function() {
@@ -230,6 +242,38 @@
           expect(options.controllerAs).toEqual('deleteProcessModalInstanceCtrl');
           expect(options.size).toEqual('sm');
           expect(options.resolve.process()).toEqual(process);
+        });
+
+
+        it('opens the deletion modal when delete button is clicked and redirect to admin listing page', function() {
+          var deferred = q.defer();
+          modal.open.and.returnValue({
+            result: deferred.promise
+          });
+          deferred.resolve();
+          processMenuCtrl.deleteProcess();
+          scope.$apply();
+          expect(modal.open).toHaveBeenCalled();
+          expect(manageTopUrl.goTo).toHaveBeenCalledWith({
+            token: 'processlistingadmin'
+          });
+
+        });
+
+        it('delete is done, do a redirect to listing page', function() {
+          var deferred = q.defer();
+          tokenExtensionService.tokenExtensionValue = 'pm';
+          modal.open.and.returnValue({
+            result: deferred.promise
+          });
+          deferred.resolve();
+          processMenuCtrl.deleteProcess();
+          scope.$apply();
+
+          expect(manageTopUrl.goTo).toHaveBeenCalledWith({
+            token: 'processlistingpm'
+          });
+
         });
 
         it('opens the deletion modal when delete button is clicked and do noop on success', function() {
@@ -269,9 +313,6 @@
             deleteCtrl.delete();
             scope.$apply();
             expect(modalInstance.close).toHaveBeenCalled();
-            expect(manageTopUrl.goTo).toHaveBeenCalledWith({
-              token: 'processlistingadmin'
-            });
           });
           it('should call API to deletel goTo on manageTopUrl when DELETE is clicked', function() {
             var deferred = q.defer();
