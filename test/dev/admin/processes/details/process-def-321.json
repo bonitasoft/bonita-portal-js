@@ -1,0 +1,17 @@
+{
+    "icon": "/default/process.png",
+    "displayDescription": "",
+    "version": "1.0",
+    "failedCases": "0",
+    "id": "321",
+    "deploymentDate": "2015-04-13 11:05:11.335",
+    "description": "",
+    "name": "SupportProcess",
+    "activationState": "ENABLED",
+    "deployedBy": "-1",
+    "displayName": "Support Process",
+    "openCases": "0",
+    "actorinitiatorid": "11",
+    "configurationState": "RESOLVED",
+    "last_update_date": "2015-04-14 17:52:20.698"
+}

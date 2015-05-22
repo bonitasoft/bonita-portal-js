@@ -1,4 +1,4 @@
-(function () {
+(function() {
   'use strict';
   /**
    * @ngdoc service
@@ -8,6 +8,13 @@
    */
 
   var API_PATH = '../API/';
+
+  var contentRangeInterceptor = {
+    response: function(response) {
+      response.resource.pagination = parseContentRange(response.headers('Content-Range'));
+      return response;
+    }
+  };
 
   /**
    * @internal
@@ -29,26 +36,22 @@
     };
   }
 
-  var resourceDecorator = ['$delegate', function ($delegate) {
-    return function (url, paramDefaults, actions, options) {
-      actions = angular.extend({}, actions, {
-        'search': {
-          isArray: true,
-          interceptor: {
-            response: function (response) {
-              response.resource.pagination = parseContentRange(response.headers('Content-Range'));
-              return response;
-            }
-          }
-        },
-        'update': {
-          method: 'PUT'
-        }
-      });
-      return $delegate(url, paramDefaults, actions, options);
-    };
-  }];
+  var resourceDecorator = ['$delegate',
+    function($delegate) {
+      return function(url, paramDefaults, actions, options) {
+        //in angular 1.4 use angular.merge instead of angular.extend
+        actions = angular.extend({}, actions, {
+          'search': angular.extend({
+            isArray: true,
+            interceptor: contentRangeInterceptor
+          }, actions && actions.search),
 
+          'update': angular.extend({method: 'PUT'}, actions && actions.update)
+        });
+        return $delegate(url, paramDefaults, actions, options);
+      };
+    }
+  ];
 
   var module = angular.module('org.bonitasoft.common.resources', ['ngResource'])
     .constant('API_PATH', API_PATH)
@@ -62,21 +65,23 @@
    * function parsing the http header response to find the number of results
    * for the given resource search
    */
-    .config(['$provide', '$httpProvider', function ($provide, $httpProvider) {
-      $httpProvider.interceptors.push('unauthorizedResponseHandler');
-      $provide.decorator('$resource', resourceDecorator);
-    }])
+  .config(function($provide, $httpProvider) {
+    $httpProvider.interceptors.push('unauthorizedResponseHandler');
+    $provide.decorator('$resource', resourceDecorator);
+  })
 
-    .factory('unauthorizedResponseHandler', ['$q', '$window', function ($q, $window) {
+  .factory('unauthorizedResponseHandler',
+    function($q, $window) {
       return {
-        'responseError': function (rejection) {
+        'responseError': function(rejection) {
           if (rejection.status === 401) {
             $window.top.location.reload();
           }
           return $q.reject(rejection);
         }
       };
-    }]);
+    }
+  );
 
 
   /**
@@ -92,40 +97,125 @@
    * We still can use the associated promise to use the data as soon as it gets back.
    *
    * user.$promise.then(function (user) {
-             *  console.log(user);
-             * });
+   *  console.log(user);
+   * });
    *
    **/
-  (function (resources) {
-    angular.forEach(resources, function (path, name) {
-      module.factory(name, ['$resource', function ($resource) {
-        return $resource(API_PATH + path + '/:id', { id: '@id' });
-      }]);
+  (function(resources) {
+    angular.forEach(resources, function(path, name) {
+      module.factory(name, ['$resource',
+        function($resource) {
+          return $resource(API_PATH + path + '/:id', {
+            id: '@id'
+          });
+        }
+      ]);
     });
   })({
-    'userAPI': 'identity/user',
-    'caseAPI': 'bpm/case',
-    'flowNodeAPI': 'bpm/flowNode',
+    'actorAPI': 'bpm/actor',
+    'actorMemberAPI': 'bpm/actorMember',
     'archivedCaseAPI': 'bpm/archivedCase',
-    'processAPI': 'bpm/process',
-    'humanTaskAPI': 'bpm/humanTask',
-    'profileAPI': 'portal/profile',
-    'membershipAPI': 'identity/membership',
-    'professionalDataAPI': 'identity/professionalcontactdata',
-    'personalDataAPI': 'identity/personalcontactdata',
-    'i18nAPI': 'system/i18ntranslation',
     'applicationAPI': 'living/application',
-    'applicationPageAPI': 'living/application-page',
     'applicationMenuAPI': 'living/application-menu',
+    'applicationPageAPI': 'living/application-page',
+    'caseAPI': 'bpm/case',
+    'categoryAPI': 'bpm/category',
     'customPageAPI': 'portal/page',
-    'formMappingAPI': 'form/mapping'
+    'featureAPI': 'system/feature',
+    'flowNodeAPI': 'bpm/flowNode',
+    'formMappingAPI': 'form/mapping',
+    'groupAPI': 'identity/group',
+    'humanTaskAPI': 'bpm/humanTask',
+    'i18nAPI': 'system/i18ntranslation',
+    'membershipAPI': 'identity/membership',
+    'personalDataAPI': 'identity/personalcontactdata',
+    'processAPI': 'bpm/process',
+    'processResolutionProblemAPI': 'bpm/processResolutionProblem',
+    'professionalDataAPI': 'identity/professionalcontactdata',
+    'profileAPI': 'portal/profile',
+    'roleAPI': 'identity/role',
+    'userAPI': 'identity/user'
   });
 
-  module.factory('importApplication', ['API_PATH', '$resource', function (API_PATH, $resource) {
+  module.factory('importApplication',
+    function($resource) {
       return $resource('../services/application/import', {
         importPolicy: '@importPolicy',
         applicationsDataUpload: '@applicationsDataUpload'
       });
-    }]);
+    }
+  );
 
+
+  module.factory('processCategoryAPI', function($http) {
+    /*jshint camelcase: false */
+    var processCategoryAPI = {};
+    processCategoryAPI.save = function(options) {
+      return $http({
+        url: API_PATH + 'bpm/processCategory',
+        method: 'POST',
+        data: {
+          'category_id': '' + options.category_id,
+          'process_id': '' + options.process_id
+        }
+      });
+    };
+    processCategoryAPI.delete = function(options) {
+      return $http({
+        url: API_PATH + 'bpm/processCategory',
+        method: 'DELETE',
+        data: [options.process_id + '/' + options.category_id]
+      });
+    };
+    return processCategoryAPI;
+  });
+
+
+  module.factory('processConnectorAPI', function($http, $resource) {
+    /*jshint camelcase: false */
+    return $resource(API_PATH + 'bpm/processConnector/:process_id/:definition_id/:definition_version', {
+      'process_id': '@process_id',
+      'definition_id': '@definition_id',
+      'definition_version': '@definition_version'
+    }, {
+      'search': {
+        isArray: true,
+        url: API_PATH + 'bpm/processConnector/',
+        interceptor: contentRangeInterceptor
+      },
+      'update': {
+        transformRequest: function(data) {
+          delete data.process_id;
+          delete data.definition_id;
+          delete data.definition_version;
+          return angular.toJson(data);
+        },
+        method: 'PUT'
+      }
+
+    });
+  });
+
+
+  module.factory('parameterAPI', function($http, $resource) {
+    /*jshint camelcase: false */
+    return $resource(API_PATH + 'bpm/processParameter/:process_id/:name', {
+      'process_id': '@process_id',
+      'name': '@name'
+    }, {
+      'search': {
+        isArray: true,
+        url: API_PATH + 'bpm/processParameter/',
+        interceptor: contentRangeInterceptor
+      },
+      'update': {
+        transformRequest: function(data) {
+          delete data.process_id;
+          delete data.name;
+          return angular.toJson(data);
+        },
+        method: 'PUT'
+      }
+    });
+  });
 })();

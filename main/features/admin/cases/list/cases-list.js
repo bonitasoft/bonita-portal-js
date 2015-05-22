@@ -12,7 +12,6 @@
     'gettext',
     'ui.bootstrap',
     'ui.router',
-    'org.bonitasoft.common.directives.selectAll',
     'angular-growl',
     'ngAnimate',
     'org.bonitasoft.bonitable',
@@ -22,7 +21,7 @@
     'org.bonitasoft.bonitable.settings',
     'org.bonitasoft.templates',
     'ui.sortable',
-    'org.bonitasoft.features.admin.cases.list.service'
+    'org.bonitasoft.common.filters.date.parser'
   ])
     .config(['growlProvider', function (growlProvider) {
       growlProvider.globalPosition('top-center');

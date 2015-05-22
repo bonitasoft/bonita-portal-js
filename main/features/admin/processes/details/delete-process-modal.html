@@ -1,0 +1,12 @@
+<div id="delete-process-modal">
+    <div class="modal-header header">
+        <h3 class="modal-title">{{'Delete process'| translate }}</h3>
+    </div>
+    <div class="modal-body body">
+      <p class="text-muted">{{ 'Delete the process' | translate }} {{deleteProcessModalInstanceCtrl.process.name}}</p>
+    </div>
+    <div class="modal-footer">
+        <button  class="start-for btn btn-primary" ng-click="deleteProcessModalInstanceCtrl.delete()">{{ 'Delete' | translate }}</button>
+        <button class="btn btn-warning close_popup" ng-click="deleteProcessModalInstanceCtrl.cancel()">{{ 'Cancel' | translate }}</button>
+    </div>
+</div>

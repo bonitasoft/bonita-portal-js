@@ -14,13 +14,6 @@ module.exports = function (grunt) {
 
   // Time how long tasks take. Can help when optimizing build times
   require('time-grunt')(grunt);
-  grunt.loadNpmTasks('grunt-connect-proxy');
-  grunt.loadNpmTasks('grunt-connect-rewrite');
-  grunt.loadNpmTasks('grunt-angular-gettext');
-  grunt.loadNpmTasks('grunt-ngdocs');
-  grunt.loadNpmTasks('grunt-protractor-runner');
-  grunt.loadNpmTasks('grunt-lineending');
-  grunt.loadNpmTasks('grunt-ng-annotate');
 
   // Define the configuration for all the tasks
   grunt.initConfig({
@@ -85,29 +78,36 @@ module.exports = function (grunt) {
         ]
       },
       server: {
-          proxies: (function () {
-              function forward(context) {
-                  return {
-                      context: context,
-                      host: 'localhost',
-                      port: 8080,
-                      https: false,
-                      changeOrigin: false,
-                      xforward: false
-                  };
-              }
+        proxies: (function () {
+          function forward(context) {
+            return {
+              context: context,
+              host: 'localhost',
+              port: 8080,
+              https: false,
+              changeOrigin: false,
+              xforward: false
+            };
+          }
 
-              return [
+          return [
                   forward('/bonita/apps'),
                   forward('/bonita/API'),
                   forward('/bonita/portal/')
               ];
-          })()
+        })()
       },
       rules: [
         // prefix web appliation
-        { from: '^/bonita/portaljs(.*)$', to: '/$1' },
-        { from: '^(?!/bonita/portaljs)(.*)$', to: '/bonita/portaljs$1', redirect: 'temporary' }
+        {
+          from: '^/bonita/portaljs(.*)$',
+          to: '/$1'
+        },
+        {
+          from: '^(?!/bonita/portaljs)(.*)$',
+          to: '/bonita/portaljs$1',
+          redirect: 'temporary'
+        }
       ],
       livereload: {
         options: {
@@ -153,22 +153,22 @@ module.exports = function (grunt) {
           port: 9002,
           base: '<%= portaljs.dist %>',
           middleware: function (connect, options) {
-              if (!Array.isArray(options.base)) {
-               options.base = [options.base];
-              }
-              // Setup the proxy
-              var middlewares = [
+            if (!Array.isArray(options.base)) {
+              options.base = [options.base];
+            }
+            // Setup the proxy
+            var middlewares = [
                   require('./test/dev/server-mock.js'),
                   require('grunt-connect-proxy/lib/utils').proxyRequest,
                   require('grunt-connect-rewrite/lib/utils').rewriteRequest];
-              // Serve static files.
-              options.base.forEach(function (base) {
-                  middlewares.push(connect.static(base));
-              });
-                   // Make directory browse-able.
-              var directory = options.directory || options.base[options.base.length - 1];
-              middlewares.push(connect.directory(directory));
-                   return middlewares;
+            // Serve static files.
+            options.base.forEach(function (base) {
+              middlewares.push(connect.static(base));
+            });
+            // Make directory browse-able.
+            var directory = options.directory || options.base[options.base.length - 1];
+            middlewares.push(connect.directory(directory));
+            return middlewares;
           }
         }
       }
@@ -261,6 +261,29 @@ module.exports = function (grunt) {
       }
     },
 
+    //ensure locals CSS files are not included for packaging other bonita global theming will fail
+    taskHelper: {
+      useminPrepare: {
+        options: {
+          handlerByFileSrc: function (src) {
+            var regexp = /<link rel="stylesheet" href="(((styles)|(common)|(features))\/.*css)">/g;
+            var indexContent = grunt.file.read(src, {
+              encoding: 'utf-8'
+            });
+            var result;
+            if ((result = regexp.exec(indexContent))) {
+              var msg = result[1] + '\n';
+              while ((result = regexp.exec(indexContent)) !== null) {
+                msg += result[1] + '\n';
+              }
+              throw new Error('It seems that you have local CSS files should not be packaged here but to be added in bonita-web/looknfeel : \n' + msg);
+            }
+          }
+        },
+        src: '<%= useminPrepare.html %>'
+      }
+    },
+
     // Reads HTML for usemin blocks to enable smart builds that automatically
     // concat, minify and revision files. Creates configurations in memory so
     // additional tasks can operate on them
@@ -301,8 +324,7 @@ module.exports = function (grunt) {
         options: {
           collapseWhitespace: true,
           collapseBooleanAttributes: true,
-          removeCommentsFromCDATA: true,
-          removeOptionalTags: true
+          removeCommentsFromCDATA: true
         },
         files: [
           {
@@ -408,14 +430,14 @@ module.exports = function (grunt) {
         options: {
           //configFile: "e2e.conf.js", // Target-specific config file
           args: {
-            //suite : 'arch-case-list'
+            // suite: 'process-details-information'
           } // Target-specific arguments
         }
       }
     },
 
 
-      /* jshint camelcase: false */
+    /* jshint camelcase: false */
     nggettext_extract: {
       pot: {
         files: {
@@ -503,6 +525,7 @@ module.exports = function (grunt) {
     'injector',
     'lineending',
     'nggettext_extract',
+    'taskHelper',
     'useminPrepare',
     'concurrent:dist',
     'autoprefixer',
@@ -520,7 +543,7 @@ module.exports = function (grunt) {
   grunt.registerTask('default', [
     'newer:jshint',
     'test',
-    'build'//,
+    'build' //,
     //'testE2e'
   ]);
 };

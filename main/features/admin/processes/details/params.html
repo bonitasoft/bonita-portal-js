@@ -1,34 +1,41 @@
-<div id="params" class="col-md-9">
-  <h3>Params</h3>
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Type</th>
-                <th>Value</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-            <tr>
-                <td>Support Company</td>
-                <td>String</td>
-                <td>Bonitasoft</td>
-                <td><span class="glyphicon glyphicon-pencil"></span></td>
-            </tr>
-            <tr>
-                <td>License Year</td>
-                <td>String</td>
-                <td>2012-2015</td>
-                <td><span class="glyphicon glyphicon-pencil"></span></td>
-            </tr>
-            <tr>
-                <td>Welcome Text </td>
-                <td>String</td>
-                <td>Welcome to Bonita BPM Portal</td>
-                <td><span class="glyphicon glyphicon-pencil"></span></td>
-            </tr>
-        <tbody>
-            
-        </tbody>
-    </table>
+<div id="params">
+  <h3>{{'Parameters' | translate}}</h3>
+  <div class="panel panel-default">
+    <!-- <div class="panel-heading"><span class="h4">Params</span></div> -->
+    <div ng-if="!processParamsCtrl.parameters.length" class="panel-body">
+      <div class="col-md-12">
+        {{ 'The current process has no parameters defined.' | translate}}
+      </div>
+    </div>
+    <div ng-if="!!processParamsCtrl.parameters.length" class="panel-body">
+      <table class="table table-striped">
+          <thead>
+              <tr>
+                  <th>{{'Name' | translate}}</th> 
+                  <th>{{'Description' | translate}}</th>
+                  <th>{{'Type' | translate}}</th>
+                  <th>{{'Value' | translate}}</th>
+              </tr>
+          </thead>
+          <tbody>
+              <tr ng-repeat="parameter in processParamsCtrl.parameters">
+                <td>{{parameter.name}}</td>
+                <td>{{parameter.description}}</td>
+                <td>{{parameter.type}}</td>
+                <td ng-if="!processParamsCtrl.showActions">{{parameter.value}}</td>
+                <td ng-if="processParamsCtrl.showActions" class="xeditable">
+                  <div ng-switch="parameter.type">
+                    <div ng-switch-when="java.lang.Boolean" class="form-group">
+                      <a href="" editable-select="parameter.value" onbeforesave="processParamsCtrl.updateParameter(parameter, $data)"  e-ng-options="s.value as s.value for s in processParamsCtrl.booleanValues">{{ parameter.value || 'No Value' | translate}}</a>
+                    </div>
+                    <div ng-switch-default class="form-group">
+                      <a href="" editable-text="parameter.value" e-style="width: 400px;" onbeforesave="processParamsCtrl.updateParameter(parameter, $data)" >{{ parameter.value || 'No Value' | translate}}</a>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+          </tbody>
+      </table> 
+    </div>
+  </div>
 </div>

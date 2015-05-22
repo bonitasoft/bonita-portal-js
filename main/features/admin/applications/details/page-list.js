@@ -214,6 +214,7 @@
           homePageId: page.id,
           profileId: app.profileId.id,
           layoutId: app.layoutId.id,
+          themeId: app.themeId.id,
           createdBy: app.createdBy.id,
           updatedBy: app.updatedBy.id
         };

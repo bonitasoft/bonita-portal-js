@@ -1,6 +1,6 @@
 #infoPopover {
     color: #808080;
-}
+}q
 
 #sidebar-wrapper {
 	background-color: #d03 ;
@@ -19,9 +19,9 @@
 }
 
 
-/* make sidebar nav vertical */ 
+/* make sidebar nav vertical */
 @media (min-width: 768px) {
-	
+
   .navbar {
 	  width: 200px;
   }
@@ -63,7 +63,7 @@
 }
 
 #process-details .bonita-toggle .btn {
-	position: absolute; 
+	position: absolute;
 	padding: 3px 20px 6px 12px;
 	min-width: 1px;
 	height: 32px;
@@ -72,8 +72,43 @@
 	padding-right: 5px;
 }
 #process-details .bonita-toggle span.btn.toggle-handle {
-	position: relative; 
+	position: relative;
 	padding: 6px 12px 6px 12px;
 	min-width: 1px;
 	height: 32px;
 }
+
+#process-details #categories td button{
+  border: none;
+  font-weight: normal;
+  background-color: transparent;
+  min-width: 100%;
+  text-align: inherit;
+  padding: 1px 0;
+  white-space: nowrap;
+  text-transform: none !important;
+}
+
+.glyphicon-refresh-animate {
+    -animation: spin .7s infinite linear;
+    -webkit-animation: spin2 .7s infinite linear;
+}
+
+@-webkit-keyframes spin2 {
+    from { -webkit-transform: rotate(0deg);}
+    to { -webkit-transform: rotate(360deg);}
+}
+
+[id="application-display-name"] {width: 15%}
+
+.app-details-container {
+  border: 1px solid #fff;
+}
+
+.app-details-container:hover {
+  border-radius: 4px;
+  border-color: #ddd;
+}
+
+
+
