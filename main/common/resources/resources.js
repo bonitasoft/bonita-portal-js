@@ -9,6 +9,13 @@
 
   var API_PATH = '../API/';
 
+  var contentRangeInterceptor = {
+    response: function(response) {
+      response.resource.pagination = parseContentRange(response.headers('Content-Range'));
+      return response;
+    }
+  };
+
   /**
    * @internal
    * Parse Content-Range header and return an object with pagination infos
@@ -36,15 +43,10 @@
         actions = angular.extend({}, actions, {
           'search': angular.extend({
             isArray: true,
-            interceptor: {
-              response: function(response) {
-                response.resource.pagination = parseContentRange(response.headers('Content-Range'));
-                return response;
-              }
-            }
-          },actions && actions.search),
+            interceptor: contentRangeInterceptor
+          }, actions && actions.search),
 
-          'update': angular.extend({method: 'PUT'},actions && actions.update)
+          'update': angular.extend({method: 'PUT'}, actions && actions.update)
         });
         return $delegate(url, paramDefaults, actions, options);
       };
@@ -68,7 +70,7 @@
     $provide.decorator('$resource', resourceDecorator);
   })
 
-  .factory('unauthorizedResponseHandler', ['$q', '$window',
+  .factory('unauthorizedResponseHandler',
     function($q, $window) {
       return {
         'responseError': function(rejection) {
@@ -79,7 +81,7 @@
         }
       };
     }
-  ]);
+  );
 
 
   /**
@@ -126,7 +128,6 @@
     'humanTaskAPI': 'bpm/humanTask',
     'i18nAPI': 'system/i18ntranslation',
     'membershipAPI': 'identity/membership',
-    'parameterAPI': 'bpm/processParameter',
     'personalDataAPI': 'identity/personalcontactdata',
     'processAPI': 'bpm/process',
     'processResolutionProblemAPI': 'bpm/processResolutionProblem',
@@ -136,17 +137,17 @@
     'userAPI': 'identity/user'
   });
 
-  module.factory('importApplication', ['API_PATH', '$resource',
-    function(API_PATH, $resource) {
+  module.factory('importApplication',
+    function($resource) {
       return $resource('../services/application/import', {
         importPolicy: '@importPolicy',
         applicationsDataUpload: '@applicationsDataUpload'
       });
     }
-  ]);
+  );
 
 
-  module.factory('processCategoryAPI', function(API_PATH, $http) {
+  module.factory('processCategoryAPI', function($http) {
     /*jshint camelcase: false */
     var processCategoryAPI = {};
     processCategoryAPI.save = function(options) {
@@ -169,22 +170,18 @@
     return processCategoryAPI;
   });
 
-  module.factory('processConnectorAPI', function(API_PATH, $http, $resource) {
+
+  module.factory('processConnectorAPI', function($http, $resource) {
     /*jshint camelcase: false */
     return $resource(API_PATH + 'bpm/processConnector/:process_id/:definition_id/:definition_version', {
-      process_id: '@process_id',
-      definition_id: '@definition_id',
-      definition_version: '@definition_version'
+      'process_id': '@process_id',
+      'definition_id': '@definition_id',
+      'definition_version': '@definition_version'
     }, {
       'search': {
         isArray: true,
         url: API_PATH + 'bpm/processConnector/',
-        interceptor: {
-          response: function(response) {
-            response.resource.pagination = parseContentRange(response.headers('Content-Range'));
-            return response;
-          }
-        }
+        interceptor: contentRangeInterceptor
       },
       'update': {
         transformRequest: function(data) {
@@ -200,5 +197,25 @@
   });
 
 
-
+  module.factory('parameterAPI', function($http, $resource) {
+    /*jshint camelcase: false */
+    return $resource(API_PATH + 'bpm/processParameter/:process_id/:name', {
+      'process_id': '@process_id',
+      'name': '@name'
+    }, {
+      'search': {
+        isArray: true,
+        url: API_PATH + 'bpm/processParameter/',
+        interceptor: contentRangeInterceptor
+      },
+      'update': {
+        transformRequest: function(data) {
+          delete data.process_id;
+          delete data.name;
+          return angular.toJson(data);
+        },
+        method: 'PUT'
+      }
+    });
+  });
 })();
