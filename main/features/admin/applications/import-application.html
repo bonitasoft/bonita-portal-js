@@ -58,7 +58,7 @@
                 ng-if="!importIsSuccessfull && !importNotSuccessfull"
                 id="confirm"
                 ng-disabled="!isUploadSuccess"
-                class="btn btn-primary"
+                class="btn btn-success btn-primary"
                 ng-click="importApplicationCtrl.importApp()">{{ 'Import' | translate }}
               </button>
               <button
@@ -71,14 +71,14 @@
               <button
                 ng-if="importIsSuccessfull"
                 id="cancel"
-                class="btn btn-default"
+                class="btn btn-default btn-primary"
                 ng-click="importApplicationCtrl.closeModalSuccess()">{{ 'Close' | translate }}
               </button>
 
               <button
                 ng-if="importNotSuccessfull"
                 id="cancel"
-                class="btn btn-default center-block"
+                class="btn btn-default center-block btn-primary"
                 ng-click="importApplicationCtrl.cancel()">{{ 'Close' | translate }}
               </button>
           </div>
