@@ -2,7 +2,7 @@
   <h3>{{'Actors' | translate}}</h3>
   <div class="panel panel-default">
     <div class="panel-body">
-      <p class="text-muted">{{'Select the entities (users, groups, roles, memberships) to map to the actors. These entities will do the human tasks in the process.' | translate}}</p>
+      <p>{{'Select the entities (users, groups, roles, memberships) to map to the actors. These entities will do the human tasks in the process.' | translate}}</p>
       <table class="table  actorMappingList">
         <thead>
           <tr>
@@ -75,7 +75,7 @@
         </tbody>
       </table>
       <pagination ng-if="actorsMappingCtrl.actors.resource.pagination.total>actorsMappingCtrl.actors.resource.pagination.numberPerPage" ng-click="actorsMappingCtrl.getProcessActors()" boundary-links="true" total-items="actorsMappingCtrl.actors.resource.pagination.total" ng-model="actorsMappingCtrl.actors.resource.pagination.currentPage" items-per-page="actorsMappingCtrl.actors.resource.pagination.numberPerPage " previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;" max-size="5"></pagination>
-      <p class="text-muted">{{'For each actor, check that each entity (user, group, role, membership) has the relevant user profile in the Portal.' | translate}} {{'To do so, go to' | translate}} <a href="" bonita-href="profilelisting">{{'Profiles' | translate}}</a>.</p>
+      <p>{{'For each actor, check that each entity (user, group, role, membership) has the relevant user profile in the Portal.' | translate}} {{'To do so, go to' | translate}} <a href="" bonita-href="profilelisting">{{'Profiles' | translate}}</a>.</p>
     </div>
   </div>
 </div>
