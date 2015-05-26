@@ -1,7 +1,7 @@
 <form role="form" name="application.form" novalidate>
   <div class="modal-header">
     <h3 class="modal-title">{{ editionMode ? "Edit" : "Create" |
-     translate }} {{'an Application' | translate}}</h3>
+     translate }} {{'an application' | translate}}</h3>
   </div>
   <div class="modal-body">
 
@@ -66,7 +66,7 @@
   <div class="modal-footer">
     <div class="form-group has-feedback">
       <div>
-        <button id="btn-submit" type="submit" class="btn btn-success btn-primary" ng-disabled="application.form.$invalid"
+        <button id="btn-submit" type="submit" class="btn btn-primary" ng-disabled="application.form.$invalid"
                 ng-click="submit(application)">{{ editionMode ? "Save" : "Create" | translate }}
         </button>
         <button id="btn-cancel" type="submit" class="btn btn-default" ng-click="cancel()">{{ 'Cancel' | translate}}</button>

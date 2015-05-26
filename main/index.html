@@ -15,7 +15,7 @@
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
     <!-- build:css styles/assets.css -->
     <!-- bower:css -->
-    <link rel="stylesheet" href="assets/bootstrap/dist/css/bootstrap.css" />
+
     <link rel="stylesheet" href="assets/animate.css/animate.css" />
     <link rel="stylesheet" href="assets/ng-sortable/dist/ng-sortable.css" />
     <link rel="stylesheet" href="assets/angular-multi-select/isteven-multi-select.css" />
@@ -29,7 +29,8 @@
     <link rel="stylesheet" href="assets/bonita-js-components/dist/bonita-lib.css">
     <link rel="stylesheet" href="assets/startbootstrap-simple-sidebar/css/simple-sidebar.css" />
     <!-- endbuild -->
-    <link rel="stylesheet" href="../portal/themeResource?theme=portal&location=bonita-skin.css">
+    <link rel="stylesheet" href="../portal/themeResource?theme=portal&location=css/bootstrap.min.css">
+    <link rel="stylesheet" href="../portal/themeResource?theme=portal&location=bonita-skin.css" />
 </head>
 <body ng-app="org.bonitasoft.portal">
 <!--[if lt IE 7]>
@@ -84,7 +85,6 @@
 <script src="common/directives/bootstrap-form-control/bootstrap-form-control.js"></script>
 <script src="common/directives/module.js"></script>
 <script src="common/directives/resizable/resizable-columns.js"></script>
-<script src="common/directives/selectAllCheckBox.js"></script>
 <script src="common/directives/sortable/sortable.js"></script>
 <script src="common/directives/toggle-button/toggle-button.js"></script>
 <script src="common/directives/urlified.js"></script>
@@ -98,6 +98,8 @@
 <script src="common/resources/store.js"></script>
 <script src="common/services/feature-manager.js"></script>
 <script src="common/services/i18n.js"></script>
+<script src="common/services/process-resolution-problem-callout.js"></script>
+<script src="common/services/token-extension.js"></script>
 <script src="common/services/topLocationFactory.js"></script>
 <script src="features/admin/admin.js"></script>
 <script src="features/admin/applications/applications-list.js"></script>
