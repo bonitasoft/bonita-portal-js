@@ -5,8 +5,8 @@
     return {
       restrict: 'E', // E = Element, A = Attribute, C = Class, M = Comment
       template: '<input type="checkbox">',
-      scope : {
-        enableToggle : '='
+      scope: {
+        enableToggle: '='
       },
       replace: true,
       link: function(scope, iElm, iAttrs) {
@@ -15,7 +15,7 @@
           on: iAttrs.on || 'on',
           off: iAttrs.off || 'off',
           style: iAttrs.style || 'bonita-toggle',
-          height : iAttrs.height || '25px',
+          height: iAttrs.height || '25px'
         });
         if(scope.enableToggle){
           iElm.bootstrapToggle('enable');

@@ -44,7 +44,7 @@
         function reload() {
           store
             .load(applicationAPI, {
-              d: ['profileId', 'createdBy', 'updatedBy']
+              d: ['profileId', 'createdBy', 'updatedBy', 'layoutId']
             })
             .then(function(applications) {
               $scope.applications = applications;

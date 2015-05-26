@@ -12,7 +12,6 @@
     'gettext',
     'ui.bootstrap',
     'ui.router',
-    'org.bonitasoft.common.directives.selectAll',
     'angular-growl',
     'ngAnimate',
     'org.bonitasoft.bonitable',
@@ -30,13 +29,13 @@
     .controller('ActiveCaseListCtrl', ['$scope', 'caseAPI', 'casesColumns', 'defaultPageSize', 'defaultSort',
       'defaultDeployedFields', 'defaultActiveCounterFields', '$location', 'pageSizes', 'defaultFilters', 'dateParser',
       '$anchorScroll', 'growl', 'moreDetailToken', 'tabName', 'manageTopUrl',
-      'processId', 'supervisorId', CaseListCtrl])
+      'processId', 'supervisorId', 'caseStateFilter', CaseListCtrl])
 
 
     .controller('ArchivedCaseListCtrl', ['$scope', 'archivedCaseAPI', 'archivedCasesColumns', 'defaultPageSize',
       'archivedDefaultSort', 'defaultDeployedFields', 'defaultArchivedCounterFields', '$location', 'pageSizes', 'defaultFilters', 'dateParser',
       '$anchorScroll', 'growl', 'archivedMoreDetailToken', 'tabName', 'manageTopUrl',
-      'processId', 'supervisorId', CaseListCtrl]);
+      'processId', 'supervisorId', 'caseStateFilter', CaseListCtrl]);
 
   /**
    * @ngdoc object
@@ -59,7 +58,7 @@
    * @requires growl
    */
   /* jshint -W003 */
-  function CaseListCtrl($scope, caseAPI, casesColumns, defaultPageSize, defaultSort, defaultDeployedFields, defaultCounterFields, $location, pageSizes, defaultFilters, dateParser, $anchorScroll, growl, moreDetailToken, tabName, manageTopUrl, processId, supervisorId) {
+  function CaseListCtrl($scope, caseAPI, casesColumns, defaultPageSize, defaultSort, defaultDeployedFields, defaultCounterFields, $location, pageSizes, defaultFilters, dateParser, $anchorScroll, growl, moreDetailToken, tabName, manageTopUrl, processId, supervisorId, caseStateFilter) {
     var vm = this;
     var modeDetailProcessToken = 'processmoredetailsadmin';
 
@@ -103,6 +102,9 @@
       defaultFiltersArray.push('supervisor_id=' + supervisorId);
       moreDetailToken = moreDetailToken.replace('admin', 'pm');
       modeDetailProcessToken = modeDetailProcessToken.replace('admin', 'pm');
+    }
+    if(angular.isDefined(caseStateFilter) && !!caseStateFilter){
+      defaultFiltersArray.push('state=' + caseStateFilter);
     }
     $scope.processManager = +!!supervisorId;
     $scope.supervisorId = supervisorId;

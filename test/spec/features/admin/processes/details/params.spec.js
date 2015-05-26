@@ -1,11 +1,12 @@
 (function() {
   'use strict';
   describe('ProcessInformationCtrl', function() {
-    var scope, processParamsCtrl, parameters, featureManager, controller, process, parameterAPI, q;
+    var scope, processParamsCtrl, parameters, featureManager, controller, process, parameterAPI, q, TYPE_ERROR_MESSAGE;
 
     beforeEach(module('org.bonitasoft.features.admin.processes.details.params'));
 
-    beforeEach(inject(function($rootScope, $controller, $q) {
+    beforeEach(inject(function($rootScope, $controller, $q, _TYPE_ERROR_MESSAGE_) {
+      TYPE_ERROR_MESSAGE = _TYPE_ERROR_MESSAGE_;
       scope = $rootScope.$new();
       q = $q;
       parameters = [];
@@ -41,7 +42,7 @@
       expect(featureManager.isFeatureAvailable).toHaveBeenCalledWith('POST_DEPLOY_CONFIG');
     });
 
-    fdescribe('updateParameter method', function() {
+    describe('updateParameter method', function() {
       beforeEach(function() {
         angular.noop = jasmine.createSpy();
         processParamsCtrl = controller('ProcessParamsCtrl', {
@@ -50,6 +51,51 @@
           process: process,
           FeatureManager: featureManager,
           parameterAPI: parameterAPI
+        });
+      });
+      describe('error message constant', function() {
+        it('should manage boolean', function() {
+          expect(TYPE_ERROR_MESSAGE['java.lang.Boolean'].checkvalueMatchType('321')).toBeFalsy();
+          expect(TYPE_ERROR_MESSAGE['java.lang.Boolean'].checkvalueMatchType(3241)).toBeFalsy();
+          expect(TYPE_ERROR_MESSAGE['java.lang.Boolean'].checkvalueMatchType(true)).toBeTruthy();
+          expect(TYPE_ERROR_MESSAGE['java.lang.Boolean'].checkvalueMatchType(false)).toBeTruthy();
+          expect(TYPE_ERROR_MESSAGE['java.lang.Boolean'].checkvalueMatchType('true')).toBeTruthy();
+          expect(TYPE_ERROR_MESSAGE['java.lang.Boolean'].checkvalueMatchType('false')).toBeTruthy();
+        });
+        it('should manage integer', function() {
+          expect(TYPE_ERROR_MESSAGE['java.lang.Integer'].checkvalueMatchType('dfqrfdf')).toBeFalsy();
+          expect(TYPE_ERROR_MESSAGE['java.lang.Integer'].checkvalueMatchType(true)).toBeFalsy();
+          expect(TYPE_ERROR_MESSAGE['java.lang.Integer'].checkvalueMatchType(654.12)).toBeFalsy();
+          expect(TYPE_ERROR_MESSAGE['java.lang.Integer'].checkvalueMatchType(3241)).toBeTruthy();
+          expect(TYPE_ERROR_MESSAGE['java.lang.Integer'].checkvalueMatchType('1654')).toBeTruthy();
+          
+        });
+        it('should manage doulbe', function() {
+          expect(TYPE_ERROR_MESSAGE['java.lang.Double'].checkvalueMatchType('dfqrfdf')).toBeFalsy();
+          expect(TYPE_ERROR_MESSAGE['java.lang.Double'].checkvalueMatchType(true)).toBeFalsy();
+          expect(TYPE_ERROR_MESSAGE['java.lang.Double'].checkvalueMatchType(654.12)).toBeTruthy();
+          expect(TYPE_ERROR_MESSAGE['java.lang.Double'].checkvalueMatchType(3241)).toBeTruthy();
+          expect(TYPE_ERROR_MESSAGE['java.lang.Double'].checkvalueMatchType('1654')).toBeTruthy();
+        });
+      });
+      describe('error message on wrong input', function() {
+        it('should return not boolean message', function(){
+          var parameter = {
+            type: 'java.lang.Boolean'
+          };
+          expect(processParamsCtrl.updateParameter(parameter, 321)).toEqual(TYPE_ERROR_MESSAGE['java.lang.Boolean'].message);
+        });
+        it('should return not integer message', function(){
+          var parameter = {
+            type: 'java.lang.Integer'
+          };
+          expect(processParamsCtrl.updateParameter(parameter, true)).toEqual(TYPE_ERROR_MESSAGE['java.lang.Integer'].message);
+        });
+        it('should return not boolean message', function(){
+          var parameter = {
+            type: 'java.lang.Double'
+          };
+          expect(processParamsCtrl.updateParameter(parameter, true)).toEqual(TYPE_ERROR_MESSAGE['java.lang.Double'].message);
         });
       });
       it('should call API to update parameter', function() {
@@ -61,20 +107,21 @@
           name: 'paramName',
           description: 'description',
           type: 'java.lang.String',
-          'process_id' : 123
+          'process_id': 123
         };
         var value = 'newValue';
         processParamsCtrl.updateParameter(parameter, value);
         expect(parameterAPI.update).toHaveBeenCalledWith({
-          id: '123/paramName',
+          'process_id': 123,
           description: parameter.description,
           name: parameter.name,
           value: value,
           type: 'java.lang.String'
         });
         deferred.resolve('success');
+        scope.$emit = jasmine.createSpy();
         scope.$apply();
-        expect(angular.noop).toHaveBeenCalledWith('success');
+        expect(scope.$emit).toHaveBeenCalledWith('process.refresh');
 
       });
       xit('should call API to update parameter', function() {
@@ -86,7 +133,7 @@
           name: 'paramName',
           description: 'description',
           type: 'java.lang.String',
-          'process_id' : 123
+          'process_id': 123
         };
         var value = 'newValue';
         var errorMsg = {
@@ -94,7 +141,7 @@
             message: 'error'
           }
         };
-        processParamsCtrl.updateParameter(parameter, value).then(function(){}, function(errorResult){
+        processParamsCtrl.updateParameter(parameter, value).then(function() {}, function(errorResult) {
           expect(errorResult).toBe(errorMsg.data.message);
         });
         deferred.reject(errorMsg);
