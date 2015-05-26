@@ -8,7 +8,7 @@
     'ui.router',
     'org.bonitasoft.common.resources.store'
   ])
-  .controller('ActiveCaseFilterController', ['$scope', 'store', 'processAPI', 'defaultFilters', 'caseStatesValues', 'activedTabName', CaseFilterController])
+  .controller('ActiveCaseFilterController', ['$scope', 'store', 'processAPI', 'defaultFilters', 'caseStatesValues', '$stateParams', CaseFilterController])
   .directive('activeCaseFilters', function () {
     return {
       restrict: 'E',
@@ -18,7 +18,7 @@
       controllerAs : 'filterCtrl'
     };
   })
-  .controller('ArchivedCaseFilterController', ['$scope', 'store', 'processAPI', 'defaultFilters', 'caseStatesValues', CaseFilterController])
+  .controller('ArchivedCaseFilterController', ['$scope', 'store', 'processAPI', 'defaultFilters', 'caseStatesValues', '$stateParams', CaseFilterController])
   .directive('archivedCaseFilters', function() {
     return {
       restrict: 'E',
@@ -41,12 +41,15 @@
    * @requires caseStatesValues
    */
   /* jshint -W003 */
-  function CaseFilterController($scope, store, processAPI, defaultFilters, caseStatesValues) {
+  function CaseFilterController($scope, store, processAPI, defaultFilters, caseStatesValues, $stateParams) {
     $scope.selectedFilters.selectedApp = defaultFilters.appName;
     $scope.selectedFilters.selectedVersion = defaultFilters.appVersion;
     $scope.selectedFilters.selectedStatus = defaultFilters.caseStatus;
     $scope.defaultFilters = defaultFilters;
     $scope.caseStatesValues = caseStatesValues;
+    if(angular.isDefined($stateParams.caseStateFilter) && !!$stateParams.caseStateFilter && angular.isDefined($scope.caseStatesValues[$stateParams.caseStateFilter])){
+      $scope.selectedFilters.selectedStatus = $stateParams.caseStateFilter;
+    }
     $scope.caseStatesValues[defaultFilters.caseStatus] = defaultFilters.caseStatus;
     $scope.apps = [];
     $scope.versions = [];

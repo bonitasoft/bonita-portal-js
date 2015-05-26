@@ -214,6 +214,12 @@
     });
 
     describe('case admin list content', function () {
+      beforeEach(function() {
+        jasmine.getEnv().defaultTimeoutInterval = 60000;
+      });
+      afterEach(function() {
+        jasmine.getEnv().defaultTimeoutInterval = 30000;
+      });
       it('should display the list of the 25 first cases and check the specifi content of the first row', function () {
         expect(element.all(by.css('#case-list tr.case-row')).count()).toBe(25);
 

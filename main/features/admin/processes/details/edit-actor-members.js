@@ -130,7 +130,7 @@
             members.forEach(function(member) {
               mappedIds.push(member[self.searchMemberParams.actorId].id);
             });
-            self.searchMemberParams.searchMethod();
+            self.searchMemberParams.searchMethod({});
           } else {
             self.selectOnSearchGroup('');
             self.selectOnSearchRole('');
@@ -141,6 +141,11 @@
       };
 
       self.searchMembers = function searchMembers(searchOptions) {
+        if (angular.isUndefined(searchOptions) || (searchOptions.s && self.previousSearchTerm === searchOptions.s)) {
+          return;
+        } else {
+          self.previousSearchTerm = searchOptions.s;
+        }
         if (!searchOptions) {
           searchOptions = {
             p: 0,
@@ -168,6 +173,11 @@
       };
 
       self.searchMembership = function searchMembership(searchOptions, resourceAPI) {
+        if (angular.isUndefined(searchOptions) || (searchOptions.s && self.previousSearchTerm === searchOptions.s)) {
+          return;
+        } else {
+          self.previousSearchTerm = searchOptions.s;
+        }
         if (!searchOptions) {
           searchOptions = {
             p: 0,
