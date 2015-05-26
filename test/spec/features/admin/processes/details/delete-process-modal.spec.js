@@ -48,7 +48,6 @@
             scope.$apply();
             expect(processAPI.delete).toHaveBeenCalledWith({id : process.id});
             expect(modalInstance.close).toHaveBeenCalled();
-            expect(manageTopUrl.goTo).toHaveBeenCalledWith({token:'processlistingadmin'});
           });
         });
       });

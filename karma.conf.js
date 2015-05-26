@@ -21,6 +21,7 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
+      'main/assets/lodash/lodash.js',
       'test/spec/helpers/fakeModal.js',
       'main/assets/jquery/dist/jquery.js',
       'main/assets/angular/angular.js',
@@ -37,6 +38,7 @@ module.exports = function(config) {
       'main/assets/angular-file-upload/angular-file-upload.min.js',
       'main/assets/angular-ui-tree/dist/angular-ui-tree.js',
       'main/assets/moment/min/moment-with-locales.js',
+      'main/assets/angular-multi-select/isteven-multi-select.js',
       'main/assets/bonita-js-components/dist/bonita-lib-tpl.js',
       'main/assets/jquery-resizable-columns/dist/jquery.resizableColumns.js',
       'main/assets/angular-animate/angular-animate.js',

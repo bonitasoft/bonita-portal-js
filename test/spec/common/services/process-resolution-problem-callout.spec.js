@@ -92,6 +92,35 @@
         }]);
       });
     });
+    describe('form mapping', function() {
+      it('should return the appropriate message', function() {
+        expect(processProblemResolutionService.buildProblemsList([{
+          type: 'form mapping',
+          'ressource_id': 'news'
+        }, {
+          type: 'form mapping',
+          'ressource_id': 'PROCESS_OVERVIEW'
+        }])).toEqual([{
+          type: 'form mapping',
+          message: 'The following form mappings are not resolved: [ {} ]',
+          args: 'news, Case overview'
+        }]);
+        expect(processProblemResolutionService.buildProblemsList([{
+          type: 'form mapping',
+          'ressource_id': 'PROCESS_OVERVIEW'
+        }, {
+          type: 'form mapping',
+          'ressource_id': 'PROCESS_START'
+        }, {
+          type: 'form mapping',
+          'ressource_id': 'links'
+        }])).toEqual([{
+          type: 'form mapping',
+          message: 'The following form mappings are not resolved: [ {} ]',
+          args: 'Case overview, Case start,...'
+        }]);
+      });
+    });
     describe('problemsLists', function() {
       it('should return the appropriate messages when there are error in state resolution', function() {
         expect(processProblemResolutionService.buildProblemsList([{
