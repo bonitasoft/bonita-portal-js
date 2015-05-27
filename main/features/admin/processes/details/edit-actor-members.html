@@ -9,7 +9,7 @@
       <span ng-repeat="member in members" class="tag label label-default member">
           {{member.label}} <i ng-click="editActorMembersCtrl.removeMember(member)" class="glyphicon glyphicon-remove"></i>
       </span>
-      <span ng-click="editActorMembersCtrl.removeAll()" class="tag label label-danger" ng-if="members.length>0"> {{'Remove all' | translate}}</span>
+      <a ng-click="editActorMembersCtrl.removeAll()" class="tag label label-danger" ng-if="members.length>0"> {{'Remove all' | translate}}</a>
     </p>
     <p class="text-muted" ng-if="!members.length">
       {{'No mapping' | translate}}
