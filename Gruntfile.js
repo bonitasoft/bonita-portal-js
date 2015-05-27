@@ -484,7 +484,7 @@ module.exports = function (grunt) {
 
     grunt.task.run([
       'clean:server',
-      'wiredep',
+      'wiredep:e2e',
       'injector',
       'lineending',
       'concurrent:server',
