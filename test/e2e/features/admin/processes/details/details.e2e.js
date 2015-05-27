@@ -1,7 +1,7 @@
 /* global element, by, protractor */
 (function() {
   'use strict';
-  ddescribe('process details', function() {
+  describe('process details', function() {
 
     var processDetails,
       width = 1280,
