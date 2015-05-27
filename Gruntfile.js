@@ -30,7 +30,7 @@ module.exports = function (grunt) {
     watch: {
       bower: {
         files: ['bower.json'],
-        tasks: ['bowerInstall']
+        tasks: ['wiredep']
       },
       js: {
         files: ['<%= portaljs.app %>/*.js', '<%= portaljs.app %>/features/**/*.js', '<%= portaljs.app %>/commons/**/*.js', '<%= portaljs.app %>/assets/**/*.js'],
@@ -225,11 +225,16 @@ module.exports = function (grunt) {
       }
     },
 
-    // Automatically inject Bower components into the app
-    bowerInstall: {
-      'community': {
+    wiredep: {
+      task: {
         src: ['<%= portaljs.app %>/index.html'],
-        ignorePath: '<%= portaljs.app %>/'
+        ignorePath: '<%= portaljs.app %>/',
+
+        options: {
+          'overrides': {
+            'bootstrap': {'main': []}
+          }
+        }
       }
     },
 
@@ -474,7 +479,7 @@ module.exports = function (grunt) {
 
     grunt.task.run([
       'clean:server',
-      'bowerInstall',
+      'wiredep',
       'injector',
       'lineending',
       'concurrent:server',
@@ -521,7 +526,7 @@ module.exports = function (grunt) {
 
   grunt.registerTask('build', [
     'clean:dist',
-    'bowerInstall',
+    'wiredep',
     'injector',
     'lineending',
     'nggettext_extract',
