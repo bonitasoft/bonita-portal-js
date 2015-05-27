@@ -230,8 +230,8 @@
       ProcessMoreDetailsResolveService.retrieveProcess(process.id).$promise.then(function (updatedProcess) {
         process.configurationState = updatedProcess.configurationState;
       });
-      ProcessMoreDetailsResolveService.retrieveProcessResolutionProblem(process.id).then(function (problems) {
-        vm.processResolutionProblems = problems;
+      ProcessMoreDetailsResolveService.retrieveProcessResolutionProblem(process.id).then(function(resolutionProblems) {
+        vm.processResolutionProblems = resolutionProblems;
       });
     }
 
