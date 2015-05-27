@@ -1,7 +1,7 @@
 /* global element, by, protractor */
 (function() {
   'use strict';
-  describe('process details', function() {
+  ddescribe('process details', function() {
 
     var processDetails,
       width = 1280,
@@ -70,9 +70,9 @@
         describe('Enable/Disable Button', function() {
           it('should disable process and enable delete then enable process and disable delete', function() {
             element(by.css('.bonita-toggle')).click();
-            expect(processDetails.all(by.css('.actions .btn-primary')).get(0).getAttribute('disabled')).toEqual(null);
+            expect(processDetails.all(by.css('.actions .btn-primary:last-child')).get(0).getAttribute('disabled')).toEqual(null);
             element(by.css('.bonita-toggle')).click();
-            expect(processDetails.all(by.css('.actions .btn-primary')).get(0).getAttribute('disabled')).toEqual('true');
+            expect(processDetails.all(by.css('.actions .btn-primary:last-child')).get(0).getAttribute('disabled')).toEqual('true');
           });
         });
 
@@ -124,7 +124,7 @@
       });
       describe('Delete button', function() {
         it('should open a popup asking for deletion with Delete and Cancel', function() {
-          var deleteButton = processDetails.all(by.css('.actions .btn-primary')).get(0);
+          var deleteButton = processDetails.all(by.css('.actions .btn-primary:last-child')).get(0);
           expect(deleteButton.getText()).toEqual('Delete');
           //click on delete
           deleteButton.click();
