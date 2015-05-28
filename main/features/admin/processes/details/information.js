@@ -8,12 +8,12 @@
       'angular-growl',
       'org.bonitasoft.common.resources.store',
       'org.bonitasoft.features.admin.processes.details.information.categories',
-      'gettext'
+      'org.bonitasoft.services.i18n'
     ])
     .controller('ProcessInformationCtrl', ProcessInformationCtrl);
 
   /* jshint -W003 */
-  function ProcessInformationCtrl($scope, process, dateParser, store, categoryAPI, categories, $q, $modal, growl, gettextCatalog, $log) {
+  function ProcessInformationCtrl($scope, process, dateParser, store, categoryAPI, categories, $q, $modal, growl, i18nService, $log) {
     var vm = this;
     vm.process = process;
     vm.parseAndFormat = dateParser.parseAndFormat;
@@ -51,7 +51,7 @@
       modalInstance.result.then(vm.updateTagsAndAlertUser, function(error) {
         if(error !== 'cancel') {
           $log.error('category update failed :' , error);
-          growl.error(gettextCatalog.getString('An error occured during categories update') + ' : ' + error, growlOptions);
+          growl.error(i18nService.getKey('processDetails.informations.category.update.error') + ' : ' + error, growlOptions);
         }
       });
 
@@ -63,7 +63,7 @@
       [].push.apply(vm.selectedCategories, categories.map(function(category) {
         return category.name;
       }));
-      growl.success(gettextCatalog.getString('Successfully updated categories'), growlOptions);
+      growl.success(i18nService.getKey('processDetails.informations.category.update.sucess'), growlOptions);
     }
 
     function isProcessResolved() {

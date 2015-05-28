@@ -1,11 +1,11 @@
 (function() {
   'use strict';
   describe('ProcessInformationCtrl', function() {
-    var scope, processParamsCtrl, parameters, featureManager, controller, process, parameterAPI, q, TYPE_ERROR_MESSAGE;
+    var scope, processParamsCtrl, parameters, featureManager, controller, process, parameterAPI, q, TYPE_ERROR_MESSAGE, i18nService;
 
     beforeEach(module('org.bonitasoft.features.admin.processes.details.params'));
 
-    beforeEach(inject(function($rootScope, $controller, $q, _TYPE_ERROR_MESSAGE_) {
+    beforeEach(inject(function($rootScope, $controller, $q, _TYPE_ERROR_MESSAGE_, _i18nService_) {
       TYPE_ERROR_MESSAGE = _TYPE_ERROR_MESSAGE_;
       scope = $rootScope.$new();
       q = $q;
@@ -16,6 +16,7 @@
       featureManager = jasmine.createSpyObj('FeatureManager', ['isFeatureAvailable']);
       parameterAPI = jasmine.createSpyObj('parameterAPI', ['update']);
       controller = $controller;
+      i18nService = _i18nService_;
     }));
     it('should init controller with actions available', function() {
       featureManager.isFeatureAvailable.and.returnValue(true);
@@ -68,7 +69,7 @@
           expect(TYPE_ERROR_MESSAGE['java.lang.Integer'].checkvalueMatchType(654.12)).toBeFalsy();
           expect(TYPE_ERROR_MESSAGE['java.lang.Integer'].checkvalueMatchType(3241)).toBeTruthy();
           expect(TYPE_ERROR_MESSAGE['java.lang.Integer'].checkvalueMatchType('1654')).toBeTruthy();
-          
+
         });
         it('should manage doulbe', function() {
           expect(TYPE_ERROR_MESSAGE['java.lang.Double'].checkvalueMatchType('dfqrfdf')).toBeFalsy();
@@ -83,19 +84,19 @@
           var parameter = {
             type: 'java.lang.Boolean'
           };
-          expect(processParamsCtrl.updateParameter(parameter, 321)).toEqual(TYPE_ERROR_MESSAGE['java.lang.Boolean'].message);
+          expect(processParamsCtrl.updateParameter(parameter, 321)).toEqual(i18nService.getKey('processDetails.params.control.boolean'));
         });
         it('should return not integer message', function(){
           var parameter = {
             type: 'java.lang.Integer'
           };
-          expect(processParamsCtrl.updateParameter(parameter, true)).toEqual(TYPE_ERROR_MESSAGE['java.lang.Integer'].message);
+          expect(processParamsCtrl.updateParameter(parameter, true)).toEqual(i18nService.getKey('processDetails.params.control.integer'));
         });
         it('should return not boolean message', function(){
           var parameter = {
             type: 'java.lang.Double'
           };
-          expect(processParamsCtrl.updateParameter(parameter, true)).toEqual(TYPE_ERROR_MESSAGE['java.lang.Double'].message);
+          expect(processParamsCtrl.updateParameter(parameter, true)).toEqual(i18nService.getKey('processDetails.params.control.double'));
         });
       });
       it('should call API to update parameter', function() {
