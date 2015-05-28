@@ -9,28 +9,28 @@
     'org.bonitasoft.common.resources',
     'org.bonitasoft.service.features',
     'xeditable',
-    'gettext'
+    'org.bonitasoft.services.i18n'
   ]).constant('TYPE_ERROR_MESSAGE', {
     'java.lang.Boolean': {
-      message: 'Error: value must be a boolean',
+      message: 'processDetails.params.control.boolean',
       checkvalueMatchType: function(data) {
         return data === 'true' || data === 'false' || data === true || data === false;
       }
     },
     'java.lang.Double': {
-      message: 'Error: value must be a double',
+      message: 'processDetails.params.control.double',
       checkvalueMatchType: function(data) {
         return (_.isString(data) && !isNaN(parseFloat(data))) || _.isNumber(data);
       }
     },
     'java.lang.Integer': {
-      message: 'Error: value must be an integer',
+      message: 'processDetails.params.control.integer',
       checkvalueMatchType: function(data) {
         return (_.isString(data) && Number(data) % 1 === 0) || (_.isNumber(data) && data % 1 === 0);
       }
     }
   })
-    .controller('ProcessParamsCtrl', function(parameters, FeatureManager, process, parameterAPI, $log, $scope, gettextCatalog, TYPE_ERROR_MESSAGE) {
+    .controller('ProcessParamsCtrl', function(parameters, FeatureManager, process, parameterAPI, $log, $scope, i18nService, TYPE_ERROR_MESSAGE) {
       var vm = this;
       vm.parameters = parameters;
       vm.process = process;
@@ -45,7 +45,7 @@
 
       vm.updateParameter = function(parameter, data) {
         if (angular.isDefined(TYPE_ERROR_MESSAGE[parameter.type]) && !TYPE_ERROR_MESSAGE[parameter.type].checkvalueMatchType(data)) {
-          return gettextCatalog.getString(TYPE_ERROR_MESSAGE[parameter.type].message);
+          return i18nService.getKey(TYPE_ERROR_MESSAGE[parameter.type].message);
         }
         /* jshint camelcase : false */
         return parameterAPI.update({
