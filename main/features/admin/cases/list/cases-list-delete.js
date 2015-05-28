@@ -3,10 +3,10 @@
 
   angular.module('org.bonitasoft.features.admin.cases.list.delete', [
     'org.bonitasoft.common.resources',
-    'gettext',
+    'org.bonitasoft.services.i18n',
     'ui.bootstrap',
   ])
-  .controller('ActiveCaseDeleteCtrl', ['$scope', '$modal', 'caseAPI', 'gettextCatalog', '$q',  CaseDeleteCtrl])
+  .controller('ActiveCaseDeleteCtrl', ['$scope', '$modal', 'caseAPI', 'i18nService', '$q',  CaseDeleteCtrl])
   .directive('activeCaseDelete',
     function () {
       return {
@@ -18,7 +18,7 @@
         controllerAs : 'deleteCtrl'
       };
     })
-  .controller('ArchivedCaseDeleteCtrl', ['$scope', '$modal', 'archivedCaseAPI', 'gettextCatalog', '$q', CaseDeleteCtrl])
+  .controller('ArchivedCaseDeleteCtrl', ['$scope', '$modal', 'archivedCaseAPI', 'i18nService', '$q', CaseDeleteCtrl])
   .directive('archivedCaseDelete',
     function() {
       return {
@@ -42,10 +42,10 @@
    * @requires $scope
    * @requires $modal
    * @requires caseAPI
-   * @requires gettextCatalog
+   * @requires i18nService
    */
   /* jshint -W003 */
-  function CaseDeleteCtrl($scope, $modal, caseAPI, gettextCatalog, $q) {
+  function CaseDeleteCtrl($scope, $modal, caseAPI, i18nService, $q) {
 
     var vm = this;
     /**
@@ -115,10 +115,10 @@
         $scope.$emit('caselist:notify', {
           type: 'success',
           status: ((nbOfDeletedCases===1)?
-            gettextCatalog.getString('{{nbOfDeletedCases}} case has been deleted', {
+            i18nService.getKey('caselist.delete.single', {
             nbOfDeletedCases: nbOfDeletedCases
           }):
-            gettextCatalog.getString('{{nbOfDeletedCases}} cases have been deleted', {
+            i18nService.getKey('caselist.delete.multiple', {
             nbOfDeletedCases: nbOfDeletedCases
           }))
         });
