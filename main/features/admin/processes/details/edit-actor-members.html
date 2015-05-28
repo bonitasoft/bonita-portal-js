@@ -61,7 +61,7 @@
     <div ng-if="!!editActorMembersCtrl.membersToDelete.length">
       <h4>{{'{} mappings to delete' | translate | stringTemplater:[currentMemberLabel]}}</h4>
       <p class="members">
-        <span ng-repeat="member in editActorMembersCtrl.membersToDelete" class="label label-default">
+        <span ng-repeat="member in editActorMembersCtrl.membersToDelete" class="member label label-default">
           {{member.label}} <i ng-click="editActorMembersCtrl.reenableMember(member)" class="glyphicon glyphicon-remove"></i>
         </span>
         <span ng-click="editActorMembersCtrl.reenableAll()" class="label label-success" ng-if="editActorMembersCtrl.membersToDelete.length>0"> {{'Enable all' | translate}}</span>
