@@ -55,7 +55,15 @@
     'processDetails.startFor.user.helper': 'Type here to search for a user...',
     'processDetails.startFor.label': 'Enter the user to start the case for...',
     'processDetails.forms.add.error': 'Page was not sucessfully attached to the process',
-    'processDetails.forms.mapping.empty': 'No Mapping'
+    'processDetails.forms.mapping.empty': 'No Mapping',
+    'processDetails.problemResolution.message.actor': 'Entity Mapping must be resolved before enabling the Process.',
+    'processDetails.problemResolution.message.connector': 'Connector definitions must be resolved before enabling the Process.',
+    'processDetails.problemResolution.message.parameter': 'Parameters must be resolved before enabling the Process.',
+    'processDetails.problemResolution.message.businessData': 'The business data: [ {} ] uses Business Objects which are not defined in the current Business Data model. Deploy a compatible Business Data model before enabling the process.',
+    'processDetails.problemResolution.message.formMapping': 'The following form mappings are not resolved: [ {} ]',
+    'processDetails.problemResolution.title': 'The Process cannot be enabled',
+    'processDetails.problemResolution.resource.caseOverview': 'Case overview',
+    'processDetails.problemResolution.resource.caseStart': 'Case start'
   })
     .service('i18nService', function (gettextCatalog, $cookies, i18nAPI, I18N_KEYS) {
       var i18n = {};
