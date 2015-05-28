@@ -9,8 +9,8 @@
     'org.bonitasoft.common.resources.store',
     'org.bonitasoft.common.i18n.factories'
   ])
-    .controller('addApplicationCtrl', ['$scope', 'applicationAPI', 'profileAPI', '$modalInstance', 'application', 'store','i18nMsg',
-      function ($scope, applicationAPI, profileAPI, $modalInstance, application, store, i18nMsg) {
+    .controller('addApplicationCtrl', ['$scope', 'applicationAPI', 'profileAPI', 'customPageAPI', '$modalInstance', 'application', 'store','i18nMsg',
+      function ($scope, applicationAPI, profileAPI, customPageAPI, $modalInstance, application, store, i18nMsg) {
 
         $scope.i18n = i18nMsg.field;
 
@@ -22,6 +22,10 @@
           };
           // in case profile is deployed
           $scope.application.model.profileId = application.profileId && application.profileId.id || application.profileId;
+          // in case layout is deployed
+          $scope.application.model.layoutId = application.layoutId && application.layoutId.id || application.layoutId;
+          // in case layout is deployed
+          $scope.application.model.themeId = application.themeId && application.themeId.id || application.themeId;
         } else {
           $scope.application = {
             model: {
@@ -51,7 +55,7 @@
           if (response.status === 404) {
             $scope.alerts.push({
               type: 'danger',
-              msg: 'The custom page "home" doesn\'t seems installed properly. Go to Configuration > Custom Pages to install it.'
+              msg: 'The custom page "home" or "defaultlayout" doesn\'t seems installed properly. Go to Configuration > Custom Pages to install it.'
             });
           } else if (response.status === 500 && response.data.cause.exception.indexOf('AlreadyExistsException') > -1) {
             $scope.application.form.token.$duplicate = true;

@@ -1,4 +1,4 @@
-<div id="process-details-actors" ng-init="actorsMappingCtrl.init()">
+<div id="process-details-actors">
   <h3>{{'Actors' | translate}}</h3>
   <div class="panel panel-default">
     <div class="panel-body">
@@ -14,67 +14,68 @@
           </tr>
         </thead>
         <tbody>
-          <tr ng-repeat-start="actor in actors.data" ng-init="actorsMappingCtrl.getMembersForAnActor(actor)">
+          <tr ng-repeat-start="actor in actorsMappingCtrl.actors">
             <td class="actorName">{{actor.name}}</td>
             <td class="members">
-              <span ng-repeat="user in actorsMembers[actor.id].users.data">
-                <label class="label label-default">{{user.user_id.firstname}} {{user.user_id.lastname}}</label>
+              <span ng-repeat="user in actorsMappingCtrl.actorsMembers[actor.id].users.data">
+                <label class="label label-default member">{{user.user_id.firstname}} {{user.user_id.lastname}}</label>
               </span>
-              <label ng-if="actorsMembers[actor.id].users.resource.pagination.total > membersPerCell" class="label label-default">{{'{} more' | translate | stringTemplater: actorsMembers[actor.id].users.resource.pagination.total - membersPerCell}}</label>
+              <label ng-if="actorsMappingCtrl.actorsMembers[actor.id].users.resource.pagination.total > actorsMappingCtrl.membersPerCell" class="label label-default member">{{'{} more' | translate | stringTemplater: actorsMappingCtrl.actorsMembers[actor.id].users.resource.pagination.total - actorsMappingCtrl.membersPerCell}}</label>
             </td>
             <td class="members">
-              <span ng-repeat="role in actorsMembers[actor.id].roles.data">
-                <label class="label label-default">{{role.role_id.displayName}}</label>
+              <span ng-repeat="role in actorsMappingCtrl.actorsMembers[actor.id].roles.data">
+                <label class="label label-default member">{{role.role_id.displayName}}</label>
               </span>
-              <label ng-if="actorsMembers[actor.id].roles.resource.pagination.total > membersPerCell" class="label label-default">{{'{} more'|translate}} | stringTemplater: actorsMembers[actor.id].roles.resource.pagination.total - membersPerCell</label>
+              <label ng-if="actorsMappingCtrl.actorsMembers[actor.id].roles.resource.pagination.total > actorsMappingCtrl.membersPerCell" class="label label-default member">{{'{} more'|translate}} | stringTemplater: actorsMappingCtrl.actorsMembers[actor.id].roles.resource.pagination.total - actorsMappingCtrl.membersPerCell</label>
             </td>
             <td class="members">
-              <span ng-repeat="group in actorsMembers[actor.id].groups.data">
-                <label class="label label-default">{{group.group_id.displayName}}</label>
+              <span ng-repeat="group in actorsMappingCtrl.actorsMembers[actor.id].groups.data">
+                <label class="label label-default member">{{group.group_id.displayName}}</label>
               </span>
-              <label ng-if="actorsMembers[actor.id].groups.resource.pagination.total > membersPerCell" class="label label-default">{{'{} more' | translate | stringTemplater: actorsMembers[actor.id].groups.resource.pagination.total - membersPerCell}}</label>
+              <label ng-if="actorsMappingCtrl.actorsMembers[actor.id].groups.resource.pagination.total > actorsMappingCtrl.membersPerCell" class="label label-default member">{{'{} more' | translate | stringTemplater: actorsMappingCtrl.actorsMembers[actor.id].groups.resource.pagination.total - actorsMappingCtrl.membersPerCell}}</label>
             </td>
             <td class="members">
-              <span ng-repeat="membership in actorsMembers[actor.id].memberships.data">
-                <label class="label label-default">{{'{} of {}' | translate | stringTemplater: [membership.role_id.displayName, membership.group_id.displayName]}}</label>
+              <span ng-repeat="membership in actorsMappingCtrl.actorsMembers[actor.id].memberships.data">
+                <label class="label label-default member">{{'{} of {}' | translate | stringTemplater: [membership.role_id.displayName, membership.group_id.displayName]}}</label>
               </span>
-              <label ng-if="actorsMembers[actor.id].memberships.resource.pagination.total > membersPerCell" class="label label-default">{{'{} more' | translate | stringTemplater: actorsMembers[actor.id].memberships.resource.pagination.total - membersPerCell}}</label>
+              <label ng-if="actorsMappingCtrl.actorsMembers[actor.id].memberships.resource.pagination.total > actorsMappingCtrl.membersPerCell" class="label label-default member">{{'{} more' | translate | stringTemplater: actorsMappingCtrl.actorsMembers[actor.id].memberships.resource.pagination.total - actorsMappingCtrl.membersPerCell}}</label>
             </td>
           </tr>
           <tr ng-repeat-end class="mappingEdition-actions">
             <td></td>
             <td>
               <div class="cellFooter pull-right">
-                <button ng-click="editMapping(actor, 'USER')" class="glyphicon">
-                  <span class="glyphicon" ng-class="{'glyphicon-pencil': actorsMembers[actor.id].users.data.length, 'glyphicon-plus': !actorsMembers[actor.id].users.data.length}"></span>
+                <button ng-click="actorsMappingCtrl.editMapping(actor, 'users')" class="glyphicon">
+                  <span class="glyphicon" ng-class="{'glyphicon-pencil': actorsMappingCtrl.actorsMembers[actor.id].users.data.length, 'glyphicon-plus': !actorsMappingCtrl.actorsMembers[actor.id].users.data.length}"></span>
                 </button>
               </div>
             </td>
             <td>
                <div class="cellFooter pull-right">
-                <button ng-click="editMapping(actor, 'ROLE')" class="btn btn-info glyphicon">
-                  <span class="glyphicon" ng-class="{'glyphicon-pencil': actorsMembers[actor.id].roles.data.length, 'glyphicon-plus': !actorsMembers[actor.id].roles.data.length}"></span>
+                <button ng-click="actorsMappingCtrl.editMapping(actor, 'roles')" class="btn btn-info glyphicon">
+                  <span class="glyphicon" ng-class="{'glyphicon-pencil': actorsMappingCtrl.actorsMembers[actor.id].roles.data.length, 'glyphicon-plus': !actorsMappingCtrl.actorsMembers[actor.id].roles.data.length}"></span>
                 </button>
               </div>
             </td>
             <td>
                <div class="cellFooter pull-right">
-                <button ng-click="editMapping(actor, 'GROUP')" class="btn btn-info glyphicon">
-                  <span class="glyphicon" ng-class="{'glyphicon-pencil': actorsMembers[actor.id].groups.data.length, 'glyphicon-plus': !actorsMembers[actor.id].groups.data.length}"></span>
+                <button ng-click="actorsMappingCtrl.editMapping(actor, 'groups')" class="btn btn-info glyphicon">
+                  <span class="glyphicon" ng-class="{'glyphicon-pencil': actorsMappingCtrl.actorsMembers[actor.id].groups.data.length, 'glyphicon-plus': !actorsMappingCtrl.actorsMembers[actor.id].groups.data.length}"></span>
                 </button>
               </div>
             </td>
             <td>
               <div class="cellFooter pull-right">
-                <button ng-click="editMapping(actor, 'MEMBERSHIP')" class="glyphicon">
-                  <span class="glyphicon" ng-class="{'glyphicon-pencil': actorsMembers[actor.id].memberships.data.length, 'glyphicon-plus': !actorsMembers[actor.id].memberships.data.length}"></span>
+                <button ng-click="actorsMappingCtrl.editMapping(actor, 'memberships')" class="glyphicon">
+                  <span class="glyphicon" ng-class="{'glyphicon-pencil': actorsMappingCtrl.actorsMembers[actor.id].memberships.data.length, 'glyphicon-plus': !actorsMappingCtrl.actorsMembers[actor.id].memberships.data.length}"></span>
                 </button>
               </div>
             </td>
           </tr>
         </tbody>
       </table>
-      <pagination ng-if="actors.resource.pagination.total>actors.resource.pagination.numberPerPage" ng-click="actorsMappingCtrl.getProcessActors()" boundary-links="true" total-items="actors.resource.pagination.total" ng-model="actors.resource.pagination.currentPage" items-per-page="actors.resource.pagination.numberPerPage " previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;" max-size="5"></pagination>
+      <pagination ng-if="actorsMappingCtrl.actors.resource.pagination.total>actorsMappingCtrl.actors.resource.pagination.numberPerPage" ng-click="actorsMappingCtrl.getProcessActors()" boundary-links="true" total-items="actorsMappingCtrl.actors.resource.pagination.total" ng-model="actorsMappingCtrl.actors.resource.pagination.currentPage" items-per-page="actorsMappingCtrl.actors.resource.pagination.numberPerPage " previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;" max-size="5"></pagination>
+      <hr>
       <p class="text-muted">{{'For each actor, check that each entity (user, group, role, membership) has the relevant user profile in the Portal.' | translate}} {{'To do so, go to' | translate}} <a href="" bonita-href="profilelisting">{{'Profiles' | translate}}</a>.</p>
     </div>
   </div>
