@@ -79,7 +79,6 @@
         gettextCatalog.currentLanguage = $cookies['BOS_Locale'];
         gettextCatalog.baseLanguage = null;
         gettextCatalog.setStrings($cookies['BOS_Locale'], arrayToObject(catalog));
-        return i18n;
       }
 
       gettextCatalog.debug = false;
@@ -88,10 +87,11 @@
         return gettextCatalog.getString(I18N_KEYS[key], context);
       };
 
-      return (function loadTranslations() {
+      i18n.translationsLoadPromise = (function() {
         return i18nAPI.query({
           f: 'locale=' + ($cookies['BOS_Locale'] || 'en')
         }).$promise.then(updateCatalog);
       })();
+      return i18n;
     });
 })();
