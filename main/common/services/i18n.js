@@ -56,6 +56,11 @@
     'processDetails.startFor.label': 'Enter the user to start the case for...',
     'processDetails.forms.add.error': 'Can\'t import page or form to the process',
     'processDetails.forms.mapping.empty': 'No Mapping',
+    'processDetails.forms.upload.error.filename.length': 'Filename too long. The zip filename must be no longer than 50 characters',
+    'processDetails.forms.upload.error.file.structure': 'Zip file structure error. Check that your .zip contains a well-formed page.properties and either the index.html or the Index.groovy file. For details, see the documentation or the example page readme (available in the custom page list)',
+    'processDetails.forms.upload.error.name.already.exists': 'A page with this name already exists.',
+    'processDetails.forms.upload.error.filename.invalid': 'The name for the URL must start with custompage_ followed only by alphanumeric characters.',
+    'processDetails.forms.upload.error.compilation': 'Compilation failure. Verify that the Index.groovy class implements the PageController interface.',
     'processDetails.problemResolution.message.actor': 'Entity Mapping must be resolved before enabling the Process.',
     'processDetails.problemResolution.message.connector': 'Connector definitions must be resolved before enabling the Process.',
     'processDetails.problemResolution.message.parameter': 'Parameters must be resolved before enabling the Process.',
@@ -63,7 +68,9 @@
     'processDetails.problemResolution.message.formMapping': 'The following form mappings are not resolved: [ {} ]',
     'processDetails.problemResolution.title': 'The Process cannot be enabled',
     'processDetails.problemResolution.resource.caseOverview': 'Case overview',
-    'processDetails.problemResolution.resource.caseStart': 'Case start'
+    'processDetails.problemResolution.resource.caseStart': 'Case start',
+    'processDetails.scripts.update.success': 'Expression content has been updated',
+    'processDetails.scripts.update.error': 'Can\'t update expression content',
   })
     .service('i18nService', function (gettextCatalog, $cookies, i18nAPI, I18N_KEYS) {
       var i18n = {};
