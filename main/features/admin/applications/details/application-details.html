@@ -3,8 +3,7 @@
     <div class="col-md-2"><back-button></back-button></div>
     <div class="col-md-10 text-right"><button id="app-edit-btn" class="btn btn-primary" ng-click="applicationDetailsCtrl.update('lg', app )" aria-label="{{'Edit' | translate}}">{{'Edit' | translate}}</button></div>
   </div>
-
-  <section id="app-edit-section" class="app-details-container">
+  <div id="app-edit-section" class="app-details-container col-md-12">
     <h1 id="app-details-title">{{app.displayName}} ({{app.version}})</h1>
     <div class="panel panel-default">
       <div class="panel-body">
@@ -37,10 +36,8 @@
         </div>
       </div>
     </div>
-
-  </section>
-  <section id="look-n-feel-edit-section" class="col-md-12">
-
+  </div>
+  <div id="look-n-feel-edit-section" class="col-md-12">
     <h2>{{'Look & Feel' | translate}}</h2>
     <div class="panel panel-default">
       <div class="row panel-body">
@@ -65,10 +62,9 @@
         </div>
       </div>
     </div>
-
-  </section>
-  <section id="application-page-list-section" ng-if="app.id">
+  </div>
+  <div id="application-page-list-section" ng-if="app.id">
     <page-list id="page-list" application="app" class="col-md-6"></page-list>
     <menu-creator id="menu-creator" app="app" class="col-md-6 menu-creator"></menu-creator>
-  </section>
+  </div>
 </div>
