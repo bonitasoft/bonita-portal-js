@@ -2,9 +2,16 @@ describe('i18nService', function () {
   'use strict';
 
 
-  var i18nAPI, $cookies, gettextCatalog, deferred, rootScope;
+  var i18nAPI, $cookies, gettextCatalog, deferred, rootScope, I18N_KEYS;
 
   beforeEach(module('org.bonitasoft.services.i18n'));
+
+  beforeEach(function() {
+    module(function($provide){
+      I18N_KEYS = {'test.key': 'bonita'};
+      $provide.value('I18N_KEYS', I18N_KEYS);
+    });
+  });
 
   beforeEach(inject(function (_i18nAPI_, _$cookies_, _gettextCatalog_, $q, $rootScope) {
     rootScope = $rootScope;
@@ -77,5 +84,18 @@ describe('i18nService', function () {
 
       expect(gettextCatalog.getString('Hello')).toBe('Bonjour');
     }));
+  });
+  describe('getKey', function() {
+    var i18nService;
+    beforeEach(inject(function ($injector) {
+      i18nService = $injector.get('i18nService');
+    }));
+    it('should not translate from not found key but return key itself', function() {
+      expect(i18nService.getKey('')).toEqual('');
+      expect(i18nService.getKey('doing some tests')).toEqual('doing some tests');
+    });
+    it('should not translate from not found key but return key itself', function() {
+      expect(i18nService.getKey('test.key')).toEqual('bonita');
+    });
   });
 });

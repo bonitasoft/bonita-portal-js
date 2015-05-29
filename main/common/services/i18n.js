@@ -54,7 +54,7 @@
     'processDetails.connector.upload.error': 'Cannot upload the file',
     'processDetails.startFor.user.helper': 'Type here to search for a user...',
     'processDetails.startFor.label': 'Enter the user to start the case for...',
-    'processDetails.forms.add.error': 'Page was not sucessfully attached to the process',
+    'processDetails.forms.add.error': 'Can\'t import page or form to the process',
     'processDetails.forms.mapping.empty': 'No Mapping',
     'processDetails.problemResolution.message.actor': 'Entity Mapping must be resolved before enabling the Process.',
     'processDetails.problemResolution.message.connector': 'Connector definitions must be resolved before enabling the Process.',
@@ -84,7 +84,7 @@
       gettextCatalog.debug = false;
 
       i18n.getKey = function(key, context){
-        return gettextCatalog.getString(I18N_KEYS[key], context);
+        return gettextCatalog.getString(I18N_KEYS[key] || key, context);
       };
 
       i18n.translationsLoadPromise = (function() {
