@@ -1,45 +1,39 @@
 <div id="app-details-container" class="container">
-  <div class="btn-toolbar">
-    <back-button></back-button>
+  <div class="btn-toolbar actions">
+    <div class="col-md-2"><back-button></back-button></div>
+    <div class="col-md-10 text-right"><button id="app-edit-btn" class="btn btn-primary" ng-click="applicationDetailsCtrl.update('lg', app )" aria-label="{{'Edit' | translate}}">{{'Edit' | translate}}</button></div>
   </div>
 
   <section id="app-edit-section" class="app-details-container">
-    <h1 id="app-details-title">{{app.displayName}} ({{app.version}})
-      <button id="app-edit-btn" class="clickable glyphicon glyphicon-pencil btn-action-edit"
-              ng-click="applicationDetailsCtrl.update('lg', app )" aria-label="{{'Edit' | translate}}"
-              title="{{'Edit' | translate}}"></button>
-    </h1>
-
-    <div class="panel-body">
-      <p id="app-details-description" class="type-info">{{ app.description }}</p>
-
-      <div class="row">
-
-        <div class="col-md-4">
-          <dl class="dl-horizontal app-details-col">
-            <dt id="app-path-label">{{'URL' | translate}}</dt>
-            <dd id="app-path-value"><a target="_blank" title="../apps/{{ app.token }}"
-                                       ng-href="../apps/{{ app.token }}">
-              ../apps/{{ app.token }}</a></dd>
-            <dt id="app-profile-label">{{'Profile' | translate}}</dt>
-            <dd id="app-profile-value">{{ app.profileId.name}}</dd>
-          </dl>
-        </div>
-        <div class="col-md-4">
-          <dl class="dl-horizontal">
-            <dt id="app-creation-on-label">{{'Creation on' | translate}}</dt>
-            <dd id="app-creation-on-value">{{ app.creationDate | dateI18n:'YYYY-MM-DD HH:mm:ss'}}</dd>
-            <dt id="app-created-by-label">{{'Created by' | translate}}</dt>
-            <dd id="app-created-by-value">{{ app.createdBy.firstname }} {{app.createdBy.lastname}}</dd>
-          </dl>
-        </div>
-        <div class="col-md-4">
-          <dl class="dl-horizontal">
-            <dt id="app-updated-on-label">{{'Updated on' | translate}}</dt>
-            <dd id="app-updated-on-value">{{ app.lastUpdateDate | dateI18n:'YYYY-MM-DD HH:mm:ss'}}</dd>
-            <dt id="app-updated-by-label">{{'Updated by' | translate}}</dt>
-            <dd id="app-updated-by-value">{{ app.updatedBy.firstname }} {{ app.updatedBy.lastname }}</dd>
-          </dl>
+    <h1 id="app-details-title">{{app.displayName}} ({{app.version}})</h1>
+    <div class="panel panel-default">
+      <div class="panel-body">
+        <p id="app-details-description" class="type-info">{{ app.description }}</p>
+        <div class="row">
+          <div class="col-md-4">
+            <dl class="dl-horizontal app-details-col">
+              <dt id="app-path-label">{{'URL' | translate}}</dt>
+              <dd id="app-path-value"><a target="_blank" title="../apps/{{ app.token }}" ng-href="../apps/{{ app.token }}">../apps/{{ app.token }}</a></dd>
+              <dt id="app-profile-label">{{'Profile' | translate}}</dt>
+              <dd id="app-profile-value">{{ app.profileId.name}}</dd>
+            </dl>
+          </div>
+          <div class="col-md-4">
+            <dl class="dl-horizontal">
+              <dt id="app-creation-on-label">{{'Creation on' | translate}}</dt>
+              <dd id="app-creation-on-value">{{ app.creationDate | dateI18n:'YYYY-MM-DD HH:mm:ss'}}</dd>
+              <dt id="app-created-by-label">{{'Created by' | translate}}</dt>
+              <dd id="app-created-by-value">{{ app.createdBy.firstname }} {{app.createdBy.lastname}}</dd>
+            </dl>
+          </div>
+          <div class="col-md-4">
+            <dl class="dl-horizontal">
+              <dt id="app-updated-on-label">{{'Updated on' | translate}}</dt>
+              <dd id="app-updated-on-value">{{ app.lastUpdateDate | dateI18n:'YYYY-MM-DD HH:mm:ss'}}</dd>
+              <dt id="app-updated-by-label">{{'Updated by' | translate}}</dt>
+              <dd id="app-updated-by-value">{{ app.updatedBy.firstname }} {{ app.updatedBy.lastname }}</dd>
+            </dl>
+          </div>
         </div>
       </div>
     </div>
@@ -48,26 +42,27 @@
   <section id="look-n-feel-edit-section" class="col-md-12">
 
     <h2>{{'Look & Feel' | translate}}</h2>
-    <div class="row">
-      <div class="col-md-4">
-        <dl class="dl-horizontal app-details-col">
-          <dt id="app-layout-label">{{'Layout' | translate}}</dt>
-          <dd id="app-layout-value">
-            <div  ng-if="!applicationDetailsCtrl.isEditLayoutAvailable">{{app.layoutId.displayName}}</div>
-            <a  ng-if="applicationDetailsCtrl.isEditLayoutAvailable"  href="" editable-select="app.layoutId" onbeforesave="applicationDetailsCtrl.updateLayout(app, $data)"
-                                        e-ng-options="layoutPage as layoutPage.displayName for layoutPage in layoutPages track by layoutPage.id">{{ app.layoutId.displayName }}</a>
-          </dd>
-        </dl>
-      </div>
-      <div class="col-md-4">
-        <dl class="dl-horizontal app-details-col">
-          <dt id="app-theme-label">{{'Theme' | translate}}</dt>
-          <dd id="app-theme-value">
-            <div  ng-if="!applicationDetailsCtrl.isEditLayoutAvailable">{{app.themeId.displayName}}</div>
-            <a  ng-if="applicationDetailsCtrl.isEditLayoutAvailable"  href="" editable-select="app.themeId" onbeforesave="applicationDetailsCtrl.updateTheme(app, $data)"
-                e-ng-options="themePage as themePage.displayName for themePage in themePages track by themePage.id">{{ app.themeId.displayName }}</a>
-          </dd>
-        </dl>
+    <div class="panel panel-default">
+      <div class="row panel-body">
+        <div class="col-md-4">
+          <dl class="dl-horizontal app-details-col">
+            <dt id="app-layout-label">{{'Layout' | translate}}</dt>
+            <dd id="app-layout-value">
+              <div  ng-if="!applicationDetailsCtrl.isEditLayoutAvailable">{{app.layoutId.displayName}}</div>
+              <a  ng-if="applicationDetailsCtrl.isEditLayoutAvailable"  href="" editable-select="app.layoutId" onbeforesave="applicationDetailsCtrl.updateLayout(app, $data)" e-ng-options="layoutPage as layoutPage.displayName for layoutPage in layoutPages track by layoutPage.id">{{ app.layoutId.displayName }}</a>
+            </dd>
+          </dl>
+        </div>
+        <div class="col-md-4">
+          <dl class="dl-horizontal app-details-col">
+            <dt id="app-theme-label">{{'Theme' | translate}}</dt>
+            <dd id="app-theme-value">
+              <div  ng-if="!applicationDetailsCtrl.isEditLayoutAvailable">{{app.themeId.displayName}}</div>
+              <a  ng-if="applicationDetailsCtrl.isEditLayoutAvailable"  href="" editable-select="app.themeId" onbeforesave="applicationDetailsCtrl.updateTheme(app, $data)"
+                  e-ng-options="themePage as themePage.displayName for themePage in themePages track by themePage.id">{{ app.themeId.displayName }}</a>
+            </dd>
+          </dl>
+        </div>
       </div>
     </div>
 
