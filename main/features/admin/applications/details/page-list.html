@@ -1,31 +1,33 @@
 <header class="page-header">
   <h2>{{'Pages' | translate}}</h2>
 </header>
-
 <div class="col-md-3">
-  <button id="page-list-add-button" ng-click="list.add()" class="btn btn-success" title="{{ 'Add from custom pages' | translate }}" >{{'Add' | translate}}</button>
+  <button id="page-list-add-button" ng-click="list.add()" class="btn btn-primary" title="{{ 'Add from custom pages' | translate }}">{{'Add' | translate}}</button>
 </div>
 <div class="col-md-9">
   <table class="table table-condensed">
     <tbody>
-    <tr ng-repeat="page in pages track by $index" class="table-row table-row-{{$index}}" ng-class="{'page-is-home': application.homePageId == page.id}">
-      <td class="page-name">{{ page.token }} - <em>{{ page.pageId.displayName }}</em></td>
-      <td class="td-small">
-        <button class="btn-action-sethome clickable glyphicon glyphicon-home"
+      <tr ng-repeat="page in pages track by $index" class="table-row table-row-{{$index}}"
+      ng-class="{'page-is-home': application.homePageId == page.id}">
+        <td class="page-name">
+          {{ page.token }} - <em>{{ page.pageId.displayName }}</em>
+        </td>
+        <td class="td-small">
+          <button class="btn-action-sethome clickable glyphicon glyphicon-home"
               title="{{'Set as Home page' | translate}}"
               ng-click="list.setAsHomePage(page)">
-              <span aria-hidden="true">{{'Set as Home page' | translate}}</span>
-        </button>
-      </td>
-      <td class="td-small">
-        <button class="btn-action-delete clickable glyphicon glyphicon-trash"
+            <span aria-hidden="true">{{'Set as Home page' | translate}}</span>
+          </button>
+        </td>
+        <td class="td-small">
+          <button class="btn-action-delete clickable glyphicon glyphicon-trash"
               title="{{'Remove' | translate}}"
               ng-if="application.homePageId != page.id"
               ng-click="list.remove(page)">
-              <span aria-hidden="true">{{'Remove' | translate}}</span>
-        </button>
-      </td>
-    </tr>
+            <span aria-hidden="true">{{'Remove' | translate}}</span>
+          </button>
+        </td>
+      </tr>
     </tbody>
   </table>
 </div>

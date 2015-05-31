@@ -13,7 +13,7 @@
   ])
     .config(function($stateProvider) {
         $stateProvider.state('bonita.cases', {
-          url: '/admin/cases/list?processId&supervisor_id',
+          url: '/admin/cases/list?processId&supervisor_id&caseStateFilter',
           templateUrl: 'features/admin/cases/list/cases.html',
           abstract: true,
           controller: 'CaseCtrl',
@@ -42,6 +42,11 @@
               function($stateParams){
                 return $stateParams.processId;
               }
+            ],
+            caseStateFilter: ['$stateParams',
+              function($stateParams){
+                return $stateParams.caseStateFilter;
+              }
             ]
           }
         }).state('bonita.cases.archived', {
@@ -67,6 +72,11 @@
             processId: ['$stateParams',
               function($stateParams){
                 return $stateParams.processId;
+              }
+            ],
+            caseStateFilter: ['$stateParams',
+              function($stateParams){
+                return $stateParams.caseStateFilter;
               }
             ]
           }

@@ -1,17 +1,15 @@
 <div id="editActorsMembersModal" ng-init="editActorMembersCtrl.initView()" class="process-details">
 
   <div class="modal-header">
-    <h3 class="modal-title">{{editActorMembersCtrl.title | translate | stringTemplater:[editActorMembersCtrl.scope.actor.displayName]}}</h3>
+    <h1 class="modal-title">{{editActorMembersCtrl.title | translate | stringTemplater:[editActorMembersCtrl.scope.actor.displayName]}}</h1>
   </div>
   <div class="modal-body">
-    <h4>{{'{} mapped' | translate | stringTemplater:[currentMemberLabel]}}</h4>
+    <h2>{{'{} mapped' | translate | stringTemplater:[currentMemberLabel]}}</h2>
     <p class="members">
-      <span ng-repeat="member in members">
-        <label class="label label-default" >
-          {{member.label}} <span ng-click="editActorMembersCtrl.removeMember(member)" class="glyphicon glyphicon-remove"></span>
-        </label>&nbsp;
+      <span ng-repeat="member in members" class="tag label label-default member">
+          {{member.label}} <i ng-click="editActorMembersCtrl.removeMember(member)" class="glyphicon glyphicon-remove"></i>
       </span>
-      <label ng-click="editActorMembersCtrl.removeAll()" class="label label-danger" ng-if="members.length>0"></span> {{'Remove all' | translate}}</label>
+      <span ng-click="editActorMembersCtrl.removeAll()" class="tag label label-danger" ng-if="members.length>0"> {{'Remove all' | translate}}</span>
     </p>
     <p class="text-muted" ng-if="!members.length">
       {{'No mapping' | translate}}
@@ -60,14 +58,12 @@
       </p>
     </div>
     <div ng-if="!!editActorMembersCtrl.membersToDelete.length">
-      <h4>{{'{} mappings to delete' | translate | stringTemplater:[currentMemberLabel]}}</h4>
+      <h3>{{'{} mappings to delete' | translate | stringTemplater:[currentMemberLabel]}}</h3>
       <p class="members">
-        <span ng-repeat="member in editActorMembersCtrl.membersToDelete">
-          <label class="label label-default" >
-            {{member.label}} <span ng-click="editActorMembersCtrl.reenableMember(member)" class="glyphicon glyphicon-remove"></span>
-          </label>&nbsp;
+        <span ng-repeat="member in editActorMembersCtrl.membersToDelete" class="member label label-default">
+          {{member.label}} <i ng-click="editActorMembersCtrl.reenableMember(member)" class="glyphicon glyphicon-remove"></i>
         </span>
-        <label ng-click="editActorMembersCtrl.reenableAll()" class="label label-success" ng-if="editActorMembersCtrl.membersToDelete.length>0"></span> {{'Enable all' | translate}}</label>
+        <span ng-click="editActorMembersCtrl.reenableAll()" class="label label-success" ng-if="editActorMembersCtrl.membersToDelete.length>0"> {{'Enable all' | translate}}</span>
       </p>
     </div>
   </div>

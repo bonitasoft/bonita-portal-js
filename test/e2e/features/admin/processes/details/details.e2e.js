@@ -32,9 +32,9 @@
           expect(menuItems.get(3).getText()).toEqual('Connectors');
         });
 
-        it('should navigate among sections', function() {
-          //menuItems.get(1).all(by.css('a')).get(0).click();
-          browser.get('#/admin/processes/details/321/actorsMapping');
+        xit('should navigate among sections', function() {
+          menuItems.get(1).click();
+          //browser.get('#/admin/processes/details/321/actorsMapping');
 
           //Actors
           checkMainActions();
@@ -44,8 +44,8 @@
           expect(menuItems.get(3).getAttribute('class')).not.toContain('active');
 
           //params
-          //menuItems.get(2).all(by.css('a')).get(0).click();
-          browser.get('#/admin/processes/details/321/params');
+          menuItems.get(2).click();
+          //browser.get('#/admin/processes/details/321/params');
           checkMainActions();
           expect(menuItems.get(0).getAttribute('class')).not.toContain('active');
           expect(menuItems.get(1).getAttribute('class')).not.toContain('active');
@@ -53,8 +53,8 @@
           expect(menuItems.get(3).getAttribute('class')).not.toContain('active');
 
           //Connectors
-          //menuItems.get(3).all(by.css('a')).get(0).click();
-          browser.get('#/admin/processes/details/321/connectors');
+          menuItems.get(3).click();
+          //browser.get('#/admin/processes/details/321/connectors');
           checkMainActions();
           expect(menuItems.get(0).getAttribute('class')).not.toContain('active');
           expect(menuItems.get(1).getAttribute('class')).not.toContain('active');
@@ -62,22 +62,22 @@
           expect(menuItems.get(3).getAttribute('class')).toContain('active');
 
           //General
-          browser.get('#/admin/processes/details/321');
-          //menuItems.get(0).all(by.css('a')).get(0).click();
+          //browser.get('#/admin/processes/details/321');
+          menuItems.get(0).click();
           expect(element.all(by.css('#process-details-information')).count()).toBe(1);
         });
 
         describe('Enable/Disable Button', function() {
           it('should disable process and enable delete then enable process and disable delete', function() {
             element(by.css('.bonita-toggle')).click();
-            expect(processDetails.all(by.css('.actions .btn-primary')).get(0).getAttribute('disabled')).toEqual(null);
+            expect(processDetails.all(by.css('.actions #processDetails-deleteProcess')).get(0).getAttribute('disabled')).toEqual(null);
             element(by.css('.bonita-toggle')).click();
-            expect(processDetails.all(by.css('.actions .btn-primary')).get(0).getAttribute('disabled')).toEqual('true');
+            expect(processDetails.all(by.css('.actions #processDetails-deleteProcess')).get(0).getAttribute('disabled')).toEqual('true');
           });
         });
 
         describe('Categories', function() {
-          iit('should add new category and remove some others', function() {
+          it('should add new category and remove some others', function() {
             expect(element(by.css('.tags')).getText()).toEqual('  Support  \n  R&D  \n  Séverin  \n  jQuery+  ');
             element(by.css('.metatags-label button')).click();
             var categoriesModal = element(by.css('#manage-categories-modal'));
@@ -94,14 +94,13 @@
       });
 
       function checkMainActions() {
-        var mainActionButtons = processDetails.all(by.css('.actions .btn'));
-
-        expect(mainActionButtons.get(0).getText()).toEqual('Back');
-        expect(mainActionButtons.get(0).getAttribute('ng-click')).toEqual('processMenuCtrl.goBack()');
+        var backButton = element(by.css('#processDetails-back'));
+        expect(backButton.getText()).toEqual('Back');
+        expect(backButton.getAttribute('ng-click')).toEqual('processMenuCtrl.goBack()');
 
         expect(processDetails.all(by.css('h1')).getText()).toEqual(['SupportProcess (1.0)']);
         expect(processDetails.all(by.css('.panel-danger > div')).count()).toBe(0);
-        expect(processDetails.all(by.css('.actions button.btn-primary')).get(0).getAttribute('disabled')).toEqual('true');
+        expect(processDetails.all(by.css('.actions #processDetails-deleteProcess')).get(0).getAttribute('disabled')).toEqual('true');
       }
     });
     describe('Unresolved Process', function() {
@@ -124,7 +123,7 @@
       });
       describe('Delete button', function() {
         it('should open a popup asking for deletion with Delete and Cancel', function() {
-          var deleteButton = processDetails.all(by.css('.actions .btn-primary')).get(0);
+          var deleteButton = processDetails.all(by.css('.actions #processDetails-deleteProcess')).get(0);
           expect(deleteButton.getText()).toEqual('Delete');
           //click on delete
           deleteButton.click();

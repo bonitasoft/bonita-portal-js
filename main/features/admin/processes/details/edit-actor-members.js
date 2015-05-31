@@ -3,7 +3,7 @@
 
   angular.module('org.bonitasoft.features.admin.processes.editActorMembers', [
     'ui.bootstrap',
-    'gettext',
+    'org.bonitasoft.services.i18n',
     'ui.router',
     'angular-growl',
     'isteven-multi-select',
@@ -14,7 +14,7 @@
     'org.bonitasoft.bonitable.settings',
     'org.bonitasoft.common.resources.store'
   ])
-    .controller('EditActorMembersCtrl', function($scope, $modalInstance, store, actorMemberAPI, userAPI, groupAPI, roleAPI, actor, memberType, process, gettextCatalog, $q) {
+    .controller('EditActorMembersCtrl', function($scope, $modalInstance, store, actorMemberAPI, userAPI, groupAPI, roleAPI, actor, memberType, process, i18nService, $q) {
       var self = this;
       self.scope = $scope;
       self.scope.memberType = memberType;
@@ -39,10 +39,10 @@
       };
 
       self.scope.localLang = {
-        selectAll: gettextCatalog.getString('Select all'),
-        selectNone: gettextCatalog.getString('Select none'),
-        reset: gettextCatalog.getString('Reset'),
-        search: gettextCatalog.getString('Type here to search...')
+        selectAll: i18nService.getKey('multiSelect.selectAll'),
+        selectNone: i18nService.getKey('multiSelect.selectNone'),
+        reset: i18nService.getKey('multiSelect.reset'),
+        search: i18nService.getKey('multiSelect.search.helper')
       };
       self.scope.localLangRole = angular.copy(self.scope.localLang);
       self.scope.localLangGroup = angular.copy(self.scope.localLang);
@@ -61,9 +61,9 @@
               searchMethod: self.searchMembers,
               searchAPI: userAPI
             };
-            self.scope.currentMemberLabel = gettextCatalog.getString('Users');
-            self.title = gettextCatalog.getString('Users mapped to {}');
-            self.scope.localLang.nothingSelected = gettextCatalog.getString('Select users...');
+            self.scope.currentMemberLabel = i18nService.getKey('processDetails.actors.users.label');
+            self.title = i18nService.getKey('processDetails.actors.users.mapping');
+            self.scope.localLang.nothingSelected = i18nService.getKey('processDetails.actors.users.selectHelper');
             break;
 
           case self.constant.GROUP:
@@ -75,9 +75,9 @@
               searchMethod: self.searchMembers,
               searchAPI: groupAPI
             };
-            self.title = gettextCatalog.getString('Groups mapped to {}');
-            self.scope.currentMemberLabel = gettextCatalog.getString('Groups');
-            self.scope.localLang.nothingSelected = gettextCatalog.getString('Select groups...');
+            self.title = i18nService.getKey('processDetails.actors.groups.label');
+            self.scope.currentMemberLabel = i18nService.getKey('processDetails.actors.groups.mapping');
+            self.scope.localLang.nothingSelected = i18nService.getKey('processDetails.actors.groups.selectHelper');
             break;
 
           case self.constant.ROLE:
@@ -89,9 +89,9 @@
               searchMethod: self.searchMembers,
               searchAPI: roleAPI
             };
-            self.title = gettextCatalog.getString('Roles mapped to {}');
-            self.scope.currentMemberLabel = gettextCatalog.getString('Roles');
-            self.scope.localLang.nothingSelected = gettextCatalog.getString('Select roles...');
+            self.title = i18nService.getKey('processDetails.actors.roles.label');
+            self.scope.currentMemberLabel = i18nService.getKey('processDetails.actors.roles.mapping');
+            self.scope.localLang.nothingSelected = i18nService.getKey('processDetails.actors.roles.selectHelp');
             break;
 
           case self.constant.MEMBERSHIP:
@@ -101,9 +101,9 @@
               actorId: roleIdAttribute,
               actorId2: groupIdAttribute
             };
-            self.title = gettextCatalog.getString('Memberships mapped to {}');
-            self.scope.localLangGroup.nothingSelected = gettextCatalog.getString('Select a group...');
-            self.scope.localLangRole.nothingSelected = gettextCatalog.getString('Select a role...');
+            self.title = i18nService.getKey('processDetails.actors.memberships.mapping');
+            self.scope.localLangGroup.nothingSelected = i18nService.getKey('processDetails.actors.memberships.selectGroupHelper');
+            self.scope.localLangRole.nothingSelected = i18nService.getKey('processDetails.actors.memberships.selectRoleHelper');
             self.scope.currentMemberLabel = 'memberships';
             break;
         }
@@ -124,7 +124,7 @@
             } else {
               members[index].label = currentMember[self.searchMemberParams.actorId].displayName;
               if (self.searchMemberParams.actorId2) {
-                members[index].label += gettextCatalog.getString(' of ') + currentMember[self.searchMemberParams.actorId2].displayName;
+                members[index].label += i18nService.getKey(' of ') + currentMember[self.searchMemberParams.actorId2].displayName;
               }
             }
           });
@@ -133,7 +133,7 @@
             members.forEach(function(member) {
               mappedIds.push(member[self.searchMemberParams.actorId].id);
             });
-            self.searchMemberParams.searchMethod();
+            self.searchMemberParams.searchMethod({});
           } else {
             self.selectOnSearchGroup('');
             self.selectOnSearchRole('');
@@ -144,6 +144,11 @@
       };
 
       self.searchMembers = function searchMembers(searchOptions) {
+        if (angular.isUndefined(searchOptions) || (searchOptions.s && self.previousSearchTerm === searchOptions.s)) {
+          return;
+        } else {
+          self.previousSearchTerm = searchOptions.s;
+        }
         if (!searchOptions) {
           searchOptions = {
             p: 0,
@@ -171,6 +176,11 @@
       };
 
       self.searchMembership = function searchMembership(searchOptions, resourceAPI) {
+        if (angular.isUndefined(searchOptions) || (searchOptions.s && self.previousSearchTerm === searchOptions.s)) {
+          return;
+        } else {
+          self.previousSearchTerm = searchOptions.s;
+        }
         if (!searchOptions) {
           searchOptions = {
             p: 0,
