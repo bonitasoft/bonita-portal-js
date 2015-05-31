@@ -104,7 +104,7 @@
             self.title = i18nService.getKey('processDetails.actors.memberships.mapping');
             self.scope.localLangGroup.nothingSelected = i18nService.getKey('processDetails.actors.memberships.selectGroupHelper');
             self.scope.localLangRole.nothingSelected = i18nService.getKey('processDetails.actors.memberships.selectRoleHelper');
-            self.scope.currentMemberLabel = 'memberships';
+            self.scope.currentMemberLabel = i18nService.getKey('processDetails.actors.memberships.label');
             break;
         }
         self.searchMemberParams.filters = ['actor_id=' + actor.id, 'member_type=' + memberType];
@@ -244,14 +244,11 @@
       };
 
       self.apply = function() {
-        console.log('end all', new Date());
         var promises = [];
         promises = promises.concat(saveSelectedMembers());
         promises = promises.concat(saveSelectedMembership());
         promises = promises.concat(deleteMembers(self.membersToDelete));
-        $q.all(promises).then(function(results) {
-          return results;
-        }).then($modalInstance.close, self.cancel);
+        $q.all(promises).then($modalInstance.close, self.cancel);
       };
 
       function deleteMembers(membersToDelete) {

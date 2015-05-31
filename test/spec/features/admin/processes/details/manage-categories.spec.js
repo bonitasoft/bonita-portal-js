@@ -1,6 +1,6 @@
 (function() {
   'use strict';
-  fdescribe('Manage Category Mapping Modal Instance', function() {
+  describe('Manage Category Mapping Modal Instance', function() {
     var scope, controller, manageCategoryMappingModalInstanceCtrl,
       process, categories, q, selectedCategories, modalInstance, categoryManager,
       cat1, cat2, cat3;

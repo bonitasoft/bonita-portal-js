@@ -15,7 +15,7 @@
       {{'No mapping' | translate}}
     </p>
     <div ng-if="!editActorMembersCtrl.isMembershipEdit()">
-      <h4>{{'Add' | translate}}</h4>
+      <h3>{{'Add' | translate}}</h3>
       <p><isteven-multi-select
       input-model="editActorMembersCtrl.scope.first200members"
       output-model="editActorMembersCtrl.scope.arrayNewMembers"
@@ -29,7 +29,7 @@
       on-search-change="editActorMembersCtrl.multiselectOnSearch(data)"></isteven-multi-select></p>
     </div>
     <div ng-if="editActorMembersCtrl.isMembershipEdit()">
-      <h4>{{'Create a new membership' | translate}}</h4>
+      <h3>{{'Create a new membership' | translate}}</h3>
       <p><isteven-multi-select
       input-model="editActorMembersCtrl.scope.first200roles"
       output-model="editActorMembersCtrl.scope.newMembershipRole"
