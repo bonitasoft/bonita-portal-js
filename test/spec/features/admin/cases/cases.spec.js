@@ -16,7 +16,7 @@
       }));
       it('should add a new state matching the case main entry point', inject(function() {
         var caseListStateConfig = state.get('bonita.cases');
-        expect(caseListStateConfig.url).toBe('/admin/cases/list?processId&supervisor_id');
+        expect(caseListStateConfig.url).toBe('/admin/cases/list?processId&supervisor_id&caseStateFilter');
         expect(caseListStateConfig.abstract).toBeTruthy();
         expect(caseListStateConfig.templateUrl).toBe('features/admin/cases/list/cases.html');
       }));

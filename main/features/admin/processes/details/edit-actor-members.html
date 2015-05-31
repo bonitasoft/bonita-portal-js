@@ -1,24 +1,22 @@
 <div id="editActorsMembersModal" ng-init="editActorMembersCtrl.initView()" class="process-details">
 
   <div class="modal-header">
-    <h3 class="modal-title">{{editActorMembersCtrl.title | translate | stringTemplater:[editActorMembersCtrl.scope.actor.displayName]}}</h3>
+    <h1 class="modal-title">{{editActorMembersCtrl.title | translate | stringTemplater:[editActorMembersCtrl.scope.actor.displayName]}}</h1>
   </div>
   <div class="modal-body">
-    <h4>{{'{} mapped' | translate | stringTemplater:[currentMemberLabel]}}</h4>
+    <h2>{{'{} mapped' | translate | stringTemplater:[currentMemberLabel]}}</h2>
     <p class="members">
-      <span ng-repeat="member in members">
-        <label class="label label-default" >
-          {{member.label}} <span ng-click="editActorMembersCtrl.removeMember(member)" class="glyphicon glyphicon-remove"></span>
-        </label>&nbsp;
+      <span ng-repeat="member in members" class="tag label label-default member">
+          {{member.label}} <i ng-click="editActorMembersCtrl.removeMember(member)" class="glyphicon glyphicon-remove"></i>
       </span>
-      <label ng-click="editActorMembersCtrl.removeAll()" class="label label-danger" ng-if="members.length>0"></span> {{'Remove all' | translate}}</label>
+      <span ng-click="editActorMembersCtrl.removeAll()" class="tag label label-danger" ng-if="members.length>0"> {{'Remove all' | translate}}</span>
     </p>
     <p class="text-muted" ng-if="!members.length">
       {{'No mapping' | translate}}
     </p>
-    <p ng-if="editActorMembersCtrl.scope.memberType!==editActorMembersCtrl.constant.MEMBERSHIP">
-      <label >{{'Add' | translate}}</label>
-      <isteven-multi-select
+    <div ng-if="!editActorMembersCtrl.isMembershipEdit()">
+      <h4>{{'Add' | translate}}</h4>
+      <p><isteven-multi-select
       input-model="editActorMembersCtrl.scope.first200members"
       output-model="editActorMembersCtrl.scope.arrayNewMembers"
       button-label="buttonLabel"
@@ -28,12 +26,11 @@
       max-labels="5"
       max-height="200px"
       translation="editActorMembersCtrl.scope.localLang"
-      on-search-change="editActorMembersCtrl.multiselectOnSearch(data)"></isteven-multi-select>
-    </p>
-    <p ng-if="editActorMembersCtrl.scope.memberType===editActorMembersCtrl.constant.MEMBERSHIP"
-      >
-      <label>{{'Create a new membership' | translate}}</label>
-      <isteven-multi-select
+      on-search-change="editActorMembersCtrl.multiselectOnSearch(data)"></isteven-multi-select></p>
+    </div>
+    <div ng-if="editActorMembersCtrl.isMembershipEdit()">
+      <h4>{{'Create a new membership' | translate}}</h4>
+      <p><isteven-multi-select
       input-model="editActorMembersCtrl.scope.first200roles"
       output-model="editActorMembersCtrl.scope.newMembershipRole"
       button-label="displayName"
@@ -58,17 +55,15 @@
       translation="editActorMembersCtrl.scope.localLangGroup"
       on-search-change="editActorMembersCtrl.selectOnSearchGroup(data)"
       selection-mode="single"></isteven-multi-select>
-
-    </p>
+      </p>
+    </div>
     <div ng-if="!!editActorMembersCtrl.membersToDelete.length">
-      <h4>{{'{} mappings to delete' | translate | stringTemplater:[currentMemberLabel]}}</h4>
+      <h3>{{'{} mappings to delete' | translate | stringTemplater:[currentMemberLabel]}}</h3>
       <p class="members">
-        <span ng-repeat="member in editActorMembersCtrl.membersToDelete">
-          <label class="label label-default" >
-            {{member.label}} <span ng-click="editActorMembersCtrl.reenableMember(member)" class="glyphicon glyphicon-remove"></span>
-          </label>&nbsp;
+        <span ng-repeat="member in editActorMembersCtrl.membersToDelete" class="member label label-default">
+          {{member.label}} <i ng-click="editActorMembersCtrl.reenableMember(member)" class="glyphicon glyphicon-remove"></i>
         </span>
-        <label ng-click="editActorMembersCtrl.reenableAll()" class="label label-success" ng-if="editActorMembersCtrl.membersToDelete.length>0"></span> {{'Enable all' | translate}}</label>
+        <span ng-click="editActorMembersCtrl.reenableAll()" class="label label-success" ng-if="editActorMembersCtrl.membersToDelete.length>0"> {{'Enable all' | translate}}</span>
       </p>
     </div>
   </div>
