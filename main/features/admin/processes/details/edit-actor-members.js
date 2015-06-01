@@ -7,14 +7,11 @@
     'ui.router',
     'angular-growl',
     'isteven-multi-select',
-    'org.bonitasoft.bonitable',
-    'org.bonitasoft.bonitable.selectable',
-    'org.bonitasoft.bonitable.repeatable',
-    'org.bonitasoft.bonitable.sortable',
-    'org.bonitasoft.bonitable.settings',
-    'org.bonitasoft.common.resources.store'
+    'org.bonitasoft.common.resources.store',
+    'org.bonitasoft.common.properties',
+    'org.bonitasoft.features.admin.mappings'
   ])
-    .controller('EditActorMembersCtrl', function($modalInstance, store, actorMemberAPI, userAPI, groupAPI, roleAPI, actor, memberType, process, i18nService, $q) {
+    .controller('EditActorMembersCtrl', function($modalInstance, store, actorMemberAPI, userAPI, groupAPI, roleAPI, actor, memberType, process, i18nService, $q, defaultLocalLang, userIdAttribute, groupIdAttribute, roleIdAttribute, MAPPING_PROFILES, MappingService) {
       var vm = this;
       vm.memberType = memberType;
       vm.members = {};
@@ -25,26 +22,13 @@
       vm.membersToDelete = [];
 
       var mappedIds = [];
-      var userIdAttribute = 'user_id';
-      var groupIdAttribute = 'group_id';
-      var roleIdAttribute = 'role_id';
       vm.searchMemberParams = {};
 
-      vm.constant = {
-        USER: 'USER',
-        GROUP: 'GROUP',
-        ROLE: 'ROLE',
-        MEMBERSHIP: 'MEMBERSHIP'
-      };
+      vm.constant = MAPPING_PROFILES;
 
-      vm.localLang = {
-        selectAll: i18nService.getKey('multiSelect.selectAll'),
-        selectNone: i18nService.getKey('multiSelect.selectNone'),
-        reset: i18nService.getKey('multiSelect.reset'),
-        search: i18nService.getKey('multiSelect.search.helper')
-      };
-      vm.localLangRole = angular.copy(vm.localLang);
-      vm.localLangGroup = angular.copy(vm.localLang);
+      vm.localLang = angular.copy(defaultLocalLang);
+      vm.localLangRole = angular.copy(defaultLocalLang);
+      vm.localLangGroup = angular.copy(defaultLocalLang);
 
       vm.isMembershipEdit = function() {
         return vm.memberType === vm.constant.MEMBERSHIP;
@@ -118,14 +102,7 @@
           d: vm.searchMemberParams.deploy
         }).then(function success(members) {
           members.forEach(function(currentMember, index) {
-            if (memberType === vm.constant.USER) {
-              members[index].label = currentMember.user_id.firstname + ' ' + currentMember.user_id.lastname;
-            } else {
-              members[index].label = currentMember[vm.searchMemberParams.actorId].displayName;
-              if (vm.searchMemberParams.actorId2) {
-                members[index].label += i18nService.getKey(' of ') + currentMember[vm.searchMemberParams.actorId2].displayName;
-              }
-            }
+            members[index].label = MappingService.labelFormatter[memberType](currentMember);
           });
           vm.members = members;
           if (memberType !== vm.constant.MEMBERSHIP) {

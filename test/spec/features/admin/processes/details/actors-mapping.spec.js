@@ -122,7 +122,8 @@
           growl: growl,
           $log: log,
           processActors: processActors,
-          ActorMappingService: ActorMappingService
+          ActorMappingService: ActorMappingService,
+          defaultLocalLang: {}
         });
       });
       it('should open modal on actor edition, display success message on success and refresh process and appropriate actor', function() {

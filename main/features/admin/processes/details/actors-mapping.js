@@ -12,7 +12,8 @@
     'org.bonitasoft.bonitable.settings',
     'org.bonitasoft.common.filters.stringTemplater',
     'xeditable',
-    'org.bonitasoft.services.i18n'
+    'org.bonitasoft.services.i18n',
+    'org.bonitasoft.common.properties'
   ])
     .constant('ACTOR_PER_PAGE', 10)
     .constant('MEMBERS_PER_CELL', 5)
@@ -44,17 +45,12 @@
       };
       return actorMappingService;
     })
-    .controller('ActorsMappingCtrl', function($scope, $modal, process, ACTOR_PER_PAGE, MEMBERS_PER_CELL, growl, i18nService, $log, $filter, processActors, ActorMappingService) {
+    .controller('ActorsMappingCtrl', function($scope, $modal, process, ACTOR_PER_PAGE, MEMBERS_PER_CELL, growl, i18nService, $log, $filter, processActors, ActorMappingService, growlOptions, defaultLocalLang) {
       var vm = this;
       var resourceInit = [];
       resourceInit.pagination = {
         currentPage: 1,
         numberPerPage: ACTOR_PER_PAGE
-      };
-      var growlOptions = {
-        ttl: 3000,
-        disableCountDown: true,
-        disableIcons: true
       };
 
       vm.actors = processActors;
@@ -115,6 +111,9 @@
             },
             actor: function resolveActor() {
               return actor;
+            },
+            defaultLocalLang: function() {
+              return defaultLocalLang;
             }
           }
         }).result.then(function close(results) {
