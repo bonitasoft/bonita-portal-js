@@ -14,140 +14,139 @@
     'org.bonitasoft.bonitable.settings',
     'org.bonitasoft.common.resources.store'
   ])
-    .controller('EditActorMembersCtrl', function($scope, $modalInstance, store, actorMemberAPI, userAPI, groupAPI, roleAPI, actor, memberType, process, i18nService, $q) {
-      var self = this;
-      self.scope = $scope;
-      self.scope.memberType = memberType;
-      self.scope.members = {};
-      self.scope.arrayNewMembers = [];
-      self.scope.newMembershipRole = {};
-      self.scope.newMembershipGroup = {};
-      self.scope.actor = actor;
-      self.membersToDelete = [];
+    .controller('EditActorMembersCtrl', function($modalInstance, store, actorMemberAPI, userAPI, groupAPI, roleAPI, actor, memberType, process, i18nService, $q) {
+      var vm = this;
+      vm.memberType = memberType;
+      vm.members = {};
+      vm.arrayNewMembers = [];
+      vm.newMembershipRole = {};
+      vm.newMembershipGroup = {};
+      vm.actor = actor;
+      vm.membersToDelete = [];
 
       var mappedIds = [];
       var userIdAttribute = 'user_id';
       var groupIdAttribute = 'group_id';
       var roleIdAttribute = 'role_id';
-      self.searchMemberParams = {};
+      vm.searchMemberParams = {};
 
-      self.constant = {
+      vm.constant = {
         USER: 'USER',
         GROUP: 'GROUP',
         ROLE: 'ROLE',
         MEMBERSHIP: 'MEMBERSHIP'
       };
 
-      self.scope.localLang = {
+      vm.localLang = {
         selectAll: i18nService.getKey('multiSelect.selectAll'),
         selectNone: i18nService.getKey('multiSelect.selectNone'),
         reset: i18nService.getKey('multiSelect.reset'),
         search: i18nService.getKey('multiSelect.search.helper')
       };
-      self.scope.localLangRole = angular.copy(self.scope.localLang);
-      self.scope.localLangGroup = angular.copy(self.scope.localLang);
+      vm.localLangRole = angular.copy(vm.localLang);
+      vm.localLangGroup = angular.copy(vm.localLang);
 
-      self.isMembershipEdit = function() {
-        return self.scope.memberType === self.constant.MEMBERSHIP;
+      vm.isMembershipEdit = function() {
+        return vm.memberType === vm.constant.MEMBERSHIP;
       };
-      self.initView = function initView() {
+      vm.initView = function initView() {
         switch (memberType) {
-          case self.constant.USER:
-            self.searchMemberParams = {
+          case vm.constant.USER:
+            vm.searchMemberParams = {
               deploy: [userIdAttribute],
               o: 'firstname asc',
               actorId: userIdAttribute,
-              saveMethod: self.saveUserMembers,
-              searchMethod: self.searchMembers,
+              saveMethod: vm.saveUserMembers,
+              searchMethod: vm.searchMembers,
               searchAPI: userAPI
             };
-            self.scope.currentMemberLabel = i18nService.getKey('processDetails.actors.users.label');
-            self.title = i18nService.getKey('processDetails.actors.users.mapping');
-            self.scope.localLang.nothingSelected = i18nService.getKey('processDetails.actors.users.selectHelper');
+            vm.currentMemberLabel = i18nService.getKey('processDetails.actors.users.label');
+            vm.title = i18nService.getKey('processDetails.actors.users.mapping');
+            vm.localLang.nothingSelected = i18nService.getKey('processDetails.actors.users.selectHelper');
             break;
 
-          case self.constant.GROUP:
-            self.searchMemberParams = {
+          case vm.constant.GROUP:
+            vm.searchMemberParams = {
               deploy: [groupIdAttribute],
               o: 'displayName asc',
               actorId: groupIdAttribute,
-              saveMethod: self.saveGroupMembers,
-              searchMethod: self.searchMembers,
+              saveMethod: vm.saveGroupMembers,
+              searchMethod: vm.searchMembers,
               searchAPI: groupAPI
             };
-            self.title = i18nService.getKey('processDetails.actors.groups.label');
-            self.scope.currentMemberLabel = i18nService.getKey('processDetails.actors.groups.mapping');
-            self.scope.localLang.nothingSelected = i18nService.getKey('processDetails.actors.groups.selectHelper');
+            vm.title = i18nService.getKey('processDetails.actors.groups.label');
+            vm.currentMemberLabel = i18nService.getKey('processDetails.actors.groups.mapping');
+            vm.localLang.nothingSelected = i18nService.getKey('processDetails.actors.groups.selectHelper');
             break;
 
-          case self.constant.ROLE:
-            self.searchMemberParams = {
+          case vm.constant.ROLE:
+            vm.searchMemberParams = {
               deploy: [roleIdAttribute],
               o: 'displayName asc',
               actorId: roleIdAttribute,
-              saveMethod: self.saveRoleMembers,
-              searchMethod: self.searchMembers,
+              saveMethod: vm.saveRoleMembers,
+              searchMethod: vm.searchMembers,
               searchAPI: roleAPI
             };
-            self.title = i18nService.getKey('processDetails.actors.roles.label');
-            self.scope.currentMemberLabel = i18nService.getKey('processDetails.actors.roles.mapping');
-            self.scope.localLang.nothingSelected = i18nService.getKey('processDetails.actors.roles.selectHelp');
+            vm.title = i18nService.getKey('processDetails.actors.roles.label');
+            vm.currentMemberLabel = i18nService.getKey('processDetails.actors.roles.mapping');
+            vm.localLang.nothingSelected = i18nService.getKey('processDetails.actors.roles.selectHelp');
             break;
 
-          case self.constant.MEMBERSHIP:
-            self.searchMemberParams = {
+          case vm.constant.MEMBERSHIP:
+            vm.searchMemberParams = {
               deploy: [roleIdAttribute, groupIdAttribute],
               o: 'displayName asc',
               actorId: roleIdAttribute,
               actorId2: groupIdAttribute
             };
-            self.title = i18nService.getKey('processDetails.actors.memberships.mapping');
-            self.scope.localLangGroup.nothingSelected = i18nService.getKey('processDetails.actors.memberships.selectGroupHelper');
-            self.scope.localLangRole.nothingSelected = i18nService.getKey('processDetails.actors.memberships.selectRoleHelper');
-            self.scope.currentMemberLabel = i18nService.getKey('processDetails.actors.memberships.label');
+            vm.title = i18nService.getKey('processDetails.actors.memberships.mapping');
+            vm.localLangGroup.nothingSelected = i18nService.getKey('processDetails.actors.memberships.selectGroupHelper');
+            vm.localLangRole.nothingSelected = i18nService.getKey('processDetails.actors.memberships.selectRoleHelper');
+            vm.currentMemberLabel = i18nService.getKey('processDetails.actors.memberships.label');
             break;
         }
-        self.searchMemberParams.filters = ['actor_id=' + actor.id, 'member_type=' + memberType];
-        self.loadMembers();
+        vm.searchMemberParams.filters = ['actor_id=' + actor.id, 'member_type=' + memberType];
+        vm.loadMembers();
       };
 
-      self.loadMembers = function loadMembers() {
+      vm.loadMembers = function loadMembers() {
         /*jshint camelcase: false */
         mappedIds = [];
         store.load(actorMemberAPI, {
-          f: self.searchMemberParams.filters,
-          d: self.searchMemberParams.deploy
+          f: vm.searchMemberParams.filters,
+          d: vm.searchMemberParams.deploy
         }).then(function success(members) {
           members.forEach(function(currentMember, index) {
-            if (memberType === self.constant.USER) {
+            if (memberType === vm.constant.USER) {
               members[index].label = currentMember.user_id.firstname + ' ' + currentMember.user_id.lastname;
             } else {
-              members[index].label = currentMember[self.searchMemberParams.actorId].displayName;
-              if (self.searchMemberParams.actorId2) {
-                members[index].label += i18nService.getKey(' of ') + currentMember[self.searchMemberParams.actorId2].displayName;
+              members[index].label = currentMember[vm.searchMemberParams.actorId].displayName;
+              if (vm.searchMemberParams.actorId2) {
+                members[index].label += i18nService.getKey(' of ') + currentMember[vm.searchMemberParams.actorId2].displayName;
               }
             }
           });
-          self.scope.members = members;
-          if (memberType !== self.constant.MEMBERSHIP) {
+          vm.members = members;
+          if (memberType !== vm.constant.MEMBERSHIP) {
             members.forEach(function(member) {
-              mappedIds.push(member[self.searchMemberParams.actorId].id);
+              mappedIds.push(member[vm.searchMemberParams.actorId].id);
             });
-            self.searchMemberParams.searchMethod({});
+            vm.searchMemberParams.searchMethod({});
           } else {
-            self.selectOnSearchGroup('');
-            self.selectOnSearchRole('');
+            vm.selectOnSearchGroup('');
+            vm.selectOnSearchRole('');
           }
         }, function error() {
 
         });
       };
 
-      self.searchMembers = function searchMembers(searchOptions) {
-        if (angular.isUndefined(searchOptions) || (searchOptions.s && self.previousSearchTerm === searchOptions.s)) {
+      vm.searchMembers = function searchMembers(searchOptions) {
+        if (angular.isUndefined(searchOptions) || (searchOptions.s && vm.previousSearchTerm === searchOptions.s)) {
           return;
         } else {
-          self.previousSearchTerm = searchOptions.s;
+          vm.previousSearchTerm = searchOptions.s;
         }
         if (!searchOptions) {
           searchOptions = {
@@ -155,13 +154,13 @@
             c: 200
           };
         }
-        searchOptions.o = self.searchMemberParams.o;
+        searchOptions.o = vm.searchMemberParams.o;
         var finalArray = [];
-        self.searchMemberParams.searchAPI.search(searchOptions).$promise.then(function success(response) {
+        vm.searchMemberParams.searchAPI.search(searchOptions).$promise.then(function success(response) {
           response.data.forEach(function(currentMember) {
             var index = mappedIds.indexOf(currentMember.id);
             if (index === -1) {
-              if (self.scope.memberType === self.constant.USER) {
+              if (vm.memberType === vm.constant.USER) {
                 currentMember.listLabel = currentMember.firstname + ' ' + currentMember.lastname + '<small> (<i>' + currentMember.userName + '</i>)</small>';
                 currentMember.buttonLabel = currentMember.firstname + ' ' + currentMember.lastname;
               } else {
@@ -171,15 +170,15 @@
               finalArray.push(currentMember);
             }
           });
-          self.scope.first200members = finalArray;
+          vm.first200members = finalArray;
         });
       };
 
-      self.searchMembership = function searchMembership(searchOptions, resourceAPI) {
-        if (angular.isUndefined(searchOptions) || (searchOptions.s && self.previousSearchTerm === searchOptions.s)) {
+      vm.searchMembership = function searchMembership(searchOptions, resourceAPI) {
+        if (angular.isUndefined(searchOptions) || (searchOptions.s && vm.previousSearchTerm === searchOptions.s)) {
           return;
         } else {
-          self.previousSearchTerm = searchOptions.s;
+          vm.previousSearchTerm = searchOptions.s;
         }
         if (!searchOptions) {
           searchOptions = {
@@ -196,59 +195,59 @@
       };
 
 
-      self.multiselectOnSearch = function multiselectOnSearch(search) {
+      vm.multiselectOnSearch = function multiselectOnSearch(search) {
         if (search.keyword !== '') {
           searchOptions.s = search.keyword;
-          self.searchMembers(searchOptions);
+          vm.searchMembers(searchOptions);
         }
       };
 
-      self.selectOnSearchGroup = function selectOnSearchGroup(search) {
+      vm.selectOnSearchGroup = function selectOnSearchGroup(search) {
         if (angular.isDefined(search) || search.keyword !== '') {
           searchOptions.s = search.keyword;
-          self.searchMembership(searchOptions, groupAPI).then(function mapGroup(response) {
-            self.scope.first200groups = response.data;
+          vm.searchMembership(searchOptions, groupAPI).then(function mapGroup(response) {
+            vm.first200groups = response.data;
           });
         }
       };
-      self.selectOnSearchRole = function selectOnSearchRole(search) {
+      vm.selectOnSearchRole = function selectOnSearchRole(search) {
         if (angular.isDefined(search) || search.keyword !== '') {
           searchOptions.s = search.keyword;
-          self.searchMembership(searchOptions, roleAPI).then(function mapRole(response) {
-            self.scope.first200roles = response.data;
+          vm.searchMembership(searchOptions, roleAPI).then(function mapRole(response) {
+            vm.first200roles = response.data;
           });
         }
       };
 
-      self.reenableMember = function reenableMember(member) {
-        self.membersToDelete.splice(self.membersToDelete.indexOf(member), 1);
-        self.scope.members.push(member);
+      vm.reenableMember = function reenableMember(member) {
+        vm.membersToDelete.splice(vm.membersToDelete.indexOf(member), 1);
+        vm.members.push(member);
       };
-      self.removeMember = function removeMember(member) {
-        self.scope.members.splice(self.scope.members.indexOf(member), 1);
-        self.membersToDelete.push(member);
+      vm.removeMember = function removeMember(member) {
+        vm.members.splice(vm.members.indexOf(member), 1);
+        vm.membersToDelete.push(member);
       };
 
-      self.removeAll = function removeAll() {
-        self.scope.members.forEach(function(member) {
-          self.membersToDelete.push(member);
+      vm.removeAll = function removeAll() {
+        vm.members.forEach(function(member) {
+          vm.membersToDelete.push(member);
         });
-        self.scope.members.length = 0;
+        vm.members.length = 0;
       };
 
-      self.reenableAll = function reenableAll() {
-        self.membersToDelete.forEach(function(member) {
-          self.scope.members.push(member);
+      vm.reenableAll = function reenableAll() {
+        vm.membersToDelete.forEach(function(member) {
+          vm.members.push(member);
         });
-        self.membersToDelete.length = 0;
+        vm.membersToDelete.length = 0;
       };
 
-      self.apply = function() {
+      vm.apply = function() {
         var promises = [];
         promises = promises.concat(saveSelectedMembers());
         promises = promises.concat(saveSelectedMembership());
-        promises = promises.concat(deleteMembers(self.membersToDelete));
-        $q.all(promises).then($modalInstance.close, self.cancel);
+        promises = promises.concat(deleteMembers(vm.membersToDelete));
+        $q.all(promises).then($modalInstance.close, vm.cancel);
       };
 
       function deleteMembers(membersToDelete) {
@@ -263,33 +262,33 @@
 
       function saveSelectedMembers() {
         var promises = [];
-        self.scope.arrayNewMembers.forEach(function(newMember) {
+        vm.arrayNewMembers.forEach(function(newMember) {
           var actorMapping = {
             'actor_id': actor.id
           };
-          actorMapping[self.searchMemberParams.actorId] = newMember.id;
-          promises.push(self.actorMemberAPISave(actorMapping).$promise);
+          actorMapping[vm.searchMemberParams.actorId] = newMember.id;
+          promises.push(vm.actorMemberAPISave(actorMapping).$promise);
         });
         return promises;
       }
 
       function saveSelectedMembership() {
-        self.saveCallFinished = 0;
-        if (self.scope.newMembershipRole.length === 1 && self.scope.newMembershipGroup.length === 1) {
+        vm.saveCallFinished = 0;
+        if (vm.newMembershipRole.length === 1 && vm.newMembershipGroup.length === 1) {
           return actorMemberAPI.save({
-            'role_id': self.scope.newMembershipRole[0].id,
-            'group_id': self.scope.newMembershipGroup[0].id,
+            'role_id': vm.newMembershipRole[0].id,
+            'group_id': vm.newMembershipGroup[0].id,
             'actor_id': actor.id
           }).$promise;
         }
       }
 
 
-      self.actorMemberAPISave = function actorMemberAPISave(actorMapping) {
+      vm.actorMemberAPISave = function actorMemberAPISave(actorMapping) {
         return actorMemberAPI.save(actorMapping);
       };
 
-      self.cancel = function() {
+      vm.cancel = function() {
         $modalInstance.dismiss();
       };
 
