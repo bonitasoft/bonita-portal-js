@@ -495,7 +495,7 @@
       it('should load some data when we open the modal', function() {
         createController();
         scope.$apply();
-        expect(store.load).toHaveBeenCalledWith(customPageAPI);
+        expect(store.load).toHaveBeenCalledWith(customPageAPI, {f:'contentType=page'});
       });
 
       it('should add pages to customPages on resolve', function() {
