@@ -1,12 +1,11 @@
 <div id="process-details" class="process-details">
   <div class="col-md-12 actions">
     <div class="col-md-2">
-    <a class="btn btn-default" ng-click="processMenuCtrl.goBack()">{{'Back' | translate}}</a>
+        <a id="processDetails-back" class="btn btn-default" ng-click="processMenuCtrl.goBack()">{{'Back' | translate}}</a>
     </div>
     <div class="col-md-10 text-right">
-      <start-for process="processMenuCtrl.process"></start-for>
-
-      <button type="button" class="btn btn-primary" ng-disabled="processMenuCtrl.process.activationState === 'ENABLED'" ng-click="processMenuCtrl.deleteProcess()">{{'Delete' | translate}}</button>
+      <start-for process="processMenuCtrl.process"></start-for>&nbsp;
+      <button id="processDetails-deleteProcess" type="button" class="btn btn-default" ng-disabled="processMenuCtrl.process.activationState === 'ENABLED'" ng-click="processMenuCtrl.deleteProcess()">{{'Delete' | translate}}</button>
     </div>
   </div>
   <div class="col-md-12">

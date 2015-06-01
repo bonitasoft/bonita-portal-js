@@ -12,7 +12,9 @@
     'org.bonitasoft.features.admin'
   ]).provider('bonita', function() {
     var stateResolve = {
-      translations: 'i18nService',
+      translations: ['i18nService', function(i18nService){
+        return i18nService.translationsLoadPromise;
+      }],
       csrfToken: ['$http',
         function($http) {
           return $http({
