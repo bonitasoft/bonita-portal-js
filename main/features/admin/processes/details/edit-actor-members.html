@@ -18,7 +18,7 @@
       <h3>{{'Add' | translate}}</h3>
       <p>
       <actors-select-box local-lang="editActorMembersCtrl.localLang"
-        selected-members="editActorMembersCtrl.arrayNewMembers"
+        selected-members="editActorMembersCtrl.newMembers"
         already-mapped-actors-ids="editActorMembersCtrl.mappedIds"
         type="{{editActorMembersCtrl.memberType}}"></actors-select-box>
       </p>
@@ -27,12 +27,12 @@
       <h3>{{'Create a new membership' | translate}}</h3>
       <p>
        <actors-select-box local-lang="editActorMembersCtrl.localLangRole"
-        selected-members="editActorMembersCtrl.arrayNewMembers.membership.group"
+        selected-members="editActorMembersCtrl.newMembers.membership.group"
         already-mapped-actors-ids="editActorMembersCtrl.mappedIds"
         type="ROLE" selection-mode="single"></actors-select-box>
       <span style="clear:both">{{' of ' | translate }}</span>
        <actors-select-box local-lang="editActorMembersCtrl.localLangGroup"
-        selected-members="editActorMembersCtrl.arrayNewMembers.membership.role"
+        selected-members="editActorMembersCtrl.newMembers.membership.role"
         already-mapped-actors-ids="editActorMembersCtrl.mappedIds"
         type="GROUP" selection-mode="single"></actors-select-box>
       </p>

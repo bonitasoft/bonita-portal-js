@@ -25,7 +25,7 @@
     'processDetails.actors.groups.selectHelper': 'Select groups...',
     'processDetails.actors.roles.label': 'Roles mapped to {}',
     'processDetails.actors.roles.mapping': 'Roles',
-    'processDetails.actors.roles.selectHelp': 'Select roles...',
+    'processDetails.actors.roles.selectHelper': 'Select roles...',
     'processDetails.actors.memberships.label': 'Memberships',
     'processDetails.actors.memberships.mapping': 'Memberships mapped to {}',
     'processDetails.actors.memberships.selectGroupHelper': 'Select a group...',

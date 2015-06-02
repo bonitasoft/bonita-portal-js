@@ -45,7 +45,7 @@
       };
       return actorMappingService;
     })
-    .controller('ActorsMappingCtrl', function($scope, $modal, process, ACTOR_PER_PAGE, MEMBERS_PER_CELL, growl, i18nService, $log, $filter, processActors, ActorMappingService, growlOptions, defaultLocalLang) {
+    .controller('ActorsMappingCtrl', function($scope, $modal, process, ACTOR_PER_PAGE, MEMBERS_PER_CELL, growl, i18nService, $log, $filter, processActors, ActorMappingService, growlOptions, defaultLocalLang, ACTOR_PROFILES) {
       var vm = this;
       var resourceInit = [];
       resourceInit.pagination = {
@@ -56,40 +56,7 @@
       vm.actors = processActors;
       vm.membersPerCell = MEMBERS_PER_CELL;
       vm.actorsMembers = {};
-      vm.actorProfiles = {
-        users: {
-          deploy: {
-            filter: 'member_type=USER',
-            deploy: ['user_id']
-          },
-          type: 'users',
-          name: 'USER'
-        },
-        groups: {
-          deploy: {
-            filter: 'member_type=GROUP',
-            deploy: ['group_id']
-          },
-          type: 'groups',
-          name: 'GROUP'
-        },
-        roles: {
-          deploy: {
-            filter: 'member_type=ROLE',
-            deploy: ['role_id']
-          },
-          type: 'roles',
-          name: 'ROLE'
-        },
-        memberships: {
-          deploy: {
-            filter: 'member_type=MEMBERSHIP',
-            deploy: ['role_id', 'group_id']
-          },
-          type: 'memberships',
-          name: 'MEMBERSHIP'
-        }
-      };
+      vm.actorProfiles = ACTOR_PROFILES;
       vm.actors.forEach(function(actor) {
         ActorMappingService.getMembersForAnActor(actor, vm.actorProfiles, process).then(function(actorMembers) {
           vm.actorsMembers[actor.id] = actorMembers;

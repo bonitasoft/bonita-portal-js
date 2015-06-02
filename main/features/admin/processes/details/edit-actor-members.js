@@ -12,11 +12,11 @@
     'org.bonitasoft.features.admin.mappings',
     'org.bonitasoft.common.actors.selectbox'
   ])
-    .controller('EditActorMembersCtrl', function($modalInstance, store, actorMemberAPI, userAPI, groupAPI, roleAPI, actor, memberProfile, process, i18nService, $q, defaultLocalLang, userIdAttribute, groupIdAttribute, roleIdAttribute, MAPPING_PROFILES, MappingService) {
+    .controller('EditActorMembersCtrl', function($modalInstance, actorMemberAPI, actor, memberProfile, process, i18nService, $q, defaultLocalLang, MAPPING_PROFILES, MappingService) {
       var vm = this;
       vm.memberType = memberProfile.name;
       vm.members = {};
-      vm.arrayNewMembers = {
+      vm.newMembers = {
         list: [],
         membership: {
           role: {
@@ -49,11 +49,11 @@
         return vm.memberType === MAPPING_PROFILES.MEMBERSHIP;
       };
       vm.hasModificationToApply = function() {
-        return (vm.arrayNewMembers.list.length || !!vm.membersToDelete.length) || (vm.arrayNewMembers.membership.group.list.length && vm.arrayNewMembers.membership.role.list.length);
+        return (vm.newMembers.list.length || !!vm.membersToDelete.length) || (vm.newMembers.membership.group.list.length && vm.newMembers.membership.role.list.length);
       };
       vm.initView = function initView() {
         vm.searchMemberParams.filters = ['actor_id=' + actor.id, 'member_type=' + vm.memberType];
-        MappingService.loadMembers(vm.memberType, vm.searchMemberParams, vm.mappedIds).then(function(results) {
+        MappingService.loadMembers(vm.memberType, vm.searchMemberParams, vm.mappedIds, actorMemberAPI).then(function(results) {
           vm.members = results;
         });
       };
@@ -101,7 +101,7 @@
 
       function saveSelectedMembers() {
         var promises = [];
-        vm.arrayNewMembers.list.forEach(function(newMember) {
+        vm.newMembers.list.forEach(function(newMember) {
           var actorMapping = {
             'actor_id': actor.id
           };
@@ -113,10 +113,10 @@
 
       function saveSelectedMembership() {
         vm.saveCallFinished = 0;
-        if (vm.arrayNewMembers.membership.group.list.length && vm.arrayNewMembers.membership.role.list.length) {
+        if (vm.newMembers.membership.group.list.length && vm.newMembers.membership.role.list.length) {
           return actorMemberAPI.save({
-            'role_id': vm.arrayNewMembers.membership.role.list[0].id,
-            'group_id': vm.arrayNewMembers.membership.group.list[0].id,
+            'role_id': vm.newMembers.membership.role.list[0].id,
+            'group_id': vm.newMembers.membership.group.list[0].id,
             'actor_id': actor.id
           }).$promise;
         }

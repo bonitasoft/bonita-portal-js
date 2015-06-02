@@ -12,9 +12,49 @@
       ROLE: 'ROLE',
       MEMBERSHIP: 'MEMBERSHIP'
     })
+    .value('MANAGER_FILTER', {
+      USER: ['user_id=>0', 'group_id=-1', 'role_id=-1'],
+      GROUP: ['user_id=-1', 'group_id=>0', 'role_id=-1'],
+      ROLE: ['user_id=-1', 'group_id=-1', 'role_id=>0'],
+      MEMBERSHIP: ['user_id=-1', 'group_id=>0', 'role_id=>0']
+    })
+    .value('ACTOR_PROFILES', {
+      users: {
+        deploy: {
+          filter: 'member_type=USER',
+          deploy: ['user_id']
+        },
+        type: 'users',
+        name: 'USER'
+      },
+      groups: {
+        deploy: {
+          filter: 'member_type=GROUP',
+          deploy: ['group_id']
+        },
+        type: 'groups',
+        name: 'GROUP'
+      },
+      roles: {
+        deploy: {
+          filter: 'member_type=ROLE',
+          deploy: ['role_id']
+        },
+        type: 'roles',
+        name: 'ROLE'
+      },
+      memberships: {
+        deploy: {
+          filter: 'member_type=MEMBERSHIP',
+          deploy: ['role_id', 'group_id']
+        },
+        type: 'memberships',
+        name: 'MEMBERSHIP'
+      }
+    })
     .value('userIdAttribute', 'user_id')
     .value('groupIdAttribute', 'group_id')
-    .value('roleIdAttribute', 'role_id').service('MappingService', function(i18nService, userIdAttribute, groupIdAttribute, roleIdAttribute, userAPI, groupAPI, roleAPI, MAPPING_PROFILES, store, actorMemberAPI) {
+    .value('roleIdAttribute', 'role_id').service('MappingService', function(i18nService, userIdAttribute, groupIdAttribute, roleIdAttribute, userAPI, groupAPI, roleAPI, MAPPING_PROFILES, store) {
       var mappingService = {};
       /* jshint camelcase: false */
       mappingService.labelFormatter = {
@@ -67,15 +107,15 @@
         return angular.copy(searchMemberParamsValues[type]);
       };
 
-      mappingService.loadMembers = function(type, searchMemberParams, mappedIds) {
+      mappingService.loadMembers = function(type, searchMemberParams, mappedIds, api) {
         var membersResult;
         /*jshint camelcase: false */
-        return store.load(actorMemberAPI, {
+        return store.load(api, {
           f: searchMemberParams.filters,
           d: searchMemberParams.deploy
         }).then(function success(members) {
-          members.forEach(function(currentMember, index) {
-            members[index].label = mappingService.labelFormatter[type](currentMember);
+          members.forEach(function(currentMember) {
+            currentMember.label = mappingService.labelFormatter[type](currentMember);
           });
           membersResult = members;
           if (type !== MAPPING_PROFILES.MEMBERSHIP) {
@@ -98,7 +138,6 @@
           return response.data;
         });
       };
-
       return mappingService;
     });
 })();
