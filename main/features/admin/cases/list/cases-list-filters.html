@@ -3,7 +3,7 @@
   <div class="panel-body">
     <div class="col-md-3 button-filter">{{'Process name' | translate}}
       <div class="btn-group" dropdown id="case-app-name-filter">
-        <button type="button" dropdown-toggle class="btn btn-default dropdown-toggle">{{selectedFilters.selectedApp | translate}} <span class="caret"></span></button>
+        <button type="button" dropdown-toggle class="btn btn-primary dropdown-toggle">{{selectedFilters.selectedApp | translate}} <span class="caret"></span></button>
         <ul class="dropdown-menu" role="menu">
           <li ng-click="filterCtrl.selectApp(defaultFilters.appName)"><a>{{defaultFilters.appName | translate}}</a></li>
           <li ng-if="appNames &amp;&amp; appNames.length>0" class="divider"></li>
@@ -13,7 +13,7 @@
     </div>
     <div class="col-md-3 button-filter">{{'Process version' | translate}}
       <div class="btn-group" dropdown id="case-app-version-filter">
-        <button type="button" dropdown-toggle class="btn btn-default dropdown-toggle" ng-disabled="selectedFilters.selectedApp  === defaultFilters.appName">{{selectedFilters.selectedVersion | translate}} <span class="caret"></span></button>
+        <button type="button" dropdown-toggle class="btn btn-primary dropdown-toggle" ng-disabled="selectedFilters.selectedApp  === defaultFilters.appName">{{selectedFilters.selectedVersion | translate}} <span class="caret"></span></button>
         <ul class="dropdown-menu" role="menu">
           <li ng-click="filterCtrl.selectVersion(defaultFilters.appVersion)"><a>{{defaultFilters.appVersion | translate}}</a></li>
           <li class="divider"></li>
@@ -23,7 +23,7 @@
     </div>
     <div class="col-md-3 button-filter">{{'Case state' | translate}}
       <div class="btn-group" dropdown id="case-app-status-filter">
-        <button type="button" dropdown-toggle class="btn btn-default dropdown-toggle">{{caseStatesValues[selectedFilters.selectedStatus] | translate}} <span class="caret"></span></button>
+        <button type="button" dropdown-toggle class="btn btn-primary dropdown-toggle">{{caseStatesValues[selectedFilters.selectedStatus] | translate}} <span class="caret"></span></button>
         <ul class="dropdown-menu" role="menu">
           <li ng-click="filterCtrl.selectCaseStatus(defaultFilters.caseStatus)"><a>{{defaultFilters.caseStatus | translate}}</a></li>
           <li class="divider"></li>

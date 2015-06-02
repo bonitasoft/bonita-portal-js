@@ -12,7 +12,7 @@
     'org.bonitasoft.bonitable.settings',
     'org.bonitasoft.common.filters.stringTemplater',
     'xeditable',
-    'gettext'
+    'org.bonitasoft.services.i18n'
   ])
     .constant('ACTOR_PER_PAGE', 10)
     .constant('MEMBERS_PER_CELL', 5)
@@ -44,7 +44,7 @@
       };
       return actorMappingService;
     })
-    .controller('ActorsMappingCtrl', function($scope, $modal, process, ACTOR_PER_PAGE, MEMBERS_PER_CELL, growl, gettextCatalog, $log, $filter, processActors, ActorMappingService) {
+    .controller('ActorsMappingCtrl', function($scope, $modal, process, ACTOR_PER_PAGE, MEMBERS_PER_CELL, growl, i18nService, $log, $filter, processActors, ActorMappingService) {
       var vm = this;
       var resourceInit = [];
       resourceInit.pagination = {
@@ -118,10 +118,10 @@
           }
         }).result.then(function close(results) {
           results = _.compact(results);
-          growl.success($filter('stringTemplater')(gettextCatalog.getString('{} actor mapping updates succeeded'), results.length), growlOptions);
+          growl.success(i18nService.getKey('processDetails.actors.update.success', {nbSucess: results.length}), growlOptions);
         }, function cancel(errors) {
           $log.error('Actor mapping errors', errors);
-          growl.error($filter('stringTemplater')(gettextCatalog.getString('{} errors on mapping updates'), errors.length), growlOptions);
+          growl.error(i18nService.getKey('processDetails.actors.update.error', {nbErrors: errors.length}), growlOptions);
         }).finally(function() {
           $scope.$emit('process.refresh');
           ActorMappingService.getActorMembers(actor, vm.actorProfiles[memberType].deploy, process).$promise.then(function(actors) {
