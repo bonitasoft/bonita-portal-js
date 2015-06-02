@@ -69,8 +69,10 @@
           $provide.value('categoryAPI', categoryAPI);
         });
 
-        inject(function($injector) {
+        inject(function($injector, $q, $rootScope) {
+          scope = $rootScope.$new();
           categoryManager = $injector.get('categoryManager');
+          q = $q;
         });
       });
       describe('categoryIsSelected', function() {
@@ -175,7 +177,8 @@
           categoryManager.updateCategories(categories, initiallySelectedCategories, selectedTags, tags, 123);
         });
         describe('selectedCategoriesPopulatePromise', function() {
-          xit('should return the selected categories from the final promise', function() {
+
+          it('should return the selected categories from the final promise', function() {
             var createNewCategoryDeferred = q.defer();
             var saveNewCategoryMappingDeferred = q.defer();
             var categoryMappingDeferred = q.defer();
@@ -192,15 +195,14 @@
               name: 'catego3'
             };
             categories = [cat1, cat2, cat3];
-            scope.$digest();
 
-            var result;
             saveNewCategoryMappingDeferred.resolve();
             createNewCategoryDeferred.resolve(saveNewCategoryMappingDeferred.promise);
             categoryMappingDeferred.resolve();
-            categoryManager.selectedCategoriesPopulatePromise([categoryMappingDeferred.promise], [createNewCategoryDeferred.promise], categories);
+            categoryManager.selectedCategoriesPopulatePromise([categoryMappingDeferred.promise], [createNewCategoryDeferred.promise], categories).then(function(qallResult) {
+              expect(qallResult).toEqual(categories);
+            });
             scope.$apply();
-            expect(result).toEqual(categories);
           });
         });
         describe('saveCategoryProcessIfNotAlreadySelected', function() {
@@ -216,9 +218,7 @@
             process = {
               id: 123
             };
-            processCategoryAPI.save.and.returnValue({
-              $promise: deferredProcessCategory.promise
-            });
+            processCategoryAPI.save.and.returnValue(deferredProcessCategory.promise);
             categoryManager.saveCategoryProcessIfNotAlreadySelected(cat1, initiallySelectedCategories, promises, process.id);
             expect(promises).toEqual([deferredProcessCategory.promise]);
           });
@@ -252,9 +252,7 @@
             process = {
               id: 123
             };
-            processCategoryAPI.delete.and.returnValue({
-              $promise: deferredProcessCategory.promise
-            });
+            processCategoryAPI.delete.and.returnValue(deferredProcessCategory.promise);
             categoryManager.deleteCategoryProcessIfNeeded(cat1, initiallySelectedCategories, promises, process.id, selectedTags);
             expect(promises).toEqual([deferredProcessCategory.promise]);
           });
