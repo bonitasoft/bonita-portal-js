@@ -106,8 +106,8 @@
             process: function resolveProcess() {
               return process;
             },
-            memberType: function resolveMemberType() {
-              return vm.actorProfiles[memberType].name;
+            memberProfile: function resolveMemberType() {
+              return vm.actorProfiles[memberType];
             },
             actor: function resolveActor() {
               return actor;
