@@ -30,7 +30,7 @@ module.exports = function (grunt) {
     watch: {
       bower: {
         files: ['bower.json'],
-        tasks: ['bowerInstall']
+        tasks: ['wiredep']
       },
       js: {
         files: ['<%= portaljs.app %>/*.js', '<%= portaljs.app %>/features/**/*.js', '<%= portaljs.app %>/commons/**/*.js', '<%= portaljs.app %>/assets/**/*.js'],
@@ -225,12 +225,22 @@ module.exports = function (grunt) {
       }
     },
 
-    // Automatically inject Bower components into the app
-    bowerInstall: {
-      'community': {
+    wiredep: {
+      'e2e': {
         src: ['<%= portaljs.app %>/index.html'],
         ignorePath: '<%= portaljs.app %>/'
-      }
+      },
+      'build': {
+        src: ['<%= portaljs.app %>/index.html'],
+        ignorePath: '<%= portaljs.app %>/',
+
+        options: {
+          'overrides': {
+            'bootstrap': {'main': []}
+          }
+        }
+      },
+
     },
 
     injector: {
@@ -474,7 +484,7 @@ module.exports = function (grunt) {
 
     grunt.task.run([
       'clean:server',
-      'bowerInstall',
+      'wiredep:build',
       'injector',
       'lineending',
       'concurrent:server',
@@ -495,33 +505,39 @@ module.exports = function (grunt) {
   ]);
 
   grunt.registerTask('buildE2e', [
-      'build',
-      'clean:server',
-      'concurrent:test',
-      'autoprefixer',
-      'connect:dist',
-      'karma',
-      'protractor:e2e'
+    'clean:dist',
+    'wiredep:e2e',
+    'makeDist',
+    'clean:server',
+    'concurrent:test',
+    'autoprefixer',
+    'connect:dist',
+    'karma',
+    'protractor:e2e'
   ]);
 
   grunt.registerTask('testE2e', [
-      'concurrent:test',
-      'autoprefixer',
-      'connect:dist',
-      'protractor:e2e'
+    'concurrent:test',
+    'autoprefixer',
+    'connect:dist',
+    'protractor:e2e'
   ]);
 
   grunt.registerTask('serveE2e', [
-      'concurrent:test',
-      'autoprefixer',
-      'connect:dist',
-      'protractor:e2e',
-      'watch'
+    'concurrent:test',
+    'autoprefixer',
+    'connect:dist',
+    'protractor:e2e',
+    'watch'
   ]);
 
   grunt.registerTask('build', [
     'clean:dist',
-    'bowerInstall',
+    'wiredep:build',
+    'makeDist'
+  ]);
+
+  grunt.registerTask('makeDist', [
     'injector',
     'lineending',
     'nggettext_extract',
@@ -539,6 +555,7 @@ module.exports = function (grunt) {
     'htmlmin',
     'ngdocs'
   ]);
+
 
   grunt.registerTask('default', [
     'newer:jshint',

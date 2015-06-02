@@ -1,5 +1,5 @@
 <div id="process-details-information">
-  <h3>{{'General' | translate}}</h3>
+  <h2>{{'General' | translate}}</h2>
   <div class="panel panel-default">
     <div class="panel-body">
       <div class="col-md-12 row">
@@ -7,8 +7,7 @@
           <b>{{::processInformationCtrl.process.configurationState}}</b>
         </div>
         <div class="metatags-label  form-group">
-
-          {{ 'Activation state' | translate }}
+          {{ 'Activation state' | translate }}&nbsp;
               <toggle-button on="Enabled" off="Disabled" process-id="{{::processInformationCtrl.process.id}}" initial-state="{{::processInformationCtrl.process.activationState === 'ENABLED'}}" enable-toggle="processInformationCtrl.isProcessResolved"></toggle-button>
         </div>
         <div class="metatags-label form-group">
@@ -24,7 +23,7 @@
       <div class="col-md-12 row">
         <div class="col-md-12 row categories">
           <div class="col-md-2 row metatags-label">
-          {{'Categories' | translate}} <button class="glyphicon" ng-click="processInformationCtrl.openProcessCategoryManagementModal()"><span class="glyphicon glyphicon-pencil"></span></button>
+          {{'Categories' | translate}} <button class="btn btn-primary" ng-click="processInformationCtrl.openProcessCategoryManagementModal()"><span class="glyphicon glyphicon-pencil"></span></button>
           </div>
           <div class="col-md-10 bootstrap-tags">
             <bonitags tags-suggestion="processInformationCtrl.categories" tags-selection="processInformationCtrl.selectedCategories" read-only></bonitags>

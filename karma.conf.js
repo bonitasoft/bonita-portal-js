@@ -50,6 +50,7 @@ module.exports = function(config) {
       'main/features/**/*.js',
       'main/features/**/*.html',
       'main/bonita-portal.js',
+      'test/spec/fixtures/i18nMock.js',
       'test/spec/**/*.js'
     ],
 
