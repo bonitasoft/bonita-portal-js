@@ -47,6 +47,9 @@
       self.scope.localLangRole = angular.copy(self.scope.localLang);
       self.scope.localLangGroup = angular.copy(self.scope.localLang);
 
+      self.isMembershipEdit = function() {
+        return self.scope.memberType === self.constant.MEMBERSHIP;
+      };
       self.initView = function initView() {
         switch (memberType) {
           case self.constant.USER:
@@ -101,7 +104,7 @@
             self.title = i18nService.getKey('processDetails.actors.memberships.mapping');
             self.scope.localLangGroup.nothingSelected = i18nService.getKey('processDetails.actors.memberships.selectGroupHelper');
             self.scope.localLangRole.nothingSelected = i18nService.getKey('processDetails.actors.memberships.selectRoleHelper');
-            self.scope.currentMemberLabel = 'memberships';
+            self.scope.currentMemberLabel = i18nService.getKey('processDetails.actors.memberships.label');
             break;
         }
         self.searchMemberParams.filters = ['actor_id=' + actor.id, 'member_type=' + memberType];
@@ -253,7 +256,7 @@
         membersToDelete.forEach(function(member) {
           promises.push(actorMemberAPI.delete({
             id: member.id
-          }));
+          }).$promise);
         });
         return promises;
       }
@@ -265,7 +268,7 @@
             'actor_id': actor.id
           };
           actorMapping[self.searchMemberParams.actorId] = newMember.id;
-          promises.push(self.actorMemberAPISave(actorMapping));
+          promises.push(self.actorMemberAPISave(actorMapping).$promise);
         });
         return promises;
       }
@@ -277,7 +280,7 @@
             'role_id': self.scope.newMembershipRole[0].id,
             'group_id': self.scope.newMembershipGroup[0].id,
             'actor_id': actor.id
-          });
+          }).$promise;
         }
       }
 

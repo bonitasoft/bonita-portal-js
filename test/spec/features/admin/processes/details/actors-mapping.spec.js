@@ -132,9 +132,7 @@
           result: deferred.promise
         });
         var deferredActors = q.defer();
-        ActorMappingService.getActorMembers.and.returnValue({
-          $promise: deferredActors.promise
-        });
+        ActorMappingService.getActorMembers.and.returnValue(deferredActors.promise);
         deferredActors.resolve(actorMapping2.groups);
 
         actorMappingCtrl.editMapping(actor1, 'groups');
@@ -142,6 +140,7 @@
         expect(modal.open.calls.count()).toEqual(1);
         var options = modal.open.calls.mostRecent().args[0];
         expect(options.size).toBe('lg');
+        expect(options.backdrop).toBeFalsy();
         expect(options.templateUrl).toBe('features/admin/processes/details/edit-actor-members.html');
         expect(options.controller).toBe('EditActorMembersCtrl');
         expect(options.controllerAs).toBe('editActorMembersCtrl');
