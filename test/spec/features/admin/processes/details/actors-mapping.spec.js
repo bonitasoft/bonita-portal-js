@@ -122,7 +122,8 @@
           growl: growl,
           $log: log,
           processActors: processActors,
-          ActorMappingService: ActorMappingService
+          ActorMappingService: ActorMappingService,
+          defaultLocalLang: {}
         });
       });
       it('should open modal on actor edition, display success message on success and refresh process and appropriate actor', function() {
@@ -145,7 +146,7 @@
         expect(options.controller).toBe('EditActorMembersCtrl');
         expect(options.controllerAs).toBe('editActorMembersCtrl');
         expect(options.resolve.process()).toBe(process);
-        expect(options.resolve.memberType()).toEqual('GROUP');
+        expect(options.resolve.memberProfile().name).toEqual('GROUP');
         expect(options.resolve.actor()).toEqual(actor1);
         deferred.resolve([null, undefined, 'actor1', 'actor2']);
         scope.$apply();
