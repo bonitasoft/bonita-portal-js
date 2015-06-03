@@ -70,9 +70,9 @@
         describe('Enable/Disable Button', function() {
           it('should disable process and enable delete then enable process and disable delete', function() {
             element(by.css('.bonita-toggle')).click();
-            expect(processDetails.all(by.css('.actions .btn-primary')).get(0).getAttribute('disabled')).toEqual(null);
+            expect(processDetails.all(by.css('.actions #processDetails-deleteProcess')).get(0).getAttribute('disabled')).toEqual(null);
             element(by.css('.bonita-toggle')).click();
-            expect(processDetails.all(by.css('.actions .btn-primary')).get(0).getAttribute('disabled')).toEqual('true');
+            expect(processDetails.all(by.css('.actions #processDetails-deleteProcess')).get(0).getAttribute('disabled')).toEqual('true');
           });
         });
 
@@ -94,14 +94,13 @@
       });
 
       function checkMainActions() {
-        var mainActionButtons = processDetails.all(by.css('.actions .btn'));
-
-        expect(mainActionButtons.get(0).getText()).toEqual('Back');
-        expect(mainActionButtons.get(0).getAttribute('ng-click')).toEqual('processMenuCtrl.goBack()');
+        var backButton = element(by.css('#processDetails-back'));
+        expect(backButton.getText()).toEqual('Back');
+        expect(backButton.getAttribute('ng-click')).toEqual('processMenuCtrl.goBack()');
 
         expect(processDetails.all(by.css('h1')).getText()).toEqual(['SupportProcess (1.0)']);
         expect(processDetails.all(by.css('.panel-danger > div')).count()).toBe(0);
-        expect(processDetails.all(by.css('.actions button.btn-primary')).get(0).getAttribute('disabled')).toEqual('true');
+        expect(processDetails.all(by.css('.actions #processDetails-deleteProcess')).get(0).getAttribute('disabled')).toEqual('true');
       }
     });
     describe('Unresolved Process', function() {
@@ -124,7 +123,7 @@
       });
       describe('Delete button', function() {
         it('should open a popup asking for deletion with Delete and Cancel', function() {
-          var deleteButton = processDetails.all(by.css('.actions .btn-primary')).get(0);
+          var deleteButton = processDetails.all(by.css('.actions #processDetails-deleteProcess')).get(0);
           expect(deleteButton.getText()).toEqual('Delete');
           //click on delete
           deleteButton.click();

@@ -5,17 +5,17 @@
    *
    * Description
    */
-  angular.module('org.bonitasoft.service.process.resolution', ['gettext'])
+  angular.module('org.bonitasoft.service.process.resolution', ['org.bonitasoft.services.i18n'])
   .value('ProcessResolutionProblemItems', {
-    actor: 'Entity Mapping must be resolved before enabling the Process.',
-    connector: 'Connector definitions must be resolved before enabling the Process.',
-    parameter: 'Parameters must be resolved before enabling the Process.',
-    'business data': 'The business data: [ {} ] uses Business Objects which are not defined in the current Business Data model. Deploy a compatible Business Data model before enabling the process.',
-    'form mapping': 'The following form mappings are not resolved: [ {} ]'
+    actor: 'processDetails.problemResolution.message.actor',
+    connector: 'processDetails.problemResolution.message.connector',
+    parameter: 'processDetails.problemResolution.message.parameter',
+    'business data': 'processDetails.problemResolution.message.businessData',
+    'form mapping': 'processDetails.problemResolution.message.formMapping'
   })
-  .service('ProcessProblemResolutionService', function(gettextCatalog, ProcessResolutionProblemItems) {
+  .service('ProcessProblemResolutionService', function(i18nService, ProcessResolutionProblemItems) {
     var processProblemResolutionService = {};
-    processProblemResolutionService.title = gettextCatalog.getString('The Process cannot be enabled');
+    processProblemResolutionService.title = i18nService.getKey('processDetails.problemResolution.title');
     processProblemResolutionService.buildProblemsList = function(stateResolverList) {
       var problemList = [];
       if (!_.isArray(stateResolverList)) {
@@ -29,7 +29,7 @@
         if(problemAndRessources.length){
           var problem = {
             type: key,
-            message: gettextCatalog.getString(value)
+            message: i18nService.getKey(value)
           };
           var args = _.chain(problemAndRessources).pluck('ressource_id').compact().map(manageResourceName).value();
           if(_.isArray(args) && _.size(args) > 0) {
@@ -42,9 +42,9 @@
         /* jshint -W003 */
         function manageResourceName(resource) {
           if(resource === 'PROCESS_OVERVIEW'){
-            return gettextCatalog.getString('Case overview');
+            return i18nService.getKey('processDetails.problemResolution.resource.caseOverview');
           } else if(resource === 'PROCESS_START'){
-            return gettextCatalog.getString('Case start');
+            return i18nService.getKey('processDetails.problemResolution.resource.caseStart');
           } else {
             return resource;
           }
