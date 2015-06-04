@@ -55,6 +55,7 @@
     'processDetails.startFor.label': 'Enter the user to start the case for...',
     'processDetails.forms.add.error': 'Can\'t import page or form to the process',
     'processDetails.forms.mapping.empty': 'No Mapping',
+    'processDetails.forms.mapping.edit.empty': 'Form cannot be empty',
     'processDetails.forms.upload.error.filename.length': 'Filename too long. The zip filename must be no longer than 50 characters',
     'processDetails.forms.upload.error.file.structure': 'Zip file structure error. Check that your .zip contains a well-formed page.properties and either the index.html or the Index.groovy file. For details, see the documentation or the example page readme (available in the custom page list)',
     'processDetails.forms.upload.error.name.already.exists': 'A page with this name already exists.',
