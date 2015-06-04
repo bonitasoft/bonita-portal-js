@@ -3,17 +3,11 @@
 
   angular.module('org.bonitasoft.features.admin.processes.details.actorMapping', [
     'ui.bootstrap',
-    'ui.router',
     'org.bonitasoft.common.resources',
-    'org.bonitasoft.bonitable',
-    'org.bonitasoft.bonitable.selectable',
-    'org.bonitasoft.bonitable.repeatable',
-    'org.bonitasoft.bonitable.sortable',
-    'org.bonitasoft.bonitable.settings',
     'org.bonitasoft.common.filters.stringTemplater',
-    'xeditable',
     'org.bonitasoft.services.i18n',
-    'org.bonitasoft.common.properties'
+    'org.bonitasoft.common.properties',
+    'org.bonitasoft.features.admin.mappings'
   ])
     .constant('ACTOR_PER_PAGE', 10)
     .constant('MEMBERS_PER_CELL', 5)
