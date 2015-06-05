@@ -128,7 +128,7 @@
           expect(categoryManager.createNewCategoriesPromises()).toEqual([]);
           expect(categoryManager.createNewCategoriesPromises([], [], [])).toEqual([]);
         });
-        xit('should save not existing tags, create mapping and return promises ', function() {
+        it('should save not existing tags, create mapping and return promises ', function() {
           var deferredCategory = q.defer();
           var deferredProcessCategory = q.defer();
           var newTag = 'catego4';
@@ -153,7 +153,7 @@
         });
       });
       describe('updateCategories', function() {
-        xit('should save some categoryProcess, delete some and wait for promises to be resolved', function() {
+        it('should save some categoryProcess, delete some and wait for promises to be resolved', function() {
           cat1 = {
             id: 111,
             name: 'catego1'
@@ -173,8 +173,19 @@
 
           var initiallySelectedCategories = [cat1, cat2];
           var selectedTags = ['catego2', 'catego3', 'catego4'];
+          var selectedCategories = [cat2, cat3];
           var tags = ['catego1', 'catego2', 'catego3'];
+          spyOn(categoryManager, 'categoryIsSelected').and.returnValues(false, true, true);
+          spyOn(categoryManager, 'deleteCategoryProcessIfNeeded');
+          spyOn(categoryManager, 'saveCategoryProcessIfNotAlreadySelected');
+          spyOn(categoryManager, 'selectedCategoriesPopulatePromise');
+          spyOn(categoryManager, 'createNewCategoriesPromises');
           categoryManager.updateCategories(categories, initiallySelectedCategories, selectedTags, tags, 123);
+          expect(categoryManager.categoryIsSelected.calls.allArgs()).toEqual([[cat1, selectedTags], [cat2 , selectedTags], [cat3, selectedTags]]);
+          expect(categoryManager.deleteCategoryProcessIfNeeded.calls.allArgs()).toEqual([[cat1, initiallySelectedCategories, [], process.id, selectedTags]]);
+          expect(categoryManager.saveCategoryProcessIfNotAlreadySelected.calls.allArgs()).toEqual([[cat2, initiallySelectedCategories, [], process.id], [cat3, initiallySelectedCategories, [], process.id]]);
+          expect(categoryManager.selectedCategoriesPopulatePromise.calls.allArgs()).toEqual([[[], undefined, selectedCategories]]);
+          expect(categoryManager.createNewCategoriesPromises.calls.allArgs()).toEqual([[selectedCategories, tags, selectedTags, process.id]]);
         });
         describe('selectedCategoriesPopulatePromise', function() {
 
