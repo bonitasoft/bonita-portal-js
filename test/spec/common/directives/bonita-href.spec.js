@@ -6,18 +6,15 @@ describe('goThroughPortal', function () {
   beforeEach(module('org.bonitasoft.common.directives.bonitaHref'));
 
   beforeEach(function () {
-    manageTopUrl = jasmine.createSpyObj('manageTopUrl', ['goTo']);
-    module(function ($provide) {
-      $provide.value('manageTopUrl', manageTopUrl);
-    });
-
-    inject(function ($rootScope, $compile) {
+    inject(function ($rootScope, $compile, _manageTopUrl_) {
       compile = function (html) {
         var scope = $rootScope.$new();
         var element = $compile(html)(scope);
         scope.$apply();
         return element;
       };
+      manageTopUrl = _manageTopUrl_;
+      spyOn(manageTopUrl, 'goTo');
     });
   });
 
@@ -36,4 +33,10 @@ describe('goThroughPortal', function () {
   });
 
 
+  it('should call manageTopUrl with simple destination params when click is called', function () {
+    var destination = 'caselistingadmin';
+    var element = compile('<a bonita-href="'+destination+'"></a>');
+    element.trigger('click');
+    expect(manageTopUrl.goTo.calls.allArgs()).toEqual([[destination]]);
+  });
 });

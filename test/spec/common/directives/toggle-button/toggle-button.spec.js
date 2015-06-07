@@ -38,14 +38,20 @@ describe('toggle/switch Button', function () {
     element.click();
     scope.$apply();
     expect(scope.$emit.calls.allArgs()).toEqual([ [ 'button.toggle', { value: true } ] ]);
+    scope.$emit.calls.reset();
+    scope.enable = false;
+    scope.$apply();
+    element.click();
+    scope.$apply();
+    expect(scope.$emit).not.toHaveBeenCalled();
   }));
 
   it('should call change enabled to false value when element is clicked', inject(function ($compile, $rootScope) {
     var scope = $rootScope.$new();
     scope.enable = true;
-    scope.$emit= jasmine.createSpy();
+    spyOn(scope, '$emit');
     var element = $compile('<toggle-button initial-state="true" on="Enabled" off="Disabled" enable-toggle="enable"></toggle-button>')(scope);
-    element.isolateScope().$emit =  scope.$emit;
+    spyOn(element.isolateScope(), '$emit');
     scope.$apply();
     expect(element.parent().attr('class')).toContain('toggle btn btn-primary bonita-toggle');
     element.click();
@@ -54,6 +60,6 @@ describe('toggle/switch Button', function () {
     //expect(element.parent().attr('class')).toContain('toggle btn btn-default off');
     expect(element.parent().find('.toggle-off').text()).toBe('Disabled');
     expect(element.parent().find('.toggle-on').text()).toBe('Enabled');
-    expect(scope.$emit.calls.allArgs()).toEqual([ [ 'button.toggle', { value: false } ] ]);
+    expect(element.isolateScope().$emit.calls.allArgs()).toEqual([ [ 'button.toggle', { value: false } ] ]);
   }));
 });

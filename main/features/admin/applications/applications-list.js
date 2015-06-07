@@ -13,8 +13,7 @@
     'ui.router',
     'org.bonitasoft.services.topurl',
     'org.bonitasoft.bonitable',
-    'org.bonitasoft.templates',
-    'org.bonitasoft.sortable'
+    'org.bonitasoft.templates'
   ])
     .config(['$stateProvider', function ($stateProvider) {
       $stateProvider.state('bonita.applications', {

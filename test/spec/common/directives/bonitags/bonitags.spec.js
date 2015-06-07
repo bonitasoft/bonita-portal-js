@@ -62,6 +62,32 @@
       scope.tagsSelection.push('test');
       scope.$apply();
       expect(iTags.renderReadOnly).toHaveBeenCalled();
+      iTags.renderReadOnly.calls.reset();
+      delete iTags.readOnly;
+      scope.tagsSelection.push('bonita');
+      scope.$apply();
+      expect(iTags.renderReadOnly).not.toHaveBeenCalled();
+    });
+
+    it('should not watch for tags selection modification', function() {
+      scope.tagsSuggestion = [];
+      scope.tagsSelection = [];
+      iTags.readOnly = false;
+      var element = compile('<bonitags read-only tags-suggestion="tagsSelection" tags-selection="tagsSuggestion"></bonitags>')(scope);
+      scope.$apply();
+      timeout.flush();
+
+      var options  = element.tags.calls.mostRecent().args[0];
+      expect(options.readOnly).toEqual(true);
+      expect(options.tagData).toEqual(scope.tagsSelection);
+      expect(options.suggestions).toEqual(scope.tagsSuggestion);
+      expect(options.tagClass).toEqual('label-default');
+      expect(options.promptText).toEqual(' ');
+      expect(options.readOnlyEmptyMessage).toEqual(' ');
+
+      scope.tagsSelection.push('test');
+      scope.$apply();
+      expect(iTags.renderReadOnly).not.toHaveBeenCalled();
     });
   });
 })();

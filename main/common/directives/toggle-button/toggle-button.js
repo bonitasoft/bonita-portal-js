@@ -22,9 +22,7 @@
         } else {
           iElm.bootstrapToggle('disable');
         }
-        iElm.change(function() {
-          scope.$apply();
-        });
+        iElm.change(scope.$apply);
         scope.$watch('enableToggle', function(newValue, oldValue) {
           if(newValue !== oldValue){
             if(newValue){
