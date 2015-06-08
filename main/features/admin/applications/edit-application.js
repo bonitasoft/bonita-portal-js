@@ -72,7 +72,9 @@
         }
 
         $scope.submit = function submit(application) {
-          if (application.model.token === 'API' || application.model.token === 'content' || application.model.token === 'theme') {
+          var tokenToLowerCase = application.model.token.toLowerCase();
+          $scope.application.form.token.$reservedToken = false;
+          if (tokenToLowerCase === 'api' || tokenToLowerCase === 'content' || tokenToLowerCase === 'theme') {
             $scope.application.form.token.$reservedToken = true;
           } else {
             applicationAPI[$scope.editionMode ? 'update' : 'save'](application.model)
