@@ -25,8 +25,14 @@
           });
 
         $scope.add = function(page) {
-          page.model.applicationId = $scope.application.id;
-          applicationPageAPI.save(page.model).$promise.then(closeModal, handleErrors);
+
+          if (page.model.token === 'API' || page.model.token === 'content' || page.model.token === 'theme') {
+            $scope.page.form.token.$reservedToken = true;
+          }else{
+            page.model.applicationId = $scope.application.id;
+            applicationPageAPI.save(page.model).$promise.then(closeModal, handleErrors);
+          }
+
         };
 
         function handleErrors(response) {

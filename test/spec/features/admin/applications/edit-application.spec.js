@@ -18,7 +18,7 @@ describe('Controller: addApplicationCtrl', function () {
     modalInstance = jasmine.createSpyObj('modalInstance', ['dismiss', 'close']);
 
 
-    spyOnLoad = function(promise){
+    spyOnLoad = function (promise) {
       spyOn(store, 'load').and.returnValue(promise);
     };
     createCtrl = function (application) {
@@ -50,7 +50,7 @@ describe('Controller: addApplicationCtrl', function () {
     expect(scope.profiles).toEqual(['foo', 'bar']);
   });
 
-  describe('in creation mode', function() {
+  describe('in creation mode', function () {
 
     var saveRequest;
 
@@ -102,16 +102,37 @@ describe('Controller: addApplicationCtrl', function () {
 
       scope.submit({ model: '' });
       scope.application = {form: { token: {}}, model: {}};
-      saveRequest.reject({ status: 500,  data: {cause: {exception: 'AlreadyExistsException'}} });
+      saveRequest.reject({ status: 500, data: {cause: {exception: 'AlreadyExistsException'}} });
 
       scope.$apply();
 
       expect(scope.application.form.token.$duplicate).toBe(true);
     });
 
+    it('should turn reservedToken to true on save with "API" token', function () {
+      scope.application = {form: { token: {}}};
+      scope.submit({ model: {token: 'API'} });
+      scope.$apply();
+      expect(scope.application.form.token.$reservedToken).toBe(true);
+    });
+
+    it('should turn reservedToken to true on save with "content" token', function () {
+      scope.application = {form: { token: {}}};
+      scope.submit({ model: {token: 'content'} });
+      scope.$apply();
+      expect(scope.application.form.token.$reservedToken).toBe(true);
+    });
+
+    it('should turn reservedToken to true on save with "theme" token', function () {
+      scope.application = {form: { token: {}}};
+      scope.submit({ model: {token: 'theme'} });
+      scope.$apply();
+      expect(scope.application.form.token.$reservedToken).toBe(true);
+    });
+
   });
 
-  describe('in edit mode', function() {
+  describe('in edit mode', function () {
 
     var updateRequest, application = { model: 'model' };
 
