@@ -71,6 +71,7 @@
     'processDetails.problemResolution.resource.caseStart': 'Case start',
     'processDetails.scripts.update.success': 'Expression content has been updated',
     'processDetails.scripts.update.error': 'Can\'t update expression content',
+    'application.edit.reservedTokenError': 'The words \'content\', \'API\' and \'theme\' are reserved for internal use. They must not be used in an application or page URL.'
   })
     .service('i18nService', function (gettextCatalog, $cookies, i18nAPI, I18N_KEYS) {
       var i18n = {};

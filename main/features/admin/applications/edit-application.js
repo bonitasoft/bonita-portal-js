@@ -9,7 +9,7 @@
     'org.bonitasoft.common.resources.store',
     'org.bonitasoft.common.i18n.factories'
   ])
-    .controller('addApplicationCtrl', ['$scope', 'applicationAPI', 'profileAPI', 'customPageAPI', '$modalInstance', 'application', 'store','i18nMsg',
+    .controller('addApplicationCtrl', ['$scope', 'applicationAPI', 'profileAPI', 'customPageAPI', '$modalInstance', 'application', 'store', 'i18nMsg',
       function ($scope, applicationAPI, profileAPI, customPageAPI, $modalInstance, application, store, i18nMsg) {
 
         $scope.i18n = i18nMsg.field;
@@ -72,8 +72,14 @@
         }
 
         $scope.submit = function submit(application) {
-          applicationAPI[$scope.editionMode ? 'update' : 'save'](application.model)
-            .$promise.then(closeModal, handleErrors);
+          var tokenToLowerCase = application.model.token.toLowerCase();
+          $scope.application.form.token.$reservedToken = false;
+          if (tokenToLowerCase === 'api' || tokenToLowerCase === 'content' || tokenToLowerCase === 'theme') {
+            $scope.application.form.token.$reservedToken = true;
+          } else {
+            applicationAPI[$scope.editionMode ? 'update' : 'save'](application.model)
+              .$promise.then(closeModal, handleErrors);
+          }
         };
       }]);
 })();

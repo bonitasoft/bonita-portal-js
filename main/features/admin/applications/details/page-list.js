@@ -25,8 +25,15 @@
           });
 
         $scope.add = function(page) {
-          page.model.applicationId = $scope.application.id;
-          applicationPageAPI.save(page.model).$promise.then(closeModal, handleErrors);
+          var tokenToLowerCase = page.model.token.toLowerCase();
+          $scope.page.form.token.$reservedToken = false;
+          if (tokenToLowerCase === 'api' || tokenToLowerCase === 'content' || tokenToLowerCase === 'theme') {
+            $scope.page.form.token.$reservedToken = true;
+          }else{
+            page.model.applicationId = $scope.application.id;
+            applicationPageAPI.save(page.model).$promise.then(closeModal, handleErrors);
+          }
+
         };
 
         function handleErrors(response) {
