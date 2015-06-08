@@ -519,20 +519,21 @@
 
       it('should save application page', function () {
         createController();
+        scope.page = {form: {token: ''}};
         scope.$apply();
 
         scope.add({
-          model: 'model'
+          model: {token: ''}
         });
 
-        expect(applicationPageAPI.save).toHaveBeenCalledWith('model');
+        expect(applicationPageAPI.save).toHaveBeenCalledWith({ token: '', applicationId: 1 });
       });
 
       it('should close modal on save success', function () {
         createController();
-
+        scope.page = {form: {token: ''}};
         scope.add({
-          model: ''
+          model: {token: ''}
         });
         saveRequest.resolve({});
         scope.$apply();
@@ -541,9 +542,9 @@
 
       it('should add an error on save failure with error 404 response', function () {
         createController();
-
+        scope.page = {form: {token: ''}};
         scope.add({
-          model: ''
+          model: {token: ''}
         });
         saveRequest.reject({
           status: 404,
@@ -556,8 +557,9 @@
 
       it('should add an error on save failure with error different than 404 or 500 response', function () {
         createController();
+        scope.page = {form: {token: ''}};
         scope.add({
-          model: ''
+          model: {token: ''}
         });
         saveRequest.reject({
           data: {}
@@ -570,8 +572,9 @@
 
       it('should turn duplicate to true on save failure with 500 response', function () {
         createController();
+        scope.page = {form: {token: ''}};
         scope.add({
-          model: ''
+          model: {token: ''}
         });
         scope.page = {
           form: {
@@ -597,7 +600,7 @@
       it('should turn reservedToken to true on save with "API" token', function () {
         createController();
         scope.page = {form: { token: {}}};
-        scope.add({model: {token: 'API'}});
+        scope.add({model: {token: 'api'}});
         scope.$apply();
         expect(scope.page.form.token.$reservedToken).toBe(true);
       });
