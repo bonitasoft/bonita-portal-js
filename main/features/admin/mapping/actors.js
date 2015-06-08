@@ -50,7 +50,7 @@
     var searchMemberParams = MappingService.getSearchMemberParams(type);
     var previousSearchTerm;
     vm.search = function(search) {
-      if (angular.isUndefined(searchOptions) || (searchOptions.s && previousSearchTerm === searchOptions.s)) {
+      if (search.keyword && previousSearchTerm === search.keyword) {
         return;
       } else {
         previousSearchTerm = searchOptions.s;
