@@ -125,7 +125,7 @@
         expect(scope.$emit).toHaveBeenCalledWith('process.refresh');
 
       });
-      xit('should call API to update parameter', function() {
+      it('should call API to update parameter', function() {
         var deferred = q.defer();
         parameterAPI.update.and.returnValue({
           $promise: deferred.promise

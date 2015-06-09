@@ -11,7 +11,7 @@
     'org.bonitasoft.common.resources',
     'org.bonitasoft.features.admin'
   ]).provider('bonita', function() {
-    var stateResolve = {
+    this.stateResolve = {
       translations: ['i18nService', function(i18nService){
         return i18nService.translationsLoadPromise;
       }],
@@ -27,9 +27,8 @@
         }
       ]
     };
-    this.stateResolve = stateResolve;
     this.$get = function() {
-      return stateResolve;
+      return this.stateResolve;
     };
   })
   //parent state to use for every state in order to have the translations loaded correctly...

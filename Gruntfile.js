@@ -65,6 +65,44 @@ module.exports = function (grunt) {
       }
     },
 
+    esteWatch: {
+      options: {
+        dirs: [
+          '<%= portaljs.app %>/',//js
+          '<%= portaljs.app %>/{features, commons, assets}/**/',//js
+          '<%= portaljs.app %>/test/{spec,e2e}/**/',//js test & e2e
+          '<%= portaljs.app %>/styles/**/',//styles
+          '<%= portaljs.app %>/styles/**/',
+          ],
+        livereload:{
+          enabled: true,
+          port:'<%= connect.options.livereload %>',
+          extensions:['js','css','html','json'],
+          key: null, // provide a filepath or Buffer for `key` and `cert` to enable SSL. 
+          cert: null
+        }
+      },
+      bower: function() {
+        return ['wiredep'];
+      },
+      js: function(filepath) {
+        grunt.config(['esteJs','app'], filepath);
+        return ['newer:jshint:all', 'ngdocs:all'];
+      },
+      jsTest: function(){
+        return ['newer:jshint:test', 'karma'];
+      },
+      e2eTest: function(){
+        return ['protractor:e2e'];
+      },
+      styles: function(){
+        return ['<%= portaljs.app %>/styles/{,*/}*.css'];
+      }
+    },
+
+
+
+
     // The actual grunt server settings
     connect: {
       options: {
@@ -493,6 +531,25 @@ module.exports = function (grunt) {
       'autoprefixer',
       'connect:livereload',
       'watch'
+    ]);
+  });
+
+  grunt.registerTask('esteServe', function (target) {
+    if (target === 'dist') {
+      return grunt.task.run(['build', 'connect:dist:keepalive']);
+    }
+
+    grunt.task.run([
+      'clean:server',
+      'wiredep:build',
+      'injector',
+      'lineending',
+      'concurrent:server',
+      'configureRewriteRules',
+      'configureProxies:server',
+      'autoprefixer',
+      'connect:livereload',
+      'esteWatch'
     ]);
   });
 
