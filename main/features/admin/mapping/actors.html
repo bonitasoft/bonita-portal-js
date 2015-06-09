@@ -1,0 +1,14 @@
+<isteven-multi-select
+  input-model="actorsCtrl.members"
+  output-model="actorsCtrl.selectedMembers.list"
+  button-label="buttonLabel"
+  item-label="listLabel"
+  helper-elements="all filter reset none"
+  tick-property="selected"
+  max-labels="5"
+  max-height="200px"
+  translation="localLang"
+  on-search-change="actorsCtrl.search(data)"
+  on-clear="actorsCtrl.search({})"
+  on-reset="actorsCtrl.search({})"
+  selection-mode="{{actorsCtrl.selectionMode}}"></isteven-multi-select>

@@ -119,6 +119,16 @@
             supervisorId: function($stateParams, TokenExtensionService) {
               TokenExtensionService.tokenExtensionValue = (angular.isDefined($stateParams['supervisor_id']) ? 'pm' : 'admin');
               return $stateParams['supervisor_id'];
+            },
+            defaultLocalLang : function(i18nService) {
+              return i18nService.translationsLoadPromise.then(function () {
+                return {
+                  selectAll: i18nService.getKey('multiSelect.selectAll'),
+                  selectNone: i18nService.getKey('multiSelect.selectNone'),
+                  reset: i18nService.getKey('multiSelect.reset'),
+                  search: i18nService.getKey('multiSelect.search.helper')
+                };
+              });
             }
           }
         }).state(informationStateName, {
