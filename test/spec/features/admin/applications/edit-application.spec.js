@@ -18,7 +18,7 @@ describe('Controller: addApplicationCtrl', function () {
     modalInstance = jasmine.createSpyObj('modalInstance', ['dismiss', 'close']);
 
 
-    spyOnLoad = function(promise){
+    spyOnLoad = function (promise) {
       spyOn(store, 'load').and.returnValue(promise);
     };
     createCtrl = function (application) {
@@ -50,7 +50,7 @@ describe('Controller: addApplicationCtrl', function () {
     expect(scope.profiles).toEqual(['foo', 'bar']);
   });
 
-  describe('in creation mode', function() {
+  describe('in creation mode', function () {
 
     var saveRequest;
 
@@ -63,15 +63,15 @@ describe('Controller: addApplicationCtrl', function () {
     }));
 
     it('should save application', function () {
+      scope.application = {form: {token: ''}};
+      scope.submit({model: {token: ''}});
 
-      scope.submit({model: 'model'});
-
-      expect(applicationAPI.save).toHaveBeenCalledWith('model');
+      expect(applicationAPI.save).toHaveBeenCalledWith({token: ''});
     });
 
     it('should close modal on save success', function () {
-
-      scope.submit({ model: '' });
+      scope.application = {form: {token: ''}};
+      scope.submit({model: {token: ''}});
       saveRequest.resolve({});
       scope.$apply();
 
@@ -79,8 +79,8 @@ describe('Controller: addApplicationCtrl', function () {
     });
 
     it('should add an error on save failure with error 404 response', function () {
-
-      scope.submit({ model: '' });
+      scope.application = {form: {token: ''}};
+      scope.submit({model: {token: ''}});
       saveRequest.reject({ status: 404 });
       scope.$apply();
 
@@ -88,8 +88,8 @@ describe('Controller: addApplicationCtrl', function () {
     });
 
     it('should add an error on save failure with error different than 404 or 500 response', function () {
-
-      scope.submit({ model: '' });
+      scope.application = {form: {token: ''}};
+      scope.submit({model: {token: ''}});
       scope.application = {form: { name: {}}, model: {}};
       saveRequest.reject({ data: {cause: {exception: 'AlreadyExistsException'}} });
 
@@ -99,21 +99,42 @@ describe('Controller: addApplicationCtrl', function () {
     });
 
     it('should turn duplicate to true on save failure with 500 response', function () {
-
-      scope.submit({ model: '' });
+      scope.application = {form: {token: ''}};
+      scope.submit({ model: {token: ''}});
       scope.application = {form: { token: {}}, model: {}};
-      saveRequest.reject({ status: 500,  data: {cause: {exception: 'AlreadyExistsException'}} });
+      saveRequest.reject({ status: 500, data: {cause: {exception: 'AlreadyExistsException'}} });
 
       scope.$apply();
 
       expect(scope.application.form.token.$duplicate).toBe(true);
     });
 
+    it('should turn reservedToken to true on save with "API" token', function () {
+      scope.application = {form: { token: {}}};
+      scope.submit({ model: {token: 'API'} });
+      scope.$apply();
+      expect(scope.application.form.token.$reservedToken).toBe(true);
+    });
+
+    it('should turn reservedToken to true on save with "content" token', function () {
+      scope.application = {form: { token: {}}};
+      scope.submit({ model: {token: 'content'} });
+      scope.$apply();
+      expect(scope.application.form.token.$reservedToken).toBe(true);
+    });
+
+    it('should turn reservedToken to true on save with "theme" token', function () {
+      scope.application = {form: { token: {}}};
+      scope.submit({ model: {token: 'theme'} });
+      scope.$apply();
+      expect(scope.application.form.token.$reservedToken).toBe(true);
+    });
+
   });
 
-  describe('in edit mode', function() {
+  describe('in edit mode', function () {
 
-    var updateRequest, application = { model: 'model' };
+    var updateRequest, application = { model: {token: ''}};
 
     beforeEach(inject(function ($controller, $rootScope, _applicationAPI_, store, $q) {
       updateRequest = $q.defer();
@@ -122,10 +143,10 @@ describe('Controller: addApplicationCtrl', function () {
     }));
 
     it('should call Update application API when edition mode is true', function () {
-
+      scope.application = {form: {token: ''}};
       scope.submit(application);
 
-      expect(applicationAPI.update).toHaveBeenCalledWith('model');
+      expect(applicationAPI.update).toHaveBeenCalledWith({token: ''});
     });
   });
 });

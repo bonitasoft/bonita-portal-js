@@ -1,4 +1,4 @@
-(function() {
+(function () {
   'use strict';
 
   /**
@@ -8,32 +8,32 @@
    */
   var fakeModal = {
     result: {
-      then: function(confirmCallback, cancelCallback) {
+      then: function (confirmCallback, cancelCallback) {
         //Store the callbacks for later when the user clicks on the OK or Cancel button of the dialog
         this.confirmCallBack = confirmCallback || angular.noop;
         this.cancelCallback = cancelCallback || angular.noop;
       }
     },
-    close: function(item) {
+    close: function (item) {
       //The user clicked OK on the modal dialog, call the stored confirm callback with the selected item
       this.result.confirmCallBack(item);
     },
-    dismiss: function(type) {
+    dismiss: function (type) {
       //The user clicked cancel on the modal dialog, call the stored cancel callback
       this.result.cancelCallback(type);
     }
   };
 
-  describe('Module page list', function() {
+  describe('Module page list', function () {
 
     beforeEach(module('org.bonitasoft.features.admin.applications.details.page-list'));
 
 
-    describe('Factory pageModel', function() {
+    describe('Factory pageModel', function () {
 
       var rootScope, loadRequest, applicationAPI, applicationPageAPI, store, pageModel;
 
-      beforeEach(inject(function($q, $injector) {
+      beforeEach(inject(function ($q, $injector) {
 
         loadRequest = $q.defer();
         rootScope = $injector.get('$rootScope');
@@ -53,61 +53,65 @@
 
       }));
 
-      describe('We check if a page exist in a collection', function() {
+      describe('We check if a page exist in a collection', function () {
 
-        it('should emit page-list:pagesexist with arg true if it is the first time and we have pages', function() {
-          pageModel.exist([{
-            id: 21,
-            name: 'de'
-          }]);
+        it('should emit page-list:pagesexist with arg true if it is the first time and we have pages', function () {
+          pageModel.exist([
+            {
+              id: 21,
+              name: 'de'
+            }
+          ]);
           expect(rootScope.$emit).toHaveBeenCalled();
           expect(rootScope.$emit).toHaveBeenCalledWith('page-list:pagesexist', true);
         });
 
-        it('should emit page-list:pagesexist with arg false if it is the first time and no pages', function() {
+        it('should emit page-list:pagesexist with arg false if it is the first time and no pages', function () {
           pageModel.exist([]);
           expect(rootScope.$emit).toHaveBeenCalled();
           expect(rootScope.$emit).toHaveBeenCalledWith('page-list:pagesexist', false);
         });
 
-        it('should emit page-list:pagesexist if no pages event if it is not the first time if no pages', function() {
+        it('should emit page-list:pagesexist if no pages event if it is not the first time if no pages', function () {
           pageModel.loadedPagesEventTriggered = true;
           pageModel.exist([]);
           expect(rootScope.$emit).toHaveBeenCalled();
           expect(rootScope.$emit).toHaveBeenCalledWith('page-list:pagesexist', false);
         });
 
-        it('should not emit page-list:pagesexist if it is not the first time', function() {
+        it('should not emit page-list:pagesexist if it is not the first time', function () {
           pageModel.loadedPagesEventTriggered = true;
-          pageModel.exist([{
-            id: 21,
-            name: 'de'
-          }]);
+          pageModel.exist([
+            {
+              id: 21,
+              name: 'de'
+            }
+          ]);
           expect(rootScope.$emit).not.toHaveBeenCalled();
         });
 
       });
 
 
-      describe('We load the application', function() {
+      describe('We load the application', function () {
 
-        beforeEach(function() {
+        beforeEach(function () {
           spyOn(pageModel, 'exist');
         });
 
-        it('should reset the loaded page event if we specify it is the first load', function() {
+        it('should reset the loaded page event if we specify it is the first load', function () {
           pageModel.loadedPagesEventTriggered = true;
           pageModel.load(1, true);
           expect(pageModel.loadedPagesEventTriggered).toBeFalsy();
         });
 
-        it('should not reset the loaded page event if we do not specify it is the first load', function() {
+        it('should not reset the loaded page event if we do not specify it is the first load', function () {
           pageModel.loadedPagesEventTriggered = true;
           pageModel.load(1);
           expect(pageModel.loadedPagesEventTriggered).not.toBeFalsy();
         });
 
-        it('should trigger store.load', function() {
+        it('should trigger store.load', function () {
           pageModel.load(1);
           expect(store.load).toHaveBeenCalled();
           expect(store.load).toHaveBeenCalledWith(jasmine.any(Function), {
@@ -116,25 +120,29 @@
           });
         });
 
-        it('should trigger pageModel.exist on resolve', function() {
+        it('should trigger pageModel.exist on resolve', function () {
           pageModel.load(1);
-          loadRequest.resolve([{
-            id: 21,
-            name: 'de'
-          }]);
+          loadRequest.resolve([
+            {
+              id: 21,
+              name: 'de'
+            }
+          ]);
           rootScope.$apply();
           expect(pageModel.exist).toHaveBeenCalled();
-          expect(pageModel.exist).toHaveBeenCalledWith([{
-            id: 21,
-            name: 'de'
-          }]);
+          expect(pageModel.exist).toHaveBeenCalledWith([
+            {
+              id: 21,
+              name: 'de'
+            }
+          ]);
         });
 
       });
 
-      describe('Remove a page', function() {
+      describe('Remove a page', function () {
 
-        it('should trigger delete from applicationPageAPI', function() {
+        it('should trigger delete from applicationPageAPI', function () {
           pageModel.remove({
             id: 14
           });
@@ -144,7 +152,7 @@
           });
         });
 
-        it('should emit page-list:update', function() {
+        it('should emit page-list:update', function () {
           pageModel.remove({
             id: 14
           });
@@ -156,7 +164,7 @@
 
       });
 
-      describe('Set a page as the home page', function() {
+      describe('Set a page as the home page', function () {
 
         var app = {
           id: 1,
@@ -186,7 +194,7 @@
           updatedBy: 1337
         };
 
-        it('should trigger an update of the applicationAPI', function() {
+        it('should trigger an update of the applicationAPI', function () {
           pageModel.setHome({
             id: 24
           }, app);
@@ -196,7 +204,7 @@
           }, angular.extend({}, app, appUpdate));
         });
 
-        it('should add a debug log on resolve', function() {
+        it('should add a debug log on resolve', function () {
 
           spyOn(console, 'debug');
           pageModel.setHome({
@@ -219,7 +227,7 @@
     });
 
 
-    describe('Controller: pageListCtrl', function() {
+    describe('Controller: pageListCtrl', function () {
       var createController,
         scope,
         pageModel,
@@ -228,7 +236,7 @@
 
       beforeEach(module('org.bonitasoft.features.admin.applications.details.page-list'));
 
-      beforeEach(inject(function($controller, $rootScope, $injector, $q) {
+      beforeEach(inject(function ($controller, $rootScope, $injector, $q) {
 
         scope = $rootScope.$new();
 
@@ -243,7 +251,7 @@
         spyOn(pageModel, 'setHome').and.returnValue(loadRequest.promise);
 
 
-        createController = function(application) {
+        createController = function (application) {
           scope.application = application;
           return $controller('pageListCtrl', {
             $scope: scope,
@@ -253,7 +261,7 @@
         };
       }));
 
-      it('should create a new controller', function() {
+      it('should create a new controller', function () {
         var Ctrl = createController({
           id: 1
         });
@@ -261,9 +269,9 @@
       });
 
 
-      describe('when we load the application', function() {
+      describe('when we load the application', function () {
 
-        it('should load application pages on creation', function() {
+        it('should load application pages on creation', function () {
           createController({
             id: 1
           });
@@ -274,16 +282,19 @@
         });
 
 
-        it('should add pages onresolve', function() {
+        it('should add pages onresolve', function () {
           createController({
             id: 1
           });
 
-          loadRequest.resolve([{
-            id: 1
-          }, {
-            id: 2
-          }]);
+          loadRequest.resolve([
+            {
+              id: 1
+            },
+            {
+              id: 2
+            }
+          ]);
           scope.$apply();
           expect(scope.pages.length).toBe(2);
         });
@@ -291,9 +302,9 @@
       });
 
 
-      describe('We want to add a new page', function() {
+      describe('We want to add a new page', function () {
 
-        it('should open the modal when we trigger the add() method', function() {
+        it('should open the modal when we trigger the add() method', function () {
           var Ctrl = createController({
             id: 1
           });
@@ -312,7 +323,7 @@
 
         });
 
-        it('should reload the pages when we close da modal', function() {
+        it('should reload the pages when we close da modal', function () {
           var Ctrl = createController({
             id: 1
           });
@@ -329,9 +340,9 @@
 
       });
 
-      describe('We remove a page', function() {
+      describe('We remove a page', function () {
 
-        it('should call the factory pageModel', function() {
+        it('should call the factory pageModel', function () {
           var Ctrl = createController({
             id: 1
           });
@@ -345,7 +356,7 @@
 
         });
 
-        it('should reload da pages on resolve', function() {
+        it('should reload da pages on resolve', function () {
           var Ctrl = createController({
             id: 1
           });
@@ -364,9 +375,9 @@
 
       });
 
-      describe('We want to specify a page as the home page', function() {
+      describe('We want to specify a page as the home page', function () {
 
-        it('should call the factory', function() {
+        it('should call the factory', function () {
           var Ctrl = createController({
             id: 1
           });
@@ -381,7 +392,7 @@
           });
         });
 
-        it('should reload pages on resolve', function() {
+        it('should reload pages on resolve', function () {
           var Ctrl = createController({
             id: 1
           });
@@ -398,7 +409,7 @@
           expect(Ctrl.loadPages).toHaveBeenCalledWith();
         });
 
-        it('should change the current homePageId from the application on resolve', function() {
+        it('should change the current homePageId from the application on resolve', function () {
           var Ctrl = createController({
             id: 1
           });
@@ -418,8 +429,7 @@
     });
 
 
-
-    describe('Controller: addPageCtrl', function() {
+    describe('Controller: addPageCtrl', function () {
 
 
       var createController, scope, application, customPageAPI, applicationPageAPI, loadRequest, saveRequest, modalInstance = {}, store;
@@ -427,7 +437,7 @@
 
       beforeEach(module('org.bonitasoft.features.admin.applications.details.page-list', 'org.bonitasoft.common.resources.store'));
 
-      beforeEach(inject(function($controller, $rootScope, $q, $injector) {
+      beforeEach(inject(function ($controller, $rootScope, $q, $injector) {
 
         scope = $rootScope.$new();
         application = {
@@ -465,14 +475,13 @@
         };
       }));
 
-      it('should create a new controller', function() {
+      it('should create a new controller', function () {
         var Ctrl = createController();
         expect(Ctrl).not.toBeUndefined();
       });
 
 
-
-      it('should remove an alert when we trigger closeAlert', function() {
+      it('should remove an alert when we trigger closeAlert', function () {
         createController({
           id: 1
         });
@@ -492,13 +501,13 @@
       });
 
 
-      it('should load some data when we open the modal', function() {
+      it('should load some data when we open the modal', function () {
         createController();
         scope.$apply();
-        expect(store.load).toHaveBeenCalledWith(customPageAPI, {f:'contentType=page'});
+        expect(store.load).toHaveBeenCalledWith(customPageAPI, {f: 'contentType=page'});
       });
 
-      it('should add pages to customPages on resolve', function() {
+      it('should add pages to customPages on resolve', function () {
 
         expect(scope.customPages).toBeUndefined();
 
@@ -508,33 +517,34 @@
         expect(Array.isArray(scope.customPages)).toBe(true);
       });
 
-      it('should save application page', function() {
+      it('should save application page', function () {
         createController();
+        scope.page = {form: {token: ''}};
         scope.$apply();
 
         scope.add({
-          model: 'model'
+          model: {token: ''}
         });
 
-        expect(applicationPageAPI.save).toHaveBeenCalledWith('model');
+        expect(applicationPageAPI.save).toHaveBeenCalledWith({ token: '', applicationId: 1 });
       });
 
-      it('should close modal on save success', function() {
+      it('should close modal on save success', function () {
         createController();
-
+        scope.page = {form: {token: ''}};
         scope.add({
-          model: ''
+          model: {token: ''}
         });
         saveRequest.resolve({});
         scope.$apply();
         expect(modalInstance.close).toHaveBeenCalled();
       });
 
-      it('should add an error on save failure with error 404 response', function() {
+      it('should add an error on save failure with error 404 response', function () {
         createController();
-
+        scope.page = {form: {token: ''}};
         scope.add({
-          model: ''
+          model: {token: ''}
         });
         saveRequest.reject({
           status: 404,
@@ -545,10 +555,11 @@
         expect(scope.alerts.length).toBe(1);
       });
 
-      it('should add an error on save failure with error different than 404 or 500 response', function() {
+      it('should add an error on save failure with error different than 404 or 500 response', function () {
         createController();
+        scope.page = {form: {token: ''}};
         scope.add({
-          model: ''
+          model: {token: ''}
         });
         saveRequest.reject({
           data: {}
@@ -559,10 +570,11 @@
         expect(scope.alerts.length).toBe(1);
       });
 
-      it('should turn duplicate to true on save failure with 500 response', function() {
+      it('should turn duplicate to true on save failure with 500 response', function () {
         createController();
+        scope.page = {form: {token: ''}};
         scope.add({
-          model: ''
+          model: {token: ''}
         });
         scope.page = {
           form: {
@@ -584,7 +596,32 @@
         expect(scope.page.form.token.$duplicate).toBe(true);
       });
 
-      it('When we close the modal we should call dismiss', function() {
+
+      it('should turn reservedToken to true on save with "API" token', function () {
+        createController();
+        scope.page = {form: { token: {}}};
+        scope.add({model: {token: 'api'}});
+        scope.$apply();
+        expect(scope.page.form.token.$reservedToken).toBe(true);
+      });
+
+      it('should turn reservedToken to true on save with "content" token', function () {
+        createController();
+        scope.page = {form: { token: {}}};
+        scope.add({model: {token: 'content'}});
+        scope.$apply();
+        expect(scope.page.form.token.$reservedToken).toBe(true);
+      });
+
+      it('should turn reservedToken to true on save with "theme" token', function () {
+        createController();
+        scope.page = {form: { token: {}}};
+        scope.add({model: {token: 'theme'}});
+        scope.$apply();
+        expect(scope.page.form.token.$reservedToken).toBe(true);
+      });
+
+      it('When we close the modal we should call dismiss', function () {
         createController();
         scope.$apply();
         scope.cancel();
@@ -593,7 +630,6 @@
 
     });
   });
-
 
 
 })();

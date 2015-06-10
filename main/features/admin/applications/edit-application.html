@@ -23,7 +23,7 @@
       id="url-form-control"
       form="application.form"
       label="{{ 'URL' | translate }}"
-      errors="{ $invalid: i18n.mandatory, $duplicate: i18n.duplicateUrl }">
+      errors="{ $invalid: i18n.mandatory, $duplicate: i18n.duplicateUrl, $reservedToken: i18n.reservedToken}">
       <div class="input-group">
         <span class="input-group-addon">../apps/</span>
         <input type="text"
