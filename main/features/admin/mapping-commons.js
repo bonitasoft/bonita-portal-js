@@ -109,7 +109,6 @@
       };
 
       mappingService.loadMembers = function(type, searchMemberParams, mappedIds, api) {
-        var membersResult;
         /*jshint camelcase: false */
         return store.load(api, {
           f: searchMemberParams.filters,
@@ -118,13 +117,12 @@
           members.forEach(function(currentMember) {
             currentMember.label = mappingService.labelFormatter[type](currentMember);
           });
-          membersResult = members;
           if (type !== MAPPING_PROFILES.MEMBERSHIP) {
             members.forEach(function(member) {
               mappedIds.push(member[searchMemberParams.actorId].id);
             });
           }
-          return membersResult;
+          return members;
         }, angular.noop);
       };
 
