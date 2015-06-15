@@ -13,10 +13,9 @@
     .controller('ProcessInformationCtrl', ProcessInformationCtrl);
 
   /* jshint -W003 */
-  function ProcessInformationCtrl($scope, process, dateParser, store, categoryAPI, categories, $q, $modal, growl, i18nService, $log, processId) {
+  function ProcessInformationCtrl($scope, process, dateParser, store, categoryAPI, categories, $q, $modal, growl, i18nService, $log) {
     var vm = this;
     vm.process = process;
-    vm.processId = processId;
     vm.parseAndFormat = dateParser.parseAndFormat;
     vm.selectedCategories = categories.map(function(category) {
       return category.name;
