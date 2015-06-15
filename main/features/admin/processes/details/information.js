@@ -49,7 +49,7 @@
         }
       });
       modalInstance.result.then(vm.updateTagsAndAlertUser, function(error) {
-        if(error !== 'cancel') {
+        if(['cancel', 'backdrop click'].indexOf(error) === -1) {
           $log.error('category update failed :' , error);
           growl.error(i18nService.getKey('processDetails.informations.category.update.error') + ' : ' + error, growlOptions);
         }
