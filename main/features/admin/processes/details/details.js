@@ -111,7 +111,9 @@
           controllerAs: 'processMenuCtrl',
           resolve: {
             process: function ($stateParams, ProcessMoreDetailsResolveService) {
-              return ProcessMoreDetailsResolveService.retrieveProcess($stateParams.processId);
+              var process = ProcessMoreDetailsResolveService.retrieveProcess($stateParams.processId);
+              process.id = $stateParams.processId;
+              return process;
             },
             processResolutionProblems: function ($stateParams, ProcessMoreDetailsResolveService) {
               return ProcessMoreDetailsResolveService.retrieveProcessResolutionProblem($stateParams.processId);

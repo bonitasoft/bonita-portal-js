@@ -87,7 +87,7 @@
           });
         });
       });
-      fdescribe('loadMembers', function() {
+      describe('loadMembers', function() {
         it('should load all user members', function() {
           var deferred = q.defer();
           store.load.and.returnValue(deferred.promise);
