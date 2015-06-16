@@ -28,7 +28,7 @@
     "angular-ui-tree": "2.1.5",
     "angular-xeditable": "vitalets/angular-xeditable#0.1.8",
     "bootstrap-toggle": "2.0.0",
-    "lodash": "3.6.0",
+    "lodash": "3.9.3",
     "bootstrap-tags": "1.1.5"
   },
   "devDependencies": {
