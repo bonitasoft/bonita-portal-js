@@ -5,7 +5,8 @@
    *
    * defines properties shared between mapping features (actors and process manager currently)
    */
-  angular.module('org.bonitasoft.features.admin.mappings', ['org.bonitasoft.services.i18n'])
+  angular.module('org.bonitasoft.features.admin.mappings', ['org.bonitasoft.services.i18n',
+    'org.bonitasoft.common.resources.store'])
     .value('MAPPING_PROFILES', {
       USER: 'USER',
       GROUP: 'GROUP',
@@ -59,15 +60,15 @@
       /* jshint camelcase: false */
       mappingService.labelFormatter = {
         USER: function(currentMember) {
-          var member = currentMember.user_id || currentMember;
+          var member = currentMember[userIdAttribute] || currentMember;
           return member.firstname + ' ' + member.lastname;
         },
         GROUP: function(currentMember) {
-          var member = currentMember.group_id || currentMember;
+          var member = currentMember[groupIdAttribute] || currentMember;
           return member.displayName;
         },
         ROLE: function(currentMember) {
-          var member = currentMember.role_id || currentMember;
+          var member = currentMember[roleIdAttribute] || currentMember;
           return member.displayName;
         },
         MEMBERSHIP: function(currentMember) {
@@ -108,7 +109,6 @@
       };
 
       mappingService.loadMembers = function(type, searchMemberParams, mappedIds, api) {
-        var membersResult;
         /*jshint camelcase: false */
         return store.load(api, {
           f: searchMemberParams.filters,
@@ -117,13 +117,12 @@
           members.forEach(function(currentMember) {
             currentMember.label = mappingService.labelFormatter[type](currentMember);
           });
-          membersResult = members;
           if (type !== MAPPING_PROFILES.MEMBERSHIP) {
             members.forEach(function(member) {
               mappedIds.push(member[searchMemberParams.actorId].id);
             });
           }
-          return membersResult;
+          return members;
         }, angular.noop);
       };
 

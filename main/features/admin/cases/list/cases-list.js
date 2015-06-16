@@ -5,7 +5,6 @@
     'org.bonitasoft.common.table.resizable',
     'org.bonitasoft.common.filters.stringTemplater',
     'org.bonitasoft.services.topurl',
-    'org.bonitasoft.sortable',
     'org.bonitasoft.features.admin.cases.list.values',
     'org.bonitasoft.features.admin.cases.list.filters',
     'org.bonitasoft.features.admin.cases.list.delete',
