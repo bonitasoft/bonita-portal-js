@@ -78,7 +78,7 @@ module.exports = function (grunt) {
           enabled: true,
           port:'<%= connect.options.livereload %>',
           extensions:['js','css','html','json'],
-          key: null, // provide a filepath or Buffer for `key` and `cert` to enable SSL. 
+          key: null, // provide a filepath or Buffer for `key` and `cert` to enable SSL.
           cert: null
         }
       },
@@ -510,6 +510,18 @@ module.exports = function (grunt) {
         },
         files: {
           'main/index.html': ['main/index.html']
+        }
+      }
+    },
+    usebanner: {
+      license: {
+        options: {
+          position: 'top',
+          banner: '// banner text ',
+          linebreak: true
+        },
+        files: {
+          src: [ 'main/common/**/*.js']
         }
       }
     }
