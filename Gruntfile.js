@@ -15,6 +15,8 @@ module.exports = function (grunt) {
   // Time how long tasks take. Can help when optimizing build times
   require('time-grunt')(grunt);
 
+  var licenseTemplate = grunt.file.read('license-tpl.txt');
+
   // Define the configuration for all the tasks
   grunt.initConfig({
 
@@ -517,8 +519,16 @@ module.exports = function (grunt) {
       license: {
         options: {
           position: 'top',
-          banner: '// banner text ',
-          linebreak: true
+          linebreak: true,
+          process: function ( filepath ) {
+            return grunt.template.process(
+              licenseTemplate , {
+                data: {
+                  year: new Date().getFullYear()
+                }
+              }
+            );
+          }
         },
         files: {
           src: [ 'main/common/**/*.js']
