@@ -1,4 +1,4 @@
-/** Copyright (C) 2015 Bonitasoft S.A.
+/** Copyright (C) <%= year %> Bonitasoft S.A.
  * Bonitasoft, 32 rue Gustave Eiffel - 38000 Grenoble
  * This library is free software; you can redistribute it and/or modify it under the terms
  * of the GNU Lesser General Public License as published by the Free Software Foundation
@@ -10,18 +10,3 @@
  * program; if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth
  * Floor, Boston, MA 02110-1301, USA.
  */
-
-(function () {
-  'use strict';
-  describe('manage token extension', function () {
-    beforeEach(module('org.bonitasoft.service.token'));
-    describe('tokenExtensionValue', function(){
-      it('should keep token the same when imported multiple times', inject(function ($injector) {
-        var tokenExtensionService = $injector.get('TokenExtensionService');
-        tokenExtensionService.tokenExtensionValue = 'pm';
-        tokenExtensionService = $injector.get('TokenExtensionService');
-        expect(tokenExtensionService.tokenExtensionValue).toEqual('pm');
-      }));
-    });
-  });
-})();
