@@ -528,11 +528,10 @@ module.exports = function (grunt) {
                 }
               }
             );
-          },
-        pattern: /^((?!\/\*\* Copyright).)+.*/gi
+          }
         },
         files: {
-          src: [ 'main/common/**/*.js', 'main/features/**/*.js', 'test/**/*.js']
+          src: [ 'main/common/**/*.js']
         }
       }
     }
