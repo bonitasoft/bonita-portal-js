@@ -264,6 +264,21 @@ module.exports = function (grunt) {
     },
 
     wiredep: {
+      'karma': {
+        devDependencies: true,
+        src: ['karma.conf.js'],
+        fileTypes: {
+          js: {
+            block: /(([\s\t]*)\/\/\s*bower:*(\S*))(\n|\r|.)*(\/\/\s*endbower)/gi,
+            detect: {
+              js: /('.*\.js')/gi
+            },
+            replace: {
+              js: '\'{{filePath}}\','
+            }
+          }
+        }
+      },
       'e2e': {
         src: ['<%= portaljs.app %>/index.html'],
         ignorePath: '<%= portaljs.app %>/',

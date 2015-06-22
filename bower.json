@@ -46,6 +46,11 @@
         "numeral.js",
         "languages.js"
       ]
+    },
+    "moment":{
+      "main": [
+        "min/moment-with-locales.js"
+      ]
     }
   }
 }
