@@ -78,7 +78,7 @@ module.exports = function (grunt) {
           enabled: true,
           port:'<%= connect.options.livereload %>',
           extensions:['js','css','html','json'],
-          key: null, // provide a filepath or Buffer for `key` and `cert` to enable SSL. 
+          key: null, // provide a filepath or Buffer for `key` and `cert` to enable SSL.
           cert: null
         }
       },
@@ -266,7 +266,21 @@ module.exports = function (grunt) {
     wiredep: {
       'e2e': {
         src: ['<%= portaljs.app %>/index.html'],
-        ignorePath: '<%= portaljs.app %>/'
+        ignorePath: '<%= portaljs.app %>/',
+
+        options: {
+          'overrides': {
+            'bootstrap': {
+              'main': [
+                "dist/css/bootstrap.css",
+                "dist/fonts/glyphicons-halflings-regular.eot",
+                "dist/fonts/glyphicons-halflings-regular.svg",
+                "dist/fonts/glyphicons-halflings-regular.ttf",
+                "dist/fonts/glyphicons-halflings-regular.woff"
+              ]
+            }
+          }
+        }
       },
       'build': {
         src: ['<%= portaljs.app %>/index.html'],
@@ -278,7 +292,6 @@ module.exports = function (grunt) {
           }
         }
       },
-
     },
 
     injector: {
@@ -371,8 +384,10 @@ module.exports = function (grunt) {
       dist: {
         options: {
           collapseWhitespace: true,
-          collapseBooleanAttributes: true,
-          removeCommentsFromCDATA: true
+          //collapseBooleanAttributes: true,
+          removeCommentsFromCDATA: true,
+          caseSensitive: true,
+          keepClosingSlash: true
         },
         files: [
           {
