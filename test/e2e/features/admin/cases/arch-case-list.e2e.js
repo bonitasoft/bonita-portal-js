@@ -5,7 +5,9 @@
 
     var caseList,
       width = 1280,
-      height = 800;
+      height = 800,
+      nbColumnsDiplayed = (browser.bonitaSpEdition())?8:7,
+      nbTotalcolumns = (browser.bonitaSpEdition())?12:7;
     browser.driver.manage().window().setSize(width, height);
 
     beforeEach(function () {
@@ -16,15 +18,18 @@
 
     describe('table surroundings ', function () {
       it('should contains table headers', function () {
-        var columnList = element.all(by.css('#case-list th'));
-        expect(columnList.count()).toBe(10);
-        expect(columnList.get(2).getText()).toContain('ID');
-        expect(columnList.get(3).getText()).toContain('Process name');
-        expect(columnList.get(4).getText()).toContain('Version');
-        expect(columnList.get(5).getText()).toContain('Start date');
-        expect(columnList.get(6).getText()).toContain('Started by');
-        expect(columnList.get(7).getText()).toContain('End date');
-        expect(columnList.get(8).getText()).toContain('State');
+        var columnList = element.all(by.css('#case-list tr:last-child th'));
+        expect(columnList.count()).toBe(nbColumnsDiplayed+2);
+        expect(columnList.get(1).getText()).toContain('ID');
+        expect(columnList.get(2).getText()).toContain('Process name');
+        expect(columnList.get(3).getText()).toContain('Version');
+        expect(columnList.get(4).getText()).toContain('Start date');
+        expect(columnList.get(5).getText()).toContain('Started by');
+        expect(columnList.get(6).getText()).toContain('End date');
+        expect(columnList.get(7).getText()).toContain('State');
+        if (browser.bonitaSpEdition()) {
+          expect(columnList.get(8).getText()).toContain('Key 1');
+        }
       });
       it('should contains page size selection', function () {
         var caseListSettingsButton = element(by.css('#case-list button.bo-Settings'));
@@ -59,15 +64,12 @@
 
         caseListSettingsButton.click();
         var columnToShowList = element.all(by.css('.bo-TableSettings-columns li'));
-        expect(columnToShowList.count()).toBe(7);
-        columnToShowList.each(function (column) {
-          expect(column.isDisplayed()).toBeTruthy();
-          expect(column.all(by.css('input:checked')).count()).toBe(1);
-        });
+        expect(columnToShowList.count()).toBe(nbTotalcolumns);
+        expect(element.all(by.css('.bo-TableSettings-columns li input:checked')).count()).toBe(nbColumnsDiplayed);
 
         caseListSettingsButton.click();
         columnToShowList = element.all(by.css('.bo-TableSettings-columns li'));
-        expect(columnToShowList.count()).toBe(7);
+        expect(columnToShowList.count()).toBe(nbTotalcolumns);
         columnToShowList.each(function (column) {
           expect(column.isDisplayed()).toBeFalsy();
         });
@@ -81,35 +83,35 @@
         columnToShowNameList.get(0).click();
         expect(element.all(by.css('.bo-TableSettings-columns input')).get(0).isSelected()).toBeFalsy();
         var columnHeaders = element.all(by.css('th.case-column'));
-        expect(columnHeaders.count()).toBe(6);
+        expect(columnHeaders.count()).toBe(nbColumnsDiplayed-1);
         expect(columnHeaders.getText()).not.toContain('Process Name');
-        expect(caseList.all(by.css('#caseId-1 td.case-detail')).count()).toBe(6);
+        expect(caseList.all(by.css('#caseId-1 td.case-detail')).count()).toBe(nbColumnsDiplayed-1);
 
         var nextCheckedElement = element.all(by.css('.bo-TableSettings-columns input:checked'));
-        expect(nextCheckedElement.count()).toBe(6);
+        expect(nextCheckedElement.count()).toBe(nbColumnsDiplayed-1);
         nextCheckedElement.get(0).click();
 
-        expect(element.all(by.css('.bo-TableSettings-columns input')).count()).toBe(7);
+        expect(element.all(by.css('.bo-TableSettings-columns input')).count()).toBe(nbTotalcolumns);
         expect(element.all(by.css('.bo-TableSettings-columns input')).get(1).isSelected()).toBeFalsy();
-        expect(caseList.all(by.css('th.case-column')).count()).toBe(5);
+        expect(caseList.all(by.css('th.case-column')).count()).toBe(nbColumnsDiplayed-2);
         columnHeaders = caseList.all(by.css('th.case-column'));
         expect(columnHeaders.getText()).not.toContain(nextCheckedElement.get(0).getText());
-        expect(caseList.all(by.css('#caseId-1 td.case-detail')).count()).toBe(5);
+        expect(caseList.all(by.css('#caseId-1 td.case-detail')).count()).toBe(nbColumnsDiplayed-2);
 
         nextCheckedElement = element.all(by.css('.bo-TableSettings-columns input'));
         nextCheckedElement.get(2).click();
         expect(element.all(by.css('.bo-TableSettings-columns input')).get(2).isSelected()).toBeFalsy();
         columnHeaders = caseList.all(by.css('th.case-column'));
         expect(columnHeaders.getText()).not.toContain('ID');
-        expect(caseList.all(by.css('th.case-column')).count()).toBe(4);
-        expect(caseList.all(by.css('#caseId-1 td.case-detail')).count()).toBe(4);
+        expect(caseList.all(by.css('th.case-column')).count()).toBe(nbColumnsDiplayed-3);
+        expect(caseList.all(by.css('#caseId-1 td.case-detail')).count()).toBe(nbColumnsDiplayed-3);
 
         columnToShowNameList.get(2).click();
         expect(element.all(by.css('.bo-TableSettings-columns input')).get(2).isSelected()).toBeTruthy();
         columnHeaders = caseList.all(by.css('th.case-column'));
         expect(columnHeaders.getText()).toContain('Version');
-        expect(caseList.all(by.css('th.case-column')).count()).toBe(5);
-        expect(caseList.all(by.css('#caseId-1 td.case-detail')).count()).toBe(5);
+        expect(caseList.all(by.css('th.case-column')).count()).toBe(nbColumnsDiplayed-2);
+        expect(caseList.all(by.css('#caseId-1 td.case-detail')).count()).toBe(nbColumnsDiplayed-2);
       });
     });
 
@@ -118,35 +120,7 @@
       beforeEach(function () {
         resizeBars = element.all(by.css('.rc-handle'));
       });
-      xit('should change Version and ID column size ', function () {
-        var idColumnBar = resizeBars.get(2);
-        var formerIdColumnLocation = element.all(by.css('table th')).get(3).getLocation();
-        var formerVersionColumnLocation = element.all(by.css('table th')).get(2).getLocation();
-        var formerStartDateColumnLocation = element.all(by.css('table th')).get(4).getLocation();
-        browser.driver.actions().mouseDown(idColumnBar).mouseMove(idColumnBar, {x: -10}).mouseUp().perform();
-        var newIdColumnLocation = element.all(by.css('table th')).get(3).getLocation();
-        formerIdColumnLocation.then(function (oldPosition) {
-          newIdColumnLocation.then(function (newPosition) {
-            //move is not very accurate, for instance, offset of 50 changed position of 53px
-            expect(oldPosition.x - newPosition.x).toBeGreaterThan(5);
-            expect(oldPosition.y - newPosition.y).toBe(0);
-          });
-        });
-        var newVersionColumnLocation = element.all(by.css('table th')).get(2).getLocation();
-        formerVersionColumnLocation.then(function (oldPosition) {
-          newVersionColumnLocation.then(function (newPosition) {
-            expect(oldPosition.x - newPosition.x).toBeGreaterThan(-1);
-            expect(oldPosition.y - newPosition.y).toBe(0);
-          });
-        });
-        var newStartDateColumnLocation = element.all(by.css('table th')).get(4).getLocation();
-        formerStartDateColumnLocation.then(function (oldPosition) {
-          newStartDateColumnLocation.then(function (newPosition) {
-            expect(oldPosition.x - newPosition.x).toBeLessThan(1);
-            expect(oldPosition.y - newPosition.y).toBe(0);
-          });
-        });
-      });
+
       it('should change increase started Date and Started By column sizes', function () {
         var startedByColumnBar = resizeBars.get(4);
         var formerStartedByColumnLocation = element.all(by.css('table th')).get(5).getLocation();
@@ -191,15 +165,27 @@
         tableHeader.get(2).click();
         tableHeader.get(2).click();
         expect(tableHeader.get(2).getText()).toContain('Start date');
-        expect(caseList.all(by.css('tbody tr')).get(0).all(by.css('td')).getText()).toEqual(['', '1', 'Pool', '1.0', '10/16/2014 4:05 PM', 'william.jobs', '11/02/2014 10:07 AM', 'started', '']);
+        if(browser.bonitaSpEdition()){
+          expect(caseList.all(by.css('tbody tr')).get(0).all(by.css('td')).getText()).toEqual(['', '1', 'Pool', '1.0', '10/16/2014 4:05 PM', 'william.jobs', '11/02/2014 10:07 AM', 'started', 'No value', '']);
+        } else {
+          expect(caseList.all(by.css('tbody tr')).get(0).all(by.css('td')).getText()).toEqual(['', '1', 'Pool', '1.0', '10/16/2014 4:05 PM', 'william.jobs', '11/02/2014 10:07 AM', 'started', '']);
+        }
       });
       it('should order by date desc', function () {
         tableHeader.get(2).click();
-        expect(caseList.all(by.css('tbody tr')).get(0).all(by.css('td')).getText()).toEqual(['', '1', 'ProcessX', '2.0', '10/20/2014 10:08 AM', 'william.jobs', '11/02/2014 10:07 AM', 'started', '']);
+        if(browser.bonitaSpEdition()){
+          expect(caseList.all(by.css('tbody tr')).get(0).all(by.css('td')).getText()).toEqual(['', '1', 'ProcessX', '2.0', '10/20/2014 10:08 AM', 'william.jobs', '11/02/2014 10:07 AM', 'started', 'No value', '']);
+        } else {
+          expect(caseList.all(by.css('tbody tr')).get(0).all(by.css('td')).getText()).toEqual(['', '1', 'ProcessX', '2.0', '10/20/2014 10:08 AM', 'william.jobs', '11/02/2014 10:07 AM', 'started', '']);
+        }
       });
       it('should order by id desc', function () {
         tableHeader.get(0).click();
-        expect(caseList.all(by.css('tbody tr')).get(0).all(by.css('td')).getText()).toEqual(['', '1000', 'ProcessX', '2.0', '10/20/2014 10:08 AM', 'william.jobs', '11/02/2014 10:07 AM', 'started', '']);
+        if(browser.bonitaSpEdition()){
+          expect(caseList.all(by.css('tbody tr')).get(0).all(by.css('td')).getText()).toEqual(['', '1000', 'ProcessX', '2.0', '10/20/2014 10:08 AM', 'william.jobs', '11/02/2014 10:07 AM', 'started', 'No value', '']);
+        } else {
+          expect(caseList.all(by.css('tbody tr')).get(0).all(by.css('td')).getText()).toEqual(['', '1000', 'ProcessX', '2.0', '10/20/2014 10:08 AM', 'william.jobs', '11/02/2014 10:07 AM', 'started', '']);
+        }
       });
     });
 
@@ -223,7 +209,10 @@
           expect(poolCaseDetails[5].getText()).toContain('walter.bates');
           expect(poolCaseDetails[6].getText()).toContain('11/02/2014 10:07 AM');
           expect(poolCaseDetails[7].getText()).toContain('started');
-          expect(poolCaseDetails[8].element(by.xpath('a')).getAttribute('href')).toContain('#?id=1&_p=archivedcasemoredetailsadmin&');
+          if(browser.bonitaSpEdition()){
+            expect(poolCaseDetails[8].getText()).toContain('No value');
+          }
+          expect(poolCaseDetails[nbColumnsDiplayed+1].element(by.xpath('a')).getAttribute('href')).toContain('#?id=1&_p=archivedcasemoredetailsadmin&');
         });
       });
 
@@ -233,7 +222,7 @@
 
         element.all(by.css('#case-list tbody tr.case-row')).each(function (caseRow) {
           var caseColumnList = caseRow.all(by.css('td'));
-          expect(caseColumnList.count()).toBe(9);
+          expect(caseColumnList.count()).toBe(nbColumnsDiplayed + 2);
         });
         var caseCheckBoxes = element.all(by.css('#case-list tbody tr.case-row td.case-checkbox input'));
         expect(caseCheckBoxes.count()).toBe(25);
@@ -243,7 +232,7 @@
           });
         });*/
         var caseColumns = element.all(by.css('#case-list tbody tr.case-row td.case-detail'));
-        expect(caseColumns.count()).toBe(175);
+        expect(caseColumns.count()).toBe(nbColumnsDiplayed * 25);
         /*caseColumns.getText().then(function (caseColumnsTextArray) {
           caseColumnsTextArray.forEach(function (caseColumnsText) {
             expect(caseColumnsText).toBeTruthy();

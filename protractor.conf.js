@@ -5,7 +5,7 @@ exports.config = {
   //seleniumPort: null,
   chromeDriver: './node_modules/protractor/selenium/chromedriver',
   //seleniumArgs: [],
-  directConnect: true,
+  directConnect: false,
 
   specs: [
       'test/e2e/**/*.e2e.js'
@@ -26,6 +26,9 @@ exports.config = {
   rootElement: 'body',
 
   onPrepare: function() {
+    browser.bonitaSpEdition = function () {
+      return false;
+    };
   // The require statement must be down here, since jasmine-reporters
   // needs jasmine to be in the global and protractor does not guarantee
   // this until inside the onPrepare function.
