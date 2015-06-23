@@ -278,13 +278,13 @@
           if (fullCases && fullCases.resource) {
             fullCases.resource.map(function selectOnlyInterestingFields(fullCase) {
               var simpleCase = {};
-              for (var i = 0; i < $scope.columns.length; i++) {
+              $scope.columns.forEach(function (column) {
                 var currentCase = fullCase;
-                for (var j = 0; j < $scope.columns[i].path.length; j++) {
-                  currentCase = currentCase && currentCase[$scope.columns[i].path[j]];
+                for (var j = 0; j < column.path.length; j++) {
+                  currentCase = currentCase && currentCase[column.path[j]];
                 }
-                simpleCase[$scope.columns[i].name] = currentCase;
-              }
+                simpleCase[column.name] = currentCase;
+              });
               simpleCase.id = fullCase.id;
               simpleCase.processDefinitionId = fullCase.processDefinitionId;
               simpleCase.fullCase = fullCase;

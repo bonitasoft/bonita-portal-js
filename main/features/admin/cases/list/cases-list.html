@@ -35,11 +35,11 @@
                 <th class="case-column">{{'Started by' | translate}}</th>
                 <th class="text-right case-column">{{'Failed Flow Nodes' | translate}}</th>
                 <th class="text-right case-column">{{'Pending Flow Nodes' | translate}}</th>
-                <th bo-sorter="index1" class="case-column" remove-column="{{caseCtrl.displayKeys()}}" ng-hide="!caseCtrl.displayKeys()">{{'Key 1' | translate}}</th>
-                <th bo-sorter="index2" visible="false" class="case-column" remove-column="{{caseCtrl.displayKeys()}}" ng-hide="!caseCtrl.displayKeys()">{{'Key 2' | translate}}</th>
-                <th bo-sorter="index3" visible="false" class="case-column" remove-column="{{caseCtrl.displayKeys()}}" ng-hide="!caseCtrl.displayKeys()">{{'Key 3' | translate}}</th>
-                <th bo-sorter="index4" visible="false" class="case-column" remove-column="{{caseCtrl.displayKeys()}}" ng-hide="!caseCtrl.displayKeys()">{{'Key 4' | translate}}</th>
-                <th bo-sorter="index5" visible="false" class="case-column" remove-column="{{caseCtrl.displayKeys()}}" ng-hide="!caseCtrl.displayKeys()">{{'Key 5' | translate}}</th>
+                <th bo-sorter="index1" class="case-column" remove-column="{{!caseCtrl.displayKeys()}}" ng-hide="!caseCtrl.displayKeys()">{{'Index 1' | translate}}</th>
+                <th bo-sorter="index2" visible="false" class="case-column" remove-column="{{!caseCtrl.displayKeys()}}" ng-hide="!caseCtrl.displayKeys()">{{'Index 2' | translate}}</th>
+                <th bo-sorter="index3" visible="false" class="case-column" remove-column="{{!caseCtrl.displayKeys()}}" ng-hide="!caseCtrl.displayKeys()">{{'Index 3' | translate}}</th>
+                <th bo-sorter="index4" visible="false" class="case-column" remove-column="{{!caseCtrl.displayKeys()}}" ng-hide="!caseCtrl.displayKeys()">{{'Index 4' | translate}}</th>
+                <th bo-sorter="index5" visible="false" class="case-column" remove-column="{{!caseCtrl.displayKeys()}}" ng-hide="!caseCtrl.displayKeys()">{{'Index 5' | translate}}</th>
                 <th data-ignore class="text-center">{{'Actions' | translate}}</th>
 
               </tr>
@@ -68,11 +68,11 @@
 
               </td>
               <td class="case-detail text-right">{{::(case['Pending Flow Nodes'] - case['Failed Flow Nodes'])}}</td>
-              <td class="case-detail" ng-hide="!caseCtrl.displayKeys()"><span ng-hide="!case['searchIndex1Label'] &amp;&amp; !case['searchIndex1Value']">{{::case['searchIndex1Label']}}:</span><span ng-hide="!case['searchIndex1Value']"></span><span ng-hide="!!case['searchIndex1Value']">{{'No value' | translate}}</span></td>
-              <td class="case-detail" ng-hide="!caseCtrl.displayKeys()"><span ng-hide="!case['searchIndex2Label'] &amp;&amp; !case['searchIndex2Value']">{{::case['searchIndex2Label']}}:</span><span ng-hide="!case['searchIndex2Value']"></span><span ng-hide="!!case['searchIndex2Value']">{{'No value' | translate}}</span></td>
-              <td class="case-detail" ng-hide="!caseCtrl.displayKeys()"><span ng-hide="!case['searchIndex3Label'] &amp;&amp; !case['searchIndex3Value']">{{::case['searchIndex3Label']}}:</span><span ng-hide="!case['searchIndex3Value']"></span><span ng-hide="!!case['searchIndex3Value']">{{'No value' | translate}}</span></td>
-              <td class="case-detail" ng-hide="!caseCtrl.displayKeys()"><span ng-hide="!case['searchIndex4Label'] &amp;&amp; !case['searchIndex4Value']">{{::case['searchIndex4Label']}}:</span><span ng-hide="!case['searchIndex4Value']"></span><span ng-hide="!!case['searchIndex4Value']">{{'No value' | translate}}</span></td>
-              <td class="case-detail" ng-hide="!caseCtrl.displayKeys()"><span ng-hide="!case['searchIndex5Label'] &amp;&amp; !case['searchIndex5Value']">{{::case['searchIndex5Label']}}:</span><span ng-hide="!case['searchIndex5Value']"></span><span ng-hide="!!case['searchIndex5Value']">{{'No value' | translate}}</span></td>
+              <td class="case-detail" ng-hide="!caseCtrl.displayKeys()"><search-index case="case" index="1"></search-index></td>
+              <td class="case-detail" ng-hide="!caseCtrl.displayKeys()"><search-index case="case" index="2"></search-index></td>
+              <td class="case-detail" ng-hide="!caseCtrl.displayKeys()"><search-index case="case" index="3"></search-index></td>
+              <td class="case-detail" ng-hide="!caseCtrl.displayKeys()"><search-index case="case" index="4"></search-index></td>
+              <td class="case-detail" ng-hide="!caseCtrl.displayKeys()"><search-index case="case" index="5"></search-index></td>
               <td class="case-link text-center">
                 <case-visu process-id='{{::case.processDefinitionId.id}}' case-id='{{::case.ID}}'></case-visu>
                 <a id="case-detail-btn-{{::case.id}}" tooltip="{{'View case details' | translate }}"  tooltip-popup-delay="500" tooltip-animation="false" target="_top" ng-href="{{::caseCtrl.getLinkToCase(case)}}" class="open-link">
@@ -105,11 +105,11 @@
                 <th class="case-column" >{{'Started by' | translate}}</th>
                 <th bo-sorter="endDate" class="case-column" bo-sorter-title-asc="{{'sort by End date ascending' | translate}}" bo-sorter-title-desc="{{'sort by End date descending' | translate}}">{{'End date' | translate}}</th>
                 <th class="case-column" >{{'State' | translate}}</th>
-                <th bo-sorter="index1" class="case-column" remove-column="{{caseCtrl.displayKeys()}}" ng-hide="!caseCtrl.displayKeys()">{{'Key 1' | translate}}</th>
-                <th bo-sorter="index2" visible="false" class="case-column" remove-column="{{caseCtrl.displayKeys()}}" ng-hide="!caseCtrl.displayKeys()">{{'Key 2' | translate}}</th>
-                <th bo-sorter="index3" visible="false" class="case-column" remove-column="{{caseCtrl.displayKeys()}}" ng-hide="!caseCtrl.displayKeys()">{{'Key 3' | translate}}</th>
-                <th bo-sorter="index4" visible="false" class="case-column" remove-column="{{caseCtrl.displayKeys()}}" ng-hide="!caseCtrl.displayKeys()">{{'Key 4' | translate}}</th>
-                <th bo-sorter="index5" visible="false" class="case-column" remove-column="{{caseCtrl.displayKeys()}}" ng-hide="!caseCtrl.displayKeys()">{{'Key 5' | translate}}</th>
+                <th bo-sorter="index1" class="case-column" remove-column="{{!caseCtrl.displayKeys()}}" ng-hide="!caseCtrl.displayKeys()">{{'Index 1' | translate}}</th>
+                <th bo-sorter="index2" visible="false" class="case-column" remove-column="{{!caseCtrl.displayKeys()}}" ng-hide="!caseCtrl.displayKeys()">{{'Index 2' | translate}}</th>
+                <th bo-sorter="index3" visible="false" class="case-column" remove-column="{{!caseCtrl.displayKeys()}}" ng-hide="!caseCtrl.displayKeys()">{{'Index 3' | translate}}</th>
+                <th bo-sorter="index4" visible="false" class="case-column" remove-column="{{!caseCtrl.displayKeys()}}" ng-hide="!caseCtrl.displayKeys()">{{'Index 4' | translate}}</th>
+                <th bo-sorter="index5" visible="false" class="case-column" remove-column="{{!caseCtrl.displayKeys()}}" ng-hide="!caseCtrl.displayKeys()">{{'Index 5' | translate}}</th>
 
                 <th data-ignore class="text-center">{{'Actions' | translate}}</th>
               </tr>
@@ -128,11 +128,11 @@
               <td class="case-detail">{{::case['Started by'] || ('System' | translate)}}</td>
               <td class="case-detail">{{::caseCtrl.parseAndFormat(case['End date'])}}</td>
               <td class="case-detail">{{::case['State']}}</td>
-              <td class="case-detail" ng-hide="!caseCtrl.displayKeys()"><span ng-hide="!case['searchIndex1Label'] &amp;&amp; !case['searchIndex1Value']">{{::case['searchIndex1Label']}}:</span><span ng-hide="!case['searchIndex1Value']"></span><span ng-hide="!!case['searchIndex1Value']">{{'No value' | translate}}</span></td>
-              <td class="case-detail" ng-hide="!caseCtrl.displayKeys()"><span ng-hide="!case['searchIndex2Label'] &amp;&amp; !case['searchIndex2Value']">{{::case['searchIndex2Label']}}:</span><span ng-hide="!case['searchIndex2Value']"></span><span ng-hide="!!case['searchIndex2Value']">{{'No value' | translate}}</span></td>
-              <td class="case-detail" ng-hide="!caseCtrl.displayKeys()"><span ng-hide="!case['searchIndex3Label'] &amp;&amp; !case['searchIndex3Value']">{{::case['searchIndex3Label']}}:</span><span ng-hide="!case['searchIndex3Value']"></span><span ng-hide="!!case['searchIndex3Value']">{{'No value' | translate}}</span></td>
-              <td class="case-detail" ng-hide="!caseCtrl.displayKeys()"><span ng-hide="!case['searchIndex4Label'] &amp;&amp; !case['searchIndex4Value']">{{::case['searchIndex4Label']}}:</span><span ng-hide="!case['searchIndex4Value']"></span><span ng-hide="!!case['searchIndex4Value']">{{'No value' | translate}}</span></td>
-              <td class="case-detail" ng-hide="!caseCtrl.displayKeys()"><span ng-hide="!case['searchIndex5Label'] &amp;&amp; !case['searchIndex5Value']">{{::case['searchIndex5Label']}}:</span><span ng-hide="!case['searchIndex5Value']"></span><span ng-hide="!!case['searchIndex5Value']">{{'No value' | translate}}</span></td>
+              <td class="case-detail" ng-hide="!caseCtrl.displayKeys()"><search-index case="case" index="1"></search-index></td>
+              <td class="case-detail" ng-hide="!caseCtrl.displayKeys()"><search-index case="case" index="2"></search-index></td>
+              <td class="case-detail" ng-hide="!caseCtrl.displayKeys()"><search-index case="case" index="3"></search-index></td>
+              <td class="case-detail" ng-hide="!caseCtrl.displayKeys()"><search-index case="case" index="4"></search-index></td>
+              <td class="case-detail" ng-hide="!caseCtrl.displayKeys()"><search-index case="case" index="5"></search-index></td>
               <td class="case-link text-center">
                 <case-visu process-id='{{::case.processDefinitionId.id}}' case-id='{{::case.ID}}'></case-visu>
                 <a id="case-detail-btn-{{::case.id}}" tooltip="{{'View case details' | translate }}"  tooltip-popup-delay="500" tooltip-animation="false" target="_top" ng-href="{{::caseCtrl.getLinkToCase(case)}}" class="open-link">
