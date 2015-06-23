@@ -15,6 +15,8 @@ module.exports = function (grunt) {
   // Time how long tasks take. Can help when optimizing build times
   require('time-grunt')(grunt);
 
+  var licenseTemplate = grunt.file.read('license-tpl.txt');
+
   // Define the configuration for all the tasks
   grunt.initConfig({
 
@@ -78,7 +80,7 @@ module.exports = function (grunt) {
           enabled: true,
           port:'<%= connect.options.livereload %>',
           extensions:['js','css','html','json'],
-          key: null, // provide a filepath or Buffer for `key` and `cert` to enable SSL. 
+          key: null, // provide a filepath or Buffer for `key` and `cert` to enable SSL.
           cert: null
         }
       },
@@ -510,6 +512,27 @@ module.exports = function (grunt) {
         },
         files: {
           'main/index.html': ['main/index.html']
+        }
+      }
+    },
+    usebanner: {
+      license: {
+        options: {
+          position: 'top',
+          linebreak: true,
+          process: function ( filepath ) {
+            return grunt.template.process(
+              licenseTemplate , {
+                data: {
+                  year: new Date().getFullYear()
+                }
+              }
+            );
+          },
+          pattern: /^((?!\/\*\* Copyright).)+.*/gi
+        },
+        files: {
+          src: [ 'main/common/**/*.js', 'main/features/**/*.js', 'test/**/*.js']
         }
       }
     }
