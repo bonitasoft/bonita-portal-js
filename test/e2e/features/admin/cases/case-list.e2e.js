@@ -130,7 +130,7 @@
         });
       }
 
-      iit('should change Version and ID column size ', function () {
+      it('should change Version and ID column size ', function () {
         removeColumns([4,5,6]);
 
         var idColumnBar = resizeBars.get(0);
@@ -146,7 +146,7 @@
         formerVersionColumnLocation.then(function (oldPosition) {
           newVersionColumnLocation.then(function (newPosition) {
             //move is not very accurate, for instance, offset of 50 changed position of 53px
-            expect(newPosition.x - oldPosition.x).toBeGreaterThan(3);
+            expect(newPosition.x - oldPosition.x).toBeGreaterThan(0);
           });
         });
         var newProcessNameColumnLocation = element.all(by.css('table th')).get(3).getLocation();
