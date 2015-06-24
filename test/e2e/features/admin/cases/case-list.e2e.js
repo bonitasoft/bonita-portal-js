@@ -28,7 +28,7 @@
         expect(columnList.get(6).getText()).toContain('Failed Flow Nodes');
         expect(columnList.get(7).getText()).toContain('Pending Flow Nodes');
         if (browser.bonitaSpEdition()) {
-          expect(columnList.get(8).getText()).toContain('Key 1');
+          expect(columnList.get(8).getText()).toContain('Index 1');
         }
       });
       it('should contains page size selection', function () {
@@ -130,7 +130,7 @@
         });
       }
 
-      it('should change Version and ID column size ', function () {
+      iit('should change Version and ID column size ', function () {
         removeColumns([4,5,6]);
 
         var idColumnBar = resizeBars.get(0);
@@ -159,8 +159,8 @@
         var newStartDateColumnLocation = element.all(by.css('table th')).get(5).getLocation();
         formerStartDateColumnLocation.then(function (oldPosition) {
           newStartDateColumnLocation.then(function (newPosition) {
-            expect(oldPosition.x - newPosition.x).toBeGreaterThan(-3);
-            expect(oldPosition.x - newPosition.x).toBeLessThan(3);
+            expect(oldPosition.x - newPosition.x).toBeGreaterThan(-5);
+            expect(oldPosition.x - newPosition.x).toBeLessThan(1);
           });
         });
       });

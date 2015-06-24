@@ -28,7 +28,7 @@
         expect(columnList.get(6).getText()).toContain('End date');
         expect(columnList.get(7).getText()).toContain('State');
         if (browser.bonitaSpEdition()) {
-          expect(columnList.get(8).getText()).toContain('Key 1');
+          expect(columnList.get(8).getText()).toContain('Index 1');
         }
       });
       it('should contains page size selection', function () {
@@ -125,7 +125,7 @@
         var startedByColumnBar = resizeBars.get(4);
         var formerStartedByColumnLocation = element.all(by.css('table th')).get(5).getLocation();
         var formerStartDateColumnLocation = element.all(by.css('table th')).get(4).getLocation();
-        var formerStateColumnLocation = element.all(by.css('table th')).get(6).getLocation();
+        //var formerStateColumnLocation = element.all(by.css('table th')).get(6).getLocation();
         browser.driver.actions().mouseDown(startedByColumnBar).mouseMove(startedByColumnBar, {
           x: 100,
           y: 50
@@ -146,13 +146,13 @@
             expect(oldPosition.y - newPosition.y).toBe(0);
           });
         });
-        var newStateColumnLocation = element.all(by.css('table th')).get(6).getLocation();
+        /*var newStateColumnLocation = element.all(by.css('table th')).get(6).getLocation();
         formerStateColumnLocation.then(function (oldPosition) {
           newStateColumnLocation.then(function (newPosition) {
             expect(oldPosition.x - newPosition.x).toBeLessThan(1);
             expect(oldPosition.y - newPosition.y).toBe(0);
           });
-        });
+        });*/
       });
     });
 
