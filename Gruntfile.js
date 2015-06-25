@@ -386,8 +386,9 @@ module.exports = function (grunt) {
       dist: {
         options: {
           collapseWhitespace: true,
-          //collapseBooleanAttributes: true,
+          collapseBooleanAttributes: true,
           removeCommentsFromCDATA: true,
+          removeOptionalTags: false,
           caseSensitive: true,
           keepClosingSlash: true
         },
