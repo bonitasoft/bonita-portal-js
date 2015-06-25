@@ -21,7 +21,8 @@
     'org.bonitasoft.bonitable.settings',
     'org.bonitasoft.templates',
     'ui.sortable',
-    'org.bonitasoft.common.filters.date.parser'
+    'org.bonitasoft.common.filters.date.parser',
+    'org.bonitasoft.service.features'
   ])
     .config(['growlProvider', function (growlProvider) {
       growlProvider.globalPosition('top-center');
@@ -29,13 +30,13 @@
     .controller('ActiveCaseListCtrl', ['$scope', 'caseAPI', 'casesColumns', 'defaultPageSize', 'defaultSort',
       'defaultDeployedFields', 'defaultActiveCounterFields', '$location', 'pageSizes', 'defaultFilters', 'dateParser',
       '$anchorScroll', 'growl', 'moreDetailToken', 'tabName', 'manageTopUrl',
-      'processId', 'supervisorId', 'caseStateFilter', CaseListCtrl])
+      'processId', 'supervisorId', 'caseStateFilter', 'FeatureManager', CaseListCtrl])
 
 
     .controller('ArchivedCaseListCtrl', ['$scope', 'archivedCaseAPI', 'archivedCasesColumns', 'defaultPageSize',
       'archivedDefaultSort', 'defaultDeployedFields', 'defaultArchivedCounterFields', '$location', 'pageSizes', 'defaultFilters', 'dateParser',
       '$anchorScroll', 'growl', 'archivedMoreDetailToken', 'tabName', 'manageTopUrl',
-      'processId', 'supervisorId', 'caseStateFilter', CaseListCtrl]);
+      'processId', 'supervisorId', 'caseStateFilter', 'FeatureManager', CaseListCtrl]);
 
   /**
    * @ngdoc object
@@ -58,7 +59,7 @@
    * @requires growl
    */
   /* jshint -W003 */
-  function CaseListCtrl($scope, caseAPI, casesColumns, defaultPageSize, defaultSort, defaultDeployedFields, defaultCounterFields, $location, pageSizes, defaultFilters, dateParser, $anchorScroll, growl, moreDetailToken, tabName, manageTopUrl, processId, supervisorId, caseStateFilter) {
+  function CaseListCtrl($scope, caseAPI, casesColumns, defaultPageSize, defaultSort, defaultDeployedFields, defaultCounterFields, $location, pageSizes, defaultFilters, dateParser, $anchorScroll, growl, moreDetailToken, tabName, manageTopUrl, processId, supervisorId, caseStateFilter, FeatureManager) {
     var vm = this;
     var modeDetailProcessToken = 'processmoredetailsadmin';
 
@@ -249,6 +250,12 @@
 
 
     vm.searchForCases = searchForCases;
+    vm.displayKeys = displayKeys;
+
+    function displayKeys() {
+      return FeatureManager.isSearchIndexedFeatureActivated();
+    }
+
     function searchForCases() {
       $scope.loading = true;
       //these tmp variables are here to store currentSearch results
@@ -271,13 +278,13 @@
           if (fullCases && fullCases.resource) {
             fullCases.resource.map(function selectOnlyInterestingFields(fullCase) {
               var simpleCase = {};
-              for (var i = 0; i < $scope.columns.length; i++) {
+              $scope.columns.forEach(function (column) {
                 var currentCase = fullCase;
-                for (var j = 0; j < $scope.columns[i].path.length; j++) {
-                  currentCase = currentCase && currentCase[$scope.columns[i].path[j]];
+                for (var j = 0; j < column.path.length; j++) {
+                  currentCase = currentCase && currentCase[column.path[j]];
                 }
-                simpleCase[$scope.columns[i].name] = currentCase;
-              }
+                simpleCase[column.name] = currentCase;
+              });
               simpleCase.id = fullCase.id;
               simpleCase.processDefinitionId = fullCase.processDefinitionId;
               simpleCase.fullCase = fullCase;
