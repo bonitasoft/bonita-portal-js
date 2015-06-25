@@ -158,6 +158,7 @@
         expect(getModal().element(by.css('.modal-content .modal-body')).getText()).toEqual('The deleted case will be permanently deleted from the archives.');
         // Cancel
         getModal().element(by.css('#CancelCaseDeletionBtn')).click();
+        browser.waitForAngular();
         // click on the column check box to unselect all
         checkboxes.get(0).click();
         // verify if the button is active
