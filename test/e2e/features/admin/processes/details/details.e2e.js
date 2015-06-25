@@ -83,7 +83,6 @@
             var categoriesModal = element(by.css('#manage-categories-modal'));
             expect(categoriesModal.all(by.css('.tags')).getText()).toEqual(['Support\nR&D\nSéverin\njQuery+']);
             var tagsInput = categoriesModal.all(by.css('input')).get(0);
-            tagsInput.click();
             tagsInput.sendKeys('Red', protractor.Key.ENTER);
             tagsInput.sendKeys('F');
             categoriesModal.all(by.css('.tags-suggestion')).get(0).click();
