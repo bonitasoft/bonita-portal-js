@@ -28,7 +28,7 @@
         expect(columnList.get(6).getText()).toContain('End date');
         expect(columnList.get(7).getText()).toContain('State');
         if (browser.bonitaSpEdition()) {
-          expect(columnList.get(8).getText()).toContain('Index 1');
+          expect(columnList.get(8).getText()).toContain('Search Key 1');
         }
       });
       it('should contains page size selection', function () {

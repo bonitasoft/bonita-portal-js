@@ -28,7 +28,7 @@
         expect(columnList.get(6).getText()).toContain('Failed Flow Nodes');
         expect(columnList.get(7).getText()).toContain('Pending Flow Nodes');
         if (browser.bonitaSpEdition()) {
-          expect(columnList.get(8).getText()).toContain('Index 1');
+          expect(columnList.get(8).getText()).toContain('Search Key 1');
         }
       });
       it('should contains page size selection', function () {
