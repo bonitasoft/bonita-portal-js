@@ -1,3 +1,19 @@
+/** Copyright (C) 2015 Bonitasoft S.A.
+ * BonitaSoft, 31 rue Gustave Eiffel - 38000 Grenoble
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 2.0 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ */
+
 (function() {
   'use strict';
   /**
@@ -5,7 +21,8 @@
    *
    * defines properties shared between mapping features (actors and process manager currently)
    */
-  angular.module('org.bonitasoft.features.admin.mappings', ['org.bonitasoft.services.i18n'])
+  angular.module('org.bonitasoft.features.admin.mappings', ['org.bonitasoft.services.i18n',
+    'org.bonitasoft.common.resources.store'])
     .value('MAPPING_PROFILES', {
       USER: 'USER',
       GROUP: 'GROUP',
@@ -59,15 +76,15 @@
       /* jshint camelcase: false */
       mappingService.labelFormatter = {
         USER: function(currentMember) {
-          var member = currentMember.user_id || currentMember;
+          var member = currentMember[userIdAttribute] || currentMember;
           return member.firstname + ' ' + member.lastname;
         },
         GROUP: function(currentMember) {
-          var member = currentMember.group_id || currentMember;
+          var member = currentMember[groupIdAttribute] || currentMember;
           return member.displayName;
         },
         ROLE: function(currentMember) {
-          var member = currentMember.role_id || currentMember;
+          var member = currentMember[roleIdAttribute] || currentMember;
           return member.displayName;
         },
         MEMBERSHIP: function(currentMember) {
@@ -108,7 +125,6 @@
       };
 
       mappingService.loadMembers = function(type, searchMemberParams, mappedIds, api) {
-        var membersResult;
         /*jshint camelcase: false */
         return store.load(api, {
           f: searchMemberParams.filters,
@@ -117,13 +133,12 @@
           members.forEach(function(currentMember) {
             currentMember.label = mappingService.labelFormatter[type](currentMember);
           });
-          membersResult = members;
           if (type !== MAPPING_PROFILES.MEMBERSHIP) {
             members.forEach(function(member) {
               mappedIds.push(member[searchMemberParams.actorId].id);
             });
           }
-          return membersResult;
+          return members;
         }, angular.noop);
       };
 
