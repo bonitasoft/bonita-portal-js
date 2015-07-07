@@ -117,21 +117,45 @@
 
     describe('column resize', function () {
       var resizeBars;
+      var caseListSettingsButton;
       beforeEach(function () {
+        caseListSettingsButton = element(by.css('#case-list button.bo-Settings'));
         resizeBars = element.all(by.css('.rc-handle'));
       });
 
       function removeColumns(columnIndexes) {
-        var caseListSettingsButton = element(by.css('#case-list button.bo-Settings'));
+        removeOrAddColumns(false, columnIndexes);
+      }
+
+      function addColumns(columnIndexes) {
+        removeOrAddColumns(true, columnIndexes);
+      }
+
+      function removeOrAddColumns(addColumns, columnIndexes) {
         caseListSettingsButton.click();
         var columnToShowNameList = element.all(by.css('.bo-TableSettings-columns li input'));
         columnIndexes.forEach(function(index) {
-          columnToShowNameList.get(index).click();
+          var checkBoxElement = columnToShowNameList.get(index);
+          if (addColumns !== checkBoxElement.isSelected()) {
+            checkBoxElement.click();
+          }
         });
+        caseListSettingsButton.click();
+      }
+
+      function removeAllColumns() {
+        caseListSettingsButton.click();
+        var columnToShowNameList = element.all(by.css('.bo-TableSettings-columns li input:checked'));
+        columnToShowNameList.each(function(element) {
+          element.click();
+        });
+        caseListSettingsButton.click();
       }
 
       it('should change Version and ID column size ', function () {
-        removeColumns([4,5,6,7]);
+        removeAllColumns();
+        addColumns([0,1,2,3]);
+        resizeBars = element.all(by.css('.rc-handle'));
 
         var idColumnBar = resizeBars.get(0);
         var versionColumnBar = resizeBars.get(1);
@@ -164,8 +188,10 @@
           });
         });
       });
+
       it('should change increase started Date and Started By column sizes', function () {
         removeColumns([0,1,2]);
+        resizeBars = element.all(by.css('.rc-handle'));
 
         var startedByColumnBar = resizeBars.get(0);
         var formerStartDateColumnLocation = element.all(by.css('table th')).get(1).getLocation();
