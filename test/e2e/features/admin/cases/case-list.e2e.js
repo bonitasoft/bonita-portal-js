@@ -131,7 +131,7 @@
       }
 
       it('should change Version and ID column size ', function () {
-        removeColumns([4,5,6]);
+        removeColumns([4,5,6,7]);
 
         var idColumnBar = resizeBars.get(0);
         var versionColumnBar = resizeBars.get(1);
