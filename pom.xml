@@ -7,11 +7,6 @@
     <version>7.0.2-SNAPSHOT</version>
     <packaging>pom</packaging>
 
-    <properties>
-      <sonar.language>js</sonar.language>
-      <sonar.javascript.lcov.reportPath>coverage/lcov.info</sonar.javascript.lcov.reportPath>
-    </properties>
-
 	<profiles>
     <profile>
       <id>e2e</id>
