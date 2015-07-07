@@ -245,7 +245,8 @@ module.exports = function (grunt) {
           }
         ]
       },
-      server: '.tmp'
+      server: '.tmp',
+      test: 'coverage'
     },
 
     // Add vendor prefixed styles
@@ -482,6 +483,18 @@ module.exports = function (grunt) {
         singleRun: true
       }
     },
+    'regex-replace': {
+      postprocessLCOV: {
+        src: ['coverage/lcov.info'],
+        actions: [
+          {
+            name: 'fixSF',
+            search: 'SF:.',
+            replace: 'SF:bonita-portal-js'
+          }
+        ]
+      }
+    },
     protractor: {
       options: {
         configFile: 'protractor.conf.js', // Default config file
@@ -594,10 +607,12 @@ module.exports = function (grunt) {
 
   grunt.registerTask('test', [
     'clean:server',
+    'clean:test',
     'concurrent:test',
     'autoprefixer',
     'connect:test',
-    'karma'
+    'karma',
+    'regex-replace:postprocessLCOV'
   ]);
 
   grunt.registerTask('buildE2e', [

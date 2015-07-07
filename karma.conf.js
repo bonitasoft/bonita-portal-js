@@ -87,7 +87,13 @@ module.exports = function(config) {
     reporters: ['dots', 'junit', 'coverage'],
 
     junitReporter: {
-      outputFile: 'test/reports.xml'
+      outputFile: 'test/TESTS-xunit.xml'
+    },
+
+    coverageReporter: {
+      type: 'lcov',
+      dir: 'coverage',
+      subdir: '.'
     }
 
   });
