@@ -16,6 +16,8 @@ module.exports = function (grunt) {
   require('time-grunt')(grunt);
 
   var licenseTemplate = grunt.file.read('license-tpl.txt');
+  
+  var ext = require('node-pom-parser');
 
   // Define the configuration for all the tasks
   grunt.initConfig({
@@ -24,9 +26,12 @@ module.exports = function (grunt) {
     portaljs: {
       // configurable paths
       app: 'main',
+      test: 'test',
       dist: 'dist',
       build: 'build'
     },
+    
+    pom: ext.parsePom({ filePath: 'pom.xml' }),
 
     // Watches files for changes and runs tasks based on the changed files
     watch: {
@@ -483,18 +488,35 @@ module.exports = function (grunt) {
         singleRun: true
       }
     },
-    'regex-replace': {
-      postprocessLCOV: {
-        src: ['coverage/lcov.info'],
-        actions: [
+
+    karmaSonar: {
+      options: {
+        dryRun: true,
+        excludedProperties: ['sonar.exclusions'],
+        runnerProperties: {
+          'sonar.exclusions': 'src/assets/**',
+          'sonar.coverage.exclusions': 'src/assets/**'
+        }
+      },
+      unittests: {
+        project: {
+          key: 'bonita-portal-js',
+          name: 'Bonita Portal JS',
+          version: '<%= pom.version %>'
+        },
+        paths: [
           {
-            name: 'fixSF',
-            search: 'SF:.',
-            replace: 'SF:bonita-portal-js'
+            src: '<%= portaljs.app %>',
+            test: '<%= portaljs.test %>',
+            reports: {
+              unit: '<%= portaljs.test %>/TESTS-xunit.xml',
+              coverage: 'coverage/lcov.info'
+            }
           }
         ]
       }
     },
+    
     protractor: {
       options: {
         configFile: 'protractor.conf.js', // Default config file
@@ -612,7 +634,7 @@ module.exports = function (grunt) {
     'autoprefixer',
     'connect:test',
     'karma',
-    'regex-replace:postprocessLCOV'
+    'karmaSonar'
   ]);
 
   grunt.registerTask('buildE2e', [
