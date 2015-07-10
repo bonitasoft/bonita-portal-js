@@ -251,7 +251,16 @@ module.exports = function (grunt) {
         ]
       },
       server: '.tmp',
-      test: 'coverage'
+      test: {
+        files: [
+          {
+            src: [
+              'coverage',
+              'sonar'
+            ]
+          }
+        ]
+      }
     },
 
     // Add vendor prefixed styles
@@ -493,6 +502,7 @@ module.exports = function (grunt) {
       options: {
         dryRun: true,
         excludedProperties: ['sonar.exclusions'],
+        defaultOutputDir: 'sonar',
         runnerProperties: {
           'sonar.exclusions': 'src/assets/**',
           'sonar.coverage.exclusions': 'src/assets/**'
