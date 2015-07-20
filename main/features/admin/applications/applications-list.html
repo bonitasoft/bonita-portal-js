@@ -16,7 +16,7 @@
     </p>
   </section>
 
-  <table ng-if="!noData" class="table resizable app-container-list" bonitable sort-options="sortableOptions" >
+  <table ng-if="!noData" class="table resizable app-container-list" bonitable sort-options="sortableOptions" bo-storable="applications" >
     <thead>
       <tr>
         <th bo-sorter="displayName" id="application-display-name" class="table-column-large" title="{{'Sort by name' | translate }}" bo-sorter-title-desc="{{'Sort by name' | translate }} Desc" bo-sorter-title-asc="{{'Sort by name' | translate }} Asc">{{ 'Name' | translate }}</th>
@@ -26,7 +26,7 @@
         <th bo-sorter="lastUpdateDate" id="application-last-update-date" class="table-column-xs" title="{{'Sort by updated on' | translate }}" bo-sorter-title-desc="{{'Sort by updated on' | translate }} Desc" bo-sorter-title-asc="{{'Sort by updated on' | translate }} Asc">{{'Updated on' | translate}}</th>
         <th data-noresize class="table-column-xs table-header-actions">{{'Actions' | translate}}</th>
       </tr>
-    </thead> 
+    </thead>
     <tbody>
       <tr class="table-row table-row-{{$index}}" ng-repeat="application in applications | orderBy: sortableOptions.property : sortableOptions.direction track by $index">
         <td class="application-display-name" title="{{ application.displayName }}">{{ application.displayName }}</td>
