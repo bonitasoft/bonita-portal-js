@@ -38,6 +38,7 @@ module.exports = function(config) {
       'main/assets/angular-multi-select/isteven-multi-select.js',
       'main/assets/angular-sanitize/angular-sanitize.js',
       'main/assets/ng-sortable/dist/ng-sortable.js',
+      'main/assets/bonita-js-components/dist/bonita-lib-tpl.js',
       'main/assets/moment/min/moment-with-locales.js',
       'main/assets/numeral/numeral.js',
       'main/assets/numeral/languages.js',
