@@ -33,6 +33,7 @@
     'org.bonitasoft.bonitable.selectable',
     'org.bonitasoft.bonitable.repeatable',
     'org.bonitasoft.bonitable.sortable',
+    'org.bonitasoft.bonitable.storable',
     'org.bonitasoft.bonitable.settings',
     'org.bonitasoft.templates',
     'ui.sortable',
