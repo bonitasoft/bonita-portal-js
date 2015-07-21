@@ -16,7 +16,7 @@
     </p>
   </section>
 
-  <table ng-if="!noData" class="table resizable app-container-list" bonitable sort-options="sortableOptions" >
+  <table ng-if="!noData" class="table resizable app-container-list" bonitable sort-options="sortableOptions" bo-storable="applications-list">
     <thead>
       <tr>
         <th bo-sorter="displayName" id="application-display-name" class="table-column-large" title="{{'Sort by name' | translate }}" bo-sorter-title-desc="{{'Sort by name' | translate }} Desc" bo-sorter-title-asc="{{'Sort by name' | translate }} Asc">{{ 'Name' | translate }}</th>
