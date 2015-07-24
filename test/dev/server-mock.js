@@ -155,7 +155,7 @@
   when('PUT', /^\/API\/bpm\/process\/\d+$/).respond();
 
   //global
-  when('GET', /^\/API\/bpm\/process\?c=\d&p=0$/).respond(require('./admin/cases/list/process-def-4.json'));
+  when('GET', /^\/API\/bpm\/process\?c=\d+&.*p=0$/).respond(require('./admin/cases/list/process-def-4.json'));
   //http://localhost:9002/API/system/i18ntranslation?f=locale%3Den
   when('GET', /^\/API\/system\/i18ntranslation.*$/).respond([]);
   when('GET', /^\/API\/system\/session\/unusedId$/).respond([]);

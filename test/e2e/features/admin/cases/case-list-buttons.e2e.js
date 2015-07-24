@@ -26,8 +26,16 @@
     beforeEach(function () {
       browser.get('#/admin/cases/list');
       caseList = element(by.css('#case-list'));
+      browser.executeScript('window.sessionStorage.clear();');
+      browser.executeScript('window.localStorage.clear();');
       //browser.debugger(); //launch protractor with debug option and use 'c' in console to continue test execution
     });
+
+    afterEach(function () {
+      browser.executeScript('window.sessionStorage.clear();');
+      browser.executeScript('window.localStorage.clear();');
+    });
+
     function getDeleteButton(){
       return element(by.css('#delete-button'), caseList);
     }
