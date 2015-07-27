@@ -30,7 +30,8 @@
     'org.bonitasoft.service.features',
     'org.bonitasoft.services.i18n',
     'org.bonitasoft.common.resources',
-    'org.bonitasoft.features.admin'
+    'org.bonitasoft.features.admin',
+    'org.bonitasoft.features.user'
   ]).provider('bonita', function() {
     this.stateResolve = {
       translations: ['i18nService', function(i18nService){

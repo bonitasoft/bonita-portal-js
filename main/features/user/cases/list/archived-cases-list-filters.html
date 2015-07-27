@@ -1,0 +1,26 @@
+<div id="case-filters" class="panel panel-default">
+
+  <div class="panel-heading title">{{ 'Filters' | translate }}</div>
+  <div class="panel-body">
+    <div class="col-md-3 button-filter"> {{ 'Process name' | translate }}
+      <div class="btn-group" dropdown id="case-app-name-filter">
+        <button type="button" dropdown-toggle class="btn btn-primary dropdown-toggle ">{{selectedFilters.selectedApp | translate}}<span class="caret"></span></button>
+        <ul class="dropdown-menu" role="menu">
+          <li ng-click="filterUserCtrl.selectApp(defaultUserFilters.appName)"><a>{{defaultUserFilters.appName | translate}}</a></li>
+          <li ng-if="appNames &amp;&amp; appNames.length>0" class="divider"></li>
+          <li ng-repeat="appName in appNames" ng-click="filterUserCtrl.selectApp(appName)"><a>{{appName}}</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="col-md-3 button-filter">
+    </div>
+    <div class="col-md-3 button-filter">
+      <form role="form" name="searchForm" novalidate ng-submit="filterUserCtrl.submitSearch()">
+          <div class="input-group">
+            <input type="text" class="form-control" ng-model="selectedFilters.currentSearch" name="searchField" id="case-list-search" placeholder="{{ 'Search...' | translate }}">
+            <span ng-click="filterUserCtrl.submitSearch()" class="input-group-addon pointer"><span class="glyphicon glyphicon-search"></span></span>
+          </div>
+      </form>
+    </div>
+  </div>
+</div>
