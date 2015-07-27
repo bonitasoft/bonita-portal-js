@@ -74,6 +74,9 @@
               <td class="case-detail" ng-hide="!caseCtrl.displayKeys()"><search-index case="case" index="4"></search-index></td>
               <td class="case-detail" ng-hide="!caseCtrl.displayKeys()"><search-index case="case" index="5"></search-index></td>
               <td class="case-link text-center">
+                <a id="case-overview-btn-{{::case.id}}" tooltip="{{'View case overview' | translate }}"  tooltip-popup-delay="500" tooltip-animation="false" target="_top" ng-href="{{::caseUserCtrl.getLinkToCaseOverview(case)}}" class="open-link">
+                  <span class="glyphicon glyphicon-eye-open"></span>
+                </a>
                 <case-visu process-id='{{::case.processDefinitionId.id}}' case-id='{{::case.ID}}'></case-visu>
                 <a id="case-detail-btn-{{::case.id}}" tooltip="{{'View case details' | translate }}"  tooltip-popup-delay="500" tooltip-animation="false" target="_top" ng-href="{{::caseCtrl.getLinkToCase(case)}}" class="open-link">
                   <span class="glyphicon glyphicon-option-horizontal"></span>
