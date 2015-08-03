@@ -29,7 +29,14 @@
 
       activeCaseTab = element(by.xpath('//li[a/@id="TabActiveCases"]'));
       archivedCaseTab = element(by.xpath('//li[a/@id="TabArchivedCases"]'));
+      browser.executeScript('window.sessionStorage.clear();');
+      browser.executeScript('window.localStorage.clear();');
       //browser.debugger(); //launch protractor with debug option and use 'c' in console to continue test execution
+    });
+
+    afterEach(function () {
+      browser.executeScript('window.sessionStorage.clear();');
+      browser.executeScript('window.localStorage.clear();');
     });
 
     it('should navigate between tabs', function(){
