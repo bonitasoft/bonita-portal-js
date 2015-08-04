@@ -7,7 +7,7 @@
   </div>
   <div class="panel panel-default">
 
-    <div class="panel-heading title">{{ 'Case list' | translate }} <span id="infoPopover" class="glyphicon glyphicon-info-sign" popover="{{'Only cases from root processes are displayed in the table below. No details are available for cases started by call activities.' | translate}}" popover-trigger="mouseenter"></span> <span ng-click="caseUserCtrl.reinitCases()" tooltip="{{ 'Refresh' | translate}}" tooltip-animation="false" tooltip-popup-delay="300" class="case-list-refresh glyphicon glyphicon-repeat"></span></div>
+    <div class="panel-heading title">{{ 'Case list' | translate }}  <span ng-click="caseUserCtrl.reinitCases()" tooltip="{{ 'Refresh' | translate}}" tooltip-animation="false" tooltip-popup-delay="300" class="case-list-refresh glyphicon glyphicon-repeat"></span></div>
     <div class="panel-body">
       <div growl></div>
       <div ng-if="cases.length">
@@ -29,7 +29,7 @@
                 <th bo-sorter="startDate" class="case-column" bo-sorter-title-asc="{{'sort by Start date ascending' | translate}}" bo-sorter-title-desc="{{'sort by Start date descending' | translate}}">{{'Start date' | translate}}</th>
                 <th class="case-column">{{'Started by' | translate}}</th>
                 <th class="text-right case-column">{{'Available tasks' | translate}}</th>
-                <th bo-sorter="index1" class="case-column" remove-column="{{!caseUserCtrl.displayKeys()}}" ng-hide="!caseUserCtrl.displayKeys()">{{'Search Key 1' | translate}}</th>
+                <th bo-sorter="index1" class="case-column" remove-column="{{!caseUserCtrl.displayKeys()}}" ng-hide="!caseUserCtrl.displayKeys()"><span id="infoPopover" class="glyphicon glyphicon-info-sign" popover="{{'To personalize the display of search keys (and columns in general), use the table settings button on the right. You can always search on all 5 search keys.' | translate}}" popover-trigger="mouseenter"></span> {{'Search Key 1' | translate}}</th>
                 <th bo-sorter="index2" visible="false" class="case-column" remove-column="{{!caseUserCtrl.displayKeys()}}" ng-hide="!caseUserCtrl.displayKeys()">{{'Search Key 2' | translate}}</th>
                 <th bo-sorter="index3" visible="false" class="case-column" remove-column="{{!caseUserCtrl.displayKeys()}}" ng-hide="!caseUserCtrl.displayKeys()">{{'Search Key 3' | translate}}</th>
                 <th bo-sorter="index4" visible="false" class="case-column" remove-column="{{!caseUserCtrl.displayKeys()}}" ng-hide="!caseUserCtrl.displayKeys()">{{'Search Key 4' | translate}}</th>
