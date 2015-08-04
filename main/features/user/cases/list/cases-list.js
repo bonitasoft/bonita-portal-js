@@ -45,13 +45,13 @@
     }])
     .controller('ActiveCaseListUserCtrl', ['$scope', '$http', 'caseAPI', 'humanTaskAPI', 'casesUserColumns', 'defaultPageSize', 'defaultSort',
       'defaultDeployedFields', 'defaultActiveCounterFields', '$location', 'pageSizes', 'defaultUserFilters', 'dateParser',
-      '$anchorScroll', 'growl', 'moreDetailToken', 'tabName', 'manageTopUrl',
+      '$anchorScroll', 'growl', 'moreUserDetailToken', 'tabName', 'manageTopUrl',
       'processId', 'supervisorId', 'caseStateFilter', 'FeatureManager', CaseListUserCtrl])
 
 
     .controller('ArchivedCaseListUserCtrl', ['$scope', '$http', 'archivedCaseAPI', 'archivedCasesColumns', 'defaultPageSize',
       'archivedDefaultSort', 'defaultDeployedFields', 'defaultArchivedCounterFields', '$location', 'pageSizes', 'defaultUserFilters', 'dateParser',
-      '$anchorScroll', 'growl', 'archivedMoreDetailToken', 'tabName', 'manageTopUrl',
+      '$anchorScroll', 'growl', 'archivedUserMoreDetailToken', 'tabName', 'manageTopUrl',
       'processId', 'supervisorId', 'caseStateFilter', 'FeatureManager', CaseListUserCtrl]);
 
   /**
@@ -75,9 +75,8 @@
    * @requires growl
    */
   /* jshint -W003 */
-  function CaseListUserCtrl($scope, $http, caseAPI, humanTaskAPI, casesUserColumns, defaultPageSize, defaultSort, defaultDeployedFields, defaultCounterFields, $location, pageSizes, defaultUserFilters, dateParser, $anchorScroll, growl, moreDetailToken, tabName, manageTopUrl, processId, supervisorId, caseStateFilter, FeatureManager) {
+  function CaseListUserCtrl($scope, $http, caseAPI, humanTaskAPI, casesUserColumns, defaultPageSize, defaultSort, defaultDeployedFields, defaultCounterFields, $location, pageSizes, defaultUserFilters, dateParser, $anchorScroll, growl, moreUserDetailToken, tabName, manageTopUrl, processId, supervisorId, caseStateFilter, FeatureManager) {
     var vm = this;
-    var modeDetailProcessToken = 'processmoredetails';
 
     /**
      * @ngdoc property
@@ -199,13 +198,7 @@
 
     vm.getLinkToCase = function (caseItem) {
       if (caseItem) {
-        return manageTopUrl.getPath() + manageTopUrl.getSearch() + '#?id=' + caseItem.id + '&_p=' + (moreDetailToken || '') + '&' + manageTopUrl.getCurrentProfile();
-      }
-    };
-
-    vm.getLinkToProcess = function (caseItem) {
-      if (caseItem && caseItem.processDefinitionId) {
-        return manageTopUrl.getPath() + manageTopUrl.getSearch() + '#?id=' + caseItem.processDefinitionId.id + '&_p=' + (modeDetailProcessToken || '') + '&' + manageTopUrl.getCurrentProfile();
+        return manageTopUrl.getPath() + manageTopUrl.getSearch() + '#?id=' + caseItem.id + '&_p=' + (moreUserDetailToken || '') + '&' + manageTopUrl.getCurrentProfile();
       }
     };
 

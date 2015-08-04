@@ -45,7 +45,7 @@
     .value('caseStatesUserValues', {
       Me: 'Me'
     })
-    .value('moreDetailToken', 'casemoredetails')
+    .value('moreUserDetailToken', 'casemoredetails')
     .value('pageSizes', [25, 50, 100, 200])
     .value('defaultPageSize', 25)
     .value('defaultSort', 'id')
@@ -85,7 +85,7 @@
       started: 'Started',
       error: 'Failed'
     })
-    .value('archivedMoreDetailToken', 'archivedcasemoredetails')
+    .value('archivedUserMoreDetailToken', 'archivedcasemoredetails')
     .value('archivedTabName', 'archived')
     .value('defaultArchivedCounterFields', []);
 })();
