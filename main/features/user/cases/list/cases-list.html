@@ -68,9 +68,6 @@
             <thead>
               <tr>
                 <th colspan="{{$columns.length+2}}">
-                  <div class="pull-left case-action table-buttons">
-                    <div class="case-action table-buttons"> <archived-case-user-delete>{{'Delete' | translate}}</archived-case-user-delete></div>
-                  </div>
                   <div class="pull-right table-buttons">
                     <table-settings class="pull-right" page-size="pagination.itemsPerPage" sizes="pageSizes" columns="$columns"  update-page-size="caseUserCtrl.changeItemPerPage(size)"></table-settings>
                        <span ng-if="pagination.total" id="cases-results-size-top" class="pull-right">{{ '{}-{} of {}' | translate | stringTemplater:[currentFirstResultIndex, currentLastResultIndex, pagination.total]}}</span>

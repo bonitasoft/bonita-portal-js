@@ -49,7 +49,7 @@
       'processId', 'supervisorId', 'caseStateFilter', 'FeatureManager', CaseListUserCtrl])
 
 
-    .controller('ArchivedCaseListUserCtrl', ['$scope', '$http', 'archivedCaseAPI', 'archivedCasesColumns', 'defaultPageSize',
+    .controller('ArchivedCaseListUserCtrl', ['$scope', '$http', 'archivedCaseAPI', 'humanTaskAPI', 'archivedCasesColumns', 'defaultPageSize',
       'archivedDefaultSort', 'defaultDeployedFields', 'defaultArchivedCounterFields', '$location', 'pageSizes', 'defaultUserFilters', 'dateParser',
       '$anchorScroll', 'growl', 'archivedUserMoreDetailToken', 'tabName', 'manageTopUrl',
       'processId', 'supervisorId', 'caseStateFilter', 'FeatureManager', CaseListUserCtrl]);
