@@ -27,26 +27,26 @@
   angular.module('org.bonitasoft.features.admin.cases.list.values', [])
     .value('casesColumns', [{
       name: 'ID',
-      path: ['id'],
+      path: ['id']
     }, {
       name: 'Process name',
-      path: ['processDefinitionId', 'name'],
+      path: ['processDefinitionId', 'name']
     }, {
       name: 'Version',
-      path: ['processDefinitionId', 'version'],
+      path: ['processDefinitionId', 'version']
     }, {
       name: 'Start date',
-      path: ['start'],
+      path: ['start']
     }, {
       name: 'Started by',
       path: ['started_by', 'userName'],
       defaultValue : 'System'
     }, {
       name: 'Failed Flow Nodes',
-      path: ['failedFlowNodes'],
+      path: ['failedFlowNodes']
     }, {
       name: 'Pending Flow Nodes',
-      path: ['activeFlowNodes'],
+      path: ['activeFlowNodes']
     }])
     .value('allCaseStatesValues', {
       started: 'Started',

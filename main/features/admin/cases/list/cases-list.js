@@ -216,6 +216,12 @@
       }
     };
 
+    vm.getLinkToArchivedCaseOverview = function(archivedCaseItem) {
+      if (archivedCaseItem) {
+        return manageTopUrl.getPath() + manageTopUrl.getSearch() + '#?name=' + archivedCaseItem.processDefinitionId.name + '&version=' + archivedCaseItem.processDefinitionId.version + '&id=' + archivedCaseItem.id + '&sourceObjectId=' + archivedCaseItem.sourceObjectId + '&token=DisplayCaseForm&_p=DisplayCaseForm' + '&_pf=' + manageTopUrl.getCurrentProfile();
+      }
+    }
+
     vm.addAlertEventHandler = addAlertEventHandler;
     function addAlertEventHandler(event, msg) {
       var options = {
@@ -310,6 +316,7 @@
               simpleCase.id = fullCase.id;
               simpleCase.processDefinitionId = fullCase.processDefinitionId;
               simpleCase.fullCase = fullCase;
+              simpleCase.sourceObjectId = fullCase.sourceObjectId;
               return simpleCase;
             }).forEach(function (caseItem) {
               casesForCurrentSearch.push(caseItem);
