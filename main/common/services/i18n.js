@@ -87,7 +87,9 @@
     'processDetails.problemResolution.resource.caseStart': 'Case start',
     'processDetails.scripts.update.success': 'Expression content has been updated',
     'processDetails.scripts.update.error': 'Can\'t update expression content',
-    'application.edit.reservedTokenError': 'The words \'content\', \'API\' and \'theme\' are reserved for internal use. They must not be used in an application or page URL.'
+    'application.edit.reservedTokenError': 'The words \'content\', \'API\' and \'theme\' are reserved for internal use. They must not be used in an application or page URL.',
+    'processDetails.start.success': 'The case {{caseId}} has been started successfully.',
+    'processDetails.start.error': 'Error while trying to start the case. Some required information is missing (contract not fulfilled).'
   })
     .service('i18nService', function (gettextCatalog, $cookies, i18nAPI, I18N_KEYS) {
       var i18n = {};
