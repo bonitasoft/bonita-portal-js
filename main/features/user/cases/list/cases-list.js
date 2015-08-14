@@ -237,6 +237,7 @@
     vm.buildFilters = buildFilters;
     function buildFilters() {
       var filters = angular.copy(defaultFiltersArray);
+      filters.push('user_id=' +  $scope.currentUserId);
       if ($scope.selectedFilters.selectedProcessDefinition) {
         filters.push('processDefinitionId=' + $scope.selectedFilters.selectedProcessDefinition);
       } else if ($scope.selectedFilters.selectedApp && $scope.selectedFilters.selectedApp !== defaultUserFilters.appName) {
@@ -244,7 +245,7 @@
       }
       if ($scope.selectedFilters.selectedStartedBy && $scope.selectedFilters.selectedStartedBy !== defaultUserFilters.startedBy) {
         // retrieve current user
-        filters.push('user_id=' +  $scope.currentUserId);
+        filters.push('started_by=' +  $scope.currentUserId);
       }
       $scope.searchOptions.filters = filters;
     }
