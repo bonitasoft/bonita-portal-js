@@ -25,6 +25,7 @@
     "grunt-google-cdn": "~0.2.0",
     "grunt-injector": "~0.5.2",
     "grunt-karma": "0.8.3",
+    "grunt-karma-sonar": "^0.2.14-p1",
     "grunt-lineending": "^0.2.3",
     "grunt-newer": "~0.6.1",
     "grunt-ng-annotate": "0.10.x",
@@ -51,6 +52,7 @@
     "karma-safari-launcher": "0.1.1",
     "load-grunt-tasks": "~0.4.0",
     "ngdocs": "^0.1.0",
+    "node-pom-parser": "^0.1.1",
     "protractor": "2.0.0",
     "time-grunt": "~0.2.1"
   },
