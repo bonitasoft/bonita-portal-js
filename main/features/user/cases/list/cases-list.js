@@ -237,7 +237,6 @@
     vm.buildFilters = buildFilters;
     function buildFilters() {
       var filters = angular.copy(defaultFiltersArray);
-      filters.push('user_id=' +  $scope.currentUserId);
       if ($scope.selectedFilters.selectedProcessDefinition) {
         filters.push('processDefinitionId=' + $scope.selectedFilters.selectedProcessDefinition);
       } else if ($scope.selectedFilters.selectedApp && $scope.selectedFilters.selectedApp !== defaultUserFilters.appName) {
@@ -292,12 +291,14 @@
       }).then(function(session) {
         $scope.currentUserId = session.data.user_id;
         /* jshint ignore:end */
+      var filters = angular.copy($scope.searchOptions.filters);
+      filters.push('user_id=' +  $scope.currentUserId);
       caseAPI.search({
         p: paginationForCurrentSearch.currentPage - 1,
         c: paginationForCurrentSearch.itemsPerPage,
         d: defaultDeployedFields,
         o: $scope.searchOptions.searchSort,
-        f: $scope.searchOptions.filters,
+        f: filters,
         n: defaultCounterFields,
         s: $scope.selectedFilters.currentSearch
       }).$promise.then(function mapCases(fullCases) {
