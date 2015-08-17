@@ -16,6 +16,8 @@ module.exports = function (grunt) {
   require('time-grunt')(grunt);
 
   var licenseTemplate = grunt.file.read('license-tpl.txt');
+  
+  var ext = require('node-pom-parser');
 
   // Define the configuration for all the tasks
   grunt.initConfig({
@@ -24,9 +26,12 @@ module.exports = function (grunt) {
     portaljs: {
       // configurable paths
       app: 'main',
+      test: 'test',
       dist: 'dist',
       build: 'build'
     },
+    
+    pom: ext.parsePom({ filePath: 'pom.xml' }),
 
     // Watches files for changes and runs tasks based on the changed files
     watch: {
@@ -245,7 +250,17 @@ module.exports = function (grunt) {
           }
         ]
       },
-      server: '.tmp'
+      server: '.tmp',
+      test: {
+        files: [
+          {
+            src: [
+              'coverage',
+              'sonar'
+            ]
+          }
+        ]
+      }
     },
 
     // Add vendor prefixed styles
@@ -497,6 +512,36 @@ module.exports = function (grunt) {
         singleRun: true
       }
     },
+
+    karmaSonar: {
+      options: {
+        dryRun: true,
+        excludedProperties: ['sonar.exclusions'],
+        defaultOutputDir: 'sonar',
+        runnerProperties: {
+          'sonar.exclusions': 'src/assets/**',
+          'sonar.coverage.exclusions': 'src/assets/**'
+        }
+      },
+      unittests: {
+        project: {
+          key: 'bonita-portal-js',
+          name: 'Bonita Portal JS',
+          version: '<%= pom.version %>'
+        },
+        paths: [
+          {
+            src: '<%= portaljs.app %>',
+            test: '<%= portaljs.test %>',
+            reports: {
+              unit: '<%= portaljs.test %>/TESTS-xunit.xml',
+              coverage: 'coverage/lcov.info'
+            }
+          }
+        ]
+      }
+    },
+    
     protractor: {
       options: {
         configFile: 'protractor.conf.js', // Default config file
@@ -609,10 +654,12 @@ module.exports = function (grunt) {
 
   grunt.registerTask('test', [
     'clean:server',
+    'clean:test',
     'concurrent:test',
     'autoprefixer',
     'connect:test',
-    'karma'
+    'karma',
+    'karmaSonar'
   ]);
 
   grunt.registerTask('buildE2e', [

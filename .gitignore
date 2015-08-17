@@ -5,10 +5,11 @@
 **/main/assets
 target
 target-grunt
-test/reports.xml
+test/TESTS-xunit.xml
 main/docs
 i18n
 main/i18n.js
 test/e2e-reports/TEST-*
 .idea/
 coverage/
+sonar/
