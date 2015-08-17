@@ -16,14 +16,14 @@
 
 (function () {
   'use strict';
-  angular.module('org.bonitasoft.features.admin.cases.list.table', [
+  angular.module('org.bonitasoft.features.user.cases.list.table', [
     'org.bonitasoft.common.resources',
     'org.bonitasoft.common.table.resizable',
     'org.bonitasoft.common.filters.stringTemplater',
     'org.bonitasoft.services.topurl',
-    'org.bonitasoft.features.admin.cases.list.values',
-    'org.bonitasoft.features.admin.cases.list.filters',
-    'org.bonitasoft.features.admin.cases.list.delete',
+    'org.bonitasoft.features.user.cases.list.values',
+    'org.bonitasoft.features.user.cases.list.filters',
+    'org.bonitasoft.features.user.cases.list.delete',
     'gettext',
     'ui.bootstrap',
     'ui.router',
@@ -43,26 +43,26 @@
     .config(['growlProvider', function (growlProvider) {
       growlProvider.globalPosition('top-center');
     }])
-    .controller('ActiveCaseListCtrl', ['$scope', 'caseAPI', 'casesColumns', 'defaultPageSize', 'defaultSort',
-      'defaultDeployedFields', 'defaultActiveCounterFields', '$location', 'pageSizes', 'defaultFilters', 'dateParser',
-      '$anchorScroll', 'growl', 'moreDetailToken', 'tabName', 'manageTopUrl',
-      'processId', 'supervisorId', 'caseStateFilter', 'FeatureManager', CaseListCtrl])
+    .controller('ActiveCaseListUserCtrl', ['$scope', '$http', 'caseAPI', 'humanTaskAPI', 'casesUserColumns', 'defaultPageSize', 'defaultSort',
+      'defaultDeployedFields', 'defaultActiveCounterFields', '$location', 'pageSizes', 'defaultUserFilters', 'dateParser',
+      '$anchorScroll', 'growl', 'moreUserDetailToken', 'tabName', 'manageTopUrl',
+      'processId', 'supervisorId', 'caseStateFilter', 'FeatureManager', CaseListUserCtrl])
 
 
-    .controller('ArchivedCaseListCtrl', ['$scope', 'archivedCaseAPI', 'archivedCasesColumns', 'defaultPageSize',
-      'archivedDefaultSort', 'defaultDeployedFields', 'defaultArchivedCounterFields', '$location', 'pageSizes', 'defaultFilters', 'dateParser',
-      '$anchorScroll', 'growl', 'archivedMoreDetailToken', 'tabName', 'manageTopUrl',
-      'processId', 'supervisorId', 'caseStateFilter', 'FeatureManager', CaseListCtrl]);
+    .controller('ArchivedCaseListUserCtrl', ['$scope', '$http', 'archivedCaseAPI', 'humanTaskAPI', 'archivedCasesColumns', 'defaultPageSize',
+      'archivedDefaultSort', 'defaultDeployedFields', 'defaultArchivedCounterFields', '$location', 'pageSizes', 'defaultUserFilters', 'dateParser',
+      '$anchorScroll', 'growl', 'archivedUserMoreDetailToken', 'tabName', 'manageTopUrl',
+      'processId', 'supervisorId', 'caseStateFilter', 'FeatureManager', CaseListUserCtrl]);
 
   /**
    * @ngdoc object
-   * @name o.b.f.admin.cases.list.CaseListCtrl
+   * @name o.b.f.user.cases.list.CaseListUserCtrl
    * @description
    * This is a controller that manages the case list table
    *
    * @requires $scope
    * @requires caseAPI
-   * @requires casesColumns
+   * @requires casesUserColumns
    * @requires defaultPageSize
    * @requires defaultSort
    * @requires defaultDeployedFields
@@ -75,23 +75,22 @@
    * @requires growl
    */
   /* jshint -W003 */
-  function CaseListCtrl($scope, caseAPI, casesColumns, defaultPageSize, defaultSort, defaultDeployedFields, defaultCounterFields, $location, pageSizes, defaultFilters, dateParser, $anchorScroll, growl, moreDetailToken, tabName, manageTopUrl, processId, supervisorId, caseStateFilter, FeatureManager) {
+  function CaseListUserCtrl($scope, $http, caseAPI, humanTaskAPI, casesUserColumns, defaultPageSize, defaultSort, defaultDeployedFields, defaultCounterFields, $location, pageSizes, defaultUserFilters, dateParser, $anchorScroll, growl, moreUserDetailToken, tabName, manageTopUrl, processId, supervisorId, caseStateFilter, FeatureManager) {
     var vm = this;
-    var modeDetailProcessToken = 'processmoredetailsadmin';
 
     /**
      * @ngdoc property
-     * @name o.b.f.admin.cases.list.CaseListCtrl#columns
-     * @propertyOf o.b.f.admin.cases.list.CaseListCtrl
+     * @name o.b.f.user.cases.list.CaseListUserCtrl#columns
+     * @propertyOf o.b.f.user.cases.list.CaseListUserCtrl
      * @description
      * an array of columns to display in the case table and the way
      * to display and retrieve the content
      */
-    $scope.columns = casesColumns;
+    $scope.columns = casesUserColumns;
     /**
      * @ngdoc property
-     * @name o.b.f.admin.cases.list.CaseListCtrl#pagination
-     * @propertyOf o.b.f.admin.cases.list.CaseListCtrl
+     * @name o.b.f.user.cases.list.CaseListUserCtrl#pagination
+     * @propertyOf o.b.f.user.cases.list.CaseListUserCtrl
      * @description
      * an object containing the pagination state
      */
@@ -106,8 +105,8 @@
     $scope.pageSizes = pageSizes;
     /**
      * @ngdoc property
-     * @name o.b.f.admin.cases.list.CaseListCtrl#cases
-     * @propertyOf o.b.f.admin.cases.list.CaseListCtrl
+     * @name o.b.f.user.cases.list.CaseListUserCtrl#cases
+     * @propertyOf o.b.f.user.cases.list.CaseListUserCtrl
      * @description
      * the array of cases to display
      */
@@ -115,11 +114,7 @@
     $scope.loading = true;
 
     var defaultFiltersArray = [];
-    if (supervisorId) {
-      defaultFiltersArray.push('supervisor_id=' + supervisorId);
-      moreDetailToken = moreDetailToken.replace('admin', 'pm');
-      modeDetailProcessToken = modeDetailProcessToken.replace('admin', 'pm');
-    }
+
     if(angular.isDefined(caseStateFilter) && !!caseStateFilter){
       defaultFiltersArray.push('state=' + caseStateFilter);
     }
@@ -129,6 +124,9 @@
     $scope.archivedTabName = !!tabName;
     $scope.searchOptions = {filters: [], searchSort: defaultSort + ' ' + 'ASC'};
     $scope.searchOptions.filters = angular.copy(defaultFiltersArray);
+
+    $scope.currentUserId = null;
+
     //never used it but initialized in this scope in order to keep track of sortOptions on table reload
     $scope.sortOptions = {
       property: defaultSort,
@@ -200,13 +198,7 @@
 
     vm.getLinkToCase = function (caseItem) {
       if (caseItem) {
-        return manageTopUrl.getPath() + manageTopUrl.getSearch() + '#?id=' + caseItem.id + '&_p=' + (moreDetailToken || '') + '&' + manageTopUrl.getCurrentProfile();
-      }
-    };
-
-    vm.getLinkToProcess = function (caseItem) {
-      if (caseItem && caseItem.processDefinitionId) {
-        return manageTopUrl.getPath() + manageTopUrl.getSearch() + '#?id=' + caseItem.processDefinitionId.id + '&_p=' + (modeDetailProcessToken || '') + '&' + manageTopUrl.getCurrentProfile();
+        return manageTopUrl.getPath() + manageTopUrl.getSearch() + '#?id=' + caseItem.id + '&_p=' + (moreUserDetailToken || '') + '&' + manageTopUrl.getCurrentProfile();
       }
     };
 
@@ -247,11 +239,12 @@
       var filters = angular.copy(defaultFiltersArray);
       if ($scope.selectedFilters.selectedProcessDefinition) {
         filters.push('processDefinitionId=' + $scope.selectedFilters.selectedProcessDefinition);
-      } else if ($scope.selectedFilters.selectedApp && $scope.selectedFilters.selectedApp !== defaultFilters.appName) {
+      } else if ($scope.selectedFilters.selectedApp && $scope.selectedFilters.selectedApp !== defaultUserFilters.appName) {
         filters.push('name=' + $scope.selectedFilters.selectedApp);
       }
-      if ($scope.selectedFilters.selectedStatus && $scope.selectedFilters.selectedStatus !== defaultFilters.caseStatus) {
-        filters.push('state=' + $scope.selectedFilters.selectedStatus);
+      if ($scope.selectedFilters.selectedStartedBy && $scope.selectedFilters.selectedStartedBy !== defaultUserFilters.startedBy) {
+        // retrieve current user
+        filters.push('user_id=' +  $scope.currentUserId);
       }
       $scope.searchOptions.filters = filters;
     }
@@ -291,6 +284,13 @@
       //the first one finishes. See cases-list-controller.spec.js#'page changes'
       var casesForCurrentSearch = $scope.cases = [];
       var paginationForCurrentSearch = $scope.pagination = angular.copy($scope.pagination);
+      /* jshint ignore:start */
+      $http({
+        method: 'GET',
+        url: '../API/system/session/unusedId'
+      }).then(function(session) {
+        $scope.currentUserId = session.data.user_id;
+        /* jshint ignore:end */
       caseAPI.search({
         p: paginationForCurrentSearch.currentPage - 1,
         c: paginationForCurrentSearch.itemsPerPage,
@@ -317,6 +317,13 @@
               simpleCase.processDefinitionId = fullCase.processDefinitionId;
               simpleCase.fullCase = fullCase;
               simpleCase.sourceObjectId = fullCase.sourceObjectId;
+              humanTaskAPI.search({
+                p: 0,
+                c: 1,
+                f: ['state=ready', 'user_id='+ $scope.currentUserId, 'caseId=' + fullCase.id]
+              }).$promise.then(function getHumanTasks(humanTasks) {
+                  simpleCase['Available tasks'] = humanTasks.resource.pagination.total;
+                });
               return simpleCase;
             }).forEach(function (caseItem) {
               casesForCurrentSearch.push(caseItem);
@@ -331,6 +338,9 @@
           $scope.loading = false;
           $anchorScroll();
         });
+      /* jshint ignore:start */
+      });
+      /* jshint ignore:end */
     }
   }
 })();

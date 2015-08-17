@@ -297,7 +297,7 @@
           if(browser.bonitaSpEdition()){
             expect(poolCaseDetails[8].getText()).toContain('No value');
           }
-          expect(poolCaseDetails[nbColumnsDiplayed+1].element(by.xpath('a')).getAttribute('href')).toContain('#?id=1&_p=casemoredetailsadmin&');
+          expect(poolCaseDetails[nbColumnsDiplayed+1].element(by.id('case-detail-btn-1')).getAttribute('href')).toContain('#?id=1&_p=casemoredetailsadmin&');
         });
 
       });
