@@ -91,6 +91,7 @@
               </tr>
             </thead>
             <tbody>
+            <tr ng-repeat="case in cases" id="caseId-{{::case.id}}" class="case-row" ng-class="{'info' : case.selected}">
               <td class="case-detail text-right"><a id="case-detail-link-{{case.id}}" target="_top" href="{{::caseUserCtrl.getLinkToCase(case)}}">{{case['ID']}}</a></td>
               <td class="case-detail">{{::case['Process name']}}</td>
               <td class="case-detail">{{::case['Version']}}</td>
