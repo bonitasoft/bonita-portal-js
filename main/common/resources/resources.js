@@ -150,7 +150,8 @@
     'professionalDataAPI': 'identity/professionalcontactdata',
     'profileAPI': 'portal/profile',
     'roleAPI': 'identity/role',
-    'userAPI': 'identity/user'
+    'userAPI': 'identity/user',
+    'sessionAPI': 'system/session'
   });
 
   module.factory('importApplication',
