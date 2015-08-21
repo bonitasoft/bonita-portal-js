@@ -23,7 +23,6 @@
     'org.bonitasoft.services.topurl',
     'org.bonitasoft.features.user.cases.list.values',
     'org.bonitasoft.features.user.cases.list.filters',
-    'org.bonitasoft.features.user.cases.list.delete',
     'gettext',
     'ui.bootstrap',
     'ui.router',
