@@ -279,7 +279,7 @@
 
     function searchForCases() {
       $scope.loading = true;
-      //these tmp variables are here to store currentSearch results
+      //these tmp variables are here to store curren tSearch results
       //and not store them directly in scope in case another search is called before
       //the first one finishes. See cases-list-controller.spec.js#'page changes'
       var casesForCurrentSearch = $scope.cases = [];
