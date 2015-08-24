@@ -145,6 +145,7 @@
   when('GET', /^\/API\/identity\/user\?c=\d+&f=enabled%3Dtrue&f=process_id%3D\d+&o=firstname,lastname&p=\d+$/).respond(require('./admin/processes/details/users-list.json'));
   when('GET', /^\/API\/bpm\/processConnector\?c=\d+&f=process_id%3D321&p=\d+$/).respond([]);
   when('GET', /^\/API\/bpm\/processParameter\?c=\d+&f=process_id%3D321&(.*&)?p=\d+$/).respond(require('./admin/processes/details/process-parameters-321.json'));
+  when('GET', /^\/API\/form\/mapping\?c=\d+&f=processDefinitionId%3D321&(.*&)?p=\d+$/).respond(require('./admin/processes/details/process-form-mappings-321.json'));
   when('GET', /^\/API\/bpm\/processResolutionProblem\?c=\d+&f=process_id%3D321&p=\d+$/).respond([]);
   when('GET', /^\/API\/bpm\/processResolutionProblem\?c=\d+&f=process_id%3D789&p=\d+$/).respond([{
     'target_type': 'actor'
