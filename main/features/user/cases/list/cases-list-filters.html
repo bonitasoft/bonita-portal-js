@@ -12,7 +12,7 @@
       </div>
     </div>
     <div class="col-md-3 button-filter">{{'Started by' | translate}}
-      <div class="btn-group" dropdown id="case-app-status-filter">
+      <div class="btn-group" dropdown id="case-app-startedby-filter">
         <button type="button" dropdown-toggle class="btn btn-primary dropdown-toggle">{{caseStatesUserValues[selectedFilters.selectedStartedBy] | translate}} <span class="caret"></span></button>
         <ul class="dropdown-menu" role="menu">
           <li ng-click="filterUserCtrl.selectCaseStartedBy(defaultUserFilters.startedBy)"><a>{{defaultUserFilters.startedBy | translate}}</a></li>
