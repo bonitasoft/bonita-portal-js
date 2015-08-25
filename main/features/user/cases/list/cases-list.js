@@ -23,7 +23,6 @@
     'org.bonitasoft.services.topurl',
     'org.bonitasoft.features.user.cases.list.values',
     'org.bonitasoft.features.user.cases.list.filters',
-    'org.bonitasoft.features.user.cases.list.delete',
     'gettext',
     'ui.bootstrap',
     'ui.router',
@@ -43,13 +42,13 @@
     .config(['growlProvider', function (growlProvider) {
       growlProvider.globalPosition('top-center');
     }])
-    .controller('ActiveCaseListUserCtrl', ['$scope', '$http', 'caseAPI', 'humanTaskAPI', 'casesUserColumns', 'defaultPageSize', 'defaultSort',
+    .controller('ActiveCaseListUserCtrl', ['$scope', 'sessionAPI', 'caseAPI', 'humanTaskAPI', 'casesUserColumns', 'defaultPageSize', 'defaultSort',
       'defaultDeployedFields', 'defaultActiveCounterFields', '$location', 'pageSizes', 'defaultUserFilters', 'dateParser',
       '$anchorScroll', 'growl', 'moreUserDetailToken', 'tabName', 'manageTopUrl',
       'processId', 'supervisorId', 'caseStateFilter', 'FeatureManager', CaseListUserCtrl])
 
 
-    .controller('ArchivedCaseListUserCtrl', ['$scope', '$http', 'archivedCaseAPI', 'humanTaskAPI', 'archivedCasesColumns', 'defaultPageSize',
+    .controller('ArchivedCaseListUserCtrl', ['$scope', 'sessionAPI', 'archivedCaseAPI', 'humanTaskAPI', 'archivedCasesColumns', 'defaultPageSize',
       'archivedDefaultSort', 'defaultDeployedFields', 'defaultArchivedCounterFields', '$location', 'pageSizes', 'defaultUserFilters', 'dateParser',
       '$anchorScroll', 'growl', 'archivedUserMoreDetailToken', 'tabName', 'manageTopUrl',
       'processId', 'supervisorId', 'caseStateFilter', 'FeatureManager', CaseListUserCtrl]);
@@ -75,7 +74,7 @@
    * @requires growl
    */
   /* jshint -W003 */
-  function CaseListUserCtrl($scope, $http, caseAPI, humanTaskAPI, casesUserColumns, defaultPageSize, defaultSort, defaultDeployedFields, defaultCounterFields, $location, pageSizes, defaultUserFilters, dateParser, $anchorScroll, growl, moreUserDetailToken, tabName, manageTopUrl, processId, supervisorId, caseStateFilter, FeatureManager) {
+  function CaseListUserCtrl($scope, sessionAPI, caseAPI, humanTaskAPI, casesUserColumns, defaultPageSize, defaultSort, defaultDeployedFields, defaultCounterFields, $location, pageSizes, defaultUserFilters, dateParser, $anchorScroll, growl, moreUserDetailToken, tabName, manageTopUrl, processId, supervisorId, caseStateFilter, FeatureManager) {
     var vm = this;
 
     /**
@@ -147,7 +146,7 @@
 
     $scope.$watch('searchOptions', function () {
       $scope.pagination.currentPage = 1;
-      //if processId is still set it means filters have not been process and need to
+      //if processI'd is still set it means filters have not been process and need to
       //wait for them to update
       if (!$scope.selectedFilters.processId) {
         vm.searchForCases();
@@ -244,7 +243,7 @@
       }
       if ($scope.selectedFilters.selectedStartedBy && $scope.selectedFilters.selectedStartedBy !== defaultUserFilters.startedBy) {
         // retrieve current user
-        filters.push('user_id=' +  $scope.currentUserId);
+        filters.push('started_by=' +  $scope.currentUserId);
       }
       $scope.searchOptions.filters = filters;
     }
@@ -279,24 +278,23 @@
 
     function searchForCases() {
       $scope.loading = true;
-      //these tmp variables are here to store currentSearch results
+      //these tmp variables are here to store curren tSearch results
       //and not store them directly in scope in case another search is called before
       //the first one finishes. See cases-list-controller.spec.js#'page changes'
       var casesForCurrentSearch = $scope.cases = [];
       var paginationForCurrentSearch = $scope.pagination = angular.copy($scope.pagination);
       /* jshint ignore:start */
-      $http({
-        method: 'GET',
-        url: '../API/system/session/unusedId'
-      }).then(function(session) {
-        $scope.currentUserId = session.data.user_id;
+      sessionAPI.get({id:'unusedId'}).$promise.then(function(session) {
+        $scope.currentUserId = session.user_id;
         /* jshint ignore:end */
+      var filters = angular.copy($scope.searchOptions.filters);
+      filters.push('user_id=' +  $scope.currentUserId);
       caseAPI.search({
         p: paginationForCurrentSearch.currentPage - 1,
         c: paginationForCurrentSearch.itemsPerPage,
         d: defaultDeployedFields,
         o: $scope.searchOptions.searchSort,
-        f: $scope.searchOptions.filters,
+        f: filters,
         n: defaultCounterFields,
         s: $scope.selectedFilters.currentSearch
       }).$promise.then(function mapCases(fullCases) {
