@@ -189,7 +189,6 @@
 
     vm.changeItemPerPage = function (pageSize) {
       if (pageSize) {
-        $scope.pagination.itemsPerPage = pageSize;
         $scope.pagination.currentPage = 1;
         vm.searchForCases();
       }
