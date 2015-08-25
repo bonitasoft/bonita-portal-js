@@ -188,6 +188,7 @@
     };
 
     vm.changeItemPerPage = function (pageSize) {
+      console.log('changeItemPerPage :', pageSize);
       if (pageSize) {
         $scope.pagination.currentPage = 1;
         vm.searchForCases();
