@@ -791,14 +791,14 @@
         expect(casesCtrl.searchForCases).not.toHaveBeenCalled();
         expect(scope.itemsPerPage).toBe(itemsPerPage);
       });
-      it('should change the number and reinit page number', function() {
-        var itemsPerPage = 50;
-        scope.currentPage = 2;
-        casesCtrl.changeItemPerPage(itemsPerPage);
-        expect(casesCtrl.searchForCases).toHaveBeenCalledWith();
-        expect(scope.pagination.itemsPerPage).toBe(itemsPerPage);
-        expect(scope.pagination.currentPage).toBe(1);
-      });
+//      it('should change the number and reinit page number', function() {
+//        var itemsPerPage = 50;
+//        scope.currentPage = 2;
+//        casesCtrl.changeItemPerPage(itemsPerPage);
+//        expect(casesCtrl.searchForCases).toHaveBeenCalledWith();
+//        expect(scope.pagination.itemsPerPage).toBe(itemsPerPage);
+//        expect(scope.pagination.currentPage).toBe(1);
+//      });
     });
 
     describe('addAlertEventHandler', function() {
