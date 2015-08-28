@@ -76,6 +76,7 @@
             'tabName': 'active',
             'caseStateFilter': ''
           });
+          casesCtrl.loadContent();
         }));
         it('should not display all fields', function() {
           deferred.resolve(fullCases);
@@ -103,7 +104,7 @@
       describe('with correct columns', function() {
 
         beforeEach(inject(function($controller) {
-          $controller('ActiveCaseListCtrl', {
+          casesCtrl = $controller('ActiveCaseListCtrl', {
             '$scope': scope,
             'caseAPI': caseAPI,
             'defaultPageSize': defaultPageSize,
@@ -114,6 +115,7 @@
             'supervisorId': undefined,
             'caseStateFilter': 'error'
           });
+          casesCtrl.loadContent();
         }));
 
         it('should fill the scope cases', inject(function() {
@@ -502,6 +504,7 @@
             'caseStateFilter': ''
           });
           spyOn(scope, '$emit');
+          casesCtrl.loadContent();
         }));
         it('should send a notification error when the search fails', function() {
           scope.pagination.total = 300;
@@ -722,6 +725,7 @@
               'supervisorId': undefined,
               'caseStateFilter': ''
             });
+            casesCtrl.loadContent();
           }));
           it('should call default sort on empty tableState', function() {
             deferred.resolve(fullCases);
@@ -1013,6 +1017,7 @@
         });
         scope.$apply();
         spyOn(casesCtrl, 'searchForCases');
+        casesCtrl.loadContent();
       }));
       describe('watch on filters', function() {
         it('should call search when filters update', function() {
