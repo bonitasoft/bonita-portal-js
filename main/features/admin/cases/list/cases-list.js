@@ -145,16 +145,17 @@
     $scope.$on('caselist:notify', addAlertEventHandler);
     $scope.$on('caselist:search', searchForCases);
 
-    $scope.$watch('selectedFilters', buildFilters, true);
-
-    $scope.$watch('searchOptions', function () {
-      $scope.pagination.currentPage = 1;
-      //if processId is still set it means filters have not been process and need to
-      //wait for them to update
-      if (!$scope.selectedFilters.processId) {
-        vm.searchForCases();
-      }
-    }, true);
+    vm.loadContent = function() {
+      $scope.$watch('selectedFilters', buildFilters, true);
+      $scope.$watch('searchOptions', function () {
+        $scope.pagination.currentPage = 1;
+        //if processId is still set it means filters have not been process and need to
+        //wait for them to update
+        if (!$scope.selectedFilters.processId) {
+          vm.searchForCases();
+        }
+      }, true);
+    };
 
     vm.parseAndFormat = dateParser.parseAndFormat;
 
