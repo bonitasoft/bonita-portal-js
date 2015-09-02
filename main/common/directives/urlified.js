@@ -43,21 +43,21 @@
           }
           // Return results
           return (iCaretPos);
-      };
+        };
 
-      scope.doSetTextCursorPosition = function setCaretPosition(ctrl, pos){
-        if(ctrl.setSelectionRange){
-          ctrl.focus();
-          ctrl.setSelectionRange(pos,pos);
-        }else if(ctrl.createTextRange){
-          var range = ctrl.createTextRange();
-          range.collapse(true);
-          range.moveEnd('character', pos);
-          range.moveStart('character', pos);
-          range.select();
-        }
-      };
-      scope.$watch(attrs.ngModel, function () {
+        scope.doSetTextCursorPosition = function setCaretPosition(ctrl, pos){
+          if(ctrl.setSelectionRange){
+            ctrl.focus();
+            ctrl.setSelectionRange(pos,pos);
+          }else if(ctrl.createTextRange){
+            var range = ctrl.createTextRange();
+            range.collapse(true);
+            range.moveEnd('character', pos);
+            range.moveStart('character', pos);
+            range.select();
+          }
+        };
+        scope.$watch(attrs.ngModel, function () {
           ngModelCtrl.$setViewValue($filter('urlify')(scope.$eval(attrs.ngModel)));
           var carretPosition = scope.doGetTextCursorPosition(element[0]);
           ngModelCtrl.$render();
