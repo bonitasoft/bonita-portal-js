@@ -90,8 +90,7 @@
     function($q, $window) {
       return {
         'responseError': function(rejection) {
-
-          if (rejection.status === 401 && !/\/API\/platform\/license\//.test(rejection.config.url)) {
+          if (rejection.status === 401) {
             $window.top.location.reload();
           }
           return $q.reject(rejection);
