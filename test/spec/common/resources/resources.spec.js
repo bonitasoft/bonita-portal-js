@@ -109,7 +109,8 @@
         spyOn(mockWindow.top.location, 'reload');
 
         unauthorizedResponseHandler.responseError({
-          status: 401
+          status: 401,
+          config: {url: 'http://anyhost:8080/bonita/API/anyApi'}
         });
 
         expect(mockWindow.top.location.reload).toHaveBeenCalled();
@@ -121,6 +122,18 @@
 
         unauthorizedResponseHandler.responseError({
           status: 404
+        });
+
+        expect(mockWindow.top.location.reload).not.toHaveBeenCalled();
+      });
+
+      it('should not reload parent if 401 due to platform license', function() {
+        expect(unauthorizedResponseHandler).toBeDefined();
+        spyOn(mockWindow.top.location, 'reload');
+
+        unauthorizedResponseHandler.responseError({
+          status: 401,
+          config: {url: 'http://anyhost:8080/bonita/API/platform/license'}
         });
 
         expect(mockWindow.top.location.reload).not.toHaveBeenCalled();
