@@ -27,7 +27,7 @@ module.exports = function (grunt) {
         return mainCore[i].childs;
       }
     }
-  }
+  };
 
   // Define the configuration for all the tasks
   grunt.initConfig({
