@@ -16,15 +16,52 @@
 
 (function () {
   'use strict';
-
   angular.module('org.bonitasoft.common.directives.urlified', ['org.bonitasoft.common.filters.urlify']).directive('urlified', function ($filter) {
-    return {
+    return{
       restrict: 'A',
       require: 'ngModel',
       link: function (scope, element, attrs, ngModelCtrl) {
+        scope.doGetTextCursorPosition = function doGetTextCursorPosition(element) {
+          // Initialize
+          var iCaretPos = 0;
+           // IE Support
+          if (document.selection) {
+            // Set focus on the element
+            element.focus ();
+            // To get cursor position, get empty selection range
+            var oSel = document.selection.createRange ();
+            // Move selection start to 0 position
+            oSel.moveStart ('character', -element.value.length);
+            // The caret position is selection length
+            iCaretPos = oSel.text.length;
+          }
+          // Firefox support
+          else if (element.selectionStart || element.selectionStart === '0' || element.selectionStart === 0){
+            iCaretPos = element.selectionStart;
+          }else if (element.setSelectionRange){
+            iCaretPos = element.selectionStart;
+          }
+          // Return results
+          return (iCaretPos);
+        };
+
+        scope.doSetTextCursorPosition = function setCaretPosition(ctrl, pos){
+          if(ctrl.setSelectionRange){
+            ctrl.focus();
+            ctrl.setSelectionRange(pos,pos);
+          }else if(ctrl.createTextRange){
+            var range = ctrl.createTextRange();
+            range.collapse(true);
+            range.moveEnd('character', pos);
+            range.moveStart('character', pos);
+            range.select();
+          }
+        };
         scope.$watch(attrs.ngModel, function () {
           ngModelCtrl.$setViewValue($filter('urlify')(scope.$eval(attrs.ngModel)));
+          var carretPosition = scope.doGetTextCursorPosition(element[0]);
           ngModelCtrl.$render();
+          scope.doSetTextCursorPosition(element[0],carretPosition);
         });
       }
     };
