@@ -17,7 +17,7 @@
 describe('urlified', function () {
   'use strict';
 
-  var scope, $compile, urlify, ngModelCtrl, setInputValue;
+  var scope, $compile, urlify, ngModelCtrl, setInputValue, element;
 
   beforeEach(module('org.bonitasoft.common.directives.urlified'));
 
@@ -32,11 +32,12 @@ describe('urlified', function () {
   beforeEach(inject(function ($rootScope, _$compile_) {
     $compile = _$compile_;
     scope = $rootScope.$new();
-    var element = $compile('<input ng-model="value" urlified>')(scope);
+    element = $compile('<input ng-model="value" urlified>')(scope);
     setInputValue = function (value) {
       element.val(value);
       element.triggerHandler('input');
     };
+
     ngModelCtrl = element.controller('ngModel');
   }));
 
@@ -64,4 +65,7 @@ describe('urlified', function () {
 
     expect(ngModelCtrl.$viewValue).toBe('foo');
   });
+
+
+
 });
