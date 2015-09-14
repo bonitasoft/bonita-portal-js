@@ -24,7 +24,7 @@ module.exports = function (grunt) {
 
     for (var i in mainCore){
       if (mainCore[i].name === 'version'){
-        return mainCore[i].childs;
+        return mainCore[i].childs[0];
       }
     }
   };
@@ -41,7 +41,7 @@ module.exports = function (grunt) {
       build: 'build'
     },
     
-    pom: getPomVersion("pom.xml"),
+    pomVersion: getPomVersion("pom.xml"),
 
     // Watches files for changes and runs tasks based on the changed files
     watch: {
@@ -537,7 +537,7 @@ module.exports = function (grunt) {
         project: {
           key: 'bonita-portal-js',
           name: 'Bonita Portal JS',
-          version: '<%= pom %>'
+          version: '<%= pomVersion %>'
         },
         paths: [
           {
