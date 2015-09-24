@@ -209,7 +209,7 @@
 
       $scope.uploader = new FileUploader({
         autoUpload: true,
-        url: '/bonita/portal/applicationsUpload',
+        url: '../portal/applicationsUpload',
         onSuccessItem: self.successUpload,
         onErrorItem: self.errorUpload
       });
@@ -303,7 +303,7 @@
           appId: '@',
           title: '@'
         },
-        template: '<a class="btn-export" ng-href="{{url || \'/bonita/portal/exportApplications?id=\'}}{{appId}}" ng-transclude></a>'
+        template: '<a class="btn-export" ng-href="{{url || \'../portal/exportApplications?id=\'}}{{appId}}" ng-transclude></a>'
       };
     });
 
