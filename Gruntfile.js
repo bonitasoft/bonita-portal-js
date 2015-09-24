@@ -16,8 +16,18 @@ module.exports = function (grunt) {
   require('time-grunt')(grunt);
 
   var licenseTemplate = grunt.file.read('license-tpl.txt');
-  
-  var ext = require('node-pom-parser');
+
+  function getPomVersion (fileName){
+    var parsePom = require('node-xml-lite');
+    var fileParsed = parsePom.parseFileSync(fileName);
+    var mainCore = JSON.parse(JSON.stringify(fileParsed.childs));
+
+    for (var i in mainCore){
+      if (mainCore[i].name === 'version'){
+        return mainCore[i].childs[0];
+      }
+    }
+  };
 
   // Define the configuration for all the tasks
   grunt.initConfig({
@@ -31,7 +41,7 @@ module.exports = function (grunt) {
       build: 'build'
     },
     
-    pom: ext.parsePom({ filePath: 'pom.xml' }),
+    pomVersion: getPomVersion("pom.xml"),
 
     // Watches files for changes and runs tasks based on the changed files
     watch: {
@@ -527,7 +537,7 @@ module.exports = function (grunt) {
         project: {
           key: 'bonita-portal-js',
           name: 'Bonita Portal JS',
-          version: '<%= pom.version %>'
+          version: '<%= pomVersion %>'
         },
         paths: [
           {
