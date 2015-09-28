@@ -620,13 +620,13 @@
         it('should have a default url to download', function() {
           var dom = $compile('<export-app-button>Export your application</export-app-button>')(scope);
           scope.$apply();
-          expect(dom.attr('href') === '/bonita/portal/exportApplications?id=').toBeTruthy();
+          expect(dom.attr('href') === '../portal/exportApplications?id=').toBeTruthy();
         });
 
         it('should have an id in the url', function() {
           var dom = $compile('<export-app-button app-id="42">Export your application</export-app-button>')(scope);
           scope.$apply();
-          expect(dom.attr('href') === '/bonita/portal/exportApplications?id=42').toBeTruthy();
+          expect(dom.attr('href') === '../portal/exportApplications?id=42').toBeTruthy();
         });
 
         it('should custom the url', function() {
