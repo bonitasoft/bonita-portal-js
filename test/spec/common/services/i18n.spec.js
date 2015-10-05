@@ -54,7 +54,7 @@ describe('i18nService', function () {
 
   it('should get the local found in the cookie', inject(function ($injector) {
     /* jshint camelcase: false */
-    $cookies.BOS_Locale = 'fr';
+    $cookies.put('BOS_Locale', 'fr');
     $injector.get('i18nService');
     deferred.resolve([]);
     rootScope.$apply();
@@ -79,7 +79,7 @@ describe('i18nService', function () {
 
     it('should set gettextCatalog local', inject(function ($injector) {
       /* jshint camelcase: false */
-      $cookies.BOS_Locale = 'fr';
+      $cookies.put('BOS_Locale', 'fr');
 
       $injector.get('i18nService');
       deferred.resolve([]);
@@ -90,7 +90,7 @@ describe('i18nService', function () {
 
     it('should update catalog', inject(function ($injector) {
       /* jshint camelcase: false */
-      $cookies.BOS_Locale = 'fr';
+      $cookies.put('BOS_Locale', 'fr');
 
       $injector.get('i18nService');
       deferred.resolve([
