@@ -1,6 +1,6 @@
 #infoPopover {
     color: #808080;
-    padding-top: 15px; //TODO test in order to cherck if the selenium fails to be removed 
+    padding-top: 15px; /* TODO test in order to cherck if the selenium fails to be removed */ 
 }
 
 #sidebar-wrapper {
