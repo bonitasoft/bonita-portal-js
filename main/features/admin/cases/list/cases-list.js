@@ -36,7 +36,7 @@
     'org.bonitasoft.bonitable.storable',
     'org.bonitasoft.bonitable.settings',
     'org.bonitasoft.templates',
-    'ui.sortable',
+    'as.sortable',
     'org.bonitasoft.common.filters.date.parser',
     'org.bonitasoft.service.features'
   ])
