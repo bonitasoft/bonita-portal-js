@@ -13,14 +13,18 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-
-(function () {
+(function() {
   'use strict';
 
-  angular.module('org.bonitasoft.features.user', [
-    'org.bonitasoft.features.user.cases',
-    'org.bonitasoft.features.user.tasks',
-    'org.bonitasoft.common.utils.filters'
+  angular.module('org.bonitasoft.features.user.tasks.list',[
+    'org.bonitasoft.features.user.tasks.app',
+    'org.bonitasoft.features.user.tasks.filter',
+    'org.bonitasoft.features.user.tasks.list.table',
+    'org.bonitasoft.features.user.tasks.details',
+    'org.bonitasoft.features.user.tasks.app.tpl',
+    'ui.bootstrap.tpls',
+    'org.bonitasoft.templates',
+    'common.security',
+    'org.bonitasoft.features.user.tasks.app.config'
   ]);
-
 })();

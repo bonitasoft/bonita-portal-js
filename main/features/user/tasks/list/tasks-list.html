@@ -1,0 +1,154 @@
+<!-- tasks listing -->
+<div class="alert alert-noresult" ng-show="tasks.length === 0">
+  No matching results
+</div>
+<div bonitable
+  on-sort="refreshTasks()"
+  sort-options="request.sortOption"
+  bo-repeatable
+  repeatable-config="columnSettings">
+  <div class="GroupAction clearfix" ng-show="tasks.length > 0">
+    <div class="GroupAction-button pull-left" ng-show="canDoGroupAction()">
+      <button class="btn btn-default" type="button" title="Assign the task to myself and move it to My tasks."
+         ng-disabled="!canTake($selectedItems)" ng-click="takeTasks($selectedItems)">
+         <i class="icon-take"></i> Take
+      </button>
+      <button class="btn btn-default"  type="button" title="Unassign the task and put it back in Available tasks"
+        ng-disabled="!canRelease($selectedItems)" ng-click="releaseTasks($selectedItems)">
+        <i class="icon-release"></i> Release
+      </button>
+    </div>
+    <div class="PaginationInfo pull-right">
+      <!-- pagination -->
+      <span class="PaginationInfo-summary">
+        {{getPaginationStatus()}}
+      </span>
+      <pagination
+        class="PaginationInfo-pagination"
+        ng-show="request.pagination.total >= request.pagination.numberPerPage"
+        total-items="request.pagination.total"
+        ng-model="request.pagination.currentPage"
+        items-per-page="request.pagination.numberPerPage"
+        max-size="5"
+        boundary-links="false"
+        ng-change="refreshTasks()"
+        previous-text="&lsaquo;" next-text="&rsaquo;"
+        rotate="false">
+      </pagination>
+      <table-settings
+        columns="$columns"
+        page-size="request.pagination.numberPerPage" sizes="pageSizes"
+        update-page-size="pageSizeHandler(size)"
+        update-visibility="visibilityHandler(field, $columns)"
+        ></table-settings>
+      </table-settings>
+    </div>
+  </div>
+  <div class="table-responsive" ng-hide="tasks.length === 0">
+    <table class="table table-hover table-striped">
+      <thead>
+        <tr>
+          <th data-ignore class="Cell--checkbox" ng-if="canDoGroupAction()">
+            <div bo-selectall></div>
+          </th>
+          <th data-ignore class="Cell--assignee">
+            <i class="icon-user" title="Available or My tasks"></i>
+          </th><!-- assigned icon -->
+          <th class="text-right">Task Id</th>
+          <th bo-sorter="displayName" style="width:30%; min-width:150px">Task name</th>
+          <th style="width:30%; min-width:150px">Description</th>
+          <th bo-sorter="processInstanceId" class="text-right">Case Id</th>
+          <th style="width:30%; min-width:150px">Process name</th>
+          <th class="text-right">Last update</th>
+          <th class="text-right">Assigned on</th>
+          <th bo-sorter="dueDate" class="text-right">Due date</th>
+          <th bo-sorter="priority">Priority</th>
+          <th data-ignore class="RowActions" ng-if="mode!=='mid'"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="Line"
+            ng-repeat="task in tasks"
+            ng-click="onClickTask(task)"
+            ng-mouseover="showTaskButtons(task)"
+            ng-mouseleave="hideTaskButtons(task)"
+            ng-class="{'info':task === currentTask}"
+            tabindex="0">
+
+          <td class="Cell--checkbox" ng-if="canDoGroupAction()">
+            <input type="checkbox" bo-selector="task" ng-click="onCheckBoxChange($event, $index)">
+          </td>
+
+          <td>
+            <i class="icon-user" title="My task" ng-if="user.user_id===task.assigned_id"></i>
+          </td>
+
+          <td class="text-right">{{::task.id}}</td>
+          <td class="Ellipsis" title="{{::task.displayName}}">{{::task.displayName}}</td>
+          <td style="Ellipsis" title="{{::task.displayDescription}}">{{::task.displayDescription}}</td>
+          <td class="text-right Cell--sortable">{{::task.caseId}}</td>
+          <td class="Ellipsis">{{::task.rootContainerId.name}}</td>
+          <td class="text-right" title="{{::task.last_update_date|moment:'YYYY-MM-DD HH:mm'}}">{{::task.last_update_date|moment:'MMM DD YYYY'}}</td>
+          <td class="text-right" title="{{::task.assigned_date|moment:'YYYY-MM-DD HH:mm'}}">{{::task.assigned_date|moment:'MMM DD YYYY'}}</td>
+          <td class="text-right  Cell--sortable" title="{{dueDate|moment:'YYYY-MM-DD HH:mm'}}">{{::task.dueDate|moment:'MMM DD YYYY'}}</td>
+          <td>{{::task.priority}}</td>
+          <td class="Cell--with-actions" ng-switch on="mode" ng-if="mode!=='mid'">
+            <button  class="btn btn-default" type="button"
+                    ng-switch-when="max"
+                    ng-click="onDoTask(task)"
+                    ng-show="task === currentTask || task.btnVisible"
+                    title="Do this task">
+              <i class="icon-do"></i>
+              <span class="sr-only">Do task</span>
+            </button>
+            <button class="btn btn-default" type="button"
+                    ng-click="onViewTask(task)"
+                    ng-switch-when="max"
+                    ng-show="task === currentTask || task.btnVisible"
+                    title="View this task">
+              <i class="icon-eye"></i>
+              <span class="sr-only">View task</span>
+            </button>
+            <a class="btn btn-xs btn-default" type="button"
+               ng-switch-when="min"
+               ng-click="goToDetail('details')"
+               title="View this task">
+              View task
+            </a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="GroupAction clearfix" ng-show="tasks.length > 0">
+    <div class="GroupAction-button pull-left" ng-show="canDoGroupAction()">
+      <button class="btn btn-default" type="button" title="Assign the task to myself and move it to My tasks."
+         ng-disabled="!canTake($selectedItems)" ng-click="takeTasks($selectedItems)">
+         <i class="icon-take"></i> Take
+      </button>
+      <button class="btn btn-default" type="button" title="Unassign the task and put it back in Available tasks"
+        ng-disabled="!canRelease($selectedItems)" ng-click="releaseTasks($selectedItems)">
+        <i class="icon-release"></i> Release
+      </button>
+    </div>
+    <div class="PaginationInfo pull-right" >
+      <!-- pagination -->
+      <span class="PaginationInfo-summary">
+        {{getPaginationStatus()}}
+      </span>
+      <pagination
+        class="PaginationInfo-pagination"
+        ng-show="request.pagination.total >= request.pagination.numberPerPage"
+        total-items="request.pagination.total"
+        ng-model="request.pagination.currentPage"
+        items-per-page="request.pagination.numberPerPage"
+        max-size="5"
+        boundary-links="false"
+        ng-change="refreshTasks()"
+        previous-text="&lsaquo;" next-text="&rsaquo;"
+        rotate="false">
+      </pagination>
+    </div>
+  </div>
+</div>
+

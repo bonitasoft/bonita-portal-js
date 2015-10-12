@@ -1,0 +1,104 @@
+<button class="pull-right btn btn-default"
+        ng-click="onTakeReleaseTask()" title="{{editable ? 'Unassign the task and put it back in Available tasks' : 'Assign the task to myself and move it to My tasks.'}}">
+  <i ng-class="{'icon-take':!editable, 'icon-release':editable}"></i>
+  <span class="sr-only">{{editable ? 'Release' : 'Take'}}</span>
+</button>
+
+<tabset>
+  <tab heading="Context"
+       active="tab.context"
+       ng-click="onClickTab('context')" >
+    <div ng-if="!inactive">
+      <h3 class="Context-title">{{currentTask.name}}</h3>
+      <p ng-if="currentTask.description">
+        {{currentTask.description}}
+      </p>
+      <h4>Case Info</h4>
+      <ul class="list-group">
+        <li class="list-group-item" ng-repeat="supervisor in currentCase.supervisors">
+          <span class="ListGroup-label">Process Supervisor&nbsp;:</span>
+          <a ng-href="mailto:{{::supervisor.user_id.email}}" title="mail to {{::supervisor.user_id.name}}">
+          {{::supervisor.user_id.email}}
+          </a>
+        </li>
+        <li class="list-group-item">
+          <span class="ListGroup-label">Process&nbsp;:</span>
+          {{currentCase.processDefinitionId.name}}
+        </li>
+        <li class="list-group-item">
+          <span class="ListGroup-label">case ID&nbsp;:</span>
+          {{currentCase.id}}
+        </li>
+        <li class="list-group-item">
+          <span class="ListGroup-label">Started by&nbsp;:</span>
+           {{currentCase.started_by.userName}}
+           on {{currentCase.start | moment:'MMM DD YYYY - hh:mm a'}}
+        </li>
+      </ul>
+
+      <h4>Case Overview</h4>
+      <bonita-iframe-viewer
+        class="CaseViewer"
+        frame-url="overviewUrl"
+        is-editable="true"
+        is-visible="tab.context">
+      </bonita-iframe-viewer>
+
+      <h4>Case History</h4>
+      <div class="CaseHistory">
+        <div class="CaseHistory-timeline">
+
+        <ul class="CaseHistory-events">
+          <li class="CaseHistory-event" ng-repeat="item in currentCase.history">
+            <span class="CaseHistory-eventDate">{{::item.date | moment:'MMM DD YYYY - hh:mm a'}}</span>
+            {{::item.content}}
+          </li>
+        </ul>
+
+        </div>
+      </div>
+    </div>
+  </tab>
+
+  <tab heading="Form"
+       ng-click="onClickTab('form')"
+       active="tab.form" >
+    <p class="alert alert-info TaskInfo" ng-if="hideForm">
+      This task is completed.
+    </p>
+
+    <div ng-if="!hideForm">
+      <p class="alert alert-warning" ng-if="!inactive && !editable">
+        This task is not assigned to you. You need to take it before filling in this form.
+      </p>
+      <bonita-iframe-viewer class="FormViewer"
+        tabindex="0"
+        ng-if="!inactive"
+        is-editable="editable"
+        frame-url="formUrl"
+        is-visible="tab.form">
+      </bonita-form-viewer>
+    </div>
+  </tab>
+
+    <tab heading="Diagram"
+         ng-click="onClickTab('diagram')"
+         active="tab.diagram" >
+        <p class="alert alert-info TaskInfo" ng-if="hideForm">
+            This task is completed.
+        </p>
+
+        <div ng-if="!hideForm">
+            <p class="alert alert-warning" ng-if="!inactive && !editable">
+                This task is not assigned to you. You need to take it before filling in this form.
+            </p>
+            <h4>Case Visualization</h4>
+            <bonita-iframe-viewer
+                    class="DiagramViewer"
+                    frame-url="diagramUrl"
+                    is-editable="true"
+                    is-visible="tab.context">
+            </bonita-iframe-viewer>
+        </div>
+    </tab>
+</tabset>
