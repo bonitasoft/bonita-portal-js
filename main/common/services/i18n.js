@@ -102,9 +102,9 @@
       }
 
       function updateCatalog(catalog) {
-        gettextCatalog.currentLanguage = $cookies['BOS_Locale'];
+        gettextCatalog.currentLanguage = $cookies.get('BOS_Locale');
         gettextCatalog.baseLanguage = null;
-        gettextCatalog.setStrings($cookies['BOS_Locale'], arrayToObject(catalog));
+        gettextCatalog.setStrings($cookies.get('BOS_Locale'), arrayToObject(catalog));
       }
 
       gettextCatalog.debug = false;
@@ -115,7 +115,7 @@
 
       i18n.translationsLoadPromise = (function() {
         return i18nAPI.query({
-          f: 'locale=' + ($cookies['BOS_Locale'] || 'en')
+          f: 'locale=' + ($cookies.get('BOS_Locale') || 'en')
         }).$promise.then(updateCatalog);
       })();
       return i18n;
