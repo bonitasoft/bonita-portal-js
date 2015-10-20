@@ -20,6 +20,9 @@
         this.Case = Case;
         this.task = task;
         this.formUrl = url;
+        function onRefreshHandler(){
+          refreshHandler();
+        }
         this.onRefreshHandler = onRefreshHandler;
         this.userId = userId;
 
@@ -27,9 +30,7 @@
           $modalInstance.dismiss('abort');
         };
 
-        function onRefreshHandler(){
-          refreshHandler();
-        }
+        
       }
     ]);
 })();

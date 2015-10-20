@@ -12,7 +12,7 @@
    * - error : the message content will start with error: and contains an i18n error key
    */
   angular
-    .module('ui.iframe.spy', [])
+    .module('org.bonitasoft.features.user.tasks.ui.iframe.spy', [])
     .directive('formSpy', ['$window', '$timeout', function($window, $timeout){
       return {
         scope: {

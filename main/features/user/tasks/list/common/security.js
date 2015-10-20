@@ -1,4 +1,4 @@
-(function(){
+(function() {
   'use strict';
 
   /**
@@ -6,7 +6,7 @@
    * and set an error flag on $rootscope accordingly
    */
   angular
-    .module('common.security',[])
+    .module('common.security', [])
     .factory('securityInterceptor', [
       '$injector',
       '$location',
@@ -24,8 +24,11 @@
             return $q.reject(rejection);
           }
         };
-    }])
-    .config(['$httpProvider', function( $httpProvider) {
-      $httpProvider.interceptors.push('securityInterceptor');
-    }]);
+      }
+    ])
+    .config(['$httpProvider',
+      function($httpProvider) {
+        $httpProvider.interceptors.push('securityInterceptor');
+      }
+    ]);
 })();

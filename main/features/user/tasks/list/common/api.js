@@ -1,4 +1,4 @@
-(function () {
+(function() {
   'use strict';
 
   /**
@@ -46,23 +46,23 @@
    */
   var apiResources = {
     //identity
-    User:'identity/user',
-    Membership:'identity/membership',
-    ProfessionalData:'identity/professionalcontactdata',
-    PersonalData:'identity/personalcontactdata',
+    User: 'identity/user',
+    Membership: 'identity/membership',
+    ProfessionalData: 'identity/professionalcontactdata',
+    PersonalData: 'identity/personalcontactdata',
 
     //bpm
-    Case:'bpm/case',
-    FlowNode:'bpm/flowNode',
-    HumanTask:'bpm/humanTask',
-    Process:'bpm/process',
-    ArchivedHumanTask:'bpm/archivedHumanTask',
+    Case: 'bpm/case',
+    FlowNode: 'bpm/flowNode',
+    HumanTask: 'bpm/humanTask',
+    Process: 'bpm/process',
+    ArchivedHumanTask: 'bpm/archivedHumanTask',
     ProcessSupervisor: 'bpm/processSupervisor',
     ArchivedFlowNode: 'bpm/archivedFlowNode',
     Comment: 'bpm/comment',
 
     //portal
-    Profile:'portal/profile'
+    Profile: 'portal/profile'
   };
 
 
@@ -87,62 +87,74 @@
      * function parsing the http header response to find the number of results
      * for the given resource search
      */
-    .config(['$provide', function ($provide) {
-      $provide.decorator('$resource', ['$delegate', '$http', function ($delegate, $http) {
-        return function (url, paramDefaults, actions, options) {
-          actions = angular.extend({}, actions, {
-            'search': {
-              isArray:true,
-              interceptor: {
-                response: function (response) {
-                  response.resource.pagination = parseContentRange(response.headers('Content-Range'));
-                  return response;
+    .config(['$provide',
+      function($provide) {
+        $provide.decorator('$resource', ['$delegate', '$http',
+          function($delegate, $http) {
+            return function(url, paramDefaults, actions, options) {
+              actions = angular.extend({}, actions, {
+                'search': {
+                  isArray: true,
+                  interceptor: {
+                    response: function(response) {
+                      response.resource.pagination = parseContentRange(response.headers('Content-Range'));
+                      return response;
+                    }
+                  }
+                },
+                'update': {
+                  method: 'PUT',
+                  // we add our transform request first, before object serialization
+                  // It will remove id key from data to avoid API error for non allowed parameters
+                  transformRequest: [updateTransformRequest].concat($http.defaults.transformRequest)
                 }
-              }
-            },
-            'update': {
-              method: 'PUT',
-              // we add our transform request first, before object serialization
-              // It will remove id key from data to avoid API error for non allowed parameters
-              transformRequest: [updateTransformRequest].concat($http.defaults.transformRequest)
-            }
 
-          });
-          return $delegate(url, paramDefaults, actions, options);
-        };
-      }]);
-    }]);
+              });
+              return $delegate(url, paramDefaults, actions, options);
+            };
+          }
+        ]);
+      }
+    ]);
 
 
-    /**
-     * @ngdoc service
-     * @name bonita.common.resources:User
-     * @requires $resource
-     * @description
-     *
-     * var user = User.get({ id: 1 });
-     *
-     * User is then empty but can be use in a scope.
-     * It will be filled with its actual values once the http request is back.
-     * We still can use the associated promise to use the data as soon as it gets back.
-     *
-     * user.$promise.then(function (user) {
-         *  console.log(user);
-         * });
-     *
-     **/
+  /**
+   * @ngdoc service
+   * @name bonita.common.resources:User
+   * @requires $resource
+   * @description
+   *
+   * var user = User.get({ id: 1 });
+   *
+   * User is then empty but can be use in a scope.
+   * It will be filled with its actual values once the http request is back.
+   * We still can use the associated promise to use the data as soon as it gets back.
+   *
+   * user.$promise.then(function (user) {
+   *  console.log(user);
+   * });
+   *
+   **/
 
-    angular.forEach(apiResources, function(resourceUrl, resourceName) {
-      mod.factory(resourceName, ['$resource', function($resource) {
-        return $resource(API_PATH + resourceUrl + '/:id', { id: '@id' });
-      }]);
-    });
+  angular.forEach(apiResources, function(resourceUrl, resourceName) {
+    mod.factory(resourceName, ['$resource',
+      function($resource) {
+        return $resource(API_PATH + resourceUrl + '/:id', {
+          id: '@id'
+        });
+      }
+    ]);
+  });
 
-    mod.factory('I18N', ['$resource', function ($resource) {
+  mod.factory('I18N', ['$resource',
+    function($resource) {
       return $resource(API_PATH + 'system/i18ntranslation/');
-    }]);
+    }
+  ]);
 
-    mod.factory('session', ['$resource', function ($resource) {
+  mod.factory('session', ['$resource',
+    function($resource) {
       return $resource(API_PATH + 'system/session/unusedId');
-    }]);
+    }
+  ]);
 })();

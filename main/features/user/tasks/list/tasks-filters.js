@@ -17,7 +17,7 @@
       function(){
         return {
           restrict: 'AE', // E = Element, A = Attribute, C = Class, M = Comment
-          templateUrl: 'templates/taskfilters/taskFilters.tpl.html',
+          templateUrl: 'portalTemplates/user/tasks/list/tasks-filters.html',
           replace: true,
           scope:{
             taskStatus:'=filter',

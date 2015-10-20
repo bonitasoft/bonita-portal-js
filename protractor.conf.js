@@ -8,7 +8,8 @@ exports.config = {
   directConnect: false,
 
   specs: [
-      'test/e2e/**/*.e2e.js'
+      //'test/e2e/**/*.e2e.js'
+      'test/e2e/features/user/tasks/*.e2e.js'
   ],
   suites : {
     'arch-case-list-deletion': ['test/e2e/features/admin/cases/arch-case-list-buttons.e2e.js'],

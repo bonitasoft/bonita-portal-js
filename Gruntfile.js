@@ -15,6 +15,9 @@ module.exports = function (grunt) {
   // Time how long tasks take. Can help when optimizing build times
   require('time-grunt')(grunt);
 
+  require('grunt-html2js')(grunt);
+
+
   var licenseTemplate = grunt.file.read('license-tpl.txt');
 
   function getPomVersion (fileName){
@@ -408,13 +411,27 @@ module.exports = function (grunt) {
 
     // Performs rewrites based on rev and the useminPrepare configuration
     usemin: {
-      html: ['<%= portaljs.dist %>/**/*.html'],
+      html: ['<%= portaljs.dist %>/**/*.html','!<%= portaljs.dist %>/assets/keymaster/test.html'],
       css: ['<%= portaljs.dist %>/styles/{,*/}*.css'],
       options: {
         assetsDirs: ['<%= portaljs.dist %>']
       }
     },
-
+    html2js: {
+      options: {
+        base:'main/',
+        module:'org.bonitasoft.portalTemplates',
+        useStrict: true,
+        rename: function (moduleName) {
+          return moduleName.replace('features/', 'portalTemplates/');
+        },
+        quoteChar: '\''
+      },
+      main: {
+        src: ['main/features/**/*.html'],
+        dest: 'main/templates.js'
+      }
+    },
     // The following *-min tasks produce minified files in the dist folder
     cssmin: {
       options: {
@@ -436,7 +453,7 @@ module.exports = function (grunt) {
           {
             expand: true,
             cwd: '<%= portaljs.dist %>',
-            src: ['*.html', '**/*.html'],
+            src: ['*.html', '**/*.html','!**/keymaster/test.html'],
             dest: '<%= portaljs.dist %>'
           }
         ]
@@ -630,6 +647,7 @@ module.exports = function (grunt) {
     }
 
     grunt.task.run([
+      'newer:html2js',
       'clean:server',
       'wiredep:build',
       'injector',
@@ -649,6 +667,7 @@ module.exports = function (grunt) {
     }
 
     grunt.task.run([
+      'newer:html2js',
       'clean:server',
       'wiredep:build',
       'injector',
@@ -663,6 +682,7 @@ module.exports = function (grunt) {
   });
 
   grunt.registerTask('test', [
+    'html2js',
     'clean:server',
     'clean:test',
     'concurrent:test',

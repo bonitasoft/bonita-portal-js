@@ -21,6 +21,7 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
+      'test/bind.polyfill.js',
       // bower:js
       'main/assets/es5-shim/es5-shim.js',
       'main/assets/jquery/dist/jquery.js',
@@ -34,6 +35,7 @@ module.exports = function(config) {
       'main/assets/angular-multi-select/isteven-multi-select.js',
       'main/assets/angular-resource/angular-resource.js',
       'main/assets/angular-sanitize/angular-sanitize.js',
+      'main/assets/angular-touch/angular-touch.js',
       'main/assets/angular-ui-router/release/angular-ui-router.js',
       'main/assets/angular-ui-tree/dist/angular-ui-tree.js',
       'main/assets/angular-xeditable/dist/js/xeditable.js',
@@ -46,12 +48,15 @@ module.exports = function(config) {
       'main/assets/jquery-resizable-columns/dist/jquery.resizableColumns.min.js',
       'main/assets/jqueryui/ui/jquery-ui.js',
       'main/assets/json3/lib/json3.min.js',
+      'main/assets/keymaster/keymaster.js',
       'main/assets/lodash/lodash.js',
       'main/assets/moment/min/moment-with-locales.js',
+      'main/assets/ngtoast/dist/ngToast.js',
       'main/assets/numeral/numeral.js',
       'main/assets/numeral/languages.js',
       'main/assets/angular-mocks/angular-mocks.js',
       // endbower
+      'main/templates.js',
       'main/common/**/*.js',
       'main/features/**/*.js',
       'main/features/**/*.html',
@@ -99,7 +104,15 @@ module.exports = function(config) {
       type: 'lcov',
       dir: 'coverage',
       subdir: '.'
-    }
+    },
+
+    //ngHtml2JsPreprocessor: {
+      // prepend this to the
+      //stripPrefix: 'main/',
+      // setting this option will create only a single module that contains templates
+      // from all the files, so you can load them all with module('foo')
+      //moduleName: 'org.bonitasoft.templates'
+    //}
 
   });
 };

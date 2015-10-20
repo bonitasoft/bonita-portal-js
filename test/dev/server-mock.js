@@ -22,6 +22,9 @@
   var debug = !verbose ? function() {} : function(message) {
     console.log(message);
   };
+  function clone(o){
+    return JSON.parse(JSON.stringify(o));
+  }
 
   var MockList = (function() {
     /*jshint validthis: true */
@@ -171,6 +174,95 @@
 
   when('PUT', /^\/API\/bpm\/process\/\d+$/).respond();
 
+
+//////////////////////////
+
+  var mockUser = require('./user/tasks/list/user-mock.json');
+  var mockCase = require('./user/tasks/list/case-mock.json');
+  var mockTasks = require('./user/tasks/list/humanTasks-mock.json');
+  var mockProcesses = require('./user/tasks/list/processes-mock.json');
+  var mockSupervisor = require('./user/tasks/list/processSupervisors-mock.json');
+  var mockContact = require('./user/tasks/list/professionalContact-mock.json');
+  var mockArchivedFlowNode = require('./user/tasks/list/archivedFlowNodes-mock.json');
+  var mockComment = require('./user/tasks/list/comments-mock.json');
+
+
+  var mockTasksAsc = mockTasks.sort(function(a, b){
+    return a.name.localeCompare(b.name);
+  });
+
+  var mockTasksDesc = mockTasks.slice().reverse();
+  var mockTasksFiltered = mockTasksAsc.filter(function(task){
+    return task.displayName.match(/^a/i);
+  });
+
+  var mockMyTask = mockTasksAsc.slice(-2);
+  var mockPoolTask = mockTasksAsc.slice(0, -2);
+  var mockDoneTasks = mockTasksAsc.slice(0,5);
+  var mockProcessTasks = mockTasksAsc.slice(-2);
+
+  var takeTask = clone(mockTasksAsc[0]);
+  takeTask.assigned_id = mockUser.user_id;
+
+  var releaseTask = clone(mockTasksDesc[0]);
+  releaseTask.assigned_id = '';
+
+
+
+  var UserRegexp = /^\/API\/system\/session.*$/;
+  var CaseRegexp =  /^\/API\/bpm\/case.*$/ ;
+  var ProcessesRegexp = /^\/API\/bpm\/process\?.*$/;
+  var ProcessRegexp = /^\/API\/bpm\/process\/.*$/;
+  var SupervisorRegexp = /^\/API\/bpm\/processSupervisor.*$/;
+  var ContactRegexp = /^\/API\/identity\/professionalcontactdata.*$/;
+
+  var Comment = /^\/API\/bpm\/comment.*$/;
+  var ArchivedFlowNode = /^\/API\/bpm\/archivedFlowNode.*$/;
+
+  var HumanTaskAllCount = /^\/API\/bpm\/humanTask.*\&f=user_id%3D[1-9]+\&p=0$/;
+  var HumanTaskMYCount = /^\/API\/bpm\/humanTask.*\&f=assigned_id%3D[1-9]+/;
+  var HumanTaskPOOLCount = /^\/API\/bpm\/humanTask.*\&f=assigned_id%3D0\&f=user_id%3D[1-9]+/;
+  var HumanTaskProcess = /^\/API\/bpm\/humanTask.*\&f=processId%3D[0-9]+/;
+
+  var HumanTaskAscRegexp = /^\/API\/bpm\/humanTask.*\&f=user_id%3D[1-9]+.*\&o=displayName\+ASC/;
+  var HumanTaskDescRegexp = /^\/API\/bpm\/humanTask.*\&f=user_id%3D[1-9]+.*\&o=displayName\+DESC/;
+
+  var HumanTaskFilterRegexp = /^\/API\/bpm\/humanTask.*\&s=a.*/;
+  var ArchivedHumanTaskRegexp = /^\/API\/bpm\/archivedHumanTask.*/;
+
+   var TakeHumanTaskRegexp = /^\/API\/bpm\/humanTask\/2.*/;
+  var ReleaseHumanTaskRegexp = /^\/API\/bpm\/humanTask\/19.*/;
+
+  var formRegexp  = /^\/portal\/homepage\?.*ui=form.*/;
+
+  when('GET', UserRegexp ).respond( mockUser );
+  when('GET', CaseRegexp).respond( mockCase );
+  when('GET', ProcessesRegexp).respond( mockProcesses );
+  when('GET', ProcessRegexp).respond( mockProcesses[0] );
+  when('GET', SupervisorRegexp).respond( mockSupervisor );
+  when('GET', ContactRegexp).respond( mockContact );
+
+  //order specific request before
+  when('GET', HumanTaskFilterRegexp).respond( mockTasksFiltered );
+  when('GET', HumanTaskProcess).respond( mockProcessTasks );
+
+  when('GET', HumanTaskMYCount).respond( mockMyTask );
+  when('GET', HumanTaskPOOLCount).respond( mockPoolTask );
+  when('GET', HumanTaskAllCount).respond( mockTasksAsc );
+
+  when('GET', HumanTaskAscRegexp).respond( mockTasksAsc );
+
+  when('GET', HumanTaskDescRegexp).respond( mockTasksDesc );
+
+  when('PUT', TakeHumanTaskRegexp).respond( takeTask );
+  when('PUT', ReleaseHumanTaskRegexp).respond( releaseTask );
+
+  when('GET', ArchivedHumanTaskRegexp).respond( mockDoneTasks );
+
+  when('GET', ArchivedFlowNode).respond( mockArchivedFlowNode );
+  when('GET', Comment).respond( mockComment );
+
+
   //global
   when('GET', /^\/API\/bpm\/process\?c=\d+&.*p=0$/).respond(require('./admin/cases/list/process-def-4.json'));
   //http://localhost:9002/API/system/i18ntranslation?f=locale%3Den
@@ -190,5 +282,9 @@
         "updatedBy": "Vincent Elcrin",
         "status": "Activated"
     });*/
+  var fs = require('fs');
+  var form = fs.readFileSync(__dirname+'/user/tasks/list/fixtures/form.html', 'utf8');
+  when('GET', formRegexp, 'html').respond( form );
+
 
 })(module, false);
