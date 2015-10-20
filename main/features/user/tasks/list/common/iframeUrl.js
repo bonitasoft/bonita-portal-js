@@ -98,7 +98,7 @@
         }
         this.getPortalUrl = function getPortalUrl(){
           var locationHref = $window.location.href;
-          var indexOfPortal = locationHref.indexOf('/portal/');
+          var indexOfPortal = locationHref.indexOf('/portal');
           return locationHref.substring(0, indexOfPortal);
         };
       }
