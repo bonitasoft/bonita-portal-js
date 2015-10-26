@@ -40,7 +40,7 @@ module.exports = function (grunt) {
       dist: 'dist',
       build: 'build'
     },
-    
+
     pomVersion: getPomVersion("pom.xml"),
 
     // Watches files for changes and runs tasks based on the changed files
@@ -551,7 +551,7 @@ module.exports = function (grunt) {
         ]
       }
     },
-    
+
     protractor: {
       options: {
         configFile: 'protractor.conf.js', // Default config file
@@ -577,7 +577,7 @@ module.exports = function (grunt) {
     nggettext_extract: {
       pot: {
         files: {
-          'i18n/portaljs.pot': ['<%= portaljs.app %>/features/**/*.html', '<%= portaljs.app %>/common/**/*.html']
+          'i18n/portaljs.pot': ['<%= portaljs.app %>/features/**/*.js', '<%= portaljs.app %>/common/**/*.js', '<%= portaljs.dist %>/features/**/*.html', '<%= portaljs.dist %>/common/**/*.html']
         }
       }
     },
@@ -708,7 +708,6 @@ module.exports = function (grunt) {
   grunt.registerTask('makeDist', [
     'injector',
     'lineending',
-    'nggettext_extract',
     'taskHelper',
     'useminPrepare',
     'concurrent:dist',
@@ -721,6 +720,7 @@ module.exports = function (grunt) {
     'rev',
     'usemin',
     'htmlmin',
+    'nggettext_extract',
     'ngdocs'
   ]);
 
