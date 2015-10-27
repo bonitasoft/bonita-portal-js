@@ -20,7 +20,7 @@
         },
         restrict: 'A',
         link: function($scope) {
-          angular.element($window.top).on('message', function(event){
+          angular.element($window).on('message', function(event){
             $timeout(function(){
               $scope.spySubmit({message:event.data});
             });

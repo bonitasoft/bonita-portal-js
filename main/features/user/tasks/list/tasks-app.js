@@ -370,21 +370,22 @@
         if (!this.showDetails) {
           return;
         }
-
-        if (message.match(/^error:fileTooBigError$/)) {
-          ngToast.create({
-            class: 'danger',
-            content: FORM_ERROR_TOO_BIG
-          });
-        } else if (message.match(/^error:/)) {
-          ngToast.create({
-            class: 'danger',
-            content: FORM_ERROR
-          });
-          this.updateTasks();
-          this.updateCount();
-        } else {
-          // success
+        var jsonMessage = JSON.parse(message);
+        if (jsonMessage.message === 'error') {
+          if (jsonMessage.dataFromError === 'fileTooBigError' || jsonMessage.status === 413) {
+            ngToast.create({
+              class:'danger',
+              content: FORM_ERROR_TOO_BIG
+            });
+          } else {
+            ngToast.create({
+              class: 'danger',
+              content: FORM_ERROR
+            });
+            this.updateTasks();
+            this.updateCount();
+          }
+        } else if (jsonMessage.message === 'success'){
           ngToast.create(FORM_SUCCESS);
           this.updateTasks();
           this.updateCount();
