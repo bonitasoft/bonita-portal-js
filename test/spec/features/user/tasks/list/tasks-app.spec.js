@@ -444,16 +444,20 @@ describe('taskApp', function(){
       }));
 
       it('should display a toast message', inject(function(FORM_SUCCESS){
-        controller.onFormSubmited('test');
+        controller.onFormSubmited('{"message":"success"}');
         expect(ngToast.create).toHaveBeenCalledWith(FORM_SUCCESS);
       }));
 
       it('should display a error message', inject(function(FORM_ERROR){
-        controller.onFormSubmited('error:test');
+        controller.onFormSubmited('{"message":"error"}');
         expect(ngToast.create).toHaveBeenCalledWith({content:FORM_ERROR, class:'danger'});
       }));
       it('should display a file too Big error message', inject(function(FORM_ERROR_TOO_BIG){
-        controller.onFormSubmited('error:fileTooBigError');
+        controller.onFormSubmited('{"message":"error","dataFromError":"fileTooBigError"}');
+        expect(ngToast.create).toHaveBeenCalledWith({content:FORM_ERROR_TOO_BIG, class:'danger'});
+      }));
+      it('should display a file too Big error message for a status 413', inject(function(FORM_ERROR_TOO_BIG){
+        controller.onFormSubmited('{"message":"error","status":413}');
         expect(ngToast.create).toHaveBeenCalledWith({content:FORM_ERROR_TOO_BIG, class:'danger'});
       }));
     });
