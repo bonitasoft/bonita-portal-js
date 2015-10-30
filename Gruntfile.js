@@ -647,7 +647,7 @@ module.exports = function (grunt) {
     }
 
     grunt.task.run([
-      'newer:html2js',
+      'html2js',
       'clean:server',
       'wiredep:build',
       'injector',
@@ -667,7 +667,7 @@ module.exports = function (grunt) {
     }
 
     grunt.task.run([
-      'newer:html2js',
+      'html2js',
       'clean:server',
       'wiredep:build',
       'injector',
@@ -688,11 +688,13 @@ module.exports = function (grunt) {
     'concurrent:test',
     'autoprefixer',
     'connect:test',
+    'html2js',
     'karma',
     'karmaSonar'
   ]);
 
   grunt.registerTask('buildE2e', [
+    'html2js',
     'clean:dist',
     'wiredep:e2e',
     'makeDist',
@@ -705,6 +707,7 @@ module.exports = function (grunt) {
   ]);
 
   grunt.registerTask('testE2e', [
+    'html2js',
     'concurrent:test',
     'autoprefixer',
     'connect:dist',
@@ -712,6 +715,7 @@ module.exports = function (grunt) {
   ]);
 
   grunt.registerTask('serveE2e', [
+    'html2js',
     'concurrent:test',
     'autoprefixer',
     'connect:dist',
@@ -720,12 +724,14 @@ module.exports = function (grunt) {
   ]);
 
   grunt.registerTask('build', [
+    'html2js',
     'clean:dist',
     'wiredep:build',
     'makeDist'
   ]);
 
   grunt.registerTask('makeDist', [
+    'html2js',
     'injector',
     'lineending',
     'nggettext_extract',
@@ -748,7 +754,6 @@ module.exports = function (grunt) {
   grunt.registerTask('default', [
     'newer:jshint',
     'test',
-    'build' //,
-    //'testE2e'
+    'build'
   ]);
 };

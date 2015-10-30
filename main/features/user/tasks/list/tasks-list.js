@@ -6,7 +6,6 @@
     'org.bonitasoft.features.user.tasks.filter',
     'org.bonitasoft.features.user.tasks.list.table',
     'org.bonitasoft.features.user.tasks.details',
-    'org.bonitasoft.features.user.tasks.app.tpl',
     'ui.bootstrap.tpls',
     'org.bonitasoft.templates',
     'org.bonitasoft.portalTemplates',

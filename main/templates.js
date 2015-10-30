@@ -1578,6 +1578,7 @@ angular.module('portalTemplates/user/tasks/list/tasks-details.html', []).run(['$
   'use strict';
   $templateCache.put('portalTemplates/user/tasks/list/tasks-details.html',
     '<button class="pull-right btn btn-primary"\n' +
+    '        id="Button{{editable? \'Release\' : \'Take\'}}DetailsColumn"\n' +
     '        ng-click="onTakeReleaseTask()" title="{{editable ? \'Unassign the task and put it back in Available tasks\' : \'Assign the task to myself and move it to My tasks.\'}}">\n' +
     '  <i class="glyphicon" ng-class="{\'glyphicon-save\':!editable, \'glyphicon-open\':editable}"></i>\n' +
     '  <span class="sr-only">{{editable ? \'Release\' : \'Take\'}}</span>\n' +
@@ -1762,7 +1763,6 @@ angular.module('portalTemplates/user/tasks/list/tasks-list.html', []).run(['$tem
     '    <link rel="stylesheet" href="features/user/tasks/list/css/task-list.css">\n' +
     '    <link rel="stylesheet" href="features/user/tasks/list/css/task-details.css">\n' +
     '  <!-- endbuild -->\n' +
-    '\n' +
     '  <ng-toast></ng-toast>\n' +
     '  <div class="TaskListPage" ng-cloak task-app form-spy spy-submit="app.onFormSubmited(message)"\n' +
     '    ng-class="{\n' +
@@ -1826,7 +1826,7 @@ angular.module('portalTemplates/user/tasks/list/tasks-list.html', []).run(['$tem
     '                        </button>\n' +
     '                        <ul class="dropdown-menu">\n' +
     '                          <li ng-repeat="p in app.processes" >\n' +
-    '                            <a ng-click="app.setProcess(p)" ng-class="{\'active\':p.id === app.request.process.id}">\n' +
+    '                            <a ng-click="app.setProcess(p)" ng-class="{\'active\':p.id === app.request.process.id}" class="processOptionLink">\n' +
     '                              {{p.name+"&nbsp;"+p.version}}\n' +
     '                            </a>\n' +
     '                          </li>\n' +

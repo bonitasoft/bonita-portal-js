@@ -14,14 +14,14 @@ describe('tasklist custom page', function() {
     });
 
     it('should display buttons on the selected Line', function() {
-      var actions = element.all(by.css('.Line.info  .Cell--with-actions button'));
+      var actions = element.all(by.css('.Line.info .Cell--with-actions button'));
 
       expect(actions.count()).toBe(2);
     });
 
     describe('Do task', function(){
-      fit('should open a popup with a form', function(){
-        var actions = element.all(by.css('.Line.info  .Cell--with-actions button'));
+      it('should open a popup with a form', function(){
+        var actions = element.all(by.css('.Line.info .Cell--with-actions button'));
         actions.first().click();
 
         browser.wait(function() {
@@ -37,7 +37,7 @@ describe('tasklist custom page', function() {
     describe('View task', function(){
 
       beforeEach(function(){
-        var actions = element.all(by.css('.Line.info  .Cell--with-actions button'));
+        var actions = element.all(by.css('.Line.info .Cell--with-actions button'));
         actions.last().click();
       });
 
@@ -52,9 +52,9 @@ describe('tasklist custom page', function() {
 
       it('should allow user to take unassigned task', function(){
         // take the task
-        element(by.css('task-details .icon-take')).click();
+        element(by.id('ButtonTakeDetailsColumn')).click();
 
-        var releaseButton = element(by.css('task-details .icon-release'));
+        var releaseButton = element(by.id('ButtonReleaseDetailsColumn'));
         expect(releaseButton.isPresent()).toBe(true);
 
       });
@@ -65,12 +65,12 @@ describe('tasklist custom page', function() {
 
         //select last line (an assigned task with mock PUT)
         element.all(by.css('.Line')).click();
-        element.all(by.css('.Line.info  .Cell--with-actions button')).last().click();
+        element.all(by.css('.Line.info .Cell--with-actions button')).last().click();
 
         // take the task
-        element(by.css('task-details .icon-release')).click();
+        element(by.id('ButtonReleaseDetailsColumn')).click();
 
-        var releaseButton = element(by.css('task-details .icon-take'));
+        var releaseButton = element(by.id('ButtonTakeDetailsColumn'));
         expect(releaseButton.isPresent()).toBe(true);
 
       });

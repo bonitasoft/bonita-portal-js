@@ -8,8 +8,7 @@ exports.config = {
   directConnect: false,
 
   specs: [
-      //'test/e2e/**/*.e2e.js'
-      'test/e2e/features/user/tasks/*.e2e.js'
+      'test/e2e/**/*.e2e.js'
   ],
   suites : {
     'arch-case-list-deletion': ['test/e2e/features/admin/cases/arch-case-list-buttons.e2e.js'],
@@ -17,6 +16,8 @@ exports.config = {
     'arch-case-list-filter': ['test/e2e/features/admin/cases/arch-case-list-filter.e2e.js'],
     'process-details-information': ['test/e2e/features/admin/processes/details/*.e2e.js']
   },
+
+
 
   capabilities: {
       'browserName': 'firefox'

@@ -27,9 +27,7 @@ describe('context', function() {
   it('should not display an alert if the form is assigned to current user', function() {
 
     element.all(by.repeater('task in tasks')).last().click();
-
     var node = element(by.css('.TaskDetails .alert'));
-
     expect(node.isPresent()).toBeFalsy();
   });
 

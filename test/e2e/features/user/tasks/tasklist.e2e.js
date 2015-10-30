@@ -8,7 +8,7 @@ describe('tasklist custom page', function() {
     browser.waitForAngular();
   });
 
-  fit('should load a list of task', function() {
+  it('should load a list of task', function() {
     var tasks = element.all(by.repeater('task in tasks'));
     expect(tasks.count()).toBe(26);
   });
@@ -24,6 +24,7 @@ describe('tasklist custom page', function() {
 
     var tasks = element.all(by.repeater('task in tasks'));
     expect(tasks.count()).toBe(2);
+
   });
 
   it('should change pagination', function() {
@@ -51,7 +52,7 @@ describe('tasklist custom page', function() {
     expect(processes.count()).toEqual(3);
 
     //select last process
-    processes.last().element(by.css('.btn')).click();
+    processes.last().element(by.css('.processOptionLink')).click();
     var tasks = element.all(by.repeater('task in tasks'));
     expect(tasks.count()).toBe(2);
   });

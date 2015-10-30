@@ -1,4 +1,5 @@
 <button class="pull-right btn btn-primary"
+        id="Button{{editable? 'Release' : 'Take'}}DetailsColumn"
         ng-click="onTakeReleaseTask()" title="{{editable ? 'Unassign the task and put it back in Available tasks' : 'Assign the task to myself and move it to My tasks.'}}">
   <i class="glyphicon" ng-class="{'glyphicon-save':!editable, 'glyphicon-open':editable}"></i>
   <span class="sr-only">{{editable ? 'Release' : 'Take'}}</span>

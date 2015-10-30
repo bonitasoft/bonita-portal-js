@@ -273,7 +273,7 @@
 
                 // open the modal
                 that.modaleInstance = $modal.open({
-                  templateUrl: '/templates/user/tasks/list/tasks-modal-form.html',
+                  templateUrl: 'portalTemplates/user/tasks/list/tasks-modal-form.html',
                   controller: 'ModalFormCtrl',
                   controllerAs: 'modal',
                   windowClass: 'FormModal',
@@ -309,7 +309,7 @@
         var url = iframe.getTaskForm(task.rootContainerId, task, this.user.user_id);
         var ctrl = this;
         this.modaleInstance = $modal.open({
-          templateUrl: '/templates/user/tasks/list/tasks-modal-details.html',
+          templateUrl: 'portalTemplates/user/tasks/list/tasks-modal-details.html',
           controller: 'ModalDetailsCtrl',
           controllerAs: 'modal',
           windowClass: 'FormModal',
