@@ -81,25 +81,4 @@
       </bonita-form-viewer>
     </div>
   </tab>
-
-    <tab heading="Diagram"
-         ng-click="onClickTab('diagram')"
-         active="tab.diagram" >
-        <p class="alert alert-info TaskInfo" ng-if="hideForm">
-            This task is completed.
-        </p>
-
-        <div ng-if="!hideForm">
-            <p class="alert alert-warning" ng-if="!inactive && !editable">
-                This task is not assigned to you. You need to take it before filling in this form.
-            </p>
-            <h4>Case Visualization</h4>
-            <bonita-iframe-viewer
-                    class="DiagramViewer"
-                    frame-url="diagramUrl"
-                    is-editable="true"
-                    is-visible="tab.context">
-            </bonita-iframe-viewer>
-        </div>
-    </tab>
 </tabset>
