@@ -17,6 +17,8 @@ exports.config = {
     'process-details-information': ['test/e2e/features/admin/processes/details/*.e2e.js']
   },
 
+
+
   capabilities: {
       'browserName': 'firefox'
   },

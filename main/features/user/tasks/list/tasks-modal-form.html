@@ -1,0 +1,15 @@
+<div class="modal-body">
+  <button type="button" ng-click="modal.cancel()" class="close" title="close form">
+    <span aria-hidden="true">&times;</span>
+    <span class="sr-only">Close</span>
+  </button>
+   <bonita-iframe-viewer class="FormViewer"
+      tabindex="0"
+      is-editable="modal.isFormEditable"
+      frame-url="modal.formUrl"
+      is-visible="modal.isFormVisible">
+    </bonita-iframe-viewer>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-warning" title="close form" ng-click="modal.cancel()">Close form</button>
+</div>
