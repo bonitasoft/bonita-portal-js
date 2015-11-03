@@ -59,7 +59,7 @@ describe('preference', function() {
       var o = {name:'abcd'};
       pref.set('showDetails', o, true);
 
-      var value = cookies.showDetails;
+      var value = cookies.get('showDetails');
       expect(JSON.parse(value)).toEqual(o);
     });
   });
@@ -67,9 +67,9 @@ describe('preference', function() {
   describe('flush', function(){
     it('should remove cookies', function(){
       pref.set('max', 'coucou', true);
-      expect(cookies.max).toEqual(JSON.stringify('coucou'));
+      expect(cookies.get('max')).toEqual(JSON.stringify('coucou'));
       pref.flush();
-      expect(cookies.max).not.toBeDefined();
+      expect(cookies.get('max')).not.toBeDefined();
     });
   });
 

@@ -80,7 +80,7 @@
         preferences[key] = value;
 
         if (persist) {
-          $cookies[key] = JSON.stringify(value);
+          $cookies.put(key, JSON.stringify(value));
         }
       };
 
@@ -89,15 +89,14 @@
        */
       this.flush = function() {
         angular.forEach(dict, function(value, key) {
-          $cookies[key] = null;
-          delete $cookies[key];
+          $cookies.remove(key);
         });
       };
 
       var preferences = {};
 
       angular.forEach(dict, function(value, key) {
-        preferences[key] = JSON.parse($cookies[key] || 'null');
+        preferences[key] = JSON.parse($cookies.get(key) || 'null');
 
         if (preferences[key] === null) {
           preferences[key] = value;
