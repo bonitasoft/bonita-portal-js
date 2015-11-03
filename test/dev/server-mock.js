@@ -21,9 +21,6 @@
   var debug = !verbose ? function() {} : function(message) {
     console.log(message);
   };
-  function clone(o){
-    return JSON.parse(JSON.stringify(o));
-  }
 
   var MockList = (function() {
     /*jshint validthis: true */

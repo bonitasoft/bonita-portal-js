@@ -1,5 +1,5 @@
 'use strict';
-
+/* global protractor */
 describe('tasklist custom page', function() {
 
   beforeEach(function(){

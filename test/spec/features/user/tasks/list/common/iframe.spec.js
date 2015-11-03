@@ -10,7 +10,7 @@ describe('iframe', function() {
   var bonitaHost= 'http://myhost.com/myExample/portal/';
 
   var mockedWindow = {
-    location: { 
+    location: {
       href: bonitaHost
     }
   };
@@ -26,7 +26,7 @@ describe('iframe', function() {
     name: 'processName'
   };
   var specialCharsTask =  {id:1, name:'étape 1', selected:true} ;
-  var specialCharsCase =  {id:77, name:'Étape1 ?', selected:true} ; 
+  var specialCharsCase =  {id:77, name:'Étape1 ?', selected:true} ;
   var specialCharsProcess = {
     version: 'deuxième Version',
     name: 'processus accentué '
@@ -41,7 +41,7 @@ describe('iframe', function() {
     });
 
     mockedLocation.search = function() { return({});};
-  }); 
+  });
 
   beforeEach(inject(function($injector) {
     iframe  = $injector.get('iframe');

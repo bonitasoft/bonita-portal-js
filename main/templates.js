@@ -1660,27 +1660,6 @@ angular.module('portalTemplates/user/tasks/list/tasks-details.html', []).run(['$
     '      </bonita-form-viewer>\n' +
     '    </div>\n' +
     '  </tab>\n' +
-    '\n' +
-    '    <tab heading="Diagram"\n' +
-    '         ng-click="onClickTab(\'diagram\')"\n' +
-    '         active="tab.diagram" >\n' +
-    '        <p class="alert alert-info TaskInfo" ng-if="hideForm">\n' +
-    '            This task is completed.\n' +
-    '        </p>\n' +
-    '\n' +
-    '        <div ng-if="!hideForm">\n' +
-    '            <p class="alert alert-warning" ng-if="!inactive && !editable">\n' +
-    '                This task is not assigned to you. You need to take it before filling in this form.\n' +
-    '            </p>\n' +
-    '            <h4>Case Visualization</h4>\n' +
-    '            <bonita-iframe-viewer\n' +
-    '                    class="DiagramViewer"\n' +
-    '                    frame-url="diagramUrl"\n' +
-    '                    is-editable="true"\n' +
-    '                    is-visible="tab.context">\n' +
-    '            </bonita-iframe-viewer>\n' +
-    '        </div>\n' +
-    '    </tab>\n' +
     '</tabset>\n' +
     '');
 }]);
@@ -1763,7 +1742,8 @@ angular.module('portalTemplates/user/tasks/list/tasks-list.html', []).run(['$tem
     '    <link rel="stylesheet" href="features/user/tasks/list/css/task-list.css">\n' +
     '    <link rel="stylesheet" href="features/user/tasks/list/css/task-details.css">\n' +
     '  <!-- endbuild -->\n' +
-    '  <ng-toast></ng-toast>\n' +
+    '\n' +
+    '  <toast></toast>\n' +
     '  <div class="TaskListPage" ng-cloak task-app form-spy spy-submit="app.onFormSubmited(message)"\n' +
     '    ng-class="{\n' +
     '      \'TaskListPage--small\':app.smallScreen,\n' +

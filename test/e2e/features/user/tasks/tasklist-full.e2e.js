@@ -10,7 +10,7 @@ describe('tasklist custom page', function() {
 
   describe('Full list', function(){
     beforeEach(function(){
-       element.all(by.model('value')).last().click();
+      element.all(by.model('value')).last().click();
     });
 
     it('should display buttons on the selected Line', function() {
