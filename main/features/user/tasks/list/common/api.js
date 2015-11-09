@@ -106,7 +106,7 @@
                   method: 'PUT',
                   // we add our transform request first, before object serialization
                   // It will remove id key from data to avoid API error for non allowed parameters
-                  transformRequest: [updateTransformRequest].concat($http.defaults.transformRequest)
+                  //transformRequest: [updateTransformRequest].concat($http.defaults.transformRequest)
                 }
 
               });

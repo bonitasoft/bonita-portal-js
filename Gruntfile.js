@@ -688,7 +688,6 @@ module.exports = function (grunt) {
     'concurrent:test',
     'autoprefixer',
     'connect:test',
-    'html2js',
     'karma',
     'karmaSonar'
   ]);
