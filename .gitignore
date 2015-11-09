@@ -7,7 +7,7 @@ target
 target-grunt
 test/TESTS-xunit.xml
 main/docs
-i18n
+i18n/portal-js.pot
 main/i18n.js
 test/e2e-reports/TEST-*
 .idea/
