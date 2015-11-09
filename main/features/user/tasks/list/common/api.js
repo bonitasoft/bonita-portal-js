@@ -13,12 +13,12 @@
    * @param  {Object} req a request object
    * @return {Object}     a request object without a id key
    */
-  function updateTransformRequest(req) {
-    if (req.hasOwnProperty('id')) {
-      delete req.id;
-    }
-    return req;
-  }
+  //function updateTransformRequest(req) {
+  //  if (req.hasOwnProperty('id')) {
+  //    delete req.id;
+  //  }
+  //  return req;
+  //}
 
   /**
    * helper method which extract pagination data from Content-range HTTP header
