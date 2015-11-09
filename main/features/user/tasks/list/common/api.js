@@ -90,7 +90,7 @@
     .config(['$provide',
       function($provide) {
         $provide.decorator('$resource', ['$delegate', '$http',
-          function($delegate, $http) {
+          function($delegate) {
             return function(url, paramDefaults, actions, options) {
               actions = angular.extend({}, actions, {
                 'search': {
