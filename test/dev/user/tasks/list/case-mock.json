@@ -1,0 +1,25 @@
+{
+  "id": "1",
+  "end_date": "",
+  "startedBySubstitute": "104",
+  "start": "2014-09-04 15:04:15.772",
+  "state": "started",
+  "rootCaseId": "1",
+  "started_by": "104",
+  "processDefinitionId": {
+    "id": "8007855270751208272",
+    "icon": "",
+    "displayDescription": "",
+    "deploymentDate": "2014-09-04 15:03:07.177",
+    "description": "",
+    "activationState": "ENABLED",
+    "name": "Pool",
+    "deployedBy": "1",
+    "displayName": "Pool",
+    "actorinitiatorid": "1",
+    "last_update_date": "2014-09-04 15:03:15.340",
+    "configurationState": "RESOLVED",
+    "version": "1.0"
+  },
+  "last_update_date": "2014-09-04 15:04:15.772"
+}

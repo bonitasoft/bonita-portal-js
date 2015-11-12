@@ -13,7 +13,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-
 (function(module, verbose) {
   'use strict';
 
@@ -171,24 +170,46 @@
 
   when('PUT', /^\/API\/bpm\/process\/\d+$/).respond();
 
+
+//////////////////////////
+
+
+
+  var formRegexp  = /portal\/homepage\?.*ui=form.*/;
+
+  when('GET', /^\/API\/identity\/professionalcontactdata\/18/).respond(require('./user/tasks/list/professionalContact18-mock.json'));
+
+  //order specific request before
+  when('GET', /^\/API\/bpm\/humanTask\?c=50&d=rootContainerId&f=state%3Dready&f=user_id%3D1&o=displayName\+ASC&p=0&s=a*./).respond(require('./user/tasks/list/humanTasksSearchStartsWithA-mock.json'));
+  when('GET', /^\/API\/bpm\/humanTask\?c=50&d=rootContainerId&f=state%3Dready&f=user_id%3D1&f=processId%3D5545132423260882733&o=displayName\+ASC&p=0/).respond(require('./user/tasks/list/humanTasksSearchFilteredOnCurrentUser-mock.json'));
+
+  when('GET', /^\/API\/bpm\/humanTask\?c=0&f=state%3Dready&f=assigned_id%3D1&p=0/).respond(require('./user/tasks/list/humanTasksSearchFilteredOnCurrentUser-mock.json'));
+  when('GET', /^\/API\/bpm\/humanTask\?c=50&d=rootContainerId&f=state%3Dready&f=assigned_id%3D1&o=displayName\+ASC&p=0/).respond(require('./user/tasks/list/humanTasksSearchFilteredOnCurrentUser-mock.json'));
+  when('GET', /^\/API\/bpm\/humanTask\?c=0&f=state%3Dready&f=assigned_id%3D0&f=user_id%3D1&p=0/).respond(require('./user/tasks/list/humanTasksSearchFilteredOnProcessId-mock.json'));
+  when('GET', /^\/API\/bpm\/humanTask\?c=50&d=rootContainerId&f=state%3Dready&f=assigned_id%3D0&f=user_id%3D1&o=displayName\+ASC&p=0/).respond(require('./user/tasks/list/humanTasksSearchFilteredOnProcessId-mock.json'));
+
+  when('GET', /^\/API\/bpm\/humanTask\?c=(25|50)&d=rootContainerId&f=state%3Dready(&f=assigned_id%3D0)*&f=user_id%3D1(&f=processId%3D5545132423260882733)*&o=displayName\+ASC&p=[0|1]/).respond(require('./user/tasks/list/humanTaskSearchAsc-mock.json'));
+
+  when('GET', /^\/API\/bpm\/humanTask\?c=50&d=rootContainerId&f=state%3Dready&f=user_id%3D1&o=displayName\+DESC&p=0/).respond(require('./user/tasks/list/humanTaskSearchDesc-mock.json'));
+  when('PUT', /API\/bpm\/humanTask\/2/).respond(require('./user/tasks/list/humanTask2TakenByUser1-mock.json'));
+  when('PUT', /API\/bpm\/humanTask\/19/).respond(require('./user/tasks/list/humanTask19Released-mock.json'));
+  when('GET', /^\/API\/bpm\/archivedHumanTask\?c=50&d=rootContainerId&f=assigned_id%3D1&o=displayName\+ASC&p=0/).respond(require('./user/tasks/list/humanTasksSearchFilteredOnDoneTasks-mock.json'));
+  when('GET', /^\/API\/bpm\/archivedFlowNode\?c=100&d=executedBySubstitute&d=executedBy&f=caseId%3D[1|2|4|5|6|7]&f=isTerminal%3Dtrue&p=0/).respond(require('./user/tasks/list/archivedFlowNodes-mock.json'));
+  when('GET', /^\/API\/bpm\/comment\?c=100&d=user_id&f=processInstanceId%3D(1|2|4|5|6|7)&p=0/).respond(require('./user/tasks/list/comments-mock.json'));
+  when('GET', /^\/API\/bpm\/case\/[1|2|4|5|6|7]\?d=started_by&d=processDefinitionId$/).respond(require('./user/tasks/list/case-mock.json'));
+  when('GET', /^\/API\/bpm\/process\?c=[0|2]&f=user_id%3D1&f=forPendingOrAssignedTask%3Dtrue&p=0$/).respond(require('./user/tasks/list/processes-mock.json'));
+  when('GET', /^\/API\/bpm\/processSupervisor\?c=10&d=user_id&f=process_id%3D(5545132423260882732|8007855270751208272)&p=0$/).respond(require('./user/tasks/list/processSupervisors-mock.json'));
+  when('GET', /^\/API\/bpm\/process\/(5545132423260882732)$/).respond(require('./user/tasks/list/process5545132423260882732-mock.json'));
+  when('GET', /^\/API\/bpm\/process\/(8007855270751208272)$/).respond(require('./user/tasks/list/process8007855270751208272-mock.json'));
+
   //global
   when('GET', /^\/API\/bpm\/process\?c=\d+&.*p=0$/).respond(require('./admin/cases/list/process-def-4.json'));
-  //http://localhost:9002/API/system/i18ntranslation?f=locale%3Den
   when('GET', /^\/API\/system\/i18ntranslation.*$/).respond([]);
-  when('GET', /^\/API\/system\/session\/unusedId$/).respond({'user_id':'1'});
   when('GET', /^\/API\/system\/feature\?c=0&p=0$/).respond([]);
+  when('GET', /^\/API\/system\/session.*$/ ).respond(require('./session-mock.json'));
+  var fs = require('fs');
+  var form = fs.readFileSync(__dirname+'/user/tasks/list/fixtures/form.html', 'utf8');
+  when('GET', formRegexp, 'html').respond( form );
 
-  /*when('POST', '/bonita/API/livingApps').respond(
-        {
-        "icon": "path/to/icon",
-        "name": "Holiday",
-        "version": "1.0",
-        "url": "lapps/holiday",
-        "createdOn": "11/07/14",
-        "createdBy": "Julien Mege",
-        "updatedOn": "16/07/14",
-        "updatedBy": "Vincent Elcrin",
-        "status": "Activated"
-    });*/
 
 })(module, false);

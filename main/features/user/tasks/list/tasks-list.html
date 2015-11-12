@@ -1,0 +1,173 @@
+    <link rel="stylesheet" href="features/user/tasks/list/css/icomoon.css">
+    <link rel="stylesheet" href="features/user/tasks/list/css/task-app.css">
+    <link rel="stylesheet" href="features/user/tasks/list/css/task-filters.css">
+    <link rel="stylesheet" href="features/user/tasks/list/css/task-list.css">
+    <link rel="stylesheet" href="features/user/tasks/list/css/task-details.css">
+  <!-- endbuild -->
+
+  <toast></toast>
+  <div class="TaskListPage" ng-cloak task-app form-spy spy-submit="app.onFormSubmited(message)"
+    ng-class="{
+      'TaskListPage--small':app.smallScreen,
+      'TaskListPage--withMenu':!app.smallScreen && app.showMenu}">
+    <div class="OffcanvasMenu navbar">
+      <h3 class="OffcanvasMenu-title">Filters</h3>
+      <button ng-hide="app.smallScreen" title="{{app.showMenu ? 'Hide' : 'Show'}} Menu"
+        class="FilterToggle btn btn-default" btn-checkbox ng-model="app.showMenu">
+        <span class="glyphicon" ng-class="{'glyphicon-chevron-left':app.showMenu,'glyphicon-chevron-right': !app.showMenu }"></span>
+        <span class="sr-only">menu</span>
+      </button>
+      <task-filters filter="app.request.taskFilter"
+                    filters="app.TASK_FILTERS"
+                    count="app.count"
+                    filter-change="app.changeFilter(filter)">
+      </task-filters>
+    </div>
+    <div class="AppWrapper">
+      <div class="AppHeader">
+        <h1>
+          <i class="icon-inbox TitleIcon"></i>
+          <span>{{app.request.taskFilter.title}}</span>
+
+          <layout-switch value="app.showDetails" on-change="app.updateLayout(showDetails)" ng-hide="app.smallScreen"/>
+        </h1>
+
+      </div>
+
+        <div class="alert alert-warning" ng-show="error">
+          <p ng-bind-template="Please login to your bonita portal (Error {{error.status}})"></p>
+        </div>
+      <div class="" ng-hide="error">
+        <div>
+          <div class="TaskList col-md-{{app.getSize()}}"
+               ng-if="!(app.showDetails && app.expandDetails) || app.smallScreen">
+            <div class="panel panel-default">
+              <div class="Settings">
+                <div class="Settings-filter">
+                  <form name="searchForm" class="form-inline" ng-submit="app.searchTask()">
+                    <fieldset class="SearchBox">
+                      <legend class="sr-only">searchLegend</legend>
+                      <div class="form-group">
+                        <i class="icon-search SearchBox-icon"></i>
+                        <input class="form-control SearchBox-input" id="search"
+                          input-focus
+                          placeholder="Search on task name"
+                          ng-model="app.request.search"
+                          ng-model-options="{updateOn:'keyup', debounce:{'default':250, 'blur':0} }"
+                          ng-change="app.searchTask()"
+                          >
+
+                      </div> 
+                      {{"Process name"}}
+                      <div class="ProcessList" dropdown>
+                        <button dropdown-toggle type="button"
+                                class="btn btn-primary"
+                                title="{{'Process: ' + app.request.process.name + (app.request.process.version ? ' ' + app.request.process.version : '') }}"
+                                ng-disabled="app.request.taskFilter !== app.TASK_FILTERS.TODO || !app.processes || app.processes.length === 0">
+                          <div class="ProcessList-label">{{app.request.process.name + (app.request.process.version?" "+app.request.process.version:"")}} <span class="caret"></span></div> 
+                        </button>
+                        <ul class="dropdown-menu">
+                          <li ng-repeat="p in app.processes" >
+                            <a ng-click="app.setProcess(p)" ng-class="{'active':p.id === app.request.process.id}" class="processOptionLink">
+                              {{p.name+"&nbsp;"+p.version}}
+                            </a>
+                          </li>
+                        </ul>
+                      </div>
+                      <span class="Loading pull-right" ng-show="app.loadingTasks" ></span>
+                      <button class="btn btn-default pull-right"
+                        type="button"
+                        title="refresh data"
+                        ng-hide="app.loadingTasks"
+                        ng-click="app.updateAll()">
+                        <i class="icon-refresh"></i>
+                        <span class="sr-only">Refresh data</span>
+                      </button>
+                    </fieldset>
+                  </form>
+
+                </div> <!-- Settings-filter -->
+              </div> <!-- .Settings -->
+              <div class="panel-body">
+              <task-list tasks="app.tasks"
+                         current-task="app.currentTask"
+                         request="app.request"
+                         user="app.user"
+                         mode="app.getMode(app.showDetails, app.smallScreen)"
+                         page-sizes="app.PAGE_SIZES"
+                         refresh-tasks="app.updateTasks()"
+                         refresh-count="app.updateCount()"
+                         select-task="app.selectTask(task)"
+                         do-task="app.showTasksFormPopup(task)"
+                         view-task="app.showTaskDetailsPopup(task)">
+                </task-list>
+              </div>
+            </div>
+          </div> <!-- .Tasklist -->
+
+          <div class="TaskDetails col-md-{{app.getSize()}}" id="details" ng-if="app.smallScreen || app.showDetails">
+            <div class="panel panel-default">
+              <div class="panel-heading">
+                <button class="pull-right btn btn-default"
+                        ng-model="app.expandDetails"
+                        btn-checkbox
+                        title="{{app.expandDetails ? 'Expand' : 'Reduce'}}">
+                  <span ng-class="{'glyphicon glyphicon-resize-full':!app.expandDetails,'glyphicon glyphicon-resize-small':app.expandDetails}"></span>
+                  <span class="sr-only">{{app.expandDetails ? 'Expand' : 'Reduce'}}</span>
+                </button>
+                <h3 class="panel-title">Task Details</h3>
+              </div>
+              <div class="panel-body">
+                <task-details current-task="app.currentTask"
+                              current-case="app.currentCase"
+                              refresh="app.updateCount()"
+                              editable="app.currentTask.assigned_id === app.user.user_id"
+                              hide-form="app.request.taskFilter === app.TASK_FILTERS.DONE"
+                              inactive="app.tasks.length === 0">
+                </task-details>
+              </div>
+            </div>
+          </div> <!-- .TaskDetails -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- build:js resources/js/vendors.js -->
+  <!--  <script src="../bower_components/angular/angular.js" ></script> -->
+  <!--  <script src="../bower_components/angular-animate/angular-animate.js" ></script> -->
+  <!--  <script src="../bower_components/angular-bootstrap/ui-bootstrap-tpls.js" ></script> -->
+  <!--  <script src="../bower_components/angular-cookies/angular-cookies.js" ></script> -->
+  <!--  <script src="../bower_components/angular-resource/angular-resource.js" ></script> -->
+  <!--  <script src="../bower_components/angular-sanitize/angular-sanitize.js" ></script> -->
+  <!--  <script src="../bower_components/angular-touch/angular-touch.js" ></script> -->
+  <!--  <script src="../bower_components/bonita-js-components/dist/bonita-lib-tpl.js" ></script> -->
+  <!--  <script src="../bower_components/ngtoast/dist/ngToast.js" ></script> -->
+  <!--  <script src="../bower_components/keymaster/keymaster.js" ></script> -->
+  <!--  <script src="../bower_components/momentjs/moment.js" ></script> -->
+  <!-- endbuild -->
+
+  <!-- build:js resources/js/app.js -->
+  <!--   <script src="js/templates.js" ></script> -->
+  <!--   <script src="js/common/security.js" ></script> -->
+  <!--   <script src="js/common/keymaster.js" ></script> -->
+  <!--   <script src="js/common/api.js" ></script> -->
+  <!--   <script src="js/common/filters.js" ></script> -->
+  <!--   <script src="js/common/screen.js" ></script> -->
+  <!--   <script src="js/common/iframeUrl.js" ></script> -->
+  <!--   <script src="js/common/directive/input-focus.js" ></script> -->
+  <!--   <script src="js/common/directive/bonita-iframe-viewer.js"></script> -->
+  <!--   <script src="js/common/directive/bonita-form-spy.js"></script> -->
+  <!--   <script src="js/common/taskRequest.js" ></script> -->
+  <!--   <script src="js/common/preference.js" ></script> -->
+  <!--   <script src="js/common/store.js" ></script> -->
+  <!--   <script src="js/modal/modalForm.js" ></script> -->
+  <!--   <script src="js/modal/modalDetails.js" ></script> -->
+  <!--   <script src="js/layoutswitch/layoutswitch.js" ></script> -->
+  <!--   <script src="js/tasklist/taskList.js" ></script> -->
+  <!--   <script src="js/taskdetails/taskDetails.js" ></script> -->
+  <!--   <script src="js/taskfilters/taskFilters.js" ></script> -->
+  <!--   <script src="js/taskApp.js" ></script> -->
+  <!--   <script src="js/app.config.js" ></script> -->
+  <!--   <script src="js/app.js" ></script> -->
+  <!-- endbuild -->
