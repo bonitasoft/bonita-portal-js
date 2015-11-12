@@ -68,3 +68,4 @@ echo "Exporting community pot to $PROJECT crowdin project ..."
 curl -F "files[$BRANCH_NAME/bonita-web/portal/portal-js.pot]=@$BUILD_DIR/portal-js.pot"  \
      -F "export_patterns[$BRANCH_NAME/bonita-web/portal/portal-js.pot]=/$BRANCH_NAME/bonita-web/portal/portal-js_%locale_with_underscore%.po" \
    https://api.crowdin.com/api/project/$PROJECT/update-file?key=$CROWDINKEY
+check_errors $? "Error while uploading pot file"
