@@ -43,7 +43,7 @@ module.exports = function (grunt) {
       dist: 'dist',
       build: 'build'
     },
-    
+
     pomVersion: getPomVersion("pom.xml"),
 
     // Watches files for changes and runs tasks based on the changed files
@@ -568,7 +568,7 @@ module.exports = function (grunt) {
         ]
       }
     },
-    
+
     protractor: {
       options: {
         configFile: 'protractor.conf.js', // Default config file
@@ -594,7 +594,7 @@ module.exports = function (grunt) {
     nggettext_extract: {
       pot: {
         files: {
-          'i18n/portaljs.pot': ['<%= portaljs.app %>/features/**/*.html', '<%= portaljs.app %>/common/**/*.html']
+          'i18n/portal-js.pot': ['<%= portaljs.app %>/features/**/*.html', '<%= portaljs.app %>/common/**/*.html']
         }
       }
     },
