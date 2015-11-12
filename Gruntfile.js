@@ -724,6 +724,12 @@ module.exports = function (grunt) {
     'ngdocs'
   ]);
 
+  grunt.registerTask('pot', [
+    'clean:dist',
+    'copy:dist',
+    'htmlmin',
+    'nggettext_extract'
+  ]);
 
   grunt.registerTask('default', [
     'newer:jshint',
