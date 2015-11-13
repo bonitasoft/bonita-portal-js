@@ -1,7 +1,6 @@
 {
   "name": "portaljs",
   "version": "0.0.0",
-  "dependencies": {},
   "devDependencies": {
     "bower": "1.5.2",
     "glob": "4.0.6",
@@ -25,6 +24,7 @@
     "grunt-contrib-watch": "0.5.3",
     "grunt-este-watch": "0.1.18",
     "grunt-google-cdn": "0.2.2",
+    "grunt-html2js": "0.3.5",
     "grunt-injector": "0.5.4",
     "grunt-karma": "0.8.3",
     "grunt-karma-sonar": "0.2.17",
