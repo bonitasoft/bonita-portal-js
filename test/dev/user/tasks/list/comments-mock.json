@@ -1,0 +1,31 @@
+[{
+  "content": "The task \"Model choice\" is now assigned to user.test",
+  "tenantId": "1",
+  "id": "12",
+  "processInstanceId": "13",
+  "postDate": "2014-10-06 11:29:17.793",
+  "userId": {
+    "icon": "/default/icon_user.png",
+    "userName": "System"
+  }
+}, {
+  "content": "The task \"Color selection\" is now assigned to user.test",
+  "tenantId": "1",
+  "id": "19",
+  "processInstanceId": "13",
+  "postDate": "2014-10-06 11:30:57.368",
+  "userId": {
+    "icon": "/default/icon_user.png",
+    "userName": "System"
+  }
+}, {
+  "content": "The task \"Accessories\" is now assigned to user.test",
+  "tenantId": "1",
+  "id": "20",
+  "processInstanceId": "13",
+  "postDate": "2014-10-06 11:31:23.059",
+  "userId": {
+    "icon": "/default/icon_user.png",
+    "userName": "System"
+  }
+}]
