@@ -1,0 +1,12 @@
+      <div class="Viewer-wrapper" ng-if="!inactive && !hasForm">
+        <h4>{{currentTask.displayName || currentTask.name}}</h4>
+        <p>No form is needed. You can enter a comment and confirm.</p>
+        <form role="form">
+          <div class="form-group">
+            <label for="task-comment">Comment:</label>
+            <textarea ng-model="currentTask.comment" id="task-comment" class="form-control"></textarea>
+          </div>
+          <button ng-click="onExecuteTask()" class="btn btn-primary center-block">Submit</button>
+        </form>
+        <div class="Viewer-overlay" ng-if="!editable"></div>
+      </div>

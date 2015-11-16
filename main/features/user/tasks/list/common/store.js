@@ -12,16 +12,16 @@
   angular
     .module('org.bonitasoft.features.user.tasks.app.store', ['api.request', 'org.bonitasoft.features.user.tasks.app.config'])
     .service('taskListStore', [
-      'ArchivedFlowNode',
-      'Case',
-      'Comment',
-      'Process',
-      'ProcessSupervisor',
+      'archivedFlowNodeAPI',
+      'caseAPI',
+      'commentAPI',
+      'processAPI',
+      'processSupervisorAPI',
       'ProfessionalData',
       '$q',
       'TASK_FILTERS',
       'taskRequest',
-      function(ArchivedFlowNode, Case, Comment, Process, ProcessSupervisor, ProfessionalData, $q, TASK_FILTERS, taskRequest) {
+      function(archivedFlowNodeAPI, caseAPI, commentAPI, processAPI, processSupervisorAPI, ProfessionalData, $q, TASK_FILTERS, taskRequest) {
         var store = this;
 
         this.processes = [];
@@ -45,10 +45,10 @@
             f: ['user_id=' + this.user.user_id, 'forPendingOrAssignedTask=true']
           };
 
-          var promise = Process.search(req).$promise
+          var promise = processAPI.search(req).$promise
             .then(function(response) {
               req.c = response.resource.pagination.total;
-              return Process.search(req).$promise;
+              return processAPI.search(req).$promise;
             })
             .then(function(response) {
               store.processes = [{
@@ -102,7 +102,7 @@
             throw new Error('Missing parameter when requesting getCaseInfo caseId');
           }
 
-          var promise = Case.get({
+          var promise = caseAPI.get({
             id: caseId,
             d: ['started_by', 'processDefinitionId']
           }).$promise;
@@ -124,7 +124,7 @@
             throw new Error('Missing parameter when requesting getProcessSupervisor processId');
           }
 
-          var promise = ProcessSupervisor.search({
+          var promise = processSupervisorAPI.search({
             f: ['process_id=' + processId],
             c: 10,
             p: 0,
@@ -229,7 +229,7 @@
             throw new Error('Missing parameter when requesting getComment caseId');
           }
 
-          var promise = Comment.search({
+          var promise = commentAPI.search({
             f: ['processInstanceId=' + caseId],
             c: 100,
             p: 0,
@@ -253,7 +253,7 @@
             throw new Error('Missing parameter when requesting getArchivedFlowNode caseId');
           }
 
-          var promise = ArchivedFlowNode.search({
+          var promise = archivedFlowNodeAPI.search({
             f: ['caseId=' + caseId, 'isTerminal=true'],
             c: 100,
             p: 0,

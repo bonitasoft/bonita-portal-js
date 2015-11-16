@@ -58,8 +58,8 @@
         };
       }
     ])
-    .directive('taskDetails', ['iframe', 'taskListStore', 'taskDetailsHelper', 'Process',
-      function(iframe, taskListStore, taskDetailsHelper, Process) {
+    .directive('taskDetails', ['iframe', 'taskListStore', 'taskDetailsHelper', 'Process', 'formMappingAPI',
+      function(iframe, taskListStore, taskDetailsHelper, Process, formMappingAPI) {
         // Runs during compile
         return {
           restrict: 'AE', // E = Element, A = Attribute, C = Class, M = Comment
@@ -68,7 +68,8 @@
           scope: {
             currentTask: '=',
             currentCase: '=',
-            refresh: '&',
+            refreshCount: '&',
+            refreshAll: '&',
             editable: '=',
             inactive: '=',
             hideForm: '=',
@@ -109,6 +110,27 @@
               scope.diagramUrl = iframe.getCaseVisu(newCase, newCase.processDefinitionId);
             });
 
+            scope.hasForm = false;
+
+            // Watch the currentTask
+            scope.$watch('currentTask', function(newTask) {
+              if (!newTask) {
+                return;
+              }
+              //Check if the task has a form
+              if ('USER_TASK' === scope.currentTask.type) {
+                scope.hasForm = true;
+                formMappingAPI.search({
+                  p: 0,
+                  c: 1,
+                  f: ['processDefinitionId=' + scope.currentTask.processId, 'task=' + scope.currentTask.name, 'type=TASK']
+                }, function (results) {
+                  if (results.resource.pagination.total > 0 && results.data[0].target === 'NONE') {
+                    scope.hasForm = false;
+                  }
+                });
+              }
+            });
 
             /**
              * onSelectTab button handler
@@ -126,7 +148,7 @@
               taskDetailsHelper
                 .takeReleaseTask(scope.currentTask)
                 .then(function() {
-                  scope.refresh();
+                  scope.refreshCount();
                 });
             };
 

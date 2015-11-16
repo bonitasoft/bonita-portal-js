@@ -93,7 +93,8 @@
           if (tokenToLowerCase === 'api' || tokenToLowerCase === 'content' || tokenToLowerCase === 'theme') {
             $scope.application.form.token.$reservedToken = true;
           } else {
-            applicationAPI[$scope.editionMode ? 'update' : 'save'](application.model)
+            var applicationDataToSend = angular.copy(application.model);
+            applicationAPI[$scope.editionMode ? 'update' : 'save'](applicationDataToSend)
               .$promise.then(closeModal, handleErrors);
           }
         };

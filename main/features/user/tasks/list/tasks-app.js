@@ -58,7 +58,7 @@
     'screen',
     'iframe',
     'preference',
-    'HumanTask',
+    'humanTaskAPI',
     'Process',
     'ngToast',
     'TASK_FILTERS',
@@ -67,7 +67,7 @@
     'FORM_ERROR',
     'FORM_ERROR_TOO_BIG',
     '$timeout',
-    function($modal, $q, taskListStore, session, screen, iframe, preference, HumanTask, Process, ngToast, TASK_FILTERS, PAGE_SIZES, FORM_SUCCESS, FORM_ERROR, FORM_ERROR_TOO_BIG, $timeout) {
+    function($modal, $q, taskListStore, session, screen, iframe, preference, humanTaskAPI, Process, ngToast, TASK_FILTERS, PAGE_SIZES, FORM_SUCCESS, FORM_ERROR, FORM_ERROR_TOO_BIG, $timeout) {
       var store = taskListStore;
       this.tasks = store.tasks;
       this.request = store.request;
@@ -151,7 +151,7 @@
             this.tasks = store.tasks;
             this.currentTask = store.currentTask;
           }.bind(this));
-        // once we retrieve the taks we set the currentTask and retrieve its case
+        // once we retrieve the tasks we set the currentTask and retrieve its case
         promise
           .then(function() {
             if (!store.currentTask) {
@@ -166,8 +166,10 @@
                 return store.getHistory(store.currentTask);
               });
 
-          }).then(function() {
-            this.currentCase = store.currentCase;
+          }).finally(function() {
+            if (store.currentCase) {
+              this.currentCase = store.currentCase;
+            }
           }.bind(this));
 
         return promise;
@@ -254,7 +256,7 @@
               var promise;
 
               if (task.assigned_id !== store.user.user_id) {
-                promise = HumanTask.update({
+                promise = humanTaskAPI.update({
                   id: task.id,
                   'assigned_id': store.user.user_id
                 }).$promise;
@@ -286,6 +288,11 @@
                     },
                     userId: function() {
                       return store.user.user_id;
+                    },
+                    refreshHandler: function() {
+                      return function() {
+                        that.updateAll();
+                      };
                     }
                   }
                 });
@@ -326,9 +333,14 @@
             userId: function() {
               return store.user.user_id;
             },
-            refreshHandler: function() {
+            refreshCountHandler: function() {
               return function() {
                 ctrl.updateCount();
+              };
+            },
+            refreshAllHandler: function() {
+              return function() {
+                ctrl.updateAll();
               };
             }
           }
@@ -367,6 +379,7 @@
       };
 
       this.onFormSubmited = function(message) {
+        console.log('message : ' + JSON.stringify(message));
         if (!this.showDetails) {
           return;
         }
@@ -386,6 +399,9 @@
             this.updateCount();
           }
         } else if (jsonMessage.message === 'success'){
+          if(this.modaleInstance) {
+            this.modaleInstance.close();
+          }
           ngToast.create(FORM_SUCCESS);
           this.updateTasks();
           this.updateCount();

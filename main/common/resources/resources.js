@@ -25,6 +25,19 @@
 
   var API_PATH = '../API/';
 
+  /**
+   * Helper method wich remove the id parameter in the request object
+   * Removing id avoid API error for not allowed parameters
+   * @param  {Object} req a request object
+   * @return {Object}     a request object without a id key
+   */
+  function updateTransformRequest(req) {
+    if (req.hasOwnProperty('id')) {
+      delete req.id;
+    }
+    return req;
+  }
+
   var contentRangeInterceptor = {
     response: function(response) {
       response.resource.pagination = parseContentRange(response.headers('Content-Range'));
@@ -52,8 +65,8 @@
     };
   }
 
-  var resourceDecorator = ['$delegate',
-    function($delegate) {
+  var resourceDecorator = ['$delegate', '$http',
+    function($delegate, $http) {
       return function(url, paramDefaults, actions, options) {
         //in angular 1.4 use angular.merge instead of angular.extend
         actions = angular.extend({}, actions, {
@@ -62,7 +75,12 @@
             interceptor: contentRangeInterceptor
           }, actions && actions.search),
 
-          'update': angular.extend({method: 'PUT'}, actions && actions.update)
+          'update': angular.extend({
+            method: 'PUT',
+            // we add our transform request first, before object serialization
+            // It will remove id key from data to avoid API error for non allowed parameters
+            transformRequest: [updateTransformRequest].concat($http.defaults.transformRequest)
+          }, actions && actions.update)
         });
         return $delegate(url, paramDefaults, actions, options);
       };
@@ -136,10 +154,12 @@
     'applicationMenuAPI': 'living/application-menu',
     'applicationPageAPI': 'living/application-page',
     'caseAPI': 'bpm/case',
+    'commentAPI': 'bpm/comment',
     'categoryAPI': 'bpm/category',
     'customPageAPI': 'portal/page',
     'featureAPI': 'system/feature',
     'flowNodeAPI': 'bpm/flowNode',
+    'archivedFlowNodeAPI': 'bpm/archivedFlowNode',
     'formMappingAPI': 'form/mapping',
     'groupAPI': 'identity/group',
     'humanTaskAPI': 'bpm/humanTask',
@@ -147,12 +167,26 @@
     'membershipAPI': 'identity/membership',
     'personalDataAPI': 'identity/personalcontactdata',
     'processAPI': 'bpm/process',
+    'processSupervisorAPI': 'bpm/processSupervisor',
     'processResolutionProblemAPI': 'bpm/processResolutionProblem',
     'professionalDataAPI': 'identity/professionalcontactdata',
     'profileAPI': 'portal/profile',
     'roleAPI': 'identity/role',
     'userAPI': 'identity/user',
     'sessionAPI': 'system/session'
+  });
+
+  module.factory('userTaskAPI', function($http) {
+    /*jshint camelcase: false */
+    var userTaskAPI = {};
+    userTaskAPI.execute = function(taskId, data) {
+      return $http({
+        url: API_PATH + 'bpm/userTask/'+ taskId +'/execution',
+        method: 'POST',
+        data: data
+      });
+    };
+    return userTaskAPI;
   });
 
   module.factory('importApplication',

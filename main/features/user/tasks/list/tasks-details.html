@@ -74,11 +74,18 @@
       </p>
       <bonita-iframe-viewer class="FormViewer"
         tabindex="0"
-        ng-if="!inactive"
+        ng-if="!inactive && hasForm"
         is-editable="editable"
         frame-url="formUrl"
         is-visible="tab.form">
-      </bonita-form-viewer>
+      </bonita-iframe-viewer>
+      <no-form class="FormViewer"
+        current-task="currentTask"
+        refresh-all="refreshAll()"
+        editable="editable"
+        inactive="inactive"
+        has-form="hasForm">
+      </no-form>
     </div>
   </tab>
 </tabset>
