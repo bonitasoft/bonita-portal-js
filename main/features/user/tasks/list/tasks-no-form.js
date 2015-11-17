@@ -45,7 +45,7 @@
             var onSuccess = function() {
               scope.refreshAll();
               var dataToSend = {message:'success', action: 'Submit task'};
-              $window.postMessage(dataToSend, '*');
+              $window.postMessage(JSON.stringify(dataToSend), '*');
             };
 
             var addComment = function() {

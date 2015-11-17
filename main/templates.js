@@ -1936,7 +1936,7 @@ angular.module('portalTemplates/user/tasks/list/tasks-modal-details.html', []).r
     '                inactive="false"\n' +
     '                active-tab="context"\n' +
     '                refresh-count="modal.onRefreshCountHandler()"\n' +
-    '                refresh-all="modal.onRefreshAllHandler()"\n' +
+    '                refresh-all="modal.onRefreshAllHandler()">\n' +
     '  </task-details>\n' +
     '</div>\n' +
     '<div class="modal-footer">\n' +

@@ -379,7 +379,6 @@
       };
 
       this.onFormSubmited = function(message) {
-        console.log('message : ' + JSON.stringify(message));
         if (!this.showDetails) {
           return;
         }
