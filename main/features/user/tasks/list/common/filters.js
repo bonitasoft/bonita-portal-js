@@ -8,11 +8,6 @@
    */
   angular
     .module('common.filters',[])
-    .filter('translate', function(){
-      return function(input){
-        return input;
-      };
-    })
     .filter('moment', function(){
       return function(date, format) {
         // if date is invalid, we return a '-'
