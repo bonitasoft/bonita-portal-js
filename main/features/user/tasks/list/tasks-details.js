@@ -21,7 +21,8 @@
       'common.filters',
       'common.iframe',
       'org.bonitasoft.features.user.tasks.ui.iframe',
-      'ui.bootstrap.tabs'
+      'ui.bootstrap.tabs',
+      'ngToast'
     ])
     .service('taskDetailsHelper', ['taskListStore', 'preference', 'humanTaskAPI',
       function(taskListStore, preference, humanTaskAPI) {

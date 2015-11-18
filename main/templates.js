@@ -1659,11 +1659,11 @@ angular.module('portalTemplates/user/tasks/list/tasks-details.html', []).run(['$
     '        is-visible="tab.form">\n' +
     '      </bonita-iframe-viewer>\n' +
     '      <no-form class="FormViewer"\n' +
+    '        ng-if="!hasForm"\n' +
     '        current-task="currentTask"\n' +
     '        refresh-all="refreshAll()"\n' +
     '        editable="editable"\n' +
-    '        inactive="inactive"\n' +
-    '        has-form="hasForm">\n' +
+    '        inactive="inactive">\n' +
     '      </no-form>\n' +
     '    </div>\n' +
     '  </tab>\n' +
@@ -1969,8 +1969,7 @@ angular.module('portalTemplates/user/tasks/list/tasks-modal-form.html', []).run(
     '      ng-if="!hasForm"\n' +
     '      current-task="modal.task"\n' +
     '      refresh-all="modal.refreshAll()"\n' +
-    '      editable="modal.isFormEditable"\n' +
-    '      has-form="modal.hasForm">\n' +
+    '      editable="modal.isFormEditable">\n' +
     '    </no-form>\n' +
     '</div>\n' +
     '<div class="modal-footer">\n' +
@@ -1982,7 +1981,7 @@ angular.module('portalTemplates/user/tasks/list/tasks-modal-form.html', []).run(
 angular.module('portalTemplates/user/tasks/list/tasks-no-form.html', []).run(['$templateCache', function($templateCache) {
   'use strict';
   $templateCache.put('portalTemplates/user/tasks/list/tasks-no-form.html',
-    '<div class="Viewer-wrapper" ng-if="!inactive && !hasForm">\n' +
+    '<div class="Viewer-wrapper" ng-if="!inactive">\n' +
     '        <h4>{{currentTask.displayName || currentTask.name}}</h4>\n' +
     '        <p>No form is needed. You can enter a comment and confirm.</p>\n' +
     '        <form role="form">\n' +

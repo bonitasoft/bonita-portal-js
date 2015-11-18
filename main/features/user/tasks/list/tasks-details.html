@@ -80,11 +80,11 @@
         is-visible="tab.form">
       </bonita-iframe-viewer>
       <no-form class="FormViewer"
+        ng-if="!hasForm"
         current-task="currentTask"
         refresh-all="refreshAll()"
         editable="editable"
-        inactive="inactive"
-        has-form="hasForm">
+        inactive="inactive">
       </no-form>
     </div>
   </tab>

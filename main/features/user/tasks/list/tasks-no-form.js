@@ -2,9 +2,8 @@
   'use strict';
 
   /**
-   * taskNoForm directive display a task context and is associated form.
-   * The task form and the case overview are both iframe from bonita portal
-   * The taskDetails parameters are:
+   * taskNoForm directive display a task form for tasks which have no form mapped.
+   * The noForm parameters are:
    * @param {Object}   current-task   A task object
    * @param {boolean}  editable       true if the user can interact with the form
    * @param {boolean}  inactive       if true, will hide tabs content
@@ -13,8 +12,9 @@
 
   angular
     .module('org.bonitasoft.features.user.tasks.details')
-    .directive('noForm', ['$window', 'taskListStore', 'userTaskAPI', 'humanTaskAPI', 'commentAPI',
-      function($window, taskListStore, userTaskAPI, humanTaskAPI, commentAPI) {
+    .constant('COMMENT_ERROR', 'The task has been submitted but an error occurred while adding the comment.')
+    .directive('noForm', ['$window', 'taskListStore', 'userTaskAPI', 'humanTaskAPI', 'commentAPI', 'ngToast', 'COMMENT_ERROR',
+      function($window, taskListStore, userTaskAPI, humanTaskAPI, commentAPI, ngToast, COMMENT_ERROR) {
         // Runs during compile
         return {
           restrict: 'AE', // E = Element, A = Attribute, C = Class, M = Comment
@@ -24,8 +24,7 @@
             currentTask: '=',
             refreshAll: '&',
             editable: '=',
-            inactive: '=',
-            hasForm: '='
+            inactive: '='
           },
           link: function(scope) {
 
@@ -60,6 +59,11 @@
                   userId: taskListStore.user.user_id,
                   processInstanceId: scope.currentTask.parentCaseId,
                   content: scope.currentTask.comment
+                }, function(){}, function(){
+                  ngToast.create({
+                    class: 'warning',
+                    content: COMMENT_ERROR
+                  });
                 });
               }
             };
