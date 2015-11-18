@@ -1966,6 +1966,7 @@ angular.module('portalTemplates/user/tasks/list/tasks-modal-form.html', []).run(
     '      is-visible="modal.isFormVisible">\n' +
     '    </bonita-iframe-viewer>\n' +
     '    <no-form class="FormViewer"\n' +
+    '      ng-if="!hasForm"\n' +
     '      current-task="modal.task"\n' +
     '      refresh-all="modal.refreshAll()"\n' +
     '      editable="modal.isFormEditable"\n' +

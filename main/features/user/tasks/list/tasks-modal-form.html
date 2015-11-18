@@ -11,6 +11,7 @@
       is-visible="modal.isFormVisible">
     </bonita-iframe-viewer>
     <no-form class="FormViewer"
+      ng-if="!hasForm"
       current-task="modal.task"
       refresh-all="modal.refreshAll()"
       editable="modal.isFormEditable"
