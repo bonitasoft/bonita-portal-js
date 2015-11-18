@@ -29,8 +29,8 @@ describe('tasklist custom page', function() {
           return popup.isPresent();
         }, 500);
 
-        var iframe = element(by.css('.modal iframe'));
-        expect(iframe.isPresent()).toBe(true);
+        var formViewer = element(by.css('.modal .FormViewer'));
+        expect(formViewer.isPresent()).toBe(true);
       });
     });
 

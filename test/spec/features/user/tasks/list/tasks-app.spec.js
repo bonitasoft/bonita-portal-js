@@ -353,23 +353,23 @@ describe('taskApp', function(){
       var $timeout;
       var task;
       var store;
-      var HumanTask;
-      var Process;
+      var humanTaskAPI;
+      var processAPI;
 
       // mocking HumanTask
       beforeEach(inject(function($injector){
-        HumanTask = $injector.get('HumanTask');
+        humanTaskAPI = $injector.get('humanTaskAPI');
         var defered =  $q.defer();
         defered.resolve({assigned_id: mockUser.user_id});
-        spyOn(HumanTask, 'update').and.returnValue({'$promise': defered.promise});
+        spyOn(humanTaskAPI, 'update').and.returnValue({'$promise': defered.promise});
       }));
 
       // mocking Process
       beforeEach(inject(function($injector){
-        Process = $injector.get('Process');
+        processAPI = $injector.get('processAPI');
         var defered =  $q.defer();
         defered.resolve({name: 'name', version: '1.0'});
-        spyOn(Process, 'get').and.returnValue({'$promise': defered.promise});
+        spyOn(processAPI, 'get').and.returnValue({'$promise': defered.promise});
       }));
 
       beforeEach(inject(function($injector){
@@ -387,7 +387,7 @@ describe('taskApp', function(){
       beforeEach(inject(function($injector){
         $timeout = $injector.get('$timeout');
       }));
-       
+
 
       it('should open a modal window if user is assigned', function() {
         store.currentTask = task;
@@ -409,7 +409,7 @@ describe('taskApp', function(){
         $timeout.flush();
         // resolve promise
         scope.$digest();
-        expect(HumanTask.update).toHaveBeenCalledWith({
+        expect(humanTaskAPI.update).toHaveBeenCalledWith({
           id: task.id,
           assigned_id: mockUser.user_id
         });

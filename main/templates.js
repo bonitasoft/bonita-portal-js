@@ -1,4 +1,4 @@
-angular.module('org.bonitasoft.portalTemplates', ['portalTemplates/admin/applications/applications-list.html', 'portalTemplates/admin/applications/delete-application.html', 'portalTemplates/admin/applications/details/application-details-app.html', 'portalTemplates/admin/applications/details/application-details.html', 'portalTemplates/admin/applications/details/menubuilder-actionBar.html', 'portalTemplates/admin/applications/details/menubuilder-addCustomMenuModal.html', 'portalTemplates/admin/applications/details/menubuilder-menuCreator.html', 'portalTemplates/admin/applications/details/menubuilder-menuList.html', 'portalTemplates/admin/applications/details/page-list-addPageModal.html', 'portalTemplates/admin/applications/details/page-list.html', 'portalTemplates/admin/applications/details/popverunsafe.html', 'portalTemplates/admin/applications/edit-application-look-n-feel.html', 'portalTemplates/admin/applications/edit-application.html', 'portalTemplates/admin/applications/export-application.html', 'portalTemplates/admin/applications/import-application.html', 'portalTemplates/admin/cases/list/archived-cases-list-filters.html', 'portalTemplates/admin/cases/list/cases-list-deletion-modal.html', 'portalTemplates/admin/cases/list/cases-list-filters.html', 'portalTemplates/admin/cases/list/cases-list.html', 'portalTemplates/admin/cases/list/cases.html', 'portalTemplates/admin/mapping/actors.html', 'portalTemplates/admin/processes/details/actors-mapping.html', 'portalTemplates/admin/processes/details/delete-process-modal.html', 'portalTemplates/admin/processes/details/edit-actor-members.html', 'portalTemplates/admin/processes/details/information.html', 'portalTemplates/admin/processes/details/manage-category-mapping-modal.html', 'portalTemplates/admin/processes/details/menu.html', 'portalTemplates/admin/processes/details/params.html', 'portalTemplates/admin/processes/details/process-connectors.html', 'portalTemplates/user/cases/list/archived-cases-list-filters.html', 'portalTemplates/user/cases/list/cases-list-filters.html', 'portalTemplates/user/cases/list/cases-list.html', 'portalTemplates/user/cases/list/cases.html', 'portalTemplates/user/tasks/list/common/directive/bonita-iframe-viewer.html', 'portalTemplates/user/tasks/list/tasks-details.html', 'portalTemplates/user/tasks/list/tasks-filters.html', 'portalTemplates/user/tasks/list/tasks-layoutswitch.html', 'portalTemplates/user/tasks/list/tasks-list.html', 'portalTemplates/user/tasks/list/tasks-modal-details.html', 'portalTemplates/user/tasks/list/tasks-modal-form.html', 'portalTemplates/user/tasks/list/tasks-table.html']);
+angular.module('org.bonitasoft.portalTemplates', ['portalTemplates/admin/applications/applications-list.html', 'portalTemplates/admin/applications/delete-application.html', 'portalTemplates/admin/applications/details/application-details-app.html', 'portalTemplates/admin/applications/details/application-details.html', 'portalTemplates/admin/applications/details/menubuilder-actionBar.html', 'portalTemplates/admin/applications/details/menubuilder-addCustomMenuModal.html', 'portalTemplates/admin/applications/details/menubuilder-menuCreator.html', 'portalTemplates/admin/applications/details/menubuilder-menuList.html', 'portalTemplates/admin/applications/details/page-list-addPageModal.html', 'portalTemplates/admin/applications/details/page-list.html', 'portalTemplates/admin/applications/details/popverunsafe.html', 'portalTemplates/admin/applications/edit-application-look-n-feel.html', 'portalTemplates/admin/applications/edit-application.html', 'portalTemplates/admin/applications/export-application.html', 'portalTemplates/admin/applications/import-application.html', 'portalTemplates/admin/cases/list/archived-cases-list-filters.html', 'portalTemplates/admin/cases/list/cases-list-deletion-modal.html', 'portalTemplates/admin/cases/list/cases-list-filters.html', 'portalTemplates/admin/cases/list/cases-list.html', 'portalTemplates/admin/cases/list/cases.html', 'portalTemplates/admin/mapping/actors.html', 'portalTemplates/admin/processes/details/actors-mapping.html', 'portalTemplates/admin/processes/details/delete-process-modal.html', 'portalTemplates/admin/processes/details/edit-actor-members.html', 'portalTemplates/admin/processes/details/information.html', 'portalTemplates/admin/processes/details/manage-category-mapping-modal.html', 'portalTemplates/admin/processes/details/menu.html', 'portalTemplates/admin/processes/details/params.html', 'portalTemplates/admin/processes/details/process-connectors.html', 'portalTemplates/user/cases/list/archived-cases-list-filters.html', 'portalTemplates/user/cases/list/cases-list-filters.html', 'portalTemplates/user/cases/list/cases-list.html', 'portalTemplates/user/cases/list/cases.html', 'portalTemplates/user/tasks/list/common/directive/bonita-iframe-viewer.html', 'portalTemplates/user/tasks/list/tasks-details.html', 'portalTemplates/user/tasks/list/tasks-filters.html', 'portalTemplates/user/tasks/list/tasks-layoutswitch.html', 'portalTemplates/user/tasks/list/tasks-list.html', 'portalTemplates/user/tasks/list/tasks-modal-details.html', 'portalTemplates/user/tasks/list/tasks-modal-form.html', 'portalTemplates/user/tasks/list/tasks-no-form.html', 'portalTemplates/user/tasks/list/tasks-table.html']);
 
 angular.module('portalTemplates/admin/applications/applications-list.html', []).run(['$templateCache', function($templateCache) {
   'use strict';
@@ -1653,11 +1653,18 @@ angular.module('portalTemplates/user/tasks/list/tasks-details.html', []).run(['$
     '      </p>\n' +
     '      <bonita-iframe-viewer class="FormViewer"\n' +
     '        tabindex="0"\n' +
-    '        ng-if="!inactive"\n' +
+    '        ng-if="!inactive && hasForm"\n' +
     '        is-editable="editable"\n' +
     '        frame-url="formUrl"\n' +
     '        is-visible="tab.form">\n' +
-    '      </bonita-form-viewer>\n' +
+    '      </bonita-iframe-viewer>\n' +
+    '      <no-form class="FormViewer"\n' +
+    '        ng-if="!hasForm"\n' +
+    '        current-task="currentTask"\n' +
+    '        refresh-all="refreshAll()"\n' +
+    '        editable="editable"\n' +
+    '        inactive="inactive">\n' +
+    '      </no-form>\n' +
     '    </div>\n' +
     '  </tab>\n' +
     '</tabset>\n' +
@@ -1795,14 +1802,14 @@ angular.module('portalTemplates/user/tasks/list/tasks-list.html', []).run(['$tem
     '                          ng-change="app.searchTask()"\n' +
     '                          >\n' +
     '\n' +
-    '                      </div> \n' +
+    '                      </div>\n' +
     '                      {{"Process name"}}\n' +
     '                      <div class="ProcessList" dropdown>\n' +
     '                        <button dropdown-toggle type="button"\n' +
     '                                class="btn btn-primary"\n' +
     '                                title="{{\'Process: \' + app.request.process.name + (app.request.process.version ? \' \' + app.request.process.version : \'\') }}"\n' +
     '                                ng-disabled="app.request.taskFilter !== app.TASK_FILTERS.TODO || !app.processes || app.processes.length === 0">\n' +
-    '                          <div class="ProcessList-label">{{app.request.process.name + (app.request.process.version?" "+app.request.process.version:"")}} <span class="caret"></span></div> \n' +
+    '                          <div class="ProcessList-label">{{app.request.process.name + (app.request.process.version?" "+app.request.process.version:"")}} <span class="caret"></span></div>\n' +
     '                        </button>\n' +
     '                        <ul class="dropdown-menu">\n' +
     '                          <li ng-repeat="p in app.processes" >\n' +
@@ -1858,7 +1865,8 @@ angular.module('portalTemplates/user/tasks/list/tasks-list.html', []).run(['$tem
     '              <div class="panel-body">\n' +
     '                <task-details current-task="app.currentTask"\n' +
     '                              current-case="app.currentCase"\n' +
-    '                              refresh="app.updateCount()"\n' +
+    '                              refresh-count="app.updateCount()"\n' +
+    '                              refresh-all="app.updateAll()"\n' +
     '                              editable="app.currentTask.assigned_id === app.user.user_id"\n' +
     '                              hide-form="app.request.taskFilter === app.TASK_FILTERS.DONE"\n' +
     '                              inactive="app.tasks.length === 0">\n' +
@@ -1927,7 +1935,8 @@ angular.module('portalTemplates/user/tasks/list/tasks-modal-details.html', []).r
     '                editable="modal.task.assigned_id===modal.userId"\n' +
     '                inactive="false"\n' +
     '                active-tab="context"\n' +
-    '                refresh="modal.onRefreshHandler()">\n' +
+    '                refresh-count="modal.onRefreshCountHandler()"\n' +
+    '                refresh-all="modal.onRefreshAllHandler()">\n' +
     '  </task-details>\n' +
     '</div>\n' +
     '<div class="modal-footer">\n' +
@@ -1950,15 +1959,40 @@ angular.module('portalTemplates/user/tasks/list/tasks-modal-form.html', []).run(
     '    <span class="sr-only">Close</span>\n' +
     '  </button>\n' +
     '   <bonita-iframe-viewer class="FormViewer"\n' +
+    '      ng-if="hasForm"\n' +
     '      tabindex="0"\n' +
     '      is-editable="modal.isFormEditable"\n' +
     '      frame-url="modal.formUrl"\n' +
     '      is-visible="modal.isFormVisible">\n' +
     '    </bonita-iframe-viewer>\n' +
+    '    <no-form class="FormViewer"\n' +
+    '      ng-if="!hasForm"\n' +
+    '      current-task="modal.task"\n' +
+    '      refresh-all="modal.refreshAll()"\n' +
+    '      editable="modal.isFormEditable">\n' +
+    '    </no-form>\n' +
     '</div>\n' +
     '<div class="modal-footer">\n' +
     '  <button type="button" class="btn btn-warning" title="close form" ng-click="modal.cancel()">Close form</button>\n' +
     '</div>\n' +
+    '');
+}]);
+
+angular.module('portalTemplates/user/tasks/list/tasks-no-form.html', []).run(['$templateCache', function($templateCache) {
+  'use strict';
+  $templateCache.put('portalTemplates/user/tasks/list/tasks-no-form.html',
+    '<div class="Viewer-wrapper" ng-if="!inactive">\n' +
+    '        <h4>{{currentTask.displayName || currentTask.name}}</h4>\n' +
+    '        <p>No form is needed. You can enter a comment and confirm.</p>\n' +
+    '        <form role="form">\n' +
+    '          <div class="form-group">\n' +
+    '            <label for="task-comment">Comment:</label>\n' +
+    '            <textarea ng-model="currentTask.comment" id="task-comment" class="form-control"></textarea>\n' +
+    '          </div>\n' +
+    '          <button ng-click="onExecuteTask()" class="btn btn-primary center-block">Submit</button>\n' +
+    '        </form>\n' +
+    '        <div class="Viewer-overlay" ng-if="!editable"></div>\n' +
+    '      </div>\n' +
     '');
 }]);
 

@@ -21,10 +21,11 @@
       'common.filters',
       'common.iframe',
       'org.bonitasoft.features.user.tasks.ui.iframe',
-      'ui.bootstrap.tabs'
+      'ui.bootstrap.tabs',
+      'ngToast'
     ])
-    .service('taskDetailsHelper', ['taskListStore', 'preference', 'HumanTask',
-      function(taskListStore, preference, HumanTask) {
+    .service('taskDetailsHelper', ['taskListStore', 'preference', 'humanTaskAPI',
+      function(taskListStore, preference, humanTaskAPI) {
 
         /**
          * assigned a task to the current user
@@ -39,7 +40,7 @@
             assignee = taskListStore.user.user_id;
           }
 
-          return HumanTask
+          return humanTaskAPI
             .update({
               id: task.id,
               'assigned_id': assignee
@@ -58,8 +59,8 @@
         };
       }
     ])
-    .directive('taskDetails', ['iframe', 'taskListStore', 'taskDetailsHelper', 'Process',
-      function(iframe, taskListStore, taskDetailsHelper, Process) {
+    .directive('taskDetails', ['iframe', 'taskListStore', 'taskDetailsHelper', 'processAPI', 'formMappingAPI',
+      function(iframe, taskListStore, taskDetailsHelper, processAPI, formMappingAPI) {
         // Runs during compile
         return {
           restrict: 'AE', // E = Element, A = Attribute, C = Class, M = Comment
@@ -68,7 +69,8 @@
           scope: {
             currentTask: '=',
             currentCase: '=',
-            refresh: '&',
+            refreshCount: '&',
+            refreshAll: '&',
             editable: '=',
             inactive: '=',
             hideForm: '=',
@@ -96,7 +98,7 @@
                 return;
               }
               /*jshint camelcase: false*/
-              Process
+              processAPI
                 .get({
                   id: scope.currentTask.processId
                 })
@@ -109,6 +111,27 @@
               scope.diagramUrl = iframe.getCaseVisu(newCase, newCase.processDefinitionId);
             });
 
+            scope.hasForm = false;
+
+            // Watch the currentTask
+            scope.$watch('currentTask', function(newTask) {
+              if (!newTask) {
+                return;
+              }
+              //Check if the task has a form
+              if ('USER_TASK' === scope.currentTask.type) {
+                scope.hasForm = true;
+                formMappingAPI.search({
+                  p: 0,
+                  c: 1,
+                  f: ['processDefinitionId=' + scope.currentTask.processId, 'task=' + scope.currentTask.name, 'type=TASK']
+                }, function (results) {
+                  if (results.resource.pagination.total > 0 && results.data[0].target === 'NONE') {
+                    scope.hasForm = false;
+                  }
+                });
+              }
+            });
 
             /**
              * onSelectTab button handler
@@ -126,7 +149,7 @@
               taskDetailsHelper
                 .takeReleaseTask(scope.currentTask)
                 .then(function() {
-                  scope.refresh();
+                  scope.refreshCount();
                 });
             };
 
