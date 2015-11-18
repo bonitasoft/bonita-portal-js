@@ -4,14 +4,14 @@
     <span class="sr-only">Close</span>
   </button>
    <bonita-iframe-viewer class="FormViewer"
-      ng-if="hasForm"
+      ng-if="modal.hasForm"
       tabindex="0"
       is-editable="modal.isFormEditable"
       frame-url="modal.formUrl"
       is-visible="modal.isFormVisible">
     </bonita-iframe-viewer>
     <no-form class="FormViewer"
-      ng-if="!hasForm"
+      ng-if="!modal.hasForm"
       current-task="modal.task"
       refresh-all="modal.refreshAll()"
       editable="modal.isFormEditable">
