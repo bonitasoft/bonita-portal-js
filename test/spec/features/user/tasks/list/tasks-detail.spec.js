@@ -80,7 +80,7 @@ describe('module tasks.details', function() {
     var element;
     var scope;
     var iframe;
-    var Process;
+    var processAPI;
     var $q;
     var promise;
 
@@ -106,8 +106,8 @@ describe('module tasks.details', function() {
     beforeEach(inject(function($compile, $rootScope, $document, $injector){
       scope = $rootScope.$new();
 
-      Process = $injector.get('Process');
-      spyOn(Process,'get').and.returnValue({
+      processAPI = $injector.get('processAPI');
+      spyOn(processAPI,'get').and.returnValue({
         $promise: promise.promise
       });
 
@@ -143,7 +143,7 @@ describe('module tasks.details', function() {
       // scope.currentCase = mockCase;
       // scope.$digest();
       // expect(isolated.currentCase).toEqual(mockCase);
-      expect(Process.get).toHaveBeenCalledWith({id: 42});
+      expect(processAPI.get).toHaveBeenCalledWith({id: 42});
     });
 
     // it('should remove children when tab is inactive', function(){

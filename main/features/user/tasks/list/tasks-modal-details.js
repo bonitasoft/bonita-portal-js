@@ -12,25 +12,30 @@
       'task',
       'Case',
       'userId',
-      'refreshHandler',
+      'refreshCountHandler',
+      'refreshAllHandler',
       '$modalInstance',
 
-      function( url, task, Case, userId, refreshHandler, $modalInstance){
+      function( url, task, Case, userId, refreshCountHandler, refreshAllHandler, $modalInstance){
         this.title = task.displayName;
         this.Case = Case;
         this.task = task;
         this.formUrl = url;
-        function onRefreshHandler(){
-          refreshHandler();
+        function onRefreshCountHandler(){
+          refreshCountHandler();
         }
-        this.onRefreshHandler = onRefreshHandler;
+        this.onRefreshCountHandler = onRefreshCountHandler;
+        function onRefreshAllHandler(){
+          refreshAllHandler();
+        }
+        this.onRefreshAllHandler = onRefreshAllHandler;
         this.userId = userId;
 
         this.cancel  =  function () {
           $modalInstance.dismiss('abort');
         };
 
-        
+
       }
     ]);
 })();
