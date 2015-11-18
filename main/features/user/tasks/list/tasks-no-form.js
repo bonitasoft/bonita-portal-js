@@ -13,8 +13,8 @@
 
   angular
     .module('org.bonitasoft.features.user.tasks.details')
-    .directive('noForm', ['$window', 'taskListStore', 'formMappingAPI', 'userTaskAPI', 'humanTaskAPI', 'commentAPI',
-      function($window, taskListStore, formMappingAPI, userTaskAPI, humanTaskAPI, commentAPI) {
+    .directive('noForm', ['$window', 'taskListStore', 'userTaskAPI', 'humanTaskAPI', 'commentAPI',
+      function($window, taskListStore, userTaskAPI, humanTaskAPI, commentAPI) {
         // Runs during compile
         return {
           restrict: 'AE', // E = Element, A = Attribute, C = Class, M = Comment
@@ -36,16 +36,21 @@
               addComment();
               if ('MANUAL_TASK' === scope.currentTask.type) {
                 /*jshint camelcase: false*/
-                humanTaskAPI.update({id: scope.currentTask.id, state: 'completed', executedBy: taskListStore.user.user_id}, onSuccess);
+                humanTaskAPI.update({id: scope.currentTask.id, state: 'completed', executedBy: taskListStore.user.user_id}, onSuccess, onError);
               } else {
-                userTaskAPI.execute(scope.currentTask.id, {}).then(onSuccess);
+                userTaskAPI.execute(scope.currentTask.id, {}).then(onSuccess, onError);
               }
             };
 
             var onSuccess = function() {
               scope.refreshAll();
-              var dataToSend = {message:'success', action: 'Submit task'};
-              $window.postMessage(JSON.stringify(dataToSend), '*');
+              var message = {message:'success', action: 'Submit task'};
+              $window.self.postMessage(JSON.stringify(message), '*');
+            };
+
+            var onError = function() {
+              var message = {message:'error', action: 'Submit task'};
+              $window.self.postMessage(JSON.stringify(message), '*');
             };
 
             var addComment = function() {

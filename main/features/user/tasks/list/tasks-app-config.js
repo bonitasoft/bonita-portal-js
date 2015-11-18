@@ -4,35 +4,35 @@
    * module that contains taskapp API related config
    */
   angular
-    .module('org.bonitasoft.features.user.tasks.app.config', ['common.resources'])
+    .module('org.bonitasoft.features.user.tasks.app.config', ['org.bonitasoft.common.resources'])
   /**
    * TASK_FILTERS associates API ressource with predifined filters parameters.
    * @see taskapp.TaskFilters
    * @return {Object}
    */
   .service('TASK_FILTERS', [
-    'HumanTask',
-    'ArchivedHumanTask',
-    function(HumanTask, ArchivedHumanTask) {
+    'humanTaskAPI',
+    'archivedHumanTaskAPI',
+    function(humanTaskAPI, archivedHumanTaskAPI) {
       return {
         TODO: {
           title: 'Todo',
-          resource: HumanTask,
+          resource: humanTaskAPI,
           filters: ['state=ready', 'user_id=%userId']
         },
         MY_TASK: {
           title: 'My tasks',
-          resource: HumanTask,
+          resource: humanTaskAPI,
           filters: ['state=ready', 'assigned_id=%userId']
         },
         POOL_TASK: {
           title: 'Available tasks',
-          resource: HumanTask,
+          resource: humanTaskAPI,
           filters: ['state=ready', 'assigned_id=0', 'user_id=%userId']
         },
         DONE: {
           title: 'Done tasks',
-          resource: ArchivedHumanTask,
+          resource: archivedHumanTaskAPI,
           filters: ['assigned_id=%userId']
         }
       };

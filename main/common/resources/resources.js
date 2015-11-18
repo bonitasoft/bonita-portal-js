@@ -162,6 +162,7 @@
     'archivedFlowNodeAPI': 'bpm/archivedFlowNode',
     'formMappingAPI': 'form/mapping',
     'groupAPI': 'identity/group',
+    'archivedHumanTaskAPI': 'bpm/archivedHumanTask',
     'humanTaskAPI': 'bpm/humanTask',
     'i18nAPI': 'system/i18ntranslation',
     'membershipAPI': 'identity/membership',

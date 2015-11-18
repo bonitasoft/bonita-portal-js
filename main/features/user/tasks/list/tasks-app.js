@@ -59,7 +59,7 @@
     'iframe',
     'preference',
     'humanTaskAPI',
-    'Process',
+    'processAPI',
     'ngToast',
     'TASK_FILTERS',
     'PAGE_SIZES',
@@ -67,7 +67,7 @@
     'FORM_ERROR',
     'FORM_ERROR_TOO_BIG',
     '$timeout',
-    function($modal, $q, taskListStore, session, screen, iframe, preference, humanTaskAPI, Process, ngToast, TASK_FILTERS, PAGE_SIZES, FORM_SUCCESS, FORM_ERROR, FORM_ERROR_TOO_BIG, $timeout) {
+    function($modal, $q, taskListStore, session, screen, iframe, preference, humanTaskAPI, processAPI, ngToast, TASK_FILTERS, PAGE_SIZES, FORM_SUCCESS, FORM_ERROR, FORM_ERROR_TOO_BIG, $timeout) {
       var store = taskListStore;
       this.tasks = store.tasks;
       this.request = store.request;
@@ -244,7 +244,7 @@
         //FRO 2015/06/05 rebuild the process parent for the task for the case of a subprocess
         //setTimeout because we have to wait the update of store.currentTask
         $timeout(function(that, task) {
-          Process
+          processAPI
             .get({
               id: store.currentTask.processId
             })
@@ -379,9 +379,6 @@
       };
 
       this.onFormSubmited = function(message) {
-        if (!this.showDetails) {
-          return;
-        }
         var jsonMessage = JSON.parse(message);
         if (jsonMessage.message === 'error') {
           if (jsonMessage.dataFromError === 'fileTooBigError' || jsonMessage.status === 413) {
@@ -394,16 +391,23 @@
               class: 'danger',
               content: FORM_ERROR
             });
+            if (this.showDetails) {
+              this.updateTasks();
+              this.updateCount();
+            }
+            if(this.modaleInstance) {
+              this.modaleInstance.close();
+            }
+          }
+        } else if (jsonMessage.message === 'success'){
+          ngToast.create(FORM_SUCCESS);
+          if (this.showDetails) {
             this.updateTasks();
             this.updateCount();
           }
-        } else if (jsonMessage.message === 'success'){
           if(this.modaleInstance) {
             this.modaleInstance.close();
           }
-          ngToast.create(FORM_SUCCESS);
-          this.updateTasks();
-          this.updateCount();
         }
       };
     }

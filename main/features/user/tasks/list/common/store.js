@@ -17,11 +17,11 @@
       'commentAPI',
       'processAPI',
       'processSupervisorAPI',
-      'ProfessionalData',
+      'professionalDataAPI',
       '$q',
       'TASK_FILTERS',
       'taskRequest',
-      function(archivedFlowNodeAPI, caseAPI, commentAPI, processAPI, processSupervisorAPI, ProfessionalData, $q, TASK_FILTERS, taskRequest) {
+      function(archivedFlowNodeAPI, caseAPI, commentAPI, processAPI, processSupervisorAPI, professionalDataAPI, $q, TASK_FILTERS, taskRequest) {
         var store = this;
 
         this.processes = [];
@@ -135,7 +135,7 @@
             store.currentCase.supervisors = response.resource;
             // for each Supervisors, we retrieve its professional info (mail)
             var all = response.resource.map(function(supervisor) {
-              return ProfessionalData
+              return professionalDataAPI
                 .get({
                   id: supervisor.user_id.id
                 })

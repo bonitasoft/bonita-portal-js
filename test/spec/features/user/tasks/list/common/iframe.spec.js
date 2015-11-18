@@ -14,7 +14,7 @@ describe('iframe', function() {
       href: bonitaHost
     }
   };
-  
+
   var formUrl = bonitaHost+'resource/taskInstance/processName/1.1.1/task1/content/?id=1';
   var overViewUrl = bonitaHost+'resource/processInstance/processName/1.1.1/content/?id=77';
 
@@ -47,7 +47,7 @@ describe('iframe', function() {
     iframe  = $injector.get('iframe');
   }));
 
-  fit('should update formUrl when store.currentCase change', function(){
+  it('should update formUrl when store.currentCase change', function(){
     var toUrl = iframe.getTaskForm(process, task, userId);
     expect(toUrl).toBe(formUrl);
   });
