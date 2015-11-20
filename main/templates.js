@@ -1959,14 +1959,14 @@ angular.module('portalTemplates/user/tasks/list/tasks-modal-form.html', []).run(
     '    <span class="sr-only">Close</span>\n' +
     '  </button>\n' +
     '   <bonita-iframe-viewer class="FormViewer"\n' +
-    '      ng-if="hasForm"\n' +
+    '      ng-if="modal.hasForm"\n' +
     '      tabindex="0"\n' +
     '      is-editable="modal.isFormEditable"\n' +
     '      frame-url="modal.formUrl"\n' +
     '      is-visible="modal.isFormVisible">\n' +
     '    </bonita-iframe-viewer>\n' +
     '    <no-form class="FormViewer"\n' +
-    '      ng-if="!hasForm"\n' +
+    '      ng-if="!modal.hasForm"\n' +
     '      current-task="modal.task"\n' +
     '      refresh-all="modal.refreshAll()"\n' +
     '      editable="modal.isFormEditable">\n' +
