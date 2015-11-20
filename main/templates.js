@@ -1661,7 +1661,6 @@ angular.module('portalTemplates/user/tasks/list/tasks-details.html', []).run(['$
     '      <no-form class="FormViewer"\n' +
     '        ng-if="!hasForm"\n' +
     '        current-task="currentTask"\n' +
-    '        refresh-all="refreshAll()"\n' +
     '        editable="editable"\n' +
     '        inactive="inactive">\n' +
     '      </no-form>\n' +
@@ -1935,8 +1934,7 @@ angular.module('portalTemplates/user/tasks/list/tasks-modal-details.html', []).r
     '                editable="modal.task.assigned_id===modal.userId"\n' +
     '                inactive="false"\n' +
     '                active-tab="context"\n' +
-    '                refresh-count="modal.onRefreshCountHandler()"\n' +
-    '                refresh-all="modal.onRefreshAllHandler()">\n' +
+    '                refresh-count="modal.onRefreshCountHandler()">\n' +
     '  </task-details>\n' +
     '</div>\n' +
     '<div class="modal-footer">\n' +
@@ -1968,7 +1966,6 @@ angular.module('portalTemplates/user/tasks/list/tasks-modal-form.html', []).run(
     '    <no-form class="FormViewer"\n' +
     '      ng-if="!modal.hasForm"\n' +
     '      current-task="modal.task"\n' +
-    '      refresh-all="modal.refreshAll()"\n' +
     '      editable="modal.isFormEditable">\n' +
     '    </no-form>\n' +
     '</div>\n' +

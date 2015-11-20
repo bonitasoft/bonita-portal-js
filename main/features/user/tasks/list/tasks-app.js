@@ -337,11 +337,6 @@
               return function() {
                 ctrl.updateCount();
               };
-            },
-            refreshAllHandler: function() {
-              return function() {
-                ctrl.updateAll();
-              };
             }
           }
         });
@@ -391,20 +386,16 @@
               class: 'danger',
               content: FORM_ERROR
             });
-            if (this.showDetails) {
-              this.updateTasks();
-              this.updateCount();
-            }
+            this.updateTasks();
+            this.updateCount();
             if(this.modaleInstance) {
               this.modaleInstance.close();
             }
           }
         } else if (jsonMessage.message === 'success'){
           ngToast.create(FORM_SUCCESS);
-          if (this.showDetails) {
-            this.updateTasks();
-            this.updateCount();
-          }
+          this.updateTasks();
+          this.updateCount();
           if(this.modaleInstance) {
             this.modaleInstance.close();
           }
