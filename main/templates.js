@@ -1704,7 +1704,7 @@ angular.module('portalTemplates/user/tasks/list/tasks-filters.html', []).run(['$
     '      </ul>\n' +
     '    </div>\n' +
     '  </li><!-- tasks -->\n' +
-    '  <li role="presentation" ng-class="{\'active\':TASK_FILTERS.DONE===taskStatus}">\n' +
+    '  <li role="presentation" class="hideAccessToNonWorkingView" ng-class="{\'active\':TASK_FILTERS.DONE===taskStatus}">\n' +
     '    <a href="#" title="Show done tasks"\n' +
     '      ng-click="setStatusTaskFilter(TASK_FILTERS.DONE)" >\n' +
     '      DONE\n' +
