@@ -28,7 +28,7 @@
       </ul>
     </div>
   </li><!-- tasks -->
-  <li role="presentation" ng-class="{'active':TASK_FILTERS.DONE===taskStatus}">
+  <li role="presentation" class="hideAccessToNonWorkingView" ng-class="{'active':TASK_FILTERS.DONE===taskStatus}">
     <a href="#" title="Show done tasks"
       ng-click="setStatusTaskFilter(TASK_FILTERS.DONE)" >
       DONE
