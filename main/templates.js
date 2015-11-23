@@ -31,7 +31,7 @@ angular.module('portalTemplates/admin/applications/applications-list.html', []).
     '        <th bo-sorter="lastUpdateDate" id="application-last-update-date" class="table-column-xs" title="{{\'Sort by updated on\' | translate }}" bo-sorter-title-desc="{{\'Sort by updated on\' | translate }} Desc" bo-sorter-title-asc="{{\'Sort by updated on\' | translate }} Asc">{{\'Updated on\' | translate}}</th>\n' +
     '        <th data-noresize class="table-column-xs table-header-actions">{{\'Actions\' | translate}}</th>\n' +
     '      </tr>\n' +
-    '    </thead> \n' +
+    '    </thead>\n' +
     '    <tbody>\n' +
     '      <tr class="table-row table-row-{{$index}}" ng-repeat="application in applications | orderBy: sortableOptions.property : sortableOptions.direction track by $index">\n' +
     '        <td class="application-display-name" title="{{ application.displayName }}">{{ application.displayName }}</td>\n' +
@@ -53,7 +53,8 @@ angular.module('portalTemplates/admin/applications/applications-list.html', []).
     '      </tr>\n' +
     '    </tbody>\n' +
     '  </table>\n' +
-    '</div>');
+    '</div>\n' +
+    '');
 }]);
 
 angular.module('portalTemplates/admin/applications/delete-application.html', []).run(['$templateCache', function($templateCache) {
@@ -1680,7 +1681,7 @@ angular.module('portalTemplates/user/tasks/list/tasks-filters.html', []).run(['$
     '    <a href="#" title="Show all tasks that I can do, assigned to me or not assigned"\n' +
     '          ng-click="setStatusTaskFilter(TASK_FILTERS.TODO)">\n' +
     '      <span class="badge pull-right" ng-show="count.TODO>0">{{count.TODO}}</span>\n' +
-    '      TO DO\n' +
+    '      To do\n' +
     '    </a>\n' +
     '    <div  collapse="TASK_FILTERS.DONE === taskStatus">\n' +
     '      <ul class="TaskFilters nav nav-pills nav-stacked">\n' +
@@ -1689,7 +1690,7 @@ angular.module('portalTemplates/user/tasks/list/tasks-filters.html', []).run(['$
     '              title="Show tasks assigned to me, automatically, by me or by another user"\n' +
     '              ng-click="setStatusTaskFilter(TASK_FILTERS.MY_TASK)">\n' +
     '            <span class="badge pull-right" ng-show="count.MY_TASK>0">{{count.MY_TASK}}</span>\n' +
-    '            My Tasks\n' +
+    '            My tasks\n' +
     '          </a>\n' +
     '        </li><!-- my tasks -->\n' +
     '        <li role="presentation" ng-class="{\'active\':TASK_FILTERS.POOL_TASK===taskStatus}">\n' +
@@ -1697,16 +1698,16 @@ angular.module('portalTemplates/user/tasks/list/tasks-filters.html', []).run(['$
     '              title="Show tasks that I can do that are not assigned"\n' +
     '              ng-click="setStatusTaskFilter(TASK_FILTERS.POOL_TASK)" >\n' +
     '            <span class="badge pull-right" ng-show="count.POOL_TASK>0">{{count.POOL_TASK}}</span>\n' +
-    '            Available Tasks\n' +
+    '            Available tasks\n' +
     '          </a>\n' +
     '        </li><!-- available tasks -->\n' +
     '      </ul>\n' +
     '    </div>\n' +
     '  </li><!-- tasks -->\n' +
-    '  <li role="presentation" class="hideAccessToNonWorkingView" ng-class="{\'active\':TASK_FILTERS.DONE===taskStatus}">\n' +
+    '  <li role="presentation" ng-class="{\'active\':TASK_FILTERS.DONE===taskStatus}">\n' +
     '    <a href="#" title="Show done tasks"\n' +
     '      ng-click="setStatusTaskFilter(TASK_FILTERS.DONE)" >\n' +
-    '      DONE\n' +
+    '      Done tasks\n' +
     '    </a>\n' +
     '  </li> <!-- done tasks -->\n' +
     ' </ul>\n' +
