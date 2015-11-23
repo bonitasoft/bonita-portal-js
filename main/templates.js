@@ -2095,6 +2095,7 @@ angular.module('portalTemplates/user/tasks/list/tasks-table.html', []).run(['$te
     '            <button  class="btn btn-default" type="button"\n' +
     '                    ng-switch-when="max"\n' +
     '                    ng-click="onDoTask(task)"\n' +
+    '                    ng-if="request.taskFilter !== TASK_FILTERS.DONE"\n' +
     '                    ng-show="task === currentTask || task.btnVisible"\n' +
     '                    title="Do this task">\n' +
     '              <i class="icon-do"></i>\n' +

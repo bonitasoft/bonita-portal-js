@@ -32,6 +32,24 @@ describe('tasklist custom page', function() {
         var formViewer = element(by.css('.modal .FormViewer'));
         expect(formViewer.isPresent()).toBe(true);
       });
+
+      it('should not be displayed for done tasks', function() {
+        var titleRxp = /done/i;
+        element.all(by.css('.TaskFilters li a')).get(3).click();
+
+        var title = element(by.binding('app.request.taskFilter.title'))
+          .getWebElement()
+          .getText();
+        expect(title).toMatch(titleRxp);
+
+        var actions = element.all(by.css('.Line.info .Cell--with-actions button'));
+
+        expect(actions.count()).toBe(1);
+        var buttonTitle = actions.first()
+          .getWebElement()
+          .getAttribute('title');
+        expect(buttonTitle).toMatch(/view/i);
+      });
     });
 
     describe('View task', function(){
