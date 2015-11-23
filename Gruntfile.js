@@ -594,7 +594,7 @@ module.exports = function (grunt) {
     nggettext_extract: {
       pot: {
         files: {
-          'i18n/portal-js.pot': ['<%= portaljs.app %>/features/**/*.html', '<%= portaljs.app %>/common/**/*.html']
+          'i18n/portal-js.pot': ['<%= portaljs.app %>/features/**/*.js', '<%= portaljs.app %>/common/**/*.js', '<%= portaljs.dist %>/features/**/*.html', '<%= portaljs.dist %>/common/**/*.html']
         }
       }
     },
@@ -733,7 +733,6 @@ module.exports = function (grunt) {
     'html2js',
     'injector',
     'lineending',
-    'nggettext_extract',
     'taskHelper',
     'useminPrepare',
     'concurrent:dist',
@@ -746,9 +745,16 @@ module.exports = function (grunt) {
     'rev',
     'usemin',
     'htmlmin',
+    'nggettext_extract',
     'ngdocs'
   ]);
 
+  grunt.registerTask('pot', [
+    'clean:dist',
+    'copy:dist',
+    'htmlmin',
+    'nggettext_extract'
+  ]);
 
   grunt.registerTask('default', [
     'newer:jshint',

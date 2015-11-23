@@ -22,7 +22,13 @@
         link: function($scope) {
           angular.element($window).on('message', function(event){
             $timeout(function(){
-              $scope.spySubmit({message:event.data});
+              if (event.data) {
+                $scope.spySubmit({message: event.data});
+              } else if (event.originalEvent) {
+                $scope.spySubmit({message: event.originalEvent.data});
+              } else {
+                $scope.spySubmit({message: undefined});
+              }
             });
           });
         }

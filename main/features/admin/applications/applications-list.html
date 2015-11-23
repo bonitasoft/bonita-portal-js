@@ -26,7 +26,7 @@
         <th bo-sorter="lastUpdateDate" id="application-last-update-date" class="table-column-xs" title="{{'Sort by updated on' | translate }}" bo-sorter-title-desc="{{'Sort by updated on' | translate }} Desc" bo-sorter-title-asc="{{'Sort by updated on' | translate }} Asc">{{'Updated on' | translate}}</th>
         <th data-noresize class="table-column-xs table-header-actions">{{'Actions' | translate}}</th>
       </tr>
-    </thead> 
+    </thead>
     <tbody>
       <tr class="table-row table-row-{{$index}}" ng-repeat="application in applications | orderBy: sortableOptions.property : sortableOptions.direction track by $index">
         <td class="application-display-name" title="{{ application.displayName }}">{{ application.displayName }}</td>

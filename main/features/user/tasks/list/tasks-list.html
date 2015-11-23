@@ -57,14 +57,14 @@
                           ng-change="app.searchTask()"
                           >
 
-                      </div> 
+                      </div>
                       {{"Process name"}}
                       <div class="ProcessList" dropdown>
                         <button dropdown-toggle type="button"
                                 class="btn btn-primary"
                                 title="{{'Process: ' + app.request.process.name + (app.request.process.version ? ' ' + app.request.process.version : '') }}"
                                 ng-disabled="app.request.taskFilter !== app.TASK_FILTERS.TODO || !app.processes || app.processes.length === 0">
-                          <div class="ProcessList-label">{{app.request.process.name + (app.request.process.version?" "+app.request.process.version:"")}} <span class="caret"></span></div> 
+                          <div class="ProcessList-label">{{app.request.process.name + (app.request.process.version?" "+app.request.process.version:"")}} <span class="caret"></span></div>
                         </button>
                         <ul class="dropdown-menu">
                           <li ng-repeat="p in app.processes" >
@@ -120,7 +120,8 @@
               <div class="panel-body">
                 <task-details current-task="app.currentTask"
                               current-case="app.currentCase"
-                              refresh="app.updateCount()"
+                              refresh-count="app.updateCount()"
+                              refresh-all="app.updateAll()"
                               editable="app.currentTask.assigned_id === app.user.user_id"
                               hide-form="app.request.taskFilter === app.TASK_FILTERS.DONE"
                               inactive="app.tasks.length === 0">

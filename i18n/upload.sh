@@ -10,12 +10,9 @@ usage() {
     exit 1;
 }
 
-# $1 directory
 npm_pot() {
-    cd $1
     npm install && npm run pot
     check_errors $? "Error while generating pot files"
-    cd -
 }
 
 # $1 previous command exit code
@@ -57,14 +54,15 @@ echo "**************************************************************************
 cd $BASE_DIR
 
 echo "Building pot files..."
-npm_pot .
+npm_pot
 
 echo "Concatenating bonita-js-components and bonita-portal-js pot files..."
 # concatenate bonita-js-components keys with bonita-portal-js keys
-msgcat ./main/assets/bonita-js-components/i18n/bonita-js-components.pot $BUILD_DIR/portal-js.pot | msguniq -s > $BUILD_DIR/portal-js.pot
+msgcat ./main/assets/bonita-js-components/i18n/bonita-js-components.pot $BUILD_DIR/portal-js.pot | msguniq -s > $BUILD_DIR/portal-js-concat.pot
 check_errors $? "Error while concatenating pot files"
 
 echo "Exporting community pot to $PROJECT crowdin project ..."
-curl -F "files[$BRANCH_NAME/bonita-web/portal/portal-js.pot]=@$BUILD_DIR/portal-js.pot"  \
+curl -F "files[$BRANCH_NAME/bonita-web/portal/portal-js.pot]=@$BUILD_DIR/portal-js-concat.pot"  \
      -F "export_patterns[$BRANCH_NAME/bonita-web/portal/portal-js.pot]=/$BRANCH_NAME/bonita-web/portal/portal-js_%locale_with_underscore%.po" \
    https://api.crowdin.com/api/project/$PROJECT/update-file?key=$CROWDINKEY
+check_errors $? "Error while uploading pot file"

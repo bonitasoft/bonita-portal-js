@@ -34,7 +34,8 @@
       'ui.bootstrap.dropdown',
       'keymaster',
       'org.bonitasoft.services.topurl',
-      'org.bonitasoft.common.directives.bonitaHref'
+      'org.bonitasoft.common.directives.bonitaHref',
+      'gettext'
     ])
     .controller('TaskUserListCtrl', [
       '$scope',
@@ -145,14 +146,14 @@
     .directive('taskList', [
       '$q',
       'key',
-      'HumanTask',
+      'humanTaskAPI',
       'taskListStore',
       'preference',
       '$location',
       '$anchorScroll',
       '$timeout',
       'COLUMNS_SETTINGS',
-      function($q, key, HumanTask, taskListStore, preference, $location, $anchorScroll, $timeout, COLUMNS_SETTINGS) {
+      function($q, key, humanTaskAPI, taskListStore, preference, $location, $anchorScroll, $timeout, COLUMNS_SETTINGS) {
         // Runs during compile
         return {
           // name: '',
@@ -238,7 +239,7 @@
                 .filter(fnFilter)
                 .map(function(task) {
                   /* jshint camelcase: false */
-                  return HumanTask.update({
+                  return humanTaskAPI.update({
                     id: task.id,
                     assigned_id: assignee
                   }).$promise;
