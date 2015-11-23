@@ -14,6 +14,7 @@
     .service('taskListStore', [
       'archivedFlowNodeAPI',
       'caseAPI',
+      'archivedCaseAPI',
       'commentAPI',
       'processAPI',
       'processSupervisorAPI',
@@ -21,7 +22,7 @@
       '$q',
       'TASK_FILTERS',
       'taskRequest',
-      function(archivedFlowNodeAPI, caseAPI, commentAPI, processAPI, processSupervisorAPI, professionalDataAPI, $q, TASK_FILTERS, taskRequest) {
+      function(archivedFlowNodeAPI, caseAPI, archivedCaseAPI, commentAPI, processAPI, processSupervisorAPI, professionalDataAPI, $q, TASK_FILTERS, taskRequest) {
         var store = this;
 
         this.processes = [];
@@ -107,8 +108,21 @@
             d: ['started_by', 'processDefinitionId']
           }).$promise;
 
-          return promise.then(function(response) {
-            store.currentCase = response;
+          return promise.then(function(resource) {
+            store.currentCase = resource;
+          }, function(response){
+            if(response.status === 404) {
+              archivedCaseAPI.search({
+                p: 0,
+                c: 1,
+                f: ['sourceObjectId=' + caseId],
+                d: ['started_by', 'processDefinitionId']
+              }, function (results) {
+                if (results.resource.pagination.total > 0) {
+                  store.currentCase = results.resource[0];
+                }
+              });
+            }
           });
         };
 
