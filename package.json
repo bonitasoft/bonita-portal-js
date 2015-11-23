@@ -66,6 +66,6 @@
     "test": "grunt test",
     "testwatch": "./node_modules/karma/bin/karma start karma.conf.js --auto-watch",
     "postinstall": "bower cache clean && bower install",
-    "pot": "grunt nggettext_extract"
+    "pot": "grunt pot"
   }
 }
