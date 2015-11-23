@@ -205,6 +205,8 @@
   //global
   when('GET', /^\/API\/bpm\/process\?c=\d+&.*p=0$/).respond(require('./admin/cases/list/process-def-4.json'));
   when('GET', /^\/API\/system\/i18ntranslation.*$/).respond([]);
+  //enable french translation
+  //when('GET', /^\/API\/system\/i18ntranslation.*$/).respond(require('./i18translations.json'));
   when('GET', /^\/API\/system\/feature\?c=0&p=0$/).respond([]);
   when('GET', /^\/API\/system\/session.*$/ ).respond(require('./session-mock.json'));
   var fs = require('fs');
