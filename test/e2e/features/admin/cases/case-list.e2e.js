@@ -150,9 +150,9 @@
         removeOrAddColumns(false, columnIndexes);
       }
 
-      function addColumns(columnIndexes) {
+      /*function addColumns(columnIndexes) {
         removeOrAddColumns(true, columnIndexes);
-      }
+      }*/
 
       function removeOrAddColumns(addColumns, columnIndexes) {
         caseListSettingsButton.click();
@@ -166,14 +166,14 @@
         caseListSettingsButton.click();
       }
 
-      function removeAllColumns() {
+      /*function removeAllColumns() {
         caseListSettingsButton.click();
         var columnToShowNameList = element.all(by.css('.bo-TableSettings-columns li input:checked'));
         columnToShowNameList.each(function(element) {
           element.click();
         });
         caseListSettingsButton.click();
-      }
+      }*/
 
       it('should change Version and ID column size ', function () {
         var colIndexes = Array.apply(null, {length: nbColumnsDiplayed}).map(Number.call, Number).slice(4, nbColumnsDiplayed);
