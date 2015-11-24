@@ -176,13 +176,13 @@
       }
 
       it('should change Version and ID column size ', function () {
-        removeAllColumns();
-        addColumns([0,1,2,3]);
+        var colIndexes = Array.apply(null, {length: nbColumnsDiplayed}).map(Number.call, Number).slice(4, nbColumnsDiplayed);
+        removeColumns(colIndexes);
         resizeBars = element.all(by.css('.rc-handle'));
 
         var idColumnBar = resizeBars.get(0);
         var versionColumnBar = resizeBars.get(1);
-        browser.driver.actions().mouseDown(idColumnBar).mouseMove(idColumnBar, {x: -300}).mouseUp().perform();
+        browser.driver.actions().mouseDown(idColumnBar).mouseMove(idColumnBar, {x: -350}).mouseUp().perform();
         var formerVersionColumnLocation = element.all(by.css('table th')).get(4).getLocation();
         var formerProcessNameColumnLocation = element.all(by.css('table th')).get(3).getLocation();
 
@@ -206,7 +206,7 @@
         var newStartDateColumnLocation = element.all(by.css('table th')).get(5).getLocation();
         formerStartDateColumnLocation.then(function (oldPosition) {
           newStartDateColumnLocation.then(function (newPosition) {
-            expect(oldPosition.x - newPosition.x).toBeGreaterThan(-5);
+            expect(oldPosition.x - newPosition.x).toBeGreaterThan(-10);
             expect(oldPosition.x - newPosition.x).toBeLessThan(1);
           });
         });
