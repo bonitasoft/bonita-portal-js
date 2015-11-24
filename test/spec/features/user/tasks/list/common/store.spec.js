@@ -8,6 +8,7 @@ describe('taskListStore', function() {
 
   var taskRegexp = /^\.\.\/API\/bpm\/humanTask/;
   var caseRegexp = /^\.\.\/API\/bpm\/case/;
+  var archivedCaseRegexp = /^\.\.\/API\/bpm\/archivedCase/;
   var processRegexp = /^\.\.\/API\/bpm\/process/;
   var supervisorRegexp = /^\.\.\/API\/bpm\/processSupervisor/;
   var proContactRegexp = /^\.\.\/API\/identity\/professionalcontactdata/;
@@ -57,6 +58,14 @@ describe('taskListStore', function() {
       id: 1
     }
   };
+
+  var mockArchivedCases = [{
+    id: 78,
+    state: 'completed',
+    rootContainerId: {
+      id: 1
+    }
+  }];
 
   var mockProcesses = [
     {
@@ -255,18 +264,43 @@ describe('taskListStore', function() {
       expect(store.currentCase).toEqual(jasmine.objectContaining(mockCase));
     });
 
-    it('should not call the API', function() {
-      $httpBackend.expectGET(caseRegexp);
-      store.getCaseInfo(caseId);
-      $httpBackend.flush();
-      expect(store.currentCase).toEqual(jasmine.objectContaining(mockCase));
-    });
-
     it('should throw an error if no caseId supplied', function() {
       function test() {
         store.getCaseInfo();
       }
       expect(test).toThrow();
+    });
+  });
+
+  describe('getCaseInfo when case is archived', function() {
+    var caseId = 2;
+
+    beforeEach(function() {
+      $httpBackend.whenGET(caseRegexp).respond(404, '');
+      $httpBackend.whenGET(archivedCaseRegexp).respond(mockArchivedCases, {'Content-Range':'0-1/1'});
+      store.currentTask = {
+        id: 1,
+        caseId: caseId
+      };
+      $rootScope.$digest();
+    });
+
+    afterEach(function() {
+      $httpBackend.verifyNoOutstandingExpectation();
+      $httpBackend.verifyNoOutstandingRequest();
+    });
+
+    it('should make an api request with parameters', function() {
+      $httpBackend.expectGET(archivedCaseRegexp);
+      store.getCaseInfo(caseId);
+      $httpBackend.flush();
+    });
+
+    it('should store a case', function() {
+      $httpBackend.expectGET(archivedCaseRegexp);
+      store.getCaseInfo(caseId);
+      $httpBackend.flush();
+      expect(store.currentCase).toEqual(jasmine.objectContaining(mockArchivedCases[0]));
     });
   });
 

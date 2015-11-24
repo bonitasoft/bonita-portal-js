@@ -1933,6 +1933,7 @@ angular.module('portalTemplates/user/tasks/list/tasks-modal-details.html', []).r
     '  <task-details current-task="modal.task"\n' +
     '                current-case="modal.Case"\n' +
     '                editable="modal.task.assigned_id===modal.userId"\n' +
+    '                hide-form="modal.task.archivedDate"\n' +
     '                inactive="false"\n' +
     '                active-tab="context"\n' +
     '                refresh-count="modal.onRefreshCountHandler()">\n' +
