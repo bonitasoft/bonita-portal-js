@@ -388,9 +388,6 @@
             });
             this.updateTasks();
             this.updateCount();
-            if(this.modaleInstance) {
-              this.modaleInstance.close();
-            }
           }
         } else if (jsonMessage.message === 'success'){
           ngToast.create(FORM_SUCCESS);
