@@ -1678,25 +1678,25 @@ angular.module('portalTemplates/user/tasks/list/tasks-filters.html', []).run(['$
     '  <!-- <a href="#" > is not good for a11n but it\'s a tradeoff for being themable\n' +
     '     that\'s why we use bottstrap markup-->\n' +
     '  <li role="presentation" ng-class="{\'active\':TASK_FILTERS.TODO===taskStatus}">\n' +
-    '    <a href="#" title="Show all tasks that I can do, assigned to me or not assigned"\n' +
-    '          ng-click="setStatusTaskFilter(TASK_FILTERS.TODO)">\n' +
+    '    <a href="#" id="todo-tasks" title="Show all tasks that I can do, assigned to me or not assigned"\n' +
+    '       ng-click="setStatusTaskFilter(TASK_FILTERS.TODO)">\n' +
     '      <span class="badge pull-right" ng-show="count.TODO>0">{{count.TODO}}</span>\n' +
     '      To do\n' +
     '    </a>\n' +
-    '    <div  collapse="TASK_FILTERS.DONE === taskStatus">\n' +
+    '    <div collapse="TASK_FILTERS.DONE === taskStatus">\n' +
     '      <ul class="TaskFilters nav nav-pills nav-stacked">\n' +
     '        <li role="presentation" ng-class="{\'active\':TASK_FILTERS.MY_TASK===taskStatus}">\n' +
-    '          <a href="#" class="TaskFilter"\n' +
-    '              title="Show tasks assigned to me, automatically, by me or by another user"\n' +
-    '              ng-click="setStatusTaskFilter(TASK_FILTERS.MY_TASK)">\n' +
+    '          <a href="#" id="my-tasks" class="TaskFilter"\n' +
+    '             title="Show tasks assigned to me, automatically, by me or by another user"\n' +
+    '             ng-click="setStatusTaskFilter(TASK_FILTERS.MY_TASK)">\n' +
     '            <span class="badge pull-right" ng-show="count.MY_TASK>0">{{count.MY_TASK}}</span>\n' +
     '            My tasks\n' +
     '          </a>\n' +
     '        </li><!-- my tasks -->\n' +
     '        <li role="presentation" ng-class="{\'active\':TASK_FILTERS.POOL_TASK===taskStatus}">\n' +
-    '          <a href="#" class="TaskFilter"\n' +
-    '              title="Show tasks that I can do that are not assigned"\n' +
-    '              ng-click="setStatusTaskFilter(TASK_FILTERS.POOL_TASK)" >\n' +
+    '          <a href="#" id="available-tasks" class="TaskFilter"\n' +
+    '             title="Show tasks that I can do that are not assigned"\n' +
+    '             ng-click="setStatusTaskFilter(TASK_FILTERS.POOL_TASK)" >\n' +
     '            <span class="badge pull-right" ng-show="count.POOL_TASK>0">{{count.POOL_TASK}}</span>\n' +
     '            Available tasks\n' +
     '          </a>\n' +
@@ -1705,12 +1705,12 @@ angular.module('portalTemplates/user/tasks/list/tasks-filters.html', []).run(['$
     '    </div>\n' +
     '  </li><!-- tasks -->\n' +
     '  <li role="presentation" ng-class="{\'active\':TASK_FILTERS.DONE===taskStatus}">\n' +
-    '    <a href="#" title="Show done tasks"\n' +
-    '      ng-click="setStatusTaskFilter(TASK_FILTERS.DONE)" >\n' +
+    '    <a href="#" id="done-tasks" title="Show done tasks"\n' +
+    '       ng-click="setStatusTaskFilter(TASK_FILTERS.DONE)" >\n' +
     '      Done tasks\n' +
     '    </a>\n' +
     '  </li> <!-- done tasks -->\n' +
-    ' </ul>\n' +
+    '</ul>\n' +
     '');
 }]);
 

@@ -35,7 +35,7 @@ describe('tasklist custom page', function() {
 
       it('should not be displayed for done tasks', function() {
         var titleRxp = /done/i;
-        element.all(by.css('.TaskFilters li a')).get(3).click();
+        element(by.css('.TaskFilters li a#done-tasks')).click();
 
         var title = element(by.binding('app.request.taskFilter.title'))
           .getWebElement()
