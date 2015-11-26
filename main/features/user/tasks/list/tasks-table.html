@@ -96,6 +96,7 @@
             <button  class="btn btn-default" type="button"
                     ng-switch-when="max"
                     ng-click="onDoTask(task)"
+                    ng-if="request.taskFilter !== TASK_FILTERS.DONE"
                     ng-show="task === currentTask || task.btnVisible"
                     title="Do this task">
               <i class="icon-do"></i>

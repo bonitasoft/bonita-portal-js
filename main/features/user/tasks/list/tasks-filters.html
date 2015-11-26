@@ -2,25 +2,25 @@
   <!-- <a href="#" > is not good for a11n but it's a tradeoff for being themable
      that's why we use bottstrap markup-->
   <li role="presentation" ng-class="{'active':TASK_FILTERS.TODO===taskStatus}">
-    <a href="#" title="Show all tasks that I can do, assigned to me or not assigned"
-          ng-click="setStatusTaskFilter(TASK_FILTERS.TODO)">
+    <a href="#" id="todo-tasks" title="Show all tasks that I can do, assigned to me or not assigned"
+       ng-click="setStatusTaskFilter(TASK_FILTERS.TODO)">
       <span class="badge pull-right" ng-show="count.TODO>0">{{count.TODO}}</span>
       To do
     </a>
-    <div  collapse="TASK_FILTERS.DONE === taskStatus">
+    <div collapse="TASK_FILTERS.DONE === taskStatus">
       <ul class="TaskFilters nav nav-pills nav-stacked">
         <li role="presentation" ng-class="{'active':TASK_FILTERS.MY_TASK===taskStatus}">
-          <a href="#" class="TaskFilter"
-              title="Show tasks assigned to me, automatically, by me or by another user"
-              ng-click="setStatusTaskFilter(TASK_FILTERS.MY_TASK)">
+          <a href="#" id="my-tasks" class="TaskFilter"
+             title="Show tasks assigned to me, automatically, by me or by another user"
+             ng-click="setStatusTaskFilter(TASK_FILTERS.MY_TASK)">
             <span class="badge pull-right" ng-show="count.MY_TASK>0">{{count.MY_TASK}}</span>
             My tasks
           </a>
         </li><!-- my tasks -->
         <li role="presentation" ng-class="{'active':TASK_FILTERS.POOL_TASK===taskStatus}">
-          <a href="#" class="TaskFilter"
-              title="Show tasks that I can do that are not assigned"
-              ng-click="setStatusTaskFilter(TASK_FILTERS.POOL_TASK)" >
+          <a href="#" id="available-tasks" class="TaskFilter"
+             title="Show tasks that I can do that are not assigned"
+             ng-click="setStatusTaskFilter(TASK_FILTERS.POOL_TASK)" >
             <span class="badge pull-right" ng-show="count.POOL_TASK>0">{{count.POOL_TASK}}</span>
             Available tasks
           </a>
@@ -29,9 +29,9 @@
     </div>
   </li><!-- tasks -->
   <li role="presentation" ng-class="{'active':TASK_FILTERS.DONE===taskStatus}">
-    <a href="#" title="Show done tasks"
-      ng-click="setStatusTaskFilter(TASK_FILTERS.DONE)" >
+    <a href="#" id="done-tasks" title="Show done tasks"
+       ng-click="setStatusTaskFilter(TASK_FILTERS.DONE)" >
       Done tasks
     </a>
   </li> <!-- done tasks -->
- </ul>
+</ul>
