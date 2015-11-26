@@ -37,13 +37,34 @@
              * Poll function to check if the iframe's ajax loading is ended
              *
              */
-            function pollerFunction () {
-              $timeout(function(){
-                scope.loading = true;
-                elem.style.height = elem.contentWindow.document.body.offsetHeight+'px';
-              }, 50);
+            function pollerFunction (loading, main) {
+              if (loading && main) {
+                //support legacy forms
+                if (loading.style.display !== 'none' && main.offsetHeight !== 0) {
+                  $timeout(measure, 100, false);
+                  return;
+                }
 
-              return;
+                $timeout(function () {
+                  var height = main.offsetHeight + parseInt(main.style.paddingBottom || 0, 10) + 10;
+                  scope.loading = true;
+                  elem.style.height = height + 'px';
+                }, 100);
+                return;
+
+              } else {
+                //7.x forms
+                if (elem.contentWindow.document.body.offsetHeight === 0) {
+                  $timeout(measure, 100, false);
+                  return;
+                }
+
+                $timeout(function () {
+                  scope.loading = true;
+                  elem.style.height = elem.contentWindow.document.body.offsetHeight + 'px';
+                }, 100);
+                return;
+              }
             }
 
             /**

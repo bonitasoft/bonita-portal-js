@@ -22,7 +22,6 @@
           replace: false,
           scope: {
             currentTask: '=',
-            refreshAll: '&',
             editable: '=',
             inactive: '='
           },
@@ -42,7 +41,6 @@
             };
 
             var onSuccess = function() {
-              scope.refreshAll();
               var message = {message:'success', action: 'Submit task'};
               $window.self.postMessage(JSON.stringify(message), '*');
             };

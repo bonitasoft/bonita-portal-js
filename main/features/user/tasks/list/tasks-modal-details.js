@@ -13,10 +13,9 @@
       'Case',
       'userId',
       'refreshCountHandler',
-      'refreshAllHandler',
       '$modalInstance',
 
-      function( url, task, Case, userId, refreshCountHandler, refreshAllHandler, $modalInstance){
+      function( url, task, Case, userId, refreshCountHandler, $modalInstance){
         this.title = task.displayName;
         this.Case = Case;
         this.task = task;
@@ -25,10 +24,6 @@
           refreshCountHandler();
         }
         this.onRefreshCountHandler = onRefreshCountHandler;
-        function onRefreshAllHandler(){
-          refreshAllHandler();
-        }
-        this.onRefreshAllHandler = onRefreshAllHandler;
         this.userId = userId;
 
         this.cancel  =  function () {

@@ -16,7 +16,7 @@
     function(humanTaskAPI, archivedHumanTaskAPI) {
       return {
         TODO: {
-          title: 'Todo',
+          title: 'To do',
           resource: humanTaskAPI,
           filters: ['state=ready', 'user_id=%userId']
         },

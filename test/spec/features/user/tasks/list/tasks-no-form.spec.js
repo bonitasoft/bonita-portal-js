@@ -8,7 +8,9 @@ describe('directive no.form', function() {
 
   var $httpBackend;
   var $window;
-  var store;
+  var $q;
+  var promise;
+  var taskListStore;
   var element;
   var scope;
   var userTaskAPI;
@@ -20,31 +22,36 @@ describe('directive no.form', function() {
   beforeEach(module('org.bonitasoft.portalTemplates'));
   beforeEach(module('ui.bootstrap.tpls'));
 
-  beforeEach(inject(function($injector){
-    store = $injector.get('taskListStore');
-    spyOn(store, 'user').and.returnValue(mockUser);
+  beforeEach(inject(function($injector, $compile){
+    taskListStore = $injector.get('taskListStore');
+    taskListStore.user = mockUser;
 
     $httpBackend = $injector.get('$httpBackend');
     $httpBackend.whenGET(/portalTemplates\/user\/tasks\/list\/.*\.html/gi).respond('');
 
     $window = $injector.get('$window');
+    $q = $injector.get('$q');
+    promise = $q.defer();
 
     var $rootScope = $injector.get('$rootScope');
     scope = $rootScope.$new();
 
-    var $compile = $injector.get('$compile');
-
     humanTaskAPI = $injector.get('humanTaskAPI');
-    spyOn(humanTaskAPI,'update');
+    spyOn(humanTaskAPI,'update').and.returnValue({
+      $promise: promise.promise
+    });
     userTaskAPI = $injector.get('userTaskAPI');
-    spyOn(userTaskAPI,'execute');
-    userTaskAPI = $injector.get('commentAPI');
-    spyOn(commentAPI,'save');
+    spyOn(userTaskAPI,'execute').and.returnValue(
+      promise.promise
+    );
+    commentAPI = $injector.get('commentAPI');
+    spyOn(commentAPI,'save').and.returnValue({
+      $promise: promise.promise
+    });
 
     scope.currentTask = mockTask;
     scope.inactive = false;
     scope.editable = true;
-    scope.hasForm = false;
     scope.refreshAll = jasmine.createSpy('refreshAll');
 
     var markup =
@@ -52,7 +59,6 @@ describe('directive no.form', function() {
       '        current-task="currentTask"' +
       '        refresh-all="refreshAll()"' +
       '        editable="editable"' +
-      '        has-form="hasForm"' +
       '        inactive="inactive">' +
       '  </no-form>';
 
@@ -63,13 +69,42 @@ describe('directive no.form', function() {
     scope.$digest();
   }));
 
-  xit('should execute task', function(){
+  it('should call add comment', function(){
+
+    scope.currentTask.comment = 'comment';
 
     var isolated = compiledElement.isolateScope();
-
     isolated.onExecuteTask();
 
-    expect(commentAPI.save).toHaveBeenCalledWith({userId: 123, processInstanceId: 12, content: ''});
+    expect(commentAPI.save).toHaveBeenCalledWith({userId: 123, processInstanceId: 12, content: scope.currentTask.comment}, jasmine.any(Function), jasmine.any(Function));
+  });
+
+  it('should not call add comment if empty', function(){
+
+    scope.currentTask.comment = '';
+
+    var isolated = compiledElement.isolateScope();
+    isolated.onExecuteTask();
+
+    expect(commentAPI.save).not.toHaveBeenCalled();
+  });
+
+  it('should execute task', function(){
+
+    var isolated = compiledElement.isolateScope();
+    isolated.onExecuteTask();
+
+    expect(userTaskAPI.execute).toHaveBeenCalledWith(mockTask.id, {});
+  });
+
+  it('should execute manual task', function(){
+
+    mockTask.type = 'MANUAL_TASK';
+
+    var isolated = compiledElement.isolateScope();
+    isolated.onExecuteTask();
+
+    expect(humanTaskAPI.update).toHaveBeenCalledWith({id: scope.currentTask.id, state: 'completed', executedBy: taskListStore.user.user_id}, jasmine.any(Function), jasmine.any(Function));
   });
 
 });
