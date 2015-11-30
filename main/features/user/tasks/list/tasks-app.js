@@ -357,6 +357,7 @@
       this.changeFilter = function(filter) {
         this.setFilter(filter);
         this.updateTasks();
+        this.updateCount();
       };
 
       /**
