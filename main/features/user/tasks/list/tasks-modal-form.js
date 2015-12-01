@@ -11,11 +11,10 @@
       'url',
       'task',
       'userId',
-      'refreshHandler',
       '$modalInstance',
       'formMappingAPI',
 
-      function( url, task, userId, refreshHandler, $modalInstance, formMappingAPI){
+      function( url, task, userId, $modalInstance, formMappingAPI){
         this.task = task;
         this.title = task.displayName;
         /* jshint camelcase:false */
@@ -41,10 +40,6 @@
 
         this.cancel = function () {
           $modalInstance.dismiss('abort');
-        };
-
-        this.refreshAll = function() {
-          refreshHandler();
         };
       }
     ]);

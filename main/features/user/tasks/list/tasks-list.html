@@ -63,7 +63,7 @@
                         <button dropdown-toggle type="button"
                                 class="btn btn-primary"
                                 title="{{'Process: ' + app.request.process.name + (app.request.process.version ? ' ' + app.request.process.version : '') }}"
-                                ng-disabled="app.request.taskFilter !== app.TASK_FILTERS.TODO || !app.processes || app.processes.length === 0">
+                                ng-disabled="app.request.taskFilter === app.TASK_FILTERS.DONE || !app.processes || app.processes.length === 0">
                           <div class="ProcessList-label">{{app.request.process.name + (app.request.process.version?" "+app.request.process.version:"")}} <span class="caret"></span></div>
                         </button>
                         <ul class="dropdown-menu">

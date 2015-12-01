@@ -337,11 +337,6 @@
               return function() {
                 ctrl.updateCount();
               };
-            },
-            refreshAllHandler: function() {
-              return function() {
-                ctrl.updateAll();
-              };
             }
           }
         });
@@ -362,6 +357,7 @@
       this.changeFilter = function(filter) {
         this.setFilter(filter);
         this.updateTasks();
+        this.updateCount();
       };
 
       /**
@@ -391,20 +387,13 @@
               class: 'danger',
               content: FORM_ERROR
             });
-            if (this.showDetails) {
-              this.updateTasks();
-              this.updateCount();
-            }
-            if(this.modaleInstance) {
-              this.modaleInstance.close();
-            }
-          }
-        } else if (jsonMessage.message === 'success'){
-          ngToast.create(FORM_SUCCESS);
-          if (this.showDetails) {
             this.updateTasks();
             this.updateCount();
           }
+        } else if (jsonMessage.message === 'success'){
+          ngToast.create(FORM_SUCCESS);
+          this.updateTasks();
+          this.updateCount();
           if(this.modaleInstance) {
             this.modaleInstance.close();
           }
