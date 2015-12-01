@@ -77,7 +77,7 @@
           var dict = [
             ['<process.name>', encodeURIComponent(process.name)],
             ['<process.version>', encodeURIComponent(process.version)],
-            ['<case.id>', Case.id],
+            ['<case.id>', Case.sourceObjectId || Case.id],
             ['<tenantQueryString>', getParamQueryString('&', 'tenant')],
             ['<localeQueryString>', getParamQueryString('&', 'locale')]
           ];

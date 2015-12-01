@@ -70,7 +70,6 @@
             currentTask: '=',
             currentCase: '=',
             refreshCount: '&',
-            refreshAll: '&',
             editable: '=',
             inactive: '=',
             hideForm: '=',
