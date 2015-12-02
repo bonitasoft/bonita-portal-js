@@ -41,7 +41,7 @@
    * @see  ui.iframe.spy.formSpy directives
    */
   .constant('FORM_SUCCESS', 'Form submitted.<br/>The next task in the list is now selected.')
-    .constant('FORM_ERROR', 'An error occurred while submitting the form. Your administrator has been informed.<br/> The next task in the list is now selected.')
+    .constant('FORM_ERROR', 'An error occurred while submitting the form.')
     .constant('FORM_ERROR_TOO_BIG', 'The attachment is too big.<br/>Select a smaller attachment and submit the form again.')
 
   /**
