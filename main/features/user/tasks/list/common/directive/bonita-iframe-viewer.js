@@ -49,7 +49,6 @@
                   var height = main.offsetHeight + parseInt(main.style.paddingBottom || 0, 10) + 10;
                   scope.loading = true;
                   elem.style.height = height + 'px';
-                  elem.contentWindow.document.documentElement.style.overflow = scroll;
                 }, 100);
                 return;
 
@@ -63,7 +62,6 @@
                 $timeout(function () {
                   scope.loading = true;
                   elem.style.height = elem.contentWindow.document.body.offsetHeight + 'px';
-                  elem.contentWindow.document.documentElement.style.overflow = scroll;
                 }, 100);
                 return;
               }
