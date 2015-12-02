@@ -96,16 +96,6 @@
               if (!newCase) {
                 return;
               }
-              /*jshint camelcase: false*/
-              processAPI
-                .get({
-                  id: scope.currentTask.processId
-                })
-                .$promise.then(function(data) {
-                  // Load the task informatioin for the iframe
-                  scope.formUrl = iframe.getTaskForm(data, scope.currentTask, taskListStore.user.user_id, false);
-                });
-
               scope.overviewUrl = iframe.getCaseOverview(newCase, newCase.processDefinitionId);
               scope.diagramUrl = iframe.getCaseVisu(newCase, newCase.processDefinitionId);
             });
@@ -117,6 +107,15 @@
               if (!newTask) {
                 return;
               }
+              /*jshint camelcase: false*/
+              processAPI
+                .get({
+                  id: scope.currentTask.processId
+                })
+                .$promise.then(function(data) {
+                  // Load the task informatioin for the iframe
+                  scope.formUrl = iframe.getTaskForm(data, scope.currentTask, taskListStore.user.user_id, false);
+                });
               //Check if the task has a form
               if ('USER_TASK' === scope.currentTask.type) {
                 scope.hasForm = true;
