@@ -379,12 +379,12 @@
         if (jsonMessage.message === 'error') {
           if (jsonMessage.dataFromError === 'fileTooBigError' || jsonMessage.status === 413) {
             ngToast.create({
-              class:'danger',
+              className:'danger',
               content: FORM_ERROR_TOO_BIG
             });
           } else {
             ngToast.create({
-              class: 'danger',
+              className: 'danger',
               content: FORM_ERROR
             });
             this.updateTasks();
