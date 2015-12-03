@@ -107,25 +107,28 @@
               if (!newTask) {
                 return;
               }
-              /*jshint camelcase: false*/
-              processAPI
-                .get({
-                  id: scope.currentTask.processId
-                })
-                .$promise.then(function(data) {
-                  // Load the task informatioin for the iframe
-                  scope.formUrl = iframe.getTaskForm(data, scope.currentTask, taskListStore.user.user_id, false);
-                });
               //Check if the task has a form
               if ('USER_TASK' === scope.currentTask.type) {
-                scope.hasForm = true;
                 formMappingAPI.search({
                   p: 0,
                   c: 1,
                   f: ['processDefinitionId=' + scope.currentTask.processId, 'task=' + scope.currentTask.name, 'type=TASK']
-                }, function (results) {
-                  if (results.resource.pagination.total > 0 && results.data[0].target === 'NONE') {
+                }).$promise.then(function (response) {
+                  if (response.resource.pagination.total > 0 && response.resource[0].target === 'NONE') {
                     scope.hasForm = false;
+                  } else {
+                    scope.hasForm = true;
+                    if (!scope.hideForm) {
+                      /*jshint camelcase: false*/
+                      processAPI
+                        .get({
+                          id: scope.currentTask.processId
+                        })
+                        .$promise.then(function (data) {
+                          // Load the task informatioin for the iframe
+                          scope.formUrl = iframe.getTaskForm(data, scope.currentTask, taskListStore.user.user_id, false);
+                        });
+                    }
                   }
                 });
               }
