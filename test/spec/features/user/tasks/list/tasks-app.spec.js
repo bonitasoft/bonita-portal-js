@@ -145,7 +145,7 @@ describe('taskApp', function(){
     describe('init', function(){
 
       /* mocking session resource */
-      beforeEach(inject(function(session, $q){
+      beforeEach(inject(function(sessionAPI, $q){
         var defered = $q.defer();
         defered.resolve();
 
@@ -153,7 +153,7 @@ describe('taskApp', function(){
           $promise: defered.promise
         });
 
-        spyOn(session, 'get').and.returnValue( result );
+        spyOn(sessionAPI, 'get').and.returnValue( result );
 
       }));
 

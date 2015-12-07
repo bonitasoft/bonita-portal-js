@@ -13,7 +13,7 @@
     'org.bonitasoft.features.user.tasks.ui.iframe.spy',
     'common.screen',
     'common.iframe',
-    'common.resources',
+    'org.bonitasoft.common.resources',
     'org.bonitasoft.features.user.tasks.modal.form',
     'org.bonitasoft.features.user.tasks.modal.details',
     'org.bonitasoft.features.user.tasks.ui.switcher',
@@ -54,7 +54,7 @@
     '$modal',
     '$q',
     'taskListStore',
-    'session',
+    'sessionAPI',
     'screen',
     'iframe',
     'preference',
@@ -67,7 +67,7 @@
     'FORM_ERROR',
     'FORM_ERROR_TOO_BIG',
     '$timeout',
-    function($modal, $q, taskListStore, session, screen, iframe, preference, humanTaskAPI, processAPI, ngToast, TASK_FILTERS, PAGE_SIZES, FORM_SUCCESS, FORM_ERROR, FORM_ERROR_TOO_BIG, $timeout) {
+    function($modal, $q, taskListStore, sessionAPI, screen, iframe, preference, humanTaskAPI, processAPI, ngToast, TASK_FILTERS, PAGE_SIZES, FORM_SUCCESS, FORM_ERROR, FORM_ERROR_TOO_BIG, $timeout) {
       var store = taskListStore;
       this.tasks = store.tasks;
       this.request = store.request;
@@ -88,7 +88,7 @@
        * retrieve user and launch requests to boostrap the view data
        */
       this.init = function() {
-        store.user = session.get();
+        store.user = sessionAPI.get();
         store.user.$promise.then(function() {
           this.user = store.user;
           this.updateTasks();
