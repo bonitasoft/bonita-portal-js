@@ -88,7 +88,7 @@
        * retrieve user and launch requests to boostrap the view data
        */
       this.init = function() {
-        store.user = sessionAPI.get();
+        store.user = sessionAPI.get({id:'unusedId'});
         store.user.$promise.then(function() {
           this.user = store.user;
           this.updateTasks();
