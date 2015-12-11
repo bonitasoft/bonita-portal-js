@@ -1566,10 +1566,9 @@ angular.module('portalTemplates/user/tasks/list/common/directive/bonita-iframe-v
     '  <iframe\n' +
     '    class="Viewer-frame"\n' +
     '    seamless\n' +
-    '    scrolling="no"\n' +
     '    ng-src="{{url}}"\n' +
     '    width="100%" height="100%"\n' +
-    '    frameborder="0" ></iframe>\n' +
+    '    frameborder="0"></iframe>\n' +
     '  <div class="Viewer-overlay" ng-if="!isEditable"></div>\n' +
     '</div>\n' +
     '');
@@ -1608,7 +1607,7 @@ angular.module('portalTemplates/user/tasks/list/tasks-details.html', []).run(['$
     '        </li>\n' +
     '        <li class="list-group-item">\n' +
     '          <span class="ListGroup-label">case ID&nbsp;:</span>\n' +
-    '          {{currentCase.id}}\n' +
+    '          {{currentCase.sourceObjectId || currentCase.id}}\n' +
     '        </li>\n' +
     '        <li class="list-group-item">\n' +
     '          <span class="ListGroup-label">Started by&nbsp;:</span>\n' +
@@ -1808,7 +1807,7 @@ angular.module('portalTemplates/user/tasks/list/tasks-list.html', []).run(['$tem
     '                        <button dropdown-toggle type="button"\n' +
     '                                class="btn btn-primary"\n' +
     '                                title="{{\'Process: \' + app.request.process.name + (app.request.process.version ? \' \' + app.request.process.version : \'\') }}"\n' +
-    '                                ng-disabled="app.request.taskFilter !== app.TASK_FILTERS.TODO || !app.processes || app.processes.length === 0">\n' +
+    '                                ng-disabled="app.request.taskFilter === app.TASK_FILTERS.DONE || !app.processes || app.processes.length === 0">\n' +
     '                          <div class="ProcessList-label">{{app.request.process.name + (app.request.process.version?" "+app.request.process.version:"")}} <span class="caret"></span></div>\n' +
     '                        </button>\n' +
     '                        <ul class="dropdown-menu">\n' +

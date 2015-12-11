@@ -54,14 +54,14 @@
 
               } else {
                 //7.x forms
-                if (elem.contentWindow.document.body.offsetHeight === 0) {
+                if (elem.contentWindow.document.documentElement.offsetHeight === 0) {
                   $timeout(measure, 100, false);
                   return;
                 }
 
                 $timeout(function () {
                   scope.loading = true;
-                  elem.style.height = elem.contentWindow.document.body.offsetHeight + 'px';
+                  elem.style.height = elem.contentWindow.document.documentElement.offsetHeight + 'px';
                 }, 100);
                 return;
               }

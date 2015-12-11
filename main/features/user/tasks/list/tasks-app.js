@@ -13,7 +13,7 @@
     'org.bonitasoft.features.user.tasks.ui.iframe.spy',
     'common.screen',
     'common.iframe',
-    'common.resources',
+    'org.bonitasoft.common.resources',
     'org.bonitasoft.features.user.tasks.modal.form',
     'org.bonitasoft.features.user.tasks.modal.details',
     'org.bonitasoft.features.user.tasks.ui.switcher',
@@ -41,7 +41,7 @@
    * @see  ui.iframe.spy.formSpy directives
    */
   .constant('FORM_SUCCESS', 'Form submitted.<br/>The next task in the list is now selected.')
-    .constant('FORM_ERROR', 'An error occurred while submitting the form. Your administrator has been informed.<br/> The next task in the list is now selected.')
+    .constant('FORM_ERROR', 'An error occurred while submitting the form.')
     .constant('FORM_ERROR_TOO_BIG', 'The attachment is too big.<br/>Select a smaller attachment and submit the form again.')
 
   /**
@@ -54,7 +54,7 @@
     '$modal',
     '$q',
     'taskListStore',
-    'session',
+    'sessionAPI',
     'screen',
     'iframe',
     'preference',
@@ -67,7 +67,7 @@
     'FORM_ERROR',
     'FORM_ERROR_TOO_BIG',
     '$timeout',
-    function($modal, $q, taskListStore, session, screen, iframe, preference, humanTaskAPI, processAPI, ngToast, TASK_FILTERS, PAGE_SIZES, FORM_SUCCESS, FORM_ERROR, FORM_ERROR_TOO_BIG, $timeout) {
+    function($modal, $q, taskListStore, sessionAPI, screen, iframe, preference, humanTaskAPI, processAPI, ngToast, TASK_FILTERS, PAGE_SIZES, FORM_SUCCESS, FORM_ERROR, FORM_ERROR_TOO_BIG, $timeout) {
       var store = taskListStore;
       this.tasks = store.tasks;
       this.request = store.request;
@@ -88,7 +88,7 @@
        * retrieve user and launch requests to boostrap the view data
        */
       this.init = function() {
-        store.user = session.get();
+        store.user = sessionAPI.get({id:'unusedId'});
         store.user.$promise.then(function() {
           this.user = store.user;
           this.updateTasks();
@@ -379,12 +379,12 @@
         if (jsonMessage.message === 'error') {
           if (jsonMessage.dataFromError === 'fileTooBigError' || jsonMessage.status === 413) {
             ngToast.create({
-              class:'danger',
+              className:'danger',
               content: FORM_ERROR_TOO_BIG
             });
           } else {
             ngToast.create({
-              class: 'danger',
+              className: 'danger',
               content: FORM_ERROR
             });
             this.updateTasks();
