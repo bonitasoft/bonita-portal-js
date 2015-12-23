@@ -4,7 +4,7 @@
 describe('module tasks.details', function() {
 
   var mockUser = {user_id:123, user_name:'test'};
-  var mockTask =  {id:1, name:'task1', selected:true, processId: 42} ;
+  var mockTask =  {id:1, name:'task1', selected:true, processId: 42, type:'USER_TASK'} ;
   var mockCase = {
     id:77,
     state:'started',
@@ -81,25 +81,24 @@ describe('module tasks.details', function() {
     var scope;
     var iframe;
     var processAPI;
+    var formMappingAPI;
     var $q;
-    var promise;
+    var FORM_URL = '/base/fixtures/form.html';
 
     beforeEach(inject(function($injector){
       $httpBackend = $injector.get('$httpBackend');
       $q = $injector.get('$q');
       iframe = $injector.get('iframe');
 
-      promise = $q.defer();
-
-      spyOn(iframe, 'getTaskForm').and.returnValue('/base/fixtures/form.html');
-      spyOn(iframe, 'getCaseOverview').and.returnValue('/base/fixtures/form.html');
+      spyOn(iframe, 'getTaskForm').and.returnValue(FORM_URL);
+      spyOn(iframe, 'getCaseOverview').and.returnValue(FORM_URL);
 
       // spy taskDetailHelper
       var taskDetailsHelper = $injector.get('taskDetailsHelper');
       spyOn(taskDetailsHelper, 'takeReleaseTask').and.callFake(function(){
-        var defered = $q.defer();
-        defered.resolve({assigned_id: mockUser.user_id});
-        return defered.promise;
+        var deferred = $q.defer();
+        deferred.resolve({assigned_id: mockUser.user_id});
+        return deferred.promise;
       });
     }));
 
@@ -107,10 +106,21 @@ describe('module tasks.details', function() {
       scope = $rootScope.$new();
 
       processAPI = $injector.get('processAPI');
-      spyOn(processAPI,'get').and.returnValue({
-        $promise: promise.promise
+      spyOn(processAPI,'get').and.callFake(function(){
+        var deferred = $q.defer();
+        deferred.resolve({id: 42});
+        return {
+          $promise: deferred.promise
+        };
       });
-
+      formMappingAPI = $injector.get('formMappingAPI');
+      spyOn(formMappingAPI,'search').and.callFake(function(){
+        var deferred = $q.defer();
+        deferred.resolve({resource: {0: {target: 'INTERNAL'}, pagination: {total: 1}}});
+        return {
+          $promise: deferred.promise
+        };
+      });
 
       scope.currentCase = mockCase;
       scope.currentTask = mockTask;
@@ -136,43 +146,29 @@ describe('module tasks.details', function() {
       scope.$digest();
     }));
 
-    it('should bind param to scope', function(){
-      element.isolateScope();
-      // expect(isolated.currentTask).toEqual(mockTask);
+    it('should getProcess', function(){
 
-      // scope.currentCase = mockCase;
-      // scope.$digest();
-      // expect(isolated.currentCase).toEqual(mockCase);
+      element.isolateScope();
+
       expect(processAPI.get).toHaveBeenCalledWith({id: 42});
     });
 
-    // it('should remove children when tab is inactive', function(){
-    //   var contextTab = element[0].querySelectorAll('.tab-pane.active');
+    it('should remove children when tab is inactive', function(){
+      var contextTab = element[0].querySelectorAll('.tab-pane.active');
 
-    //   expect(contextTab[0].children.length).toBe(1);
+      expect(contextTab[0].children.length).toBe(1);
 
-    //   scope.inactive = true;
-    //   scope.$digest();
-    //   expect(contextTab[0].children.length).toBe(0);
-    // });
+      scope.inactive = true;
+      scope.$digest();
+      expect(contextTab[0].children.length).toBe(0);
+    });
 
-    // it('should update formUrl when store.currentCase change', function(){
-    //   scope.currentCase = mockCase;
-    //   spyOn(iframe, 'getTaskForm').and.returnValue(FORM_URL);
+    it('should update formUrl', function(){
 
-    //   scope.$digest();
+      var isolatedScope = element.isolateScope();
 
-    //   expect(scope.formUrl).toBe(FORM_URL);
-    // });
-
-
-    // describe('onTakeReleaseTask', function(){
-    //   it('should call controller takeReleaseTask', function(){
-    //     var isolated = element.isolateScope();
-    //     isolated.onTakeReleaseTask();
-    //     expect(ctrl.takeReleaseTask).toHaveBeenCalled();
-    //   });
-    // });
+      expect(isolatedScope.formUrl).toBe(FORM_URL);
+    });
 
   });
 });

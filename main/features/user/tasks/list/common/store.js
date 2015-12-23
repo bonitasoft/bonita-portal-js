@@ -112,12 +112,13 @@
             store.currentCase = resource;
           }, function(response){
             if(response.status === 404) {
-              archivedCaseAPI.search({
+              var archivedCasePromise = archivedCaseAPI.search({
                 p: 0,
                 c: 1,
                 f: ['sourceObjectId=' + caseId],
                 d: ['started_by', 'processDefinitionId']
-              }, function (results) {
+              }).$promise;
+              return archivedCasePromise.then(function (results) {
                 if (results.resource.pagination.total > 0) {
                   store.currentCase = results.resource[0];
                 }
