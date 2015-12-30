@@ -20,7 +20,7 @@
   describe('Resources API', function() {
 
     var mockWindow = {
-        top: {
+        parent: {
           'location': {
             reload: function() {}
           }
@@ -106,37 +106,37 @@
 
       it('should reload parent when back end respond 401', function() {
         expect(unauthorizedResponseHandler).toBeDefined();
-        spyOn(mockWindow.top.location, 'reload');
+        spyOn(mockWindow.parent.location, 'reload');
 
         unauthorizedResponseHandler.responseError({
           status: 401,
           config: {url: 'http://anyhost:8080/bonita/API/anyApi'}
         });
 
-        expect(mockWindow.top.location.reload).toHaveBeenCalled();
+        expect(mockWindow.parent.location.reload).toHaveBeenCalled();
       });
 
       it('should not reload parent otherwise', function() {
         expect(unauthorizedResponseHandler).toBeDefined();
-        spyOn(mockWindow.top.location, 'reload');
+        spyOn(mockWindow.parent.location, 'reload');
 
         unauthorizedResponseHandler.responseError({
           status: 404
         });
 
-        expect(mockWindow.top.location.reload).not.toHaveBeenCalled();
+        expect(mockWindow.parent.location.reload).not.toHaveBeenCalled();
       });
 
       it('should not reload parent if 401 due to platform license', function() {
         expect(unauthorizedResponseHandler).toBeDefined();
-        spyOn(mockWindow.top.location, 'reload');
+        spyOn(mockWindow.parent.location, 'reload');
 
         unauthorizedResponseHandler.responseError({
           status: 401,
           config: {url: 'http://anyhost:8080/bonita/API/platform/license'}
         });
 
-        expect(mockWindow.top.location.reload).not.toHaveBeenCalled();
+        expect(mockWindow.parent.location.reload).not.toHaveBeenCalled();
       });
     });
 
