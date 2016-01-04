@@ -825,8 +825,8 @@ angular.module('portalTemplates/admin/cases/list/cases-list.html', []).run(['$te
     '                <input id="case-check-{{::case.id}}" type="checkbox" bo-selector="case" >\n' +
     '              </td>\n' +
     '\n' +
-    '              <td class="text-right case-detail"><a id="case-detail-link-{{case.id}}" target="_top" href="{{::caseCtrl.getLinkToCase(case)}}">{{case[\'ID\']}}</a></td>\n' +
-    '              <td class="case-detail"><a id="case-process-link-{{case.id}}" target="_top" href="{{::caseCtrl.getLinkToProcess(case)}}">{{case[\'Process name\']}}</a></td>\n' +
+    '              <td class="text-right case-detail"><a id="case-detail-link-{{case.id}}" target="_parent" href="{{::caseCtrl.getLinkToCase(case)}}">{{case[\'ID\']}}</a></td>\n' +
+    '              <td class="case-detail"><a id="case-process-link-{{case.id}}" target="_parent" href="{{::caseCtrl.getLinkToProcess(case)}}">{{case[\'Process name\']}}</a></td>\n' +
     '              <td class="case-detail">{{::case[\'Version\']}}</td>\n' +
     '              <td class="case-detail">{{::caseCtrl.parseAndFormat(case[\'Start date\'])}}</td>\n' +
     '              <td class="case-detail">{{::case[\'Started by\'] || (\'System\' | translate)}}</td>\n' +
@@ -849,10 +849,10 @@ angular.module('portalTemplates/admin/cases/list/cases-list.html', []).run(['$te
     '              <td class="case-detail" ng-hide="!caseCtrl.displayKeys()"><search-index case="case" index="5"></search-index></td>\n' +
     '              <td class="case-link text-center">\n' +
     '                <case-visu process-id=\'{{::case.processDefinitionId.id}}\' case-id=\'{{::case.ID}}\'></case-visu>\n' +
-    '                <a id="case-overview-btn-{{::case.id}}" tooltip="{{\'View case overview\' | translate }}"  tooltip-popup-delay="500" tooltip-animation="false" target="_top" ng-href="{{::caseCtrl.getLinkToCaseOverview(case)}}" class="open-link">\n' +
+    '                <a id="case-overview-btn-{{::case.id}}" tooltip="{{\'View case overview\' | translate }}"  tooltip-popup-delay="500" tooltip-animation="false" target="_parent" ng-href="{{::caseCtrl.getLinkToCaseOverview(case)}}" class="open-link">\n' +
     '                  <span class="glyphicon glyphicon-eye-open"></span>\n' +
     '                </a>\n' +
-    '                <a id="case-detail-btn-{{::case.id}}" tooltip="{{\'View case details\' | translate }}"  tooltip-popup-delay="500" tooltip-animation="false" target="_top" ng-href="{{::caseCtrl.getLinkToCase(case)}}" class="open-link">\n' +
+    '                <a id="case-detail-btn-{{::case.id}}" tooltip="{{\'View case details\' | translate }}"  tooltip-popup-delay="500" tooltip-animation="false" target="_parent" ng-href="{{::caseCtrl.getLinkToCase(case)}}" class="open-link">\n' +
     '                  <span class="glyphicon glyphicon-option-horizontal"></span>\n' +
     '                </a>\n' +
     '              </td>\n' +
@@ -898,8 +898,8 @@ angular.module('portalTemplates/admin/cases/list/cases-list.html', []).run(['$te
     '                <input id="case-check-{{::case.id}}" type="checkbox" bo-selector="case" >\n' +
     '              </td>\n' +
     '\n' +
-    '              <td class="case-detail text-right"><a id="case-detail-link-{{case.id}}" target="_top" href="{{::caseCtrl.getLinkToCase(case)}}">{{case[\'ID\']}}</a></td>\n' +
-    '              <td class="case-detail"><a id="case-process-link-{{case.id}}" target="_top" href="{{::caseCtrl.getLinkToProcess(case)}}">{{case[\'Process name\']}}</a></td>\n' +
+    '              <td class="case-detail text-right"><a id="case-detail-link-{{case.id}}" target="_parent" href="{{::caseCtrl.getLinkToCase(case)}}">{{case[\'ID\']}}</a></td>\n' +
+    '              <td class="case-detail"><a id="case-process-link-{{case.id}}" target="_parent" href="{{::caseCtrl.getLinkToProcess(case)}}">{{case[\'Process name\']}}</a></td>\n' +
     '              <td class="case-detail">{{::case[\'Version\']}}</td>\n' +
     '              <td class="case-detail">{{::caseCtrl.parseAndFormat(case[\'Start date\'])}}</td>\n' +
     '              <td class="case-detail">{{::case[\'Started by\'] || (\'System\' | translate)}}</td>\n' +
@@ -912,10 +912,10 @@ angular.module('portalTemplates/admin/cases/list/cases-list.html', []).run(['$te
     '              <td class="case-detail" ng-hide="!caseCtrl.displayKeys()"><search-index case="case" index="5"></search-index></td>\n' +
     '              <td class="case-link text-center">\n' +
     '                <case-visu process-id=\'{{::case.processDefinitionId.id}}\' case-id=\'{{::case.ID}}\'></case-visu>\n' +
-    '                <a id="case-overview-btn-{{::case.id}}" tooltip="{{\'View case overview\' | translate }}"  tooltip-popup-delay="500" tooltip-animation="false" target="_top" ng-href="{{::caseCtrl.getLinkToArchivedCaseOverview(case)}}" class="open-link">\n' +
+    '                <a id="case-overview-btn-{{::case.id}}" tooltip="{{\'View case overview\' | translate }}"  tooltip-popup-delay="500" tooltip-animation="false" target="_parent" ng-href="{{::caseCtrl.getLinkToArchivedCaseOverview(case)}}" class="open-link">\n' +
     '                  <span class="glyphicon glyphicon-eye-open"></span>\n' +
     '                </a>\n' +
-    '                <a id="case-detail-btn-{{::case.id}}" tooltip="{{\'View case details\' | translate }}"  tooltip-popup-delay="500" tooltip-animation="false" target="_top" ng-href="{{::caseCtrl.getLinkToCase(case)}}" class="open-link">\n' +
+    '                <a id="case-detail-btn-{{::case.id}}" tooltip="{{\'View case details\' | translate }}"  tooltip-popup-delay="500" tooltip-animation="false" target="_parent" ng-href="{{::caseCtrl.getLinkToCase(case)}}" class="open-link">\n' +
     '                  <span class="glyphicon glyphicon-option-horizontal"></span>\n' +
     '                </a>\n' +
     '              </td>\n' +
@@ -1450,7 +1450,7 @@ angular.module('portalTemplates/user/cases/list/cases-list.html', []).run(['$tem
     '            <tbody>\n' +
     '\n' +
     '            <tr ng-repeat="case in cases" id="caseId-{{::case.id}}" class="case-row" ng-class="{\'info\' : case.selected}">\n' +
-    '              <td class="text-right case-detail"><a id="case-detail-link-{{case.id}}" target="_top" href="{{::caseUserCtrl.getLinkToCase(case)}}">{{case[\'ID\']}}</a></td>\n' +
+    '              <td class="text-right case-detail"><a id="case-detail-link-{{case.id}}" target="_parent" href="{{::caseUserCtrl.getLinkToCase(case)}}">{{case[\'ID\']}}</a></td>\n' +
     '              <td class="case-detail">{{::case[\'Process name\']}}</td>\n' +
     '              <td class="case-detail">{{::case[\'Version\']}}</td>\n' +
     '              <td class="case-detail">{{::caseUserCtrl.parseAndFormat(case[\'Start date\'])}}</td>\n' +
@@ -1462,10 +1462,10 @@ angular.module('portalTemplates/user/cases/list/cases-list.html', []).run(['$tem
     '              <td class="case-detail" ng-hide="!caseUserCtrl.displayKeys()"><search-index case="case" index="4"></search-index></td>\n' +
     '              <td class="case-detail" ng-hide="!caseUserCtrl.displayKeys()"><search-index case="case" index="5"></search-index></td>\n' +
     '              <td class="case-link text-center">\n' +
-    '                <a id="case-overview-btn-{{::case.id}}" tooltip="{{\'View case overview\' | translate }}"  tooltip-popup-delay="500" tooltip-animation="false" target="_top" ng-href="{{::caseUserCtrl.getLinkToCaseOverview(case)}}" class="open-link">\n' +
+    '                <a id="case-overview-btn-{{::case.id}}" tooltip="{{\'View case overview\' | translate }}"  tooltip-popup-delay="500" tooltip-animation="false" target="_parent" ng-href="{{::caseUserCtrl.getLinkToCaseOverview(case)}}" class="open-link">\n' +
     '                  <span class="glyphicon glyphicon-eye-open"></span>\n' +
     '                </a>\n' +
-    '                <a id="case-detail-btn-{{::case.id}}" tooltip="{{\'View case details\' | translate }}"  tooltip-popup-delay="500" tooltip-animation="false" target="_top" ng-href="{{::caseUserCtrl.getLinkToCase(case)}}" class="open-link">\n' +
+    '                <a id="case-detail-btn-{{::case.id}}" tooltip="{{\'View case details\' | translate }}"  tooltip-popup-delay="500" tooltip-animation="false" target="_parent" ng-href="{{::caseUserCtrl.getLinkToCase(case)}}" class="open-link">\n' +
     '                  <span class="glyphicon glyphicon-option-horizontal"></span>\n' +
     '                </a>\n' +
     '              </td>\n' +
@@ -1501,7 +1501,7 @@ angular.module('portalTemplates/user/cases/list/cases-list.html', []).run(['$tem
     '            </thead>\n' +
     '            <tbody>\n' +
     '            <tr ng-repeat="case in cases" id="caseId-{{::case.id}}" class="case-row" ng-class="{\'info\' : case.selected}">\n' +
-    '              <td class="case-detail text-right"><a id="case-detail-link-{{case.id}}" target="_top" href="{{::caseUserCtrl.getLinkToCase(case)}}">{{case[\'ID\']}}</a></td>\n' +
+    '              <td class="case-detail text-right"><a id="case-detail-link-{{case.id}}" target="_parent" href="{{::caseUserCtrl.getLinkToCase(case)}}">{{case[\'ID\']}}</a></td>\n' +
     '              <td class="case-detail">{{::case[\'Process name\']}}</td>\n' +
     '              <td class="case-detail">{{::case[\'Version\']}}</td>\n' +
     '              <td class="case-detail">{{::caseUserCtrl.parseAndFormat(case[\'Start date\'])}}</td>\n' +
@@ -1513,10 +1513,10 @@ angular.module('portalTemplates/user/cases/list/cases-list.html', []).run(['$tem
     '              <td class="case-detail" ng-hide="!caseUserCtrl.displayKeys()"><search-index case="case" index="4"></search-index></td>\n' +
     '              <td class="case-detail" ng-hide="!caseUserCtrl.displayKeys()"><search-index case="case" index="5"></search-index></td>\n' +
     '              <td class="case-link text-center">\n' +
-    '                <a id="case-overview-btn-{{::case.id}}" tooltip="{{\'View case overview\' | translate }}"  tooltip-popup-delay="500" tooltip-animation="false" target="_top" ng-href="{{::caseUserCtrl.getLinkToArchivedCaseOverview(case)}}" class="open-link">\n' +
+    '                <a id="case-overview-btn-{{::case.id}}" tooltip="{{\'View case overview\' | translate }}"  tooltip-popup-delay="500" tooltip-animation="false" target="_parent" ng-href="{{::caseUserCtrl.getLinkToArchivedCaseOverview(case)}}" class="open-link">\n' +
     '                  <span class="glyphicon glyphicon-eye-open"></span>\n' +
     '                </a>\n' +
-    '                <a id="case-detail-btn-{{::case.id}}" tooltip="{{\'View case details\' | translate }}"  tooltip-popup-delay="500" tooltip-animation="false" target="_top" ng-href="{{::caseUserCtrl.getLinkToCase(case)}}" class="open-link">\n' +
+    '                <a id="case-detail-btn-{{::case.id}}" tooltip="{{\'View case details\' | translate }}"  tooltip-popup-delay="500" tooltip-animation="false" target="_parent" ng-href="{{::caseUserCtrl.getLinkToCase(case)}}" class="open-link">\n' +
     '                  <span class="glyphicon glyphicon-option-horizontal"></span>\n' +
     '                </a>\n' +
     '              </td>\n' +
