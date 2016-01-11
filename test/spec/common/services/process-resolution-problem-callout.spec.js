@@ -51,7 +51,7 @@
           type: 'actor'
         }])).toEqual([{
           type: 'actor',
-          message: 'Entity Mapping must be resolved before enabling the Process.'
+          message: 'Actors must be resolved before enabling the Process.'
         }]);
       });
     });
@@ -63,7 +63,7 @@
           type: 'connector'
         }])).toEqual([{
           type: 'connector',
-          message: 'Connector definitions must be resolved before enabling the Process.'
+          message: 'Connectors must be resolved before enabling the Process.'
         }]);
       });
     });
@@ -118,7 +118,7 @@
           'ressource_id': 'PROCESS_OVERVIEW'
         }])).toEqual([{
           type: 'form mapping',
-          message: 'The following form mappings are not resolved: [ {} ]',
+          message: 'The following form mappings are not resolved: [ {} ]. They must be resolved before enabling the Process.',
           args: 'news, Case overview'
         }]);
         expect(processProblemResolutionService.buildProblemsList([{
@@ -132,7 +132,7 @@
           'ressource_id': 'links'
         }])).toEqual([{
           type: 'form mapping',
-          message: 'The following form mappings are not resolved: [ {} ]',
+          message: 'The following form mappings are not resolved: [ {} ]. They must be resolved before enabling the Process.',
           args: 'Case overview, Case start,...'
         }]);
       });
@@ -145,7 +145,7 @@
           type: 'parameter'
         }])).toEqual([{
           type: 'actor',
-          message: 'Entity Mapping must be resolved before enabling the Process.'
+          message: 'Actors must be resolved before enabling the Process.'
         }, {
           type: 'parameter',
           message: 'Parameters must be resolved before enabling the Process.'
@@ -156,7 +156,7 @@
           type: 'actor'
         }])).toEqual([{
           type: 'actor',
-          message: 'Entity Mapping must be resolved before enabling the Process.'
+          message: 'Actors must be resolved before enabling the Process.'
         }, {
           type: 'parameter',
           message: 'Parameters must be resolved before enabling the Process.'
@@ -178,10 +178,10 @@
           type: 'connector'
         }])).toEqual([{
           type: 'actor',
-          message: 'Entity Mapping must be resolved before enabling the Process.'
+          message: 'Actors must be resolved before enabling the Process.'
         }, {
           type: 'connector',
-          message: 'Connector definitions must be resolved before enabling the Process.'
+          message: 'Connectors must be resolved before enabling the Process.'
         }, {
           type: 'parameter',
           message: 'Parameters must be resolved before enabling the Process.'

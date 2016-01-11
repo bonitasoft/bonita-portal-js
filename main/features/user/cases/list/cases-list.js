@@ -204,13 +204,13 @@
 
     vm.getLinkToCaseOverview = function (caseItem) {
       if (caseItem) {
-        return manageTopUrl.getPath() + manageTopUrl.getSearch() + '#?name=' + caseItem.processDefinitionId.name + '&version=' + caseItem.processDefinitionId.version + '&id=' + caseItem.id + '&token=DisplayCaseForm&_p=DisplayCaseForm' + '&_pf=' + manageTopUrl.getCurrentProfile();
+        return manageTopUrl.getPath() + manageTopUrl.getSearch() + '#?name=' + caseItem.processDefinitionId.name + '&version=' + caseItem.processDefinitionId.version + '&processDefinitionId=' + caseItem.processDefinitionId.id + '&id=' + caseItem.id + '&token=DisplayCaseForm&_p=DisplayCaseForm' + '&_pf=' + manageTopUrl.getCurrentProfile();
       }
     };
 
     vm.getLinkToArchivedCaseOverview = function(archivedCaseItem) {
       if (archivedCaseItem) {
-        return manageTopUrl.getPath() + manageTopUrl.getSearch() + '#?name=' + archivedCaseItem.processDefinitionId.name + '&version=' + archivedCaseItem.processDefinitionId.version + '&id=' + archivedCaseItem.id + '&sourceObjectId=' + archivedCaseItem.sourceObjectId + '&token=DisplayCaseForm&_p=DisplayCaseForm' + '&_pf=' + manageTopUrl.getCurrentProfile();
+        return manageTopUrl.getPath() + manageTopUrl.getSearch() + '#?name=' + archivedCaseItem.processDefinitionId.name + '&version=' + archivedCaseItem.processDefinitionId.version + '&processDefinitionId=' + archivedCaseItem.processDefinitionId.id + '&id=' + archivedCaseItem.id + '&sourceObjectId=' + archivedCaseItem.sourceObjectId + '&token=DisplayCaseForm&_p=DisplayCaseForm' + '&_pf=' + manageTopUrl.getCurrentProfile();
       }
     };
 
