@@ -41,7 +41,7 @@
             <tbody>
 
             <tr ng-repeat="case in cases" id="caseId-{{::case.id}}" class="case-row" ng-class="{'info' : case.selected}">
-              <td class="text-right case-detail"><a id="case-detail-link-{{case.id}}" target="_top" href="{{::caseUserCtrl.getLinkToCase(case)}}">{{case['ID']}}</a></td>
+              <td class="text-right case-detail"><a id="case-detail-link-{{case.id}}" target="_parent" href="{{::caseUserCtrl.getLinkToCase(case)}}">{{case['ID']}}</a></td>
               <td class="case-detail">{{::case['Process name']}}</td>
               <td class="case-detail">{{::case['Version']}}</td>
               <td class="case-detail">{{::caseUserCtrl.parseAndFormat(case['Start date'])}}</td>
@@ -53,10 +53,10 @@
               <td class="case-detail" ng-hide="!caseUserCtrl.displayKeys()"><search-index case="case" index="4"></search-index></td>
               <td class="case-detail" ng-hide="!caseUserCtrl.displayKeys()"><search-index case="case" index="5"></search-index></td>
               <td class="case-link text-center">
-                <a id="case-overview-btn-{{::case.id}}" tooltip="{{'View case overview' | translate }}"  tooltip-popup-delay="500" tooltip-animation="false" target="_top" ng-href="{{::caseUserCtrl.getLinkToCaseOverview(case)}}" class="open-link">
+                <a id="case-overview-btn-{{::case.id}}" tooltip="{{'View case overview' | translate }}"  tooltip-popup-delay="500" tooltip-animation="false" target="_parent" ng-href="{{::caseUserCtrl.getLinkToCaseOverview(case)}}" class="open-link">
                   <span class="glyphicon glyphicon-eye-open"></span>
                 </a>
-                <a id="case-detail-btn-{{::case.id}}" tooltip="{{'View case details' | translate }}"  tooltip-popup-delay="500" tooltip-animation="false" target="_top" ng-href="{{::caseUserCtrl.getLinkToCase(case)}}" class="open-link">
+                <a id="case-detail-btn-{{::case.id}}" tooltip="{{'View case details' | translate }}"  tooltip-popup-delay="500" tooltip-animation="false" target="_parent" ng-href="{{::caseUserCtrl.getLinkToCase(case)}}" class="open-link">
                   <span class="glyphicon glyphicon-option-horizontal"></span>
                 </a>
               </td>
@@ -92,7 +92,7 @@
             </thead>
             <tbody>
             <tr ng-repeat="case in cases" id="caseId-{{::case.id}}" class="case-row" ng-class="{'info' : case.selected}">
-              <td class="case-detail text-right"><a id="case-detail-link-{{case.id}}" target="_top" href="{{::caseUserCtrl.getLinkToCase(case)}}">{{case['ID']}}</a></td>
+              <td class="case-detail text-right"><a id="case-detail-link-{{case.id}}" target="_parent" href="{{::caseUserCtrl.getLinkToCase(case)}}">{{case['ID']}}</a></td>
               <td class="case-detail">{{::case['Process name']}}</td>
               <td class="case-detail">{{::case['Version']}}</td>
               <td class="case-detail">{{::caseUserCtrl.parseAndFormat(case['Start date'])}}</td>
@@ -104,10 +104,10 @@
               <td class="case-detail" ng-hide="!caseUserCtrl.displayKeys()"><search-index case="case" index="4"></search-index></td>
               <td class="case-detail" ng-hide="!caseUserCtrl.displayKeys()"><search-index case="case" index="5"></search-index></td>
               <td class="case-link text-center">
-                <a id="case-overview-btn-{{::case.id}}" tooltip="{{'View case overview' | translate }}"  tooltip-popup-delay="500" tooltip-animation="false" target="_top" ng-href="{{::caseUserCtrl.getLinkToArchivedCaseOverview(case)}}" class="open-link">
+                <a id="case-overview-btn-{{::case.id}}" tooltip="{{'View case overview' | translate }}"  tooltip-popup-delay="500" tooltip-animation="false" target="_parent" ng-href="{{::caseUserCtrl.getLinkToArchivedCaseOverview(case)}}" class="open-link">
                   <span class="glyphicon glyphicon-eye-open"></span>
                 </a>
-                <a id="case-detail-btn-{{::case.id}}" tooltip="{{'View case details' | translate }}"  tooltip-popup-delay="500" tooltip-animation="false" target="_top" ng-href="{{::caseUserCtrl.getLinkToCase(case)}}" class="open-link">
+                <a id="case-detail-btn-{{::case.id}}" tooltip="{{'View case details' | translate }}"  tooltip-popup-delay="500" tooltip-animation="false" target="_parent" ng-href="{{::caseUserCtrl.getLinkToCase(case)}}" class="open-link">
                   <span class="glyphicon glyphicon-option-horizontal"></span>
                 </a>
               </td>

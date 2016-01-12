@@ -22,7 +22,7 @@ describe('topLocationFactory', function () {
   beforeEach(module('org.bonitasoft.services.navigation'));
 
   beforeEach(function () {
-    $window = {top: {location: {}}};
+    $window = {parent: {location: {}}};
 
     module(function ($provide) {
       $provide.value('$window', $window);
@@ -34,7 +34,7 @@ describe('topLocationFactory', function () {
   });
 
   it('should retrieve profile from top window hash', function () {
-    $window.top.location.hash = '_pf=2';
+    $window.parent.location.hash = '_pf=2';
     expect(topLocation._pf).toBe('2');
   });
 
@@ -43,7 +43,7 @@ describe('topLocationFactory', function () {
   });
 
   it('should retrieve tenant from top window query string', function () {
-    $window.top.location.search = 'tenant=4';
+    $window.parent.location.search = 'tenant=4';
     expect(topLocation.tenant).toBe('4');
   });
 

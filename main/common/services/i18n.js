@@ -108,11 +108,11 @@
     I18N_KEYS['processDetails.forms.upload.error.name.already.exists'] = gettext('A page with this name already exists.');
     I18N_KEYS['processDetails.forms.upload.error.filename.invalid'] = gettext('The name for the URL must start with custompage_ followed only by alphanumeric characters.');
     I18N_KEYS['processDetails.forms.upload.error.compilation'] = gettext('Compilation failure. Verify that the Index.groovy class implements the PageController interface.');
-    I18N_KEYS['processDetails.problemResolution.message.actor'] = gettext('Entity Mapping must be resolved before enabling the Process.');
-    I18N_KEYS['processDetails.problemResolution.message.connector'] = gettext('Connector definitions must be resolved before enabling the Process.');
+    I18N_KEYS['processDetails.problemResolution.message.actor'] = gettext('Actors must be resolved before enabling the Process.');
+    I18N_KEYS['processDetails.problemResolution.message.connector'] = gettext('Connectors must be resolved before enabling the Process.');
     I18N_KEYS['processDetails.problemResolution.message.parameter'] = gettext('Parameters must be resolved before enabling the Process.');
     I18N_KEYS['processDetails.problemResolution.message.businessData'] = gettext('The business data: [ {} ] uses Business Objects which are not defined in the current Business Data model. Deploy a compatible Business Data model before enabling the process.');
-    I18N_KEYS['processDetails.problemResolution.message.formMapping'] = gettext('The following form mappings are not resolved: [ {} ]');
+    I18N_KEYS['processDetails.problemResolution.message.formMapping'] = gettext('The following form mappings are not resolved: [ {} ]. They must be resolved before enabling the Process.');
     I18N_KEYS['processDetails.problemResolution.title'] = gettext('The Process cannot be enabled');
     I18N_KEYS['processDetails.problemResolution.resource.caseOverview'] = gettext('Case overview');
     I18N_KEYS['processDetails.problemResolution.resource.caseStart'] = gettext('Case start');

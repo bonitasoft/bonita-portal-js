@@ -33,12 +33,12 @@
       return Object.create({}, {
         _pf: {
           get: function () {
-            return grab(/_pf=([1-9]*)/).from($window.top.location.hash);
+            return grab(/_pf=([1-9]*)/).from($window.parent.location.hash);
           }
         },
         tenant: {
           get: function () {
-            return grab(/tenant=([1-9]*)/).from($window.top.location.search);
+            return grab(/tenant=([1-9]*)/).from($window.parent.location.search);
           }
         }
       });
