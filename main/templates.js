@@ -950,7 +950,7 @@ angular.module('portalTemplates/admin/cases/list/cases.html', []).run(['$templat
     '\n' +
     '  <div>\n' +
     '    <ul class="nav nav-tabs" role="tablist">\n' +
-    '      <li role="presentation" ng-repeat="caseState in casesStates" ng-class="{\'active\' : state.is(caseState.state)}"><a class="title" href="" bonita-href="{\'token\' : currentToken, \'_tab\' : caseState.tabName}" id="{{:: caseState.htmlAttributeId}}">{{:: caseState.title | translate}}</a></li>\n' +
+    '      <li role="presentation" ng-repeat="caseState in casesStates" ng-class="{\'active\' : state.is(caseState.state)}"><a class="title" href="" bonita-href="{\'token\' : currentToken, \'_tab\' : caseState.tabName}" id="{{:: caseState.htmlAttributeId}}">{{:: caseState.title}}</a></li>\n' +
     '    </ul>\n' +
     '    <div ui-view=\'case-list\' id="case-list-tab-content"></div>\n' +
     '  </div>\n' +
@@ -1551,7 +1551,7 @@ angular.module('portalTemplates/user/cases/list/cases.html', []).run(['$template
     '\n' +
     '  <div>\n' +
     '    <ul class="nav nav-tabs" role="tablist">\n' +
-    '      <li role="presentation" ng-repeat="caseState in casesStates" ng-class="{\'active\' : state.is(caseState.state)}"><a class="title" href="" bonita-href="{\'token\' : currentToken, \'_tab\' : caseState.tabName}" id="{{:: caseState.htmlAttributeId}}">{{:: caseState.title | translate}}</a></li>\n' +
+    '      <li role="presentation" ng-repeat="caseState in casesStates" ng-class="{\'active\' : state.is(caseState.state)}"><a class="title" href="" bonita-href="{\'token\' : currentToken, \'_tab\' : caseState.tabName}" id="{{:: caseState.htmlAttributeId}}">{{:: caseState.title}}</a></li>\n' +
     '    </ul>\n' +
     '    <div ui-view=\'case-list\' id="case-list-tab-content"></div>\n' +
     '  </div>\n' +
