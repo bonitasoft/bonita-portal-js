@@ -53,7 +53,8 @@
       return i18n;
     })
   .run(function(I18N_KEYS, gettext) {
-
+    I18N_KEYS['caselist.casesStates.active.title'] = gettext('Open cases');
+    I18N_KEYS['caselist.casesStates.archived.title'] = gettext('Archived cases');
     I18N_KEYS['caselist.delete.single'] = gettext('1 case has been deleted');
     I18N_KEYS['caselist.delete.multiple'] = gettext('{{nbOfDeletedCases}} cases have been deleted');
     I18N_KEYS['processDetails.informations.category.update.error'] = gettext('An error occured during categories update');
