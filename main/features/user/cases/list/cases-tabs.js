@@ -23,6 +23,7 @@
     'org.bonitasoft.features.user.cases.list.table',
     'ui.bootstrap',
     'gettext',
+    'org.bonitasoft.services.i18n',
     'org.bonitasoft.services.topurl',
     'org.bonitasoft.features.user.cases.list.values',
     'org.bonitasoft.common.directives.bonitaHref'
@@ -99,8 +100,8 @@
         });
       }
     )
-    .controller('CaseUserCtrl', ['$scope', '$state', 'manageTopUrl',
-      function($scope, $state, manageTopUrl) {
+    .controller('CaseUserCtrl', ['$scope', '$state', 'manageTopUrl', 'i18nService',
+      function($scope, $state, manageTopUrl, i18nService) {
         //ui-sref-active seems to bug when the processId is passed
         //need to implement it ourselves...
         $scope.state = $state;
@@ -108,12 +109,12 @@
         $scope.casesStates = [];
         $scope.casesStates.push({
           state: 'bonita.userCases.active',
-          title: 'Open cases',
+          title: i18nService.getKey('caselist.casesStates.active.title'),
           htmlAttributeId: 'TabActiveCases'
         });
         $scope.casesStates.push({
           state: 'bonita.userCases.archived',
-          title: 'Archived cases',
+          title: i18nService.getKey('caselist.casesStates.archived.title'),
           tabName : 'archived',
           htmlAttributeId: 'TabArchivedCases'
         });
