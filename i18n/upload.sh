@@ -62,7 +62,14 @@ msgcat ./main/assets/bonita-js-components/i18n/bonita-js-components.pot $BUILD_D
 check_errors $? "Error while concatenating pot files"
 
 echo "Exporting community pot to $PROJECT crowdin project ..."
+curl -F "name=$BRANCH_NAME/bonita-web/portal"  \
+\
+   https://api.crowdin.com/api/project/$PROJECT/add-directory?key=$CROWDINKEY
+
+curl -F "files[$BRANCH_NAME/bonita-web/portal/portal-js.pot]=@$BUILD_DIR/portal-js-concat.pot"  \
+     -F "export_patterns[$BRANCH_NAME/bonita-web/portal/portal-js.pot]=/$BRANCH_NAME/bonita-web/portal/portal-js_%locale_with_underscore%.po" \
+   https://api.crowdin.com/api/project/$PROJECT/add-file?key=$CROWDINKEY
+
 curl -F "files[$BRANCH_NAME/bonita-web/portal/portal-js.pot]=@$BUILD_DIR/portal-js-concat.pot"  \
      -F "export_patterns[$BRANCH_NAME/bonita-web/portal/portal-js.pot]=/$BRANCH_NAME/bonita-web/portal/portal-js_%locale_with_underscore%.po" \
    https://api.crowdin.com/api/project/$PROJECT/update-file?key=$CROWDINKEY
-check_errors $? "Error while uploading pot file"
