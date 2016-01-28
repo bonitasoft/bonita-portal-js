@@ -12,7 +12,11 @@
    * {function} filterChange  an event handler triggered when filter change
    */
   angular
-    .module('org.bonitasoft.features.user.tasks.filter',['ui.bootstrap.buttons', 'ui.bootstrap.collapse'])
+    .module('org.bonitasoft.features.user.tasks.filter',[
+      'ui.bootstrap.buttons',
+      'ui.bootstrap.collapse',
+      'gettext'
+    ])
     .directive('taskFilters', [
       function(){
         return {
