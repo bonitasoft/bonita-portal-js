@@ -286,17 +286,17 @@ describe('taskApp', function(){
     });
 
     describe('updateAll', function(){
-      it('should trigger updateTasks & updateCount', function(){
+      it('should trigger updateProcessList, updateTasks & updateCount', function(){
         spyOn(controller, 'updateTasks');
         spyOn(controller, 'updateCount');
+        spyOn(controller, 'updateProcessList');
 
         controller.updateAll();
+        expect(controller.updateProcessList).toHaveBeenCalled();
         expect(controller.updateCount).toHaveBeenCalled();
         expect(controller.updateTasks).toHaveBeenCalled();
       });
     });
-
-
 
     describe('updateProcessList', function(){
       var store;
