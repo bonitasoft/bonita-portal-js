@@ -151,7 +151,8 @@ module.exports = function (grunt) {
           return [
                   forward('/bonita/apps'),
                   forward('/bonita/API'),
-                  forward('/bonita/portal/')
+                  forward('/bonita/portal/'),
+                  forward('/bonita/services/')
               ];
         })()
       },

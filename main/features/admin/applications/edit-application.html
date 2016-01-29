@@ -51,7 +51,7 @@
     <bootstrap-form-control form="application.form" class="select-form-container" label="{{ 'Profile' | translate }}">
       <select id="profile"
               name="profile" ng-model="application.model.profileId"
-              ng-options="profile.id as profile.name for profile in profiles"></select>
+              ng-options="profile.id as profile.name for profile in profiles" required></select>
     </bootstrap-form-control>
 
 
