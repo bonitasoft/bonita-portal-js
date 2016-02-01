@@ -53,11 +53,15 @@ module.exports = function (grunt) {
         tasks: ['wiredep']
       },
       js: {
-        files: ['<%= portaljs.app %>/*.js', '<%= portaljs.app %>/features/**/*.js', '<%= portaljs.app %>/commons/**/*.js', '<%= portaljs.app %>/assets/**/*.js'],
+        files: ['<%= portaljs.app %>/*.js', '<%= portaljs.app %>/features/**/*.js', '<%= portaljs.app %>/commons/**/*.js', '<%= portaljs.app %>/assets/**/*.js', '!<%= portaljs.app %>/templates.js'],
         tasks: ['newer:jshint:all', 'ngdocs:all'],
         options: {
           livereload: true
         }
+      },
+      html: {
+        files: ['main/features/**/*.html'],
+        tasks: ['html2js']
       },
       jsTest: {
         files: ['test/spec/**/*.js'],
@@ -79,7 +83,7 @@ module.exports = function (grunt) {
           livereload: '<%= connect.options.livereload %>'
         },
         files: [
-          '<%= portaljs.app %>/**/*.html',
+          '<%= portaljs.app %>/templates.js',
           '.tmp/styles/{,*/}*.css'
         ]
       }
