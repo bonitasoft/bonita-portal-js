@@ -13,3 +13,4 @@ test/e2e-reports/TEST-*
 .idea/
 coverage/
 sonar/
+*.iml
