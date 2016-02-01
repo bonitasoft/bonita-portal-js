@@ -92,19 +92,19 @@ module.exports = function(config) {
 
     // Continuous Integration mode
     // if true, it capture browsers, run tests and exit
-    singleRun: false,
+    singleRun: true,
 
     reporters: ['dots', 'junit', 'coverage'],
 
     junitReporter: {
-      outputFile: 'test/TESTS-xunit.xml'
+      outputFile: 'target/reports/unit/TESTS-xunit.xml'
     },
 
     coverageReporter: {
       type: 'lcov',
-      dir: 'coverage',
+      dir: 'target/reports/coverage',
       subdir: '.'
-    },
+    }
 
     //ngHtml2JsPreprocessor: {
       // prepend this to the

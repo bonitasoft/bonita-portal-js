@@ -36,6 +36,6 @@ exports.config = {
   // this until inside the onPrepare function.
     require('jasmine-reporters');
     jasmine.getEnv().addReporter(
-      new jasmine.JUnitXmlReporter('test/e2e-reports/'));
+      new jasmine.JUnitXmlReporter('target/reports/e2e/'));
   }
 };

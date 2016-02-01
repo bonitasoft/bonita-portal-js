@@ -62,9 +62,12 @@
     "node": "0.10.29"
   },
   "scripts": {
+    "build": "grunt",
     "test": "grunt test",
-    "testwatch": "./node_modules/karma/bin/karma start karma.conf.js --auto-watch",
+    "test:watch": "karma start karma.conf.js --auto-watch",
     "postinstall": "bower cache clean && bower install",
-    "pot": "grunt pot"
+    "pot": "grunt pot",
+    "pree2e": "webdriver-manager update",
+    "e2e": "grunt buildE2e"
   }
 }

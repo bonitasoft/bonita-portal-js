@@ -1,15 +1,12 @@
 **/node_modules
 **/dist
 **/.tmp
-**/.sass-cache
 **/main/assets
-target
-target-grunt
-test/TESTS-xunit.xml
-main/docs
+target/
+
 i18n/portal-js.pot
-main/i18n.js
-test/e2e-reports/TEST-*
+
+# IDE
+*.iml
 .idea/
-coverage/
-sonar/
+.settings/
