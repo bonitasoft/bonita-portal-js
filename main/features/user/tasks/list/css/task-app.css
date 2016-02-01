@@ -158,6 +158,11 @@
   padding-left: 1.2em;
   padding-right:0;
 }
+
+.SearchBox-input::-ms-clear {
+   display: none;
+ }
+
 .SearchBox-icon {
   position:absolute;
   top:50%;
