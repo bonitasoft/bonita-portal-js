@@ -31,39 +31,16 @@
                 </configuration>
               </execution>
               <execution>
-                <id>init-selenium</id>
+                <id>npm-e2e</id>
                 <phase>prepare-package</phase>
                 <goals>
                   <goal>exec</goal>
                 </goals>
                 <configuration>
-                  <executable>./init-selenium.sh</executable>
-                </configuration>
-              </execution>
-              <execution>
-                <id>report-folder</id>
-                <phase>prepare-package</phase>
-                <goals>
-                  <goal>exec</goal>
-                </goals>
-                <configuration>
-                  <executable>mkdir</executable>
+                  <executable>npm</executable>
                   <arguments>
-                    <argument>-p</argument>
-                    <argument>test/e2e-reports</argument>
-                  </arguments>
-                </configuration>
-              </execution>
-              <execution>
-                <id>grunt-exec</id>
-                <phase>prepare-package</phase>
-                <goals>
-                  <goal>exec</goal>
-                </goals>
-                <configuration>
-                  <executable>grunt</executable>
-                  <arguments>
-                    <argument>buildE2e</argument>
+                    <argument>run</argument>
+                    <argument>e2e</argument>
                   </arguments>
                 </configuration>
               </execution>
@@ -100,7 +77,7 @@
 								</configuration>
 							</execution>
 							<execution>
-								<id>grunt-exec</id>
+								<id>npm-build</id>
 								<phase>prepare-package</phase>
 								<goals>
 									<goal>exec</goal>
@@ -108,7 +85,7 @@
 								<configuration>
 									<executable>cmd.exe</executable>
 									<arguments>
-										<argument>/c grunt</argument>
+										<argument>/c npm run build</argument>
 									</arguments>
 								</configuration>
 							</execution>
@@ -165,13 +142,17 @@
 								</configuration>
 							</execution>
 							<execution>
-								<id>grunt-exec</id>
+								<id>npm-build</id>
 								<phase>prepare-package</phase>
 								<goals>
 									<goal>exec</goal>
 								</goals>
 								<configuration>
-									<executable>grunt</executable>
+									<executable>npm</executable>
+                  <arguments>
+                    <argument>run</argument>
+                    <argument>build</argument>
+                  </arguments>
 								</configuration>
 							</execution>
 						</executions>
