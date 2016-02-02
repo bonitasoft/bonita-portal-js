@@ -20,7 +20,8 @@
     'ui.bootstrap.modal',
     'ui.bootstrap.buttons',
     'ui.bootstrap.dropdown',
-    'ngToast'
+    'ngToast',
+    'gettext'
   ])
 
   /**
@@ -35,14 +36,6 @@
       });
     }
   ])
-
-  /**
-   * Iframe spy related messages
-   * @see  ui.iframe.spy.formSpy directives
-   */
-  .constant('FORM_SUCCESS', 'Form submitted.<br/>The next task in the list is now selected.')
-    .constant('FORM_ERROR', 'An error occurred while submitting the form.')
-    .constant('FORM_ERROR_TOO_BIG', 'The attachment is too big.<br/>Select a smaller attachment and submit the form again.')
 
   /**
    * Controller for the task-app diretive
@@ -63,11 +56,9 @@
     'ngToast',
     'TASK_FILTERS',
     'PAGE_SIZES',
-    'FORM_SUCCESS',
-    'FORM_ERROR',
-    'FORM_ERROR_TOO_BIG',
     '$timeout',
-    function($modal, $q, taskListStore, sessionAPI, screen, iframe, preference, humanTaskAPI, processAPI, ngToast, TASK_FILTERS, PAGE_SIZES, FORM_SUCCESS, FORM_ERROR, FORM_ERROR_TOO_BIG, $timeout) {
+    'gettextCatalog',
+    function($modal, $q, taskListStore, sessionAPI, screen, iframe, preference, humanTaskAPI, processAPI, ngToast, TASK_FILTERS, PAGE_SIZES, $timeout, gettextCatalog) {
       var store = taskListStore;
       this.tasks = store.tasks;
       this.request = store.request;
@@ -380,18 +371,18 @@
           if (jsonMessage.dataFromError === 'fileTooBigError' || jsonMessage.status === 413) {
             ngToast.create({
               className:'danger',
-              content: FORM_ERROR_TOO_BIG
+              content: gettextCatalog.getString('The attachment is too big.<br/>Select a smaller attachment and submit the form again.')
             });
           } else {
             ngToast.create({
               className: 'danger',
-              content: FORM_ERROR
+              content: gettextCatalog.getString('An error occurred while submitting the form.')
             });
             this.updateTasks();
             this.updateCount();
           }
         } else if (jsonMessage.message === 'success'){
-          ngToast.create(FORM_SUCCESS);
+          ngToast.create(gettextCatalog.getString('Form submitted.<br/>The next task in the list is now selected.'));
           this.updateTasks();
           this.updateCount();
           if(this.modaleInstance) {

@@ -1,7 +1,7 @@
 <div class="modal-body">
-  <button type="button" ng-click="modal.cancel()" class="close" title="close form">
+  <button type="button" ng-click="modal.cancel()" class="close" title="{{ 'Close form' | translate }}">
     <span aria-hidden="true">&times;</span>
-    <span class="sr-only">Close</span>
+    <span class="sr-only" translate>Close</span>
   </button>
    <bonita-iframe-viewer class="FormViewer"
       ng-if="modal.hasForm"
@@ -17,5 +17,5 @@
     </no-form>
 </div>
 <div class="modal-footer">
-  <button type="button" class="btn btn-warning" title="close form" ng-click="modal.cancel()">Close form</button>
+  <button type="button" class="btn btn-warning" title="close form" ng-click="modal.cancel()" translate>Close form</button>
 </div>

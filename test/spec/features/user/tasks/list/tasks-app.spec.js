@@ -443,23 +443,25 @@ describe('taskApp', function(){
         spyOn(ngToast, 'create');
       }));
 
-      it('should display a toast message', inject(function(FORM_SUCCESS){
+      it('should display a toast message', function() {
         controller.onFormSubmited('{"message":"success"}');
-        expect(ngToast.create).toHaveBeenCalledWith(FORM_SUCCESS);
-      }));
+        expect(ngToast.create).toHaveBeenCalledWith('Form submitted.<br/>The next task in the list is now selected.');
+      });
 
-      it('should display a error message', inject(function(FORM_ERROR){
+      it('should display a error message', function(){
         controller.onFormSubmited('{"message":"error"}');
-        expect(ngToast.create).toHaveBeenCalledWith({content:FORM_ERROR, className:'danger'});
-      }));
-      it('should display a file too Big error message', inject(function(FORM_ERROR_TOO_BIG){
+        expect(ngToast.create).toHaveBeenCalledWith({content:'An error occurred while submitting the form.', className:'danger'});
+      });
+
+      it('should display a file too Big error message', function(){
         controller.onFormSubmited('{"message":"error","dataFromError":"fileTooBigError"}');
-        expect(ngToast.create).toHaveBeenCalledWith({content:FORM_ERROR_TOO_BIG, className:'danger'});
-      }));
-      it('should display a file too Big error message for a status 413', inject(function(FORM_ERROR_TOO_BIG){
+        expect(ngToast.create).toHaveBeenCalledWith({content:'The attachment is too big.<br/>Select a smaller attachment and submit the form again.', className:'danger'});
+      });
+
+      it('should display a file too Big error message for a status 413', function(){
         controller.onFormSubmited('{"message":"error","status":413}');
-        expect(ngToast.create).toHaveBeenCalledWith({content:FORM_ERROR_TOO_BIG, className:'danger'});
-      }));
+        expect(ngToast.create).toHaveBeenCalledWith({content:'The attachment is too big.<br/>Select a smaller attachment and submit the form again.', className:'danger'});
+      });
     });
 
   });

@@ -1,5 +1,5 @@
 <!-- tasks listing -->
-<div class="alert alert-noresult" ng-show="tasks.length === 0">
+<div class="alert alert-noresult" ng-show="tasks.length === 0" translate>
   No matching results
 </div>
 <div bonitable
@@ -9,13 +9,13 @@
   repeatable-config="columnSettings">
   <div class="GroupAction clearfix" ng-show="tasks.length > 0">
     <div class="GroupAction-button pull-left" ng-show="canDoGroupAction()">
-      <button class="btn btn-primary" type="button" title="Assign the task to myself and move it to My tasks."
+      <button class="btn btn-primary" type="button" title="{{ 'Assign the task to myself and move it to My tasks.' | translate }}"
          ng-disabled="!canTake($selectedItems)" ng-click="takeTasks($selectedItems)">
-         <i class="glyphicon glyphicon-save"></i> Take
+         <i class="glyphicon glyphicon-save">&nbsp;</i><translate>Take</translate>
       </button>
-      <button class="btn btn-default"  type="button" title="Unassign the task and put it back in Available tasks"
+      <button class="btn btn-default"  type="button" title="{{ 'Unassign the task and put it back in Available tasks' | translate }}"
         ng-disabled="!canRelease($selectedItems)" ng-click="releaseTasks($selectedItems)">
-        <i class="glyphicon glyphicon-open"></i> Release
+        <i class="glyphicon glyphicon-open">&nbsp;</i><translate>Release</translate>
       </button>
     </div>
     <div class="PaginationInfo pull-right">
@@ -52,17 +52,17 @@
             <div bo-selectall></div>
           </th>
           <th data-ignore class="Cell--assignee">
-            <i class="icon-user" title="Available or My tasks"></i>
+            <i class="icon-user" title="{{ 'Available or My tasks' | translate }}"></i>
           </th><!-- assigned icon -->
-          <th class="text-right">Task Id</th>
-          <th bo-sorter="displayName" style="width:30%; min-width:150px">Task name</th>
-          <th style="width:30%; min-width:150px">Description</th>
-          <th bo-sorter="processInstanceId" class="text-right">Case Id</th>
-          <th style="width:30%; min-width:150px">Process name</th>
-          <th class="text-right">Last update</th>
-          <th class="text-right">Assigned on</th>
-          <th bo-sorter="dueDate" class="text-right">Due date</th>
-          <th bo-sorter="priority">Priority</th>
+          <th class="text-right" translate>Task Id</th>
+          <th bo-sorter="displayName" style="width:30%; min-width:150px">{{ 'Task name' | translate }}</th>
+          <th style="width:30%; min-width:150px" translate>Description</th>
+          <th bo-sorter="processInstanceId" class="text-right">{{ 'Case Id' | translate }}</th>
+          <th style="width:30%; min-width:150px" translate>Process name</th>
+          <th class="text-right" translate>Last update</th>
+          <th class="text-right" translate>Assigned on</th>
+          <th bo-sorter="dueDate" class="text-right">{{ 'Due date' | translate }}</th>
+          <th bo-sorter="priority" translare>Priority</th>
           <th data-ignore class="RowActions" ng-if="mode!=='mid'"></th>
         </tr>
       </thead>
@@ -80,7 +80,7 @@
           </td>
 
           <td>
-            <i class="icon-user" title="My task" ng-if="user.user_id===task.assigned_id"></i>
+            <i class="icon-user" title="{{ 'My task' | translate }}" ng-if="user.user_id===task.assigned_id"></i>
           </td>
 
           <td class="text-right">{{::task.id}}</td>
@@ -98,22 +98,22 @@
                     ng-click="onDoTask(task)"
                     ng-if="request.taskFilter !== TASK_FILTERS.DONE"
                     ng-show="task === currentTask || task.btnVisible"
-                    title="Do this task">
+                    title="{{ 'Do this task' | translate }}">
               <i class="icon-do"></i>
-              <span class="sr-only">Do task</span>
+              <span class="sr-only" translate>Do this task</span>
             </button>
             <button class="btn btn-default" type="button"
                     ng-click="onViewTask(task)"
                     ng-switch-when="max"
                     ng-show="task === currentTask || task.btnVisible"
-                    title="View this task">
+                    title="{{ 'View this task' | translate }}">
               <i class="icon-eye"></i>
-              <span class="sr-only">View task</span>
+              <span class="sr-only" translate>View task</span>
             </button>
             <a class="btn btn-xs btn-default" type="button"
                ng-switch-when="min"
                ng-click="goToDetail('details')"
-               title="View this task">
+               title="{{ 'View this task' | translate }}" translate>
               View task
             </a>
           </td>
@@ -123,13 +123,13 @@
   </div>
   <div class="GroupAction clearfix" ng-show="tasks.length > 0">
     <div class="GroupAction-button pull-left" ng-show="canDoGroupAction()">
-      <button class="btn btn-primary" type="button" title="Assign the task to myself and move it to My tasks."
+      <button class="btn btn-primary" type="button" title="{{ 'Assign the task to myself and move it to My tasks.' | translate }}"
          ng-disabled="!canTake($selectedItems)" ng-click="takeTasks($selectedItems)">
-         <i class="glyphicon glyphicon-save"></i> Take
+         <i class="glyphicon glyphicon-save">&nbsp;</i><translate>Take</translate>
       </button>
-      <button class="btn btn-default" type="button" title="Unassign the task and put it back in Available tasks"
+      <button class="btn btn-default" type="button" title="{{ 'Unassign the task and put it back in Available tasks' | translate }}"
         ng-disabled="!canRelease($selectedItems)" ng-click="releaseTasks($selectedItems)">
-        <i class="glyphicon glyphicon-open"></i> Release
+        <i class="glyphicon glyphicon-open">&nbsp;</i><translate>Release</translate>
       </button>
     </div>
     <div class="PaginationInfo pull-right" >
