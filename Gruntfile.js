@@ -145,7 +145,7 @@ module.exports = function (grunt) {
             return {
               context: context,
               host: 'localhost',
-              port: 8080,
+              port: grunt.option('proxyport') || 8080,
               https: false,
               changeOrigin: false,
               xforward: false
