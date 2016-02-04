@@ -36,9 +36,4 @@ describe('context', function() {
     expect(iframe.isPresent()).toBe(true);
   });
 
-  it('should display a case history iframe', function(){
-    var items = element.all(by.css('.CaseHistory li'));
-    expect(items.count()).toBe(5);
-  });
-
 });
