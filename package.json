@@ -53,6 +53,7 @@
     "karma-phantomjs-launcher": "0.1.4",
     "karma-safari-launcher": "0.1.1",
     "load-grunt-tasks": "0.4.0",
+    "mkdirp": "0.5.1",
     "ngdocs": "0.1.0",
     "node-xml-lite": "0.0.5",
     "protractor": "2.0.0",
