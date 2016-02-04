@@ -125,11 +125,7 @@
           }.bind(this))
           .then(function() {
             return store.getProcessSupervisors(task.rootContainerId.id);
-          })
-          .then(function() {
-            return store.getHistory(store.currentTask);
           });
-
       };
 
       /**
@@ -153,9 +149,6 @@
               .getCaseInfo(store.currentTask.caseId)
               .then(function() {
                 return store.getProcessSupervisors(store.currentTask.rootContainerId.id);
-              })
-              .then(function() {
-                return store.getHistory(store.currentTask);
               });
 
           }).finally(function() {
