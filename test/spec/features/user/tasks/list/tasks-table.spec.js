@@ -198,7 +198,7 @@ describe('module org.bonitasoft.features.user.tasks.list.table', function() {
       it('should persist columns settings', function(){
         var isolated = element.isolateScope();
         isolated.visibilityHandler({}, cols);
-        expect(pref.set).toHaveBeenCalledWith(scope.mode, [true, false], true);
+        expect(pref.set).toHaveBeenCalledWith(scope.mode, [true, false]);
       });
     });
 

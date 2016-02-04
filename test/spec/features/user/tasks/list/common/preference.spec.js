@@ -2,7 +2,7 @@
 
 describe('preference', function() {
   var pref;
-  var cookies;
+  var localStrorage;
   var DEFAULT_DETAILS;
   var COLUMNS_SETTINGS;
 
@@ -10,11 +10,14 @@ describe('preference', function() {
 
   beforeEach(inject( function($injector){
     pref = $injector.get('preference');
-    cookies = $injector.get('$cookies');
+    localStrorage = $injector.get('$localStorage');
     DEFAULT_DETAILS = $injector.get('DEFAULT_DETAILS');
     COLUMNS_SETTINGS = $injector.get('COLUMNS_SETTINGS');
   }));
 
+  afterEach(function() {
+    localStrorage.$reset();
+  });
 
   describe('get', function(){
 
@@ -57,19 +60,10 @@ describe('preference', function() {
     });
     it('should persists a value', function(){
       var o = {name:'abcd'};
-      pref.set('showDetails', o, true);
+      pref.set('showDetails', o);
 
-      var value = cookies.get('showDetails');
-      expect(JSON.parse(value)).toEqual(o);
-    });
-  });
-
-  describe('flush', function(){
-    it('should remove cookies', function(){
-      pref.set('max', 'coucou', true);
-      expect(cookies.get('max')).toEqual(JSON.stringify('coucou'));
-      pref.flush();
-      expect(cookies.get('max')).not.toBeDefined();
+      var value = localStrorage['bonita-user-task-list'].showDetails;
+      expect(value).toEqual(o);
     });
   });
 
