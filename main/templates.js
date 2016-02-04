@@ -37,9 +37,10 @@ angular.module('portalTemplates/admin/applications/applications-list.html', []).
     '        <td class="application-display-name" title="{{ application.displayName }}">{{ application.displayName }}</td>\n' +
     '        <td class="application-version" title="{{ application.version }}">{{ application.version }}</td>\n' +
     '        <td class="application-path">\n' +
-    '          <a target="_blank" title="../apps/{{ application.token }}" ng-href="../apps/{{ application.token }}"> ../apps/{{application.token}}</a>\n' +
+    '          <a target="_blank" title="../apps/{{ application.token }}" ng-href="../apps/{{ application.token }}" ng-disabled="!application.profileId.name"> ../apps/{{application.token}}</a>\n' +
     '        </td>\n' +
-    '        <td class="application-profile" title="{{ application.profileId.name }}">{{ application.profileId.name }}</td>\n' +
+    '        <td ng-if="application.profileId.name" class="application-profile" title="{{ application.profileId.name }}">{{ application.profileId.name }}</td>\n' +
+    '        <td ng-if="!application.profileId.name" class="application-profile"><span tooltip="{{ \'No profile mapped to this application\' | translate }}" class="glyphicon glyphicon-warning-sign text-warning"></span></td>\n' +
     '        <td class="application-last-update-date" aria-label="{{ application.lastUpdateDate | dateI18n:\'YYYY-MM-DD HH:mm:ss\'}}">\n' +
     '          <span class="clickable" popover="{{applicationsListCtrl.loadTemplatePopover(application)}}" popover-trigger="mouseenter">{{ application.lastUpdateDate | dateAgo }}</span>\n' +
     '        </td>\n' +
@@ -497,7 +498,7 @@ angular.module('portalTemplates/admin/applications/edit-application.html', []).r
     '    <bootstrap-form-control form="application.form" class="select-form-container" label="{{ \'Profile\' | translate }}">\n' +
     '      <select id="profile"\n' +
     '              name="profile" ng-model="application.model.profileId"\n' +
-    '              ng-options="profile.id as profile.name for profile in profiles"></select>\n' +
+    '              ng-options="profile.id as profile.name for profile in profiles" required></select>\n' +
     '    </bootstrap-form-control>\n' +
     '\n' +
     '\n' +
@@ -1865,7 +1866,6 @@ angular.module('portalTemplates/user/tasks/list/tasks-list.html', []).run(['$tem
     '                <task-details current-task="app.currentTask"\n' +
     '                              current-case="app.currentCase"\n' +
     '                              refresh-count="app.updateCount()"\n' +
-    '                              refresh-all="app.updateAll()"\n' +
     '                              editable="app.currentTask.assigned_id === app.user.user_id"\n' +
     '                              hide-form="app.request.taskFilter === app.TASK_FILTERS.DONE"\n' +
     '                              inactive="app.tasks.length === 0">\n' +

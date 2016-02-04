@@ -107,6 +107,7 @@
        */
       this.setProcess = function(process) {
         store.request.process = process;
+        this.updateCount();
         this.updateTasks();
       };
 
@@ -177,8 +178,9 @@
       };
 
       this.updateAll = function() {
-        this.updateCount();
-        this.updateTasks();
+        var currentProcess = store.request.process;
+        this.updateProcessList();
+        this.setProcess(currentProcess);
       };
 
       /**
