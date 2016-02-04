@@ -33,7 +33,7 @@
         DONE: {
           title: 'Done tasks',
           resource: archivedHumanTaskAPI,
-          filters: ['assigned_id=%userId']
+          filters: ['assigned_id=%userId', 'state=completed']
         }
       };
     }
