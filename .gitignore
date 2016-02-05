@@ -1,0 +1,12 @@
+**/node_modules
+**/dist
+**/.tmp
+**/main/assets
+target/
+
+i18n/portal-js.pot
+
+# IDE
+*.iml
+.idea/
+.settings/

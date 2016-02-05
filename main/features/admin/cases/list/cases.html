@@ -1,0 +1,10 @@
+<div id="case-list" class="container">
+  <h1 id="case-title">{{'Cases' | translate }}</h1>
+
+  <div>
+    <ul class="nav nav-tabs" role="tablist">
+      <li role="presentation" ng-repeat="caseState in casesStates" ng-class="{'active' : state.is(caseState.state)}"><a class="title" href="" bonita-href="{'token' : currentToken, '_tab' : caseState.tabName}" id="{{:: caseState.htmlAttributeId}}">{{:: caseState.title}}</a></li>
+    </ul>
+    <div ui-view='case-list' id="case-list-tab-content"></div>
+  </div>
+</div>

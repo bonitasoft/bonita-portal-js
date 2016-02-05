@@ -1,0 +1,97 @@
+<button ng-if="editable" class="pull-right btn btn-primary"
+        id="ButtonReleaseDetailsColumn"
+        ng-click="onTakeReleaseTask()" title="{{ 'Unassign the task and put it back in Available tasks' | translate }}">
+  <i class="glyphicon glyphicon-open"></i>
+  <span class="sr-only" translate>Release</span>
+</button>
+
+<button ng-if="!editable" class="pull-right btn btn-primary"
+        id="ButtonTakeDetailsColumn"
+        ng-click="onTakeReleaseTask()" title="{{ 'Assign the task to myself and move it to My tasks' | translate }}">
+  <i class="glyphicon glyphicon-save"></i>
+  <span class="sr-only" translate>Take</span>
+</button>
+
+<tabset>
+  <tab heading="Context"
+       active="tab.context"
+       ng-click="onClickTab('context')" >
+    <div ng-if="!inactive">
+      <h3 class="Context-title">{{currentTask.name}}</h3>
+      <p ng-if="currentTask.description">
+        {{currentTask.description}}
+      </p>
+      <h4 translate>Case Info</h4>
+      <ul class="list-group">
+        <li class="list-group-item" ng-repeat="supervisor in currentCase.supervisors">
+          <span class="ListGroup-label" translate>Process Supervisor&nbsp;:</span>
+          <a ng-href="mailto:{{::supervisor.user_id.email}}" title="{{ 'mail to' | translate }} {{::supervisor.user_id.name}}">
+          {{::supervisor.user_id.email}}
+          </a>
+        </li>
+        <li class="list-group-item">
+          <span class="ListGroup-label" translate>Process&nbsp;:</span>
+          {{currentCase.processDefinitionId.name}}
+        </li>
+        <li class="list-group-item">
+          <span class="ListGroup-label" translate>case ID&nbsp;:</span>
+          {{currentCase.sourceObjectId || currentCase.id}}
+        </li>
+        <li class="list-group-item">
+          <span class="ListGroup-label" translate>Started by&nbsp;:</span>
+           {{currentCase.started_by.userName}}
+           on {{currentCase.start | moment:'MMM DD YYYY - hh:mm a'}}
+        </li>
+      </ul>
+
+      <h4 translate>Case Overview</h4>
+      <bonita-iframe-viewer
+        class="CaseViewer"
+        frame-url="overviewUrl"
+        is-editable="true"
+        is-visible="tab.context">
+      </bonita-iframe-viewer>
+
+      <h4 translate>Case History</h4>
+      <div class="CaseHistory">
+        <div class="CaseHistory-timeline">
+
+        <ul class="CaseHistory-events">
+          <li class="CaseHistory-event" ng-repeat="item in currentCase.history">
+            <span class="CaseHistory-eventDate">{{::item.date | moment:'MMM DD YYYY - hh:mm a'}}</span>
+            {{::item.content}}
+          </li>
+        </ul>
+
+        </div>
+      </div>
+    </div>
+  </tab>
+
+  <tab heading="Form"
+       ng-click="onClickTab('form')"
+       active="tab.form" >
+    <p class="alert alert-info TaskInfo" ng-if="hideForm" translate>
+      This task is completed.
+    </p>
+
+    <div ng-if="!hideForm">
+      <p class="alert alert-warning" ng-if="!inactive && !editable" translate>
+        This task is not assigned to you. You need to take it before filling in this form.
+      </p>
+      <bonita-iframe-viewer class="FormViewer"
+        tabindex="0"
+        ng-if="!inactive && hasForm"
+        is-editable="editable"
+        frame-url="formUrl"
+        is-visible="tab.form">
+      </bonita-iframe-viewer>
+      <no-form class="FormViewer"
+        ng-if="!hasForm"
+        current-task="currentTask"
+        editable="editable"
+        inactive="inactive">
+      </no-form>
+    </div>
+  </tab>
+</tabset>

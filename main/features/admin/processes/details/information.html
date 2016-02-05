@@ -1,0 +1,40 @@
+<div id="process-details-information">
+  <h2>{{'General' | translate}}</h2>
+  <div class="panel panel-default">
+    <div class="panel-body">
+      <div class="col-md-12 row">
+        <div class="metatags-label form-group">{{ 'Configuration state' | translate }}
+          <b>{{::processInformationCtrl.process.configurationState}}</b>
+        </div>
+        <div class="metatags-label  form-group">
+          {{ 'Activation state' | translate }}&nbsp;
+              <toggle-button on="Enabled" off="Disabled" process-id="{{::processInformationCtrl.process.id}}" initial-state="{{::processInformationCtrl.process.activationState === 'ENABLED'}}" enable-toggle="processInformationCtrl.isProcessResolved"></toggle-button>
+        </div>
+        <div class="metatags-label form-group">
+            {{ 'Updated on' | translate }}
+            <b >{{::processInformationCtrl.parseAndFormat(processInformationCtrl.process.last_update_date)}}</b>
+        </div>
+      </div>
+      <div class="col-md-12 row">
+
+        <p ng-if="processInformationCtrl.process.description" >{{processInformationCtrl.process.description}}</p>
+        <p class="text-muted" ng-if="!processInformationCtrl.process.description" >{{'No description.' | translate}}</p>
+      </div>
+      <div class="col-md-12 row">
+        <div class="col-md-12 row categories">
+          <div class="col-md-2 row metatags-label">
+          {{'Categories' | translate}} <button class="btn btn-primary" ng-click="processInformationCtrl.openProcessCategoryManagementModal()"><span class="glyphicon glyphicon-pencil"></span></button>
+          </div>
+          <div class="col-md-10 bootstrap-tags">
+            <bonitags tags-suggestion="processInformationCtrl.categories" tags-selection="processInformationCtrl.selectedCategories" read-only></bonitags>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div ng-if="processInformationCtrl.process.id">
+  <monitoring-status process='processInformationCtrl.process'></monitoring-status>
+
+  <process-manager-mapping process='processInformationCtrl.process'></process-manager-mapping>
+</div>

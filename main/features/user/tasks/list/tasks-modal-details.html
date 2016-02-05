@@ -1,0 +1,24 @@
+<div class="modal-body">
+
+  <button type="button" ng-click="modal.cancel()" class="close" title="close Preview">
+    <span aria-hidden="true">&times;</span>
+    <span class="sr-only" translate>Close Preview</span>
+  </button>
+
+  <task-details current-task="modal.task"
+                current-case="modal.Case"
+                editable="modal.task.assigned_id===modal.userId"
+                hide-form="modal.task.archivedDate"
+                inactive="false"
+                active-tab="context"
+                refresh-count="modal.onRefreshCountHandler()">
+  </task-details>
+</div>
+<div class="modal-footer">
+  <button type="button"
+          class="btn btn-warning"
+          title="close Preview"
+          ng-click="modal.cancel()" translate>
+    Close Preview
+</button>
+</div>

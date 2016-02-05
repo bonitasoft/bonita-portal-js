@@ -1,0 +1,16 @@
+<div id="manage-categories-modal" class="process-details">
+    <div class="modal-header header">
+        <h3 class="modal-title">{{'Manage Categories'| translate }}</h3>
+    </div>
+    <div class="modal-body body">
+        <bonitags tags-suggestion="manageCategoryMappingInstanceCtrl.tags" tags-selection="manageCategoryMappingInstanceCtrl.selectedTags" tag-class="label-default editable"></bonitags>
+    <hr>
+        {{'Use Arrow up and Arrow down keys to browse among existing categories.' | translate}} <br>
+        {{'Enter a new category name and press "Enter" key to create a new category and assign it to the current process.' | translate}}
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" ng-click="manageCategoryMappingInstanceCtrl.updateCategories()">{{ 'Save' | translate }}</button>
+        <button class="btn btn-default close_popup" ng-click="manageCategoryMappingInstanceCtrl.cancel()">{{ 'Cancel' | translate }}</button>
+    </div>
+
+</div>

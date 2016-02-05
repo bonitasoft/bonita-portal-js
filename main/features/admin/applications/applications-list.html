@@ -1,0 +1,52 @@
+<div class="container" id="content">
+
+  <h1>{{'Application list' | translate}}</h1>
+
+  <p>
+    <button id="create-application" class="btn btn-primary" ng-click="applicationsListCtrl.create('lg')" title="{{'Create an application' | translate}}">{{ 'New' | translate}}</button>
+    <button id="import-application" class="btn btn-primary" ng-click="applicationsListCtrl.importApp('lg')" title="{{ 'Import an application' | translate }}">{{ 'Import' | translate}}</button>
+  </p>
+
+  <section ng-if="noData">
+    <p class="text-muted" id="no-data-header">{{ 'No application available.' | translate}}</p>
+    <p id="no-data-message">
+      {{'To create an application, click New or Import.' | translate}}
+      <br>
+      {{'An application is a customized environment for a specific user profile, in which users interact with business data and business processes in the most efficient way.' | translate}}
+    </p>
+  </section>
+
+  <table ng-if="!noData" class="table resizable app-container-list" bonitable sort-options="sortableOptions" bo-storable="applications-list">
+    <thead>
+      <tr>
+        <th bo-sorter="displayName" id="application-display-name" class="table-column-large" title="{{'Sort by name' | translate }}" bo-sorter-title-desc="{{'Sort by name' | translate }} Desc" bo-sorter-title-asc="{{'Sort by name' | translate }} Asc">{{ 'Name' | translate }}</th>
+        <th bo-sorter="version" id="application-version" class="table-column-xs" title="{{'Sort by version' | translate }}" bo-sorter-title-desc="{{'Sort by version' | translate }} Desc" bo-sorter-title-asc="{{'Sort by version' | translate }} Asc">{{'Version' | translate}}</th>
+        <th bo-sorter="token" id="application-path" title="{{'Sort by URL' | translate }}" bo-sorter-title-desc="{{'Sort by URL' | translate }} Desc" bo-sorter-title-asc="{{'Sort by URL' | translate }} Asc">{{'URL' | translate}}</th>
+        <th id="application-profile" class="table-column-xs">{{'Profile' | translate}}</th>
+        <th bo-sorter="lastUpdateDate" id="application-last-update-date" class="table-column-xs" title="{{'Sort by updated on' | translate }}" bo-sorter-title-desc="{{'Sort by updated on' | translate }} Desc" bo-sorter-title-asc="{{'Sort by updated on' | translate }} Asc">{{'Updated on' | translate}}</th>
+        <th data-noresize class="table-column-xs table-header-actions">{{'Actions' | translate}}</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="table-row table-row-{{$index}}" ng-repeat="application in applications | orderBy: sortableOptions.property : sortableOptions.direction track by $index">
+        <td class="application-display-name" title="{{ application.displayName }}">{{ application.displayName }}</td>
+        <td class="application-version" title="{{ application.version }}">{{ application.version }}</td>
+        <td class="application-path">
+          <a target="_blank" title="../apps/{{ application.token }}" ng-href="../apps/{{ application.token }}" ng-disabled="!application.profileId.name"> ../apps/{{application.token}}</a>
+        </td>
+        <td ng-if="application.profileId.name" class="application-profile" title="{{ application.profileId.name }}">{{ application.profileId.name }}</td>
+        <td ng-if="!application.profileId.name" class="application-profile"><span tooltip="{{ 'No profile mapped to this application' | translate }}" class="glyphicon glyphicon-warning-sign text-warning"></span></td>
+        <td class="application-last-update-date" aria-label="{{ application.lastUpdateDate | dateI18n:'YYYY-MM-DD HH:mm:ss'}}">
+          <span class="clickable" popover="{{applicationsListCtrl.loadTemplatePopover(application)}}" popover-trigger="mouseenter">{{ application.lastUpdateDate | dateAgo }}</span>
+        </td>
+        <td class="application-actions">
+          <div class="btn-group">
+            <button bonita-href="{ 'token': 'applicationslistingadmin', '_id': application.id }" class="glyphicon glyphicon-option-horizontal btn-action-edit" title="{{'Edit' | translate}}" aria-label="{{'Edit' | translate}}"></button>
+            <button class="glyphicon glyphicon-export btn-action-export" title="{{'Export' | translate}}" aria-label="{{'Export' | translate}}" ng-click="applicationsListCtrl.exportApplication(application, 'sm')"></button>
+          </div>
+          <button class="glyphicon glyphicon-trash btn-action-delete" aria-label="{{'Delete' | translate}}" title="{{'Delete' | translate}}" ng-click="applicationsListCtrl.deleteApplication(application, 'sm')"></button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

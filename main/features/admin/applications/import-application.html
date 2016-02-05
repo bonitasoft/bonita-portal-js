@@ -1,0 +1,87 @@
+<form role="form" name="form" novalidate>
+  <div class="modal-header">
+    <h3 class="modal-title" ng-if="!importIsSuccessfull && !importNotSuccessfull">{{'Import an application' | translate}}</h3>
+    <h3 class="modal-title" ng-if="importIsSuccessfull">{{'Status of import' | translate}}</h3>
+    <h3 class="modal-title" ng-if="importNotSuccessfull">{{'Error' | translate}}</h3>
+  </div>
+  <div class="modal-body">
+
+    <section id="beforeImport" ng-if="!importIsSuccessfull && !importNotSuccessfull">
+      <p>{{ 'Before you import the application, the pages and the profile must already be loaded in the Portal.' | translate }}</p>
+
+      <bootstrap-form-control
+        class="field-upload-container"
+        form="form"
+        label="{{'Application XML file' | translate}}">
+
+        <div class="upload-field">
+          <input type="file" id="importAppXml" name="import-file" ng-model="importFile.file" required nv-file-select uploader="uploader" accept=".xml">
+          <div class="upload-field-content" ng-class="{'upload-success': isUploadSuccess}"><span ng-if="fileName">{{fileName}}</span><span ng-if="!fileName">{{ 'Click here to choose your file. XML file (.xml)' | translate }}</span></div>
+        </div>
+
+      </bootstrap-form-control>
+    </section>
+
+    <section id="afterImport" ng-if="importIsSuccessfull" >
+
+      <div class="import-status">
+        <p ng-if="!errorsApi.length">1 {{'application has been successfully imported, with complete page mapping and menu mapping.' | translate}}</p>
+
+        <p ng-if="errorsApi.length">1 {{'application has been partially imported. The following items are not loaded in the Portal.' | translate}}</p>
+
+        <ul>
+          <li ng-repeat="imported in imports track by $index">{{'URL' | translate }}: ../apps/{{ imported.name}}</li>
+        </ul>
+
+        <ul ng-if="errorsApi.length">
+          <li ng-repeat="error in errorsApi track by $index">
+            <span arial-label="application">{{'URL' | translate }}: ../apps/{{ error.name}}</span>
+
+            <ul ng-repeat="(key, value) in error.errors track by $index">
+              <li ng-repeat="label in value track by $index">{{label}}  {{ key | lowercase | ucfirst }}</li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <section id="afterImportError" ng-if="importNotSuccessfull">
+      <p>{{messageError}}.</p>
+    </section>
+
+  </div>
+
+  <div class="modal-footer">
+      <div class="form-group has-feedback">
+          <div class="col-md-12 col-centered-text center-block">
+              <button
+                ng-if="!importIsSuccessfull && !importNotSuccessfull"
+                id="confirm"
+                ng-disabled="!isUploadSuccess"
+                class="btn btn-primary"
+                ng-click="importApplicationCtrl.importApp()">{{ 'Import' | translate }}
+              </button>
+              <button
+                ng-if="!importIsSuccessfull && !importNotSuccessfull"
+                id="cancel"
+                class="btn btn-default"
+                ng-click="importApplicationCtrl.cancel()">{{ 'Cancel' | translate }}
+              </button>
+
+              <button
+                ng-if="importIsSuccessfull"
+                id="cancel"
+                class="btn btn-default"
+                ng-click="importApplicationCtrl.closeModalSuccess()">{{ 'Close' | translate }}
+              </button>
+
+              <button
+                ng-if="importNotSuccessfull"
+                id="cancel"
+                class="btn btn-default center-block"
+                ng-click="importApplicationCtrl.cancel()">{{ 'Close' | translate }}
+              </button>
+          </div>
+      </div>
+  </div>
+</form>

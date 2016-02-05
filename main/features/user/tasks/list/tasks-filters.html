@@ -1,0 +1,37 @@
+<ul class="TaskFilters nav nav-pills nav-stacked">
+  <!-- <a href="#" > is not good for a11n but it's a tradeoff for being themable
+     that's why we use bottstrap markup-->
+  <li role="presentation" ng-class="{'active':TASK_FILTERS.TODO===taskStatus}">
+    <a href="#" id="todo-tasks" title="Show all tasks that I can do, assigned to me or not assigned"
+       ng-click="setStatusTaskFilter(TASK_FILTERS.TODO)">
+      <span class="badge pull-right" ng-show="count.TODO>0">{{count.TODO}}</span>
+      <translate>To do</translate>
+    </a>
+    <div collapse="TASK_FILTERS.DONE === taskStatus">
+      <ul class="TaskFilters nav nav-pills nav-stacked">
+        <li role="presentation" ng-class="{'active':TASK_FILTERS.MY_TASK===taskStatus}">
+          <a href="#" id="my-tasks" class="TaskFilter"
+             title="{{ 'Show tasks assigned to me, automatically, by me or by another user' | translate }}"
+             ng-click="setStatusTaskFilter(TASK_FILTERS.MY_TASK)">
+            <span class="badge pull-right" ng-show="count.MY_TASK>0">{{count.MY_TASK}}</span>
+            <translate>My tasks</translate>
+          </a>
+        </li><!-- my tasks -->
+        <li role="presentation" ng-class="{'active':TASK_FILTERS.POOL_TASK===taskStatus}">
+          <a href="#" id="available-tasks" class="TaskFilter"
+             title="{{ 'Show tasks that I can do that are not assigned' | translate }}"
+             ng-click="setStatusTaskFilter(TASK_FILTERS.POOL_TASK)" >
+            <span class="badge pull-right" ng-show="count.POOL_TASK>0">{{count.POOL_TASK}}</span>
+            <translate>Available tasks</translate>
+          </a>
+        </li><!-- available tasks -->
+      </ul>
+    </div>
+  </li><!-- tasks -->
+  <li role="presentation" ng-class="{'active':TASK_FILTERS.DONE===taskStatus}">
+    <a href="#" id="done-tasks" title="{{ 'Show done tasks' | translate }}"
+       ng-click="setStatusTaskFilter(TASK_FILTERS.DONE)" >
+      <translate>Done tasks</translate>
+    </a>
+  </li> <!-- done tasks -->
+</ul>
