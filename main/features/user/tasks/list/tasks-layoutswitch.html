@@ -1,20 +1,20 @@
 <div class="LayoutSwitch pull-right">
   <div class="btn-group">
-    <button class="btn btn-default"  title="Show task list with details pane"
+    <button class="btn btn-default"  title="{{ 'Show task list with details pane' | translate }}"
             type="button"
             btn-radio="true"
             ng-model="value"
             ng-change="changeHandler(value)">
       <i class="icon-view-details"></i>
-      <span class="sr-only">Show task list with details pane</span>
+      <span class="sr-only" translate>Show task list with details pane</span>
     </button>
-    <button class="btn btn-default"  title="Show extended task list"
+    <button class="btn btn-default"  title="{{ 'Show extended task list' | translate }}"
             type="button"
             btn-radio="false"
             ng-model="value"
             ng-change="changeHandler(value)">
         <i class="icon-view-list"></i>
-        <span class="sr-only">Show extended task list</span>
+        <span class="sr-only" translate>Show extended task list</span>
     </button>
   </div>
 </div><!-- Settings-display -->

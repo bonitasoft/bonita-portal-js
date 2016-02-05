@@ -11,11 +11,16 @@
       'TaskListPage--small':app.smallScreen,
       'TaskListPage--withMenu':!app.smallScreen && app.showMenu}">
     <div class="OffcanvasMenu navbar">
-      <h3 class="OffcanvasMenu-title">Filters</h3>
-      <button ng-hide="app.smallScreen" title="{{app.showMenu ? 'Hide' : 'Show'}} Menu"
+      <h3 class="OffcanvasMenu-title" translate>Filters</h3>
+      <button ng-if="!app.smallScreen && app.showMenu" title="{{ 'Hide Menu' | translate }}"
         class="FilterToggle btn btn-default" btn-checkbox ng-model="app.showMenu">
-        <span class="glyphicon" ng-class="{'glyphicon-chevron-left':app.showMenu,'glyphicon-chevron-right': !app.showMenu }"></span>
-        <span class="sr-only">menu</span>
+        <span class="glyphicon glyphicon-chevron-left"></span>
+        <span class="sr-only" translate>Hide menu</span>
+      </button>
+      <button ng-if="!app.smallScreen && !app.showMenu" title="{{ 'Show Menu' | translate }}"
+              class="FilterToggle btn btn-default" btn-checkbox ng-model="app.showMenu">
+        <span class="glyphicon glyphicon-chevron-right"></span>
+        <span class="sr-only" translate>Show menu</span>
       </button>
       <task-filters filter="app.request.taskFilter"
                     filters="app.TASK_FILTERS"
@@ -51,14 +56,14 @@
                         <i class="icon-search SearchBox-icon"></i>
                         <input class="form-control SearchBox-input" id="search"
                           input-focus
-                          placeholder="Search on task name"
+                          placeholder="{{ 'Search on task name' | translate }}"
                           ng-model="app.request.search"
                           ng-model-options="{updateOn:'keyup', debounce:{'default':250, 'blur':0} }"
                           ng-change="app.searchTask()"
                           >
 
                       </div>
-                      {{"Process name"}}
+                      <translate>Process</translate>
                       <div class="ProcessList" dropdown>
                         <button dropdown-toggle type="button"
                                 class="btn btn-primary"
@@ -77,11 +82,11 @@
                       <span class="Loading pull-right" ng-show="app.loadingTasks" ></span>
                       <button class="btn btn-default pull-right"
                         type="button"
-                        title="refresh data"
+                        title="{{ 'Refresh data' | translate }}"
                         ng-hide="app.loadingTasks"
                         ng-click="app.updateAll()">
                         <i class="icon-refresh"></i>
-                        <span class="sr-only">Refresh data</span>
+                        <span class="sr-only" translate>Refresh data</span>
                       </button>
                     </fieldset>
                   </form>
@@ -108,20 +113,26 @@
           <div class="TaskDetails col-md-{{app.getSize()}}" id="details" ng-if="app.smallScreen || app.showDetails">
             <div class="panel panel-default">
               <div class="panel-heading">
-                <button class="pull-right btn btn-default"
+                <button ng-if="app.expandDetails" class="pull-right btn btn-default"
                         ng-model="app.expandDetails"
                         btn-checkbox
-                        title="{{app.expandDetails ? 'Expand' : 'Reduce'}}">
-                  <span ng-class="{'glyphicon glyphicon-resize-full':!app.expandDetails,'glyphicon glyphicon-resize-small':app.expandDetails}"></span>
-                  <span class="sr-only">{{app.expandDetails ? 'Expand' : 'Reduce'}}</span>
+                        title="{{ 'Expand' | translate}}">
+                  <span class="glyphicon glyphicon-resize-small"></span>
+                  <span class="sr-only" translate>Expand</span>
                 </button>
-                <h3 class="panel-title">Task Details</h3>
+                <button ng-if="!app.expandDetails" class="pull-right btn btn-default"
+                        ng-model="app.expandDetails"
+                        btn-checkbox
+                        title="{{'Reduce' | translate}}">
+                  <span class="glyphicon glyphicon-resize-full"></span>
+                  <span class="sr-only" translate>Reduce</span>
+                </button>
+                <h3 class="panel-title" translate>Task Details</h3>
               </div>
               <div class="panel-body">
                 <task-details current-task="app.currentTask"
                               current-case="app.currentCase"
                               refresh-count="app.updateCount()"
-                              refresh-all="app.updateAll()"
                               editable="app.currentTask.assigned_id === app.user.user_id"
                               hide-form="app.request.taskFilter === app.TASK_FILTERS.DONE"
                               inactive="app.tasks.length === 0">
@@ -133,42 +144,3 @@
       </div>
     </div>
   </div>
-
-  <!-- build:js resources/js/vendors.js -->
-  <!--  <script src="../bower_components/angular/angular.js" ></script> -->
-  <!--  <script src="../bower_components/angular-animate/angular-animate.js" ></script> -->
-  <!--  <script src="../bower_components/angular-bootstrap/ui-bootstrap-tpls.js" ></script> -->
-  <!--  <script src="../bower_components/angular-cookies/angular-cookies.js" ></script> -->
-  <!--  <script src="../bower_components/angular-resource/angular-resource.js" ></script> -->
-  <!--  <script src="../bower_components/angular-sanitize/angular-sanitize.js" ></script> -->
-  <!--  <script src="../bower_components/angular-touch/angular-touch.js" ></script> -->
-  <!--  <script src="../bower_components/bonita-js-components/dist/bonita-lib-tpl.js" ></script> -->
-  <!--  <script src="../bower_components/ngtoast/dist/ngToast.js" ></script> -->
-  <!--  <script src="../bower_components/keymaster/keymaster.js" ></script> -->
-  <!--  <script src="../bower_components/momentjs/moment.js" ></script> -->
-  <!-- endbuild -->
-
-  <!-- build:js resources/js/app.js -->
-  <!--   <script src="js/templates.js" ></script> -->
-  <!--   <script src="js/common/security.js" ></script> -->
-  <!--   <script src="js/common/keymaster.js" ></script> -->
-  <!--   <script src="js/common/api.js" ></script> -->
-  <!--   <script src="js/common/filters.js" ></script> -->
-  <!--   <script src="js/common/screen.js" ></script> -->
-  <!--   <script src="js/common/iframeUrl.js" ></script> -->
-  <!--   <script src="js/common/directive/input-focus.js" ></script> -->
-  <!--   <script src="js/common/directive/bonita-iframe-viewer.js"></script> -->
-  <!--   <script src="js/common/directive/bonita-form-spy.js"></script> -->
-  <!--   <script src="js/common/taskRequest.js" ></script> -->
-  <!--   <script src="js/common/preference.js" ></script> -->
-  <!--   <script src="js/common/store.js" ></script> -->
-  <!--   <script src="js/modal/modalForm.js" ></script> -->
-  <!--   <script src="js/modal/modalDetails.js" ></script> -->
-  <!--   <script src="js/layoutswitch/layoutswitch.js" ></script> -->
-  <!--   <script src="js/tasklist/taskList.js" ></script> -->
-  <!--   <script src="js/taskdetails/taskDetails.js" ></script> -->
-  <!--   <script src="js/taskfilters/taskFilters.js" ></script> -->
-  <!--   <script src="js/taskApp.js" ></script> -->
-  <!--   <script src="js/app.config.js" ></script> -->
-  <!--   <script src="js/app.js" ></script> -->
-  <!-- endbuild -->

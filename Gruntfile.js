@@ -53,11 +53,15 @@ module.exports = function (grunt) {
         tasks: ['wiredep']
       },
       js: {
-        files: ['<%= portaljs.app %>/*.js', '<%= portaljs.app %>/features/**/*.js', '<%= portaljs.app %>/commons/**/*.js', '<%= portaljs.app %>/assets/**/*.js'],
+        files: ['<%= portaljs.app %>/*.js', '<%= portaljs.app %>/features/**/*.js', '<%= portaljs.app %>/commons/**/*.js', '<%= portaljs.app %>/assets/**/*.js', '!<%= portaljs.app %>/templates.js'],
         tasks: ['newer:jshint:all', 'ngdocs:all'],
         options: {
           livereload: true
         }
+      },
+      html: {
+        files: ['main/features/**/*.html'],
+        tasks: ['html2js']
       },
       jsTest: {
         files: ['test/spec/**/*.js'],
@@ -79,7 +83,7 @@ module.exports = function (grunt) {
           livereload: '<%= connect.options.livereload %>'
         },
         files: [
-          '<%= portaljs.app %>/**/*.html',
+          '<%= portaljs.app %>/templates.js',
           '.tmp/styles/{,*/}*.css'
         ]
       }
@@ -141,7 +145,7 @@ module.exports = function (grunt) {
             return {
               context: context,
               host: 'localhost',
-              port: 8080,
+              port: grunt.option('proxyport') || 8080,
               https: false,
               changeOrigin: false,
               xforward: false
@@ -269,8 +273,7 @@ module.exports = function (grunt) {
         files: [
           {
             src: [
-              'coverage',
-              'sonar'
+              'target/reports/'
             ]
           }
         ]
@@ -545,7 +548,7 @@ module.exports = function (grunt) {
       options: {
         dryRun: true,
         excludedProperties: ['sonar.exclusions'],
-        defaultOutputDir: 'sonar',
+        defaultOutputDir: 'target/reports/sonar',
         runnerProperties: {
           'sonar.exclusions': 'src/assets/**',
           'sonar.coverage.exclusions': 'src/assets/**'
@@ -562,8 +565,8 @@ module.exports = function (grunt) {
             src: '<%= portaljs.app %>',
             test: '<%= portaljs.test %>',
             reports: {
-              unit: '<%= portaljs.test %>/TESTS-xunit.xml',
-              coverage: 'coverage/lcov.info'
+              unit: 'target/reports/unit/TESTS-xunit.xml',
+              coverage: 'target/reports/coverage/lcov.info'
             }
           }
         ]
@@ -601,7 +604,7 @@ module.exports = function (grunt) {
     },
     ngdocs: {
       options: {
-        dest: '<%= portaljs.app %>/docs',
+        dest: 'target/docs',
         html5Mode: true,
         startPage: '/api',
         title: 'Bonita Portal JS Documentation',

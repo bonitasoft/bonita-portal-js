@@ -15,6 +15,10 @@
  */
 
 (function () {
-    'use strict';
-    angular.module('org.bonitasoft.features.user.tasks', ['org.bonitasoft.features.user.tasks.list']);
-  })();
+  'use strict';
+
+  angular.module('org.bonitasoft.features.user.tasks', [
+    'org.bonitasoft.features.user.tasks.list',
+    'gettext'
+  ]);
+})();

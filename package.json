@@ -32,7 +32,6 @@
     "grunt-newer": "0.6.1",
     "grunt-ng-annotate": "0.10.0",
     "grunt-ngdocs": "0.2.9",
-    "grunt-node-inspector": "0.2.0",
     "grunt-protractor-runner": "2.1.0",
     "grunt-rev": "0.1.0",
     "grunt-svgmin": "0.2.1",
@@ -54,6 +53,7 @@
     "karma-phantomjs-launcher": "0.1.4",
     "karma-safari-launcher": "0.1.1",
     "load-grunt-tasks": "0.4.0",
+    "mkdirp": "0.5.1",
     "ngdocs": "0.1.0",
     "node-xml-lite": "0.0.5",
     "protractor": "2.0.0",
@@ -63,9 +63,12 @@
     "node": "0.10.29"
   },
   "scripts": {
+    "build": "grunt",
     "test": "grunt test",
-    "testwatch": "./node_modules/karma/bin/karma start karma.conf.js --auto-watch",
+    "test:watch": "karma start karma.conf.js --auto-watch",
     "postinstall": "bower cache clean && bower install",
-    "pot": "grunt pot"
+    "pot": "grunt pot",
+    "pree2e": "webdriver-manager update",
+    "e2e": "grunt buildE2e"
   }
 }
