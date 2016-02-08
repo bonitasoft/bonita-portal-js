@@ -103,9 +103,11 @@
 								<phase>package</phase>
 								<configuration>
 									<ignoreDirFormatExtensions>true</ignoreDirFormatExtensions>
-									<appendAssemblyId>false</appendAssemblyId>
+									<appendAssemblyId>true</appendAssemblyId>
 									<descriptors>
-										<descriptor>assembly.xml</descriptor>
+										<descriptor>assembly-app.xml</descriptor>
+										<descriptor>assembly-looknfeel-css.xml</descriptor>
+										<descriptor>assembly-looknfeel-less.xml</descriptor>
 									</descriptors>
 								</configuration>
 							</execution>
@@ -169,9 +171,11 @@
 								<phase>package</phase>
 								<configuration>
 									<ignoreDirFormatExtensions>true</ignoreDirFormatExtensions>
-									<appendAssemblyId>false</appendAssemblyId>
+									<appendAssemblyId>true</appendAssemblyId>
 									<descriptors>
-										<descriptor>assembly.xml</descriptor>
+										<descriptor>assembly-app.xml</descriptor>
+										<descriptor>assembly-looknfeel-css.xml</descriptor>
+										<descriptor>assembly-looknfeel-less.xml</descriptor>
 									</descriptors>
 								</configuration>
 							</execution>

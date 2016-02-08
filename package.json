@@ -52,18 +52,22 @@
     "karma-ng-html2js-preprocessor": "0.1.2",
     "karma-phantomjs-launcher": "0.1.4",
     "karma-safari-launcher": "0.1.1",
+    "less": "^2.6.0",
     "load-grunt-tasks": "0.4.0",
     "mkdirp": "0.5.1",
     "ngdocs": "0.1.0",
     "node-xml-lite": "0.0.5",
     "protractor": "2.0.0",
-    "time-grunt": "0.2.10"
+    "time-grunt": "0.2.10",
+    "watch": "^0.17.1"
   },
   "engines": {
     "node": "0.10.29"
   },
   "scripts": {
-    "build": "grunt",
+    "build:less": "mkdir -p target/css; node node_modules/less/bin/lessc main/styles/main.less > target/css/bonita-skin.css",
+    "build:less:watch": "watch 'npm run build:less' main/styles",
+    "build": "npm run build:less && grunt",
     "test": "grunt test",
     "test:watch": "karma start karma.conf.js --auto-watch",
     "postinstall": "bower cache clean && bower install",
