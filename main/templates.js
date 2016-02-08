@@ -1578,11 +1578,18 @@ angular.module('portalTemplates/user/tasks/list/common/directive/bonita-iframe-v
 angular.module('portalTemplates/user/tasks/list/tasks-details.html', []).run(['$templateCache', function($templateCache) {
   'use strict';
   $templateCache.put('portalTemplates/user/tasks/list/tasks-details.html',
-    '<button class="pull-right btn btn-primary"\n' +
-    '        id="Button{{editable? \'Release\' : \'Take\'}}DetailsColumn"\n' +
-    '        ng-click="onTakeReleaseTask()" title="{{editable ? \'Unassign the task and put it back in Available tasks\' : \'Assign the task to myself and move it to My tasks.\'}}">\n' +
-    '  <i class="glyphicon" ng-class="{\'glyphicon-save\':!editable, \'glyphicon-open\':editable}"></i>\n' +
-    '  <span class="sr-only">{{editable ? \'Release\' : \'Take\'}}</span>\n' +
+    '<button ng-if="editable" class="pull-right btn btn-primary"\n' +
+    '        id="ButtonReleaseDetailsColumn"\n' +
+    '        ng-click="onTakeReleaseTask()" title="{{ \'Unassign the task and put it back in Available tasks\' | translate }}">\n' +
+    '  <i class="glyphicon glyphicon-open"></i>\n' +
+    '  <span class="sr-only" translate>Release</span>\n' +
+    '</button>\n' +
+    '\n' +
+    '<button ng-if="!editable" class="pull-right btn btn-primary"\n' +
+    '        id="ButtonTakeDetailsColumn"\n' +
+    '        ng-click="onTakeReleaseTask()" title="{{ \'Assign the task to myself and move it to My tasks\' | translate }}">\n' +
+    '  <i class="glyphicon glyphicon-save"></i>\n' +
+    '  <span class="sr-only" translate>Take</span>\n' +
     '</button>\n' +
     '\n' +
     '<tabset>\n' +
@@ -1594,30 +1601,30 @@ angular.module('portalTemplates/user/tasks/list/tasks-details.html', []).run(['$
     '      <p ng-if="currentTask.description">\n' +
     '        {{currentTask.description}}\n' +
     '      </p>\n' +
-    '      <h4>Case Info</h4>\n' +
+    '      <h4 translate>Case Info</h4>\n' +
     '      <ul class="list-group">\n' +
     '        <li class="list-group-item" ng-repeat="supervisor in currentCase.supervisors">\n' +
-    '          <span class="ListGroup-label">Process Supervisor&nbsp;:</span>\n' +
-    '          <a ng-href="mailto:{{::supervisor.user_id.email}}" title="mail to {{::supervisor.user_id.name}}">\n' +
+    '          <span class="ListGroup-label" translate>Process Supervisor&nbsp;:</span>\n' +
+    '          <a ng-href="mailto:{{::supervisor.user_id.email}}" title="{{ \'mail to\' | translate }} {{::supervisor.user_id.name}}">\n' +
     '          {{::supervisor.user_id.email}}\n' +
     '          </a>\n' +
     '        </li>\n' +
     '        <li class="list-group-item">\n' +
-    '          <span class="ListGroup-label">Process&nbsp;:</span>\n' +
+    '          <span class="ListGroup-label" translate>Process&nbsp;:</span>\n' +
     '          {{currentCase.processDefinitionId.name}}\n' +
     '        </li>\n' +
     '        <li class="list-group-item">\n' +
-    '          <span class="ListGroup-label">case ID&nbsp;:</span>\n' +
+    '          <span class="ListGroup-label" translate>case ID&nbsp;:</span>\n' +
     '          {{currentCase.sourceObjectId || currentCase.id}}\n' +
     '        </li>\n' +
     '        <li class="list-group-item">\n' +
-    '          <span class="ListGroup-label">Started by&nbsp;:</span>\n' +
+    '          <span class="ListGroup-label" translate>Started by&nbsp;:</span>\n' +
     '           {{currentCase.started_by.userName}}\n' +
     '           on {{currentCase.start | moment:\'MMM DD YYYY - hh:mm a\'}}\n' +
     '        </li>\n' +
     '      </ul>\n' +
     '\n' +
-    '      <h4>Case Overview</h4>\n' +
+    '      <h4 translate>Case Overview</h4>\n' +
     '      <bonita-iframe-viewer\n' +
     '        class="CaseViewer"\n' +
     '        frame-url="overviewUrl"\n' +
@@ -1625,7 +1632,7 @@ angular.module('portalTemplates/user/tasks/list/tasks-details.html', []).run(['$
     '        is-visible="tab.context">\n' +
     '      </bonita-iframe-viewer>\n' +
     '\n' +
-    '      <h4>Case History</h4>\n' +
+    '      <h4 translate>Case History</h4>\n' +
     '      <div class="CaseHistory">\n' +
     '        <div class="CaseHistory-timeline">\n' +
     '\n' +
@@ -1644,12 +1651,12 @@ angular.module('portalTemplates/user/tasks/list/tasks-details.html', []).run(['$
     '  <tab heading="Form"\n' +
     '       ng-click="onClickTab(\'form\')"\n' +
     '       active="tab.form" >\n' +
-    '    <p class="alert alert-info TaskInfo" ng-if="hideForm">\n' +
+    '    <p class="alert alert-info TaskInfo" ng-if="hideForm" translate>\n' +
     '      This task is completed.\n' +
     '    </p>\n' +
     '\n' +
     '    <div ng-if="!hideForm">\n' +
-    '      <p class="alert alert-warning" ng-if="!inactive && !editable">\n' +
+    '      <p class="alert alert-warning" ng-if="!inactive && !editable" translate>\n' +
     '        This task is not assigned to you. You need to take it before filling in this form.\n' +
     '      </p>\n' +
     '      <bonita-iframe-viewer class="FormViewer"\n' +
@@ -1681,33 +1688,33 @@ angular.module('portalTemplates/user/tasks/list/tasks-filters.html', []).run(['$
     '    <a href="#" id="todo-tasks" title="Show all tasks that I can do, assigned to me or not assigned"\n' +
     '       ng-click="setStatusTaskFilter(TASK_FILTERS.TODO)">\n' +
     '      <span class="badge pull-right" ng-show="count.TODO>0">{{count.TODO}}</span>\n' +
-    '      To do\n' +
+    '      <translate>To do</translate>\n' +
     '    </a>\n' +
     '    <div collapse="TASK_FILTERS.DONE === taskStatus">\n' +
     '      <ul class="TaskFilters nav nav-pills nav-stacked">\n' +
     '        <li role="presentation" ng-class="{\'active\':TASK_FILTERS.MY_TASK===taskStatus}">\n' +
     '          <a href="#" id="my-tasks" class="TaskFilter"\n' +
-    '             title="Show tasks assigned to me, automatically, by me or by another user"\n' +
+    '             title="{{ \'Show tasks assigned to me, automatically, by me or by another user\' | translate }}"\n' +
     '             ng-click="setStatusTaskFilter(TASK_FILTERS.MY_TASK)">\n' +
     '            <span class="badge pull-right" ng-show="count.MY_TASK>0">{{count.MY_TASK}}</span>\n' +
-    '            My tasks\n' +
+    '            <translate>My tasks</translate>\n' +
     '          </a>\n' +
     '        </li><!-- my tasks -->\n' +
     '        <li role="presentation" ng-class="{\'active\':TASK_FILTERS.POOL_TASK===taskStatus}">\n' +
     '          <a href="#" id="available-tasks" class="TaskFilter"\n' +
-    '             title="Show tasks that I can do that are not assigned"\n' +
+    '             title="{{ \'Show tasks that I can do that are not assigned\' | translate }}"\n' +
     '             ng-click="setStatusTaskFilter(TASK_FILTERS.POOL_TASK)" >\n' +
     '            <span class="badge pull-right" ng-show="count.POOL_TASK>0">{{count.POOL_TASK}}</span>\n' +
-    '            Available tasks\n' +
+    '            <translate>Available tasks</translate>\n' +
     '          </a>\n' +
     '        </li><!-- available tasks -->\n' +
     '      </ul>\n' +
     '    </div>\n' +
     '  </li><!-- tasks -->\n' +
     '  <li role="presentation" ng-class="{\'active\':TASK_FILTERS.DONE===taskStatus}">\n' +
-    '    <a href="#" id="done-tasks" title="Show done tasks"\n' +
+    '    <a href="#" id="done-tasks" title="{{ \'Show done tasks\' | translate }}"\n' +
     '       ng-click="setStatusTaskFilter(TASK_FILTERS.DONE)" >\n' +
-    '      Done tasks\n' +
+    '      <translate>Done tasks</translate>\n' +
     '    </a>\n' +
     '  </li> <!-- done tasks -->\n' +
     '</ul>\n' +
@@ -1719,21 +1726,21 @@ angular.module('portalTemplates/user/tasks/list/tasks-layoutswitch.html', []).ru
   $templateCache.put('portalTemplates/user/tasks/list/tasks-layoutswitch.html',
     '<div class="LayoutSwitch pull-right">\n' +
     '  <div class="btn-group">\n' +
-    '    <button class="btn btn-default"  title="Show task list with details pane"\n' +
+    '    <button class="btn btn-default"  title="{{ \'Show task list with details pane\' | translate }}"\n' +
     '            type="button"\n' +
     '            btn-radio="true"\n' +
     '            ng-model="value"\n' +
     '            ng-change="changeHandler(value)">\n' +
     '      <i class="icon-view-details"></i>\n' +
-    '      <span class="sr-only">Show task list with details pane</span>\n' +
+    '      <span class="sr-only" translate>Show task list with details pane</span>\n' +
     '    </button>\n' +
-    '    <button class="btn btn-default"  title="Show extended task list"\n' +
+    '    <button class="btn btn-default"  title="{{ \'Show extended task list\' | translate }}"\n' +
     '            type="button"\n' +
     '            btn-radio="false"\n' +
     '            ng-model="value"\n' +
     '            ng-change="changeHandler(value)">\n' +
     '        <i class="icon-view-list"></i>\n' +
-    '        <span class="sr-only">Show extended task list</span>\n' +
+    '        <span class="sr-only" translate>Show extended task list</span>\n' +
     '    </button>\n' +
     '  </div>\n' +
     '</div><!-- Settings-display -->\n' +
@@ -1756,11 +1763,15 @@ angular.module('portalTemplates/user/tasks/list/tasks-list.html', []).run(['$tem
     '      \'TaskListPage--small\':app.smallScreen,\n' +
     '      \'TaskListPage--withMenu\':!app.smallScreen && app.showMenu}">\n' +
     '    <div class="OffcanvasMenu navbar">\n' +
-    '      <h3 class="OffcanvasMenu-title">Filters</h3>\n' +
-    '      <button ng-hide="app.smallScreen" title="{{app.showMenu ? \'Hide\' : \'Show\'}} Menu"\n' +
+    '      <button ng-if="!app.smallScreen && app.showMenu" title="{{ \'Hide Menu\' | translate }}"\n' +
     '        class="FilterToggle btn btn-default" btn-checkbox ng-model="app.showMenu">\n' +
-    '        <span class="glyphicon" ng-class="{\'glyphicon-chevron-left\':app.showMenu,\'glyphicon-chevron-right\': !app.showMenu }"></span>\n' +
-    '        <span class="sr-only">menu</span>\n' +
+    '        <span class="glyphicon glyphicon-chevron-left"></span>\n' +
+    '        <span class="sr-only" translate>Hide menu</span>\n' +
+    '      </button>\n' +
+    '      <button ng-if="!app.smallScreen && !app.showMenu" title="{{ \'Show Menu\' | translate }}"\n' +
+    '              class="FilterToggle btn btn-default" btn-checkbox ng-model="app.showMenu">\n' +
+    '        <span class="glyphicon glyphicon-chevron-right"></span>\n' +
+    '        <span class="sr-only" translate>Show menu</span>\n' +
     '      </button>\n' +
     '      <task-filters filter="app.request.taskFilter"\n' +
     '                    filters="app.TASK_FILTERS"\n' +
@@ -1769,23 +1780,11 @@ angular.module('portalTemplates/user/tasks/list/tasks-list.html', []).run(['$tem
     '      </task-filters>\n' +
     '    </div>\n' +
     '    <div class="AppWrapper">\n' +
-    '      <div class="AppHeader">\n' +
-    '        <h1>\n' +
-    '          <i class="icon-inbox TitleIcon"></i>\n' +
-    '          <span>{{app.request.taskFilter.title}}</span>\n' +
-    '\n' +
-    '          <layout-switch value="app.showDetails" on-change="app.updateLayout(showDetails)" ng-hide="app.smallScreen"/>\n' +
-    '        </h1>\n' +
-    '\n' +
-    '      </div>\n' +
-    '\n' +
     '        <div class="alert alert-warning" ng-show="error">\n' +
     '          <p ng-bind-template="Please login to your bonita portal (Error {{error.status}})"></p>\n' +
     '        </div>\n' +
-    '      <div class="" ng-hide="error">\n' +
-    '        <div>\n' +
-    '          <div class="TaskList col-md-{{app.getSize()}}"\n' +
-    '               ng-if="!(app.showDetails && app.expandDetails) || app.smallScreen">\n' +
+    '        <div class="TaskList col-md-{{app.getSize()}}"\n' +
+    '             ng-if="!error && (!(app.showDetails && app.expandDetails) || app.smallScreen)">\n' +
     '            <div class="panel panel-default">\n' +
     '              <div class="Settings">\n' +
     '                <div class="Settings-filter">\n' +
@@ -1796,14 +1795,14 @@ angular.module('portalTemplates/user/tasks/list/tasks-list.html', []).run(['$tem
     '                        <i class="icon-search SearchBox-icon"></i>\n' +
     '                        <input class="form-control SearchBox-input" id="search"\n' +
     '                          input-focus\n' +
-    '                          placeholder="Search on task name"\n' +
+    '                          placeholder="{{ \'Search on task name\' | translate }}"\n' +
     '                          ng-model="app.request.search"\n' +
     '                          ng-model-options="{updateOn:\'keyup\', debounce:{\'default\':250, \'blur\':0} }"\n' +
     '                          ng-change="app.searchTask()"\n' +
     '                          >\n' +
     '\n' +
     '                      </div>\n' +
-    '                      {{"Process name"}}\n' +
+    '                      <translate>Process</translate>\n' +
     '                      <div class="ProcessList" dropdown>\n' +
     '                        <button dropdown-toggle type="button"\n' +
     '                                class="btn btn-primary"\n' +
@@ -1822,12 +1821,13 @@ angular.module('portalTemplates/user/tasks/list/tasks-list.html', []).run(['$tem
     '                      <span class="Loading pull-right" ng-show="app.loadingTasks" ></span>\n' +
     '                      <button class="btn btn-default pull-right"\n' +
     '                        type="button"\n' +
-    '                        title="refresh data"\n' +
+    '                        title="{{ \'Refresh data\' | translate }}"\n' +
     '                        ng-hide="app.loadingTasks"\n' +
     '                        ng-click="app.updateAll()">\n' +
     '                        <i class="icon-refresh"></i>\n' +
-    '                        <span class="sr-only">Refresh data</span>\n' +
+    '                        <span class="sr-only" translate>Refresh data</span>\n' +
     '                      </button>\n' +
+    '                      <layout-switch value="app.showDetails" on-change="app.updateLayout(showDetails)" ng-hide="app.smallScreen"/>\n' +
     '                    </fieldset>\n' +
     '                  </form>\n' +
     '\n' +
@@ -1853,14 +1853,21 @@ angular.module('portalTemplates/user/tasks/list/tasks-list.html', []).run(['$tem
     '          <div class="TaskDetails col-md-{{app.getSize()}}" id="details" ng-if="app.smallScreen || app.showDetails">\n' +
     '            <div class="panel panel-default">\n' +
     '              <div class="panel-heading">\n' +
-    '                <button class="pull-right btn btn-default"\n' +
+    '                <button ng-if="app.expandDetails" class="pull-right btn btn-default"\n' +
     '                        ng-model="app.expandDetails"\n' +
     '                        btn-checkbox\n' +
-    '                        title="{{app.expandDetails ? \'Expand\' : \'Reduce\'}}">\n' +
-    '                  <span ng-class="{\'glyphicon glyphicon-resize-full\':!app.expandDetails,\'glyphicon glyphicon-resize-small\':app.expandDetails}"></span>\n' +
-    '                  <span class="sr-only">{{app.expandDetails ? \'Expand\' : \'Reduce\'}}</span>\n' +
+    '                        title="{{ \'Expand\' | translate}}">\n' +
+    '                  <span class="glyphicon glyphicon-resize-small"></span>\n' +
+    '                  <span class="sr-only" translate>Expand</span>\n' +
     '                </button>\n' +
-    '                <h3 class="panel-title">Task Details</h3>\n' +
+    '                <button ng-if="!app.expandDetails" class="pull-right btn btn-default"\n' +
+    '                        ng-model="app.expandDetails"\n' +
+    '                        btn-checkbox\n' +
+    '                        title="{{\'Reduce\' | translate}}">\n' +
+    '                  <span class="glyphicon glyphicon-resize-full"></span>\n' +
+    '                  <span class="sr-only" translate>Reduce</span>\n' +
+    '                </button>\n' +
+    '                <h3 class="panel-title" translate>Task Details</h3>\n' +
     '              </div>\n' +
     '              <div class="panel-body">\n' +
     '                <task-details current-task="app.currentTask"\n' +
@@ -1872,9 +1879,7 @@ angular.module('portalTemplates/user/tasks/list/tasks-list.html', []).run(['$tem
     '                </task-details>\n' +
     '              </div>\n' +
     '            </div>\n' +
-    '          </div> <!-- .TaskDetails -->\n' +
     '        </div>\n' +
-    '      </div>\n' +
     '    </div>\n' +
     '  </div>\n' +
     '\n' +
@@ -1926,7 +1931,7 @@ angular.module('portalTemplates/user/tasks/list/tasks-modal-details.html', []).r
     '\n' +
     '  <button type="button" ng-click="modal.cancel()" class="close" title="close Preview">\n' +
     '    <span aria-hidden="true">&times;</span>\n' +
-    '    <span class="sr-only">Close Preview</span>\n' +
+    '    <span class="sr-only" translate>Close Preview</span>\n' +
     '  </button>\n' +
     '\n' +
     '  <task-details current-task="modal.task"\n' +
@@ -1942,7 +1947,7 @@ angular.module('portalTemplates/user/tasks/list/tasks-modal-details.html', []).r
     '  <button type="button"\n' +
     '          class="btn btn-warning"\n' +
     '          title="close Preview"\n' +
-    '          ng-click="modal.cancel()">\n' +
+    '          ng-click="modal.cancel()" translate>\n' +
     '    Close Preview\n' +
     '</button>\n' +
     '</div>\n' +
@@ -1953,9 +1958,9 @@ angular.module('portalTemplates/user/tasks/list/tasks-modal-form.html', []).run(
   'use strict';
   $templateCache.put('portalTemplates/user/tasks/list/tasks-modal-form.html',
     '<div class="modal-body">\n' +
-    '  <button type="button" ng-click="modal.cancel()" class="close" title="close form">\n' +
+    '  <button type="button" ng-click="modal.cancel()" class="close" title="{{ \'Close form\' | translate }}">\n' +
     '    <span aria-hidden="true">&times;</span>\n' +
-    '    <span class="sr-only">Close</span>\n' +
+    '    <span class="sr-only" translate>Close</span>\n' +
     '  </button>\n' +
     '   <bonita-iframe-viewer class="FormViewer"\n' +
     '      ng-if="modal.hasForm"\n' +
@@ -1971,7 +1976,7 @@ angular.module('portalTemplates/user/tasks/list/tasks-modal-form.html', []).run(
     '    </no-form>\n' +
     '</div>\n' +
     '<div class="modal-footer">\n' +
-    '  <button type="button" class="btn btn-warning" title="close form" ng-click="modal.cancel()">Close form</button>\n' +
+    '  <button type="button" class="btn btn-warning" title="close form" ng-click="modal.cancel()" translate>Close form</button>\n' +
     '</div>\n' +
     '');
 }]);
@@ -1981,13 +1986,13 @@ angular.module('portalTemplates/user/tasks/list/tasks-no-form.html', []).run(['$
   $templateCache.put('portalTemplates/user/tasks/list/tasks-no-form.html',
     '<div class="Viewer-wrapper" ng-if="!inactive">\n' +
     '        <h4>{{currentTask.displayName || currentTask.name}}</h4>\n' +
-    '        <p>No form is needed. You can enter a comment and confirm.</p>\n' +
+    '        <p translate>No form is needed. You can enter a comment and confirm.</p>\n' +
     '        <form role="form">\n' +
     '          <div class="form-group">\n' +
-    '            <label for="task-comment">Comment:</label>\n' +
+    '            <label for="task-comment" translate>Comment:</label>\n' +
     '            <textarea ng-model="currentTask.comment" id="task-comment" class="form-control"></textarea>\n' +
     '          </div>\n' +
-    '          <button ng-click="onExecuteTask()" class="btn btn-primary center-block">Submit</button>\n' +
+    '          <button ng-click="onExecuteTask()" class="btn btn-primary center-block" translate>Submit</button>\n' +
     '        </form>\n' +
     '        <div class="Viewer-overlay" ng-if="!editable"></div>\n' +
     '      </div>\n' +
@@ -1998,7 +2003,7 @@ angular.module('portalTemplates/user/tasks/list/tasks-table.html', []).run(['$te
   'use strict';
   $templateCache.put('portalTemplates/user/tasks/list/tasks-table.html',
     '<!-- tasks listing -->\n' +
-    '<div class="alert alert-noresult" ng-show="tasks.length === 0">\n' +
+    '<div class="alert alert-noresult" ng-show="tasks.length === 0" translate>\n' +
     '  No matching results\n' +
     '</div>\n' +
     '<div bonitable\n' +
@@ -2008,13 +2013,13 @@ angular.module('portalTemplates/user/tasks/list/tasks-table.html', []).run(['$te
     '  repeatable-config="columnSettings">\n' +
     '  <div class="GroupAction clearfix" ng-show="tasks.length > 0">\n' +
     '    <div class="GroupAction-button pull-left" ng-show="canDoGroupAction()">\n' +
-    '      <button class="btn btn-primary" type="button" title="Assign the task to myself and move it to My tasks."\n' +
+    '      <button class="btn btn-primary" type="button" title="{{ \'Assign the task to myself and move it to My tasks.\' | translate }}"\n' +
     '         ng-disabled="!canTake($selectedItems)" ng-click="takeTasks($selectedItems)">\n' +
-    '         <i class="glyphicon glyphicon-save"></i> Take\n' +
+    '         <i class="glyphicon glyphicon-save">&nbsp;</i><translate>Take</translate>\n' +
     '      </button>\n' +
-    '      <button class="btn btn-default"  type="button" title="Unassign the task and put it back in Available tasks"\n' +
+    '      <button class="btn btn-default"  type="button" title="{{ \'Unassign the task and put it back in Available tasks\' | translate }}"\n' +
     '        ng-disabled="!canRelease($selectedItems)" ng-click="releaseTasks($selectedItems)">\n' +
-    '        <i class="glyphicon glyphicon-open"></i> Release\n' +
+    '        <i class="glyphicon glyphicon-open">&nbsp;</i><translate>Release</translate>\n' +
     '      </button>\n' +
     '    </div>\n' +
     '    <div class="PaginationInfo pull-right">\n' +
@@ -2051,17 +2056,17 @@ angular.module('portalTemplates/user/tasks/list/tasks-table.html', []).run(['$te
     '            <div bo-selectall></div>\n' +
     '          </th>\n' +
     '          <th data-ignore class="Cell--assignee">\n' +
-    '            <i class="icon-user" title="Available or My tasks"></i>\n' +
+    '            <i class="icon-user" title="{{ \'Available or My tasks\' | translate }}"></i>\n' +
     '          </th><!-- assigned icon -->\n' +
-    '          <th class="text-right">Task Id</th>\n' +
-    '          <th bo-sorter="displayName" style="width:30%; min-width:150px">Task name</th>\n' +
-    '          <th style="width:30%; min-width:150px">Description</th>\n' +
-    '          <th bo-sorter="processInstanceId" class="text-right">Case Id</th>\n' +
-    '          <th style="width:30%; min-width:150px">Process name</th>\n' +
-    '          <th class="text-right">Last update</th>\n' +
-    '          <th class="text-right">Assigned on</th>\n' +
-    '          <th bo-sorter="dueDate" class="text-right">Due date</th>\n' +
-    '          <th bo-sorter="priority">Priority</th>\n' +
+    '          <th class="text-right" translate>Task Id</th>\n' +
+    '          <th bo-sorter="displayName" style="width:30%; min-width:150px">{{ \'Task name\' | translate }}</th>\n' +
+    '          <th style="width:30%; min-width:150px" translate>Description</th>\n' +
+    '          <th bo-sorter="processInstanceId" class="text-right">{{ \'Case Id\' | translate }}</th>\n' +
+    '          <th style="width:30%; min-width:150px" translate>Process name</th>\n' +
+    '          <th class="text-right" translate>Last update</th>\n' +
+    '          <th class="text-right" translate>Assigned on</th>\n' +
+    '          <th bo-sorter="dueDate" class="text-right">{{ \'Due date\' | translate }}</th>\n' +
+    '          <th bo-sorter="priority" translare>Priority</th>\n' +
     '          <th data-ignore class="RowActions" ng-if="mode!==\'mid\'"></th>\n' +
     '        </tr>\n' +
     '      </thead>\n' +
@@ -2079,11 +2084,11 @@ angular.module('portalTemplates/user/tasks/list/tasks-table.html', []).run(['$te
     '          </td>\n' +
     '\n' +
     '          <td>\n' +
-    '            <i class="icon-user" title="My task" ng-if="user.user_id===task.assigned_id"></i>\n' +
+    '            <i class="icon-user" title="{{ \'My task\' | translate }}" ng-if="user.user_id===task.assigned_id"></i>\n' +
     '          </td>\n' +
     '\n' +
     '          <td class="text-right">{{::task.id}}</td>\n' +
-    '          <td class="Ellipsis" title="{{::task.displayName}}">{{::task.displayName}}</td>\n' +
+    '          <td class="Ellipsis"><div title="{{::task.displayName}}">{{::task.displayName}}</div></td>\n' +
     '          <td style="Ellipsis" title="{{::task.displayDescription}}">{{::task.displayDescription}}</td>\n' +
     '          <td class="text-right Cell--sortable">{{::task.caseId}}</td>\n' +
     '          <td class="Ellipsis">{{::task.rootContainerId.name}}</td>\n' +
@@ -2097,22 +2102,22 @@ angular.module('portalTemplates/user/tasks/list/tasks-table.html', []).run(['$te
     '                    ng-click="onDoTask(task)"\n' +
     '                    ng-if="request.taskFilter !== TASK_FILTERS.DONE"\n' +
     '                    ng-show="task === currentTask || task.btnVisible"\n' +
-    '                    title="Do this task">\n' +
+    '                    title="{{ \'Do this task\' | translate }}">\n' +
     '              <i class="icon-do"></i>\n' +
-    '              <span class="sr-only">Do task</span>\n' +
+    '              <span class="sr-only" translate>Do this task</span>\n' +
     '            </button>\n' +
     '            <button class="btn btn-default" type="button"\n' +
     '                    ng-click="onViewTask(task)"\n' +
     '                    ng-switch-when="max"\n' +
     '                    ng-show="task === currentTask || task.btnVisible"\n' +
-    '                    title="View this task">\n' +
+    '                    title="{{ \'View this task\' | translate }}">\n' +
     '              <i class="icon-eye"></i>\n' +
-    '              <span class="sr-only">View task</span>\n' +
+    '              <span class="sr-only" translate>View task</span>\n' +
     '            </button>\n' +
     '            <a class="btn btn-xs btn-default" type="button"\n' +
     '               ng-switch-when="min"\n' +
     '               ng-click="goToDetail(\'details\')"\n' +
-    '               title="View this task">\n' +
+    '               title="{{ \'View this task\' | translate }}" translate>\n' +
     '              View task\n' +
     '            </a>\n' +
     '          </td>\n' +
@@ -2122,13 +2127,13 @@ angular.module('portalTemplates/user/tasks/list/tasks-table.html', []).run(['$te
     '  </div>\n' +
     '  <div class="GroupAction clearfix" ng-show="tasks.length > 0">\n' +
     '    <div class="GroupAction-button pull-left" ng-show="canDoGroupAction()">\n' +
-    '      <button class="btn btn-primary" type="button" title="Assign the task to myself and move it to My tasks."\n' +
+    '      <button class="btn btn-primary" type="button" title="{{ \'Assign the task to myself and move it to My tasks.\' | translate }}"\n' +
     '         ng-disabled="!canTake($selectedItems)" ng-click="takeTasks($selectedItems)">\n' +
-    '         <i class="glyphicon glyphicon-save"></i> Take\n' +
+    '         <i class="glyphicon glyphicon-save">&nbsp;</i><translate>Take</translate>\n' +
     '      </button>\n' +
-    '      <button class="btn btn-default" type="button" title="Unassign the task and put it back in Available tasks"\n' +
+    '      <button class="btn btn-default" type="button" title="{{ \'Unassign the task and put it back in Available tasks\' | translate }}"\n' +
     '        ng-disabled="!canRelease($selectedItems)" ng-click="releaseTasks($selectedItems)">\n' +
-    '        <i class="glyphicon glyphicon-open"></i> Release\n' +
+    '        <i class="glyphicon glyphicon-open">&nbsp;</i><translate>Release</translate>\n' +
     '      </button>\n' +
     '    </div>\n' +
     '    <div class="PaginationInfo pull-right" >\n' +
