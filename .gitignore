@@ -2,6 +2,7 @@
 **/dist
 **/.tmp
 **/main/assets
+main/templates.js
 target/
 
 i18n/portal-js.pot
