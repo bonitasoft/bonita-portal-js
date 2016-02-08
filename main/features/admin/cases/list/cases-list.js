@@ -1,3 +1,4 @@
+/* jshint sub:true*/
 /** Copyright (C) 2015 Bonitasoft S.A.
  * BonitaSoft, 31 rue Gustave Eiffel - 38000 Grenoble
  * This program is free software: you can redistribute it and/or modify
@@ -314,6 +315,10 @@
                 }
                 simpleCase[column.name] = currentCase;
               });
+
+              if(fullCase['started_by'].firstname && fullCase['started_by'].lastname) {
+                simpleCase['Started by fullname'] = fullCase['started_by'].firstname + ' ' + fullCase['started_by'].lastname;
+              }
               simpleCase.id = fullCase.id;
               simpleCase.processDefinitionId = fullCase.processDefinitionId;
               simpleCase.fullCase = fullCase;
