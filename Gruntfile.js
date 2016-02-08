@@ -96,7 +96,7 @@ module.exports = function (grunt) {
           '<%= portaljs.app %>/{features, commons, assets}/**/',//js
           '<%= portaljs.app %>/test/{spec,e2e}/**/',//js test & e2e
           '<%= portaljs.app %>/styles/**/',//styles
-          '<%= portaljs.app %>/styles/**/',
+          '<%= portaljs.app %>/styles/**/'
           ],
         livereload:{
           enabled: true,
@@ -161,7 +161,7 @@ module.exports = function (grunt) {
         })()
       },
       rules: [
-        // prefix web appliation
+        // prefix web application
         {
           from: '^/bonita/portaljs(.*)$',
           to: '/$1'
@@ -176,6 +176,7 @@ module.exports = function (grunt) {
         options: {
           base: [
             '.tmp',
+            'target/css',
             '<%= portaljs.app %>'
           ],
           middleware: function (connect, options) {
@@ -185,6 +186,16 @@ module.exports = function (grunt) {
 
             // Setup the proxy
             var middlewares = [
+
+              function(req, res, next) {
+                if(req.url === '/bonita/portal/themeResource?theme=portal&location=bonita-skin.css') {
+                  require('fs')
+                      .createReadStream(__dirname + '/target/css/bonita-skin.css')
+                      .pipe(res);
+                  return;
+                }
+                next();
+              },
               require('grunt-connect-proxy/lib/utils').proxyRequest,
               require('grunt-connect-rewrite/lib/utils').rewriteRequest];
 
