@@ -257,9 +257,9 @@
         tableHeader.get(2).click();
         expect(tableHeader.get(2).getText()).toContain('Start date');
         if(browser.bonitaSpEdition()){
-          expect(caseList.all(by.css('tbody tr')).get(0).all(by.css('td')).getText()).toEqual(['', '2', 'Pool', '1.0', '10/16/2014 4:05 PM', 'william.jobs', '0', '1', 'No value', '']);
+          expect(caseList.all(by.css('tbody tr')).get(0).all(by.css('td')).getText()).toEqual(['', '2', 'Pool', '1.0', '10/16/2014 4:05 PM', 'William Jobs', '0', '1', 'No value', '']);
         }else{
-          expect(caseList.all(by.css('tbody tr')).get(0).all(by.css('td')).getText()).toEqual(['', '2', 'Pool', '1.0', '10/16/2014 4:05 PM', 'william.jobs', '0', '1', '']);
+          expect(caseList.all(by.css('tbody tr')).get(0).all(by.css('td')).getText()).toEqual(['', '2', 'Pool', '1.0', '10/16/2014 4:05 PM', 'William Jobs', '0', '1', '']);
         }
       });
       it('should order by date desc', function () {
@@ -291,7 +291,7 @@
           expect(poolCaseDetails[2].element(by.css('a')).getAttribute('href')).toContain('#?id=7626384556180392799&_p=processmoredetailsadmin&');
           expect(poolCaseDetails[3].getText()).toContain('1.0');
           expect(poolCaseDetails[4].getText()).toContain('10/17/2014 4:05 PM');
-          expect(poolCaseDetails[5].getText()).toContain('walter.bates');
+          expect(poolCaseDetails[5].getText()).toContain('Walter Bates');
           expect(poolCaseDetails[6].getText()).toContain('1');
           expect(poolCaseDetails[7].getText()).toContain('0');
           if(browser.bonitaSpEdition()){

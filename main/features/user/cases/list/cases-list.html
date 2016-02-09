@@ -45,7 +45,7 @@
               <td class="case-detail">{{::case['Process name']}}</td>
               <td class="case-detail">{{::case['Version']}}</td>
               <td class="case-detail">{{::caseUserCtrl.parseAndFormat(case['Start date'])}}</td>
-              <td class="case-detail">{{::case['Started by'] || ('System' | translate)}}</td>
+              <td class="case-detail" title="{{'username:' | translate}} {{::case['Started by'] || ('System' | translate)}}">{{::case['Started by fullname'] || ('System' | translate)}}</td>
               <td class="case-detail text-right">{{::case['Available tasks']}}</td>
               <td class="case-detail" ng-hide="!caseUserCtrl.displayKeys()"><search-index case="case" index="1"></search-index></td>
               <td class="case-detail" ng-hide="!caseUserCtrl.displayKeys()"><search-index case="case" index="2"></search-index></td>
@@ -96,7 +96,7 @@
               <td class="case-detail">{{::case['Process name']}}</td>
               <td class="case-detail">{{::case['Version']}}</td>
               <td class="case-detail">{{::caseUserCtrl.parseAndFormat(case['Start date'])}}</td>
-              <td class="case-detail">{{::case['Started by'] || ('System' | translate)}}</td>
+              <td class="case-detail" title="{{'username:' | translate}} {{::case['Started by'] || ('System' | translate)}}">{{::case['Started by fullname'] || ('System' | translate)}}</td>
               <td class="case-detail">{{::caseUserCtrl.parseAndFormat(case['End date'])}}</td>
               <td class="case-detail" ng-hide="!caseUserCtrl.displayKeys()"><search-index case="case" index="1"></search-index></td>
               <td class="case-detail" ng-hide="!caseUserCtrl.displayKeys()"><search-index case="case" index="2"></search-index></td>
