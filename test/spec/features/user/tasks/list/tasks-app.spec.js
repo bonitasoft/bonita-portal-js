@@ -57,11 +57,13 @@ describe('taskApp', function(){
     var controller;
 
     var $q;
+    var preference;
 
     beforeEach(module('org.bonitasoft.features.user.tasks.app'));
 
     beforeEach(inject(function($injector){
       $q = $injector.get('$q');
+      preference = $injector.get('preference');
     }));
 
 
@@ -343,7 +345,7 @@ describe('taskApp', function(){
 
       it('should save preference', function(){
         controller.updateLayout(false);
-        expect(preference.set).toHaveBeenCalledWith('showDetails', false, true);
+        expect(preference.set).toHaveBeenCalledWith('showDetails', false);
       });
     });
 
@@ -464,6 +466,21 @@ describe('taskApp', function(){
       });
     });
 
+    it('should get filter panel state from preferences', function() {
+      expect(controller.showMenu).toEqual(preference.get('showFilters'));
+    });
+
+    it('should toggle filter panel and save state in preferences', function() {
+      controller.showMenu = true;
+
+      controller.toggleFilters();
+      expect(controller.showMenu).toBeFalsy();
+      expect(preference.get('showFilters')).toBeFalsy();
+
+      controller.toggleFilters();
+      expect(controller.showMenu).toBeTruthy();
+      expect(preference.get('showFilters')).toBeTruthy();
+    });
   });
 
   describe('taskApp directive', function(){

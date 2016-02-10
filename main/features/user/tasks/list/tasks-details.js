@@ -56,7 +56,7 @@
         };
 
         this.saveSelectedTab = function(tab) {
-          preference.set('lastTab', tab, true);
+          preference.set('lastTab', tab);
         };
       }
     ])

@@ -58,7 +58,7 @@ describe('module tasks.details', function() {
 
     it('saveSelectedTab', function(){
       service.saveSelectedTab('toto');
-      expect(preference.set).toHaveBeenCalledWith('lastTab', 'toto',  true);
+      expect(preference.set).toHaveBeenCalledWith('lastTab', 'toto');
     });
 
     describe('takeTask', function(){
