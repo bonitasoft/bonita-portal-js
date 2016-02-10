@@ -396,7 +396,7 @@
       this.toggleFilters = function() {
         this.showMenu = !this.showMenu;
         preference.set('showFilters', this.showMenu);
-      }
+      };
     }
   ])
 
