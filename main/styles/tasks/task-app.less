@@ -12,7 +12,12 @@
   display: table;
   position: relative;
   vertical-align: top;
-  table-layout: fixed
+  table-layout: fixed;
+
+  .panel, .panel-heading, .Settings, .list-group-item {
+    border: none;
+    box-shadow: none;
+  }
 }
 
 .TaskListPage--small {
@@ -64,7 +69,7 @@
   vertical-align: top;
   height: 100%;
   margin-left: 0;
-  padding-left: 2em;
+  padding-left: 2.5em;
 }
 
 .TaskListPage--small .AppWrapper {
