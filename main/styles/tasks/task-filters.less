@@ -18,6 +18,11 @@
   display: none;
 }
 
+.TaskListPage .TaskFilters {
+  margin: 0 0 0 .5em;
+  overflow: visible;
+}
+
 .TaskListPage--small .TaskFilters,
 .TaskListPage--withMenu .TaskFilters{
   display: block;
@@ -45,11 +50,32 @@
   color: #666;
 }
 
-.nav-pills > li.active > a,
-.nav-pills > li.active > a:hover,
-.nav-pills > li.active > a:focus {
-  color:#333;
-  background-color: #ccc;
+.TaskListPage .nav-pills > li > a {
+  color: #2c3e50;
+  border-radius: 4px 0 0 4px;
+}
+
+.TaskListPage .nav-pills > li.active > a,
+.TaskListPage .nav-pills > li.active > a:hover,
+.TaskListPage .nav-pills > li.active > a:focus {
+  color: #2c3e50;
+  background-color: #fff;
+}
+
+.TaskListPage .nav-pills > li > a:hover {
+  background-color: #b4b9c2;
+}
+
+.TaskListPage .nav-pills > li.active > a:after {
+  content: "";
+  background: url("themeResource?theme=portal&location=skin/images/arrow-current.png") #fff no-repeat center;
+  position: absolute;
+  display: block;
+  float: right;
+  height: 100%;
+  right: -2em;
+  top: 0;
+  width: 2em;
 }
 
 .nav-pills > .active > a > .badge {
