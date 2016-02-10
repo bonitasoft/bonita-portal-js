@@ -5,12 +5,12 @@
       'TaskListPage--withMenu':!app.smallScreen && app.showMenu}">
     <div class="OffcanvasMenu navbar">
       <button ng-if="!app.smallScreen && app.showMenu" title="{{ 'Hide Menu' | translate }}"
-        class="FilterToggle btn btn-default"  ng-click="app.toggleFilters()">
+        class="FilterToggle"  ng-click="app.toggleFilters()">
         <span class="glyphicon glyphicon-chevron-left"></span>
         <span class="sr-only" translate>Hide menu</span>
       </button>
       <button ng-if="!app.smallScreen && !app.showMenu" title="{{ 'Show Menu' | translate }}"
-              class="FilterToggle btn btn-default" ng-click="app.toggleFilters()">
+              class="FilterToggle" ng-click="app.toggleFilters()">
         <span class="glyphicon glyphicon-chevron-right"></span>
         <span class="sr-only" translate>Show menu</span>
       </button>
