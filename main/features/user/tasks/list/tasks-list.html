@@ -1,6 +1,13 @@
-  <toast></toast>
-  <div class="TaskListPage" ng-cloak task-app form-spy spy-submit="app.onFormSubmited(message)"
-    ng-class="{
+<!-- Reset style for the page. Dirty but avoid having to break all other pages -->
+<style>
+    html, body, body > div {
+        height: 100%;
+        margin: 0;
+    }
+</style>
+<toast></toast>
+<div class="TaskListPage" ng-cloak task-app form-spy spy-submit="app.onFormSubmited(message)"
+     ng-class="{
       'TaskListPage--small':app.smallScreen,
       'TaskListPage--withMenu':!app.smallScreen && app.showMenu}">
     <div class="OffcanvasMenu navbar">
@@ -22,108 +29,108 @@
     </div>
     <div class="AppWrapper">
         <div class="alert alert-warning" ng-show="error">
-          <p ng-bind-template="Please login to your bonita portal (Error {{error.status}})"></p>
+            <p ng-bind-template="Please login to your bonita portal (Error {{error.status}})"></p>
         </div>
-      <div class="" ng-hide="error">
-        <div>
-          <div class="TaskList col-md-{{app.getSize()}}"
-               ng-if="!(app.showDetails && app.expandDetails) || app.smallScreen">
+        <div class="TaskList col-md-{{app.getSize()}}"
+             ng-if="!error && (!(app.showDetails && app.expandDetails) || app.smallScreen)">
             <div class="panel panel-default">
-              <div class="Settings">
-                <div class="Settings-filter">
-                  <form name="searchForm" class="form-inline" ng-submit="app.searchTask()">
-                    <fieldset class="SearchBox">
-                      <legend class="sr-only">searchLegend</legend>
-                      <div class="form-group">
-                        <i class="icon-search SearchBox-icon"></i>
-                        <input class="form-control SearchBox-input" id="search"
-                          input-focus
-                          placeholder="{{ 'Search on task name' | translate }}"
-                          ng-model="app.request.search"
-                          ng-model-options="{updateOn:'keyup', debounce:{'default':250, 'blur':0} }"
-                          ng-change="app.searchTask()"
-                          >
+                <div class="Settings">
+                    <div class="Settings-filter">
+                        <form name="searchForm" class="form-inline" ng-submit="app.searchTask()">
+                            <fieldset class="SearchBox">
+                                <legend class="sr-only">searchLegend</legend>
+                                <div class="form-group">
+                                    <i class="icon-search SearchBox-icon"></i>
+                                    <input class="form-control SearchBox-input" id="search"
+                                           input-focus
+                                           placeholder="{{ 'Search on task name' | translate }}"
+                                           ng-model="app.request.search"
+                                           ng-model-options="{updateOn:'keyup', debounce:{'default':250, 'blur':0} }"
+                                           ng-change="app.searchTask()">
 
-                      </div>
-                      <translate>Process</translate>
-                      <div class="ProcessList" dropdown>
-                        <button dropdown-toggle type="button"
-                                class="btn btn-primary"
-                                title="{{'Process: ' + app.request.process.name + (app.request.process.version ? ' ' + app.request.process.version : '') }}"
-                                ng-disabled="app.request.taskFilter === app.TASK_FILTERS.DONE || !app.processes || app.processes.length === 0">
-                          <div class="ProcessList-label">{{app.request.process.name + (app.request.process.version?" "+app.request.process.version:"")}} <span class="caret"></span></div>
-                        </button>
-                        <ul class="dropdown-menu">
-                          <li ng-repeat="p in app.processes" >
-                            <a ng-click="app.setProcess(p)" ng-class="{'active':p.id === app.request.process.id}" class="processOptionLink">
-                              {{p.name+"&nbsp;"+p.version}}
-                            </a>
-                          </li>
-                        </ul>
-                      </div>
-                      <span class="Loading pull-right" ng-show="app.loadingTasks" ></span>
-                      <button class="btn btn-default pull-right"
-                        type="button"
-                        title="{{ 'Refresh data' | translate }}"
-                        ng-hide="app.loadingTasks"
-                        ng-click="app.updateAll()">
-                        <i class="icon-refresh"></i>
-                        <span class="sr-only" translate>Refresh data</span>
-                      </button>
-                      <layout-switch value="app.showDetails" on-change="app.updateLayout(showDetails)" ng-hide="app.smallScreen"/>
-                    </fieldset>
-                  </form>
+                                </div>
+                                <translate>Process</translate>
+                                <div class="ProcessList" dropdown>
+                                    <button dropdown-toggle type="button"
+                                            class="btn btn-primary"
+                                            title="{{'Process: ' + app.request.process.name + (app.request.process.version ? ' ' + app.request.process.version : '') }}"
+                                            ng-disabled="app.request.taskFilter === app.TASK_FILTERS.DONE || !app.processes || app.processes.length === 0">
+                                        <div class="ProcessList-label">{{app.request.process.name +
+                                            (app.request.process.version?" "+app.request.process.version:"")}} <span
+                                                    class="caret"></span></div>
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <li ng-repeat="p in app.processes">
+                                            <a ng-click="app.setProcess(p)"
+                                               ng-class="{'active':p.id === app.request.process.id}"
+                                               class="processOptionLink">
+                                                {{p.name+"&nbsp;"+p.version}}
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <span class="Loading pull-right" ng-show="app.loadingTasks"></span>
+                                <button class="btn btn-default pull-right"
+                                        type="button"
+                                        title="{{ 'Refresh data' | translate }}"
+                                        ng-hide="app.loadingTasks"
+                                        ng-click="app.updateAll()">
+                                    <i class="icon-refresh"></i>
+                                    <span class="sr-only" translate>Refresh data</span>
+                                </button>
+                                <layout-switch value="app.showDetails" on-change="app.updateLayout(showDetails)"
+                                               ng-hide="app.smallScreen"/>
+                            </fieldset>
+                        </form>
 
-                </div> <!-- Settings-filter -->
-              </div> <!-- .Settings -->
-              <div class="panel-body">
-              <task-list tasks="app.tasks"
-                         current-task="app.currentTask"
-                         request="app.request"
-                         user="app.user"
-                         mode="app.getMode(app.showDetails, app.smallScreen)"
-                         page-sizes="app.PAGE_SIZES"
-                         refresh-tasks="app.updateTasks()"
-                         refresh-count="app.updateCount()"
-                         select-task="app.selectTask(task)"
-                         do-task="app.showTasksFormPopup(task)"
-                         view-task="app.showTaskDetailsPopup(task)">
-                </task-list>
-              </div>
+                    </div> <!-- Settings-filter -->
+                </div> <!-- .Settings -->
+                <div class="panel-body">
+                    <task-list tasks="app.tasks"
+                               current-task="app.currentTask"
+                               request="app.request"
+                               user="app.user"
+                               mode="app.getMode(app.showDetails, app.smallScreen)"
+                               page-sizes="app.PAGE_SIZES"
+                               refresh-tasks="app.updateTasks()"
+                               refresh-count="app.updateCount()"
+                               select-task="app.selectTask(task)"
+                               do-task="app.showTasksFormPopup(task)"
+                               view-task="app.showTaskDetailsPopup(task)">
+                    </task-list>
+                </div>
             </div>
-          </div> <!-- .Tasklist -->
+        </div> <!-- .Tasklist -->
 
-          <div class="TaskDetails col-md-{{app.getSize()}}" id="details" ng-if="app.smallScreen || app.showDetails">
+        <div class="TaskDetails col-md-{{app.getSize()}}" id="details" ng-if="app.smallScreen || app.showDetails">
             <div class="panel panel-default">
-              <div class="panel-heading">
-                <button ng-if="app.expandDetails" class="pull-right btn btn-default"
-                        ng-model="app.expandDetails"
-                        btn-checkbox
-                        title="{{ 'Expand' | translate}}">
-                  <span class="glyphicon glyphicon-resize-small"></span>
-                  <span class="sr-only" translate>Expand</span>
-                </button>
-                <button ng-if="!app.expandDetails" class="pull-right btn btn-default"
-                        ng-model="app.expandDetails"
-                        btn-checkbox
-                        title="{{'Reduce' | translate}}">
-                  <span class="glyphicon glyphicon-resize-full"></span>
-                  <span class="sr-only" translate>Reduce</span>
-                </button>
-                <h3 class="panel-title" translate>Task Details</h3>
-              </div>
-              <div class="panel-body">
-                <task-details current-task="app.currentTask"
-                              current-case="app.currentCase"
-                              refresh-count="app.updateCount()"
-                              editable="app.currentTask.assigned_id === app.user.user_id"
-                              hide-form="app.request.taskFilter === app.TASK_FILTERS.DONE"
-                              inactive="app.tasks.length === 0">
-                </task-details>
-              </div>
+                <div class="panel-heading">
+                    <button ng-if="app.expandDetails" class="pull-right btn btn-default"
+                            ng-model="app.expandDetails"
+                            btn-checkbox
+                            title="{{ 'Expand' | translate}}">
+                        <span class="glyphicon glyphicon-resize-small"></span>
+                        <span class="sr-only" translate>Expand</span>
+                    </button>
+                    <button ng-if="!app.expandDetails" class="pull-right btn btn-default"
+                            ng-model="app.expandDetails"
+                            btn-checkbox
+                            title="{{'Reduce' | translate}}">
+                        <span class="glyphicon glyphicon-resize-full"></span>
+                        <span class="sr-only" translate>Reduce</span>
+                    </button>
+                    <h3 class="panel-title" translate>Task Details</h3>
+                </div>
+                <div class="panel-body">
+                    <task-details current-task="app.currentTask"
+                                  current-case="app.currentCase"
+                                  refresh-count="app.updateCount()"
+                                  editable="app.currentTask.assigned_id === app.user.user_id"
+                                  hide-form="app.request.taskFilter === app.TASK_FILTERS.DONE"
+                                  inactive="app.tasks.length === 0">
+                    </task-details>
+                </div>
             </div>
-          </div> <!-- .TaskDetails -->
         </div>
-      </div>
     </div>
-  </div>
+</div>
