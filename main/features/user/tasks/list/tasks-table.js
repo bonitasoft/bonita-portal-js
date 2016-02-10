@@ -225,7 +225,7 @@
               var cols = columns.map(function(item) {
                 return item.visible;
               });
-              preference.set($scope.mode, cols, true);
+              preference.set($scope.mode, cols);
             };
 
             /**

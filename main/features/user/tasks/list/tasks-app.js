@@ -68,7 +68,7 @@
       this.showDetails = preference.get('showDetails') === true;
       this.smallScreen = screen.size.name === 'sm';
 
-      this.showMenu = true;
+      this.showMenu = preference.get('showFilters');
       this.expandDetails = false;
 
       this.getMode = preference.getMode;
@@ -222,7 +222,7 @@
        * @param  {boolean} showDetails are details shown
        */
       this.updateLayout = function(showDetails) {
-        preference.set('showDetails', showDetails, true);
+        preference.set('showDetails', showDetails);
       };
 
 
@@ -392,6 +392,11 @@
           }
         }
       };
+
+      this.toggleFilters = function() {
+        this.showMenu = !this.showMenu;
+        preference.set('showFilters', this.showMenu);
+      }
     }
   ])
 
