@@ -3,14 +3,21 @@
  */
 
 .FilterToggle {
-  position: absolute;
-  top: 20px;
-  right: -20px;
+  float: right;
   padding: 0;
   font-size: 1.7em;
   background-color: #eee;
   border: none;
+
+  &:hover {
+    background-color: #ddd;
+  }
 }
+
+.FilterToggle-expend {
+  width: 100%;
+}
+
 /** increase selector specificity to override bootstrap **/
 
 
