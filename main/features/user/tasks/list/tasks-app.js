@@ -346,20 +346,6 @@
         this.updateCount();
       };
 
-      /**
-       * helper method for calculating available grid columns for the TaskList container
-       * @return {[type]} [description]
-       */
-      this.getSize = function() {
-        var col = 12;
-
-        if (this.showDetails && !this.expandDetails) {
-          col /= 2;
-        }
-
-        return col;
-      };
-
       this.onFormSubmited = function(message) {
         var jsonMessage = JSON.parse(message);
         if (jsonMessage.message === 'error') {
