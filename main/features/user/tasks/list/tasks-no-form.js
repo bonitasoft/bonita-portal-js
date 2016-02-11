@@ -30,16 +30,6 @@
             //Default inactive value to false
             scope.inactive = scope.inactive || false;
 
-            scope.onExecuteTask = function() {
-              addComment();
-              if ('MANUAL_TASK' === scope.currentTask.type) {
-                /*jshint camelcase: false*/
-                humanTaskAPI.update({id: scope.currentTask.id, state: 'completed', executedBy: taskListStore.user.user_id}, onSuccess, onError);
-              } else {
-                userTaskAPI.execute(scope.currentTask.id, {}).then(onSuccess, onError);
-              }
-            };
-
             var onSuccess = function() {
               var message = {message:'success', action: 'Submit task'};
               $window.self.postMessage(JSON.stringify(message), '*');
@@ -65,6 +55,17 @@
                 });
               }
             };
+
+            scope.onExecuteTask = function() {
+              addComment();
+              if ('MANUAL_TASK' === scope.currentTask.type) {
+                /*jshint camelcase: false*/
+                humanTaskAPI.update({id: scope.currentTask.id, state: 'completed', executedBy: taskListStore.user.user_id}, onSuccess, onError);
+              } else {
+                userTaskAPI.execute(scope.currentTask.id, {}).then(onSuccess, onError);
+              }
+            };
+
           }
         };
       }
