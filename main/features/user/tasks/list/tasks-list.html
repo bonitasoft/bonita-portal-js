@@ -21,16 +21,6 @@
       </task-filters>
     </div>
     <div class="AppWrapper">
-      <div class="AppHeader">
-        <h1>
-          <i class="icon-inbox TitleIcon"></i>
-          <span>{{app.request.taskFilter.title}}</span>
-
-          <layout-switch value="app.showDetails" on-change="app.updateLayout(showDetails)" ng-hide="app.smallScreen"/>
-        </h1>
-
-      </div>
-
         <div class="alert alert-warning" ng-show="error">
           <p ng-bind-template="Please login to your bonita portal (Error {{error.status}})"></p>
         </div>
@@ -80,6 +70,7 @@
                         <i class="icon-refresh"></i>
                         <span class="sr-only" translate>Refresh data</span>
                       </button>
+                      <layout-switch value="app.showDetails" on-change="app.updateLayout(showDetails)" ng-hide="app.smallScreen"/>
                     </fieldset>
                   </form>
 
