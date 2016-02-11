@@ -40,7 +40,7 @@ module.exports = function (grunt) {
       // configurable paths
       app: 'main',
       test: 'test',
-      dist: 'dist',
+      dist: 'target/dist',
       build: 'build'
     },
 
