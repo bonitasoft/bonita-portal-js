@@ -3,9 +3,12 @@
 describe('context', function() {
 
   beforeEach(function(){
-    browser.manage().deleteAllCookies();
     browser.get('#/user/tasks/list');
     browser.waitForAngular();
+  });
+
+  afterEach(function() {
+    browser.executeScript('window.localStorage.clear();');
   });
 
   it('should display the form associated to a task', function() {

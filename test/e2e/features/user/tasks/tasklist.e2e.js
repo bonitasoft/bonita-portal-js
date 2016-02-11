@@ -3,9 +3,12 @@
 describe('tasklist custom page', function() {
 
   beforeEach(function(){
-    browser.manage().deleteAllCookies();
     browser.get('#/user/tasks/list');
     browser.waitForAngular();
+  });
+
+  afterEach(function() {
+    browser.executeScript('window.localStorage.clear();');
   });
 
   it('should load a list of task', function() {
