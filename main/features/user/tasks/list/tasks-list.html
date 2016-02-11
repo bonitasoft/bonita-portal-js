@@ -4,7 +4,6 @@
       'TaskListPage--small':app.smallScreen,
       'TaskListPage--withMenu':!app.smallScreen && app.showMenu}">
     <div class="OffcanvasMenu navbar">
-      <h3 class="OffcanvasMenu-title" translate>Filters</h3>
       <button ng-if="!app.smallScreen && app.showMenu" title="{{ 'Hide Menu' | translate }}"
         class="FilterToggle btn btn-default"  ng-click="app.toggleFilters()">
         <span class="glyphicon glyphicon-chevron-left"></span>
