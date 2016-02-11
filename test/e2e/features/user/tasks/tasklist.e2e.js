@@ -1,5 +1,5 @@
 'use strict';
-/* global protractor */
+
 describe('tasklist custom page', function() {
 
   beforeEach(function(){
@@ -64,7 +64,6 @@ describe('tasklist custom page', function() {
   });
 
   it('should filter my tasks', function() {
-    var titleRxp = /my tasks/i;
     // select My task
     element.all(by.css('.TaskFilters li a')).get(1).click();
 
@@ -72,49 +71,31 @@ describe('tasklist custom page', function() {
      .getWebElement()
      .getText();
 
-    expect(link).toMatch(titleRxp);
-
-    var title = element(by.binding('app.request.taskFilter.title'))
-      .getWebElement()
-      .getText();
-    expect(title).toMatch(titleRxp);
+    expect(link).toMatch(/my tasks/i);
 
     var tasks = element.all(by.repeater('task in tasks'));
     expect(tasks.count()).toBe(2);
   });
 
   it('should filter pool tasks', function() {
-    var titleRxp = /available tasks/i;
     element.all(by.css('.TaskFilters li a')).get(2).click();
 
     var link =  element(by.css('.TaskFilters .active'))
      .getWebElement()
      .getText();
-    expect(link).toMatch(titleRxp);
-
-    var title = element(by.binding('app.request.taskFilter.title'))
-      .getWebElement()
-      .getText();
-    expect(title).toMatch(titleRxp);
-
+    expect(link).toMatch(/available tasks/i);
 
     var tasks = element.all(by.repeater('task in tasks'));
     expect(tasks.count()).toBe(24);
   });
 
   it('should filter done tasks', function() {
-    var titleRxp = /done/i;
     element.all(by.css('.TaskFilters li a')).get(3).click();
 
     var link =  element(by.css('.TaskFilters .active'))
      .getWebElement()
      .getText();
-    expect(link).toMatch(titleRxp);
-
-    var title = element(by.binding('app.request.taskFilter.title'))
-      .getWebElement()
-      .getText();
-    expect(title).toMatch(titleRxp);
+    expect(link).toMatch(/done/i);
 
     var tasks = element.all(by.repeater('task in tasks'));
     expect(tasks.count()).toBe(5);

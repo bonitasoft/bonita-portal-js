@@ -34,13 +34,7 @@ describe('tasklist custom page', function() {
       });
 
       it('should not be displayed for done tasks', function() {
-        var titleRxp = /done/i;
         element(by.css('.TaskFilters li a#done-tasks')).click();
-
-        var title = element(by.binding('app.request.taskFilter.title'))
-          .getWebElement()
-          .getText();
-        expect(title).toMatch(titleRxp);
 
         var actions = element.all(by.css('.Line.info .Cell--with-actions button'));
 
