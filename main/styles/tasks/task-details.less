@@ -1,14 +1,36 @@
 .TaskDetails {
   height: 100%;
   box-shadow: -5px 0 2px -2px #ddd;
+  display: table-cell;
+  vertical-align: top;
+
+  &&--collapsed {
+    width: 2.5em;
+
+    .SizeBar-expand {
+      width: 100%;
+    }
+  }
+
+  .SizeBar-expand, .SizeBar-reduce {
+    background-color: #fff;
+    border: none;
+    font-size: 1.7em;
+    padding: 0;
+    text-align: center;
+
+    &:hover {
+      background-color: #eee;
+    }
+  }
 }
 
-.TaskDetails .panel .panel-heading{
+.TaskDetails .panel .panel-heading {
   background-color: transparent;
 }
 
 .panel .panel-title {
-  margin:.33em 0;
+  margin: .33em 0;
   font-weight: 700;
 }
 
@@ -18,13 +40,14 @@
 iframe {
   background: #fff;
 }
+
 .Context-title {
-  margin-top:0;
+  margin-top: 0;
 }
 
 .Viewer-wrapper {
-  position:relative;
-  display:block;
+  position: relative;
+  display: block;
   clear: both;
 }
 
@@ -34,62 +57,64 @@ iframe {
 }
 
 .Viewer-overlay {
-  background-color: rgba(255, 255, 255 ,.5);
+  background-color: rgba(255, 255, 255, .5);
 
   position: absolute;
-  top:0;
-  left:0;
-  right:0;
-  bottom:0;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
 }
 
 .CaseViewer {
-  border:1px solid #CCC;
+  border: 1px solid #CCC;
   overflow: auto;
   padding: 0;
 }
 
 .CaseHistory {
-  position:relative;
+  position: relative;
   max-height: 230px;
   overflow: auto;
   padding-left: 10px;
   margin-bottom: 2em;
 }
-.CaseHistory-timeline{
-  padding:1px 0;
-  border-left:3px solid  #3E7694;
+
+.CaseHistory-timeline {
+  padding: 1px 0;
+  border-left: 3px solid #3E7694;
 }
+
 .CaseHistory-events {
   list-style-type: none;
   padding-left: 0px
 }
 
 .CaseHistory-event {
-  position:relative;
-  padding-left:10px;
-  margin-top:1.5em;
-  margin-bottom:1.1em;
+  position: relative;
+  padding-left: 10px;
+  margin-top: 1.5em;
+  margin-bottom: 1.1em;
 }
 
 .CaseHistory-event:before {
-  content:'';
+  content: '';
   display: block;
-  width:18px;
-  height:18px;
-  border-radius:50%;
-  border:4px solid #eee;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 4px solid #eee;
   background-color: #3E7694;
-  position:absolute;
-  left:-10px;
-  top:0;
+  position: absolute;
+  left: -10px;
+  top: 0;
 }
 
 .CaseHistory-eventDate {
   display: block;
-  color:#999;
-  font-size:.85em;
-  position:absolute;
+  color: #999;
+  font-size: .85em;
+  position: absolute;
   top: -1.2em;
   left: .5em;
 }
