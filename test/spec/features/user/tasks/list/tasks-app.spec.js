@@ -84,14 +84,6 @@ describe('taskApp', function(){
         store.currentCase.supervisors = mockSupervisors;
         return defered.promise;
       }
-      function getHistory(){
-        return $q.when([
-          {date: 1, content: 'content 1'},
-          {date: 2, content: 'content 2'},
-          {date: 3, content: 'content 3'},
-          {date: 4, content: 'content 4'},
-        ]);
-      }
 
       function getDefered(data, prop ){
         return function() {
@@ -108,7 +100,6 @@ describe('taskApp', function(){
       spyOn(store, 'getTasks').and.callFake(getTasks);
       spyOn(store, 'getCaseInfo').and.callFake(getDefered(mockCase, 'currentCase'));
       spyOn(store, 'getProcessSupervisors').and.callFake(getSupervisors);
-      spyOn(store, 'getHistory').and.callFake(getHistory);
     }));
 
     /* screen mock */

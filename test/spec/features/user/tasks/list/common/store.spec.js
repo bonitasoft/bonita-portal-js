@@ -13,9 +13,6 @@ describe('taskListStore', function() {
   var supervisorRegexp = /^\.\.\/API\/bpm\/processSupervisor/;
   var proContactRegexp = /^\.\.\/API\/identity\/professionalcontactdata/;
 
-  var commentRegexp = /^\.\.\/API\/bpm\/comment/;
-  var archivedFlowNodeRegExp = /^\.\.\/API\/bpm\/archivedFlowNode/;
-
   var mockTasks = [
     {
       id: 1,
@@ -119,75 +116,6 @@ describe('taskListStore', function() {
     'email': 'daniela.angelo@acme.com',
     'room': ''
   };
-
-  var mockComment = [
-    {
-      'content': 'The task "Model choice" is now assigned to user.test',
-      'tenantId': '1',
-      'id': '12',
-      'processInstanceId': '13',
-      'postDate': '2014-10-06 11:29:17.793',
-      'userId': {
-        'icon': '/default/icon_user.png',
-        'userName': 'System'
-      }
-    }
-  ];
-
-  var mockArchivedFlowNode = [
-    {
-      'displayDescription': '',
-      'executedBySubstitute': {
-        'last_connection': '2014-10-22 13:38:23.671',
-        'created_by_user_id': '-1',
-        'creation_date': '2014-10-06 11:04:00.942',
-        'id': '4',
-        'icon': '/default/icon_user.png',
-        'enabled': 'true',
-        'title': 'Mr',
-        'manager_id': '3',
-        'job_title': 'Human resources benefits',
-        'userName': 'walter.bates',
-        'lastname': 'Bates',
-        'firstname': 'Walter',
-        'password': '',
-        'last_update_date': '2014-10-06 11:04:00.942'
-      },
-      'processId': '6778715375475035885',
-      'state': 'completed',
-      'rootContainerId': '13',
-      'type': 'USER_TASK',
-      'assigned_id': '4',
-      'id': '53',
-      'executedBy': {
-        'last_connection': '2014-10-22 13:38:23.671',
-        'created_by_user_id': '-1',
-        'creation_date': '2014-10-06 11:04:00.942',
-        'id': '4',
-        'icon': '/default/icon_user.png',
-        'enabled': 'true',
-        'title': 'Mr',
-        'manager_id': '3',
-        'job_title': 'Human resources benefits',
-        'userName': 'walter.bates',
-        'lastname': 'Bates',
-        'firstname': 'Walter',
-        'password': '',
-        'last_update_date': '2014-10-06 11:04:00.942'
-      },
-      'sourceObjectId': '34',
-      'caseId': '13',
-      'priority': 'normal',
-      'actorId': '13',
-      'description': '',
-      'name': 'Color selection',
-      'reached_state_date': '2014-10-06 11:31:19.940',
-      'displayName': 'Color selection',
-      'archivedDate': '2014-10-06 11:31:19.947',
-      'dueDate': '2014-10-06 12:29:19.457',
-      'last_update_date': '2014-10-06 11:31:19.940'
-    }
-  ];
 
   beforeEach(module('org.bonitasoft.features.user.tasks.app.store'));
 
@@ -362,36 +290,4 @@ describe('taskListStore', function() {
     });
   });
 
-  describe('getHistory', function() {
-    beforeEach(function(){
-      $httpBackend.whenGET(commentRegexp).respond(mockComment);
-      $httpBackend.whenGET(archivedFlowNodeRegExp).respond(mockArchivedFlowNode);
-    });
-
-    afterEach(function() {
-      $httpBackend.verifyNoOutstandingExpectation();
-      $httpBackend.verifyNoOutstandingRequest();
-      $httpBackend.resetExpectations();
-    });
-
-    it('should make an api request with parameters', function() {
-      // ! $hsttpbackend order matter :(
-      $httpBackend.expectGET(archivedFlowNodeRegExp).respond(mockArchivedFlowNode);
-      $httpBackend.expectGET(commentRegexp);
-      store.currentCase = mockCase;
-      store.getHistory(mockTasks[0]);
-      $httpBackend.flush();
-    });
-
-    it('should return an ordered list of event', function() {
-      store.currentCase = mockCase;
-
-      store.getHistory(mockTasks[0]);
-      $httpBackend.flush();
-
-      expect(store.currentCase.history[0].content).toMatch(/model choice/i);
-      expect(store.currentCase.history[1].content).toMatch(/color selection/i);
-
-    });
-  });
 });
