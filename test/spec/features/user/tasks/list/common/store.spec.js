@@ -13,9 +13,6 @@ describe('taskListStore', function() {
   var supervisorRegexp = /^\.\.\/API\/bpm\/processSupervisor/;
   var proContactRegexp = /^\.\.\/API\/identity\/professionalcontactdata/;
 
-  var commentRegexp = /^\.\.\/API\/bpm\/comment/;
-  var archivedFlowNodeRegExp = /^\.\.\/API\/bpm\/archivedFlowNode/;
-
   var mockTasks = [
     {
       id: 1,
@@ -362,36 +359,4 @@ describe('taskListStore', function() {
     });
   });
 
-  describe('getHistory', function() {
-    beforeEach(function(){
-      $httpBackend.whenGET(commentRegexp).respond(mockComment);
-      $httpBackend.whenGET(archivedFlowNodeRegExp).respond(mockArchivedFlowNode);
-    });
-
-    afterEach(function() {
-      $httpBackend.verifyNoOutstandingExpectation();
-      $httpBackend.verifyNoOutstandingRequest();
-      $httpBackend.resetExpectations();
-    });
-
-    it('should make an api request with parameters', function() {
-      // ! $hsttpbackend order matter :(
-      $httpBackend.expectGET(archivedFlowNodeRegExp).respond(mockArchivedFlowNode);
-      $httpBackend.expectGET(commentRegexp);
-      store.currentCase = mockCase;
-      store.getHistory(mockTasks[0]);
-      $httpBackend.flush();
-    });
-
-    it('should return an ordered list of event', function() {
-      store.currentCase = mockCase;
-
-      store.getHistory(mockTasks[0]);
-      $httpBackend.flush();
-
-      expect(store.currentCase.history[0].content).toMatch(/model choice/i);
-      expect(store.currentCase.history[1].content).toMatch(/color selection/i);
-
-    });
-  });
 });
