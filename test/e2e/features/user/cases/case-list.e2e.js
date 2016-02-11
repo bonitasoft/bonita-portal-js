@@ -15,42 +15,49 @@
  */
 
 /* global element, by */
-(function () {
+(function() {
   'use strict';
-  describe('user case list', function () {
+  describe('user case list', function() {
 
     var caseList,
       width = 1280,
       height = 800;
     browser.driver.manage().window().setSize(width, height);
 
-    beforeEach(function () {
+    beforeEach(function() {
       browser.get('#/user/cases/list');
       caseList = element(by.css('#case-list'));
-      browser.executeScript('window.sessionStorage.clear();');
-      browser.executeScript('window.localStorage.clear();');
-      //browser.debugger(); //launch protractor with debug option and use 'c' in console to continue test execution
     });
 
-    afterEach(function () {
+    afterEach(function() {
       browser.executeScript('window.sessionStorage.clear();');
       browser.executeScript('window.localStorage.clear();');
     });
 
-    describe('sort', function () {
+    describe('sort', function() {
       var tableHeader;
-      beforeEach(function () {
+      beforeEach(function() {
         tableHeader = element.all(by.css('table th[bo-sorter] button'));
       });
-      it('should order by date asc', function () {
+
+      it('should order by date asc', function() {
         tableHeader.get(2).click();
         tableHeader.get(2).click();
         expect(tableHeader.get(2).getText()).toContain('Start date');
-        expect(caseList.all(by.css('tbody tr')).get(0).all(by.css('td')).getText()).toEqual(['2', 'Pool', '1.0', '10/16/2014 4:05 PM', 'William Jobs', '', '']);
+        if (browser.bonitaSpEdition()) {
+          expect(caseList.all(by.css('tbody tr')).get(0).all(by.css('td')).getText()).toEqual(['2', 'Pool', '10/16/2014 4:05 PM', 'William Jobs', '', 'No value', '']);
+        } else {
+          expect(caseList.all(by.css('tbody tr')).get(0).all(by.css('td')).getText()).toEqual(['2', 'Pool', '1.0', '10/16/2014 4:05 PM', 'William Jobs', '', '']);
+        }
       });
-      it('should order by date desc', function () {
+
+      it('should order by date desc', function() {
         tableHeader.get(2).click();
-        expect(caseList.all(by.css('tbody tr')).get(0).all(by.css('td')).getText()).toEqual(['1022', 'ProcessX', '2.0', '10/20/2014 10:08 AM', 'System', '', '']);
+        if (browser.bonitaSpEdition()) {
+          expect(caseList.all(by.css('tbody tr')).get(0).all(by.css('td')).getText()).toEqual(['1022', 'ProcessX', '10/20/2014 10:08 AM', 'System', '', 'No value', '']);
+        } else {
+          expect(caseList.all(by.css('tbody tr')).get(0).all(by.css('td')).getText()).toEqual(['1022', 'ProcessX', '2.0', '10/20/2014 10:08 AM', 'System', '', '']);
+        }
       });
     });
 
