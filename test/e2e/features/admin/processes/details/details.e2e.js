@@ -129,7 +129,7 @@
       describe('main elements', function() {
         it('should display main action button', function() {
           var mainActionButtons = processDetails.all(by.css('.actions .btn'));
-          expect(mainActionButtons.get(0).getText()).toEqual('Back');
+          expect(mainActionButtons.get(0).getText()).toEqual('BACK');
           expect(mainActionButtons.get(0).getAttribute('ng-click')).toEqual('processMenuCtrl.goBack()');
 
           expect(processDetails.all(by.css('h1')).getText()).toEqual(['Rock\'N\'Roll Process (6.6.6)']);
@@ -139,15 +139,15 @@
       describe('Delete button', function() {
         it('should open a popup asking for deletion with Delete and Cancel', function() {
           var deleteButton = processDetails.all(by.css('.actions #processDetails-deleteProcess')).get(0);
-          expect(deleteButton.getText()).toEqual('Delete');
+          expect(deleteButton.getText()).toEqual('DELETE');
           //click on delete
           deleteButton.click();
           var deleteModal = element(by.css('#delete-process-modal'));
           expect(deleteModal.all(by.css('.modal-title')).getText()).toEqual(['Delete process']);
           expect(deleteModal.all(by.css('.modal-body')).getText()).toEqual(['Delete the process Rock\'N\'Roll Process']);
 
-          expect(deleteModal.all(by.css('.btn')).get(0).getText()).toEqual('Delete');
-          expect(deleteModal.all(by.css('.btn')).get(1).getText()).toEqual('Cancel');
+          expect(deleteModal.all(by.css('.btn')).get(0).getText()).toEqual('DELETE');
+          expect(deleteModal.all(by.css('.btn')).get(1).getText()).toEqual('CANCEL');
         });
       });
     });
