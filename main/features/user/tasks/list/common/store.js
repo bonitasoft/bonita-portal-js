@@ -8,7 +8,11 @@
    * store makes request to bonita API and stores the result.
    */
   angular
-    .module('org.bonitasoft.features.user.tasks.app.store', ['api.request', 'org.bonitasoft.features.user.tasks.app.config'])
+    .module('org.bonitasoft.features.user.tasks.app.store', [
+      'api.request',
+      'org.bonitasoft.features.user.tasks.app.config',
+      'gettext'
+    ])
     .service('taskListStore', [
       'archivedFlowNodeAPI',
       'caseAPI',
