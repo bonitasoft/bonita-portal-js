@@ -20,7 +20,8 @@
       '$q',
       'TASK_FILTERS',
       'taskRequest',
-      function(archivedFlowNodeAPI, caseAPI, archivedCaseAPI, commentAPI, processAPI, processSupervisorAPI, professionalDataAPI, $q, TASK_FILTERS, taskRequest) {
+      'gettextCatalog',
+      function(archivedFlowNodeAPI, caseAPI, archivedCaseAPI, commentAPI, processAPI, processSupervisorAPI, professionalDataAPI, $q, TASK_FILTERS, taskRequest, gettextCatalog) {
         var store = this;
 
         this.processes = [];
@@ -51,7 +52,7 @@
             })
             .then(function(response) {
               store.processes = [{
-                name: 'All',
+                name: gettextCatalog.getString('All'),
                 id: false
               }].concat(response.resource);
               store.request.process = store.processes[0];
