@@ -7,6 +7,18 @@
 // use this if you want to recursively match all subfolders:
 // 'test/spec/**/*.js'
 
+function redirectToBonitaSkin(url) {
+  return function(req, res, next) {
+    if (req.url === url) {
+      require('fs')
+          .createReadStream(__dirname + '/target/css/bonita-skin.css')
+          .pipe(res);
+      return;
+    }
+    next();
+  }
+}
+
 module.exports = function (grunt) {
 
   // Load grunt tasks automatically
@@ -185,19 +197,10 @@ module.exports = function (grunt) {
             }
 
             // Setup the proxy
-            var middlewares = [
-
-              function(req, res, next) {
-                if(req.url === '/bonita/portal/themeResource?theme=portal&location=bonita-skin.css') {
-                  require('fs')
-                      .createReadStream(__dirname + '/target/css/bonita-skin.css')
-                      .pipe(res);
-                  return;
-                }
-                next();
-              },
-              require('grunt-connect-proxy/lib/utils').proxyRequest,
-              require('grunt-connect-rewrite/lib/utils').rewriteRequest];
+              var middlewares = [
+                  redirectToBonitaSkin('/bonita/portal/themeResource?theme=portal&location=bonita-skin.css'),
+                  require('grunt-connect-proxy/lib/utils').proxyRequest,
+                  require('grunt-connect-rewrite/lib/utils').rewriteRequest];
 
             // Serve static files.
             options.base.forEach(function (base) {
@@ -225,13 +228,14 @@ module.exports = function (grunt) {
       dist: {
         options: {
           port: 9002,
-          base: '<%= portaljs.dist %>',
+          base: ['<%= portaljs.dist %>', 'target/css'],
           middleware: function (connect, options) {
             if (!Array.isArray(options.base)) {
               options.base = [options.base];
             }
             // Setup the proxy
             var middlewares = [
+                  redirectToBonitaSkin('/portal/themeResource?theme=portal&location=bonita-skin.css'),
                   require('./test/dev/server-mock.js'),
                   require('grunt-connect-proxy/lib/utils').proxyRequest,
                   require('grunt-connect-rewrite/lib/utils').rewriteRequest];

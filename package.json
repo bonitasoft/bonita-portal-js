@@ -71,7 +71,7 @@
     "test:watch": "karma start karma.conf.js --auto-watch",
     "postinstall": "bower cache clean && bower install",
     "pot": "grunt pot",
-    "pree2e": "webdriver-manager update",
+    "pree2e": "webdriver-manager update && npm run build:less",
     "e2e": "grunt buildE2e",
     "dev:serve": "grunt serve",
     "dev:less": "watch --wait=1 'npm run build:less' main/styles",

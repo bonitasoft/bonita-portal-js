@@ -10,12 +10,10 @@
   <div class="GroupAction clearfix" ng-show="tasks.length > 0">
     <div class="GroupAction-button pull-left" ng-show="canDoGroupAction()">
       <button class="btn btn-primary" type="button" title="{{ 'Assign the task to myself and move it to My tasks.' | translate }}"
-         ng-disabled="!canTake($selectedItems)" ng-click="takeTasks($selectedItems)">
-         <i class="glyphicon glyphicon-save">&nbsp;</i><translate>Take</translate>
+         ng-disabled="!canTake($selectedItems)" ng-click="takeTasks($selectedItems)"translate>Take
       </button>
       <button class="btn btn-default"  type="button" title="{{ 'Unassign the task and put it back in Available tasks' | translate }}"
-        ng-disabled="!canRelease($selectedItems)" ng-click="releaseTasks($selectedItems)">
-        <i class="glyphicon glyphicon-open">&nbsp;</i><translate>Release</translate>
+        ng-disabled="!canRelease($selectedItems)" ng-click="releaseTasks($selectedItems)" translate>Release
       </button>
     </div>
     <div class="PaginationInfo pull-right">
@@ -122,16 +120,6 @@
     </table>
   </div>
   <div class="GroupAction clearfix" ng-show="tasks.length > 0">
-    <div class="GroupAction-button pull-left" ng-show="canDoGroupAction()">
-      <button class="btn btn-primary" type="button" title="{{ 'Assign the task to myself and move it to My tasks.' | translate }}"
-         ng-disabled="!canTake($selectedItems)" ng-click="takeTasks($selectedItems)">
-         <i class="glyphicon glyphicon-save">&nbsp;</i><translate>Take</translate>
-      </button>
-      <button class="btn btn-default" type="button" title="{{ 'Unassign the task and put it back in Available tasks' | translate }}"
-        ng-disabled="!canRelease($selectedItems)" ng-click="releaseTasks($selectedItems)">
-        <i class="glyphicon glyphicon-open">&nbsp;</i><translate>Release</translate>
-      </button>
-    </div>
     <div class="PaginationInfo pull-right" >
       <!-- pagination -->
       <span class="PaginationInfo-summary">
