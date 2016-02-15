@@ -93,7 +93,7 @@
                            refresh-count="app.updateCount()"
                            select-task="app.selectTask(task)"
                            do-task="app.showTasksFormPopup(task)"
-                           view-task="app.showTaskDetailsPopup(task)">
+                           view-case="app.showCaseOverviewPopup(Case)">
                 </task-list>
             </div>
         </div>
@@ -124,7 +124,8 @@
                               editable="app.currentTask.assigned_id === app.user.user_id"
                               hide-form="app.request.taskFilter === app.TASK_FILTERS.DONE"
                               inactive="app.tasks.length === 0"
-                              open-popup="{form: app.showTasksFormPopup, context: app.showTaskDetailsPopup}">
+                              open-form-popup="app.showTasksFormPopup(app.currentTask)"
+                              open-overview-popup="app.showCaseOverviewPopup(app.currentCase)">
                 </task-details>
             </div>
         </div>
