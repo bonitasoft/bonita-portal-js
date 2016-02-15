@@ -23,6 +23,7 @@
       'org.bonitasoft.features.user.tasks.app.config',
       'org.bonitasoft.features.user.tasks.app.pref',
       'org.bonitasoft.features.user.tasks.app.store',
+      'org.bonitasoft.features.user.tasks.app.priorities',
       'org.bonitasoft.bonitable',
       'org.bonitasoft.bonitable.selectable',
       'org.bonitasoft.bonitable.sortable',
@@ -153,7 +154,8 @@
       '$anchorScroll',
       '$timeout',
       'COLUMNS_SETTINGS',
-      function($q, key, humanTaskAPI, taskListStore, preference, $location, $anchorScroll, $timeout, COLUMNS_SETTINGS) {
+      'priorities',
+      function($q, key, humanTaskAPI, taskListStore, preference, $location, $anchorScroll, $timeout, COLUMNS_SETTINGS, priorities) {
         // Runs during compile
         return {
           // name: '',
@@ -185,6 +187,8 @@
              * Initializing keymaster
              */
             var lastSelectedIndex = -1;
+
+            $scope.getPriority = priorities.get;
 
             //Scope properties
             $scope.$watch('mode', function(mode) {
