@@ -13,7 +13,7 @@
         <span translate>Take</span>
     </button>
 
-    <button class="btn btn-primary" ng-click="openPopup[tab.form ? 'form' : 'context'](currentTask)"
+    <button class="btn btn-primary" ng-click="tab.form ? openFormPopup() : openOverviewPopup()"
             title="{{ 'Open in a popup' | translate }}">
         <i class="glyphicon glyphicon-resize-full"></i>
         <span class="sr-only" translate>Open in a popup</span>
