@@ -15,7 +15,7 @@
     'common.iframe',
     'org.bonitasoft.common.resources',
     'org.bonitasoft.features.user.tasks.modal.form',
-    'org.bonitasoft.features.user.tasks.modal.details',
+    'org.bonitasoft.features.user.tasks.modal.overview',
     'org.bonitasoft.features.user.tasks.ui.switcher',
     'ui.bootstrap.modal',
     'ui.bootstrap.buttons',
@@ -295,34 +295,18 @@
               );
             }.bind(that));
         }, 100, true, this, task);
-      }.bind(this);
+      };
 
-      this.showTaskDetailsPopup = function(task) {
-        /* jshint camelcase:false */
-        var url = iframe.getTaskForm(task.rootContainerId, task, this.user.user_id);
-        var ctrl = this;
+      /* jshint camelcase:false */
+      this.showCaseOverviewPopup = function(Case) {
         this.modaleInstance = $modal.open({
-          templateUrl: 'portalTemplates/user/tasks/list/tasks-modal-details.html',
-          controller: 'ModalDetailsCtrl',
+          templateUrl: 'portalTemplates/user/tasks/list/tasks-modal-overview.html',
+          controller: 'ModalOverviewCtrl',
           controllerAs: 'modal',
           windowClass: 'FormModal',
           resolve: {
-            url: function() {
-              return url;
-            },
-            task: function() {
-              return task;
-            },
             Case: function() {
-              return store.currentCase;
-            },
-            userId: function() {
-              return store.user.user_id;
-            },
-            refreshCountHandler: function() {
-              return function() {
-                ctrl.updateCount();
-              };
+              return Case;
             }
           }
         });
@@ -330,11 +314,8 @@
         this.modaleInstance.result.then(
           function() {},
           // modal is dismiss
-          function() {
-            this.updateTasks();
-            this.updateCount();
-          }.bind(this));
-      }.bind(this);
+          function() {}.bind(this));
+      };
 
       /**
        * update current filter and update task List

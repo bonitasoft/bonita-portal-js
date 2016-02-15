@@ -179,7 +179,7 @@
             refreshCount: '&',
             selectTask: '&',
             doTask: '&',
-            viewTask: '&'
+            viewCase: '&'
           },
           link: function($scope, $elem, attr, ctrl) {
 
@@ -296,11 +296,13 @@
 
             /**
              * call viewTask handler
-             * @param  {Object} task
+             * @param  {Object} caseId
              */
-            $scope.onViewTask = function(task) {
-              $scope.viewTask({
-                task: task
+            $scope.onViewCase = function(caseId) {
+              taskListStore.getCaseInfo(caseId).then(function() {
+                $scope.viewCase({
+                  Case: taskListStore.currentCase
+                });
               });
             };
 
