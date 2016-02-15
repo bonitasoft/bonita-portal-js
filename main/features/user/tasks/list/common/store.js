@@ -8,7 +8,11 @@
    * store makes request to bonita API and stores the result.
    */
   angular
-    .module('org.bonitasoft.features.user.tasks.app.store', ['api.request', 'org.bonitasoft.features.user.tasks.app.config'])
+    .module('org.bonitasoft.features.user.tasks.app.store', [
+      'api.request',
+      'org.bonitasoft.features.user.tasks.app.config',
+      'gettext'
+    ])
     .service('taskListStore', [
       'archivedFlowNodeAPI',
       'caseAPI',
@@ -20,7 +24,8 @@
       '$q',
       'TASK_FILTERS',
       'taskRequest',
-      function(archivedFlowNodeAPI, caseAPI, archivedCaseAPI, commentAPI, processAPI, processSupervisorAPI, professionalDataAPI, $q, TASK_FILTERS, taskRequest) {
+      'gettextCatalog',
+      function(archivedFlowNodeAPI, caseAPI, archivedCaseAPI, commentAPI, processAPI, processSupervisorAPI, professionalDataAPI, $q, TASK_FILTERS, taskRequest, gettextCatalog) {
         var store = this;
 
         this.processes = [];
@@ -51,7 +56,7 @@
             })
             .then(function(response) {
               store.processes = [{
-                name: 'All',
+                name: gettextCatalog.getString('All'),
                 id: false
               }].concat(response.resource);
               store.request.process = store.processes[0];
