@@ -205,7 +205,7 @@
         spyOn(scope, '$emit');
       }));
       it('should try to delete every cases even if one of them fails', function () {
-        scope.$selectedItems = [{selected: true, id: '1'}, {selected: true, id: '324'}, , {selected: true, id: '6548'}, {selected: true, id: '1324'}];
+        scope.$selectedItems = [{selected: true, id: '1'}, {selected: true, id: '324'}, {selected: true, id: '6548'}, {selected: true, id: '1324'}];
         caseAPI.delete = function(caseItem){
             if(caseItem && +caseItem.id === 324){
               return {'$promise' : failingDefered.promise };
