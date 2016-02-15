@@ -91,7 +91,7 @@
           <td class="text-right" title="{{::task.last_update_date|moment:'YYYY-MM-DD HH:mm'}}">{{::task.last_update_date|moment:'MMM DD YYYY'}}</td>
           <td class="text-right" title="{{::task.assigned_date|moment:'YYYY-MM-DD HH:mm'}}">{{::task.assigned_date|moment:'MMM DD YYYY'}}</td>
           <td class="text-right  Cell--sortable" title="{{task.dueDate|moment:'YYYY-MM-DD HH:mm'}}">{{::task.dueDate|moment:'MMM DD YYYY'}}</td>
-          <td>{{::task.priority}}</td>
+          <td>{{::getPriority(task.priority)}}</td>
           <td class="Cell--with-actions" ng-switch on="mode" ng-if="mode!=='mid'">
             <button  class="btn btn-default" type="button"
                     ng-switch-when="max"
