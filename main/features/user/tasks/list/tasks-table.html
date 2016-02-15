@@ -101,10 +101,10 @@
               <span class="sr-only" translate>Do this task</span>
             </button>
             <button class="btn btn-default" type="button"
-                    ng-click="onViewTask(task)"
+                    ng-click="onViewCase(task.caseId)"
                     ng-switch-when="max"
                     ng-show="task === currentTask || task.btnVisible"
-                    title="{{ 'View this task' | translate }}">
+                    title="{{ 'View this task\'s case' | translate }}">
               <i class="icon-eye"></i>
               <span class="sr-only" translate>View task</span>
             </button>
