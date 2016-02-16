@@ -63,7 +63,7 @@
     "watch": "^0.17.1"
   },
   "engines": {
-    "node": "0.10.29"
+    "node": ">=4.2.0"
   },
   "scripts": {
     "build:less": "mkdir -p target/css; node node_modules/less/bin/lessc main/styles/main.less > target/css/bonita-skin.css",
