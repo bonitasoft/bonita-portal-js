@@ -10,7 +10,7 @@
 	<fileSets>
 		<fileSet>
 			<outputDirectory>/portal.js</outputDirectory>
-			<directory>${basedir}/dist/</directory>
+			<directory>${project.build.directory}/dist/</directory>
 			<includes>
 				<include>**/*</include>
 			</includes>
