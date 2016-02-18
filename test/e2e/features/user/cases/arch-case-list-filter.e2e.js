@@ -19,10 +19,7 @@
   'use strict';
   describe('archived case user filters', function () {
     var caseList,
-        caseFilters,
-       width = 1280,
-       height = 800;
-    browser.driver.manage().window().setSize(width, height);
+        caseFilters;
 
     beforeEach(function(){
       browser.get('#/user/cases/list/archived');
