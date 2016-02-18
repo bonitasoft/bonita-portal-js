@@ -17,8 +17,6 @@
 (function() {
   'use strict';
   describe('urlified directive', function(){
-    var width = 1280, height = 800;
-    browser.driver.manage().window().setSize(width, height);
 
     beforeEach(function () {
       browser.get('#/admin/applications');

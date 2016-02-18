@@ -19,10 +19,7 @@
   describe('case user tabs', function () {
 
     var activeCaseTab,
-      archivedCaseTab,
-      width = 1280,
-      height = 800;
-    browser.driver.manage().window().setSize(width, height);
+      archivedCaseTab;
 
     beforeEach(function () {
       browser.get('#/user/cases/list');
