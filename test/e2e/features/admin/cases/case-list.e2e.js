@@ -20,11 +20,8 @@
   describe('case admin list', function () {
 
     var caseList,
-      width = 1280,
-      height = 800,
       nbColumnsDiplayed = (browser.bonitaSpEdition())?8:7,
       nbTotalcolumns = (browser.bonitaSpEdition())?12:7;
-    browser.driver.manage().window().setSize(width, height);
 
     beforeEach(function () {
       browser.get('#/admin/cases/list');

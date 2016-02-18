@@ -18,10 +18,7 @@
 (function () {
   'use strict';
   describe('archived case admin  buttons', function () {
-    var caseList,
-      width = 1280,
-      height = 800;
-    browser.driver.manage().window().setSize(width, height);
+    var caseList;
 
     beforeEach(function () {
       browser.get('#/admin/cases/list/archived');
