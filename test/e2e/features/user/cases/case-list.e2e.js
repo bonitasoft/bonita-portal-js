@@ -19,10 +19,7 @@
   'use strict';
   describe('user case list', function() {
 
-    var caseList,
-      width = 1280,
-      height = 800;
-    browser.driver.manage().window().setSize(width, height);
+    var caseList;
 
     beforeEach(function() {
       browser.get('#/user/cases/list');
