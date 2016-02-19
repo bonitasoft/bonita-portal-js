@@ -29,7 +29,6 @@
     'ui.bootstrap',
     'gettext',
     'org.bonitasoft.service.token',
-    'org.bonitasoft.services.i18n',
     'angular-growl',
     'org.bonitasoft.services.topurl',
     'org.bonitasoft.common.directives.bonitaHref',
@@ -199,10 +198,8 @@
     .controller('ProcessMenuCtrl', ProcessMenuCtrl)
     .controller('DeleteProcessModalInstanceCtrl', DeleteProcessModalInstanceCtrl);
 
-  //inject i18nService in order to have csrf token in the state (see bonita-portal.js)
-  /* jshint unused:false */
   /* jshint -W003 */
-  function ProcessMenuCtrl($scope, menuContent, process, processAPI, $modal, $state, manageTopUrl, $window, processResolutionProblems, ProcessMoreDetailsResolveService, TokenExtensionService, growl, $log, i18nService) {
+  function ProcessMenuCtrl($scope, menuContent, process, processAPI, $modal, $state, manageTopUrl, $window, processResolutionProblems, ProcessMoreDetailsResolveService, TokenExtensionService, growl, $log) {
     var vm = this;
     vm.includesCurrentState = function(state) {
       return $state.includes(state);
