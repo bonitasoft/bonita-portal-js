@@ -75,8 +75,8 @@ describe('tasklist custom page', function() {
       });
 
       it('should allow user to release unassigned task', function(){
-         // close the popup task (cf beforeEach)
-        element(by.css('.modal .close')).click();
+        // close the popup task (cf beforeEach)
+        element(by.css('.modal .modal-footer button')).click();
 
         //select last line (an assigned task with mock PUT)
         element.all(by.css('.Line')).click();
