@@ -26,18 +26,18 @@ exports.config = {
 
     rootElement: 'body',
 
-  onPrepare: function() {
-    browser.bonitaSpEdition = function () {
-      return false;
-    };
+    onPrepare: function() {
+        browser.bonitaSpEdition = function() {
+            return false;
+        };
 
-    var jasmineReporters = require('jasmine-reporters');
-    jasmine.getEnv().addReporter(
-      new jasmineReporters.JUnitXmlReporter({
-        savePath: 'target/reports/e2e',
-        filePrefix: 'e2e',
-        consolidateAll: true
-      }));
+        var jasmineReporters = require('jasmine-reporters');
+        jasmine.getEnv().addReporter(
+            new jasmineReporters.JUnitXmlReporter({
+                savePath: 'target/reports/e2e',
+                filePrefix: 'e2e',
+                consolidateAll: true
+            }));
 
         // maximize window - xvnc approved
         setTimeout(function() {
@@ -50,5 +50,30 @@ exports.config = {
                 browser.driver.manage().window().setSize(result.width, result.height);
             });
         });
+
+        var disableNgAnimate = function() {
+            angular.module('disableNgAnimate', []).run(['$animate', function($animate) {
+                $animate.enabled(false);
+            }]);
+        };
+        browser.addMockModule('disableNgAnimate', disableNgAnimate);
+
+        var disableCssAnimate = function() {
+            angular
+                .module('disableCssAnimate', [])
+                .run(function() {
+                    var style = document.createElement('style');
+                    style.type = 'text/css';
+                    style.innerHTML = '* {' +
+                        '-webkit-transition: none !important;' +
+                        '-moz-transition: none !important' +
+                        '-o-transition: none !important' +
+                        '-ms-transition: none !important' +
+                        'transition: none !important' +
+                        '}';
+                    document.getElementsByTagName('head')[0].appendChild(style);
+                });
+        };
+        browser.addMockModule('disableCssAnimate', disableCssAnimate);
     }
 };
