@@ -31,14 +31,13 @@ exports.config = {
     browser.bonitaSpEdition = function () {
       return false;
     };
-  // The require statement must be down here, since jasmine-reporters
-  // needs jasmine to be in the global and protractor does not guarantee
-  // this until inside the onPrepare function.
-    var reports = 'target/reports/e2e/';
-    require('mkdirp')(reports);
 
-    require('jasmine-reporters');
+    var jasmineReporters = require('jasmine-reporters');
     jasmine.getEnv().addReporter(
-      new jasmine.JUnitXmlReporter(reports));
+      new jasmineReporters.JUnitXmlReporter({
+        savePath: 'target/reports/e2e',
+        filePrefix: 'e2e',
+        consolidateAll: true
+      }));
   }
 };
