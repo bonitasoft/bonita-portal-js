@@ -44,19 +44,19 @@
     'org.bonitasoft.common.filters.stringTemplater'
   ])
     .value('menuContent', [{
-      name: 'General',
+      name: gettext('General'),
       resolutionLabel: 'general',
       state: informationStateName
     }, {
-      name: 'Actors',
+      name: gettext('Actors'),
       resolutionLabel: 'actor',
       state: actorsMappingStateName
     }, {
-      name: 'Parameters',
+      name: gettext('Parameters'),
       resolutionLabel: 'parameter',
       state: paramsStateName
     }, {
-      name: 'Connectors',
+      name: gettext('Connectors'),
       resolutionLabel: 'connector',
       state: processConnectorsStateName
     }]).service('ProcessMoreDetailsResolveService', function (store, processConnectorAPI, parameterAPI, categoryAPI, processAPI, actorAPI, processResolutionProblemAPI, ProcessProblemResolutionService) {
