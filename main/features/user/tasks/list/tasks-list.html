@@ -102,16 +102,16 @@
     <div class="TaskDetails" id="details" ng-class="{'TaskDetails--collapsed':!app.showDetails}">
         <button ng-if="!app.showDetails" class="SizeBar-expand"
                 ng-click="app.showDetails = true"
-                title="{{'Reduce' | translate}}">
+                title="{{'Show panel' | translate}}">
             <span class="glyphicon glyphicon-chevron-left"></span>
-            <span class="sr-only" translate>Reduce</span>
+            <span class="sr-only" translate>Show panel</span>
         </button>
         <button class="SizeBar-reduce"
                 ng-if="app.showDetails"
                 ng-click="app.showDetails = false"
-                title="{{ 'Expand' | translate}}">
+                title="{{ 'Hide panel' | translate}}">
             <span class="glyphicon glyphicon-chevron-right"></span>
-            <span class="sr-only" translate>Expand</span>
+            <span class="sr-only" translate>Hide panel</span>
         </button>
         <div class="panel panel-default" ng-if="app.smallScreen || app.showDetails">
             <div class="panel-heading">
