@@ -26,9 +26,6 @@
     beforeEach(function () {
       browser.get('#/admin/cases/list/archived');
       caseList = element(by.css('#case-list'));
-      browser.executeScript('window.sessionStorage.clear();');
-      browser.executeScript('window.localStorage.clear();');
-      //browser.debugger(); //launch protractor with debug option and use 'c' in console to continue test execution
     });
 
     afterEach(function () {
@@ -139,8 +136,6 @@
       var resizeBars;
       beforeEach(function () {
         resizeBars = element.all(by.css('.rc-handle'));
-        browser.executeScript('window.sessionStorage.clear();');
-        browser.executeScript('window.localStorage.clear();');
       });
 
       it('should change increase started Date and Started By column sizes', function () {
