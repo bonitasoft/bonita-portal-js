@@ -1,16 +1,24 @@
-<button ng-if="editable" class="pull-right btn btn-primary"
-        id="ButtonReleaseDetailsColumn"
-        ng-click="onTakeReleaseTask()" title="{{ 'Unassign the task and put it back in Available tasks' | translate }}">
-  <i class="glyphicon glyphicon-open"></i>
-  <span class="sr-only" translate>Release</span>
-</button>
+<div class="btn-group pull-right" role="group">
+    <button ng-if="editable" class="btn btn-primary"
+            id="ButtonReleaseDetailsColumn"
+            ng-click="onTakeReleaseTask()"
+            title="{{ 'Unassign the task and put it back in Available tasks' | translate }}">
+        <span translate>Release</span>
+    </button>
 
-<button ng-if="!editable" class="pull-right btn btn-primary"
-        id="ButtonTakeDetailsColumn"
-        ng-click="onTakeReleaseTask()" title="{{ 'Assign the task to myself and move it to My tasks' | translate }}">
-  <i class="glyphicon glyphicon-save"></i>
-  <span class="sr-only" translate>Take</span>
-</button>
+    <button ng-if="!editable" class="btn btn-primary"
+            id="ButtonTakeDetailsColumn"
+            ng-click="onTakeReleaseTask()"
+            title="{{ 'Assign the task to myself and move it to My tasks' | translate }}">
+        <span translate>Take</span>
+    </button>
+
+    <button class="btn btn-primary" ng-click="openPopup[tab.form ? 'form' : 'context'](currentTask)"
+            title="{{ 'Open in a popup' | translate }}">
+        <i class="glyphicon glyphicon-resize-full"></i>
+        <span class="sr-only" translate>Open in a popup</span>
+    </button>
+</div>
 
 <tabset>
   <tab heading="{{ 'Form' | translate }}"
