@@ -25,9 +25,6 @@
       browser.get('#/admin/cases/list/archived');
       caseList = element(by.css('#case-list'));
       caseFilters = element(by.css('#case-filters'));
-      browser.debugger(); //launch protractor with debug option and use 'c' in console-continue test execution
-      browser.executeScript('window.sessionStorage.clear();');
-      browser.executeScript('window.localStorage.clear();');
     });
 
     afterEach(function () {

@@ -25,9 +25,6 @@
       browser.get('#/user/cases/list');
       caseList = element(by.css('#case-list'));
       caseFilters = element(by.css('#case-filters'));
-      browser.debugger(); //launch protractor with debug option and use 'c' in console to continue test execution
-      browser.executeScript('window.sessionStorage.clear();');
-      browser.executeScript('window.localStorage.clear();');
     });
 
     afterEach(function () {
