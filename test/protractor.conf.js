@@ -13,7 +13,7 @@ exports.config = {
         'browserName': 'chrome'
     },
 
-    baseUrl: 'http://localhost:9002/',
+    baseUrl: 'http://localhost:' + (process.env.PROTRACTOR_PORT || 9002),
 
     rootElement: 'body',
 
