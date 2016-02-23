@@ -295,7 +295,7 @@
               );
             }.bind(that));
         }, 100, true, this, task);
-      };
+      }.bind(this);
 
       this.showTaskDetailsPopup = function(task) {
         /* jshint camelcase:false */
@@ -334,7 +334,7 @@
             this.updateTasks();
             this.updateCount();
           }.bind(this));
-      };
+      }.bind(this);
 
       /**
        * update current filter and update task List
