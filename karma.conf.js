@@ -21,7 +21,6 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
-      'test/bind.polyfill.js',
       // bower:js
       'main/assets/es5-shim/es5-shim.js',
       'main/assets/jquery/dist/jquery.js',
@@ -61,6 +60,7 @@ module.exports = function(config) {
       'main/features/**/*.js',
       'main/features/**/*.html',
       'main/bonita-portal.js',
+      'test/spec/helpers/*.js',
       'test/spec/**/*.js'
     ],
 
