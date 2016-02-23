@@ -52,10 +52,6 @@
        active="tab.context"
        ng-click="onClickTab('context')" >
     <div ng-if="!inactive">
-      <h3 class="Context-title">{{currentTask.name}}</h3>
-      <p ng-if="currentTask.description">
-        {{currentTask.description}}
-      </p>
       <bonita-iframe-viewer
         class="CaseViewer"
         frame-url="overviewUrl"
