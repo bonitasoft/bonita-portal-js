@@ -16,12 +16,12 @@
     <div class="OffcanvasMenu navbar">
         <button ng-if="!app.smallScreen && app.showMenu" title="{{ 'Hide Menu' | translate }}"
                 class="FilterToggle" ng-click="app.toggleFilters()">
-            <span class="glyphicon glyphicon-chevron-left"></span>
+            <span class="glyphicon glyphicon-menu-left"></span>
             <span class="sr-only" translate>Hide menu</span>
         </button>
         <button ng-if="!app.smallScreen && !app.showMenu" title="{{ 'Show Menu' | translate }}"
                 class="FilterToggle FilterToggle-expend" ng-click="app.toggleFilters()">
-            <span class="glyphicon glyphicon-chevron-right"></span>
+            <span class="glyphicon glyphicon-menu-right"></span>
             <span class="sr-only" translate>Show menu</span>
         </button>
         <task-filters filter="app.request.taskFilter"
@@ -104,14 +104,14 @@
         <button ng-if="!app.showDetails" class="SizeBar-expand"
                 ng-click="app.showDetails = true"
                 title="{{'Show panel' | translate}}">
-            <span class="glyphicon glyphicon-chevron-left"></span>
+            <span class="glyphicon glyphicon-menu-left"></span>
             <span class="sr-only" translate>Show panel</span>
         </button>
         <button class="SizeBar-reduce"
                 ng-if="app.showDetails"
                 ng-click="app.showDetails = false"
                 title="{{ 'Hide panel' | translate}}">
-            <span class="glyphicon glyphicon-chevron-right"></span>
+            <span class="glyphicon glyphicon-menu-right"></span>
             <span class="sr-only" translate>Hide panel</span>
         </button>
         <h3 ng-if="app.showDetails" class="TaskDetails-title" translate>{{ app.currentTask.displayName }}</h3>
