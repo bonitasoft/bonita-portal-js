@@ -14,21 +14,21 @@
       'TaskListPage--small':app.smallScreen,
       'TaskListPage--withMenu':!app.smallScreen && app.showMenu}">
     <div class="OffcanvasMenu navbar">
-      <button ng-if="!app.smallScreen && app.showMenu" title="{{ 'Hide Menu' | translate }}"
-        class="FilterToggle"  ng-click="app.toggleFilters()">
-        <span class="glyphicon glyphicon-chevron-left"></span>
-        <span class="sr-only" translate>Hide menu</span>
-      </button>
-      <button ng-if="!app.smallScreen && !app.showMenu" title="{{ 'Show Menu' | translate }}"
-              class="FilterToggle FilterToggle-expend" ng-click="app.toggleFilters()">
-        <span class="glyphicon glyphicon-chevron-right"></span>
-        <span class="sr-only" translate>Show menu</span>
-      </button>
-      <task-filters filter="app.request.taskFilter"
-                    filters="app.TASK_FILTERS"
-                    count="app.count"
-                    filter-change="app.changeFilter(filter)">
-      </task-filters>
+        <button ng-if="!app.smallScreen && app.showMenu" title="{{ 'Hide Menu' | translate }}"
+                class="FilterToggle" ng-click="app.toggleFilters()">
+            <span class="glyphicon glyphicon-chevron-left"></span>
+            <span class="sr-only" translate>Hide menu</span>
+        </button>
+        <button ng-if="!app.smallScreen && !app.showMenu" title="{{ 'Show Menu' | translate }}"
+                class="FilterToggle FilterToggle-expend" ng-click="app.toggleFilters()">
+            <span class="glyphicon glyphicon-chevron-right"></span>
+            <span class="sr-only" translate>Show menu</span>
+        </button>
+        <task-filters filter="app.request.taskFilter"
+                      filters="app.TASK_FILTERS"
+                      count="app.count"
+                      filter-change="app.changeFilter(filter)">
+        </task-filters>
     </div>
     <div class="TaskList" ng-if="!error">
         <div class="TaskList-filters panel panel-default">
@@ -78,7 +78,8 @@
             <div class="panel-heading title ng-binding">
                 <span>Task list</span>
                 <span ng-if="app.loadingTasks">Task list</span>
-                <button style="background: transparent; border: none" ng-click="app.updateAll()" ng-if="!app.loadingTasks" title="{{ 'Refresh data' | translate }}">
+                <button style="background: transparent; border: none" ng-click="app.updateAll()"
+                        ng-if="!app.loadingTasks" title="{{ 'Refresh data' | translate }}">
                     <span class="icon-refresh"></span>
                 </button>
             </div>
@@ -113,11 +114,12 @@
             <span class="glyphicon glyphicon-chevron-right"></span>
             <span class="sr-only" translate>Expand</span>
         </button>
+        <h3 ng-if="app.showDetails" class="TaskDetails-title" translate>{{ app.currentTask.displayName }}</h3>
         <div class="panel panel-default" ng-if="app.smallScreen || app.showDetails">
-            <div class="panel-heading">
-                <h3 class="panel-title" translate>Task Details</h3>
-            </div>
             <div class="panel-body">
+                <p ng-if="app.currentTask.description">
+                    {{ app.currentTask.description }}
+                </p>
                 <task-details current-task="app.currentTask"
                               current-case="app.currentCase"
                               refresh-count="app.updateCount()"
