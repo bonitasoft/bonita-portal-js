@@ -315,7 +315,7 @@ module.exports = function (grunt) {
     wiredep: {
       'karma': {
         devDependencies: true,
-        src: ['karma.conf.js'],
+        src: ['test/karma.conf.js'],
         fileTypes: {
           js: {
             block: /(([\s\t]*)\/\/\s*bower:*(\S*))(\n|\r|.)*(\/\/\s*endbower)/gi,
@@ -554,7 +554,7 @@ module.exports = function (grunt) {
     // Test settings
     karma: {
       unit: {
-        configFile: 'karma.conf.js',
+        configFile: 'test/karma.conf.js',
         singleRun: true
       }
     },
@@ -590,7 +590,7 @@ module.exports = function (grunt) {
 
     protractor: {
       options: {
-        configFile: 'protractor.conf.js'
+        configFile: 'test/protractor.conf.js'
       },
       e2e: {}
     },
