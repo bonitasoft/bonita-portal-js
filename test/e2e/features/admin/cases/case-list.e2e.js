@@ -26,7 +26,6 @@
     beforeEach(function () {
       browser.get('#/admin/cases/list');
       caseList = element(by.css('#case-list'));
-      //browser.debugger(); //launch protractor with debug option and use 'c' in console to continue test execution
     });
 
     afterEach(function () {
