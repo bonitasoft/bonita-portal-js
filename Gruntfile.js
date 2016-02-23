@@ -227,7 +227,7 @@ module.exports = function (grunt) {
       },
       dist: {
         options: {
-          port: 9002,
+          port: process.env.PROTRACTOR_PORT || 9002,
           base: ['<%= portaljs.dist %>', 'target/css'],
           middleware: function (connect, options) {
             if (!Array.isArray(options.base)) {
