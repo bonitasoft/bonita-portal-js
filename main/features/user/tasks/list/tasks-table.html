@@ -83,12 +83,12 @@
 
           <td class="text-right">{{::task.id}}</td>
           <td class="Ellipsis"><div title="{{::task.displayName}}">{{::task.displayName}}</div></td>
-          <td style="Ellipsis" title="{{::task.displayDescription}}">{{::task.displayDescription}}</td>
+          <td style="Ellipsis" ><div title="{{::task.displayDescription}}">{{::task.displayDescription}}</div></td>
           <td class="text-right Cell--sortable">{{::task.caseId}}</td>
           <td class="Ellipsis">{{::task.rootContainerId.name}}</td>
-          <td class="text-right" title="{{::task.last_update_date|moment:'YYYY-MM-DD HH:mm'}}">{{::task.last_update_date|moment:'MMM DD YYYY'}}</td>
-          <td class="text-right" title="{{::task.assigned_date|moment:'YYYY-MM-DD HH:mm'}}">{{::task.assigned_date|moment:'MMM DD YYYY'}}</td>
-          <td class="text-right  Cell--sortable" title="{{task.dueDate|moment:'YYYY-MM-DD HH:mm'}}">{{::task.dueDate|moment:'MMM DD YYYY'}}</td>
+          <td class="text-right"><div title="{{::task.last_update_date|moment:'YYYY-MM-DD HH:mm'}}">{{::task.last_update_date|moment:'MMM DD YYYY'}}</div></td>
+          <td class="text-right"><div title="{{::task.assigned_date|moment:'YYYY-MM-DD HH:mm'}}">{{::task.assigned_date|moment:'MMM DD YYYY'}}</div></td>
+          <td class="text-right  Cell--sortable"><div title="{{task.dueDate|moment:'YYYY-MM-DD HH:mm'}}">{{::task.dueDate|moment:'MMM DD YYYY'}}</div></td>
           <td>{{::getPriority(task.priority)}}</td>
           <td class="Cell--with-actions" ng-switch on="mode" ng-if="mode!=='mid'">
             <button  class="btn btn-default" type="button"
