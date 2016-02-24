@@ -15,8 +15,16 @@ module.exports = function(config) {
     preprocessors: {
       'main/*.js': ['coverage'],
       'main/!(assets)/**/*.js': ['coverage'],
-      'main/features/**/*.html': ['ng-html2js']
-      },
+      'main/features/**/*.html': ['ng-html2js'],
+      'test/**/*.js': ['babel']
+    },
+
+    babelPreprocessor: {
+      options: {
+        presets: ['bonita'],
+        retainLines: true
+      }
+    },
 
     // list of files / patterns to load in the browser
     files: [
@@ -106,11 +114,11 @@ module.exports = function(config) {
     }
 
     //ngHtml2JsPreprocessor: {
-      // prepend this to the
-      //stripPrefix: 'main/',
-      // setting this option will create only a single module that contains templates
-      // from all the files, so you can load them all with module('foo')
-      //moduleName: 'org.bonitasoft.templates'
+    // prepend this to the
+    //stripPrefix: 'main/',
+    // setting this option will create only a single module that contains templates
+    // from all the files, so you can load them all with module('foo')
+    //moduleName: 'org.bonitasoft.templates'
     //}
 
   });

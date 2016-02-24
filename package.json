@@ -2,6 +2,7 @@
   "name": "portaljs",
   "version": "0.0.0",
   "devDependencies": {
+    "babel-preset-bonita": "1.0.1",
     "bower": "1.5.2",
     "glob": "4.0.6",
     "grunt": "0.4.5",
@@ -42,6 +43,7 @@
     "jasmine-reporters": "2.1.1",
     "jshint-stylish": "2.1.0",
     "karma": "0.13.21",
+    "karma-babel-preprocessor": "6.0.1",
     "karma-chrome-launcher": "0.1.12",
     "karma-coverage": "0.2.7",
     "karma-firefox-launcher": "0.1.6",
