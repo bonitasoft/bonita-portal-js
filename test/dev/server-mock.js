@@ -112,11 +112,6 @@
     })(request, response);
   };
 
-
-  //when('GET', /^\/API\/bpm\/case\?p=0&c=25&$/).respond(require('./cases-list-28-mocks.json'));
-  //when('GET', /^\/API\/bpm\/case.*$/).respond(require('./cases-list-320-mocks.json'));
-  //http://localhost:9002/API/bpm/case?c=100&d=processDefinitionId&d=started_by&d=startedBySubstitute&o=id+ASC&p=0
-
   //case admin
   when('GET', /^\/API\/bpm\/case\?c=.*&d=processDefinitionId&d=started_by&d=startedBySubstitute&n=activeFlowNodes&n=failedFlowNodes&o=id\+ASC&p=.*$/).respond(require('./admin/cases/list/cases-list-320-mocks.json'));
   when('GET', /^\/API\/bpm\/case\?c=25&d=processDefinitionId&d=started_by&d=startedBySubstitute&n=activeFlowNodes&n=failedFlowNodes&o=startDate\+ASC&p=0&s=$/).respond(require('./admin/cases/list/cases-list-28-mocks-ordered-by-date.json'));
