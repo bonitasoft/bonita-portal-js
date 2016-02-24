@@ -14,8 +14,7 @@ module.exports = function(config) {
 
     preprocessors: {
       'main/*.js': ['coverage'],
-      'main/features/**/*.js': ['coverage'],
-      'main/common/**/*.js': ['coverage'],
+      'main/!(assets)/**/*.js': ['coverage'],
       'main/features/**/*.html': ['ng-html2js']
       },
 
