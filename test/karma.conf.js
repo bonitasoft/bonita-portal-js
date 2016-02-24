@@ -62,11 +62,13 @@ module.exports = function(config) {
       'main/assets/numeral/languages.js',
       'main/assets/angular-mocks/angular-mocks.js',
       // endbower
+
       'main/templates.js',
-      'main/common/**/*.js',
-      'main/features/**/*.js',
-      'main/features/**/*.html',
+      'main/!(assets)/**/*.module.js',
+      'main/!(assets)/**/*.js',
+      'main/!(assets)/**/*.html',
       'main/bonita-portal.js',
+
       'test/spec/helpers/*.js',
       'test/spec/**/*.js'
     ],
