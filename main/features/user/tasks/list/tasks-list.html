@@ -78,7 +78,7 @@
             <div class="panel-heading title ng-binding">
                 <span>Task list</span>
                 <span ng-if="app.loadingTasks">Task list</span>
-                <button style="background: transparent; border: none" ng-click="app.updateAll()" ng-if="!app.loadingTasks" title="{{ 'Refresh data' | translate }}">
+                <button class="task-list-refresh" style="background: transparent; border: none" ng-click="app.updateAll()" ng-if="!app.loadingTasks" title="{{ 'Refresh data' | translate }}">
                     <span class="icon-refresh"></span>
                 </button>
             </div>
