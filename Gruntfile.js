@@ -559,35 +559,6 @@ module.exports = function (grunt) {
       }
     },
 
-    karmaSonar: {
-      options: {
-        dryRun: true,
-        excludedProperties: ['sonar.exclusions'],
-        defaultOutputDir: 'target/reports/sonar',
-        runnerProperties: {
-          'sonar.exclusions': 'src/assets/**',
-          'sonar.coverage.exclusions': 'src/assets/**'
-        }
-      },
-      unittests: {
-        project: {
-          key: 'bonita-portal-js',
-          name: 'Bonita Portal JS',
-          version: '<%= pomVersion %>'
-        },
-        paths: [
-          {
-            src: '<%= portaljs.app %>',
-            test: '<%= portaljs.test %>',
-            reports: {
-              unit: 'target/reports/unit/TESTS-xunit.xml',
-              coverage: 'target/reports/coverage/lcov.info'
-            }
-          }
-        ]
-      }
-    },
-
     protractor: {
       options: {
         configFile: 'test/protractor.conf.js'
@@ -694,8 +665,7 @@ module.exports = function (grunt) {
     'concurrent:test',
     'autoprefixer',
     'connect:test',
-    'karma',
-    'karmaSonar'
+    'karma'
   ]);
 
   grunt.registerTask('buildE2e', [
