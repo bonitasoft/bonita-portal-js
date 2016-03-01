@@ -1,7 +1,7 @@
 'use strict';
 /* jshint camelcase: false */
 
-describe('module tasks.details', function() {
+describe('module tasks.details', () => {
 
   var mockUser = {user_id:123, user_name:'test'};
   var mockTask =  {id:1, name:'task1', selected:true, processId: 42, type:'USER_TASK'} ;
