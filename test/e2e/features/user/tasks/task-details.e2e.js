@@ -21,10 +21,10 @@ describe('context', function() {
   it('should display an alert if the form is not assigned to current user', function() {
     var tab = element(by.css('li[heading=Form]'));
     tab.click();
+    browser.actions().mouseMove($('.Viewer-overlay')).perform();
 
-    var node = element.all(by.css('.TaskDetails .alert')).first();
-    expect(node.getTagName()).toEqual('p');
-    expect(node.getAttribute('class')).toMatch('alert-warning');
+    var node = element.all(by.css('.FormOverlay-message')).first();
+    expect(node.getAttribute('class')).toMatch('FormOverlay-message');
   });
 
   it('should not display an alert if the form is assigned to current user', function() {
