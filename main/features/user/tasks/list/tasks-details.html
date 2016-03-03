@@ -6,13 +6,6 @@
         <span translate>Release</span>
     </button>
 
-    <button ng-if="!editable" class="btn btn-primary"
-            id="ButtonTakeDetailsColumn"
-            ng-click="onTakeReleaseTask()"
-            title="{{ 'Assign the task to myself and move it to My tasks' | translate }}">
-        <span translate>Take</span>
-    </button>
-
     <button class="btn btn-primary" ng-click="tab.form ? openFormPopup() : openOverviewPopup()"
             title="{{ 'Open in a popup' | translate }}">
         <i class="glyphicon glyphicon-resize-full"></i>
@@ -28,10 +21,16 @@
       This task is completed.
     </p>
 
-    <div ng-if="!hideForm">
-      <p class="alert alert-warning" ng-if="!inactive && !editable" translate>
-        This task is not assigned to you. You need to take it before filling in this form.
-      </p>
+    <div class="TaskForm" ng-if="!hideForm">
+        <div class="FormOverlay-message" ng-if="!editable && !inactive">
+            <p class="FormOverlay-text" translate>
+                To fill out the form, you need to take this task.
+                This means you will be the only one to do it.
+                To make it available to the team again, release it.
+            </p>
+            <button id="ButtonTakeDetailsColumn" class="FormOverlay-button btn btn-sm" ng-click="onTakeReleaseTask()" translate>Take</button>
+        </div>
+
       <bonita-iframe-viewer class="FormViewer"
                             tabindex="0"
                             ng-if="!inactive && hasForm"
