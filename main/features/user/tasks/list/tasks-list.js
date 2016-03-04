@@ -15,9 +15,7 @@
   .config(function($stateProvider) {
     $stateProvider.state('bonita.userTasks', {
       url: '/user/tasks/list',
-      templateUrl: 'portalTemplates/user/tasks/list/tasks-list.html',
-      controller: 'TaskUserListCtrl',
-      controllerAs: 'taskUserListCtrl'
+      templateUrl: 'portalTemplates/user/tasks/list/tasks-list.html'
     });
   });
 })();
