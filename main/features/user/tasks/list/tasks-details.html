@@ -2,7 +2,7 @@
     <button ng-if="editable" class="btn btn-primary"
             id="ButtonReleaseDetailsColumn"
             ng-click="onTakeReleaseTask()"
-            title="{{ 'Unassign the task and put it back in Available tasks' | translate }}">
+            title="{{ 'Unassign. This will make it available to team again' | translate }}">
         <span translate>Release</span>
     </button>
 
@@ -28,7 +28,7 @@
                 This means you will be the only one to do it.
                 To make it available to the team again, release it.
             </p>
-            <button id="ButtonTakeDetailsColumn" class="FormOverlay-button btn btn-sm" ng-click="onTakeReleaseTask()" translate>Take</button>
+            <button id="ButtonTakeDetailsColumn" class="FormOverlay-button btn btn-sm" ng-click="onTakeReleaseTask()"><i class="icon-user">&nbsp;</i><translate>Take</translate></button>
         </div>
 
       <bonita-iframe-viewer class="FormViewer"
