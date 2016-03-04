@@ -74,7 +74,7 @@
                 </div>
             </div>
         </div>
-        <div class="TaskList-grid panel panel-default">
+        <div class="TaskList-table panel panel-default">
             <div class="panel-heading title ng-binding">
                 <span>Task list</span>
                 <span ng-if="app.loadingTasks">Task list</span>
@@ -84,7 +84,7 @@
                 </button>
             </div>
             <div class="panel-body">
-                <task-list tasks="app.tasks"
+                <task-table tasks="app.tasks"
                            current-task="app.currentTask"
                            request="app.request"
                            user="app.user"
@@ -95,7 +95,7 @@
                            select-task="app.selectTask(task)"
                            do-task="app.showTasksFormPopup(task)"
                            view-case="app.showCaseOverviewPopup(Case)">
-                </task-list>
+                </task-table>
             </div>
         </div>
     </div>
