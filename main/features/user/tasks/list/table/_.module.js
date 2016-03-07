@@ -5,6 +5,7 @@
   angular
     .module('org.bonitasoft.features.user.tasks.list.table', [
       'ui.router',
+      'org.bonitasoft.features.user.tasks.common',
       'org.bonitasoft.features.user.tasks.app.config',
       'org.bonitasoft.features.user.tasks.app.pref',
       'org.bonitasoft.features.user.tasks.app.store',
