@@ -5,7 +5,7 @@
     .module('org.bonitasoft.features.user.tasks.list.table')
     .controller('TaskTableCtrl', TaskTableCtrl);
 
-  function TaskTableCtrl($scope, TASK_FILTERS) {
+  function TaskTableCtrl($scope, TASK_FILTERS, moment) {
     $scope.TASK_FILTERS = TASK_FILTERS;
     $scope.canDoGroupAction = canDoGroupAction;
     $scope.colspan = colspan;
@@ -13,6 +13,7 @@
     $scope.canRelease = canRelease;
     $scope.disableProcessFilter = disableProcessFilter;
     $scope.getPaginationStatus = getPaginationStatus;
+    $scope.isOverdue = isOverdue;
 
     this.checkTask = checkTask;
     this.isAssigned = isAssigned;
@@ -105,6 +106,10 @@
         Math.min(pagination.currentPage * pageSize, pagination.total) +
         ' / ' +
         pagination.total;
+    }
+
+    function isOverdue(task) {
+      return task.dueDate && moment(task.dueDate).isBefore(moment());
     }
   }
 
