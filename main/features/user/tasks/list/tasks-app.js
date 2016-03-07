@@ -16,7 +16,6 @@
     'org.bonitasoft.common.resources',
     'org.bonitasoft.features.user.tasks.modal.form',
     'org.bonitasoft.features.user.tasks.modal.overview',
-    'org.bonitasoft.features.user.tasks.ui.switcher',
     'ui.bootstrap.modal',
     'ui.bootstrap.buttons',
     'ui.bootstrap.dropdown',
