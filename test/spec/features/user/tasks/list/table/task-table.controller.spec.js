@@ -5,7 +5,6 @@ describe('User TaskList Controller', function() {
   var scope;
   var TASK_FILTERS;
   var $httpBackend;
-  var createController;
 
   var mockUser = {user_id: 1, user_name: 'test'};
   var mockTasks = [
@@ -32,18 +31,12 @@ describe('User TaskList Controller', function() {
     scope.refreshCount = function() {
     };
 
-    createController = function() {
-      return $controller('TaskTableCtrl', {
-        $scope: scope
-      });
-    };
+    $controller('TaskTableCtrl', {
+      $scope: scope
+    });
   }));
 
   describe('canDoGroupAction', function() {
-    beforeEach(function() {
-      createController();
-    });
-
     it('should return false if when taskfilter is DONE', function() {
       scope.request.taskFilter = TASK_FILTERS.DONE;
       expect(scope.canDoGroupAction()).toBe(false);
@@ -56,9 +49,6 @@ describe('User TaskList Controller', function() {
   });
 
   describe('canTake', function() {
-    beforeEach(function() {
-      createController();
-    });
 
     it('should return true if one of selected tasks is un_assigned', function() {
       scope.user = mockUser;
@@ -74,9 +64,6 @@ describe('User TaskList Controller', function() {
   });
 
   describe('canRelease', function() {
-    beforeEach(function() {
-      createController();
-    });
 
     it('should return true if one of selected tasks is assigned', function() {
       scope.user = mockUser;
@@ -89,5 +76,16 @@ describe('User TaskList Controller', function() {
       scope.request.taskFilter = TASK_FILTERS.TODO;
       expect(scope.canRelease(mockTasks.slice(-2))).toBe(false);
     });
+  });
+
+  it('should check that a task is overdue', function() {
+    var taskWithNoDueDate = {};
+    expect(scope.isOverdue(taskWithNoDueDate)).toBeFalsy();
+
+    var task = { dueDate: '2545-05-12 15:27:20.323' };
+    expect(scope.isOverdue(task)).toBeFalsy();
+
+    var overduetask = { dueDate: '2016-02-24 15:27:20.323' };
+    expect(scope.isOverdue(overduetask)).toBeTruthy();
   });
 });
