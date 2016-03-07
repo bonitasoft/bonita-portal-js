@@ -25,7 +25,7 @@
     'org.bonitasoft.common.resources.store',
     'org.bonitasoft.features.admin.applications.edit',
     'org.bonitasoft.features.admin.applications.delete',
-    'org.bonitasoft.common.i18n.filters',
+    'org.bonitasoft.common.moment',
     'ui.router',
     'org.bonitasoft.services.topurl',
     'org.bonitasoft.bonitable',

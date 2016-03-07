@@ -23,7 +23,7 @@
     'ui.router',
     'org.bonitasoft.common.directives.bootstrap-form-control',
     'org.bonitasoft.features.admin.applications.details.page-list',
-    'org.bonitasoft.common.i18n.filters',
+    'org.bonitasoft.common.moment',
     'ui.tree',
     'org.bonitasoft.service.features',
     'xeditable'
