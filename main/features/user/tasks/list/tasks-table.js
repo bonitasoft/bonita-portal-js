@@ -34,8 +34,6 @@
       'ui.bootstrap.pagination',
       'ui.bootstrap.dropdown',
       'keymaster',
-      'org.bonitasoft.services.topurl',
-      'org.bonitasoft.common.directives.bonitaHref',
       'gettext'
     ])
     .controller('TaskUserListCtrl', [
