@@ -81,16 +81,16 @@
             <i class="icon-user" title="{{ 'My task' | translate }}" ng-if="user.user_id===task.assigned_id"></i>
           </td>
 
-          <td class="text-right task-id">{{::task.id}}</td>
-          <td class="Ellipsis task-displayName"><div title="{{::task.displayName}}">{{::task.displayName}}</div></td>
-          <td style="Ellipsis" class="task-displayDescription" title="{{::task.displayDescription}}">{{::task.displayDescription}}</td>
-          <td class="text-right Cell--sortable task-caseId">{{::task.caseId}}</td>
-          <td class="Ellipsis task-processName">{{::task.rootContainerId.name}}</td>
-          <td class="text-right task-lastUpdateDate" title="{{::task.last_update_date|moment:'YYYY-MM-DD HH:mm'}}">{{::task.last_update_date|moment:'MMM DD YYYY'}}</td>
-          <td class="text-right task-assignedDate" title="{{::task.assigned_date|moment:'YYYY-MM-DD HH:mm'}}">{{::task.assigned_date|moment:'MMM DD YYYY'}}</td>
-          <td class="text-right Cell--sortable task-dueDate" title="{{task.dueDate|moment:'YYYY-MM-DD HH:mm'}}">{{::task.dueDate|moment:'MMM DD YYYY'}}</td>
-          <td class="task-priority">{{::getPriority(task.priority)}}</td>
-          <td class="Cell--with-actions task-actions" ng-switch on="mode" ng-if="mode!=='mid'">
+          <td class="text-right TaskTable-id">{{::task.id}}</td>
+          <td class="Ellipsis TaskTable-displayName"><div title="{{::task.displayName}}">{{::task.displayName}}</div></td>
+          <td style="Ellipsis" class="TaskTable-displayDescription" title="{{::task.displayDescription}}">{{::task.displayDescription}}</td>
+          <td class="text-right Cell--sortable TaskTable-caseId">{{::task.caseId}}</td>
+          <td class="Ellipsis TaskTable-processName">{{::task.rootContainerId.name}}</td>
+          <td class="text-right TaskTable-lastUpdateDate" title="{{::task.last_update_date|moment:'YYYY-MM-DD HH:mm'}}">{{::task.last_update_date|moment:'MMM DD YYYY'}}</td>
+          <td class="text-right TaskTable-assignedDate" title="{{::task.assigned_date|moment:'YYYY-MM-DD HH:mm'}}">{{::task.assigned_date|moment:'MMM DD YYYY'}}</td>
+          <td class="text-right Cell--sortable TaskTable-dueDate" title="{{task.dueDate|moment:'YYYY-MM-DD HH:mm'}}">{{::task.dueDate|moment:'MMM DD YYYY'}}</td>
+          <td class="TaskTable-priority">{{::getPriority(task.priority)}}</td>
+          <td class="Cell--with-actions TaskTable-actions" ng-switch on="mode" ng-if="mode!=='mid'">
             <button class="btn btn-default" type="button"
                     ng-switch-when="max"
                     ng-click="onDoTask(task)"
