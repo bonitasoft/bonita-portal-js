@@ -57,7 +57,7 @@
           <th style="width:30%; min-width:150px">{{ 'Description' | translate }}</th>
           <th bo-sorter="processInstanceId" class="text-right">{{ 'Case Id' | translate }}</th>
           <th style="width:30%; min-width:150px">{{ 'Process name' | translate }}</th>
-          <th class="text-right">{{ 'Last update' | translate }}</th>
+          <th bo-sorter="last_update_date" class="text-right">{{ 'Last update' | translate }}</th>
           <th class="text-right">{{ 'Assigned on' | translate }}</th>
           <th bo-sorter="dueDate" class="text-right">{{ 'Due date' | translate }}</th>
           <th bo-sorter="priority">{{ 'Priority' | translate }}</th>
@@ -86,9 +86,9 @@
           <td style="Ellipsis" ><div title="{{::task.displayDescription}}">{{::task.displayDescription}}</div></td>
           <td class="text-right Cell--sortable">{{::task.caseId}}</td>
           <td class="Ellipsis">{{::task.rootContainerId.name}}</td>
-          <td class="text-right"><div title="{{::task.last_update_date|moment:'YYYY-MM-DD HH:mm'}}">{{::task.last_update_date|moment:'MMM DD YYYY'}}</div></td>
-          <td class="text-right"><div title="{{::task.assigned_date|moment:'YYYY-MM-DD HH:mm'}}">{{::task.assigned_date|moment:'MMM DD YYYY'}}</div></td>
-          <td class="text-right  Cell--sortable TaskTable-dueDate"><span title="{{task.dueDate|moment:'YYYY-MM-DD HH:mm'}}">{{::task.dueDate|moment:'MMM DD YYYY'}}</span></td>
+          <td class="text-right"><div title="{{::task.last_update_date|moment:'LLL'}}">{{::task.last_update_date|moment:'MMM DD LT'}}</div></td>
+          <td class="text-right"><div title="{{::task.assigned_date|moment:'LLL'}}">{{::task.assigned_date|moment:'MMM DD LT'}}</div></td>
+          <td class="text-right  Cell--sortable TaskTable-dueDate"><span title="{{task.dueDate|moment:'LLL'}}">{{::task.dueDate|moment:'MMM DD LT'}}</span></td>
           <td>{{::getPriority(task.priority)}}</td>
           <td class="Cell--with-actions" ng-switch on="mode" ng-if="mode!=='mid'">
             <button  class="btn btn-default" type="button"
