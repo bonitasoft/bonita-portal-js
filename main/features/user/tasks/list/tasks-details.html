@@ -1,16 +1,17 @@
-<button ng-if="editable" class="pull-right btn btn-primary"
-        id="ButtonReleaseDetailsColumn"
-        ng-click="onTakeReleaseTask()" title="{{ 'Unassign the task and put it back in Available tasks' | translate }}">
-  <i class="glyphicon glyphicon-open"></i>
-  <span class="sr-only" translate>Release</span>
-</button>
+<div class="btn-group pull-right" role="group">
+    <button ng-if="editable" class="btn btn-primary"
+            id="ButtonReleaseDetailsColumn"
+            ng-click="onTakeReleaseTask()"
+            title="{{ 'Unassign the task and put it back in Available tasks' | translate }}">
+        <span translate>Release</span>
+    </button>
 
-<button ng-if="!editable" class="pull-right btn btn-primary"
-        id="ButtonTakeDetailsColumn"
-        ng-click="onTakeReleaseTask()" title="{{ 'Assign the task to myself and move it to My tasks' | translate }}">
-  <i class="glyphicon glyphicon-save"></i>
-  <span class="sr-only" translate>Take</span>
-</button>
+    <button class="btn btn-primary" ng-click="tab.form ? openFormPopup() : openOverviewPopup()"
+            title="{{ 'Open in a popup' | translate }}">
+        <i class="glyphicon glyphicon-resize-full"></i>
+        <span class="sr-only" translate>Open in a popup</span>
+    </button>
+</div>
 
 <tabset>
   <tab id="form-tab" heading="{{ 'Form' | translate }}"
@@ -20,10 +21,16 @@
       This task is completed.
     </p>
 
-    <div ng-if="!hideForm">
-      <p class="alert alert-warning" ng-if="!inactive && !editable" translate>
-        This task is not assigned to you. You need to take it before filling in this form.
-      </p>
+    <div class="TaskForm" ng-if="!hideForm">
+        <div class="FormOverlay-message" ng-if="!editable && !inactive">
+            <p class="FormOverlay-text" translate>
+                To fill out the form, you need to take this task.
+                This means you will be the only one to do it.
+                To make it available to the team again, release it.
+            </p>
+            <button id="ButtonTakeDetailsColumn" class="FormOverlay-button btn btn-sm" ng-click="onTakeReleaseTask()" translate>Take</button>
+        </div>
+
       <bonita-iframe-viewer class="FormViewer"
                             tabindex="0"
                             ng-if="!inactive && hasForm"
@@ -44,10 +51,6 @@
        active="tab.context"
        ng-click="onClickTab('context')" >
     <div ng-if="!inactive">
-      <h3 class="Context-title">{{currentTask.name}}</h3>
-      <p ng-if="currentTask.description">
-        {{currentTask.description}}
-      </p>
       <bonita-iframe-viewer
         class="CaseViewer"
         frame-url="overviewUrl"
