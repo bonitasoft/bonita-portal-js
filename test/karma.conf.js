@@ -7,21 +7,27 @@ module.exports = function(config) {
 
   config.set({
     // base path, that will be used to resolve files and exclude
-    basePath: '',
+    basePath: '..',
 
     // testing framework to use (jasmine/mocha/qunit/...)
     frameworks: ['jasmine'],
 
     preprocessors: {
       'main/*.js': ['coverage'],
-      'main/features/**/*.js': ['coverage'],
-      'main/common/**/*.js': ['coverage'],
-      'main/features/**/*.html': ['ng-html2js']
-      },
+      'main/!(assets)/**/*.js': ['coverage'],
+      'main/features/**/*.html': ['ng-html2js'],
+      'test/**/*.js': ['babel']
+    },
+
+    babelPreprocessor: {
+      options: {
+        presets: ['bonita'],
+        retainLines: true
+      }
+    },
 
     // list of files / patterns to load in the browser
     files: [
-      'test/bind.polyfill.js',
       // bower:js
       'main/assets/es5-shim/es5-shim.js',
       'main/assets/jquery/dist/jquery.js',
@@ -56,11 +62,14 @@ module.exports = function(config) {
       'main/assets/numeral/languages.js',
       'main/assets/angular-mocks/angular-mocks.js',
       // endbower
+
       'main/templates.js',
-      'main/common/**/*.js',
-      'main/features/**/*.js',
-      'main/features/**/*.html',
+      'main/!(assets)/**/*.module.js',
+      'main/!(assets)/**/*.js',
+      'main/!(assets)/**/*.html',
       'main/bonita-portal.js',
+
+      'test/spec/helpers/*.js',
       'test/spec/**/*.js'
     ],
 
@@ -68,7 +77,7 @@ module.exports = function(config) {
     exclude: [],
 
     // web server port
-    port: 8988,
+    port: process.env.KARMA_PORT || 8988,
 
     // level of logging
     // possible values: LOG_DISABLE || LOG_ERROR || LOG_WARN || LOG_INFO || LOG_DEBUG
@@ -107,11 +116,11 @@ module.exports = function(config) {
     }
 
     //ngHtml2JsPreprocessor: {
-      // prepend this to the
-      //stripPrefix: 'main/',
-      // setting this option will create only a single module that contains templates
-      // from all the files, so you can load them all with module('foo')
-      //moduleName: 'org.bonitasoft.templates'
+    // prepend this to the
+    //stripPrefix: 'main/',
+    // setting this option will create only a single module that contains templates
+    // from all the files, so you can load them all with module('foo')
+    //moduleName: 'org.bonitasoft.templates'
     //}
 
   });

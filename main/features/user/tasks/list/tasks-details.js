@@ -74,7 +74,9 @@
             editable: '=',
             inactive: '=',
             hideForm: '=',
-            activeTab: '@'
+            activeTab: '@',
+            openFormPopup: '&',
+            openOverviewPopup: '&'
           },
           link: function(scope, element, attr) {
             //Init tab visibility

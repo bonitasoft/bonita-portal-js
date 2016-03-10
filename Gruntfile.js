@@ -227,7 +227,7 @@ module.exports = function (grunt) {
       },
       dist: {
         options: {
-          port: 9002,
+          port: process.env.PROTRACTOR_PORT || 9002,
           base: ['<%= portaljs.dist %>', 'target/css'],
           middleware: function (connect, options) {
             if (!Array.isArray(options.base)) {
@@ -315,7 +315,7 @@ module.exports = function (grunt) {
     wiredep: {
       'karma': {
         devDependencies: true,
-        src: ['karma.conf.js'],
+        src: ['test/karma.conf.js'],
         fileTypes: {
           js: {
             block: /(([\s\t]*)\/\/\s*bower:*(\S*))(\n|\r|.)*(\/\/\s*endbower)/gi,
@@ -366,8 +366,8 @@ module.exports = function (grunt) {
       sources: {
         files: {
           '<%= portaljs.app %>/index.html': [
-            '<%= portaljs.app %>/common/**/*.js',
-            '<%= portaljs.app %>/features/**/*.js',
+            '<%= portaljs.app %>/!(assets)/**/*.module.js',
+            '<%= portaljs.app %>/!(assets)/**/*.js',
             '<%= portaljs.app %>/*.js'
           ]
         }
@@ -554,43 +554,14 @@ module.exports = function (grunt) {
     // Test settings
     karma: {
       unit: {
-        configFile: 'karma.conf.js',
+        configFile: 'test/karma.conf.js',
         singleRun: true
-      }
-    },
-
-    karmaSonar: {
-      options: {
-        dryRun: true,
-        excludedProperties: ['sonar.exclusions'],
-        defaultOutputDir: 'target/reports/sonar',
-        runnerProperties: {
-          'sonar.exclusions': 'src/assets/**',
-          'sonar.coverage.exclusions': 'src/assets/**'
-        }
-      },
-      unittests: {
-        project: {
-          key: 'bonita-portal-js',
-          name: 'Bonita Portal JS',
-          version: '<%= pomVersion %>'
-        },
-        paths: [
-          {
-            src: '<%= portaljs.app %>',
-            test: '<%= portaljs.test %>',
-            reports: {
-              unit: 'target/reports/unit/TESTS-xunit.xml',
-              coverage: 'target/reports/coverage/lcov.info'
-            }
-          }
-        ]
       }
     },
 
     protractor: {
       options: {
-        configFile: 'protractor.conf.js'
+        configFile: 'test/protractor.conf.js'
       },
       e2e: {}
     },
@@ -694,8 +665,7 @@ module.exports = function (grunt) {
     'concurrent:test',
     'autoprefixer',
     'connect:test',
-    'karma',
-    'karmaSonar'
+    'karma'
   ]);
 
   grunt.registerTask('buildE2e', [
