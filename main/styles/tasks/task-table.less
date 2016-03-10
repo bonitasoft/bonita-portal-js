@@ -1,0 +1,11 @@
+// bonitable wraps td's content in div
+.TaskTable td > div {
+  display: inline-block;
+}
+
+.TaskTable-line--overdue .TaskTable-dueDate::before {
+  font-family: 'Glyphicons Halflings';
+  content: '\e023'; // glyphicon-time
+  margin: 5px;
+  color: #a94442;
+}

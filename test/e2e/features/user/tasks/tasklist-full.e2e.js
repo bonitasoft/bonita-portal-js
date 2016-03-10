@@ -56,38 +56,13 @@ describe('tasklist custom page', function() {
         actions.last().click();
       });
 
-      it('should open a popup with a taskDetail', function(){
+      it('should open a popup with a case overview', function(){
 
         var popup = element(by.css('.modal'));
         expect(popup.isPresent()).toBe(true);
 
-        var iframe = element(by.css('task-details'));
+        var iframe = element(by.css('.CaseViewer'));
         expect(iframe.isPresent()).toBe(true);
-      });
-
-      it('should allow user to take unassigned task', function(){
-        // take the task
-        element(by.id('ButtonTakeDetailsColumn')).click();
-
-        var releaseButton = element(by.id('ButtonReleaseDetailsColumn'));
-        expect(releaseButton.isPresent()).toBe(true);
-
-      });
-
-      it('should allow user to release unassigned task', function(){
-        // close the popup task (cf beforeEach)
-        element(by.css('.modal .modal-footer button')).click();
-
-        //select last line (an assigned task with mock PUT)
-        element.all(by.css('.Line')).click();
-        element.all(by.css('.Line.info .Cell--with-actions button')).last().click();
-
-        // take the task
-        element(by.id('ButtonReleaseDetailsColumn')).click();
-
-        var releaseButton = element(by.id('ButtonTakeDetailsColumn'));
-        expect(releaseButton.isPresent()).toBe(true);
-
       });
     });
   });
