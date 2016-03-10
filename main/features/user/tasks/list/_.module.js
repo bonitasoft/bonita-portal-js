@@ -8,6 +8,8 @@
     'org.bonitasoft.features.user.tasks.list.table',
     'org.bonitasoft.features.user.tasks.details',
     'org.bonitasoft.features.user.tasks.app.config',
+    'org.bonitasoft.features.user.tasks.list.comments',
+    'org.bonitasoft.features.user.tasks.app.store',
     'org.bonitasoft.templates',
     'org.bonitasoft.portalTemplates',
     'common.security',

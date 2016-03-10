@@ -30,7 +30,6 @@
             </p>
             <button id="ButtonTakeDetailsColumn" class="FormOverlay-button btn btn-sm" ng-click="onTakeReleaseTask()"><i class="icon-user">&nbsp;</i><translate>Take</translate></button>
         </div>
-
       <bonita-iframe-viewer class="FormViewer"
                             tabindex="0"
                             ng-if="!inactive && hasForm"
@@ -45,6 +44,11 @@
                inactive="inactive">
       </no-form>
     </div>
+  </tab>
+
+
+  <tab heading="{{ 'Comments' | translate }}" ui-sref="bonita.userTasks.comment({ case: currentCase })">
+      <div ui-view></div>
   </tab>
 
   <tab heading="{{ 'Case' | translate }}"
