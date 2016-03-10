@@ -42,8 +42,8 @@
       </table-settings>
     </div>
   </div>
-  <div class="table-responsive" ng-hide="tasks.length === 0">
-    <table class="table table-hover table-striped">
+  <div class="table-responsive TaskTable" ng-hide="tasks.length === 0">
+    <table class="table table-hover table-striped TaskTable">
       <thead>
         <tr>
           <th data-ignore class="Cell--checkbox" ng-if="canDoGroupAction()">
@@ -57,7 +57,7 @@
           <th style="width:30%; min-width:150px">{{ 'Description' | translate }}</th>
           <th bo-sorter="processInstanceId" class="text-right">{{ 'Case Id' | translate }}</th>
           <th style="width:30%; min-width:150px">{{ 'Process name' | translate }}</th>
-          <th class="text-right">{{ 'Last update' | translate }}</th>
+          <th bo-sorter="last_update_date" class="text-right">{{ 'Last update' | translate }}</th>
           <th class="text-right">{{ 'Assigned on' | translate }}</th>
           <th bo-sorter="dueDate" class="text-right">{{ 'Due date' | translate }}</th>
           <th bo-sorter="priority">{{ 'Priority' | translate }}</th>
@@ -70,25 +70,25 @@
             ng-click="onClickTask(task)"
             ng-mouseover="showTaskButtons(task)"
             ng-mouseleave="hideTaskButtons(task)"
-            ng-class="{'info':task === currentTask}"
+            ng-class="{'info':task === currentTask, 'TaskTable-line--overdue': isOverdue(task)}"
             tabindex="0">
 
           <td class="Cell--checkbox" ng-if="canDoGroupAction()">
             <input type="checkbox" bo-selector="task" ng-click="onCheckBoxChange($event, $index)">
           </td>
 
-          <td>
+          <td class="TaskTable-icon">
             <i class="icon-user" title="{{ 'My task' | translate }}" ng-if="user.user_id===task.assigned_id"></i>
           </td>
 
           <td class="text-right TaskTable-id">{{::task.id}}</td>
           <td class="Ellipsis TaskTable-displayName"><div title="{{::task.displayName}}">{{::task.displayName}}</div></td>
-          <td style="Ellipsis" class="TaskTable-displayDescription" title="{{::task.displayDescription}}">{{::task.displayDescription}}</td>
+          <td style="Ellipsis" class="TaskTable-displayDescription"><div title="{{::task.displayDescription}}">{{::task.displayDescription}}</div></td>
           <td class="text-right Cell--sortable TaskTable-caseId">{{::task.caseId}}</td>
           <td class="Ellipsis TaskTable-processName">{{::task.rootContainerId.name}}</td>
-          <td class="text-right TaskTable-lastUpdateDate" title="{{::task.last_update_date|moment:'YYYY-MM-DD HH:mm'}}">{{::task.last_update_date|moment:'MMM DD YYYY'}}</td>
-          <td class="text-right TaskTable-assignedDate" title="{{::task.assigned_date|moment:'YYYY-MM-DD HH:mm'}}">{{::task.assigned_date|moment:'MMM DD YYYY'}}</td>
-          <td class="text-right Cell--sortable TaskTable-dueDate" title="{{task.dueDate|moment:'YYYY-MM-DD HH:mm'}}">{{::task.dueDate|moment:'MMM DD YYYY'}}</td>
+          <td class="text-right TaskTable-lastUpdateDate"><div title="{{::task.last_update_date|moment:'LLL'}}">{{::task.last_update_date|moment:'MMM DD LT'}}</div></td>
+          <td class="text-right TaskTable-assignedDate"><div title="{{::task.assigned_date|moment:'LLL'}}">{{::task.assigned_date|moment:'MMM DD LT'}}</div></td>
+          <td class="text-right  Cell--sortable TaskTable-dueDate"><span title="{{task.dueDate|moment:'LLL'}}">{{::task.dueDate|moment:'MMM DD LT'}}</span></td>
           <td class="TaskTable-priority">{{::getPriority(task.priority)}}</td>
           <td class="Cell--with-actions TaskTable-actions" ng-switch on="mode" ng-if="mode!=='mid'">
             <button class="btn btn-default" type="button"
@@ -101,10 +101,10 @@
               <span class="sr-only" translate>Do this task</span>
             </button>
             <button class="btn btn-default" type="button"
-                    ng-click="onViewTask(task)"
+                    ng-click="onViewCase(task.caseId)"
                     ng-switch-when="max"
                     ng-show="task === currentTask || task.btnVisible"
-                    title="{{ 'View this task' | translate }}">
+                    title="{{ 'View this task\'s case' | translate }}">
               <i class="icon-eye"></i>
               <span class="sr-only" translate>View task</span>
             </button>
