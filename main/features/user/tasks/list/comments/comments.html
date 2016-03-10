@@ -1,0 +1,14 @@
+<section class="CaseComments">
+    <div class="CaseComments-Comment" ng-repeat-start="comment in vm.comments">
+        <div class="CaseComments-CommentHeader text-muted">{{ comment.userId.firstname + ' ' + comment.userId.lastname }} added a comment - {{ comment.postDate | moment:'lll' }}</div>
+        <div class="CaseComments-CommentContent">{{ comment.content }}</div>
+    </div>
+    <hr ng-repeat-end/>
+    <form class="CaseComments-AddComment" ng-if="!vm.isCurrentCaseArchived()" ng-submit="vm.addComment(vm.newComment)">
+        <div class="form-group">
+            <label for="comment">Comment</label>
+            <textarea id="comment" class="form-control" ng-model="vm.newComment"></textarea>
+        </div>
+        <button type="submit" class="btn btn-default">Add</button>
+    </form>
+</section>

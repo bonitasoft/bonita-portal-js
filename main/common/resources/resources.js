@@ -155,6 +155,7 @@
     'applicationPageAPI': 'living/application-page',
     'caseAPI': 'bpm/case',
     'commentAPI': 'bpm/comment',
+    'archivedCommentAPI': 'bpm/archivedComment',
     'categoryAPI': 'bpm/category',
     'customPageAPI': 'portal/page',
     'featureAPI': 'system/feature',
