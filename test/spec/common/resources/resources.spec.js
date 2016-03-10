@@ -155,7 +155,8 @@
       'membershipAPI',
       'professionalDataAPI',
       'personalDataAPI',
-      'i18nAPI'
+      'i18nAPI',
+      'commentAPI'
     ]);
     describe('processCategoryAPI', function() {
       it('should call POST http requests with custom body', function() {
