@@ -19,6 +19,7 @@
 
   angular
     .module('org.bonitasoft.common.moment', [
+      'org.bonitasoft.common.i18n',
       'gettext'
     ]);
 
