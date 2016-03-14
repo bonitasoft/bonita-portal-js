@@ -23,7 +23,7 @@
     'org.bonitasoft.features.user.cases.list.table',
     'ui.bootstrap',
     'gettext',
-    'org.bonitasoft.services.i18n',
+    'org.bonitasoft.common.i18n',
     'org.bonitasoft.services.topurl',
     'org.bonitasoft.features.user.cases.list.values',
     'org.bonitasoft.common.directives.bonitaHref'

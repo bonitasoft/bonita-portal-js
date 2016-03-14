@@ -25,7 +25,7 @@
     'org.bonitasoft.common.resources',
     'org.bonitasoft.service.features',
     'xeditable',
-    'org.bonitasoft.services.i18n'
+    'org.bonitasoft.common.i18n'
   ]).constant('TYPE_ERROR_MESSAGE', {
     'java.lang.Boolean': {
       message: 'processDetails.params.control.boolean',

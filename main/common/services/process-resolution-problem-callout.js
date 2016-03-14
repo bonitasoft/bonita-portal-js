@@ -21,7 +21,7 @@
    *
    * Description
    */
-  angular.module('org.bonitasoft.service.process.resolution', ['org.bonitasoft.services.i18n'])
+  angular.module('org.bonitasoft.service.process.resolution', ['org.bonitasoft.common.i18n'])
   .value('ProcessResolutionProblemItems', {
     actor: 'processDetails.problemResolution.message.actor',
     connector: 'processDetails.problemResolution.message.connector',

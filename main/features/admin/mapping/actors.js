@@ -22,7 +22,7 @@
    * contains definition of the actors selectbox directive
    */
   angular.module('org.bonitasoft.common.actors.selectbox', [
-    'org.bonitasoft.services.i18n',
+    'org.bonitasoft.common.i18n',
     'org.bonitasoft.common.properties',
     'org.bonitasoft.features.admin.mappings',
     'isteven-multi-select'

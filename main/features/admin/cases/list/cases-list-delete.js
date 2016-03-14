@@ -19,7 +19,7 @@
 
   angular.module('org.bonitasoft.features.admin.cases.list.delete', [
     'org.bonitasoft.common.resources',
-    'org.bonitasoft.services.i18n',
+    'org.bonitasoft.common.i18n',
     'ui.bootstrap',
   ])
   .controller('ActiveCaseDeleteCtrl', ['$scope', '$modal', 'caseAPI', 'i18nService', '$q',  CaseDeleteCtrl])

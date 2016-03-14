@@ -14,20 +14,30 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-describe('Factory i18nMsg', function() {
+describe('locale service', function() {
 
   'use strict';
 
-  var factory;
+  var locale, $cookies;
 
-  beforeEach(module('org.bonitasoft.common.i18n.factories'));
+  beforeEach(module('org.bonitasoft.common.i18n'));
 
-  beforeEach(inject(function ($injector) {
-    factory = $injector.get('i18nMsg');
+  beforeEach(inject(function(_$cookies_, _locale_) {
+    $cookies = _$cookies_;
+    locale = _locale_;
   }));
 
-  it('should have some translations for error fields', function() {
-    expect(factory.field).toBeDefined();
+  afterEach(function() {
+    $cookies.remove('BOS_Locale');
   });
 
+  it('should get locale from BOS_LOCALE cookie key', function() {
+    $cookies.put('BOS_Locale', 'fr');
+    expect(locale.get()).toBe('fr');
+  });
+
+  it('should get en when no bos locale is set in cookies', function() {
+    $cookies.remove('BOS_Locale');
+    expect(locale.get()).toBe('en');
+  });
 });
