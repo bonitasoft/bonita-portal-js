@@ -19,7 +19,7 @@
 
   angular.module('org.bonitasoft.features.admin.processes.editActorMembers', [
     'ui.bootstrap',
-    'org.bonitasoft.services.i18n',
+    'org.bonitasoft.common.i18n',
     'ui.router',
     'angular-growl',
     'isteven-multi-select',

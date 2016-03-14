@@ -21,7 +21,7 @@
     'ui.bootstrap',
     'org.bonitasoft.common.resources',
     'org.bonitasoft.common.filters.stringTemplater',
-    'org.bonitasoft.services.i18n',
+    'org.bonitasoft.common.i18n',
     'org.bonitasoft.common.properties',
     'org.bonitasoft.features.admin.mappings'
   ])

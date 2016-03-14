@@ -21,7 +21,7 @@
    *
    * defines properties shared between mapping features (actors and process manager currently)
    */
-  angular.module('org.bonitasoft.features.admin.mappings', ['org.bonitasoft.services.i18n',
+  angular.module('org.bonitasoft.features.admin.mappings', ['org.bonitasoft.common.i18n',
     'org.bonitasoft.common.resources.store'])
     .value('MAPPING_PROFILES', {
       USER: 'USER',
