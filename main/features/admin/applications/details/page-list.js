@@ -24,7 +24,7 @@
     'org.bonitasoft.features.admin.applications.edit',
     'org.bonitasoft.common.directives.urlified',
     'org.bonitasoft.common.resources',
-    'org.bonitasoft.common.i18n.factories'
+    'org.bonitasoft.common.i18n'
   ])
     .controller('addPageCtrl', function ($scope, customPageAPI, applicationPageAPI, applicationMenuAPI, $modalInstance, application, i18nMsg, store) {
 

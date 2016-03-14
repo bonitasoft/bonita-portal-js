@@ -23,7 +23,7 @@
     'org.bonitasoft.common.directives.urlified',
     'org.bonitasoft.common.resources',
     'org.bonitasoft.common.resources.store',
-    'org.bonitasoft.common.i18n.factories'
+    'org.bonitasoft.common.i18n'
   ])
     .controller('addApplicationCtrl', ['$scope', 'applicationAPI', 'profileAPI', 'customPageAPI', '$modalInstance', 'application', 'store', 'i18nMsg',
       function ($scope, applicationAPI, profileAPI, customPageAPI, $modalInstance, application, store, i18nMsg) {

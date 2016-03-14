@@ -28,7 +28,7 @@
     'gettext',
     'ui.router',
     'org.bonitasoft.service.features',
-    'org.bonitasoft.services.i18n',
+    'org.bonitasoft.common.i18n',
     'org.bonitasoft.common.resources',
     'org.bonitasoft.features.admin',
     'org.bonitasoft.features.user'

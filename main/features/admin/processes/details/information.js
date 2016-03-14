@@ -24,7 +24,7 @@
       'angular-growl',
       'org.bonitasoft.common.resources.store',
       'org.bonitasoft.features.admin.processes.details.information.categories',
-      'org.bonitasoft.services.i18n'
+      'org.bonitasoft.common.i18n'
     ])
     .controller('ProcessInformationCtrl', ProcessInformationCtrl);
 
