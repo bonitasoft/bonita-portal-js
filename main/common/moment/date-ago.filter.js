@@ -23,9 +23,6 @@
 
   function dateAgoFilter(moment, gettextCatalog) {
     return function dateAgo(input) {
-
-      moment.locale(gettextCatalog.currentLanguage || gettextCatalog.baseLanguage);
-
       var compar = new Date(+input || Date.now());
       return moment(compar).fromNow();
     };
