@@ -32,9 +32,6 @@
         if(!output) {
           throw new Error('[com.bonitasoft.common.i18n.filters@dateI18nFilter] You cannot use the date filter without a format');
         }
-
-        moment.locale(gettextCatalog.currentLanguage || gettextCatalog.baseLanguage);
-
         return moment(+input).format(output);
       };
 
