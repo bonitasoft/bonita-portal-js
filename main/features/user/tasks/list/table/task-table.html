@@ -9,10 +9,10 @@
   repeatable-config="columnSettings">
   <div class="GroupAction clearfix" ng-show="tasks.length > 0">
     <div class="GroupAction-button pull-left" ng-show="canDoGroupAction()">
-      <button id="btn-group-assigntome" class="btn btn-primary" type="button" title="{{ 'Assign the task to myself and move it to My tasks.' | translate }}"
-         ng-disabled="!canTake($selectedItems)" ng-click="takeTasks($selectedItems)"translate>Take
+      <button id="btn-group-assigntome" class="btn btn-primary" type="button" title="{{ 'Assign to me. Only I will be able to do it' | translate }}"
+         ng-disabled="!canTake($selectedItems)" ng-click="takeTasks($selectedItems)"><i class="icon-user">&nbsp;</i><translate>Take</translate>
       </button>
-      <button id="btn-group-unassign" class="btn btn-default"  type="button" title="{{ 'Unassign the task and put it back in Available tasks' | translate }}"
+      <button id="btn-group-unassign" class="btn btn-default"  type="button" title="{{ 'Unassign. This will make it available to team again' | translate }}"
         ng-disabled="!canRelease($selectedItems)" ng-click="releaseTasks($selectedItems)" translate>Release
       </button>
     </div>
@@ -78,7 +78,7 @@
           </td>
 
           <td class="TaskTable-icon">
-            <i class="icon-user" title="{{ 'My task' | translate }}" ng-if="user.user_id===task.assigned_id"></i>
+            <i class="icon-user" title="{{ 'Only I can do this task' | translate }}" ng-if="user.user_id===task.assigned_id"></i>
           </td>
 
           <td class="text-right TaskTable-id">{{::task.id}}</td>
