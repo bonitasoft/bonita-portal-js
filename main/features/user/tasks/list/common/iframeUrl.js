@@ -24,9 +24,9 @@
           var tpl=this.getPortalUrl()+'/portal/resource/taskInstance/<process.name>/<process.version>/<task.name>/content/?id=<task.id><tenantQueryString><localeQueryString>';
 
           var dict = [
-            ['<process.name>', encodeURIComponent(process.name)],
-            ['<process.version>', encodeURIComponent(process.version)],
-            ['<task.name>', encodeURIComponent(task.name)],
+            ['<process.name>', encodeURIComponentForPathSegment(process.name)],
+            ['<process.version>', encodeURIComponentForPathSegment(process.version)],
+            ['<task.name>', encodeURIComponentForPathSegment(task.name)],
             ['<task.id>', task.id],
             ['<user.id>', userId],
             ['<tenantQueryString>', getParamQueryString('&', 'tenant')],
@@ -75,8 +75,8 @@
           var tpl=this.getPortalUrl()+'/portal/resource/processInstance/<process.name>/<process.version>/content/?id=<case.id><tenantQueryString><localeQueryString>';
 
           var dict = [
-            ['<process.name>', encodeURIComponent(process.name)],
-            ['<process.version>', encodeURIComponent(process.version)],
+            ['<process.name>', encodeURIComponentForPathSegment(process.name)],
+            ['<process.version>', encodeURIComponentForPathSegment(process.version)],
             ['<case.id>', Case.sourceObjectId || Case.id],
             ['<tenantQueryString>', getParamQueryString('&', 'tenant')],
             ['<localeQueryString>', getParamQueryString('&', 'locale')]
@@ -87,6 +87,10 @@
           }, tpl);
 
         };
+
+        function encodeURIComponentForPathSegment(stringToEncode) {
+          return encodeURIComponent(stringToEncode).replace(new RegExp('%2F', 'g'),'/')
+        }
 
         function getParamQueryString(prefix, param) {
           var paramValue = $location.search()[param];
