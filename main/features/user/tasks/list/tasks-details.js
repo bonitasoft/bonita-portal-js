@@ -23,7 +23,8 @@
       'org.bonitasoft.features.user.tasks.ui.iframe',
       'ui.bootstrap.tabs',
       'ngToast',
-      'gettext'
+      'gettext',
+      'ui.router'
     ])
     .service('taskDetailsHelper', ['taskListStore', 'preference', 'humanTaskAPI',
       function(taskListStore, preference, humanTaskAPI) {
@@ -60,8 +61,8 @@
         };
       }
     ])
-    .directive('taskDetails', ['iframe', 'taskListStore', 'taskDetailsHelper', 'processAPI', 'formMappingAPI',
-      function(iframe, taskListStore, taskDetailsHelper, processAPI, formMappingAPI) {
+    .directive('taskDetails', ['iframe', 'taskListStore', 'taskDetailsHelper', 'processAPI', 'formMappingAPI', '$state', '$stateParams',
+      function(iframe, taskListStore, taskDetailsHelper, processAPI, formMappingAPI, $state, $stateParams) {
         // Runs during compile
         return {
           restrict: 'AE', // E = Element, A = Attribute, C = Class, M = Comment
@@ -99,6 +100,13 @@
               if (!newCase) {
                 return;
               }
+
+              $stateParams.case = newCase;
+              $state.transitionTo($state.current, $stateParams, {
+                inherit: false,
+                notify: true
+              });
+
               scope.overviewUrl = iframe.getCaseOverview(newCase, newCase.processDefinitionId);
               scope.diagramUrl = iframe.getCaseVisu(newCase, newCase.processDefinitionId);
             });
