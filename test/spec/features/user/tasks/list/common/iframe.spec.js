@@ -20,16 +20,15 @@ describe('iframe', function() {
 
   var userId = 123;
   var task =  {id:1, name:'task1', selected:true} ;
-  var Case =  {id:77, name:'task1', selected:true} ;
+  var Case =  {id:77, selected:true} ;
   var process = {
     version: '1.1.1',
     name: 'processName'
   };
-  var specialCharsTask =  {id:1, name:'étape 1', selected:true} ;
-  var specialCharsCase =  {id:77, name:'Étape1 ?', selected:true} ;
+  var specialCharsTask =  {id:1, name:'étape 1/2', selected:true} ;
   var specialCharsProcess = {
     version: 'deuxième Version',
-    name: 'processus accentué '
+    name: 'processus / accentué '
   };
 
   beforeEach(function () {
@@ -84,23 +83,23 @@ describe('iframe', function() {
     it('in task form url', function(){
       var confirmation = false;
       var encodedTaskFormUrl = iframe.getTaskForm(specialCharsProcess, specialCharsTask, userId, confirmation);
-      expect(encodedTaskFormUrl).toBe(bonitaHost+'resource/taskInstance/processus%20accentu%C3%A9%20/deuxi%C3%A8me%20Version/%C3%A9tape%201/content/?id=1&displayConfirmation=false');
+      expect(encodedTaskFormUrl).toBe(bonitaHost+'resource/taskInstance/processus%20/%20accentu%C3%A9%20/deuxi%C3%A8me%20Version/%C3%A9tape%201/2/content/?id=1&displayConfirmation=false');
     });
 
     it('in case overview url', function(){
-      var encodedCaseOverviewUrl = iframe.getCaseOverview(specialCharsCase,specialCharsProcess);
-      expect(encodedCaseOverviewUrl).toBe(bonitaHost+'resource/processInstance/processus%20accentu%C3%A9%20/deuxi%C3%A8me%20Version/content/?id=77');
+      var encodedCaseOverviewUrl = iframe.getCaseOverview(Case,specialCharsProcess);
+      expect(encodedCaseOverviewUrl).toBe(bonitaHost+'resource/processInstance/processus%20/%20accentu%C3%A9%20/deuxi%C3%A8me%20Version/content/?id=77');
     });
   });
 
   it('should not have displayConfirmation parameter in task form url if confirmation parameter value is not false', function(){
     var confirmation = true;
     var encodedTaskFormUrl = iframe.getTaskForm(specialCharsProcess, specialCharsTask, userId, confirmation);
-    expect(encodedTaskFormUrl).toBe(bonitaHost+'resource/taskInstance/processus%20accentu%C3%A9%20/deuxi%C3%A8me%20Version/%C3%A9tape%201/content/?id=1');
+    expect(encodedTaskFormUrl).toBe(bonitaHost+'resource/taskInstance/processus%20/%20accentu%C3%A9%20/deuxi%C3%A8me%20Version/%C3%A9tape%201/2/content/?id=1');
   });
 
   it('should not have displayConfirmation parameter in task form url if confirmation parameter not given', function(){
     var encodedTaskFormUrl = iframe.getTaskForm(specialCharsProcess, specialCharsTask, userId);
-    expect(encodedTaskFormUrl).toBe(bonitaHost+'resource/taskInstance/processus%20accentu%C3%A9%20/deuxi%C3%A8me%20Version/%C3%A9tape%201/content/?id=1');
+    expect(encodedTaskFormUrl).toBe(bonitaHost+'resource/taskInstance/processus%20/%20accentu%C3%A9%20/deuxi%C3%A8me%20Version/%C3%A9tape%201/2/content/?id=1');
   });
 });

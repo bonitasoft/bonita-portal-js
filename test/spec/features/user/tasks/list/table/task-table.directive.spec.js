@@ -18,83 +18,7 @@ describe('module org.bonitasoft.features.user.tasks.list.table', function() {
   beforeEach(module('ui.bootstrap.tpls'));
   beforeEach(module('org.bonitasoft.templates'));
 
-  describe('User TaskList Controller', function() {
-    var scope;
-    var TASK_FILTERS;
-    var $httpBackend;
-    var createController ;
 
-    beforeEach(inject(function($injector){
-      var $rootScope = $injector.get('$rootScope');
-      var $controller = $injector.get('$controller');
-      $httpBackend = $injector.get('$httpBackend');
-
-      TASK_FILTERS = $injector.get('TASK_FILTERS');
-
-      scope = $rootScope.$new();
-      scope.request = {};
-      scope.updateTasks = function() {};
-      scope.refreshCount = function() {};
-
-      createController = function() {
-        return  $controller('TaskUserListCtrl', {
-          $scope:scope
-        });
-      };
-    }));
-
-    describe('canDoGroupAction', function(){
-      beforeEach(function(){
-        createController();
-      });
-
-      it('should return false if when taskfilter is DONE', function(){
-        scope.request.taskFilter = TASK_FILTERS.DONE;
-        expect(scope.canDoGroupAction()).toBe(false);
-      });
-
-      it('should return true if when taskfilter is different of DONE', function(){
-        scope.request.taskFilter = TASK_FILTERS.TODO;
-        expect(scope.canDoGroupAction()).toBe(true);
-      });
-    });
-
-    describe('canTake', function(){
-      beforeEach(function(){
-        createController();
-      });
-
-      it('should return true if one of selected tasks is un_assigned', function(){
-        scope.user = mockUser;
-        scope.request.taskFilter = TASK_FILTERS.TODO;
-        expect(scope.canTake(mockTasks)).toBe(true);
-      });
-
-      it('should return false if none of selected tasks is un_assigned', function(){
-        scope.user = mockUser;
-        scope.request.taskFilter = TASK_FILTERS.TODO;
-        expect(scope.canTake(mockTasks.slice(0,2))).toBe(false);
-      });
-    });
-
-    describe('canRelease', function(){
-      beforeEach(function(){
-        createController();
-      });
-
-      it('should return true if one of selected tasks is assigned', function(){
-        scope.user = mockUser;
-        scope.request.taskFilter = TASK_FILTERS.TODO;
-        expect(scope.canRelease(mockTasks)).toBe(true);
-      });
-
-      it('should return false if none of selected tasks is assigned', function(){
-        scope.user = mockUser;
-        scope.request.taskFilter = TASK_FILTERS.TODO;
-        expect(scope.canRelease( mockTasks.slice(-2))).toBe(false);
-      });
-    });
-  });
 
   describe('task-list directive', function() {
     var element;
@@ -152,7 +76,7 @@ describe('module org.bonitasoft.features.user.tasks.list.table', function() {
       scope.viewTaskHandler = function(){};
 
       var markup =
-        '<task-list tasks="tasks"'+
+        '<task-table tasks="tasks"'+
         '           current-task="currentTask"'+
         '           request="request"'+
         '           user="user"'+
@@ -163,7 +87,7 @@ describe('module org.bonitasoft.features.user.tasks.list.table', function() {
         '           select-task="selectTaskHandler(task)"'+
         '           do-task="doTaskHandler(task)"'+
         '           view-task="viewTaskHandler(task)">'+
-        '</task-list>';
+        '</task-table>';
       element = $compile(markup)(scope);
       scope.$digest();
     }));
