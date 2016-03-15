@@ -61,6 +61,8 @@ iframe {
 
 }
 
+@form-overlay-transition: opacity .3s linear;
+
 .Viewer-overlay {
   background-color: rgba(255, 255, 255, .5);
 
@@ -69,6 +71,49 @@ iframe {
   left: 0;
   right: 0;
   bottom: 0;
+
+  opacity: 0;
+  transition: @form-overlay-transition;
+}
+
+.TaskForm {
+  position: relative;
+
+  &:hover {
+    .Viewer-overlay, .FormOverlay-message {
+      opacity: 1;
+      visibility: visible;
+    }
+  }
+}
+
+.FormOverlay-message {
+  position: absolute;
+  z-index: 999;
+
+  opacity: 0;
+  visibility: hidden;
+  transition: @form-overlay-transition;
+
+  background-color: rgba(0, 0, 0, .7);
+  color: #fff;
+  padding: 1em;
+  line-height: 2em;
+
+  .FormOverlay-text {
+    display: inline;
+    margin: 0 .5em 0 0
+  }
+
+  .FormOverlay-button {
+    display: inline
+  }
+}
+
+// Fixes delay when FormOverlay-message and Viewer-overlay are removed from DOM
+// delay is introduced by ngAnimate. To be removed when ngAnimate has been removed from project
+.FormOverlay-message.ng-leave, .Viewer-overlay.ng-leave {
+  transition: none;
 }
 
 .CaseViewer {
