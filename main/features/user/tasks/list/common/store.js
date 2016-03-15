@@ -168,30 +168,6 @@
         };
 
         /**
-         * retrieve Comment from a given caseId
-         * @param  {int} caseId the case id
-         * @return {object}        a promise of a case
-         * @throws {Error} If caseId is not provided
-         */
-        this.getComment = function(caseId) {
-          /* jshint camelcase: false */
-          if (!caseId) {
-            throw new Error('Missing parameter when requesting getComment caseId');
-          }
-
-          var promise = commentAPI.search({
-            f: ['processInstanceId=' + caseId],
-            c: 100,
-            p: 0,
-            d: 'user_id'
-          }).$promise;
-
-          return promise.then(function(response) {
-            return response.resource;
-          });
-        };
-
-        /**
          * retrieve archived flowNode from a given caseId
          * @param  {int} caseId the case id
          * @return {object}        a promise of a case

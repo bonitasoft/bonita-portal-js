@@ -23,12 +23,13 @@ describe('module tasks.details', () => {
   beforeEach(module('org.bonitasoft.portalTemplates'));
   beforeEach(module('ui.bootstrap.tpls'));
 
-  beforeEach(inject(function($injector){
+  beforeEach(inject(function($injector, $state){
     store = $injector.get('taskListStore');
     spyOn(store, 'user').and.returnValue(mockUser);
 
     $httpBackend = $injector.get('$httpBackend');
     $httpBackend.whenGET(/portalTemplates\/user\/tasks\/list\/.*\.html/gi).respond('');
+    spyOn($state, 'transitionTo');
   }));
 
   describe('TaskDetailsHelper', function(){
