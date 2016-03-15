@@ -1,23 +1,22 @@
 [
   {
-    "content": "This is a system task, we don't want to see it in task list comments",
-    "tenantId": "1",
-    "id": "1",
-    "processInstanceId": "13",
-    "postDate": "2014-10-06 11:29:17.793",
+    "content": "The task \"Étape1\" is now assigned to walter.bates",
+    "id": "101",
+    "processInstanceId": "3",
+    "postDate": "2016-03-09 17:09:44.776",
     "userId": {
       "icon": "/default/icon_user.png",
       "userName": "System"
-    }
+    },
+    "archivedDate": "2016-03-10 16:26:26.404"
   },
   {
-    "content": "This is a human comment",
-    "tenantId": "1",
-    "id": "2",
-    "processInstanceId": "1",
-    "postDate": "2016-03-09 16:33:05.301",
+    "content": "This is an archived human comment",
+    "id": "102",
+    "processInstanceId": "3",
+    "postDate": "2016-03-08 16:26:12.546",
     "userId": {
-      "last_connection": "2016-03-10 09:05:39.121",
+      "last_connection": "2016-03-10 16:25:29.665",
       "created_by_user_id": "-1",
       "creation_date": "2016-02-23 09:51:19.395",
       "id": "4",
@@ -31,22 +30,22 @@
       "firstname": "Walter",
       "password": "",
       "last_update_date": "2016-02-23 09:51:19.395"
-    }
+    },
+    "archivedDate": "2016-03-10 16:26:26.404"
   },
   {
-    "content": "This is another human comment",
-    "tenantId": "1",
-    "id": "3",
-    "processInstanceId": "1",
-    "postDate": "2016-03-10 12:22:56.028",
+    "content": "This is another archived human comment",
+    "id": "103",
+    "processInstanceId": "3",
+    "postDate": "2016-03-12 16:26:16.760",
     "userId": {
-      "last_connection": "2016-03-10 09:05:39.121",
+      "last_connection": "2016-03-10 16:25:29.665",
       "created_by_user_id": "-1",
       "creation_date": "2016-02-23 09:51:19.395",
-      "id": "5",
+      "id": "4",
       "icon": "/default/icon_user.png",
       "enabled": "true",
-      "title": "Mme",
+      "title": "Mr",
       "manager_id": "3",
       "job_title": "Human resources benefits",
       "userName": "hellen.kelly",
@@ -54,6 +53,7 @@
       "firstname": "Hellen",
       "password": "",
       "last_update_date": "2016-02-23 09:51:19.395"
-    }
+    },
+    "archivedDate": "2016-03-10 16:26:26.404"
   }
 ]

@@ -59,7 +59,7 @@
       false, //'last_update_date'
       false, //'assigned_date'
       true, //'dueDate'
-      false, //'priority'
+      false //'priority'
     ],
     'mid': [
       false, //'id'
@@ -70,7 +70,7 @@
       false, //'last_update_date'
       false, //'assigned_date'
       true, //'dueDate'
-      true, //'priority'
+      false //'priority'
     ],
     'max': [
       true, //'id',
@@ -81,7 +81,7 @@
       true, //'last_update_date',
       false, //'assigned_date',
       true, //'dueDate',
-      true, //'priority',
+      false //'priority',
     ]
   });
 
