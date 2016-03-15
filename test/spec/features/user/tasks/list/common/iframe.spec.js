@@ -28,7 +28,7 @@ describe('iframe', function() {
   var specialCharsTask =  {id:1, name:'étape 1/2', selected:true} ;
   var specialCharsProcess = {
     version: 'deuxième Version',
-    name: 'processus / accentué'
+    name: 'processus / accentué '
   };
 
   beforeEach(function () {
