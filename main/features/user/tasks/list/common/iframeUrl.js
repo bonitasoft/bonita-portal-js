@@ -89,7 +89,7 @@
         };
 
         function encodeURIComponentForPathSegment(stringToEncode) {
-          return encodeURIComponent(stringToEncode).replace(new RegExp('%2F', 'g'),'/')
+          return encodeURIComponent(stringToEncode).replace(new RegExp('%2F', 'g'),'/');
         }
 
         function getParamQueryString(prefix, param) {
