@@ -110,6 +110,12 @@ iframe {
   }
 }
 
+// Fixes delay when FormOverlay-message and Viewer-overlay are removed from DOM
+// delay is introduced by ngAnimate. To be removed when ngAnimate has been removed from project
+.FormOverlay-message.ng-leave, .Viewer-overlay.ng-leave {
+  transition: none;
+}
+
 .CaseViewer {
   overflow: auto;
   padding: 0;
