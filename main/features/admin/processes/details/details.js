@@ -43,23 +43,33 @@
     'org.bonitasoft.service.process.resolution',
     'org.bonitasoft.common.filters.stringTemplater'
   ])
-    .value('menuContent', [{
-      name: 'General',
-      resolutionLabel: 'general',
-      state: informationStateName
-    }, {
-      name: 'Actors',
-      resolutionLabel: 'actor',
-      state: actorsMappingStateName
-    }, {
-      name: 'Parameters',
-      resolutionLabel: 'parameter',
-      state: paramsStateName
-    }, {
-      name: 'Connectors',
-      resolutionLabel: 'connector',
-      state: processConnectorsStateName
-    }]).service('ProcessMoreDetailsResolveService', function (store, processConnectorAPI, parameterAPI, categoryAPI, processAPI, actorAPI, processResolutionProblemAPI, ProcessProblemResolutionService) {
+    .value('menuContent', [])
+    .config(function ($provide) {
+      $provide.decorator('menuContent', function ($delegate, gettext) {
+        $delegate.push({
+          name: gettext('General'),
+          resolutionLabel: 'general',
+          state: informationStateName
+        });
+        $delegate.push({
+          name: gettext('Actors'),
+          resolutionLabel: 'actor',
+          state: actorsMappingStateName
+        });
+        $delegate.push({
+          name: gettext('Parameters'),
+          resolutionLabel: 'parameter',
+          state: paramsStateName
+        });
+        $delegate.push({
+          name: gettext('Connectors'),
+          resolutionLabel: 'connector',
+          state: processConnectorsStateName
+        });
+        return $delegate;
+      });
+    })
+    .service('ProcessMoreDetailsResolveService', function (store, processConnectorAPI, parameterAPI, categoryAPI, processAPI, actorAPI, processResolutionProblemAPI, ProcessProblemResolutionService) {
       var processMoreDetailsResolveService = {};
       processMoreDetailsResolveService.retrieveProcessResolutionProblem = function (processId) {
         return store.load(processResolutionProblemAPI, {
