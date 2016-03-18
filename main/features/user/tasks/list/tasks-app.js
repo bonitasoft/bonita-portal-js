@@ -14,8 +14,6 @@
     'common.screen',
     'common.iframe',
     'org.bonitasoft.common.resources',
-    'org.bonitasoft.features.user.tasks.modal.form',
-    'org.bonitasoft.features.user.tasks.modal.overview',
     'ui.bootstrap.modal',
     'ui.bootstrap.buttons',
     'ui.bootstrap.dropdown',
@@ -260,7 +258,7 @@
 
                 // open the modal
                 that.modaleInstance = $modal.open({
-                  templateUrl: 'portalTemplates/user/tasks/list/tasks-modal-form.html',
+                  templateUrl: 'portalTemplates/user/tasks/list/details/task-modal-form.html',
                   controller: 'ModalFormCtrl',
                   controllerAs: 'modal',
                   windowClass: 'FormModal',
@@ -299,7 +297,7 @@
       /* jshint camelcase:false */
       this.showCaseOverviewPopup = function(Case) {
         this.modaleInstance = $modal.open({
-          templateUrl: 'portalTemplates/user/tasks/list/tasks-modal-overview.html',
+          templateUrl: 'portalTemplates/user/tasks/list/details/task-modal-overview.html',
           controller: 'ModalOverviewCtrl',
           controllerAs: 'modal',
           windowClass: 'FormModal',

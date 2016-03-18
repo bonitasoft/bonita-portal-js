@@ -5,10 +5,7 @@
    * Bootstrapp Modal controller for modalOverview
    */
   angular
-    .module('org.bonitasoft.features.user.tasks.modal.overview', [
-      'ui.bootstrap.modal',
-      'org.bonitasoft.common.resources',
-      'org.bonitasoft.features.user.tasks.ui.iframe'])
+    .module('org.bonitasoft.features.user.tasks.details')
     .controller('ModalOverviewCtrl', [
       'Case',
       '$modalInstance',
