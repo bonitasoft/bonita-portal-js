@@ -1,9 +1,9 @@
 'use strict';
 describe('module tasks.filters', function(){
 
-  beforeEach(module('org.bonitasoft.features.user.tasks.filter'));
+  beforeEach(module('org.bonitasoft.features.user.tasks.filters'));
   beforeEach(module('org.bonitasoft.portalTemplates'));
-  
+
 
   describe('task-filter directive', function(){
     var element;
