@@ -6,7 +6,7 @@
    * This component uses bonita-iframe-viewer directive
    */
   angular
-    .module('org.bonitasoft.features.user.tasks.modal.form', ['ui.bootstrap.modal'])
+    .module('org.bonitasoft.features.user.tasks.details')
     .controller('ModalFormCtrl', [
       'url',
       'task',

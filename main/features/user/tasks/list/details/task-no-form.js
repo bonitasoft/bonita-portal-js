@@ -18,7 +18,7 @@
         // Runs during compile
         return {
           restrict: 'AE', // E = Element, A = Attribute, C = Class, M = Comment
-          templateUrl: 'portalTemplates/user/tasks/list/tasks-no-form.html',
+          templateUrl: 'portalTemplates/user/tasks/list/details/task-no-form.html',
           replace: false,
           scope: {
             currentTask: '=',
