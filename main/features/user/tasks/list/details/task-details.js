@@ -14,18 +14,7 @@
    */
 
   angular
-    .module('org.bonitasoft.features.user.tasks.details', [
-      'org.bonitasoft.features.user.tasks.app.store',
-      'org.bonitasoft.features.user.tasks.app.pref',
-      'org.bonitasoft.common.resources',
-      'common.filters',
-      'common.iframe',
-      'org.bonitasoft.features.user.tasks.ui.iframe',
-      'ui.bootstrap.tabs',
-      'ngToast',
-      'gettext',
-      'ui.router'
-    ])
+    .module('org.bonitasoft.features.user.tasks.details')
     .service('taskDetailsHelper', ['taskListStore', 'preference', 'humanTaskAPI',
       function(taskListStore, preference, humanTaskAPI) {
 
@@ -66,7 +55,7 @@
         // Runs during compile
         return {
           restrict: 'AE', // E = Element, A = Attribute, C = Class, M = Comment
-          templateUrl: 'portalTemplates/user/tasks/list/tasks-details.html',
+          templateUrl: 'portalTemplates/user/tasks/list/details/task-details.html',
           replace: false,
           scope: {
             currentTask: '=',
