@@ -22,7 +22,7 @@
   /**
    * @deprecated Use moment filter instead
    */
-    .filter('dateI18n', function (moment, gettextCatalog) {
+    .filter('dateI18n', function (moment) {
       return function translateDate(input, output) {
 
         if(!input) {
