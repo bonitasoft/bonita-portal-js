@@ -2,7 +2,7 @@
   'use strict';
 
   describe('moment config', () => {
-    var moment, locale;
+    var moment;
 
     beforeEach(() => {
       module('org.bonitasoft.common.moment', ($provide) => {
@@ -20,6 +20,6 @@
       expect(moment.locale()).toBe('de');
     });
 
-  })
+  });
 
 })();

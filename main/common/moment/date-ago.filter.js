@@ -21,7 +21,7 @@
     .module('org.bonitasoft.common.moment')
     .filter('dateAgo', dateAgoFilter);
 
-  function dateAgoFilter(moment, gettextCatalog) {
+  function dateAgoFilter(moment) {
     return function dateAgo(input) {
       var compar = new Date(+input || Date.now());
       return moment(compar).fromNow();
