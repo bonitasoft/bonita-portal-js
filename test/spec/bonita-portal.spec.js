@@ -57,11 +57,11 @@
     });
 
     it('should set proper xsrf token in http request headers if specified in cookie', function() {
-      var xsrfToken = 32136546;
+      var xsrfToken = '32136546';
       $cookie.put('X-Bonita-API-Token', xsrfToken);
 
       httpBackend.expectGET('some/uri/xsrf/protected', function (headers) {
-        return headers['X-Bonita-API-Token'] == xsrfToken;
+        return headers['X-Bonita-API-Token'] === xsrfToken;
       }).respond(201, '');
 
       http.get('some/uri/xsrf/protected');
