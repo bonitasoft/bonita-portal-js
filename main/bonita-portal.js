@@ -36,23 +36,18 @@
     this.stateResolve = {
       translations: ['i18nService', function(i18nService){
         return i18nService.translationsLoadPromise;
-      }],
-      csrfToken: ['$http',
-        function($http) {
-          return $http({
-              method: 'GET',
-              url: '../API/system/session/unusedId'
-            })
-            .success(function(data, status, headers) {
-              $http.defaults.headers.common['X-Bonita-API-Token'] = headers('X-Bonita-API-Token');
-            });
-        }
-      ]
+      }]
     };
     this.$get = function() {
       return this.stateResolve;
     };
   })
+
+  .config(function($httpProvider) {
+    // configure bonita xsrf token cookie and header names
+    $httpProvider.defaults.xsrfHeaderName = $httpProvider.defaults.xsrfCookieName = 'X-Bonita-API-Token';
+  })
+
   //parent state to use for every state in order to have the translations loaded correctly...
   .config(function($stateProvider, bonitaProvider) {
     $stateProvider.state('bonita', {
