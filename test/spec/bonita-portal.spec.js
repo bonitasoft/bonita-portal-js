@@ -17,7 +17,7 @@
 (function() {
   'use strict';
   describe('Name of the group', function() {
-    var stateProvider, http, i18nService, q, scope, bProvider, httpBackend, bonita;
+    var stateProvider, http, i18nService, q, scope, bProvider, httpBackend, bonita, $cookie;
     beforeEach(function() {
       angular.module('ui.router.dummy', ['ui.router'])
         .config(function($stateProvider) {
@@ -39,13 +39,14 @@
         $provide.value('i18nService', i18nService);
         $provide.value('http', http);
       });
-      inject(function($rootScope, _i18nService_, $http, $q, $httpBackend, _bonita_) {
+      inject(function($rootScope, _i18nService_, $http, $q, $httpBackend, _bonita_, _$cookies_) {
         httpBackend = $httpBackend;
         i18nService = _i18nService_;
         http = $http;
         q = $q;
         scope = $rootScope.$new();
         bonita = _bonita_;
+        $cookie = _$cookies_;
       });
     });
     it('should add one main state', function() {
@@ -54,6 +55,19 @@
         resolve: bProvider.stateResolve
       });
     });
+
+    it('should set proper xsrf token in http request headers if specified in cookie', function() {
+      var xsrfToken = '32136546';
+      $cookie.put('X-Bonita-API-Token', xsrfToken);
+
+      httpBackend.expectGET('some/uri/xsrf/protected', function (headers) {
+        return headers['X-Bonita-API-Token'] === xsrfToken;
+      }).respond(201, '');
+
+      http.get('some/uri/xsrf/protected');
+      httpBackend.flush();
+    });
+
     describe('bonitaProvider', function() {
       it('should wait for translations promise', function() {
         expect(bProvider.stateResolve.translations[1](i18nService)).toEqual(i18nService.translationsLoadPromise);
@@ -61,15 +75,6 @@
       it('should have a $get function that return the state Resolver', function() {
         expect(bProvider.$get()).toEqual(bProvider.stateResolve);
         expect(bonita).toEqual(bProvider.stateResolve);
-      });
-      it('should set csrf token on default http requests', function() {
-        var token = '32136546';
-        httpBackend.expectGET('../API/system/session/unusedId').respond('', {
-          'X-Bonita-API-Token': token
-        });
-        expect(bProvider.stateResolve.csrfToken[1](http)).toBeDefined();
-        httpBackend.flush();
-        expect(http.defaults.headers.common['X-Bonita-API-Token']).toEqual(token);
       });
     });
   });
