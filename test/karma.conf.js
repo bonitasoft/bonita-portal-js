@@ -63,11 +63,11 @@ module.exports = function(config) {
       'main/assets/angular-mocks/angular-mocks.js',
       // endbower
 
-      'main/templates.js',
+      'main/*.module.js',
+      'main/*.js',
       'main/!(assets)/**/*.module.js',
       'main/!(assets)/**/*.js',
       'main/!(assets)/**/*.html',
-      'main/bonita-portal.js',
 
       'test/spec/helpers/*.js',
       'test/spec/**/*.js'
