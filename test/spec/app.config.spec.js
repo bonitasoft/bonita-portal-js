@@ -70,7 +70,7 @@
 
     describe('bonitaProvider', function() {
       it('should wait for translations promise', function() {
-        expect(bProvider.stateResolve.translations[1](i18nService)).toEqual(i18nService.translationsLoadPromise);
+        expect(bProvider.stateResolve.translations(i18nService)).toEqual(i18nService.translationsLoadPromise);
       });
       it('should have a $get function that return the state Resolver', function() {
         expect(bProvider.$get()).toEqual(bProvider.stateResolve);

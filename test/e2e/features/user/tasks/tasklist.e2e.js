@@ -9,6 +9,7 @@ describe('tasklist custom page', function() {
 
     afterEach(function() {
         browser.executeScript('window.localStorage.clear();');
+        browser.manage().deleteAllCookies();
     });
 
     it('should load a list of task', function() {
@@ -190,10 +191,12 @@ describe('tasklist custom page', function() {
         expect(cb.count()).toBe(26);
     });
 
-    // function log() {
-    //   var args = [].slice.call(arguments);
-    //   browser.manage().logs().get('browser').then(function() {
-    //     console.log.apply(console, args);
-    //   });
-    // }
+    it('should be localized', function() {
+      browser.manage().addCookie('BOS_Locale', 'fr');
+      browser.get('#/user/tasks/list');
+
+      expect(element(by.css('.TaskFilters #todo-tasks')).getText()).toEqual('A faire');
+      expect(element(by.css('#form-tab')).getText()).toEqual('Formulaire');
+      expect(element(by.css('#btn-group-assigntome')).getText()).toMatch(/Prendre/i);
+    });
 });
