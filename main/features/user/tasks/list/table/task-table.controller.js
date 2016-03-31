@@ -68,12 +68,7 @@
      * @return {Boolean}
      */
     function canTake(tasks) {
-      if (!tasks) {
-        return;
-      }
-      return $scope.canDoGroupAction() &&
-        $scope.request.taskFilter !== TASK_FILTERS.MY_TASKS &&
-        tasks.some(isUnAssigned);
+      return tasks && $scope.canDoGroupAction() && tasks.some(isUnAssigned);
     }
 
     /**
@@ -81,12 +76,7 @@
      * @return {Boolean}
      */
     function canRelease(tasks) {
-      if (!tasks) {
-        return;
-      }
-      return $scope.canDoGroupAction() &&
-        $scope.request.taskFilter !== TASK_FILTERS.MY_TASKS &&
-        tasks.some(isAssigned);
+      return tasks && $scope.canDoGroupAction() && tasks.some(isAssigned);
     }
 
     /**
