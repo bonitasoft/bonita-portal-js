@@ -1,13 +1,12 @@
+import TaskList from './tasklist.page.js'
+
 (function() {
 
   'use strict';
 
   describe('comments tab', () => {
 
-    beforeEach(function(){
-      browser.get('#/user/tasks/list');
-      browser.waitForAngular();
-    });
+    beforeEach(() => TaskList.get());
 
     afterEach(function() {
       browser.executeScript('window.localStorage.clear();');

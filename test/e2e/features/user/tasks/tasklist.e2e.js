@@ -1,11 +1,8 @@
-'use strict';
+import TaskList from './tasklist.page.js'
 
 describe('tasklist custom page', function() {
 
-    beforeEach(function() {
-        browser.get('#/user/tasks/list');
-        browser.waitForAngular();
-    });
+    beforeEach(() => TaskList.get());
 
     afterEach(function() {
         browser.executeScript('window.localStorage.clear();');
@@ -193,7 +190,7 @@ describe('tasklist custom page', function() {
 
     it('should be localized', function() {
       browser.manage().addCookie('BOS_Locale', 'fr');
-      browser.get('#/user/tasks/list');
+      browser.refresh();
 
       expect(element(by.css('.TaskFilters #todo-tasks')).getText()).toEqual('A faire');
       expect(element(by.css('#form-tab')).getText()).toEqual('Formulaire');
