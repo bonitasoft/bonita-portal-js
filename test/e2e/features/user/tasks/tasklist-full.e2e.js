@@ -1,11 +1,8 @@
-'use strict';
+import TaskList from './tasklist.page.js'
 
 describe('tasklist custom page', function() {
 
-  beforeEach(function(){
-    browser.get('#/user/tasks/list');
-    browser.waitForAngular();
-  });
+  beforeEach(() => TaskList.get());
 
   afterEach(function() {
     browser.executeScript('window.localStorage.clear();');
