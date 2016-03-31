@@ -354,6 +354,11 @@
         this.showMenu = !this.showMenu;
         preference.set('showFilters', this.showMenu);
       };
+
+      this.toggleDetails = function() {
+        this.showDetails = !this.showDetails;
+        preference.set('showDetails', this.showDetails);
+      }
     }
   ])
 

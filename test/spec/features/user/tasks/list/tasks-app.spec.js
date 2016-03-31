@@ -472,6 +472,22 @@ describe('taskApp', function(){
       expect(controller.showMenu).toBeTruthy();
       expect(preference.get('showFilters')).toBeTruthy();
     });
+
+    it('should get details panel state from preferences', function() {
+      expect(controller.showDetails).toEqual(preference.get('showDetails'));
+    });
+
+    it('should toggle details panel and save state in preferences', function() {
+      controller.showDetails = true;
+
+      controller.toggleDetails();
+      expect(controller.showDetails).toBeFalsy();
+      expect(preference.get('showDetails')).toBeFalsy();
+
+      controller.toggleDetails();
+      expect(controller.showDetails).toBeTruthy();
+      expect(preference.get('showDetails')).toBeTruthy();
+    });
   });
 
   describe('taskApp directive', function(){

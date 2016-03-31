@@ -165,6 +165,18 @@ import TaskList from './tasklist.page.js';
               });
       });
 
+    it('should save display mode in local storage', function() {
+      expect(element(by.css('.TaskDetails .panel')).isDisplayed()).toBeTruthy();   // detail panel
+      expect(element(by.css('.TaskFilters')).isDisplayed()).toBeTruthy();          // filter panel
+
+      element(by.css('.TaskDetails .SizeBar-reduce')).click();
+      element(by.css('.FilterToggle')).click();
+      browser.refresh();
+
+      expect(element(by.css('.TaskDetails .panel')).isPresent()).toBeFalsy();
+      expect(element(by.css('.TaskFilters')).isDisplayed()).toBeFalsy();
+    });
+
       it('should toggle Details view menu when click expand', function() {
           var taskList = element(by.css('.TaskList')), originalWidth = 0;
 
