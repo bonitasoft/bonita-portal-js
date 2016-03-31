@@ -2,7 +2,7 @@
 
   'use strict';
 
-  describe('comments tab', function() {
+  describe('comments tab', () => {
 
     beforeEach(function(){
       browser.get('#/user/tasks/list');
