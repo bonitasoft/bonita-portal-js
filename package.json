@@ -2,6 +2,7 @@
   "name": "portaljs",
   "version": "0.0.0",
   "devDependencies": {
+    "babel-core": "6.7.4",
     "babel-preset-bonita": "1.0.1",
     "bower": "1.5.2",
     "glob": "4.0.6",
