@@ -10,10 +10,10 @@
   <div class="GroupAction clearfix" ng-show="tasks.length > 0">
     <div class="GroupAction-button pull-left" ng-show="canDoGroupAction()">
       <button id="btn-group-assigntome" class="btn btn-primary" type="button" title="{{ 'Assign to me. Only I will be able to do it' | translate }}"
-         ng-disabled="!canTake($selectedItems)" ng-click="takeTasks($selectedItems)"><i class="icon-user">&nbsp;</i><translate>Take</translate>
+         ng-disabled="!canTake($selectedItems)" ng-if="request.taskFilter !== TASK_FILTERS.MY_TASK" ng-click="takeTasks($selectedItems)"><i class="icon-user">&nbsp;</i><translate>Take</translate>
       </button>
       <button id="btn-group-unassign" class="btn btn-default"  type="button" title="{{ 'Unassign. This will make it available to team again' | translate }}"
-        ng-disabled="!canRelease($selectedItems)" ng-click="releaseTasks($selectedItems)" translate>Release
+        ng-disabled="!canRelease($selectedItems)" ng-if="request.taskFilter !== TASK_FILTERS.POOL_TASK" ng-click="releaseTasks($selectedItems)" translate>Release
       </button>
     </div>
     <div class="PaginationInfo pull-right">
