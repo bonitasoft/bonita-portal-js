@@ -9,7 +9,7 @@
   function routes($urlRouterProvider) {
     $urlRouterProvider.when('/user/tasks/list', function ($state) {
       $state.go('bonita.userTasks');
-    })
+    });
   }
 
 })();
