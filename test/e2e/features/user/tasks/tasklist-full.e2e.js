@@ -4,33 +4,31 @@ import TaskList from './tasklist.page.js';
 
   'use strict';
 
-  describe('tasklist custom page', function () {
+  describe('tasklist custom page', function() {
 
-    beforeEach(() = > TaskList.get()
-    )
-    ;
+    beforeEach(() => TaskList.get());
 
-    afterEach(function () {
+    afterEach(function() {
       browser.executeScript('window.localStorage.clear();');
     });
 
-    describe('Full list', function () {
-      beforeEach(function () {
+    describe('Full list', function(){
+      beforeEach(function(){
         element(by.css('.TaskDetails .SizeBar-reduce')).click();
       });
 
-      it('should display buttons on the selected Line', function () {
+      it('should display buttons on the selected Line', function() {
         var actions = element.all(by.css('.Line.info .Cell--with-actions button'));
 
         expect(actions.count()).toBe(2);
       });
 
-      describe('Do task', function () {
-        it('should open a popup with a form', function () {
+      describe('Do task', function(){
+        it('should open a popup with a form', function(){
           var actions = element.all(by.css('.Line.info .Cell--with-actions button'));
           actions.first().click();
 
-          browser.wait(function () {
+          browser.wait(function() {
             var popup = element(by.css('.modal'));
             return popup.isPresent();
           }, 500);
@@ -39,7 +37,7 @@ import TaskList from './tasklist.page.js';
           expect(formViewer.isPresent()).toBe(true);
         });
 
-        it('should not be displayed for done tasks', function () {
+        it('should not be displayed for done tasks', function() {
           element(by.css('.TaskFilters li a#done-tasks')).click();
 
           var actions = element.all(by.css('.Line.info .Cell--with-actions button'));
@@ -52,14 +50,14 @@ import TaskList from './tasklist.page.js';
         });
       });
 
-      describe('View task', function () {
+      describe('View task', function(){
 
-        beforeEach(function () {
+        beforeEach(function(){
           var actions = element.all(by.css('.Line.info .Cell--with-actions button'));
           actions.last().click();
         });
 
-        it('should open a popup with a case overview', function () {
+        it('should open a popup with a case overview', function(){
 
           var popup = element(by.css('.modal'));
           expect(popup.isPresent()).toBe(true);
