@@ -18,7 +18,7 @@ exports.config = {
     rootElement: 'body',
 
     onPrepare: function() {
-      require("babel-core/register")({presets: ['babel-preset-bonita']});
+      require('babel-core/register')({presets: ['babel-preset-bonita']});
 
       browser.bonitaSpEdition = function() {
             return false;
