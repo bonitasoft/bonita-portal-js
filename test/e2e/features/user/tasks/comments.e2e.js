@@ -1,4 +1,4 @@
-import TaskList from './tasklist.page.js'
+import TaskList from './tasklist.page.js';
 
 (function() {
 
