@@ -325,7 +325,7 @@
       };
 
       this.onFormSubmited = function(message) {
-        var jsonMessage = JSON.parse(message);
+        var jsonMessage = typeof message === 'string' ? JSON.parse(message) : message;
         if (jsonMessage.message === 'error') {
           if (jsonMessage.dataFromError === 'fileTooBigError' || jsonMessage.status === 413) {
             ngToast.create({
