@@ -81,12 +81,13 @@
 
 <!-- build:js({.tmp,main}) scripts/bonita-portal.js -->
 <!-- injector:js -->
+<script src="common/i18n/_.module.js"></script>
+<script src="common/moment/_.module.js"></script>
 <script src="features/user/tasks/_.module.js"></script>
 <script src="features/user/tasks/list/_.module.js"></script>
 <script src="features/user/tasks/list/comments/_.module.js"></script>
-<script src="features/user/tasks/list/common/_.module.js"></script>
-<script src="features/user/tasks/list/filters/_.module.js"></script>
 <script src="features/user/tasks/list/details/_.module.js"></script>
+<script src="features/user/tasks/list/filters/_.module.js"></script>
 <script src="features/user/tasks/list/table/_.module.js"></script>
 <script src="common/directives/bonita-href.js"></script>
 <script src="common/directives/bonitags/bonitags.js"></script>
@@ -95,7 +96,6 @@
 <script src="common/directives/resizable/resizable-columns.js"></script>
 <script src="common/directives/toggle-button/toggle-button.js"></script>
 <script src="common/directives/urlified.js"></script>
-<script src="common/factories/i18nMsg.js"></script>
 <script src="common/filters/date-parser.js"></script>
 <script src="common/filters/stringTemplater.js"></script>
 <script src="common/filters/urlify.js"></script>
@@ -106,13 +106,13 @@
 <script src="common/i18n/locale.service.js"></script>
 <script src="common/moment/date-ago.filter.js"></script>
 <script src="common/moment/datei18n.js"></script>
+<script src="common/moment/moment.config.js"></script>
 <script src="common/moment/moment.filter.js"></script>
 <script src="common/moment/moment.service.js"></script>
 <script src="common/properties.js"></script>
 <script src="common/resources/resources.js"></script>
 <script src="common/resources/store.js"></script>
 <script src="common/services/feature-manager.js"></script>
-<script src="common/services/i18n.js"></script>
 <script src="common/services/process-resolution-problem-callout.js"></script>
 <script src="common/services/token-extension.js"></script>
 <script src="common/services/topLocationFactory.js"></script>
@@ -159,26 +159,22 @@
 <script src="features/user/tasks/list/common/security.js"></script>
 <script src="features/user/tasks/list/common/store.js"></script>
 <script src="features/user/tasks/list/common/taskRequest.js"></script>
-<script src="features/user/tasks/list/filters/task-filters.directive.js"></script>
 <script src="features/user/tasks/list/details/task-details-helper.service.js"></script>
+<script src="features/user/tasks/list/details/task-details.controller.js"></script>
 <script src="features/user/tasks/list/details/task-details.directive.js"></script>
 <script src="features/user/tasks/list/details/task-modal-form.controller.js"></script>
 <script src="features/user/tasks/list/details/task-modal-overview.controller.js"></script>
 <script src="features/user/tasks/list/details/task-no-form.directive.js"></script>
+<script src="features/user/tasks/list/filters/task-filters.directive.js"></script>
 <script src="features/user/tasks/list/table/task-table.controller.js"></script>
 <script src="features/user/tasks/list/table/task-table.directive.js"></script>
 <script src="features/user/tasks/list/task-list.routes.js"></script>
+<script src="features/user/tasks/list/task-list.states.js"></script>
 <script src="features/user/tasks/list/tasks-app-config.js"></script>
 <script src="features/user/tasks/list/tasks-app.js"></script>
-<script src="features/user/tasks/list/tasks-modal-form.js"></script>
-<script src="features/user/tasks/list/tasks-modal-overview.js"></script>
-<script src="features/user/tasks/list/tasks-no-form.js"></script>
-<script src="features/user/tasks/tasks.js"></script>
-<script src="features/user/tasks/list/tasks-modal-form.js"></script>
-<script src="features/user/tasks/list/tasks-modal-overview.js"></script>
-<script src="features/user/tasks/list/tasks-no-form.js"></script>
 <script src="features/user/user.js"></script>
-<script src="bonita-portal.js"></script>
+<script src="app.module.js"></script>
+<script src="app.config.js"></script>
 <script src="templates.js"></script>
 <!-- endinjector -->
 <!-- endbuild -->
