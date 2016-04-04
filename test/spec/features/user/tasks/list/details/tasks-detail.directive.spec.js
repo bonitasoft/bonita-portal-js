@@ -110,6 +110,7 @@ describe('task-details directive', () => {
   });
 
   it('should remove children when tab is inactive', function() {
+    element.find('#case-tab > a').click();
     var contextTab = element[0].querySelectorAll('.tab-pane.active');
 
     expect(contextTab[0].children.length).toBe(1);
