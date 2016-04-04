@@ -93,20 +93,11 @@
           <td class="Cell--with-actions TaskTable-actions" ng-switch on="mode" ng-if="mode!=='mid'">
             <button class="btn btn-default" type="button"
                     ng-switch-when="max"
-                    ng-click="onDoTask(task)"
                     ng-if="request.taskFilter !== TASK_FILTERS.DONE"
-                    ng-show="task === currentTask || task.btnVisible"
-                    title="{{ 'Do this task' | translate }}">
+                    ng-show="task.btnVisible"
+                    title="{{ 'Open the task to perform it' | translate }}">
               <i class="glyphicon glyphicon-edit"></i>
-              <span class="sr-only" translate>Do this task</span>
-            </button>
-            <button class="btn btn-default" type="button"
-                    ng-click="onViewCase(task.caseId)"
-                    ng-switch-when="max"
-                    ng-show="task === currentTask || task.btnVisible"
-                    title="{{ 'View this task\'s case' | translate }}">
-              <i class="glyphicon glyphicon-eye-open"></i>
-              <span class="sr-only" translate>View task</span>
+              <span class="sr-only" translate>Open the task to perform it</span>
             </button>
             <a class="btn btn-xs btn-default" type="button"
                ng-switch-when="min"

@@ -93,8 +93,7 @@
                            refresh-tasks="app.updateTasks()"
                            refresh-count="app.updateCount()"
                            select-task="app.selectTask(task)"
-                           do-task="app.showTasksFormPopup(task)"
-                           view-case="app.showCaseOverviewPopup(Case)">
+                           do-task="app.showTaskDetailsPopup()">
                 </task-table>
             </div>
         </div>
@@ -119,8 +118,7 @@
                 <task-details current-task="app.currentTask"
                               current-case="app.currentCase"
                               refresh-count="app.updateCount()"
-                              open-form-popup="app.showTasksFormPopup(app.currentTask)"
-                              open-overview-popup="app.showCaseOverviewPopup(app.currentCase)">
+                              open-details-popup="app.showTaskDetailsPopup()">
                 </task-details>
             </div>
         </div>

@@ -27,8 +27,10 @@
         currentTask: '=',
         currentCase: '=',
         refreshCount: '&',
-        openFormPopup: '&',
-        openOverviewPopup: '&'
+        openDetailsPopup: '&'
+      },
+      link: function(scope, element, attrs) {
+        scope.showToolbar = angular.isDefined(attrs.openDetailsPopup);
       }
     };
   }

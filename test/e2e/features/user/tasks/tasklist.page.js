@@ -6,4 +6,15 @@ export default class TaskList {
     return new TaskList();
   }
 
+  collapseDetailPanel() {
+    element(by.css('.TaskDetails .SizeBar-reduce')).click();
+  }
+
+  tableLines() {
+    return element.all(by.css('.Line'));
+  }
+
+  selectDoneTasksFilter() {
+    element(by.css('.TaskFilters li a#done-tasks')).click();
+  }
 }
