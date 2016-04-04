@@ -6,7 +6,7 @@
     .module('org.bonitasoft.features.user.tasks.details')
     .service('taskDetailsHelper', taskDetailsHelperService);
 
-  function taskDetailsHelperService(taskListStore, preference, humanTaskAPI) {
+  function taskDetailsHelperService(taskListStore, preference, humanTaskAPI, ngToast, gettextCatalog) {
 
     return {
       takeReleaseTask: takeReleaseTask,
@@ -34,6 +34,14 @@
         })
         .$promise.then(function(_task) {
           task.assigned_id = _task.assigned_id;
+        })
+        .catch(function(error) {
+          if(error.status === 403 || error.status === 404) {
+            ngToast.create({
+              className:'warning',
+              content: gettextCatalog.getString('This task is not available anymore. The list is now up to date.')
+            });
+          }
         });
     }
 

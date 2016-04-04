@@ -90,8 +90,7 @@
                            user="app.user"
                            mode="app.getMode(app.showDetails, app.smallScreen)"
                            page-sizes="app.PAGE_SIZES"
-                           refresh-tasks="app.updateTasks()"
-                           refresh-count="app.updateCount()"
+                           refresh="app.refresh()"
                            select-task="app.selectTask(task)"
                            do-task="app.showTaskDetailsPopup()">
                 </task-table>
@@ -117,7 +116,7 @@
             <div class="panel-body">
                 <task-details current-task="app.currentTask"
                               current-case="app.currentCase"
-                              refresh-count="app.updateCount()"
+                              refresh="app.refresh()"
                               open-details-popup="app.showTaskDetailsPopup()">
                 </task-details>
             </div>

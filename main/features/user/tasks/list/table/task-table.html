@@ -3,7 +3,7 @@
   No matching results
 </div>
 <div bonitable
-  on-sort="refreshTasks()"
+  on-sort="refresh()"
   sort-options="request.sortOption"
   bo-repeatable
   repeatable-config="columnSettings">
@@ -29,7 +29,7 @@
         items-per-page="request.pagination.numberPerPage"
         max-size="5"
         boundary-links="false"
-        ng-change="refreshTasks()"
+        ng-change="refresh()"
         previous-text="&lsaquo;" next-text="&rsaquo;"
         rotate="false">
       </pagination>
@@ -124,7 +124,7 @@
         items-per-page="request.pagination.numberPerPage"
         max-size="5"
         boundary-links="false"
-        ng-change="refreshTasks()"
+        ng-change="refresh()"
         previous-text="&lsaquo;" next-text="&rsaquo;"
         rotate="false">
       </pagination>
