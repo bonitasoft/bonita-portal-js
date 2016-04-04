@@ -4,7 +4,7 @@
         <div class="CaseComments-CommentContent">{{ comment.content }}</div>
     </div>
     <hr ng-repeat-end/>
-    <form class="CaseComments-AddComment" ng-if="!vm.isCurrentCaseArchived()" ng-submit="vm.addComment(vm.newComment)">
+    <form class="CaseComments-AddComment" ng-if="vm.isCurrentCaseOpened()" ng-submit="vm.addComment(vm.newComment)">
         <div class="form-group">
             <label for="comment">Comment</label>
             <textarea id="comment" class="form-control" ng-model="vm.newComment"></textarea>

@@ -9,7 +9,7 @@
     var vm = this;
     vm.comments = comments;
     vm.addComment = addComment;
-    vm.isCurrentCaseArchived = isCurrentCaseArchived;
+    vm.isCurrentCaseOpened = isCurrentCaseOpened;
 
     function addComment(content) {
       commentsService
@@ -19,8 +19,8 @@
         });
     }
 
-    function isCurrentCaseArchived() {
-      return !!taskListStore.currentCase.archivedDate;
+    function isCurrentCaseOpened() {
+      return taskListStore.currentCase && !angular.isDefined(taskListStore.currentCase.archivedDate);
     }
   }
 
