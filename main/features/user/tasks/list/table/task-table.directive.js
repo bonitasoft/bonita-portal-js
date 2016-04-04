@@ -15,13 +15,12 @@
    * {Object}   user           the connected user
    * {String}   mode           the current layout mode (min / mid / max)
    * {Array}    page-sizes     an array of the page sizes (@see api.request.TaskRequest)
-   * {function} refreshTasks   handler for updating tasks list
-   * {function} refreshCounts  handler for updating task count (@see task.filters.TaskFilters )
+   * {function} refresh        handler for updating tasks
    * {function} selectTask     handler for selecting a task
    * {function} doTask         handler for displaying a popup form task (used in full list layout)
    * {function} viewTask       handler for displaying a popup context task (used in full list layout)
    */
-  function taskTableDirective($q, key, humanTaskAPI, taskListStore, preference, $location, $anchorScroll, $timeout, COLUMNS_SETTINGS, priorities) {
+  function taskTableDirective($q, key, humanTaskAPI, taskListStore, preference, $location, $anchorScroll, $timeout, COLUMNS_SETTINGS, priorities, ngToast, gettextCatalog) {
     return {
       controller: 'TaskTableCtrl',
       restrict: 'AE',
@@ -33,8 +32,7 @@
         user: '=',
         mode: '=',
         pageSizes: '=',
-        refreshTasks: '&',
-        refreshCount: '&',
+        refresh: '&',
         selectTask: '&',
         doTask: '&'
       },
@@ -59,7 +57,7 @@
          */
         $scope.pageSizeHandler = function(size) {
           $scope.request.pagination.numberPerPage = size;
-          $scope.refreshTasks();
+          $scope.refresh();
         };
 
         /**
@@ -78,14 +76,6 @@
         };
 
         /**
-         * refresh tasklist and taskcount
-         */
-        $scope.refreshAll = function() {
-          $scope.refreshCount();
-          $scope.refreshTasks();
-        };
-
-        /**
          * save column visibility state as a preference
          */
         $scope.visibilityHandler = function(field, columns) {
@@ -98,12 +88,11 @@
         /**
          * group actions (take / release)
          */
-        function assignTasks(tasks, fnFilter, assignee) {
+        function assignTasks(tasks, assignee) {
           if (!tasks) {
             return;
           }
           var promises = tasks
-            .filter(fnFilter)
             .map(function(task) {
               /* jshint camelcase: false */
               return humanTaskAPI.update({
@@ -112,12 +101,23 @@
               }).$promise;
             });
 
-          $q.all(promises).then(function() {
-            // unselect tasks
-            var fnSelectTask = ctrl.checkTask.bind(null, false);
-            $scope.tasks.forEach(fnSelectTask);
-            $scope.refreshAll();
-          });
+          $q.all(promises)
+            .then(function() {
+              $scope.tasks.forEach(function(task) {
+                return ctrl.checkTask(false, task);
+              });
+            })
+            .catch(function(error) {
+              if(error.status === 403 || error.status === 404) {
+                ngToast.create({
+                  className: 'warning',
+                  content: gettextCatalog.getString('One or more tasks are not available anymore. The list is now up to date.')
+                });
+              }
+            })
+            .finally(function() {
+              $scope.refresh();
+            });
         }
 
         /**
@@ -126,7 +126,7 @@
          */
         $scope.takeTasks = function(tasks) {
           /* jshint camelcase: false */
-          return assignTasks(tasks, ctrl.isUnAssigned, $scope.user.user_id);
+          return assignTasks(tasks.filter(ctrl.isUnAssigned), $scope.user.user_id);
         };
 
         /**
@@ -134,7 +134,7 @@
          * @return {Object} promise of updated task
          */
         $scope.releaseTasks = function(tasks) {
-          return assignTasks(tasks, ctrl.isAssigned, '');
+          return assignTasks(tasks.filter(ctrl.isAssigned), '');
         };
 
         /**

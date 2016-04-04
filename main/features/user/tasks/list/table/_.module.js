@@ -20,8 +20,7 @@
       'ui.bootstrap.pagination',
       'ui.bootstrap.dropdown',
       'keymaster',
+      'ngToast',
       'gettext'
     ]);
-
-
 })();
