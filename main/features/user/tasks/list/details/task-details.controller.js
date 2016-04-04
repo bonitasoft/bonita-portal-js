@@ -70,8 +70,8 @@
     $scope.onTakeReleaseTask = function() {
       taskDetailsHelper
         .takeReleaseTask($scope.currentTask)
-        .then(function() {
-          $scope.refreshCount();
+        .finally(function() {
+          $scope.refresh();
         });
     };
 

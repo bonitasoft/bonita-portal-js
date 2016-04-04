@@ -73,6 +73,11 @@
 
       };
 
+      this.refresh = function() {
+        this.updateTasks();
+        this.updateCount();
+      };
+
       /**
        * Search a task
        */

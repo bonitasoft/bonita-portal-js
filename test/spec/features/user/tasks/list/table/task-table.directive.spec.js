@@ -69,8 +69,7 @@ describe('module org.bonitasoft.features.user.tasks.list.table', function() {
       scope.mode = 'mid';
       scope.pageSizes= [3,10];
 
-      scope.refreshTasksHandler = function(){};
-      scope.refreshCountHandler = function(){};
+      scope.refreshHandler = function(){};
       scope.selectTaskHandler = function(){};
       scope.doTaskHandler = function(){};
       scope.viewTaskHandler = function(){};
@@ -82,8 +81,7 @@ describe('module org.bonitasoft.features.user.tasks.list.table', function() {
         '           user="user"'+
         '           mode="mode"'+
         '           page-sizes="PAGE_SIGES"'+
-        '           refresh-tasks="refreshTasksHandler()"'+
-        '           refresh-count="refreshCountHandler()"'+
+        '           refresh="refreshHandler()"'+
         '           select-task="selectTaskHandler(task)"'+
         '           do-task="doTaskHandler(task)"'+
         '           view-task="viewTaskHandler(task)">'+
@@ -133,11 +131,11 @@ describe('module org.bonitasoft.features.user.tasks.list.table', function() {
         expect(scope.request.pagination.numberPerPage).toEqual(500);
       });
 
-      it('should trigger refreshTask', function(){
-        spyOn(scope, 'refreshTasksHandler');
+      it('should trigger refresh', function(){
+        spyOn(scope, 'refreshHandler');
         var isolated = element.isolateScope();
         isolated.pageSizeHandler(500);
-        expect(scope.refreshTasksHandler).toHaveBeenCalled();
+        expect(scope.refreshHandler).toHaveBeenCalled();
       });
     });
 
@@ -162,37 +160,14 @@ describe('module org.bonitasoft.features.user.tasks.list.table', function() {
       });
     });
 
-    describe('refreshTasks', function(){
-      it('should trigger refreshTasksHandler handler', function(){
-        spyOn(scope, 'refreshTasksHandler');
+    describe('refresh', function(){
+      it('should trigger refreshHandler handler', function(){
+        spyOn(scope, 'refreshHandler');
         var isolated = element.isolateScope();
-        isolated.refreshTasks();
-        expect(scope.refreshTasksHandler).toHaveBeenCalled();
+        isolated.refresh();
+        expect(scope.refreshHandler).toHaveBeenCalled();
       });
     });
-
-    describe('refreshCount', function(){
-      it('should trigger refreshCountHandler ', function(){
-        spyOn(scope, 'refreshCountHandler');
-        var isolated = element.isolateScope();
-        isolated.takeTasks(mockTasks);
-        $httpBackend.flush();
-        expect(scope.refreshCountHandler).toHaveBeenCalled();
-      });
-    });
-
-    describe('refreshAll', function(){
-      it('should trigger refreshCount & refreshTasks', function(){
-        spyOn(scope, 'refreshCountHandler');
-        spyOn(scope, 'refreshTasksHandler');
-        var isolated = element.isolateScope();
-        isolated.takeTasks(mockTasks);
-        $httpBackend.flush();
-        expect(scope.refreshCountHandler).toHaveBeenCalled();
-        expect(scope.refreshTasksHandler).toHaveBeenCalled();
-      });
-    });
-
 
     describe('takeTasks', function(){
       var taskRegexp = /^\.\.\/API\/bpm\/humanTask/;
@@ -223,12 +198,12 @@ describe('module org.bonitasoft.features.user.tasks.list.table', function() {
         expect(unchecked).toBe(false);
       });
 
-      it('should call refreshAll', function(){
+      it('should call refresh', function(){
         var isolated = element.isolateScope();
-        spyOn(isolated, 'refreshAll');
+        spyOn(isolated, 'refresh');
         isolated.takeTasks(mockTasks);
         $httpBackend.flush();
-        expect(isolated.refreshAll).toHaveBeenCalled();
+        expect(isolated.refresh).toHaveBeenCalled();
       });
     });
 
@@ -262,12 +237,12 @@ describe('module org.bonitasoft.features.user.tasks.list.table', function() {
         expect(unchecked).toBe(false);
       });
 
-      it('should call refreshAll', function(){
+      it('should call refresh', function(){
         var isolated = element.isolateScope();
-        spyOn(isolated, 'refreshAll');
+        spyOn(isolated, 'refresh');
         isolated.releaseTasks(mockTasks);
         $httpBackend.flush();
-        expect(isolated.refreshAll).toHaveBeenCalled();
+        expect(isolated.refresh).toHaveBeenCalled();
       });
 
     });

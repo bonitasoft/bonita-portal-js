@@ -26,7 +26,7 @@
       scope: {
         currentTask: '=',
         currentCase: '=',
-        refreshCount: '&',
+        refresh: '&',
         openDetailsPopup: '&'
       },
       link: function(scope, element, attrs) {
