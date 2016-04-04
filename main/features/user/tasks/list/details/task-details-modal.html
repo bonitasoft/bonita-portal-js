@@ -1,0 +1,12 @@
+<div class="modal-body">
+    <button type="button" class="pull-right close" title="{{ 'Close' | translate }}" aria-label="{{ 'Close' | translate }}" ng-click="modal.cancel()" >
+        <span>&times;</span>
+    </button>
+    <task-details current-task="modal.currentTask"
+                  current-case="modal.currentCase"
+                  refresh-count="modal.updateCount()">
+    </task-details>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-primary" title="{{ 'Close' | translate }}" ng-click="modal.cancel()" translate>Close</button>
+</div>

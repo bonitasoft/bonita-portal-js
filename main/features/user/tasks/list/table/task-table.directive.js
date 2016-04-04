@@ -36,8 +36,7 @@
         refreshTasks: '&',
         refreshCount: '&',
         selectTask: '&',
-        doTask: '&',
-        viewCase: '&'
+        doTask: '&'
       },
       link: function($scope, $elem, attr, ctrl) {
 
@@ -70,6 +69,12 @@
           $scope.selectTask({
             task: task
           });
+
+          if ($scope.mode === 'max') {
+            $scope.doTask({
+              task: task
+            });
+          }
         };
 
         /**
@@ -140,28 +145,6 @@
           // the element you wish to scroll to.
           $location.hash(id);
           $anchorScroll();
-        };
-
-        /**
-         * call doTask handler
-         * @param  {Object} task
-         */
-        $scope.onDoTask = function(task) {
-          $scope.doTask({
-            task: task
-          });
-        };
-
-        /**
-         * call viewTask handler
-         * @param  {Object} caseId
-         */
-        $scope.onViewCase = function(caseId) {
-          taskListStore.getCaseInfo(caseId).then(function() {
-            $scope.viewCase({
-              Case: taskListStore.currentCase
-            });
-          });
         };
 
         /**

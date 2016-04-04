@@ -1,71 +1,43 @@
 import TaskList from './tasklist.page.js';
 
-(function() {
-
+(() => {
   'use strict';
 
-  describe('tasklist custom page', function() {
+  describe('tasklist in full size mode', function () {
 
-    beforeEach(() => TaskList.get());
+    var tasklist;
 
-    afterEach(function() {
+    beforeEach(() => {
+      tasklist = TaskList.get();
+      tasklist.collapseDetailPanel();
+    });
+
+    afterEach(function () {
       browser.executeScript('window.localStorage.clear();');
     });
 
-    describe('Full list', function(){
-      beforeEach(function(){
-        element(by.css('.TaskDetails .SizeBar-reduce')).click();
-      });
+    it('should display a button on hovered lines', function () {
+      var firstLine = tasklist.tableLines().get(0);
+      browser.actions().mouseMove(firstLine).perform();
 
-      it('should display buttons on the selected Line', function() {
-        var actions = element.all(by.css('.Line.info .Cell--with-actions button'));
-
-        expect(actions.count()).toBe(2);
-      });
-
-      describe('Do task', function(){
-        it('should open a popup with a form', function(){
-          var actions = element.all(by.css('.Line.info .Cell--with-actions button'));
-          actions.first().click();
-
-          browser.wait(function() {
-            var popup = element(by.css('.modal'));
-            return popup.isPresent();
-          }, 500);
-
-          var formViewer = element(by.css('.modal .FormViewer'));
-          expect(formViewer.isPresent()).toBe(true);
-        });
-
-        it('should not be displayed for done tasks', function() {
-          element(by.css('.TaskFilters li a#done-tasks')).click();
-
-          var actions = element.all(by.css('.Line.info .Cell--with-actions button'));
-
-          expect(actions.count()).toBe(1);
-          var buttonTitle = actions.first()
-            .getWebElement()
-            .getAttribute('title');
-          expect(buttonTitle).toMatch(/view/i);
-        });
-      });
-
-      describe('View task', function(){
-
-        beforeEach(function(){
-          var actions = element.all(by.css('.Line.info .Cell--with-actions button'));
-          actions.last().click();
-        });
-
-        it('should open a popup with a case overview', function(){
-
-          var popup = element(by.css('.modal'));
-          expect(popup.isPresent()).toBe(true);
-
-          var iframe = element(by.css('.CaseViewer'));
-          expect(iframe.isPresent()).toBe(true);
-        });
-      });
+      expect(firstLine.all(by.css('.Cell--with-actions button')).count()).toBe(1);
     });
+
+    it('should NOT display a button on hovered lines for done tasks', function () {
+      tasklist.selectDoneTasksFilter();
+      var firstLine = tasklist.tableLines().get(0);
+      browser.actions().mouseMove(firstLine).perform();
+
+      expect(firstLine.all(by.css('.Cell--with-actions button')).count()).toBe(0);
+    });
+
+    it('should open task details pop up when clicking on table line', function() {
+      var firstLine = tasklist.tableLines().get(0);
+
+      firstLine.click();
+
+      expect(element(by.css('.modal.TaskDetailsModal')).isPresent()).toBe(true);
+    });
+
   });
 })();
