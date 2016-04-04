@@ -27,9 +27,6 @@
         currentTask: '=',
         currentCase: '=',
         refreshCount: '&',
-        editable: '=',
-        inactive: '=',
-        hideForm: '=',
         openFormPopup: '&',
         openOverviewPopup: '&'
       }

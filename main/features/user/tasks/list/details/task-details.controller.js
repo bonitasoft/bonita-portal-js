@@ -6,9 +6,10 @@
     .module('org.bonitasoft.features.user.tasks.details')
     .controller('TaskDetailsCtrl', TaskDetailsCtrl);
 
-  function TaskDetailsCtrl($scope, iframe, taskListStore, taskDetailsHelper, processAPI, formMappingAPI) {
-    //Default inactive value to false
-    $scope.inactive = $scope.inactive || false;
+  function TaskDetailsCtrl($scope, iframe, taskListStore, taskDetailsHelper, processAPI, formMappingAPI, TASK_FILTERS) {
+    $scope.isEditable = isEditable;
+    $scope.isInactive = isInactive;
+    $scope.hideForm = hideForm;
 
     // Watch the currentCase
     $scope.$watch('currentCase', function(newCase) {
@@ -38,7 +39,7 @@
               $scope.hasForm = false;
             } else {
               $scope.hasForm = true;
-              if (!$scope.hideForm) {
+              if (!hideForm()) {
                 /*jshint camelcase: false*/
                 processAPI
                   .get({
@@ -73,6 +74,19 @@
           $scope.refreshCount();
         });
     };
+
+    function isEditable() {
+      /*jshint camelcase: false*/
+      return taskListStore.currentTask && taskListStore.currentTask.assigned_id === taskListStore.user.user_id && taskListStore.request.taskFilter !== TASK_FILTERS.DONE;
+    }
+
+    function isInactive() {
+      return taskListStore.tasks.length === 0;
+    }
+
+    function hideForm() {
+      return taskListStore.request.taskFilter === TASK_FILTERS.DONE;
+    }
   }
 
 })();

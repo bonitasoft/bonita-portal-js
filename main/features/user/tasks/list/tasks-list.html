@@ -119,9 +119,6 @@
                 <task-details current-task="app.currentTask"
                               current-case="app.currentCase"
                               refresh-count="app.updateCount()"
-                              editable="app.currentTask.assigned_id === app.user.user_id && app.request.taskFilter !== app.TASK_FILTERS.DONE"
-                              hide-form="app.request.taskFilter === app.TASK_FILTERS.DONE"
-                              inactive="app.tasks.length === 0"
                               open-form-popup="app.showTasksFormPopup(app.currentTask)"
                               open-overview-popup="app.showCaseOverviewPopup(app.currentCase)">
                 </task-details>
