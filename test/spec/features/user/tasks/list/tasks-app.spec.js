@@ -437,7 +437,7 @@ describe('taskApp', function(){
       }));
 
       it('should display a toast message', function() {
-        controller.onFormSubmited({"message":"success"});
+        controller.onFormSubmited({message:'success'});
         expect(ngToast.create).toHaveBeenCalledWith('Form submitted.<br/>The next task in the list is now selected.');
       });
 
