@@ -5,7 +5,7 @@
 
     var commentsService, $httpBackend;
 
-    var systemComment =  {
+    var systemComment = {
       'processInstanceId': '123',
       'postDate': '2016-03-08 11:36:48.048',
       'id': '40001',
@@ -29,20 +29,20 @@
     };
 
     var humanComment2 =
-       {
-        'processInstanceId': '123',
-        'tenantId': '1',
-        'postDate': '2016-03-08 15:07:04.391',
-        'id': '60002',
-        'userId': {
-          'firstname': 'Walter',
-          'lastname': 'Bates',
-          'icon': '/default/icon_user.png',
-          'userName': 'walter.bates',
-          'id': '4'
-        },
-        'content': 'This is another comment'
-      };
+    {
+      'processInstanceId': '123',
+      'tenantId': '1',
+      'postDate': '2016-03-08 15:07:04.391',
+      'id': '60002',
+      'userId': {
+        'firstname': 'Walter',
+        'lastname': 'Bates',
+        'icon': '/default/icon_user.png',
+        'userName': 'walter.bates',
+        'id': '4'
+      },
+      'content': 'This is another comment'
+    };
 
     var aComment = {'processInstanceId': '1002', 'tenantId': '1', 'postDate': '2016-03-08 16:49:45.768', 'id': '60004', 'userId': '4', 'content': 'coucou'};
 
@@ -54,10 +54,16 @@
       commentsService = _commentsService_;
     }));
 
-    it('should get human comments for a given case', function() {
+    it('should return an empty list if case is not defined', function() {
+      commentsService.getHumanCommentsForCase(undefined).then(function(data) {
+        expect(data).toEqual([]);
+      });
+    });
+
+    it('should get human comments for a given opened case', function() {
       $httpBackend.expectGET('../API/bpm/comment?c=2147483647&d=userId&f=processInstanceId%3D123&o=postDate+ASC&p=0').respond([humanComment, humanComment2, systemComment]);
 
-      commentsService.getHumanCommentsForCase(123).then(function(data) {
+      commentsService.getHumanCommentsForCase({id: 123}).then(function(data) {
         expect(data).not.toContain(systemComment);
         expect(data).toContain(humanComment);
         expect(data).toContain(humanComment2);
@@ -66,10 +72,13 @@
       $httpBackend.flush();
     });
 
-    it('should get archived human comments for a given case', function() {
+    it('should get archived human comments for a given archived case', function() {
       $httpBackend.expectGET('../API/bpm/archivedComment?c=2147483647&d=userId&f=processInstanceId%3D123&o=postDate+ASC&p=0').respond([humanComment, humanComment2, systemComment]);
 
-      commentsService.getArchivedHumanCommentsForCase(123).then(function(data) {
+      commentsService.getHumanCommentsForCase({
+        archivedDate: "2016-04-04 10:46:54.146",
+        rootCaseId: 123
+      }).then(function(data) {
         expect(data).not.toContain(systemComment);
         expect(data).toContain(humanComment);
         expect(data).toContain(humanComment2);
