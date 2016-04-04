@@ -13,7 +13,8 @@
     'org.bonitasoft.templates',
     'org.bonitasoft.portalTemplates',
     'common.security',
-    'ui.bootstrap.tpls'
+    'ui.bootstrap.tpls',
+    'as.sortable'
   ]);
 
 })();
