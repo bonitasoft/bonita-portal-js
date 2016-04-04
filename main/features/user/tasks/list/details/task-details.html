@@ -1,5 +1,5 @@
 <div class="pull-right" role="group">
-    <button ng-if="editable" class="btn btn-default"
+    <button ng-if="isEditable()" class="btn btn-default"
             id="ButtonReleaseDetailsColumn"
             ng-click="onTakeReleaseTask()"
             title="{{ 'Unassign. This will make it available to team again' | translate }}">
@@ -17,12 +17,12 @@
   <tab id="form-tab" heading="{{ 'Form' | translate }}"
        ng-click="onClickTab('form')"
        active="tab.form" >
-    <p class="alert alert-info TaskInfo" ng-if="hideForm" translate>
+    <p class="alert alert-info TaskInfo" ng-if="hideForm()" translate>
       This task is completed.
     </p>
 
-    <div class="TaskForm" ng-if="!hideForm">
-        <div class="FormOverlay-message" ng-if="!editable && !inactive">
+    <div class="TaskForm" ng-if="!hideForm()">
+        <div class="FormOverlay-message" ng-if="!isEditable() && !isInactive()">
             <p class="FormOverlay-text" translate>
                 To fill out the form, you need to take this task.
                 This means you will be the only one to do it.
@@ -32,16 +32,16 @@
         </div>
       <bonita-iframe-viewer class="FormViewer"
                             tabindex="0"
-                            ng-if="!inactive && hasForm"
-                            is-editable="editable"
+                            ng-if="!isInactive() && hasForm"
+                            is-editable="isEditable()"
                             frame-url="formUrl"
                             is-visible="tab.form">
       </bonita-iframe-viewer>
       <no-form class="FormViewer"
                ng-if="!hasForm"
                current-task="currentTask"
-               editable="editable"
-               inactive="inactive">
+               editable="isEditable()"
+               inactive="isInactive()">
       </no-form>
     </div>
   </tab>
@@ -54,7 +54,7 @@
   <tab id="case-tab" heading="{{ 'Case' | translate }}"
        active="tab.context"
        ng-click="onClickTab('context')" >
-    <div ng-if="!inactive">
+    <div ng-if="!isInactive()">
       <bonita-iframe-viewer
         class="CaseViewer"
         frame-url="overviewUrl"
