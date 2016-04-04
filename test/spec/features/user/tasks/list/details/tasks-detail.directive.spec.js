@@ -86,12 +86,9 @@ describe('task-details directive', () => {
     scope.hideFormHandler = jasmine.createSpy('hideForm');
 
     var markup =
-      '  <task-details current-task="currentTask"' +
-      '        current-case="currentCase"' +
-      '        refresh="refreshCountHandler()"' +
-      '        editable="editable"' +
-      '        hide-form="hideFormHandler()"' +
-      '        inactive="inactive">' +
+      '  <task-details ' +
+      '        current-task="currentTask"' +
+      '        current-case="currentCase">' +
       '  </task-details>';
 
 
@@ -109,13 +106,15 @@ describe('task-details directive', () => {
     expect(processAPI.get).toHaveBeenCalledWith({id: 42});
   });
 
-  it('should remove children when tab is inactive', function() {
+  it('should remove case tab content when there are no tasks in list', function() {
     element.find('#case-tab > a').click();
     var contextTab = element[0].querySelectorAll('.tab-pane.active');
 
+    store.tasks = [{id: 4}];
+    scope.$apply();
     expect(contextTab[0].children.length).toBe(1);
 
-    scope.inactive = true;
+    store.tasks = [];
     scope.$digest();
     expect(contextTab[0].children.length).toBe(0);
   });
