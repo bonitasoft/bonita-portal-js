@@ -6,7 +6,7 @@
     .module('org.bonitasoft.features.user.tasks.details')
     .controller('TaskDetailsCtrl', TaskDetailsCtrl);
 
-  function TaskDetailsCtrl($scope, iframe, taskListStore, taskDetailsHelper, processAPI, formMappingAPI, $state, $stateParams) {
+  function TaskDetailsCtrl($scope, iframe, taskListStore, taskDetailsHelper, processAPI, formMappingAPI) {
     //Default inactive value to false
     $scope.inactive = $scope.inactive || false;
 
@@ -15,12 +15,6 @@
       if (!newCase) {
         return;
       }
-
-      $stateParams.case = newCase;
-      $state.transitionTo($state.current, $stateParams, {
-        inherit: false,
-        notify: true
-      });
 
       $scope.overviewUrl = iframe.getCaseOverview(newCase, newCase.processDefinitionId);
       $scope.diagramUrl = iframe.getCaseVisu(newCase, newCase.processDefinitionId);
