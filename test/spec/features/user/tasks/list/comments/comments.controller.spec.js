@@ -18,11 +18,14 @@ describe('Comment controller', () => {
   }));
 
   it('should tell is current case is archived or not', function() {
+    taskListStore.currentCase = undefined;
+    expect(controller.isCurrentCaseOpened()).toBeFalsy();
+
     taskListStore.currentCase = {};
-    expect(controller.isCurrentCaseArchived()).toBeFalsy();
+    expect(controller.isCurrentCaseOpened()).toBeTruthy();
 
     taskListStore.currentCase = {archivedDate: '2016-04-04 10:46:54.146'};
-    expect(controller.isCurrentCaseArchived()).toBeTruthy();
+    expect(controller.isCurrentCaseOpened()).toBeFalsy();
   });
 
   it('should add a comment and reload current state', function() {
