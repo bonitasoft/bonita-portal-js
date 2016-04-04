@@ -40,22 +40,9 @@
    * and exposes user, tasklist, request, currentTask (the selected one),
    * currentCase.
    */
-  .controller('TaskAppCtrl', [
-    '$modal',
-    '$q',
-    'taskListStore',
-    'sessionAPI',
-    'screen',
-    'iframe',
-    'preference',
-    'humanTaskAPI',
-    'processAPI',
-    'ngToast',
-    'TASK_FILTERS',
-    'PAGE_SIZES',
-    '$timeout',
-    'gettextCatalog',
-    function($modal, $q, taskListStore, sessionAPI, screen, iframe, preference, humanTaskAPI, processAPI, ngToast, TASK_FILTERS, PAGE_SIZES, $timeout, gettextCatalog) {
+  .controller('TaskAppCtrl',
+    function($modal, $modalStack, $q, taskListStore, sessionAPI, screen, iframe, preference, humanTaskAPI, processAPI, ngToast, TASK_FILTERS, PAGE_SIZES, $timeout, gettextCatalog) {
+      var vm = this;
       var store = taskListStore;
       this.tasks = store.tasks;
       this.request = store.request;
@@ -215,95 +202,18 @@
         preference.set('showDetails', showDetails);
       };
 
-
-      /**
-       * show the bonita form associated to the task in a modale
-       * if the tasks is not assigned to user,
-       * silently assigned it before display the form
-       *
-       * @param  {Object} task
-       */
-      this.showTasksFormPopup = function(task) {
-        //FRO 2015/06/05 rebuild the process parent for the task for the case of a subprocess
-        //setTimeout because we have to wait the update of store.currentTask
-        $timeout(function(that, task) {
-          processAPI
-            .get({
-              id: store.currentTask.processId
-            })
-            .$promise.then(function(data) {
-              /*jshint camelcase: false */
-              var url = iframe.getTaskForm(data, task, that.user.user_id);
-
-              /* jshint camelcase:false */
-              var promise;
-
-              if (task.assigned_id !== store.user.user_id) {
-                promise = humanTaskAPI.update({
-                  id: task.id,
-                  'assigned_id': store.user.user_id
-                }).$promise;
-              } else {
-                // we assign a blank promise
-                var defered = $q.defer();
-                defered.resolve({
-                  assigned_id: store.user.user_id
-                });
-                promise = defered.promise;
-              }
-
-              promise.then(function(taskUpdated) {
-                //update the task
-                task.assigned_id = taskUpdated.assigned_id;
-
-                // open the modal
-                that.modaleInstance = $modal.open({
-                  templateUrl: 'portalTemplates/user/tasks/list/details/task-modal-form.html',
-                  controller: 'ModalFormCtrl',
-                  controllerAs: 'modal',
-                  windowClass: 'FormModal',
-                  resolve: {
-                    url: function() {
-                      return url;
-                    },
-                    task: function() {
-                      return task;
-                    },
-                    userId: function() {
-                      return store.user.user_id;
-                    },
-                    refreshHandler: function() {
-                      return function() {
-                        that.updateAll();
-                      };
-                    }
-                  }
-                });
-
-                return that.modaleInstance.result;
-              }.bind(that))
-                .then(
-                  function() {},
-                  // modal is dismiss
-                  function() {
-                    that.updateTasks();
-                    that.updateCount();
-                  }.bind(that)
-              );
-            }.bind(that));
-        }, 100, true, this, task);
-      };
-
       /* jshint camelcase:false */
-      this.showCaseOverviewPopup = function(Case) {
+      this.showTaskDetailsPopup = function() {
         this.modaleInstance = $modal.open({
-          templateUrl: 'portalTemplates/user/tasks/list/details/task-modal-overview.html',
-          controller: 'ModalOverviewCtrl',
+          templateUrl: 'portalTemplates/user/tasks/list/details/task-details-modal.html',
+          controller: 'TaskDetailsPopupCtrl',
           controllerAs: 'modal',
-          windowClass: 'FormModal',
+          windowClass: 'TaskDetailsModal',
+          backdropClass: 'TaskDetailsModal-backdrop',
+          animation: false,
           resolve: {
-            Case: function() {
-              return Case;
+            updateCount: function () {
+              return vm.updateCount;
             }
           }
         });
@@ -341,12 +251,10 @@
             this.updateCount();
           }
         } else if (jsonMessage.message === 'success'){
+          $modalStack.dismissAll();
           ngToast.create(gettextCatalog.getString('Form submitted.<br/>The next task in the list is now selected.'));
           this.updateTasks();
           this.updateCount();
-          if(this.modaleInstance) {
-            this.modaleInstance.close();
-          }
         }
       };
 
@@ -360,7 +268,7 @@
         preference.set('showDetails', this.showDetails);
       };
     }
-  ])
+  )
 
   /**
    * task-app directive (Main app directive)

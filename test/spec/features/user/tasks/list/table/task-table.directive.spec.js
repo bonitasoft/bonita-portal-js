@@ -149,15 +149,16 @@ describe('module org.bonitasoft.features.user.tasks.list.table', function() {
         isolated.onClickTask(task);
         expect(scope.selectTaskHandler).toHaveBeenCalledWith(task);
       });
-    });
 
-    describe('showForm', function(){
-      it('should trigger showForm handler', function(){
+      it('should trigger onSelectTask and doTask handlers when in max mode', function() {
         spyOn(scope, 'doTaskHandler');
+        spyOn(scope, 'selectTaskHandler');
         var isolated = element.isolateScope();
         var task = mockTasks[1];
-        isolated.onDoTask(task);
+        isolated.mode = 'max';
+        isolated.onClickTask(task);
         expect(scope.doTaskHandler).toHaveBeenCalledWith(task);
+        expect(scope.selectTaskHandler).toHaveBeenCalledWith(task);
       });
     });
 

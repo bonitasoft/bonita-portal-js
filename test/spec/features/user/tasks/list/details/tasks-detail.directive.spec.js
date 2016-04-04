@@ -33,7 +33,7 @@ describe('task-details directive', () => {
   }));
 
 
-  var element;
+  var element, compile;
   var scope;
   var iframe;
   var processAPI;
@@ -60,7 +60,7 @@ describe('task-details directive', () => {
 
   beforeEach(inject(function($compile, $rootScope, $document, $injector) {
     scope = $rootScope.$new();
-
+    compile = $compile;
     processAPI = $injector.get('processAPI');
     spyOn(processAPI, 'get').and.callFake(function() {
       var deferred = $q.defer();
@@ -124,6 +124,23 @@ describe('task-details directive', () => {
     var isolatedScope = element.isolateScope();
 
     expect(isolatedScope.formUrl).toBe(FORM_URL);
+  });
+
+  it('should set showToolbar property to false when openDetailsPopup attribute is not set', function() {
+    element = compile('<task-details></task-details>')(scope);
+    scope.$apply();
+
+    expect(element.isolateScope().showToolbar).toBeFalsy();
+  });
+
+  it('should set showToolbar property to true when openDetailsPopup attribute is set', function() {
+    scope.openDetailsPopup = function() {
+
+    };
+    element = compile('<task-details open-details-popup="openDetailsPopup"></task-details>')(scope);
+    scope.$apply();
+
+    expect(element.isolateScope().showToolbar).toBeTruthy();
   });
 
 });

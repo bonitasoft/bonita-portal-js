@@ -1,4 +1,4 @@
-<div class="pull-right" role="group">
+<div ng-if="showToolbar" class="pull-right" role="group">
     <button ng-if="!isEditable()" class="Toolbar-button"
             id="ButtonTakeDetails"
             ng-click="onTakeReleaseTask()"
@@ -13,7 +13,8 @@
         <i class="icon-unassigned"></i>
         <span class="sr-only" translate>Release</span>
     </button>
-    <button class="Toolbar-button Resize-full" ng-click="tab.form ? openFormPopup() : openOverviewPopup()"
+
+    <button class="Toolbar-button Resize-full" ng-click="openDetailsPopup()"
             title="{{ 'Open in a popup' | translate }}">
         <i class="glyphicon glyphicon-resize-full"></i>
         <span class="sr-only" translate>Open in a popup</span>
