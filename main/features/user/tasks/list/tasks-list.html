@@ -101,14 +101,14 @@
 
     <div class="TaskDetails" id="details" ng-class="{'TaskDetails--collapsed':!app.showDetails}">
         <button ng-if="!app.showDetails" class="SizeBar-expand"
-                ng-click="app.showDetails = true"
+                ng-click="app.toggleDetails()"
                 title="{{'Show panel' | translate}}">
             <span class="glyphicon glyphicon-menu-left"></span>
             <span class="sr-only" translate>Show panel</span>
         </button>
         <button class="SizeBar-reduce"
                 ng-if="app.showDetails"
-                ng-click="app.showDetails = false"
+                ng-click="app.toggleDetails()"
                 title="{{ 'Hide panel' | translate}}">
             <span class="glyphicon glyphicon-menu-right"></span>
             <span class="sr-only" translate>Hide panel</span>
