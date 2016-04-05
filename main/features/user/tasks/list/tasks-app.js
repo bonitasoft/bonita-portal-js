@@ -358,7 +358,7 @@
       this.toggleDetails = function() {
         this.showDetails = !this.showDetails;
         preference.set('showDetails', this.showDetails);
-      }
+      };
     }
   ])
 
