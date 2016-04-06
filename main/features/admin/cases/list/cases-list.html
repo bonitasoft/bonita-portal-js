@@ -34,7 +34,7 @@
                 <th bo-sorter="startDate" class="case-column" bo-sorter-title-asc="{{'sort by Start date ascending' | translate}}" bo-sorter-title-desc="{{'sort by Start date descending' | translate}}">{{'Start date' | translate}}</th>
                 <th class="case-column">{{'Started by' | translate}}</th>
                 <th class="text-right case-column">{{'Failed Flow Nodes' | translate}}</th>
-                <th class="text-right case-column">{{'Pending Flow Nodes' | translate}}</th>
+                <th class="text-right case-column">{{'Pending Flow Nodes' | translate}} <span id="pendingFlowNodePopover" class="glyphicon glyphicon-info-sign" popover-template="'cases/pengind-flownode.html'" popover-trigger="mouseenter"></span></th>
                 <th bo-sorter="index1" class="case-column" remove-column="{{!caseCtrl.displayKeys()}}" ng-hide="!caseCtrl.displayKeys()"><span id="infoPopover" class="glyphicon glyphicon-info-sign" popover="{{'To personalize the display of search keys (and columns in general), use the table settings button on the right. You can search on up to 5 search keys.' | translate}}" popover-trigger="mouseenter"></span> {{'Search Key 1' | translate}}</th>
                 <th bo-sorter="index2" visible="false" class="case-column" remove-column="{{!caseCtrl.displayKeys()}}" ng-hide="!caseCtrl.displayKeys()">{{'Search Key 2' | translate}}</th>
                 <th bo-sorter="index3" visible="false" class="case-column" remove-column="{{!caseCtrl.displayKeys()}}" ng-hide="!caseCtrl.displayKeys()">{{'Search Key 3' | translate}}</th>
@@ -164,3 +164,6 @@
     </div>
   </div>
 </div>
+<script type="text/ng-template" id="cases/pengind-flownode.html">
+<translate>Aggregates tasks in states ready, waiting,<br/>executing, completing, and initializing</translate>
+</script>
