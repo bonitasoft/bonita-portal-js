@@ -1,4 +1,5 @@
 (function() {
+
   'use strict';
 
   describe('Comment controller', () => {
@@ -48,4 +49,5 @@
   });
 
 })();
+
 
