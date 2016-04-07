@@ -1,6 +1,14 @@
 // bonitable wraps td's content in div
-.TaskTable td > div {
-  display: inline-block;
+.TaskTable {
+
+  td > div {
+    display: inline-block;
+  }
+
+  .TaskTable-displayName, .TaskTable-displayDescription, .TaskTable-processName {
+    word-wrap: break-word;
+    white-space: normal;
+  }
 }
 
 .TaskTable-line--overdue .TaskTable-dueDate::before {

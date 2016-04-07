@@ -53,10 +53,10 @@
             <i class="icon-user" title="{{ 'Available or My tasks' | translate }}"></i>
           </th><!-- assigned icon -->
           <th class="text-right">{{ 'Task Id' | translate }}</th>
-          <th bo-sorter="displayName" style="width:30%; min-width:150px">{{ 'Task name' | translate }}</th>
-          <th style="width:30%; min-width:150px">{{ 'Description' | translate }}</th>
+          <th bo-sorter="displayName">{{ 'Task name' | translate }}</th>
+          <th>{{ 'Description' | translate }}</th>
           <th bo-sorter="processInstanceId" class="text-right">{{ 'Case Id' | translate }}</th>
-          <th style="width:30%; min-width:150px">{{ 'Process name' | translate }}</th>
+          <th>{{ 'Process name' | translate }}</th>
           <th bo-sorter="last_update_date" class="text-right">{{ 'Last update' | translate }}</th>
           <th class="text-right">{{ 'Assigned on' | translate }}</th>
           <th bo-sorter="dueDate" class="text-right">{{ 'Due date' | translate }}</th>
@@ -82,10 +82,10 @@
           </td>
 
           <td class="text-right TaskTable-id">{{::task.id}}</td>
-          <td class="Ellipsis TaskTable-displayName"><div title="{{::task.displayName}}">{{::task.displayName}}</div></td>
-          <td style="Ellipsis" class="TaskTable-displayDescription"><div title="{{::task.displayDescription}}">{{::task.displayDescription}}</div></td>
+          <td class="TaskTable-displayName"><div title="{{::task.displayName}}">{{::task.displayName}}</div></td>
+          <td class="TaskTable-displayDescription"><div title="{{::task.displayDescription}}">{{::task.displayDescription}}</div></td>
           <td class="text-right Cell--sortable TaskTable-caseId">{{::task.caseId}}</td>
-          <td class="Ellipsis TaskTable-processName">{{::task.rootContainerId.name}}</td>
+          <td class="TaskTable-processName">{{::task.rootContainerId.name}}</td>
           <td class="text-right TaskTable-lastUpdateDate"><div title="{{::task.last_update_date|moment:'LLL'}}">{{::task.last_update_date|moment:'MMM DD LT'}}</div></td>
           <td class="text-right TaskTable-assignedDate"><div title="{{::task.assigned_date|moment:'LLL'}}">{{::task.assigned_date|moment:'MMM DD LT'}}</div></td>
           <td class="text-right  Cell--sortable TaskTable-dueDate"><span title="{{task.dueDate|moment:'LLL'}}">{{::task.dueDate|moment:'MMM DD LT'}}</span></td>
