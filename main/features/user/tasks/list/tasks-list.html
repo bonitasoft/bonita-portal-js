@@ -114,12 +114,8 @@
             <span class="glyphicon glyphicon-menu-right"></span>
             <span class="sr-only" translate>Hide panel</span>
         </button>
-        <h3 ng-if="app.showDetails" class="TaskDetails-title" translate>{{ app.currentTask.displayName }}</h3>
         <div class="panel panel-default" ng-if="app.smallScreen || app.showDetails">
             <div class="panel-body">
-                <p ng-if="app.currentTask.description">
-                    {{ app.currentTask.description }}
-                </p>
                 <task-details current-task="app.currentTask"
                               current-case="app.currentCase"
                               refresh-count="app.updateCount()"
