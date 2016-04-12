@@ -76,7 +76,7 @@
       $httpBackend.expectGET('../API/bpm/archivedComment?c=2147483647&d=userId&f=processInstanceId%3D123&o=postDate+ASC&p=0').respond([humanComment, humanComment2, systemComment]);
 
       commentsService.getHumanCommentsForCase({
-        archivedDate: "2016-04-04 10:46:54.146",
+        archivedDate: '2016-04-04 10:46:54.146',
         rootCaseId: 123
       }).then(function(data) {
         expect(data).not.toContain(systemComment);
