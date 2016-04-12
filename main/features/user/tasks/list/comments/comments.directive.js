@@ -10,12 +10,12 @@
     return {
       scope : true,
       bindToController: {
-        case: "="
+        case: '='
       },
       templateUrl: 'portalTemplates/user/tasks/list/comments/comments.html',
       controller: 'UserTaskListCommentsCtrl',
       controllerAs: 'vm'
-    }
+    };
   }
 
 })();
