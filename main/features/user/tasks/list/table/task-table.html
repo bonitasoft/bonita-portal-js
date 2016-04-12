@@ -82,13 +82,13 @@
           </td>
 
           <td class="text-right TaskTable-id">{{::task.id}}</td>
-          <td class="TaskTable-displayName"><div title="{{::task.displayName}}">{{::task.displayName}}</div></td>
-          <td class="TaskTable-displayDescription"><div title="{{::task.displayDescription}}">{{::task.displayDescription}}</div></td>
+          <td class="TaskTable-displayName" title="{{::task.displayName}}">{{::task.displayName}}</td>
+          <td class="TaskTable-displayDescription" title="{{::task.displayDescription}}">{{::task.displayDescription}}</td>
           <td class="text-right Cell--sortable TaskTable-caseId">{{::task.caseId}}</td>
           <td class="TaskTable-processName">{{::task.rootContainerId.name}}</td>
-          <td class="text-right TaskTable-lastUpdateDate"><div title="{{::task.last_update_date|moment:'LLL'}}">{{::task.last_update_date|moment:'MMM DD LT'}}</div></td>
-          <td class="text-right TaskTable-assignedDate"><div title="{{::task.assigned_date|moment:'LLL'}}">{{::task.assigned_date|moment:'MMM DD LT'}}</div></td>
-          <td class="text-right  Cell--sortable TaskTable-dueDate"><span title="{{task.dueDate|moment:'LLL'}}">{{::task.dueDate|moment:'MMM DD LT'}}</span></td>
+          <td class="text-right TaskTable-lastUpdateDate" title="{{::task.last_update_date|moment:'LLL'}}">{{::task.last_update_date|moment:'MMM DD LT'}}</td>
+          <td class="text-right TaskTable-assignedDate" title="{{::task.assigned_date|moment:'LLL'}}">{{::task.assigned_date|moment:'MMM DD LT'}}</td>
+          <td class="text-right Cell--sortable TaskTable-dueDate" title="{{::getDueDateTitle(task)}}">{{::task.dueDate|moment:'MMM DD LT'}}</td>
           <td class="TaskTable-priority">{{::getPriority(task.priority)}}</td>
           <td class="Cell--with-actions TaskTable-actions" ng-switch on="mode" ng-if="mode!=='mid'">
             <button class="btn btn-default" type="button"
