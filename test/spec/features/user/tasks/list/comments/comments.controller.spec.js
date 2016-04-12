@@ -4,20 +4,18 @@
 
   describe('Comment controller', () => {
 
-    let taskListStore, controller, commentsService, $q, $state, $rootScope;
+    let taskListStore, controller, commentsService, $q, $rootScope;
 
     beforeEach(module('org.bonitasoft.features.user.tasks.list.comments'));
 
-    beforeEach(inject(function(_taskListStore_, $controller, _commentsService_, _$q_, _$state_, _$rootScope_) {
+    beforeEach(inject(function(_taskListStore_, $controller, _commentsService_, _$q_, _$rootScope_) {
       taskListStore = _taskListStore_;
       commentsService = _commentsService_;
       $q = _$q_;
-      $state = _$state_;
       $rootScope = _$rootScope_;
       controller = $controller('UserTaskListCommentsCtrl', {
-        comments: [],
         commentsService: commentsService,
-        $state: $state
+        $scope: $rootScope.$new()
       });
     }));
 
@@ -32,19 +30,32 @@
       expect(controller.isCurrentCaseOpened()).toBeFalsy();
     });
 
-    it('should add a comment and reload current state', function() {
+    it('should add a comment and reload comments', function() {
       taskListStore.user = {id: 4};
       taskListStore.currentCase = {id: 2};
-      $state.current = {name: 'bonita.userTasks.comment'};
       spyOn(commentsService, 'add').and.returnValue($q.when());
-      spyOn($state, 'reload');
+      spyOn(commentsService, 'getHumanCommentsForCase').and.returnValue($q.when());
 
       controller.addComment('hello this is a comment');
       $q.resolve();
       $rootScope.$apply();
 
       expect(commentsService.add).toHaveBeenCalledWith(4, 2, 'hello this is a comment');
-      expect($state.reload).toHaveBeenCalledWith('bonita.userTasks.comment');
+      expect(commentsService.getHumanCommentsForCase).toHaveBeenCalledWith({ id: 2 });
+    });
+
+    it('should update comments when case change', function() {
+      spyOn(commentsService, 'getHumanCommentsForCase').and.callFake(function(aCase) {
+        return aCase.id === 2 ? $q.when(['Comment1 for case 2', 'Comment2 for case 2']) : $q.when([]);
+      });
+
+      controller.case = {id: 4};
+      $rootScope.$apply();
+      expect(controller.comments).toEqual([]);
+
+      controller.case = {id: 2};
+      $rootScope.$apply();
+      expect(controller.comments).toEqual(['Comment1 for case 2', 'Comment2 for case 2']);
     });
   });
 
