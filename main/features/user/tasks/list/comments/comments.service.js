@@ -6,15 +6,34 @@
     .module('org.bonitasoft.features.user.tasks.list.comments')
     .service('commentsService', commentsService);
 
-  function commentsService(commentAPI, archivedCommentAPI) {
+  function commentsService($q, commentAPI, archivedCommentAPI) {
 
     return {
-      getHumanCommentsForCase: getHumanCommentsForCase.bind(null, commentAPI),
-      getArchivedHumanCommentsForCase: getHumanCommentsForCase.bind(null, archivedCommentAPI),
+      getHumanCommentsForCase: getHumanCommentsForCase,
       add: addComment
     };
 
-    function getHumanCommentsForCase(api, caseId) {
+    function getHumanCommentsForCase(aCase) {
+      if (!aCase) {
+        return $q.when([]);
+      }
+
+      var api = commentAPI;
+      var caseId = aCase.id;
+
+      if (isArchived(aCase)) {
+        api = archivedCommentAPI;
+        caseId = aCase.rootCaseId;
+      }
+
+      return getHumanComments(api, caseId);
+    }
+
+    function isArchived(aCase) {
+      return angular.isDefined(aCase.archivedDate);
+    }
+
+    function getHumanComments(api, caseId) {
       var promise = api.search({
         f: ['processInstanceId=' + caseId],
         c: 2147483647,   // java Integer.MAX_INT
