@@ -15,14 +15,14 @@
     }, function(newCase) {
       commentsService.getHumanCommentsForCase(newCase).then(function(data) {
         vm.comments = data;
-      })
+      });
     }, true);
 
     function addComment(content) {
       commentsService
         .add(taskListStore.user.id, taskListStore.currentCase.id, content)
         .then(function() {
-          return commentsService.getHumanCommentsForCase(taskListStore.currentCase)
+          return commentsService.getHumanCommentsForCase(taskListStore.currentCase);
         }).then(function(data) {
           vm.comments = data;
         });
