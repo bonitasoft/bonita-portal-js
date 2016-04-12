@@ -10,6 +10,10 @@
 			<outputDirectory></outputDirectory>
 			<includes>
 				<include>**/*.less</include>
+				<include>fonts/*.eot</include>
+				<include>fonts/*.ttf</include>
+				<include>fonts/*.woff</include>
+                <include>fonts/*.svg</include>
 			</includes>
 		</fileSet>
 	</fileSets>

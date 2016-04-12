@@ -10,10 +10,10 @@
   <div class="GroupAction clearfix" ng-show="tasks.length > 0">
     <div class="GroupAction-button pull-left" ng-show="canDoGroupAction()">
       <button id="btn-group-assigntome" class="btn btn-primary" type="button" title="{{ 'Assign to me. Only I will be able to do it' | translate }}"
-         ng-disabled="!canTake($selectedItems)" ng-if="request.taskFilter !== TASK_FILTERS.MY_TASK" ng-click="takeTasks($selectedItems)"><i class="icon-user">&nbsp;</i><translate>Take</translate>
+         ng-disabled="!canTake($selectedItems)" ng-if="request.taskFilter !== TASK_FILTERS.MY_TASK" ng-click="takeTasks($selectedItems)"><i class="icon-assigned">&nbsp;</i><translate>Take</translate>
       </button>
       <button id="btn-group-unassign" class="btn btn-default"  type="button" title="{{ 'Unassign. This will make it available to team again' | translate }}"
-        ng-disabled="!canRelease($selectedItems)" ng-if="request.taskFilter !== TASK_FILTERS.POOL_TASK" ng-click="releaseTasks($selectedItems)" translate>Release
+        ng-disabled="!canRelease($selectedItems)" ng-if="request.taskFilter !== TASK_FILTERS.POOL_TASK" ng-click="releaseTasks($selectedItems)"><i class="icon-unassigned">&nbsp;</i><translate>Release</translate>
       </button>
     </div>
     <div class="PaginationInfo pull-right">
@@ -50,7 +50,7 @@
             <div bo-selectall></div>
           </th>
           <th data-ignore class="Cell--assignee">
-            <i class="icon-user" title="{{ 'Available or My tasks' | translate }}"></i>
+            <i class="icon-assigned" title="{{ 'Available or My tasks' | translate }}"></i>
           </th><!-- assigned icon -->
           <th class="text-right">{{ 'Task Id' | translate }}</th>
           <th bo-sorter="displayName">{{ 'Task name' | translate }}</th>
@@ -78,7 +78,7 @@
           </td>
 
           <td class="TaskTable-icon">
-            <i class="icon-user" title="{{ 'Only I can do this task' | translate }}" ng-if="user.user_id===task.assigned_id"></i>
+            <i class="icon-assigned" title="{{ 'Only I can do this task' | translate }}" ng-if="user.user_id===task.assigned_id"></i>
           </td>
 
           <td class="text-right TaskTable-id">{{::task.id}}</td>
@@ -97,7 +97,7 @@
                     ng-if="request.taskFilter !== TASK_FILTERS.DONE"
                     ng-show="task === currentTask || task.btnVisible"
                     title="{{ 'Do this task' | translate }}">
-              <i class="icon-do"></i>
+              <i class="glyphicon glyphicon-edit"></i>
               <span class="sr-only" translate>Do this task</span>
             </button>
             <button class="btn btn-default" type="button"
@@ -105,7 +105,7 @@
                     ng-switch-when="max"
                     ng-show="task === currentTask || task.btnVisible"
                     title="{{ 'View this task\'s case' | translate }}">
-              <i class="icon-eye"></i>
+              <i class="glyphicon glyphicon-eye-open"></i>
               <span class="sr-only" translate>View task</span>
             </button>
             <a class="btn btn-xs btn-default" type="button"
