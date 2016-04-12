@@ -1,12 +1,19 @@
 <div class="pull-right" role="group">
-    <button ng-if="isEditable()" class="btn btn-default"
-            id="ButtonReleaseDetailsColumn"
+    <button ng-if="!isEditable()" class="Toolbar-button"
+            id="ButtonTakeDetails"
+            ng-click="onTakeReleaseTask()"
+            title="{{ 'Assign to me. Only I will be able to do it' | translate }}">
+        <i class="icon-assigned"></i>
+        <span class="sr-only" translate>Take</span>
+    </button>
+    <button ng-if="isEditable()" class="Toolbar-button"
+            id="ButtonReleaseDetails"
             ng-click="onTakeReleaseTask()"
             title="{{ 'Unassign. This will make it available to team again' | translate }}">
-        <span translate>Release</span>
+        <i class="icon-unassigned"></i>
+        <span class="sr-only" translate>Release</span>
     </button>
-
-    <button class="btn btn-primary" ng-click="tab.form ? openFormPopup() : openOverviewPopup()"
+    <button class="Toolbar-button Resize-full" ng-click="tab.form ? openFormPopup() : openOverviewPopup()"
             title="{{ 'Open in a popup' | translate }}">
         <i class="glyphicon glyphicon-resize-full"></i>
         <span class="sr-only" translate>Open in a popup</span>
@@ -28,7 +35,13 @@
                 This means you will be the only one to do it.
                 To make it available to the team again, release it.
             </p>
-            <button id="ButtonTakeDetailsColumn" class="FormOverlay-button btn btn-primary btn-sm" ng-click="onTakeReleaseTask()"><i class="icon-user">&nbsp;</i><translate>Take</translate></button>
+            <button id="ButtonTakeDetailsOverlay"
+                    class="FormOverlay-button btn btn-primary btn-sm"
+                    ng-click="onTakeReleaseTask()"
+                    title="{{ 'Assign to me. Only I will be able to do it' | translate }}">
+                <i class="icon-assigned">&nbsp;</i>
+                <translate>Take</translate>
+            </button>
         </div>
       <bonita-iframe-viewer class="FormViewer"
                             tabindex="0"
