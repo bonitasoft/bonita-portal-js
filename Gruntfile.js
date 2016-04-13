@@ -7,12 +7,12 @@
 // use this if you want to recursively match all subfolders:
 // 'test/spec/**/*.js'
 
-function redirectToBonitaSkin(url) {
+function redirectCSS(url, file) {
   return function(req, res, next) {
     if (req.url === url) {
       res.setHeader("Content-Type", "text/css");
       require('fs')
-          .createReadStream(__dirname + '/target/css/bonita-skin.css')
+          .createReadStream(file)
           .pipe(res);
       return;
     }
@@ -199,7 +199,7 @@ module.exports = function (grunt) {
 
             // Setup the proxy
               var middlewares = [
-                  redirectToBonitaSkin('/bonita/portal/themeResource?theme=portal&location=bonita-skin.css'),
+                  redirectCSS('/bonita/portal/themeResource?theme=portal&location=bonita-skin.css', __dirname + '/target/css/bonita-skin.css'),
                   require('grunt-connect-proxy/lib/utils').proxyRequest,
                   require('grunt-connect-rewrite/lib/utils').rewriteRequest];
 
@@ -236,7 +236,8 @@ module.exports = function (grunt) {
             }
             // Setup the proxy
             var middlewares = [
-                  redirectToBonitaSkin('/portal/themeResource?theme=portal&location=bonita-skin.css'),
+                  redirectCSS('/portal/themeResource?theme=portal&location=bonita-skin.css', __dirname + '/target/css/bonita-skin.css'),
+                  redirectCSS('/portal/themeResource?theme=portal&location=css/bootstrap.min.css', __dirname + '/main/assets/bootstrap/dist/css/bootstrap.min.css'),
                   require('./test/dev/server-mock.js'),
                   require('grunt-connect-proxy/lib/utils').proxyRequest,
                   require('grunt-connect-rewrite/lib/utils').rewriteRequest];
@@ -325,24 +326,6 @@ module.exports = function (grunt) {
             },
             replace: {
               js: '\'{{filePath}}\','
-            }
-          }
-        }
-      },
-      'e2e': {
-        src: ['<%= portaljs.app %>/index.html'],
-        ignorePath: '<%= portaljs.app %>/',
-
-        options: {
-          'overrides': {
-            'bootstrap': {
-              'main': [
-                "dist/css/bootstrap.css",
-                "dist/fonts/glyphicons-halflings-regular.eot",
-                "dist/fonts/glyphicons-halflings-regular.svg",
-                "dist/fonts/glyphicons-halflings-regular.ttf",
-                "dist/fonts/glyphicons-halflings-regular.woff"
-              ]
             }
           }
         }
@@ -673,7 +656,6 @@ module.exports = function (grunt) {
   grunt.registerTask('buildE2e', [
     'html2js',
     'clean:dist',
-    'wiredep:e2e',
     'makeDist',
     'clean:server',
     'concurrent:test',
