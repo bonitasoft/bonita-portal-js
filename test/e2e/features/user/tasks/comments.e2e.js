@@ -51,13 +51,11 @@ import TaskList from './tasklist.page.js';
       // filter done tasks
       element.all(by.css('.TaskFilters li a')).get(3).click();
 
-      var tab = element(by.css('li[heading=Comments] a'));
-      tab.click();
-
       // select task associated to an archived case
       element(by.cssContainingText('.TaskTable tbody tr td', 'TaskFromArchivedCase')).click();
 
-      //browser.pause();
+      var tab = element(by.css('li[heading=Comments] a'));
+      tab.click();
 
       var comments = element.all(by.css('.CaseComments-Comment'));
       expect(comments.count()).toBe(2);
