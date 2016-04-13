@@ -9,9 +9,7 @@
   function taskDetailsHelperService(taskListStore, preference, humanTaskAPI, ngToast, gettextCatalog) {
 
     return {
-      takeReleaseTask: takeReleaseTask,
-      initTab: initTab,
-      saveSelectedTab: saveSelectedTab
+      takeReleaseTask: takeReleaseTask
     };
 
     /**
@@ -43,14 +41,6 @@
             });
           }
         });
-    }
-
-    function initTab(scope) {
-      scope.tab[(preference.get('lastTab') || 'context')] = true;
-    }
-
-    function saveSelectedTab(tab) {
-      preference.set('lastTab', tab);
     }
   }
 

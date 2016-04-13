@@ -23,7 +23,6 @@
 
 <tabset>
   <tab id="form-tab" heading="{{ 'Form' | translate }}"
-       ng-click="onClickTab('form')"
        active="tab.form"
        title="{{ 'Task form' | translate }}" >
     <p class="alert alert-info TaskInfo" ng-if="hideForm()" translate>
@@ -64,17 +63,18 @@
 
   <tab id="comments-tab"
        heading="{{ 'Comments' | translate }}"
-       title="{{ 'Case comments' | translate }}" >
+       title="{{ 'Case comments' | translate }}"
+       active="tab.comments">
       <p class="CommentSection-header" translate>
           Comments on the case
       </p>
       <comments case="currentCase"></comments>
   </tab>
 
-  <tab id="case-tab" heading="{{ 'Overview' | translate }}"
-       active="tab.context"
-       ng-click="onClickTab('context')"
-       title="{{ 'Case overview' | translate }}" >
+  <tab id="case-tab"
+       heading="{{ 'Overview' | translate }}"
+       title="{{ 'Case overview' | translate }}"
+       active="tab.context">
     <div ng-if="!isInactive()">
       <bonita-iframe-viewer
         class="CaseViewer"
