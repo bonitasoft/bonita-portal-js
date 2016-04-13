@@ -10,6 +10,7 @@
 function redirectToBonitaSkin(url) {
   return function(req, res, next) {
     if (req.url === url) {
+      res.setHeader("Content-Type", "text/css");
       require('fs')
           .createReadStream(__dirname + '/target/css/bonita-skin.css')
           .pipe(res);
