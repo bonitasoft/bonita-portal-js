@@ -11,6 +11,12 @@
     $scope.isInactive = isInactive;
     $scope.hideForm = hideForm;
 
+    $scope.tab = {
+      form: true,
+      comments: false,
+      context: false
+    };
+
     // Watch the currentCase
     $scope.$watch('currentCase', function(newCase) {
       if (!newCase) {
@@ -53,15 +59,8 @@
             }
           });
       }
+      $scope.tab.form = true;
     });
-
-    /**
-     * onSelectTab button handler
-     * @return {[type]} [description]
-     */
-    $scope.onClickTab = function(tab) {
-      taskDetailsHelper.saveSelectedTab(tab);
-    };
 
     /**
      * onTaskTask button handler

@@ -143,4 +143,17 @@ describe('task-details directive', () => {
     expect(element.isolateScope().showToolbar).toBeTruthy();
   });
 
+  it('should display task form when changing current task', function() {
+    var isolatedScope = element.isolateScope();
+    element.find('#comments-tab a').click();
+
+    scope.currentTask = {};
+    scope.$apply();
+
+    expect(isolatedScope.tab).toEqual({
+      form: true,
+      comments: false,
+      context: false
+    });
+  });
 });

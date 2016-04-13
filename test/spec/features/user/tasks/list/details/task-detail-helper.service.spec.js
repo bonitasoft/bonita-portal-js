@@ -21,22 +21,6 @@ describe('TaskDetailsHelper service', () => {
     service = $injector.get('taskDetailsHelper');
   }));
 
-  it('should retrieve lastUsed tab', function() {
-    var scope = {
-      tab: {
-        context: false,
-        form: false
-      }
-    };
-    service.initTab(scope);
-    expect(scope.tab.form).toEqual(true);
-  });
-
-  it('saveSelectedTab', function() {
-    service.saveSelectedTab('toto');
-    expect(preference.set).toHaveBeenCalledWith('lastTab', 'toto');
-  });
-
   it('should take a task', function() {
     $httpBackend.whenPUT(/^\.\.\/API\/bpm\/humanTask/).respond({assigned_id: 123});
     $httpBackend.expectPUT(/^\.\.\/API\/bpm\/humanTask/);
