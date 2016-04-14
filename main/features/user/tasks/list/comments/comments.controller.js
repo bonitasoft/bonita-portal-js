@@ -5,10 +5,11 @@
     .module('org.bonitasoft.features.user.tasks.list.comments')
     .controller('UserTaskListCommentsCtrl', UserTaskListCommentsCtrl);
 
-  function UserTaskListCommentsCtrl(commentsService, taskListStore, $scope) {
+  function UserTaskListCommentsCtrl(commentsService, taskListStore, ngToast, gettextCatalog, $scope) {
     var vm = this;
     vm.addComment = addComment;
     vm.isCurrentCaseOpened = isCurrentCaseOpened;
+    vm.newComment = '';
 
     $scope.$watch(function() {
       return vm.case;
@@ -20,16 +21,24 @@
 
     function addComment(content) {
       commentsService
-        .add(taskListStore.user.id, taskListStore.currentCase.id, content)
+        .add(taskListStore.user.id, vm.case.id, content)
         .then(function() {
-          return commentsService.getHumanCommentsForCase(taskListStore.currentCase);
+          return commentsService.getHumanCommentsForCase(vm.case);
         }).then(function(data) {
           vm.comments = data;
+        }, function() {
+          ngToast.create({
+            className:'danger',
+            content: gettextCatalog.getString('Unable to add the comment. Refresh your task list and try again. ' +
+            'If the problem persists, contact your administrator')
+          });
+        }).finally(function() {
+          vm.newComment = '';
         });
     }
 
     function isCurrentCaseOpened() {
-      return taskListStore.currentCase && !angular.isDefined(taskListStore.currentCase.archivedDate);
+      return vm.case && !angular.isDefined(vm.case.archivedDate);
     }
   }
 

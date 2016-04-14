@@ -38,13 +38,15 @@ import TaskList from './tasklist.page.js';
       // filter done tasks
       element.all(by.css('.TaskFilters li a')).get(3).click();
 
-      var tab = element(by.css('li[heading=Comments] a'));
-      tab.click();
-
       // select task associated to an archived case
       element(by.cssContainingText('.TaskTable tbody tr td', 'TaskFromArchivedCase')).click();
 
-      expect(element(by.css('.CaseComments-AddComment')).isPresent()).toBeFalsy();
+      var tab = element(by.css('li[heading=Comments] a'));
+      tab.click();
+
+      expect(element(by.css('.CaseComments-AddComment textarea')).isEnabled()).toBeFalsy();
+      expect(element(by.css('.CaseComments-AddComment button[type=submit]')).isEnabled()).toBeFalsy();
+      expect(element(by.css('.CaseComments-AddComment .CaseComments-DisabledMsg')).getText()).toEqual('The case is archived. You cannot add comment anymore');
     });
 
     it('should should display archived human comments on a task of an archived case', function() {
@@ -63,8 +65,6 @@ import TaskList from './tasklist.page.js';
       expect(comments.get(0).element(by.css('.CaseComments-CommentContent ')).getText()).toBe('This is an archived human comment');
       expect(comments.get(1).element(by.css('.CaseComments-CommentHeader')).getText()).toBe('Hellen Kelly added a comment - Mar 12, 2016 4:26 PM');
       expect(comments.get(1).element(by.css('.CaseComments-CommentContent')).getText()).toBe('This is another archived human comment');
-      // cannot add a new comment
-      expect(element(by.css('.CaseComments-AddComment')).isPresent()).toBeFalsy();
     });
 
   });
