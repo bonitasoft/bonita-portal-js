@@ -193,6 +193,8 @@
   when('GET', /^\/API\/bpm\/humanTask\?c=50&d=rootContainerId&f=state%3Dready&f=user_id%3D1&o=displayName\+DESC&p=0/).respond(require('./user/tasks/list/humanTaskSearchDesc-mock.json'));
   when('PUT', /API\/bpm\/humanTask\/2/).respond(require('./user/tasks/list/humanTask2TakenByUser1-mock.json'));
   when('PUT', /API\/bpm\/humanTask\/19/).respond(require('./user/tasks/list/humanTask19Released-mock.json'));
+  when('GET', /^\/API\/form\/mapping\?c=\d+&f=processDefinitionId%3D8007855270751208272&f=type%3DPROCESS_OVERVIEW&(.*&)?p=\d+$/).respond(require('./user/tasks/list/form-mappings-task-2-mock.json'));
+  when('GET', /^\/API\/form\/mapping\?c=\d+&f=processDefinitionId%3D5545132423260882732&f=type%3DPROCESS_OVERVIEW&(.*&)?p=\d+$/).respond(require('./user/tasks/list/form-mappings-task-19-mock.json'));
   when('GET', /^\/API\/bpm\/archivedHumanTask\?c=50&d=rootContainerId&f=assigned_id%3D1&f=state%3Dcompleted&o=displayName\+ASC&p=0/).respond(require('./user/tasks/list/humanTasksSearchFilteredOnDoneTasks-mock.json'));
   when('GET', /^\/API\/bpm\/archivedFlowNode\?c=100&d=executedBySubstitute&d=executedBy&f=caseId%3D[1|2|4|5|6|7]&f=isTerminal%3Dtrue&p=0/).respond(require('./user/tasks/list/archivedFlowNodes-mock.json'));
   when('GET', /^\/API\/bpm\/case\/[1|2|4|5|6|7]\?d=started_by&d=processDefinitionId$/).respond(require('./user/tasks/list/case-mock.json'));

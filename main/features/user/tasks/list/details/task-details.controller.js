@@ -17,14 +17,24 @@
       context: false
     };
 
+    $scope.hasOverview = false;
+
     // Watch the currentCase
     $scope.$watch('currentCase', function(newCase) {
       if (!newCase) {
         return;
       }
-
-      $scope.overviewUrl = iframe.getCaseOverview(newCase, newCase.processDefinitionId);
-      $scope.diagramUrl = iframe.getCaseVisu(newCase, newCase.processDefinitionId);
+      //Check if the process has an overview
+      formMappingAPI.search({
+        p: 0,
+        c: 1,
+        f: ['processDefinitionId=' + $scope.currentTask.processId, 'type=PROCESS_OVERVIEW']
+      }).$promise.then(function(response) {
+          $scope.hasOverview = hasFormMapping(response);
+          if ($scope.hasOverview) {
+            $scope.overviewUrl = iframe.getCaseOverview(newCase, newCase.processDefinitionId);
+          }
+        });
     });
 
     $scope.hasForm = false;
@@ -41,21 +51,17 @@
           c: 1,
           f: ['processDefinitionId=' + $scope.currentTask.processId, 'task=' + $scope.currentTask.name, 'type=TASK']
         }).$promise.then(function(response) {
-            if (response.resource.pagination.total > 0 && response.resource[0].target === 'NONE') {
-              $scope.hasForm = false;
-            } else {
-              $scope.hasForm = true;
-              if (!hideForm()) {
-                /*jshint camelcase: false*/
-                processAPI
-                  .get({
-                    id: $scope.currentTask.processId
-                  })
-                  .$promise.then(function(data) {
-                    // Load the task informatioin for the iframe
-                    $scope.formUrl = iframe.getTaskForm(data, $scope.currentTask, taskListStore.user.user_id, false);
-                  });
-              }
+            $scope.hasForm = hasFormMapping(response);
+            if($scope.hasForm && !hideForm()) {
+              /*jshint camelcase: false*/
+              processAPI
+                .get({
+                  id: $scope.currentTask.processId
+                })
+                .$promise.then(function(data) {
+                  // Load the task informatioin for the iframe
+                  $scope.formUrl = iframe.getTaskForm(data, $scope.currentTask, taskListStore.user.user_id, false);
+                });
             }
           });
       }
@@ -73,6 +79,10 @@
           $scope.refresh();
         });
     };
+
+    function hasFormMapping(formMappingQueryResponse) {
+      return !(formMappingQueryResponse.resource.pagination.total > 0 && formMappingQueryResponse.resource[0].target === 'NONE');
+    }
 
     function isEditable() {
       /*jshint camelcase: false*/

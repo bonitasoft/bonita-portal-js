@@ -35,7 +35,22 @@ import TaskList from './tasklist.page.js';
       expect(node.isPresent()).toBeFalsy();
     });
 
-    it('should display a case overview iframe', function(){
+    it('should not display a case overview tab if there is no mapping', function(){
+      element.all(by.repeater('task in tasks')).first().click();
+
+      var overviewTab = element(by.css('#case-tab'));
+      expect(overviewTab.isPresent()).toBe(false);
+
+      var iframe = element(by.css('.CaseViewer iframe'));
+      expect(iframe.isPresent()).toBe(false);
+    });
+
+    it('should display a case overview tab', function(){
+      element.all(by.repeater('task in tasks')).last().click();
+
+      var overviewTab = element(by.css('#case-tab'));
+      expect(overviewTab.isPresent()).toBe(true);
+
       var iframe = element(by.css('.CaseViewer iframe'));
       expect(iframe.isPresent()).toBe(true);
     });
