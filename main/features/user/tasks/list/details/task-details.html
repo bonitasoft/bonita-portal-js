@@ -1,4 +1,4 @@
-<div ng-if="showToolbar" class="pull-right" role="group">
+<div ng-if="showToolbar" class="pull-right TaskDetailsPanel-toolbar" role="group">
     <button ng-if="!isEditable()" class="Toolbar-button"
             id="ButtonTakeDetails"
             ng-click="onTakeReleaseTask()"
@@ -21,7 +21,7 @@
     </button>
 </div>
 
-<tabset>
+<tabset class="TaskDetails">
   <tab id="form-tab" heading="{{ 'Form' | translate }}"
        active="tab.form"
        title="{{ 'Task form' | translate }}" >
@@ -65,9 +65,6 @@
        heading="{{ 'Comments' | translate }}"
        title="{{ 'Case comments' | translate }}"
        active="tab.comments">
-      <p class="CommentSection-header" translate>
-          Comments on the case
-      </p>
       <comments case="currentCase"></comments>
   </tab>
 
@@ -76,13 +73,12 @@
        heading="{{ 'Overview' | translate }}"
        title="{{ 'Case overview' | translate }}"
        active="tab.context">
-    <div ng-if="!isInactive()">
       <bonita-iframe-viewer
+        ng-if="!isInactive()"
         class="CaseViewer"
         frame-url="overviewUrl"
         is-editable="true"
         is-visible="tab.context">
       </bonita-iframe-viewer>
-    </div>
   </tab>
 </tabset>

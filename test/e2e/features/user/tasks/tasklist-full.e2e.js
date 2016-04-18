@@ -9,7 +9,7 @@ import TaskList from './tasklist.page.js';
 
     beforeEach(() => {
       tasklist = TaskList.get();
-      tasklist.collapseDetailPanel();
+      tasklist.detailsPanel().collapse();
     });
 
     afterEach(function () {

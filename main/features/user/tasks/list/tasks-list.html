@@ -98,7 +98,7 @@
         </div>
     </div>
 
-    <div class="TaskDetails" id="details" ng-class="{'TaskDetails--collapsed':!app.showDetails}">
+    <div class="TaskDetailsPanel" id="details" ng-class="{'TaskDetailsPanel--collapsed':!app.showDetails}">
         <button ng-if="!app.showDetails" class="SizeBar-expand"
                 ng-click="app.toggleDetails()"
                 title="{{'Show panel' | translate}}">
@@ -112,14 +112,12 @@
             <span class="glyphicon glyphicon-menu-right"></span>
             <span class="sr-only" translate>Hide panel</span>
         </button>
-        <div class="panel panel-default" ng-if="app.smallScreen || app.showDetails">
-            <div class="panel-body">
+        <div class="TaskDetailsPanel-content" ng-if="app.smallScreen || app.showDetails">
                 <task-details current-task="app.currentTask"
                               current-case="app.currentCase"
                               refresh="app.refresh()"
                               open-details-popup="app.showTaskDetailsPopup()">
                 </task-details>
-            </div>
         </div>
     </div>
 </div>

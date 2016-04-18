@@ -1,15 +1,13 @@
 .TaskDetailsModal {
 
-  //transition: all 2s fade;
-
   .modal-dialog {
     width: 95vw;
     height: 94vh;
     margin: 3vh auto;
   }
 
-  .modal-content {
-    min-height: 100%;
+  .modal-content, .modal-body {
+    height: 100%;
   }
 
   .modal-body {
@@ -42,4 +40,9 @@
   &.in {
     opacity: 1;
   }
+}
+
+.Modal-dismiss {
+  position: relative;
+  z-index: 2;
 }
