@@ -5,7 +5,7 @@
     .module('org.bonitasoft.features.user.tasks.list.table')
     .controller('TaskTableCtrl', TaskTableCtrl);
 
-  function TaskTableCtrl($scope, TASK_FILTERS, moment) {
+  function TaskTableCtrl($scope, TASK_FILTERS, moment, gettextCatalog) {
     $scope.TASK_FILTERS = TASK_FILTERS;
     $scope.canDoGroupAction = canDoGroupAction;
     $scope.colspan = colspan;
@@ -14,6 +14,7 @@
     $scope.disableProcessFilter = disableProcessFilter;
     $scope.getPaginationStatus = getPaginationStatus;
     $scope.isOverdue = isOverdue;
+    $scope.getDueDateTitle = getDueDateTitle;
 
     this.checkTask = checkTask;
     this.isAssigned = isAssigned;
@@ -100,6 +101,13 @@
 
     function isOverdue(task) {
       return task.dueDate && moment(task.dueDate).isBefore(moment());
+    }
+
+    function getDueDateTitle(task) {
+      var dueDate = moment(task.dueDate).format('LLL');
+      return isOverdue(task)
+        ? gettextCatalog.getString('This task is overdue. It was supposed to be completed by {{dueDate}}', { dueDate: dueDate })
+        : dueDate;
     }
   }
 
