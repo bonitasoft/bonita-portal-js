@@ -69,7 +69,7 @@
     "node": ">=4.2.0"
   },
   "scripts": {
-    "build:fonts": "copyfiles -f 'main/styles/fonts/*.eot' 'main/styles/fonts/*.ttf' 'main/styles/fonts/*.woff' 'main/styles/fonts/*.svg' target/css/fonts",
+    "build:fonts": "copyfiles -f 'main/styles/fonts/*.eot' 'main/styles/fonts/*.ttf' 'main/styles/fonts/*.woff' 'main/styles/fonts/*.svg' target/css/skin/fonts",
     "build:less": "mkdir -p target/css; node node_modules/less/bin/lessc main/styles/main.less > target/css/bonita-skin.css",
     "build": "npm-run-all --parallel build:* && grunt",
     "test": "grunt test",
