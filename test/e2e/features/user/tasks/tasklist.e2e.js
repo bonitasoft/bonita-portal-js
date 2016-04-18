@@ -6,7 +6,11 @@ import TaskList from './tasklist.page.js';
 
   describe('tasklist custom page', function() {
 
-      beforeEach(() => TaskList.get());
+      var tasklist;
+
+      beforeEach(() => {
+        tasklist = TaskList.get();
+      });
 
       afterEach(function() {
           browser.executeScript('window.localStorage.clear();');
@@ -166,14 +170,14 @@ import TaskList from './tasklist.page.js';
       });
 
     it('should save display mode in local storage', function() {
-      expect(element(by.css('.TaskDetails .panel')).isDisplayed()).toBeTruthy();   // detail panel
+      expect(tasklist.detailsPanel().isCollapsed()).toBeFalsy();
       expect(element(by.css('.TaskFilters')).isDisplayed()).toBeTruthy();          // filter panel
 
-      element(by.css('.TaskDetails .SizeBar-reduce')).click();
+      tasklist.detailsPanel().collapse();
       element(by.css('.FilterToggle')).click();
       browser.refresh();
 
-      expect(element(by.css('.TaskDetails .panel')).isPresent()).toBeFalsy();
+      expect(tasklist.detailsPanel().isCollapsed()).toBeTruthy();
       expect(element(by.css('.TaskFilters')).isDisplayed()).toBeFalsy();
     });
 
@@ -183,12 +187,12 @@ import TaskList from './tasklist.page.js';
           taskList.getSize()
               .then(function(size) {
                   originalWidth = size.width;
-                  element(by.css('.TaskDetails .SizeBar-reduce')).click();
+                  tasklist.detailsPanel().collapse();
                   return taskList.getSize();
               })
               .then(function(size) {
                   expect(size.width).toBeGreaterThan(originalWidth);
-                  element(by.css('.TaskDetails .SizeBar-expand')).click();
+                  tasklist.detailsPanel().expand();
                   return taskList.getSize();
               })
               .then(function(size) {
