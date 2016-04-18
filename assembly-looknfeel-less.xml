@@ -10,11 +10,17 @@
 			<outputDirectory></outputDirectory>
 			<includes>
 				<include>**/*.less</include>
-				<include>fonts/*.eot</include>
-				<include>fonts/*.ttf</include>
-				<include>fonts/*.woff</include>
-                <include>fonts/*.svg</include>
 			</includes>
 		</fileSet>
+        <fileSet>
+            <directory>${project.basedir}/main/styles/fonts</directory>
+            <outputDirectory>skin/fonts</outputDirectory>
+            <includes>
+                <include>*.eot</include>
+                <include>*.ttf</include>
+                <include>*.woff</include>
+                <include>*.svg</include>
+            </includes>
+        </fileSet>
 	</fileSets>
 </assembly>
