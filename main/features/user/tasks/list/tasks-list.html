@@ -34,7 +34,7 @@
         <div class="TaskList-filters panel panel-default">
             <div class="panel-heading title ng-binding" translate>Filters</div>
             <div class="panel-body">
-                <div class="col-md-8 button-filter ng-binding" translate>Process
+                <div class="col-md-7 button-filter ng-binding" ng-hide="app.request.taskFilter === app.TASK_FILTERS.DONE" translate>Process
                     <div class="btn-group dropdown Filter-process" dropdown="">
                         <button dropdown-toggle type="button"
                                 class="btn btn-primary"
@@ -57,7 +57,7 @@
                         </ul>
                     </div>
                 </div>
-                <div class="col-md-4" style="float:right">
+                <div ng-class="(app.request.taskFilter === app.TASK_FILTERS.DONE)?'col-md-8':'col-md-5'" style="float:right">
                     <form role="form" name="searchForm" class="SearchBox" novalidate="" ng-submit="app.searchTask()">
                         <div class="input-group">
                             <input class="form-control SearchBox-input" id="search"
