@@ -105,9 +105,7 @@
 
     function getDueDateTitle(task) {
       var dueDate = moment(task.dueDate).format('LLL');
-      return isOverdue(task)
-        ? gettextCatalog.getString('This task is overdue. It was supposed to be completed by {{dueDate}}', { dueDate: dueDate })
-        : dueDate;
+      return isOverdue(task) ? gettextCatalog.getString('This task is overdue. It was supposed to be completed by {{dueDate}}', { dueDate: dueDate }) : dueDate;
     }
   }
 
