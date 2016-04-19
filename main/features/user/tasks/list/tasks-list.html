@@ -83,9 +83,10 @@
             <div class="panel-heading title ng-binding">
                 <span>Task list</span>
                 <button class="TaskList-refresh" style="background: transparent; border: none" ng-click="app.updateAll()"
-                        ng-if="!app.loadingTasks" title="{{ 'Refresh data' | translate }}">
+                        ng-class="{ 'u-spin TaskList-loadingIcon': app.loadingTasks }" title="{{ 'Refresh data' | translate }}">
                     <i class="glyphicon glyphicon-repeat"></i>
                 </button>
+                <span ng-show="app.loadingTasks" class="TaskList-loadingText">{{ 'Loading...' | translate }}</span>
             </div>
             <div class="panel-body">
                 <task-table tasks="app.tasks"
