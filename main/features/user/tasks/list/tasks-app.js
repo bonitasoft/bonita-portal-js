@@ -82,11 +82,7 @@
        * Search a task
        */
       this.searchTask = function() {
-        this.loadingTasks = true;
-        this.updateTasks()
-          .finally(function() {
-            this.loadingTasks = false;
-          }.bind(this));
+        this.updateTasks();
       };
 
 
@@ -123,6 +119,7 @@
        * @see  store.getTasks
        */
       this.updateTasks = function() {
+        this.loadingTasks = true;
         var promise = store.getTasks()
           .then(function() {
             this.tasks = store.tasks;
@@ -144,6 +141,7 @@
             if (store.currentCase) {
               this.currentCase = store.currentCase;
             }
+            this.loadingTasks = false;
           }.bind(this));
 
         return promise;
@@ -252,14 +250,12 @@
               className: 'danger',
               content: gettextCatalog.getString('An error occurred while submitting the form.')
             });
-            this.updateTasks();
-            this.updateCount();
+            this.refresh();
           }
         } else if (jsonMessage.message === 'success'){
           $modalStack.dismissAll();
           ngToast.create(gettextCatalog.getString('Form submitted.<br/>The next task in the list is now selected.'));
-          this.updateTasks();
-          this.updateCount();
+          this.refresh();
         }
       };
 
