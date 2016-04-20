@@ -14,6 +14,7 @@
     $scope.$watch(function() {
       return vm.case;
     }, function(newCase) {
+      vm.newComment = '';
       commentsService.getHumanCommentsForCase(newCase).then(function(data) {
         vm.comments = data;
       });
