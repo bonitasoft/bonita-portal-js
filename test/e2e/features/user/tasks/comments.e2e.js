@@ -36,7 +36,7 @@ import TaskList from './tasklist.page.js';
 
     it('should not allow user to add a comment on a task of an archived case', function() {
       // filter done tasks
-      element.all(by.css('.TaskFilters li a')).get(3).click();
+      element.all(by.css('.TaskFilters li a')).get(2).click();
 
       // select task associated to an archived case
       element(by.cssContainingText('.TaskTable tbody tr td', 'TaskFromArchivedCase')).click();
@@ -51,7 +51,7 @@ import TaskList from './tasklist.page.js';
 
     it('should display archived human comments on a task of an archived case', function() {
       // filter done tasks
-      element.all(by.css('.TaskFilters li a')).get(3).click();
+      element.all(by.css('.TaskFilters li a')).get(2).click();
 
       // select task associated to an archived case
       element(by.cssContainingText('.TaskTable tbody tr td', 'TaskFromArchivedCase')).click();
