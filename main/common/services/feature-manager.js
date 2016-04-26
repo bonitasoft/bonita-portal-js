@@ -26,7 +26,8 @@
   angular.module('org.bonitasoft.service.features', [
     'org.bonitasoft.common.resources.store'
   ]).constant('FEATURES', {
-    searchIndexes : 'SEARCH_INDEX'
+    searchIndexes : 'SEARCH_INDEX',
+    monitoring : 'PROCESS_MONITORING'
   }).service('FeatureManagerResolver', function(FeatureManager, featureAPI) {
     return (function loadTranslations() {
       return featureAPI.query({p: 0,c: 0}).$promise.then(populateFeatures);
@@ -39,6 +40,10 @@
 
     FeatureManager.isSearchIndexedFeatureActivated = function () {
       return featuresList.indexOf(FEATURES.searchIndexes) > -1;
+    };
+
+    FeatureManager.isMonitoringFeatureActivated = function () {
+      return featuresList.indexOf(FEATURES.monitoring) > -1;
     };
 
     return FeatureManager;
