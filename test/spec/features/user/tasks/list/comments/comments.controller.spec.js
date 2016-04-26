@@ -61,6 +61,17 @@
       expect(controller.comments).toEqual(['Comment1 for case 2', 'Comment2 for case 2']);
     });
 
+    it('should reset comment form content when case change', function() {
+      spyOn(commentsService, 'getHumanCommentsForCase').and.callFake(function(aCase) {
+        return aCase.id === 2 ? $q.when(['Comment1 for case 2', 'Comment2 for case 2']) : $q.when([]);
+      });
+      controller.case = {id: 4};
+      controller.newComment = 'A comment';
+
+      $rootScope.$apply();
+      expect(controller.newComment).toEqual('');
+    });
+
     it('should create a toast when error occurs on comment creation', function() {
       spyOn(ngToast, 'create');
       var deferred = $q.defer();
