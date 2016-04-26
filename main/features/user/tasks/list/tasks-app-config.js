@@ -25,11 +25,6 @@
           resource: humanTaskAPI,
           filters: ['state=ready', 'assigned_id=%userId']
         },
-        POOL_TASK: {
-          title: 'Available tasks',
-          resource: humanTaskAPI,
-          filters: ['state=ready', 'assigned_id=0', 'user_id=%userId']
-        },
         DONE: {
           title: 'Done tasks',
           resource: archivedHumanTaskAPI,

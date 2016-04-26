@@ -243,7 +243,7 @@
           /*jshint camelcase: false */
           var fnCountTask = countTasks.bind(null, store.user.user_id);
 
-          var promises = ['TODO', 'MY_TASK', 'POOL_TASK'].map(fnCountTask);
+          var promises = ['TODO', 'MY_TASK'].map(fnCountTask);
 
           return $q.all(promises);
         };

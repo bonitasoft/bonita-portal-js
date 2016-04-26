@@ -87,20 +87,8 @@ import TaskList from './tasklist.page.js';
           expect(tasks.count()).toBe(2);
       });
 
-      it('should filter pool tasks', function() {
-          element.all(by.css('.TaskFilters li a')).get(2).click();
-
-          var link = element(by.css('.TaskFilters .active'))
-              .getWebElement()
-              .getText();
-          expect(link).toMatch(/available tasks/i);
-
-          var tasks = element.all(by.repeater('task in tasks'));
-          expect(tasks.count()).toBe(24);
-      });
-
       it('should filter done tasks', function() {
-          element.all(by.css('.TaskFilters li a')).get(3).click();
+          element.all(by.css('.TaskFilters li a')).get(2).click();
 
           var link = element(by.css('.TaskFilters .active'))
               .getWebElement()
