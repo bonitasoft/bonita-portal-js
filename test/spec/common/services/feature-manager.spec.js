@@ -16,7 +16,7 @@
 
 (function() {
   'use strict';
-  describe('ProcessInformationCtrl', function() {
+  describe('FeatureManager service', function() {
     var featureManager, featureManagerResolver, featureAPI, q, scope, deferred;
 
     beforeEach(module('org.bonitasoft.service.features'));
@@ -49,6 +49,20 @@
       expect(featureManager.isFeatureAvailable('Monitoring')).toBeTruthy();
       expect(featureManager.isFeatureAvailable('Process Visu')).toBeFalsy();
     });
+    describe('isMonitoringFeatureActivated', function() {
+      it('should return true if feature is present', function() {
+        var features = [{name: 'PROCESS_MONITORING'}, {name: 'Monitoring'}];
+        deferred.resolve(features);
+        scope.$apply();
+        expect(featureManager.isMonitoringFeatureActivated()).toBeTruthy();
+      });
+      it('should return false if feature is not present', function() {
+        var features = [{name: 'SEARCH_INDEX'}];
+        deferred.resolve(features);
+        scope.$apply();
+        expect(featureManager.isMonitoringFeatureActivated()).toBeFalsy();
+      });
+    });
     describe('isSearchIndexedFeatureActivated', function() {
       it('should return true if feature is present', function() {
         var features = [{name: 'SEARCH_INDEX'}, {name: 'Monitoring'}];
@@ -56,7 +70,7 @@
         scope.$apply();
         expect(featureManager.isSearchIndexedFeatureActivated()).toBeTruthy();
       });
-      it('should return false if feature is present', function() {
+      it('should return false if feature is not present', function() {
         var features = [{name: 'Monitoring'}];
         deferred.resolve(features);
         scope.$apply();
