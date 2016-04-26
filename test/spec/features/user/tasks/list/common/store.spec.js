@@ -288,6 +288,25 @@ describe('taskListStore', function() {
       //should be equal to number of mockprocesses + All option
       expect(store.processes.length).toBe(mockProcesses.length + 1);
     });
+
+    it('should select All process when no process has been selected before', function() {
+      $httpBackend.expectGET(processRegexp);
+
+      store.getProcessList();
+      $httpBackend.flush();
+
+      expect(store.request.process).toEqual({ name: 'All', id: false });
+    });
+
+    it('should keep previously selected process', function() {
+      $httpBackend.expectGET(processRegexp);
+      store.request.process = { id: 2, name: 'aProcess' };
+
+      store.getProcessList();
+      $httpBackend.flush();
+
+      expect(store.request.process).toEqual({ id: 2, name: 'aProcess' });
+    });
   });
 
 });

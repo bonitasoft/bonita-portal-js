@@ -59,7 +59,7 @@
                 name: gettextCatalog.getString('All'),
                 id: false
               }].concat(response.resource);
-              store.request.process = store.processes[0];
+              store.request.process = store.request.process || store.processes[0];
             });
 
           return promise;
