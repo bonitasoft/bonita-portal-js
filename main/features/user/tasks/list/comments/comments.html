@@ -5,7 +5,7 @@
 
     <div class="Comments-content">
         <div class="Comment" ng-repeat="comment in vm.comments">
-            <img class="Comment-icon" ng-src="../theme?location={{comment.userId.icon}}" alt="Author"/>
+            <img class="Comment-icon" ng-src="../theme/{{comment.userId.icon}}" alt="Author"/>
             <div class="Comment-header">
                 {{ comment.userId.firstname + ' ' + comment.userId.lastname }} <span class="text-muted">{{ comment.postDate | moment:'lll' }}</span>
             </div>
