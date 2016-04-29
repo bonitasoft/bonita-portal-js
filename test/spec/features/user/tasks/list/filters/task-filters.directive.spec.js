@@ -16,8 +16,7 @@ describe('module tasks.filters', function(){
       scope.taskStatus = null;
       scope.count = {
         TODO:20,
-        MA_TASK:10,
-        POOL_TASK:10
+        MA_TASK:10
       };
 
       scope.filterChangeHandler = function(){};
