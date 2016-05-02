@@ -79,6 +79,16 @@
           currentMember.listLabel = MappingService.labelFormatter[type](currentMember);
           currentMember.buttonLabel = currentMember.listLabel;
         }).value();
+
+        // isteven-multi-select filter input-model on search term but bonita search API search with a logical OR
+        // when there are space in search term. We need to re-apply search term in order to make input model consistent
+        // with mutli-select internal model
+        // see https://bonitasoft.atlassian.net/browse/BS-15195
+        if (search.keyword) {
+          vm.members = vm.members.filter(function (member) {
+            return member.listLabel.startsWith(search.keyword);
+          })
+        }
       });
     };
     vm.search({});
