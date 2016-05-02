@@ -281,9 +281,14 @@
 
     vm.searchForCases = searchForCases;
     vm.displayKeys = displayKeys;
+    vm.hasMonitoring = hasMonitoring;
 
     function displayKeys() {
       return FeatureManager.isSearchIndexedFeatureActivated();
+    }
+
+    function hasMonitoring() {
+      return FeatureManager.isMonitoringFeatureActivated();
     }
 
     function searchForCases() {
