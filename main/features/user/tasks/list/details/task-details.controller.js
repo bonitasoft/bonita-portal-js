@@ -17,13 +17,12 @@
       context: false
     };
 
-    $scope.hasOverview = false;
-
     // Watch the currentCase
     $scope.$watch('currentCase', function(newCase) {
       if (!newCase) {
         return;
       }
+      $scope.hasOverview = false;
       //Check if the process has an overview
       formMappingAPI.search({
         p: 0,
@@ -37,13 +36,12 @@
         });
     });
 
-    $scope.hasForm = false;
-
     // Watch the currentTask
     $scope.$watch('currentTask', function(newTask) {
       if (!newTask) {
         return;
       }
+      $scope.hasForm = false;
       //Check if the task has a form
       if ('USER_TASK' === $scope.currentTask.type) {
         formMappingAPI.search({
