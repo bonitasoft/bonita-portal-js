@@ -87,7 +87,7 @@
         if (search.keyword) {
           vm.members = vm.members.filter(function (member) {
             return member.listLabel.startsWith(search.keyword);
-          })
+          });
         }
       });
     };
