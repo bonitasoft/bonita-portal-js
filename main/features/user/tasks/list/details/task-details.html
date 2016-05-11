@@ -1,12 +1,12 @@
 <div ng-if="showToolbar" class="pull-right TaskDetailsPanel-toolbar" role="group">
-    <button ng-if="!isEditable()" class="Toolbar-button"
+    <button ng-if="!isEditable() && isAssignable()" class="Toolbar-button"
             id="ButtonTakeDetails"
             ng-click="onTakeReleaseTask()"
             title="{{ 'Assign to me. Only I will be able to do it' | translate }}">
         <i class="icon-assigned"></i>
         <span class="sr-only" translate>Take</span>
     </button>
-    <button ng-if="isEditable()" class="Toolbar-button"
+    <button ng-if="isEditable() && isAssignable()" class="Toolbar-button"
             id="ButtonReleaseDetails"
             ng-click="onTakeReleaseTask()"
             title="{{ 'Unassign. This will make it available to team again' | translate }}">

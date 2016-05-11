@@ -7,6 +7,7 @@
     .controller('TaskDetailsCtrl', TaskDetailsCtrl);
 
   function TaskDetailsCtrl($scope, iframe, taskListStore, taskDetailsHelper, processAPI, formMappingAPI, TASK_FILTERS) {
+    $scope.isAssignable = isAssignable;
     $scope.isEditable = isEditable;
     $scope.isInactive = isInactive;
     $scope.hideForm = hideForm;
@@ -84,7 +85,11 @@
 
     function isEditable() {
       /*jshint camelcase: false*/
-      return taskListStore.currentTask && taskListStore.currentTask.assigned_id === taskListStore.user.user_id && taskListStore.request.taskFilter !== TASK_FILTERS.DONE;
+      return taskListStore.currentTask && taskListStore.currentTask.assigned_id === taskListStore.user.user_id;
+    }
+
+    function isAssignable() {
+      return taskListStore.request.taskFilter !== TASK_FILTERS.DONE;
     }
 
     function isInactive() {
