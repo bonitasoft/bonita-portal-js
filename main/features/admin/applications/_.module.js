@@ -16,11 +16,12 @@
 (function() {
   'use strict';
 
-  angular.module('org.bonitasoft.features.admin', [
-    'org.bonitasoft.features.admin.cases',
-    'org.bonitasoft.features.admin.processes',
-    'org.bonitasoft.features.admin.applications',
-    'org.bonitasoft.common.utils.filters'
+  angular.module('org.bonitasoft.features.admin.applications', [
+    'org.bonitasoft.common.resources',
+    'org.bonitasoft.features.admin.applications.list',
+    'org.bonitasoft.features.admin.applications.details',
+    'angularFileUpload',
+    'ui.bootstrap'
   ]);
 
 })();
