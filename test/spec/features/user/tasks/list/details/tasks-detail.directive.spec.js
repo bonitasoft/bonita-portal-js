@@ -40,11 +40,13 @@ describe('task-details directive', () => {
   var formMappingAPI;
   var $q;
   var FORM_URL = '/base/fixtures/form.html';
+  var TASK_FILTERS;
 
   beforeEach(inject(function($injector) {
     $httpBackend = $injector.get('$httpBackend');
     $q = $injector.get('$q');
     iframe = $injector.get('iframe');
+    TASK_FILTERS = $injector.get('TASK_FILTERS');
 
     spyOn(iframe, 'getTaskForm').and.returnValue(FORM_URL);
     spyOn(iframe, 'getCaseOverview').and.returnValue(FORM_URL);
@@ -155,5 +157,15 @@ describe('task-details directive', () => {
       comments: false,
       context: false
     });
+  });
+
+  fit('should not allow to toggle assignation when displaying done tasks', function() {
+    element.isolateScope().showToolbar = true;
+    store.request.taskFilter = TASK_FILTERS.DONE;
+    scope.$apply();
+
+    var buttons = element.find('.Toolbar-button');
+
+    expect(buttons.text().trim()).toEqual("Open in a popup");
   });
 });
