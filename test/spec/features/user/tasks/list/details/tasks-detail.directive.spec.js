@@ -166,6 +166,6 @@ describe('task-details directive', () => {
 
     var buttons = element.find('.Toolbar-button');
 
-    expect(buttons.text().trim()).toEqual("Open in a popup");
+    expect(buttons.text().trim()).toEqual('Open in a popup');
   });
 });
