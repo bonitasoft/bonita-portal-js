@@ -113,12 +113,19 @@
             <span class="glyphicon glyphicon-menu-right"></span>
             <span class="sr-only" translate>Hide panel</span>
         </button>
+
         <div class="TaskDetailsPanel-content" ng-if="app.smallScreen || app.showDetails">
-                <task-details current-task="app.currentTask"
-                              current-case="app.currentCase"
-                              refresh="app.refresh()"
-                              open-details-popup="app.showTaskDetailsPopup()">
-                </task-details>
+
+            <div ng-if="app.tasks.length === 0" class="TaskDetailsPanel-content--empty" translate>
+                This is the task details panel. No information to display
+            </div>
+
+            <task-details ng-if="app.tasks.length"
+                    current-task="app.currentTask"
+                    current-case="app.currentCase"
+                    refresh="app.refresh()"
+                    open-details-popup="app.showTaskDetailsPopup()">
+            </task-details>
         </div>
     </div>
 </div>
