@@ -37,6 +37,13 @@
       };
     })
 
+    .run(function($rootScope, $modalStack) {
+      // Close modals on location changes
+      $rootScope.$on('$locationChangeStart', function() {
+        $modalStack.dismissAll();
+      });
+    })
+
     .config(function($httpProvider) {
       // configure bonita xsrf token cookie and header names
       $httpProvider.defaults.xsrfHeaderName = $httpProvider.defaults.xsrfCookieName = 'X-Bonita-API-Token';
