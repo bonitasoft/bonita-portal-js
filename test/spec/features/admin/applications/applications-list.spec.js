@@ -169,8 +169,15 @@
           var Ctrl = createCtrl();
           scope.$apply();
           Ctrl.importApp('sm');
-          expect(modal.open).toHaveBeenCalled();
-          expect(modal.open).toHaveBeenCalledWith(mockModal('import', 'import'));
+          expect(modal.open).toHaveBeenCalledWith({
+            templateUrl: 'features/admin/applications/import-application.html',
+            controller: 'importApplicationCtrl',
+            controllerAs: 'importApplicationCtrl',
+            backdrop: 'static',
+            resolve: {
+              application: jasmine.any(Function)
+            }
+          });
         });
 
         it('should reload the data when we close the modal', function() {
