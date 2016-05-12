@@ -105,6 +105,7 @@
             templateUrl: 'features/admin/applications/import-application.html',
             controller: 'importApplicationCtrl',
             controllerAs: 'importApplicationCtrl',
+            backdrop: 'static',
             resolve: {
               application: angular.noop
             }
