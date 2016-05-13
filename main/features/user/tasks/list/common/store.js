@@ -33,7 +33,11 @@
         this.user = null;
         this.currentCase = null;
         this.currentTask = null;
-        this.count = {};
+        // initialize counters with 0
+        this.count =  Object.keys(TASK_FILTERS).reduce(function(acc, filtername) {
+          acc[filtername] = 0;
+          return acc;
+        }, {});
         this.request = taskRequest;
 
         /**
@@ -243,7 +247,7 @@
           /*jshint camelcase: false */
           var fnCountTask = countTasks.bind(null, store.user.user_id);
 
-          var promises = ['TODO', 'MY_TASK'].map(fnCountTask);
+          var promises = ['TODO', 'MY_TASK', 'DONE'].map(fnCountTask);
 
           return $q.all(promises);
         };

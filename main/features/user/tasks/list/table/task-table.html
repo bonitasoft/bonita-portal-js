@@ -1,6 +1,14 @@
 <!-- tasks listing -->
-<div class="alert alert-noresult" ng-show="tasks.length === 0" translate>
-  No matching results
+<div class="alert alert-noresult" ng-if="tasks.length === 0" translate>
+  <span ng-if="isNoTaskAvailableMessageVisible()" translate>
+    All done. Good job!
+  </span>
+  <span ng-if="isNoMyTaskMessageVisible()" translate>
+    Your personal task list is empty. You can take a task from the ​<a href="#" ng-click="changeFilter(TASK_FILTERS.TODO)">To do</a> list.
+  </span>
+  <span ng-if="isNoDoneTaskMessageVisible()" translate>
+    No done task yet.
+  </span>
 </div>
 <div bonitable
   on-sort="refresh()"

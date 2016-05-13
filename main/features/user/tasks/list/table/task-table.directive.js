@@ -20,7 +20,7 @@
    * {function} doTask         handler for displaying a popup form task (used in full list layout)
    * {function} viewTask       handler for displaying a popup context task (used in full list layout)
    */
-  function taskTableDirective($q, key, humanTaskAPI, taskListStore, preference, $location, $anchorScroll, $timeout, COLUMNS_SETTINGS, priorities, ngToast, gettextCatalog) {
+  function taskTableDirective($q, key, humanTaskAPI, preference, $location, $anchorScroll, $timeout, COLUMNS_SETTINGS, priorities, ngToast, gettextCatalog, TASK_FILTERS) {
     return {
       controller: 'TaskTableCtrl',
       restrict: 'AE',
@@ -34,7 +34,9 @@
         pageSizes: '=',
         refresh: '&',
         selectTask: '&',
-        doTask: '&'
+        doTask: '&',
+        counters: '=',
+        filter: '='
       },
       link: function($scope, $elem, attr, ctrl) {
 
@@ -44,6 +46,11 @@
         var lastSelectedIndex = -1;
 
         $scope.getPriority = priorities.get;
+        $scope.TASK_FILTERS = TASK_FILTERS;
+
+        $scope.changeFilter = function(filter) {
+          $scope.filter = filter;
+        };
 
         //Scope properties
         $scope.$watch('mode', function(mode) {
