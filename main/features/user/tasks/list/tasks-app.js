@@ -49,6 +49,17 @@
       this.TASK_FILTERS = TASK_FILTERS;
       this.PAGE_SIZES = PAGE_SIZES;
 
+      Object.defineProperty(this, 'filter', {
+        get: function() {
+          return store.request.taskFilter;
+        },
+        set: function(filter) {
+          store.request.taskFilter = filter;
+          this.updateAll();
+        }
+      });
+
+      this.count = store.count;
       this.showDetails = preference.get('showDetails') === true;
       this.smallScreen = screen.size.name === 'sm';
 
