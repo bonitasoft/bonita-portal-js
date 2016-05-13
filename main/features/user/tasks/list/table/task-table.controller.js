@@ -15,6 +15,9 @@
     $scope.getPaginationStatus = getPaginationStatus;
     $scope.isOverdue = isOverdue;
     $scope.getDueDateTitle = getDueDateTitle;
+    $scope.isNoTaskAvailableMessageVisible = isNoTaskAvailableMessageVisible;
+    $scope.isNoMyTaskMessageVisible = isNoMyTaskMessageVisible;
+    $scope.isNoDoneTaskMessageVisible = isNoDoneTaskMessageVisible;
 
     this.checkTask = checkTask;
     this.isAssigned = isAssigned;
@@ -106,6 +109,18 @@
     function getDueDateTitle(task) {
       var dueDate = moment(task.dueDate).format('LLL');
       return isOverdue(task) ? gettextCatalog.getString('This task is overdue. It was supposed to be completed by {{dueDate}}', { dueDate: dueDate }) : dueDate;
+    }
+
+    function isNoTaskAvailableMessageVisible() {
+      return $scope.counters.TODO === 0 && $scope.filter !== TASK_FILTERS.DONE;
+    }
+
+    function isNoMyTaskMessageVisible() {
+      return $scope.counters.TODO > 0 && $scope.counters.MY_TASK === 0 && $scope.filter !== TASK_FILTERS.DONE;
+    }
+
+    function isNoDoneTaskMessageVisible() {
+      return $scope.counters.DONE === 0 && $scope.filter === TASK_FILTERS.DONE;
     }
   }
 

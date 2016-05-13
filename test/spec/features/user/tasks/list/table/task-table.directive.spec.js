@@ -18,8 +18,6 @@ describe('module org.bonitasoft.features.user.tasks.list.table', function() {
   beforeEach(module('ui.bootstrap.tpls'));
   beforeEach(module('org.bonitasoft.templates'));
 
-
-
   describe('task-list directive', function() {
     var element;
     var scope;
@@ -73,6 +71,12 @@ describe('module org.bonitasoft.features.user.tasks.list.table', function() {
       scope.selectTaskHandler = function(){};
       scope.doTaskHandler = function(){};
       scope.viewTaskHandler = function(){};
+      scope.counters = {
+        TODO: scope.tasks.length,
+        MY_TASK: 0,
+        DONE: 0
+      };
+      scope.filter = TASK_FILTERS.TODO;
 
       var markup =
         '<task-table tasks="tasks"'+
@@ -84,11 +88,68 @@ describe('module org.bonitasoft.features.user.tasks.list.table', function() {
         '           refresh="refreshHandler()"'+
         '           select-task="selectTaskHandler(task)"'+
         '           do-task="doTaskHandler(task)"'+
-        '           view-task="viewTaskHandler(task)">'+
+        '           view-task="viewTaskHandler(task)"'+
+        '           counters="counters"'+
+        '           filter="filter">'+
         '</task-table>';
       element = $compile(markup)(scope);
       scope.$digest();
     }));
+
+    it('should not display an empty message when there is available tasks', function() {
+      expect(element.find('.alert-noresult').text().trim()).toEqual('');
+    });
+
+    describe('empty message', function() {
+
+      beforeEach(function() {
+        scope.tasks = [];
+        scope.counters = {
+          TODO: 0,
+          MY_TASK: 0,
+          DONE: 0
+        };
+        scope.filter = TASK_FILTERS.TODO;
+        scope.$apply();
+      });
+
+      it('should be displayed in Todo list when there is no task available', function() {
+        expect(element.find('.alert-noresult').text().trim()).toEqual('All done. Good job!');
+      });
+
+      it('should be displayed in My Tasks list when there is no task available', function() {
+        scope.filter = TASK_FILTERS.MY_TASK;
+        scope.$apply();
+
+        expect(element.find('.alert-noresult').text().trim()).toEqual('All done. Good job!');
+      });
+
+      it('should be displayed in My Tasks list when there is no personal task', function() {
+        scope.filter = TASK_FILTERS.MY_TASK;
+        scope.counters.TODO = 1;
+        scope.$apply();
+
+        expect(element.find('.alert-noresult').text().trim()).toEqual('Your personal task list is empty. You can Take a task from the ​To do list.');
+      });
+
+      it('should be displayed in My Tasks list with a link to To do when there is no personal task', function() {
+        scope.filter = TASK_FILTERS.MY_TASK;
+        scope.counters.TODO = 1;
+        scope.$apply();
+
+        element.find('.alert-noresult a').click();
+        scope.$apply();
+
+        expect(scope.filter).toEqual(TASK_FILTERS.TODO);
+      });
+
+      it('should be displayed in Done Tasks list when there is no task done', function() {
+        scope.filter = TASK_FILTERS.DONE;
+        scope.$apply();
+
+        expect(element.find('.alert-noresult').text().trim()).toEqual('No done task yet.');
+      });
+    });
 
     describe('mode watch', function() {
       var cols = {};
