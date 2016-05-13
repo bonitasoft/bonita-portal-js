@@ -49,15 +49,17 @@
             }
           }
 
-          scope.url = newSrc;
+          var url = newSrc;
 
           /**
            * By default, changing hash parameters don't trigger iframe's
            * reload so by swaping the first two parameters we force it.
            */
           if ((switched = !switched)) {
-            scope.url = newSrc.replace(/^(.*\?)([^&]+)&([^&]+)(.*)$/, '$1$3&$2$4');
+            url = newSrc.replace(/^(.*\?)([^&]+)&([^&]+)(.*)$/, '$1$3&$2$4');
           }
+
+          (elem.contentWindow || elem.contentDocument).location.replace(url);
         });
       }
     };
