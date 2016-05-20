@@ -46,13 +46,13 @@
         </div>
       <bonita-iframe-viewer class="FormViewer"
                             tabindex="0"
-                            ng-if="!isInactive() && hasForm"
+                            ng-if="!isInactive() && hasForm && !loading"
                             is-editable="isEditable()"
                             frame-url="formUrl"
                             is-visible="tab.form">
       </bonita-iframe-viewer>
       <no-form class="FormViewer"
-               ng-if="!hasForm"
+               ng-if="!hasForm && !loading"
                current-task="currentTask"
                editable="isEditable()"
                inactive="isInactive()">
