@@ -34,7 +34,7 @@
         <div class="TaskList-filters panel panel-default">
             <div class="panel-heading title ng-binding" translate>Filters</div>
             <div class="panel-body">
-                <div class="col-md-7 button-filter ng-binding" ng-hide="app.request.taskFilter === app.TASK_FILTERS.DONE" translate>Process
+                <div class="col-md-7 button-filter ng-binding" ng-hide="app.request.taskFilter === app.TASK_FILTERS.DONE"><translate>Process</translate>
                     <div class="btn-group dropdown Filter-process" dropdown="">
                         <button dropdown-toggle type="button"
                                 class="btn btn-primary"
@@ -77,7 +77,7 @@
         </div>
         <div class="TaskList-table panel panel-default">
             <div class="panel-heading title ng-binding">
-                <span>Task list</span>
+                <span translate>Task list</span>
                 <button class="TaskList-refresh" style="background: transparent; border: none" ng-click="app.updateAll()"
                         ng-class="{ 'u-spin TaskList-loadingIcon': app.loadingTasks }" title="{{ 'Refresh data' | translate }}">
                     <i class="glyphicon glyphicon-repeat"></i>
