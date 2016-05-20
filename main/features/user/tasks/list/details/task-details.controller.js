@@ -43,6 +43,7 @@
         return;
       }
       $scope.hasForm = false;
+      $scope.loading = true;
       //Check if the task has a form
       if ('USER_TASK' === $scope.currentTask.type) {
         formMappingAPI.search({
@@ -53,7 +54,7 @@
             $scope.hasForm = hasFormMapping(response);
             if($scope.hasForm && !hideForm()) {
               /*jshint camelcase: false*/
-              processAPI
+              return processAPI
                 .get({
                   id: $scope.currentTask.processId
                 })
@@ -62,6 +63,9 @@
                   $scope.formUrl = iframe.getTaskForm(data, $scope.currentTask, taskListStore.user.user_id, false);
                 });
             }
+          })
+          .finally(function() {
+            $scope.loading = false;
           });
       }
       $scope.tab.form = true;
