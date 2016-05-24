@@ -118,10 +118,7 @@
           .getCaseInfo(task.caseId)
           .then(function() {
             this.currentCase = store.currentCase;
-          }.bind(this))
-          .then(function() {
-            return store.getProcessSupervisors(task.rootContainerId.id);
-          });
+          }.bind(this));
       };
 
       /**
@@ -143,10 +140,7 @@
               return null;
             }
             return store
-              .getCaseInfo(store.currentTask.caseId)
-              .then(function() {
-                return store.getProcessSupervisors(store.currentTask.rootContainerId.id);
-              });
+              .getCaseInfo(store.currentTask.caseId);
 
           }).finally(function() {
             if (store.currentCase) {

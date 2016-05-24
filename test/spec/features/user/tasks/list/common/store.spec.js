@@ -10,8 +10,6 @@ describe('taskListStore', function() {
   var caseRegexp = /^\.\.\/API\/bpm\/case/;
   var archivedCaseRegexp = /^\.\.\/API\/bpm\/archivedCase/;
   var processRegexp = /^\.\.\/API\/bpm\/process/;
-  var supervisorRegexp = /^\.\.\/API\/bpm\/processSupervisor/;
-  var proContactRegexp = /^\.\.\/API\/identity\/professionalcontactdata/;
 
   var mockTasks = [
     {
@@ -76,46 +74,6 @@ describe('taskListStore', function() {
       name: 'process2'
     }
   ];
-
-  var mockSupervisors = [
-    {
-      'process_id': '6540077894441504039',
-      'role_id': '-1',
-      'group_id': '-1',
-      'user_id': {
-        'last_connection': '',
-        'created_by_user_id': '-1',
-        'creation_date': '2014-10-06 11:04:01.036',
-        'id': '17',
-        'icon': '/default/icon_user.png',
-        'enabled': 'true',
-        'title': 'Mrs',
-        'manager_id': '1',
-        'job_title': 'Vice President of Sales',
-        'userName': 'daniela.angelo',
-        'lastname': 'Angelo',
-        'firstname': 'Daniela',
-        'password': '',
-        'last_update_date': '2014-10-06 11:04:01.036'
-      }
-    }
-  ];
-
-  var mockContact = {
-    'fax_number': '484-302-0397',
-    'building': '70',
-    'phone_number': '484-302-5397',
-    'website': '',
-    'zipcode': '19108',
-    'state': 'PA',
-    'city': 'Philadelphia',
-    'country': 'United States',
-    'id': '17',
-    'mobile_number': '',
-    'address': 'Renwick Drive',
-    'email': 'daniela.angelo@acme.com',
-    'room': ''
-  };
 
   beforeEach(module('org.bonitasoft.features.user.tasks.app.store'));
 
@@ -229,38 +187,6 @@ describe('taskListStore', function() {
       store.getCaseInfo(caseId);
       $httpBackend.flush();
       expect(store.currentCase).toEqual(jasmine.objectContaining(mockArchivedCases[0]));
-    });
-  });
-
-  describe('getSupervisor', function() {
-    beforeEach(function(){
-      $httpBackend.whenGET(supervisorRegexp).respond(mockSupervisors);
-      $httpBackend.whenGET(proContactRegexp).respond(mockContact);
-
-      store.currentCase = mockCase;
-    });
-
-    afterEach(function() {
-      $httpBackend.verifyNoOutstandingExpectation();
-      $httpBackend.verifyNoOutstandingRequest();
-      $httpBackend.resetExpectations();
-    });
-
-    it('should make an api call with parameter', function() {
-      $httpBackend.expectGET(supervisorRegexp);
-      $httpBackend.expectGET(proContactRegexp);
-      store.getProcessSupervisors(store.currentCase.rootContainerId.id);
-      $httpBackend.flush();
-    });
-
-    it('should store supervisor in currentCase', function() {
-      $httpBackend.expectGET(supervisorRegexp);
-      $httpBackend.expectGET(proContactRegexp);
-      store.currentCase = mockCase;
-      store.getProcessSupervisors(store.currentCase.rootContainerId.id);
-      $httpBackend.flush();
-      expect(store.currentCase.supervisors).toBeDefined();
-      expect(store.currentCase.supervisors[0].user_id.email).toEqual(mockContact.email);
     });
   });
 

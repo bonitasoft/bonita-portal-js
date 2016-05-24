@@ -19,13 +19,11 @@
       'archivedCaseAPI',
       'commentAPI',
       'processAPI',
-      'processSupervisorAPI',
-      'professionalDataAPI',
       '$q',
       'TASK_FILTERS',
       'taskRequest',
       'gettextCatalog',
-      function(archivedFlowNodeAPI, caseAPI, archivedCaseAPI, commentAPI, processAPI, processSupervisorAPI, professionalDataAPI, $q, TASK_FILTERS, taskRequest, gettextCatalog) {
+      function(archivedFlowNodeAPI, caseAPI, archivedCaseAPI, commentAPI, processAPI, $q, TASK_FILTERS, taskRequest, gettextCatalog) {
         var store = this;
 
         this.processes = [];
@@ -131,43 +129,6 @@
                 }
               });
             }
-          });
-        };
-
-        /**
-         * retrieve process Supervisors from a given processId
-         * @param  {int} caseId the case id
-         * @return {object}        a promise of a case
-         * @throws {Error} If caseId is not provided
-         */
-        this.getProcessSupervisors = function(processId) {
-          /* jshint camelcase: false */
-          if (!processId) {
-            throw new Error('Missing parameter when requesting getProcessSupervisor processId');
-          }
-
-          var promise = processSupervisorAPI.search({
-            f: ['process_id=' + processId],
-            c: 10,
-            p: 0,
-            d: 'user_id'
-          }).$promise;
-
-          return promise.then(function(response) {
-            store.currentCase.supervisors = response.resource;
-            // for each Supervisors, we retrieve its professional info (mail)
-            var all = response.resource.map(function(supervisor) {
-              return professionalDataAPI
-                .get({
-                  id: supervisor.user_id.id
-                })
-                .$promise
-                .then(function(contact) {
-                  supervisor.user_id.email = contact.email;
-                });
-            });
-
-            return $q.all(all);
           });
         };
 

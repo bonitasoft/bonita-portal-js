@@ -27,29 +27,6 @@ describe('taskApp', function(){
     POOL_TASK:10
   };
 
-  var mockSupervisors = [{
-    'process_id': '6540077894441504039',
-    'role_id': '-1',
-    'group_id': '-1',
-    'user_id': {
-      'last_connection': '',
-      'created_by_user_id': '-1',
-      'creation_date': '2014-10-06 11:04:01.036',
-      'id': '17',
-      'icon': '/default/icon_user.png',
-      'enabled': 'true',
-      'title': 'Mrs',
-      'manager_id': '1',
-      'job_title': 'Vice President of Sales',
-      'userName': 'daniela.angelo',
-      'email': 'daniela.angelo@acme.com',
-      'lastname': 'Angelo',
-      'firstname': 'Daniela',
-      'password': '',
-      'last_update_date': '2014-10-06 11:04:01.036'
-    }
-  }];
-
 
 
   describe('taskApp controller', function(){
@@ -77,13 +54,6 @@ describe('taskApp', function(){
         store.currentTask = mockTasks[0];
         return defered.promise;
       }
-      function getSupervisors(){
-        var defered = $q.defer();
-        defered.resolve(mockTasks);
-        store.tasks = mockTasks;
-        store.currentCase.supervisors = mockSupervisors;
-        return defered.promise;
-      }
 
       function getDefered(data, prop ){
         return function() {
@@ -99,7 +69,6 @@ describe('taskApp', function(){
       spyOn(store, 'getProcessList').and.callFake(getDefered(mockProcesses, 'processes'));
       spyOn(store, 'getTasks').and.callFake(getTasks);
       spyOn(store, 'getCaseInfo').and.callFake(getDefered(mockCase, 'currentCase'));
-      spyOn(store, 'getProcessSupervisors').and.callFake(getSupervisors);
     }));
 
     /* screen mock */
