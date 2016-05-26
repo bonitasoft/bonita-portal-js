@@ -10,6 +10,7 @@ describe('iframe directive', function(){
   var $httpBackend;
   var $timeout;
   var $document;
+  var iframe;
 
   beforeEach(inject(function($rootScope, $compile, $injector) {
     scope = $rootScope.$new();
@@ -27,7 +28,6 @@ describe('iframe directive', function(){
       form: true
     };
     scope.isEditable = false;
-    scope.frameUrl = '/base/dev/fixtures/form.html';
 
     $httpBackend.whenGET(/\/base\/dev\/fixtures\/form\.html.*/gi).respond('<!doctype html><html><head><meta charset="utf-8"><title>fixtures</title></head><body><div id="loading"></div><div id="main"><h1>Bonita Form</h1></div><script>"use strict";var loading = document.querySelector("#loading");var main = document.querySelector("#main");if (loading) {loading.style.display = "none";}if (main) {main.style.height = "500px";}</script></body></html>');
 
@@ -35,22 +35,21 @@ describe('iframe directive', function(){
     $document.find('body').append(element);
     scope.$digest();
 
+    iframe = element.find('iframe')[0];
+    spyOn(iframe.contentWindow.location, 'replace');
+    scope.frameUrl = '/base/dev/fixtures/form.html';
+    scope.$digest();
   }));
 
 
   it('should compute params', function() {
-    var isolated = element.isolateScope();
-    expect(isolated.frameUrl).toBe(scope.frameUrl);
-    expect(isolated.url).toBe(scope.frameUrl);
-    expect(isolated.trigger).toEqual(scope.tab.form);
+    expect(iframe.contentWindow.location.replace).toHaveBeenCalledWith('/base/dev/fixtures/form.html');
   });
 
   it('should update frameUrl and switching param when url change', function() {
-    var isolated = element.isolateScope();
-    expect(isolated.url).toBe(scope.frameUrl);
     scope.frameUrl = '/base/dev/fixtures/form.html?toto&tata';
     scope.$digest();
-    expect(isolated.url).toBe('/base/dev/fixtures/form.html?tata&toto');
+    expect(iframe.contentWindow.location.replace).toHaveBeenCalledWith('/base/dev/fixtures/form.html?tata&toto');
   });
 
   it('should remove overlay when editable is true', function() {

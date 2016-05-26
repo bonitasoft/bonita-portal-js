@@ -159,7 +159,7 @@ describe('task-details directive', () => {
     });
   });
 
-  fit('should not allow to toggle assignation when displaying done tasks', function() {
+  it('should not allow to toggle assignation when displaying done tasks', function() {
     element.isolateScope().showToolbar = true;
     store.request.taskFilter = TASK_FILTERS.DONE;
     scope.$apply();
