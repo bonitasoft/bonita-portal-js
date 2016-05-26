@@ -129,7 +129,7 @@ describe('module org.bonitasoft.features.user.tasks.list.table', function() {
         scope.counters.TODO = 1;
         scope.$apply();
 
-        expect(element.find('.alert-noresult').text().trim()).toEqual('Your personal task list is empty. You can Take a task from the ​To do list.');
+        expect(element.find('.alert-noresult').text().trim()).toEqual('Your personal task list is empty. You can take a task from the ​To do list.');
       });
 
       it('should be displayed in My Tasks list with a link to To do when there is no personal task', function() {
