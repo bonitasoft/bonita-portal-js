@@ -77,8 +77,7 @@
         store.user = sessionAPI.get({id:'unusedId'});
         store.user.$promise.then(function() {
           this.user = store.user;
-          this.updateTasks();
-          this.updateCount();
+          this.refresh();
           this.updateProcessList();
         }.bind(this));
 
@@ -103,8 +102,7 @@
        */
       this.setProcess = function(process) {
         store.request.process = process;
-        this.updateCount();
-        this.updateTasks();
+        this.refresh();
       };
 
       /**
@@ -238,8 +236,7 @@
        */
       this.changeFilter = function(filter) {
         this.setFilter(filter);
-        this.updateTasks();
-        this.updateCount();
+        this.updateAll();
       };
 
       this.onFormSubmited = function(message) {
