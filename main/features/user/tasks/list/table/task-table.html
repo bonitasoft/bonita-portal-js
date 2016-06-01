@@ -1,5 +1,8 @@
 <!-- tasks listing -->
 <div class="alert alert-noresult" ng-if="tasks.length === 0" translate>
+  <span ng-if="isNoTaskFoundVisible()" translate>
+    We couldn't find what you are looking for.
+  </span>
   <span ng-if="isNoTaskAvailableMessageVisible()" translate>
     All done. Good job!
   </span>
