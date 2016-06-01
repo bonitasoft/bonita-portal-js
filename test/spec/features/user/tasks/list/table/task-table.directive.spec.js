@@ -100,6 +100,14 @@ describe('module org.bonitasoft.features.user.tasks.list.table', function() {
       expect(element.find('.alert-noresult').text().trim()).toEqual('');
     });
 
+    it('should display a message on empty search result', function() {
+      scope.tasks = [];
+      scope.request.search = 'foobar';
+      scope.$apply();
+
+      expect(element.find('.alert-noresult').text().trim()).toEqual('We couldn\'t find what you are looking for.');
+    });
+
     describe('empty message', function() {
 
       beforeEach(function() {

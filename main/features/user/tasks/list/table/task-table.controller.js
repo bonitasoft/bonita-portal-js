@@ -18,6 +18,7 @@
     $scope.isNoTaskAvailableMessageVisible = isNoTaskAvailableMessageVisible;
     $scope.isNoMyTaskMessageVisible = isNoMyTaskMessageVisible;
     $scope.isNoDoneTaskMessageVisible = isNoDoneTaskMessageVisible;
+    $scope.isNoTaskFoundVisible = isNoTaskFoundVisible;
 
     this.checkTask = checkTask;
     this.isAssigned = isAssigned;
@@ -112,16 +113,19 @@
     }
 
     function isNoTaskAvailableMessageVisible() {
-      return $scope.counters.TODO === 0 && $scope.filter !== TASK_FILTERS.DONE;
+      return $scope.counters.TODO === 0 && $scope.filter !== TASK_FILTERS.DONE && !isNoTaskFoundVisible();
     }
 
     function isNoMyTaskMessageVisible() {
-      return $scope.counters.TODO > 0 && $scope.counters.MY_TASK === 0 && $scope.filter !== TASK_FILTERS.DONE;
+      return $scope.counters.TODO > 0 && $scope.counters.MY_TASK === 0 && $scope.filter !== TASK_FILTERS.DONE && !isNoTaskFoundVisible();
     }
 
     function isNoDoneTaskMessageVisible() {
-      return $scope.counters.DONE === 0 && $scope.filter === TASK_FILTERS.DONE;
+      return $scope.counters.DONE === 0 && $scope.filter === TASK_FILTERS.DONE && !isNoTaskFoundVisible();
+    }
+
+    function isNoTaskFoundVisible() {
+      return !!$scope.request.search;
     }
   }
-
 })();
