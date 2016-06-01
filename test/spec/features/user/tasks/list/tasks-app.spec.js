@@ -162,6 +162,31 @@ describe('taskApp', function(){
       });
     });
 
+    describe('changeFilter', function(){
+      var filter;
+      var store;
+
+      beforeEach(inject(function($injector){
+        store = $injector.get('taskListStore');
+        store.processes = [{id:false, name:'All'}];
+
+        filter = {name:'filter name', id:'filter'};
+
+        spyOn(controller, 'setFilter');
+        spyOn(controller, 'updateProcessList');
+      }));
+
+      it('should set a new filter', function(){
+        controller.changeFilter(filter);
+        expect(controller.setFilter).toHaveBeenCalledWith(filter);
+      });
+
+      it('should update process list', function(){
+        controller.changeFilter(filter);
+        expect(controller.updateProcessList).toHaveBeenCalled();
+      });
+    });
+
     describe('selectTask', function(){
       var store;
       var task =
