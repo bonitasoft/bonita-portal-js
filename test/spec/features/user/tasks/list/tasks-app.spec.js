@@ -185,6 +185,30 @@ describe('taskApp', function(){
         controller.changeFilter(filter);
         expect(controller.updateProcessList).toHaveBeenCalled();
       });
+
+      it('should reset pagination', function(){
+        store.request.pagination.currentPage = 2;
+        controller.changeFilter(filter);
+        expect(store.request.pagination.currentPage).toEqual(1);
+      });
+    });
+
+    describe('setProcess', function(){
+      var process;
+      var store;
+
+      beforeEach(inject(function($injector){
+        store = $injector.get('taskListStore');
+        store.processes = [{id:false, name:'All'}];
+
+        process = {id:1};
+      }));
+
+      it('should reset pagination', function(){
+        store.request.pagination.currentPage = 2;
+        controller.setProcess(process);
+        expect(store.request.pagination.currentPage).toEqual(1);
+      });
     });
 
     describe('selectTask', function(){
@@ -282,6 +306,27 @@ describe('taskApp', function(){
         expect(controller.updateProcessList).toHaveBeenCalled();
         expect(controller.updateCount).toHaveBeenCalled();
         expect(controller.updateTasks).toHaveBeenCalled();
+      });
+    });
+
+    describe('searchTask', function(){
+      var store;
+
+      beforeEach(inject(function($injector){
+        store = $injector.get('taskListStore');
+      }));
+
+      it('should trigger updateTasks', function(){
+        spyOn(controller, 'updateTasks');
+
+        controller.searchTask();
+        expect(controller.updateTasks).toHaveBeenCalled();
+      });
+
+      it('should reset pagination', function(){
+        store.request.pagination.currentPage = 2;
+        controller.searchTask();
+        expect(store.request.pagination.currentPage).toEqual(1);
       });
     });
 
