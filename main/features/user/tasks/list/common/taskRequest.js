@@ -91,7 +91,7 @@
          */
         this.resetFilters = function(options) {
           this.search = options && options.search || '' ;
-          this.sortOption = options && options.sortOption || angular.copy(DEFAULT_SORT);
+          angular.copy(options && options.sortOption || DEFAULT_SORT, this.sortOption);
           this.process = options && options.process || false;
         };
 
