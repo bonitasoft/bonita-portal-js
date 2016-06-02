@@ -2,14 +2,14 @@
     <button ng-if="!isEditable() && isAssignable()" class="Toolbar-button"
             id="ButtonTakeDetails"
             ng-click="onTakeReleaseTask()"
-            title="{{ 'Assign to me. Only I will be able to do it' | translate }}">
+            title="{{ 'Make this task personal: only I will be able to do it' | translate }}">
         <i class="icon-assigned"></i>
         <span class="sr-only" translate>Take</span>
     </button>
     <button ng-if="isEditable() && isAssignable()" class="Toolbar-button"
             id="ButtonReleaseDetails"
             ng-click="onTakeReleaseTask()"
-            title="{{ 'Unassign. This will make it available to team again' | translate }}">
+            title="{{ 'Make this task available to other team members again' | translate }}">
         <i class="icon-unassigned"></i>
         <span class="sr-only" translate>Release</span>
     </button>
@@ -33,7 +33,7 @@
         <div class="FormOverlay-message" ng-if="!isEditable() && !isInactive()">
             <p class="FormOverlay-text" translate>
                 To fill out the form, you need to take this task.
-                This means you will be the only one to do it.
+                This means you will be the only one able to do it.
                 To make it available to the team again, release it.
             </p>
             <button id="ButtonTakeDetailsOverlay"
