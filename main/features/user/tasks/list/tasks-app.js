@@ -92,9 +92,13 @@
        * Search a task
        */
       this.searchTask = function() {
+        this.resetPagination();
         this.updateTasks();
       };
 
+      this.resetPagination = function() {
+        store.request.pagination.currentPage = 1;
+      };
 
       /**
        * set process filter for task list
@@ -102,6 +106,7 @@
        */
       this.setProcess = function(process) {
         store.request.process = process;
+        this.resetPagination();
         this.refresh();
       };
 
@@ -163,7 +168,8 @@
       this.updateAll = function() {
         var currentProcess = store.request.process;
         this.updateProcessList();
-        this.setProcess(currentProcess);
+        store.request.process = currentProcess;
+        this.refresh();
       };
 
       /**
@@ -236,6 +242,7 @@
        */
       this.changeFilter = function(filter) {
         this.setFilter(filter);
+        this.resetPagination();
         this.updateAll();
       };
 
