@@ -64,7 +64,6 @@ describe('taskApp', function(){
         };
       }
 
-      spyOn(store.request, 'resetFilters');
       spyOn(store, 'countAll').and.callFake(getDefered(mockCount, 'count'));
       spyOn(store, 'getProcessList').and.callFake(getDefered(mockProcesses, 'processes'));
       spyOn(store, 'getTasks').and.callFake(getTasks);
@@ -156,10 +155,6 @@ describe('taskApp', function(){
         expect(store.request.taskFilter).toEqual(filter);
       });
 
-      it('should reset filter', function(){
-        controller.setFilter(filter);
-        expect(store.request.resetFilters).toHaveBeenCalled();
-      });
     });
 
     describe('changeFilter', function(){
