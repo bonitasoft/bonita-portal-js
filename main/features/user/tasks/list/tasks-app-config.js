@@ -14,21 +14,26 @@
     'humanTaskAPI',
     'archivedHumanTaskAPI',
     function(humanTaskAPI, archivedHumanTaskAPI) {
+      var openedTaskSortOption = { property: 'displayName', direction: false };
+      var archivedTaskSortOption = { property: 'displayName', direction: false };
       return {
         TODO: {
           title: 'To do',
           resource: humanTaskAPI,
-          filters: ['state=ready', 'user_id=%userId']
+          filters: ['state=ready', 'user_id=%userId'],
+          sortOption: openedTaskSortOption
         },
         MY_TASK: {
           title: 'My tasks',
           resource: humanTaskAPI,
-          filters: ['state=ready', 'assigned_id=%userId']
+          filters: ['state=ready', 'assigned_id=%userId'],
+          sortOption: openedTaskSortOption
         },
         DONE: {
           title: 'Done tasks',
           resource: archivedHumanTaskAPI,
-          filters: ['assigned_id=%userId', 'state=completed']
+          filters: ['assigned_id=%userId', 'state=completed'],
+          sortOption: archivedTaskSortOption
         }
       };
     }

@@ -25,7 +25,7 @@ describe('User TaskList Controller', function() {
     TASK_FILTERS = $injector.get('TASK_FILTERS');
 
     scope = $rootScope.$new();
-    scope.request = {};
+    scope.request = { taskFilter: TASK_FILTERS.TODO };
     scope.updateTasks = function() {
     };
     scope.refreshCount = function() {
@@ -87,5 +87,46 @@ describe('User TaskList Controller', function() {
 
     var overduetask = { dueDate: '2016-02-24 15:27:20.323' };
     expect(scope.isOverdue(overduetask)).toBeTruthy();
+  });
+
+  it('should sort opened tasks', function() {
+    var sortOption = { property: 'dueDate', direction: true };
+    scope.refresh = jasmine.createSpy();
+
+    scope.sort(sortOption);
+
+    expect(scope.request.taskFilter.sortOption).toEqual(sortOption);
+    expect(scope.refresh).toHaveBeenCalled();
+  });
+
+  it('should not sort done tasks on due date', function() {
+    scope.request.taskFilter = TASK_FILTERS.DONE;
+    scope.refresh = jasmine.createSpy();
+
+    scope.sort({ property: 'dueDate', direction: true });
+
+    expect(scope.request.taskFilter.sortOption).toEqual({ property: 'displayName', direction: false });
+    expect(scope.refresh).not.toHaveBeenCalled();
+  });
+
+  it('should sort done tasks on display name', function() {
+    scope.request.taskFilter = TASK_FILTERS.DONE;
+    var sortOption = { property: 'displayName', direction: true };
+    scope.refresh = jasmine.createSpy();
+
+    scope.sort(sortOption);
+
+    expect(scope.request.taskFilter.sortOption).toEqual(sortOption);
+    expect(scope.refresh).toHaveBeenCalled();
+  });
+
+  it('should not sort done tasks on process instance id', function() {
+    scope.request.taskFilter = TASK_FILTERS.DONE;
+    scope.refresh = jasmine.createSpy();
+
+    scope.sort({ property: 'processInstanceId', direction: true });
+
+    expect(scope.request.taskFilter.sortOption).toEqual({ property: 'displayName', direction: false });
+    expect(scope.refresh).not.toHaveBeenCalled();
   });
 });

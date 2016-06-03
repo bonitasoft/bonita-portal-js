@@ -13,14 +13,6 @@
 
   angular
     .module('api.request', ['org.bonitasoft.features.user.tasks.app.config'])
-    /**
-     * @constant default sort value in tasks list
-     * @type {Object}
-     */
-    .constant('DEFAULT_SORT', {
-      property: 'displayName',
-      direction: false
-    })
 
     /**
      * @constant Array of page sizes for paginating tasks list
@@ -41,9 +33,8 @@
      */
     .service('taskRequest', [
       'TASK_FILTERS',
-      'DEFAULT_SORT',
       'DEFAULT_PAGE_SIZE',
-      function(TASK_FILTERS, DEFAULT_SORT, DEFAULT_PAGE_SIZE){
+      function(TASK_FILTERS, DEFAULT_PAGE_SIZE) {
 
         /**
          * If provided, a process filter toke is added to the request
@@ -73,26 +64,11 @@
         this.search = '';
 
         /**
-         * the current sorting option (direction / property)
-         * @type {Object}
-         */
-        this.sortOption = angular.copy(DEFAULT_SORT);
-
-        /**
          * current pagination config
          * @type {Object}
          */
         this.pagination = {
           numberPerPage: DEFAULT_PAGE_SIZE
-        };
-
-        /**
-         * Reset search request values
-         */
-        this.resetFilters = function(options) {
-          this.search = options && options.search || '' ;
-          angular.copy(options && options.sortOption || DEFAULT_SORT, this.sortOption);
-          this.process = options && options.process || false;
         };
 
         /**
@@ -108,10 +84,10 @@
 
           params.c = this.pagination.numberPerPage;
           params.p = this.pagination.currentPage-1 || 0;
-          params.o = this.sortOption.property+' '+(this.sortOption.direction ? 'DESC' : 'ASC');
+          params.o = this.taskFilter.sortOption.property + ' ' + (this.taskFilter.sortOption.direction ? 'DESC' : 'ASC');
           params.f = this.taskFilter.filters.slice();
 
-          if (this.process && this.process.id) {
+          if (this.process && this.process.id && this.taskFilter !== TASK_FILTERS.DONE) {
             params.f.push('processId='+this.process.id);
           }
 
@@ -119,7 +95,6 @@
             resource: this.taskFilter.resource,
             params: params
           };
-
         };
       }
     ]);
