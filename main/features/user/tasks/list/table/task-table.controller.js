@@ -6,6 +6,7 @@
     .controller('TaskTableCtrl', TaskTableCtrl);
 
   function TaskTableCtrl($scope, TASK_FILTERS, moment, gettextCatalog) {
+    $scope.sortOption = angular.copy($scope.request.taskFilter.sortOption);
     $scope.TASK_FILTERS = TASK_FILTERS;
     $scope.canDoGroupAction = canDoGroupAction;
     $scope.colspan = colspan;
@@ -19,6 +20,7 @@
     $scope.isNoMyTaskMessageVisible = isNoMyTaskMessageVisible;
     $scope.isNoDoneTaskMessageVisible = isNoDoneTaskMessageVisible;
     $scope.isNoTaskFoundVisible = isNoTaskFoundVisible;
+    $scope.sort = sort;
 
     this.checkTask = checkTask;
     this.isAssigned = isAssigned;
@@ -126,6 +128,14 @@
 
     function isNoTaskFoundVisible() {
       return !!$scope.request.search;
+    }
+
+    function sort(options) {
+      if ($scope.request.taskFilter !== TASK_FILTERS.DONE || options.property !== 'dueDate' && options.property !== 'processInstanceId') {
+        $scope.request.taskFilter.sortOption.property = options.property;
+        $scope.request.taskFilter.sortOption.direction = options.direction;
+        $scope.refresh();
+      }
     }
   }
 })();

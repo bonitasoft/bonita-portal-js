@@ -11,6 +11,19 @@
   }
 }
 
+//do not display the sort icon on due date column as it is not supported
+.TaskTable-filterDone {
+  .TaskTable-dueDateHeader, .TaskTable-caseIdHeader {
+    .bo-SortButton:hover {
+      cursor: default;
+    }
+
+    .bo-SortButton-icon {
+      display: none;
+    }
+  }
+}
+
 .TaskTable-line--overdue .TaskTable-dueDate::before {
   font-family: 'Glyphicons Halflings';
   content: '\e023'; // glyphicon-time

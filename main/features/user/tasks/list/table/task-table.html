@@ -14,8 +14,8 @@
   </span>
 </div>
 <div bonitable
-  on-sort="refresh()"
-  sort-options="request.sortOption"
+  on-sort="sort(options)"
+  sort-options="sortOption"
   bo-repeatable
   repeatable-config="columnSettings">
   <div class="GroupAction clearfix" ng-show="tasks.length > 0">
@@ -54,7 +54,7 @@
     </div>
   </div>
   <div class="table-responsive TaskTable" ng-hide="tasks.length === 0">
-    <table class="table table-hover table-striped TaskTable">
+    <table class="table table-hover table-striped TaskTable" ng-class="{'TaskTable-filterDone': TASK_FILTERS.DONE === request.taskFilter}">
       <thead>
         <tr>
           <th data-ignore class="Cell--checkbox" ng-if="canDoGroupAction()">
@@ -66,11 +66,11 @@
           <th class="text-right">{{ 'Task Id' | translate }}</th>
           <th bo-sorter="displayName">{{ 'Task name' | translate }}</th>
           <th>{{ 'Description' | translate }}</th>
-          <th bo-sorter="processInstanceId" class="text-right">{{ 'Case Id' | translate }}</th>
+          <th bo-sorter="processInstanceId" class="text-right TaskTable-caseIdHeader">{{ 'Case Id' | translate }}</th>
           <th>{{ 'Process name' | translate }}</th>
           <th class="text-right">{{ 'Last update' | translate }}</th>
           <th class="text-right">{{ 'Assigned on' | translate }}</th>
-          <th bo-sorter="dueDate" class="text-right">{{ 'Due date' | translate }}</th>
+          <th bo-sorter="dueDate" class="text-right TaskTable-dueDateHeader">{{ 'Due date' | translate }}</th>
           <th bo-sorter="priority">{{ 'Priority' | translate }}</th>
           <th data-ignore class="RowActions" ng-if="mode!=='mid'"></th>
         </tr>

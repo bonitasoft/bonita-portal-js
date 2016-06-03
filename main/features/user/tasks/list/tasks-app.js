@@ -181,9 +181,6 @@
         // reset fullscreen details
         this.expandDetails = false;
         store.request.taskFilter = filter;
-        store.request.resetFilters({
-          process: store.processes[0]
-        });
       };
 
       /**
