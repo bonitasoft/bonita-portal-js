@@ -31,11 +31,7 @@
 
     <div class="TaskForm" ng-if="!hideForm()">
         <div class="FormOverlay-message" ng-if="!isEditable() && !isInactive()">
-            <p class="FormOverlay-text" translate>
-                To fill out the form, you need to take this task.
-                This means you will be the only one able to do it.
-                To make it available to the team again, release it.
-            </p>
+            <p class="FormOverlay-text" translate>To fill out the form, you need to take this task. This means you will be the only one able to do it. To make it available to the team again, release it.</p>
             <button id="ButtonTakeDetailsOverlay"
                     class="FormOverlay-button btn btn-primary btn-sm"
                     ng-click="onTakeReleaseTask()"
