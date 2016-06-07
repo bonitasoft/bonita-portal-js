@@ -556,7 +556,12 @@ module.exports = function (grunt) {
     nggettext_extract: {
       pot: {
         files: {
-          'target/portal-js.pot': ['<%= portaljs.app %>/features/**/*.js', '<%= portaljs.app %>/common/**/*.js', '<%= portaljs.dist %>/features/**/*.html', '<%= portaljs.dist %>/common/**/*.html']
+          'target/portal-js.pot': [
+              '<%= portaljs.dist %>/features/**/*.html',
+              '<%= portaljs.dist %>/common/**/*.html',
+              '<%= portaljs.app %>/features/**/*.js',
+              '<%= portaljs.app %>/common/**/*.js'
+            ]
         }
       }
     },
