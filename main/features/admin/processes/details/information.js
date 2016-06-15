@@ -40,7 +40,7 @@
 
     vm.openProcessCategoryManagementModal = openProcessCategoryManagementModal;
     vm.updateTagsAndAlertUser = updateTagsAndAlertUser;
-    vm.isProcessResolved = isProcessResolved();
+    vm.isProcessResolved = isProcessResolved;
     var growlOptions = {
       ttl: 3000,
       disableCountDown: true,
@@ -83,7 +83,7 @@
     }
 
     function isProcessResolved() {
-      return process.configurationState === 'RESOLVED';
+      return vm.process.configurationState === 'RESOLVED';
     }
   }
 })();
