@@ -62,6 +62,7 @@
     "ngdocs": "0.1.0",
     "node-xml-lite": "0.0.5",
     "npm-run-all": "1.5.1",
+    "optimist": "0.6.1",
     "protractor": "3.0.0",
     "time-grunt": "0.2.10",
     "watch": "^0.17.1"
