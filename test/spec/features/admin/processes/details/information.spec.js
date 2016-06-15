@@ -89,7 +89,7 @@
         expect(log.error).not.toHaveBeenCalled();
       });
 
-      it('should open modal retrieving categories and error in modal should trigger error management', function(){
+      it('should open modal retrieving categories and error in modal should trigger error management', function() {
         var deferredStore = q.defer();
         store.load.and.returnValue(deferredStore.promise);
         modalInstance.result = deferredStore.promise;
@@ -100,7 +100,7 @@
         expect(log.error).toHaveBeenCalled();
       });
 
-      it('should open modal retrieving categories and call updateTagsAndAlertUser on success', function(){
+      it('should open modal retrieving categories and call updateTagsAndAlertUser on success', function() {
         var deferredStore = q.defer();
         store.load.and.returnValue(deferredStore.promise);
         modalInstance.result = deferredStore.promise;
@@ -111,7 +111,15 @@
         scope.$apply();
         expect(processInformationCtrl.updateTagsAndAlertUser).toHaveBeenCalledWith(categories);
       });
-      describe('updateTagsAndAlertUser function', function(){
+      it('should return false when process is not resolved', function() {
+        processInformationCtrl.process.configurationState = 'UNRESOLVED';
+        expect(processInformationCtrl.isProcessResolved()).toBeFalsy();
+      });
+      it('should return true when process is resolved', function() {
+        processInformationCtrl.process.configurationState = 'RESOLVED';
+        expect(processInformationCtrl.isProcessResolved()).toBeTruthy();
+      });
+      describe('updateTagsAndAlertUser function', function() {
         it('should wait For Promise And Update Tags And Alert User', function(){
           var cat1 = {id:111, name: 'cate1'},
             cat2 = {id:222, name: 'cate2'},
