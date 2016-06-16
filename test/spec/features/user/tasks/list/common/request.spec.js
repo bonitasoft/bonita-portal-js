@@ -24,7 +24,7 @@ describe('API Request', function(){
 
     it('should exposed PAGE_SIZES', function(){
       expect(PAGE_SIZES).toBeDefined();
-      expect(PAGE_SIZES).toEqual([25,50,100]);
+      expect(PAGE_SIZES).toEqual([25,50]);
     });
   });
 
