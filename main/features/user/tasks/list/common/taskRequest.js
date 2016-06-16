@@ -18,7 +18,7 @@
      * @constant Array of page sizes for paginating tasks list
      * @type {Array}
      */
-    .constant('PAGE_SIZES', [25,50,100])
+    .constant('PAGE_SIZES', [25,50])
 
     /**
      * @constant default page size in tasks list
