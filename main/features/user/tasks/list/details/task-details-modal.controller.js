@@ -8,7 +8,6 @@
   function TaskDetailsPopupCtrl($modalInstance, taskListStore, updateCount) {
 
     this.currentTask = taskListStore.currentTask;
-    this.currentCase = taskListStore.currentCase;
     this.updateCount = updateCount;
 
     this.cancel = function() {
