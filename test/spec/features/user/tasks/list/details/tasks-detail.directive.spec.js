@@ -108,19 +108,6 @@ describe('task-details directive', () => {
     expect(processAPI.get).toHaveBeenCalledWith({id: 42});
   });
 
-  it('should remove case tab content when there are no tasks in list', function() {
-    element.find('#case-tab > a').click();
-    var contextTab = element[0].querySelectorAll('.tab-pane.active');
-
-    store.tasks = [{id: 4}];
-    scope.$apply();
-    expect(contextTab[0].children.length).toBe(1);
-
-    store.tasks = [];
-    scope.$digest();
-    expect(contextTab[0].children.length).toBe(0);
-  });
-
   it('should update formUrl', function() {
 
     var isolatedScope = element.isolateScope();

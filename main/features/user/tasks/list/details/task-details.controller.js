@@ -19,7 +19,10 @@
     };
 
     // Watch the currentCase
-    $scope.$watch('currentCase', function(newCase) {
+    $scope.$watch(function() {
+      return taskListStore.currentCase;
+    }, function(newCase) {
+      $scope.currentCase = newCase;
       if (!newCase) {
         return;
       }
