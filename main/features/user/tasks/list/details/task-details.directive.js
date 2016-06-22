@@ -25,7 +25,6 @@
       replace: false,
       scope: {
         currentTask: '=',
-        currentCase: '=',
         refresh: '&',
         openDetailsPopup: '&'
       },
