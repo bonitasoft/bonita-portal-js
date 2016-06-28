@@ -31,7 +31,7 @@
       formMappingAPI.search({
         p: 0,
         c: 1,
-        f: ['processDefinitionId=' + $scope.currentTask.processId, 'type=PROCESS_OVERVIEW']
+        f: ['processDefinitionId=' + $scope.currentCase.processDefinitionId.id, 'type=PROCESS_OVERVIEW']
       }).$promise.then(function(response) {
           $scope.hasOverview = hasFormMapping(response);
           if ($scope.hasOverview) {
