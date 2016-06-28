@@ -46,9 +46,9 @@
         return;
       }
       $scope.hasForm = false;
-      $scope.loading = true;
       //Check if the task has a form
       if ('USER_TASK' === $scope.currentTask.type) {
+        $scope.loading = true;
         formMappingAPI.search({
           p: 0,
           c: 1,
