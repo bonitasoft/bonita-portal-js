@@ -57,6 +57,7 @@
     "ngdocs": "0.1.0",
     "node-xml-lite": "0.0.5",
     "protractor": "2.0.0",
+    "optimist": "0.6.1",
     "time-grunt": "0.2.10"
   },
   "engines": {

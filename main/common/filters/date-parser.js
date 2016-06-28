@@ -39,7 +39,7 @@
     var dateFormat = gettextCatalog.getString('MM/dd/yyyy h:mm a');
 
     parseDateService.parseAndFormat = function(date) {
-      return $filter('date')(date.replace(/ /, 'T'), dateFormat);
+      return  date && $filter('date')(date.replace(/ /, 'T'), dateFormat);
     };
 
     return parseDateService;

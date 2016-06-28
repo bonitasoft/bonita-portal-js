@@ -8,7 +8,7 @@
         </div>
         <div class="metatags-label  form-group">
           {{ 'Activation state' | translate }}&nbsp;
-              <toggle-button on="Enabled" off="Disabled" process-id="{{::processInformationCtrl.process.id}}" initial-state="{{::processInformationCtrl.process.activationState === 'ENABLED'}}" enable-toggle="processInformationCtrl.isProcessResolved"></toggle-button>
+              <toggle-button on="Enabled" off="Disabled" process-id="{{::processInformationCtrl.process.id}}" initial-state="{{::processInformationCtrl.process.activationState === 'ENABLED'}}" enable-toggle="processInformationCtrl.isProcessResolved()"></toggle-button>
         </div>
         <div class="metatags-label form-group">
             {{ 'Updated on' | translate }}
