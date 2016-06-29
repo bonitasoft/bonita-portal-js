@@ -5,6 +5,7 @@
 **/main/assets
 main/templates.js
 target/
+node/
 
 i18n/portal-js.pot
 
