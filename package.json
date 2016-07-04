@@ -56,7 +56,7 @@
     "karma-ng-html2js-preprocessor": "0.1.2",
     "karma-phantomjs-launcher": "0.1.4",
     "karma-safari-launcher": "0.1.1",
-    "less": "2.6.0",
+    "less": "2.7.1",
     "load-grunt-tasks": "0.4.0",
     "mkdirp": "0.5.1",
     "ngdocs": "0.1.0",
