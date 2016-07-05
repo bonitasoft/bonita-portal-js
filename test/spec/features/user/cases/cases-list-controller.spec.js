@@ -126,7 +126,7 @@
             d: [ 'titi',
             'tata',
             'toto' ],
-            o: 'id ASC',
+            o: 'id DESC',
             f: [ 'user_id=30' ],
             n: [ 'failed',
             'ongoing' ],
@@ -174,7 +174,7 @@
           expect(caseAPI.search).toHaveBeenCalledWith({
             p: 0,
             c: defaultPageSize,
-            o: defaultSort + ' ASC',
+            o: defaultSort + ' DESC',
             d: defaultDeployedFields,
             f: ['state=error','user_id='+williamJobsSession.user_id],
             n: defaultActiveCounterFields,
@@ -253,7 +253,7 @@
       }));
       it('should change searchSort value', function() {
         scope.pagination.currentPage = 8;
-        expect(scope.searchOptions.searchSort).toEqual('id ASC');
+        expect(scope.searchOptions.searchSort).toEqual('id DESC');
         casesCtrl.updateSortField({
           property: 'name',
           direction: false
@@ -277,10 +277,10 @@
       });
       it('should do nothing if nothing is pass', function() {
         scope.pagination.currentPage = 8;
-        expect(scope.searchOptions.searchSort).toEqual('id ASC');
+        expect(scope.searchOptions.searchSort).toEqual('id DESC');
         casesCtrl.updateSortField();
         expect(scope.pagination.currentPage).toBe(8);
-        expect(scope.searchOptions.searchSort).toEqual('id ASC');
+        expect(scope.searchOptions.searchSort).toEqual('id DESC');
       });
       it('should set sort to default if strange things are passed', function() {
         scope.pagination.currentPage = 8;
@@ -441,7 +441,7 @@
               p: 0,
               c: defaultPageSize,
               d: defaultDeployedFields,
-              o: defaultSort + ' ASC',
+              o: defaultSort + ' DESC',
               f: [ 'user_id=30' ],
               n: defaultActiveCounterFields,
               s: undefined
@@ -450,7 +450,7 @@
               p: 1,
               c: defaultPageSize,
               d: defaultDeployedFields,
-              o: defaultSort + ' ASC',
+              o: defaultSort + ' DESC',
               f: [ 'user_id=30' ],
               n: defaultActiveCounterFields,
               s: undefined
@@ -550,7 +550,7 @@
             [{
               p: 0,
               c: defaultPageSize,
-              o: defaultSort + ' ASC',
+              o: defaultSort + ' DESC',
               d: defaultDeployedFields,
               f: [ 'user_id=30' ],
               n: defaultActiveCounterFields,
@@ -644,7 +644,7 @@
               [{
                 p: 0,
                 c: defaultPageSize,
-                o: defaultSort + ' ASC',
+                o: defaultSort + ' DESC',
                 d: defaultDeployedFields,
                 f: [ 'user_id=30' ],
                 n: defaultActiveCounterFields,
@@ -670,7 +670,7 @@
               [{
                 p: 0,
                 c: defaultPageSize,
-                o: 'id ASC',
+                o: 'id DESC',
                 d: defaultDeployedFields,
                 f: [ 'user_id=30' ],
                 n: defaultActiveCounterFields,

@@ -128,7 +128,7 @@
     $scope.supervisorId = supervisorId;
 
     $scope.archivedTabName = !!tabName;
-    $scope.searchOptions = {filters: [], searchSort: defaultSort + ' ' + 'ASC'};
+    $scope.searchOptions = {filters: [], searchSort: defaultSort + ' ' + 'DESC'};
     $scope.searchOptions.filters = angular.copy(defaultFiltersArray);
     //never used it but initialized in this scope in order to keep track of sortOptions on table reload
     $scope.sortOptions = {
