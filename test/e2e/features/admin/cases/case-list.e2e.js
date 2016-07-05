@@ -102,7 +102,7 @@
         var columnHeaders = element.all(by.css('th.case-column'));
         expect(columnHeaders.count()).toBe(nbColumnsDiplayed-1);
         expect(columnHeaders.getText()).not.toContain('Process Name');
-        expect(caseList.all(by.css('#caseId-1 td.case-detail')).count()).toBe(nbColumnsDiplayed-1);
+        expect(caseList.all(by.css('#caseId-298 td.case-detail')).count()).toBe(nbColumnsDiplayed-1);
 
         var nextCheckedElement = element.all(by.css('.bo-TableSettings-columns input:checked'));
         expect(nextCheckedElement.count()).toBe(nbColumnsDiplayed-1);
@@ -113,7 +113,7 @@
         expect(caseList.all(by.css('th.case-column')).count()).toBe(nbColumnsDiplayed-2);
         columnHeaders = caseList.all(by.css('th.case-column'));
         expect(columnHeaders.getText()).not.toContain(nextCheckedElement.get(0).getText());
-        expect(caseList.all(by.css('#caseId-1 td.case-detail')).count()).toBe(nbColumnsDiplayed-2);
+        expect(caseList.all(by.css('#caseId-298 td.case-detail')).count()).toBe(nbColumnsDiplayed-2);
 
         nextCheckedElement = element.all(by.css('.bo-TableSettings-columns input'));
         nextCheckedElement.get(2).click();
@@ -121,14 +121,14 @@
         columnHeaders = caseList.all(by.css('th.case-column'));
         expect(columnHeaders.getText()).not.toContain('ID');
         expect(caseList.all(by.css('th.case-column')).count()).toBe(nbColumnsDiplayed-3);
-        expect(caseList.all(by.css('#caseId-1 td.case-detail')).count()).toBe(nbColumnsDiplayed-3);
+        expect(caseList.all(by.css('#caseId-298 td.case-detail')).count()).toBe(nbColumnsDiplayed-3);
 
         columnToShowNameList.get(2).click();
         expect(element.all(by.css('.bo-TableSettings-columns input')).get(2).isSelected()).toBeTruthy();
         columnHeaders = caseList.all(by.css('th.case-column'));
         expect(columnHeaders.getText()).toContain('Version');
         expect(caseList.all(by.css('th.case-column')).count()).toBe(nbColumnsDiplayed-2);
-        expect(caseList.all(by.css('#caseId-1 td.case-detail')).count()).toBe(nbColumnsDiplayed-2);
+        expect(caseList.all(by.css('#caseId-298 td.case-detail')).count()).toBe(nbColumnsDiplayed-2);
       });
     });
 
@@ -269,25 +269,25 @@
     });
 
     describe('case admin list content', function () {
-      it('should display the list of the 25 first cases and check the specifi content of the first row', function () {
+      it('should display the list of the 25 first cases and check the specific content of the first row', function () {
         expect(element.all(by.css('#case-list tr.case-row')).count()).toBe(25);
 
-        var firstCaseElements = caseList.all(by.css('#caseId-1 td'));
+        var firstCaseElements = caseList.all(by.css('#caseId-298 td'));
 
         firstCaseElements.then(function (poolCaseDetails) {
-          expect(poolCaseDetails[1].getText()).toContain('1');
-          expect(poolCaseDetails[1].element(by.css('a')).getAttribute('href')).toContain('#?id=1&_p=casemoredetailsadmin&');
+          expect(poolCaseDetails[1].getText()).toContain('298');
+          expect(poolCaseDetails[1].element(by.css('a')).getAttribute('href')).toContain('#?id=298&_p=casemoredetailsadmin&');
           expect(poolCaseDetails[2].getText()).toContain('Leave Request');
           expect(poolCaseDetails[2].element(by.css('a')).getAttribute('href')).toContain('#?id=7626384556180392799&_p=processmoredetailsadmin&');
           expect(poolCaseDetails[3].getText()).toContain('1.0');
           expect(poolCaseDetails[4].getText()).toContain('10/17/2014 4:05 PM');
-          expect(poolCaseDetails[5].getText()).toContain('Walter Bates');
-          expect(poolCaseDetails[6].getText()).toContain('1');
-          expect(poolCaseDetails[7].getText()).toContain('0');
+          expect(poolCaseDetails[5].getText()).toContain('William Jobs');
+          expect(poolCaseDetails[6].getText()).toContain('0');
+          expect(poolCaseDetails[7].getText()).toContain('1');
           if(browser.bonitaSpEdition()){
             expect(poolCaseDetails[8].getText()).toContain('No value');
           }
-          expect(poolCaseDetails[nbColumnsDiplayed+1].element(by.id('case-detail-btn-1')).getAttribute('href')).toContain('#?id=1&_p=casemoredetailsadmin&');
+          expect(poolCaseDetails[nbColumnsDiplayed+1].element(by.id('case-detail-btn-298')).getAttribute('href')).toContain('#?id=298&_p=casemoredetailsadmin&');
         });
 
       });
@@ -318,11 +318,11 @@
 
       it('should generate a good case link on the eye', function() {
         var caseList = element(by.css('#case-list'));
-        var linkList = element.all(by.css('#case-detail-btn-1', caseList));
+        var linkList = element.all(by.css('#case-detail-btn-298', caseList));
         var firstElt = linkList.get(0);
         firstElt.getAttribute('href').then(function(href) {
           expect(typeof href).toBe('string');
-          expect(href).toContain('/#?id=1&_p=casemoredetailsadmin&');
+          expect(href).toContain('/#?id=298&_p=casemoredetailsadmin&');
         });
       });
 

@@ -122,7 +122,7 @@
     $scope.supervisorId = supervisorId;
 
     $scope.archivedTabName = !!tabName;
-    $scope.searchOptions = {filters: [], searchSort: defaultSort + ' ' + 'ASC'};
+    $scope.searchOptions = {filters: [], searchSort: defaultSort + ' ' + 'DESC'};
     $scope.searchOptions.filters = angular.copy(defaultFiltersArray);
 
     $scope.currentUserId = null;

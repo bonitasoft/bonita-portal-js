@@ -199,9 +199,9 @@
       it('should order by id desc', function () {
         tableHeader.get(0).click();
         if(browser.bonitaSpEdition()){
-          expect(caseList.all(by.css('tbody tr')).get(0).all(by.css('td')).getText()).toEqual(['', '1000', 'ProcessX', '2.0', '10/20/2014 10:08 AM', 'System', '11/02/2014 10:07 AM', 'started', 'No value', '']);
+          expect(caseList.all(by.css('tbody tr')).get(0).all(by.css('td')).getText()).toEqual(['', '1', 'Leave Request', '1.0', '10/17/2014 4:05 PM', 'Walter Bates', '11/02/2014 10:07 AM', 'started', 'No value', '']);
         } else {
-          expect(caseList.all(by.css('tbody tr')).get(0).all(by.css('td')).getText()).toEqual(['', '1000', 'ProcessX', '2.0', '10/20/2014 10:08 AM', 'System', '11/02/2014 10:07 AM', 'started', '']);
+          expect(caseList.all(by.css('tbody tr')).get(0).all(by.css('td')).getText()).toEqual(['', '1', 'Leave Request', '1.0', '10/17/2014 4:05 PM', 'Walter Bates', '11/02/2014 10:07 AM', 'started', '' ]);
         }
       });
     });
