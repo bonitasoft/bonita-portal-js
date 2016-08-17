@@ -274,6 +274,7 @@ describe('module org.bonitasoft.features.user.tasks.list.table', function() {
         $httpBackend.flush();
         expect(isolated.refresh).toHaveBeenCalled();
       });
+
     });
 
     describe('ReleaseTasks', function(){
@@ -296,7 +297,7 @@ describe('module org.bonitasoft.features.user.tasks.list.table', function() {
         $httpBackend.verifyNoOutstandingRequest();
       });
 
-      it('should refresh tasks List', function(){
+      it('should unselect selected tasks', function(){
         var isolated = element.isolateScope();
         isolated.releaseTasks(mockTasks);
         $httpBackend.flush();
