@@ -115,7 +115,7 @@
               });
             })
             .catch(function(error) {
-              if(error.status === 403 || error.status === 404) {
+              if (error.status === 403 || error.status === 404) {
                 ngToast.create({
                   className: 'warning',
                   content: gettextCatalog.getString('One or more tasks are not available anymore. The list is now up to date.')
