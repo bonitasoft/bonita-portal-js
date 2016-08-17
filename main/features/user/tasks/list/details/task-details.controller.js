@@ -18,6 +18,9 @@
       context: false
     };
 
+    $scope.hasOverview = false;
+    $scope.hasForm = false;
+
     // Watch the currentCase
     $scope.$watch(function() {
       return taskListStore.currentCase;
@@ -26,53 +29,39 @@
       if (!newCase) {
         return;
       }
-      $scope.hasOverview = false;
       //Check if the process has an overview
-      formMappingAPI.search({
-        p: 0,
-        c: 1,
-        f: ['processDefinitionId=' + $scope.currentCase.processDefinitionId.id, 'type=PROCESS_OVERVIEW']
-      }).$promise.then(function(response) {
-          $scope.hasOverview = hasFormMapping(response);
-          if ($scope.hasOverview) {
-            $scope.overviewUrl = iframe.getCaseOverview(newCase, newCase.processDefinitionId);
-          }
-        });
+      fetchOverviewMapping();
     });
 
     // Watch the currentTask
-    $scope.$watch('currentTask', function(newTask) {
+    $scope.$watch('currentTask', function(newTask, oldTask) {
+      $scope.loading = true;
       if (!newTask) {
         return;
       }
-      $scope.hasForm = false;
-      //Check if the task has a form
-      if ('USER_TASK' === $scope.currentTask.type) {
-        $scope.loading = true;
-        formMappingAPI.search({
-          p: 0,
-          c: 1,
-          f: ['processDefinitionId=' + $scope.currentTask.processId, 'task=' + $scope.currentTask.name, 'type=TASK']
-        }).$promise.then(function(response) {
-            $scope.hasForm = hasFormMapping(response);
-            if($scope.hasForm && !hideForm()) {
-              /*jshint camelcase: false*/
-              return processAPI
-                .get({
-                  id: $scope.currentTask.processId
-                })
-                .$promise.then(function(data) {
-                  // Load the task informatioin for the iframe
-                  $scope.formUrl = iframe.getTaskForm(data, $scope.currentTask, taskListStore.user.user_id, false);
-                });
-            }
-          })
-          .finally(function() {
+      if (!hideForm()) {
+        //Check if the task has a form
+        if ('USER_TASK' === $scope.currentTask.type) {
+          //only check the form mapping if the selected task has changed or the first time a task is selected
+          if (newTask === oldTask || isNotSameTask(oldTask, newTask)) {
+            fetchFormMapping();
+          } else {
             $scope.loading = false;
-          });
+          }
+        } else {
+          $scope.hasForm = false;
+          $scope.loading = false;
+        }
       }
       $scope.tab.form = true;
     });
+
+    /**
+     * Check if the new task is a task different from the old task
+     */
+    function isNotSameTask(oldTask, newTask) {
+      return newTask.id !== oldTask.id || oldTask.archivedDate;
+    }
 
     /**
      * onTaskTask button handler
@@ -85,6 +74,55 @@
           $scope.refresh();
         });
     };
+
+    /**
+     * Check the process overview mapping and set the hasOverview property and the overviewurl
+     */
+    function fetchOverviewMapping() {
+      formMappingAPI.search({
+        p: 0,
+        c: 1,
+        f: ['processDefinitionId=' + $scope.currentCase.processDefinitionId.id, 'type=PROCESS_OVERVIEW']
+      }).$promise.then(function (response) {
+          $scope.hasOverview = hasFormMapping(response);
+          if ($scope.hasOverview) {
+            $scope.overviewUrl = iframe.getCaseOverview($scope.currentCase, $scope.currentCase.processDefinitionId);
+          }
+        })
+        .catch(function () {
+          $scope.hasOverview = false;
+        });
+    }
+
+    /**
+     * Check the task form mapping and set the hasForm property and the formUrl
+     */
+    function fetchFormMapping() {
+      formMappingAPI.search({
+        p: 0,
+        c: 1,
+        f: ['processDefinitionId=' + $scope.currentTask.processId, 'task=' + $scope.currentTask.name, 'type=TASK']
+      }).$promise.then(function (response) {
+          $scope.hasForm = hasFormMapping(response);
+          if ($scope.hasForm && !hideForm()) {
+            /*jshint camelcase: false*/
+            return processAPI
+              .get({
+                id: $scope.currentTask.processId
+              })
+              .$promise.then(function (data) {
+                // Load the task informatioin for the iframe
+                $scope.formUrl = iframe.getTaskForm(data, $scope.currentTask, taskListStore.user.user_id, false);
+              });
+          }
+        })
+        .catch(function () {
+          $scope.hasForm = false;
+        })
+        .finally(function () {
+          $scope.loading = false;
+        });
+    }
 
     function hasFormMapping(formMappingQueryResponse) {
       return !(formMappingQueryResponse.resource.pagination.total > 0 && formMappingQueryResponse.resource[0].target === 'NONE');
