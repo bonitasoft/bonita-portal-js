@@ -77,7 +77,7 @@
     "build": "npm-run-all --parallel build:* && grunt",
     "test": "grunt test",
     "test:watch": "karma start test/karma.conf.js --auto-watch",
-    "postinstall": "bower cache clean && bower install",
+    "postinstall": "bower install",
     "pot": "grunt pot",
     "pree2e": "webdriver-manager update && npm-run-all --parallel build:*",
     "e2e": "grunt buildE2e",
