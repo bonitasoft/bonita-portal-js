@@ -381,26 +381,43 @@ describe('taskApp', function(){
         ngToast = $injector.get('ngToast');
 
         spyOn(ngToast, 'create');
+        spyOn(controller, 'refresh');
       }));
 
-      it('should display a toast message', function() {
-        controller.onFormSubmited({message:'success'});
+      it('should not display a toast message if the action is not Submit task', function() {
+        controller.onFormSubmited({message:'success', action:'POST'});
+        expect(ngToast.create).not.toHaveBeenCalled();
+        expect(controller.refresh).not.toHaveBeenCalled();
+      });
+
+      it('should display a toast message and refresh', function() {
+        controller.onFormSubmited({message:'success', action:'Submit task'});
         expect(ngToast.create).toHaveBeenCalledWith('Form submitted.<br/>The next task in the list is now selected.');
+        expect(controller.refresh).toHaveBeenCalled();
       });
 
       it('should display a error message', function(){
-        controller.onFormSubmited('{"message":"error"}');
+        controller.onFormSubmited('{"message":"error","action":"Submit task"}');
         expect(ngToast.create).toHaveBeenCalledWith({content:'An error occurred while submitting the form.', className:'danger'});
+        expect(controller.refresh).not.toHaveBeenCalled();
       });
 
       it('should display a file too Big error message', function(){
-        controller.onFormSubmited('{"message":"error","dataFromError":"fileTooBigError"}');
+        controller.onFormSubmited('{"message":"error","action":"Submit task","dataFromError":"fileTooBigError"}');
         expect(ngToast.create).toHaveBeenCalledWith({content:'The attachment is too big.<br/>Select a smaller attachment and submit the form again.', className:'danger'});
+        expect(controller.refresh).not.toHaveBeenCalled();
       });
 
       it('should display a file too Big error message for a status 413', function(){
-        controller.onFormSubmited('{"message":"error","status":413}');
+        controller.onFormSubmited('{"message":"error","action":"Submit task","status":413}');
         expect(ngToast.create).toHaveBeenCalledWith({content:'The attachment is too big.<br/>Select a smaller attachment and submit the form again.', className:'danger'});
+        expect(controller.refresh).not.toHaveBeenCalled();
+      });
+
+      it('should display an error message and refresh is the task is not found', function(){
+        controller.onFormSubmited('{"message":"error","action":"Submit task","status":404}');
+        expect(ngToast.create).toHaveBeenCalledWith({content:'An error occurred while submitting the form.<br/>The task may not be available anymore.', className:'danger'});
+        expect(controller.refresh).toHaveBeenCalled();
       });
     });
 
