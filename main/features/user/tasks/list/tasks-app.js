@@ -243,28 +243,6 @@
         this.updateAll();
       };
 
-      this.onFormSubmited = function(message) {
-        var jsonMessage = typeof message === 'string' ? JSON.parse(message) : message;
-        if (jsonMessage.message === 'error') {
-          if (jsonMessage.dataFromError === 'fileTooBigError' || jsonMessage.status === 413) {
-            ngToast.create({
-              className:'danger',
-              content: gettextCatalog.getString('The attachment is too big.<br/>Select a smaller attachment and submit the form again.')
-            });
-          } else {
-            ngToast.create({
-              className: 'danger',
-              content: gettextCatalog.getString('An error occurred while submitting the form.')
-            });
-            this.refresh();
-          }
-        } else if (jsonMessage.message === 'success'){
-          $modalStack.dismissAll();
-          ngToast.create(gettextCatalog.getString('Form submitted.<br/>The next task in the list is now selected.'));
-          this.refresh();
-        }
-      };
-
       this.toggleFilters = function() {
         this.showMenu = !this.showMenu;
         preference.set('showFilters', this.showMenu);
@@ -273,6 +251,43 @@
       this.toggleDetails = function() {
         this.showDetails = !this.showDetails;
         preference.set('showDetails', this.showDetails);
+      };
+
+      this.onFormSubmited = function(message) {
+        var jsonMessage = typeof message === 'string' ? JSON.parse(message) : message;
+        if (jsonMessage.action === 'Submit task') {
+          if (jsonMessage.message === 'error') {
+            this.handleFormSubmissionError(jsonMessage);
+          } else if (jsonMessage.message === 'success') {
+            this.handleFormSubmissionSuccess();
+          }
+        }
+      };
+
+      this.handleFormSubmissionError = function(jsonMessage) {
+        if (jsonMessage.dataFromError === 'fileTooBigError' || jsonMessage.status === 413) {
+          ngToast.create({
+            className: 'danger',
+            content: gettextCatalog.getString('The attachment is too big.<br/>Select a smaller attachment and submit the form again.')
+          });
+        } else if (jsonMessage.status === 404) {
+          ngToast.create({
+            className: 'danger',
+            content: gettextCatalog.getString('An error occurred while submitting the form.<br/>The task may not be available anymore.')
+          });
+          this.refresh();
+        } else {
+          ngToast.create({
+            className: 'danger',
+            content: gettextCatalog.getString('An error occurred while submitting the form.')
+          });
+        }
+      };
+
+      this.handleFormSubmissionSuccess = function() {
+        $modalStack.dismissAll();
+        ngToast.create(gettextCatalog.getString('Form submitted.<br/>The next task in the list is now selected.'));
+        this.refresh();
       };
     }
   )
