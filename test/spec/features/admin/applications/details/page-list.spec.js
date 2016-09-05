@@ -535,7 +535,7 @@
 
       it('should save application page', function () {
         createController();
-        scope.page = {form: {token: ''}};
+        scope.page = {form: {token: {}}};
         scope.$apply();
 
         scope.add({
@@ -547,7 +547,7 @@
 
       it('should close modal on save success', function () {
         createController();
-        scope.page = {form: {token: ''}};
+        scope.page = {form: {token: {}}};
         scope.add({
           model: {token: ''}
         });
@@ -558,7 +558,7 @@
 
       it('should add an error on save failure with error 404 response', function () {
         createController();
-        scope.page = {form: {token: ''}};
+        scope.page = {form: {token: {}}};
         scope.add({
           model: {token: ''}
         });
@@ -573,7 +573,7 @@
 
       it('should add an error on save failure with error different than 404 or 500 response', function () {
         createController();
-        scope.page = {form: {token: ''}};
+        scope.page = {form: {token: {}}};
         scope.add({
           model: {token: ''}
         });
@@ -588,7 +588,7 @@
 
       it('should turn duplicate to true on save failure with 500 response', function () {
         createController();
-        scope.page = {form: {token: ''}};
+        scope.page = {form: {token: {}}};
         scope.add({
           model: {token: ''}
         });
