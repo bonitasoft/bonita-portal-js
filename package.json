@@ -35,7 +35,7 @@
     "grunt-newer": "0.6.1",
     "grunt-ng-annotate": "0.10.0",
     "grunt-ngdocs": "0.2.9",
-    "grunt-protractor-runner": "3.0.0",
+    "grunt-protractor-runner": "3.2.0",
     "grunt-rev": "0.1.0",
     "grunt-svgmin": "0.2.1",
     "grunt-task-helper": "0.3.7",
@@ -63,7 +63,7 @@
     "node-xml-lite": "0.0.5",
     "npm-run-all": "1.5.1",
     "optimist": "0.6.1",
-    "protractor": "3.0.0",
+    "protractor": "4.0.5",
     "time-grunt": "0.2.10",
     "watch": "^0.17.1"
   },
