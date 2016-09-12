@@ -41,13 +41,14 @@
    * currentCase.
    */
   .controller('TaskAppCtrl',
-    function($modal, $modalStack, $q, taskListStore, sessionAPI, screen, iframe, preference, humanTaskAPI, processAPI, ngToast, TASK_FILTERS, PAGE_SIZES, $timeout, gettextCatalog) {
+    function($modal, $modalStack, $q, taskListStore, sessionAPI, screen, iframe, preference, humanTaskAPI, processAPI, ngToast, TASK_FILTERS, PAGE_SIZES, $timeout, gettextCatalog, $location) {
       var vm = this;
       var store = taskListStore;
       this.tasks = store.tasks;
       this.request = store.request;
       this.TASK_FILTERS = TASK_FILTERS;
       this.PAGE_SIZES = PAGE_SIZES;
+      this.search = $location.search();
 
       Object.defineProperty(this, 'filter', {
         get: function() {
@@ -77,6 +78,9 @@
         store.user = sessionAPI.get({id:'unusedId'});
         store.user.$promise.then(function() {
           this.user = store.user;
+          if (this.search && angular.isString(this.search.filter)) {
+            this.setFilter(TASK_FILTERS[this.search.filter.toUpperCase()]);
+          }
           this.refresh();
           this.updateProcessList();
         }.bind(this));
