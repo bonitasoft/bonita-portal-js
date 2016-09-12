@@ -33,8 +33,8 @@ describe('taskApp', function(){
     var scope;
     var controller;
 
-    var $q;
-    var preference;
+    var $q, location;
+    var preference, taskFilters;
 
     beforeEach(module('org.bonitasoft.features.user.tasks.app'));
 
@@ -97,9 +97,11 @@ describe('taskApp', function(){
 
 
     /* Init controller */
-    beforeEach(inject(function($controller, $rootScope) {
+    beforeEach(inject(function($controller, $rootScope, _TASK_FILTERS_) {
       scope = $rootScope.$new();
-      controller = $controller('TaskAppCtrl', {});
+      location = jasmine.createSpyObj('$location', ['search']);
+      taskFilters = _TASK_FILTERS_;
+      controller = $controller('TaskAppCtrl', {$location: location});
     }));
 
 
@@ -128,6 +130,7 @@ describe('taskApp', function(){
 
       it('should fetch connected user', function(){
 
+        spyOn(controller, 'setFilter');
         controller.init();
         scope.$digest();
 
@@ -136,6 +139,22 @@ describe('taskApp', function(){
         expect(controller.updateTasks).toHaveBeenCalled();
         expect(controller.updateProcessList).toHaveBeenCalled();
         expect(controller.updateCount).toHaveBeenCalled();
+        expect(location.search).toHaveBeenCalled();
+        expect(controller.setFilter).not.toHaveBeenCalled();
+      });
+
+      it('should fetch connected user and set filter to DONE tasks', function(){
+        controller.search = {filter: 'done'};
+        spyOn(controller, 'setFilter');
+        controller.init();
+        scope.$digest();
+
+        expect(controller.user).toBeDefined();
+        expect(controller.user).toEqual(jasmine.objectContaining(mockUser));
+        expect(controller.updateTasks).toHaveBeenCalled();
+        expect(controller.updateProcessList).toHaveBeenCalled();
+        expect(controller.updateCount).toHaveBeenCalled();
+        expect(controller.setFilter).toHaveBeenCalledWith(taskFilters.DONE);
       });
     });
 
