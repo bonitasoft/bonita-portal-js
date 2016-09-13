@@ -30,7 +30,6 @@
     "grunt-html2js": "0.3.5",
     "grunt-injector": "0.5.4",
     "grunt-karma": "0.12.1",
-    "grunt-karma-sonar": "0.2.17",
     "grunt-lineending": "0.2.4",
     "grunt-newer": "0.6.1",
     "grunt-ng-annotate": "0.10.0",
