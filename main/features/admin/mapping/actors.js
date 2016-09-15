@@ -85,12 +85,16 @@
         // with mutli-select internal model
         // see https://bonitasoft.atlassian.net/browse/BS-15195
         if (search.keyword) {
-          vm.members = vm.members.filter(function (member) {
-            return member.listLabel.startsWith(search.keyword);
-          });
+          vm.members = vm.ensureKeywordMatchesEntries(search.keyword, vm.members);
         }
       });
     };
     vm.search({});
+
+    vm.ensureKeywordMatchesEntries = function(keyword, members) {
+      return members.filter(function (member) {
+        return member.listLabel.match(new RegExp(keyword, 'i'));
+      });
+    };
   });
 })();
