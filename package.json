@@ -83,6 +83,6 @@
     "e2e": "grunt buildE2e",
     "dev:serve": "grunt serve",
     "dev:less": "watch --wait=1 'npm-run-all --parallel build:*' main/styles",
-    "dev": "npm-run-all --parallel dev:*"
+    "start": "npm-run-all --parallel dev:*"
   }
 }
