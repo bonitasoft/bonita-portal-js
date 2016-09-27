@@ -13,7 +13,7 @@ Please run `npm install` Before launching any of following tasks
 Before running project in development mode, you need to launch a Bonita BPM backend available on URL http://localhost:8080/
 Then launch:
 
-    npm run dev
+    npm start
     
 Project should be running at URL http://localhost:9000/bonita/portaljs/
     
