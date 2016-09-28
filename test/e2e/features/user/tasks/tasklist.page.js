@@ -1,3 +1,5 @@
+import queryString from 'query-string';
+
 class DetailsPanel {
 
   constructor() {
@@ -20,8 +22,9 @@ class DetailsPanel {
 
 class TaskList {
 
-  static get() {
-    browser.get((browser.params.urls || {}).userTaskList || '#/user/tasks/list');
+  static get(searchParams) {
+    let url = (browser.params.urls || {}).userTaskList || '#/user/tasks/list';
+    browser.get(url + '?' + queryString.stringify(searchParams));
     browser.waitForAngular();
     return new TaskList();
   }
@@ -32,6 +35,10 @@ class TaskList {
 
   selectDoneTasksFilter() {
     element(by.css('.TaskFilters li a#done-tasks')).click();
+  }
+
+  getTasks() {
+    return element.all(by.repeater('task in tasks'));
   }
 
   detailsPanel() {
