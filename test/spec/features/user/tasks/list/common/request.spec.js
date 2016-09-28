@@ -44,12 +44,17 @@ describe('API Request', function(){
 
     });
 
+    it('should append case filter if process is supplied ', function(){
+      request.caseId = 789;
+      var req = request.getRequest();
+      var filters = req.params.f.filter(filter => filter.match(/case/));
+      expect(filters.length).toBe(1);
+    });
+
     it('should append processId filter if process is supplied ', function(){
       request.process= {id:9999};
       var req = request.getRequest();
-      var filters = req.params.f.filter(function(filter){
-        return filter.match(/processId/);
-      });
+      var filters = req.params.f.filter(filter => filter.match(/processId/));
       expect(filters.length).toBe(1);
     });
 
@@ -57,9 +62,7 @@ describe('API Request', function(){
       request.process = {id:9999};
       request.taskFilter = TASK_FILTERS.DONE;
       var req = request.getRequest();
-      var filters = req.params.f.filter(function(filter){
-        return filter.match(/processId/);
-      });
+      var filters = req.params.f.filter(filter => filter.match(/processId/));
       expect(filters.length).toBe(0);
     });
   });

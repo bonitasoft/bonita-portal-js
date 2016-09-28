@@ -37,10 +37,16 @@
       function(TASK_FILTERS, DEFAULT_PAGE_SIZE) {
 
         /**
-         * If provided, a process filter toke is added to the request
+         * If provided, a process filter token is added to the request
          * @type {Object}
          */
         this.process = null;
+
+        /**
+         * If provided, a case id filter token is added to the request
+         * @type {Number}
+         */
+        this.caseId = null;
 
         /**
          * current Task Filter
@@ -86,6 +92,14 @@
           params.p = this.pagination.currentPage-1 || 0;
           params.o = this.taskFilter.sortOption.property + ' ' + (this.taskFilter.sortOption.direction ? 'DESC' : 'ASC');
           params.f = this.taskFilter.filters.slice();
+
+          if (this.caseId) {
+            if (this.taskFilter === TASK_FILTERS.DONE) {
+              params.f.push('rootCaseId='+this.caseId);
+            } else {
+              params.f.push('caseId='+this.caseId);
+            }
+          }
 
           if (this.process && this.process.id && this.taskFilter !== TASK_FILTERS.DONE) {
             params.f.push('processId='+this.process.id);
