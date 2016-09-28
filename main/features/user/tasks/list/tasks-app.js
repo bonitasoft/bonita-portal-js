@@ -41,7 +41,7 @@
    * currentCase.
    */
   .controller('TaskAppCtrl',
-    function($modal, $modalStack, $q, taskListStore, sessionAPI, screen, iframe, preference, humanTaskAPI, processAPI, ngToast, TASK_FILTERS, PAGE_SIZES, $timeout, gettextCatalog, $location) {
+    function($modal, $modalStack, $q, taskListStore, sessionAPI, screen, iframe, preference, ngToast, TASK_FILTERS, PAGE_SIZES, $timeout, gettextCatalog, $location) {
       var vm = this;
       var store = taskListStore;
       this.tasks = store.tasks;
@@ -78,6 +78,9 @@
         store.user = sessionAPI.get({id:'unusedId'});
         store.user.$promise.then(function() {
           this.user = store.user;
+          if (this.search && !isNaN(Number(this.search.case))) {
+            this.setCase(Number(this.search.case));
+          }
           if (this.search && angular.isString(this.search.filter)) {
             this.setFilter(TASK_FILTERS[this.search.filter.toUpperCase()]);
           }
@@ -102,6 +105,14 @@
 
       this.resetPagination = function() {
         store.request.pagination.currentPage = 1;
+      };
+
+      /**
+       * set case filter for task list
+       * @param {Object} process
+       */
+      this.setCase = function(caseId) {
+        store.request.caseId = caseId;
       };
 
       /**
@@ -136,6 +147,14 @@
       this.updateTasks = function() {
         this.loadingTasks = true;
         var promise = store.getTasks()
+          .then(function() {
+            if (store.request.case) {
+              $location.search('case', store.request.case);
+            }
+            if (store.request.taskFilter) {
+              $location.search('filter', store.request.taskFilter.id);
+            }
+          })
           .then(function() {
             this.tasks = store.tasks;
             this.currentTask = store.currentTask;
