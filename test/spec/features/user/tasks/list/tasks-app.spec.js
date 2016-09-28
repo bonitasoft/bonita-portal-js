@@ -269,8 +269,14 @@ describe('taskApp', function(){
       }));
 
       it('should request tasks list', function(){
+        store.request.case = 4;
+        location.search.calls.reset();
         controller.updateTasks();
+        scope.$apply();
+        expect(location.search).toHaveBeenCalledWith('case', 4);
+        expect(location.search).toHaveBeenCalledWith('filter', 'todo');
         expect(store.getTasks).toHaveBeenCalled();
+        delete store.request.case;
       });
 
       it('should attach tasks to scope', function(){

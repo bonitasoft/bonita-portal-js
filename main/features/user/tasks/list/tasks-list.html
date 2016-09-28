@@ -31,6 +31,7 @@
         <div class="TaskList-filters panel panel-default">
             <div class="panel-heading title ng-binding" translate>Filters</div>
             <div class="panel-body">
+               <div class="row">
                 <div class="col-md-7 button-filter ng-binding" ng-hide="app.request.taskFilter === app.TASK_FILTERS.DONE">
                     {{ 'Process' | translate }}
                     <div class="btn-group dropdown Filter-process" dropdown="">
@@ -54,10 +55,25 @@
                             </li>
                         </ul>
                     </div>
+                  </div>
+                  <div class="col-md-5" ng-class="{'col-md-offset-7': app.request.taskFilter === app.TASK_FILTERS.DONE}">
+                    <form class="form-inline btn-group pull-right">
+                      {{ 'Case' | translate }}
+                      <div class="form-group Filter-process">
+                        <input type="number" ng-model="app.request.caseId" class="form-control TaskFilter-caseIdInput" id="case" name="case" placeholder="{{'Case ID' | translate}}"
+                             ng-model-options="{updateOn:'blur'}"
+                             ng-change="app.searchTask()" tooltip-template="'tooltip-case-filter.html'" tooltip-placement="right" tooltip-popup-delay="500" tooltip-animation="false" tooltip-append-to-body="true">
+                      </div>
+                      <script type="text/ng-template" id="tooltip-case-filter.html">
+                        <span translate>Type in a case id and <br/> press enter to search for <br/> human task of a specific case</span>
+                      </script>
+                    </form>
                 </div>
-                <div ng-class="(app.request.taskFilter === app.TASK_FILTERS.DONE)?'col-md-8':'col-md-5'" style="float:right">
+              </div>
+             <div class="row">
+                <div class="col-md-12">
                     <form role="form" name="searchForm" class="SearchBox" novalidate="" ng-submit="app.searchTask()">
-                        <div class="input-group">
+                        <div class="input-group TaskList--paddingTop">
                             <input class="form-control SearchBox-input" id="search"
                                    input-focus
                                    placeholder="{{ 'Search...' | translate }}"
@@ -68,9 +84,10 @@
                                 <span class="glyphicon glyphicon-search"></span>
                             </span>
                         </div>
-                        <span class="help-block" translate>In task name column</span>
+                        <span class="help-block pull-right" translate>In task name column</span>
                     </form>
                 </div>
+              </div>
             </div>
         </div>
         <div class="TaskList-table panel panel-default">
