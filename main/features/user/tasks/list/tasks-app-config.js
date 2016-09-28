@@ -18,18 +18,21 @@
       var archivedTaskSortOption = { property: 'displayName', direction: false };
       return {
         TODO: {
+          id: 'todo',
           title: 'To do',
           resource: humanTaskAPI,
           filters: ['state=ready', 'user_id=%userId'],
           sortOption: openedTaskSortOption
         },
         MY_TASK: {
+          id: 'myTasks',
           title: 'My tasks',
           resource: humanTaskAPI,
           filters: ['state=ready', 'assigned_id=%userId'],
           sortOption: openedTaskSortOption
         },
         DONE: {
+          id: 'done',
           title: 'Done tasks',
           resource: archivedHumanTaskAPI,
           filters: ['assigned_id=%userId', 'state=completed'],

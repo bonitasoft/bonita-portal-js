@@ -18,7 +18,7 @@ import TaskList from './tasklist.page.js';
       });
 
       it('should load a list of task', function() {
-          var tasks = element.all(by.repeater('task in tasks'));
+          var tasks = tasklist.getTasks();
           expect(tasks.count()).toBe(26);
       });
 
@@ -31,7 +31,7 @@ import TaskList from './tasklist.page.js';
           element(by.id('search')).sendKeys('app');
           element(by.id('search')).sendKeys(protractor.Key.ENTER);
 
-          var tasks = element.all(by.repeater('task in tasks'));
+          var tasks = tasklist.getTasks();
           expect(tasks.count()).toBe(2);
 
       });
@@ -42,16 +42,23 @@ import TaskList from './tasklist.page.js';
           element.all(by.css('.bo-TableSettings-content .btn-group button')).first().click();
 
           var tasks;
-          element.all(by.repeater('task in tasks'))
-              .then(function(_tasks) {
-                  tasks = _tasks;
-              })
-              .then(function() {
-                  return test;
-              })
-              .then(function(val) {
-                  expect(tasks.length).toEqual(parseInt(val, 10));
-              });
+          tasklist.getTasks()
+              .then(_tasks => tasks = _tasks)
+              .then(() => test)
+              .then(val => expect(tasks.length).toEqual(parseInt(val, 10)));
+      });
+
+      it('should go to filtered task by case id', function() {
+          tasklist = TaskList.get({ case: 6 });
+          var tasks = tasklist.getTasks();
+          expect(tasks.count()).toBe(2);
+      });
+
+      it('should filter task by case id', function() {
+          element(by.css('#case')).sendKeys('6').sendKeys(protractor.Key.ENTER);
+
+          var tasks = tasklist.getTasks();
+          expect(tasks.count()).toBe(2);
       });
 
       it('should filter task by process', function() {
@@ -63,7 +70,7 @@ import TaskList from './tasklist.page.js';
 
           //select last process
           processes.last().element(by.css('.processOptionLink')).click();
-          var tasks = element.all(by.repeater('task in tasks'));
+          var tasks = tasklist.getTasks();
           expect(tasks.count()).toBe(2);
       });
 
@@ -83,8 +90,19 @@ import TaskList from './tasklist.page.js';
 
           expect(link).toMatch(/my tasks/i);
 
-          var tasks = element.all(by.repeater('task in tasks'));
+          var tasks = tasklist.getTasks();
           expect(tasks.count()).toBe(2);
+      });
+
+      it('should set filter to done', function() {
+          tasklist = TaskList.get({filter: 'done'});
+          var link = element(by.css('.TaskFilters .active'))
+              .getWebElement()
+              .getText();
+          expect(link).toMatch(/done/i);
+
+          var tasks = tasklist.getTasks();
+          expect(tasks.count()).toBe(5);
       });
 
       it('should filter done tasks', function() {
@@ -95,12 +113,12 @@ import TaskList from './tasklist.page.js';
               .getText();
           expect(link).toMatch(/done/i);
 
-          var tasks = element.all(by.repeater('task in tasks'));
+          var tasks = tasklist.getTasks();
           expect(tasks.count()).toBe(5);
       });
 
       it('should have sorted tasks by default', function() {
-          var tasks = element.all(by.repeater('task in tasks'));
+          var tasks = tasklist.getTasks();
           tasks.first().all(by.css('td')).get(2).getText().then(function(name) {
               expect(name.trim()).toBe('A Étape1');
           });
@@ -131,7 +149,7 @@ import TaskList from './tasklist.page.js';
               .element(by.tagName('a'))
               .click();
 
-          var tasks = element.all(by.repeater('task in tasks'));
+          var tasks = tasklist.getTasks();
           expect(tasks.count()).toBe(1);
       });
 

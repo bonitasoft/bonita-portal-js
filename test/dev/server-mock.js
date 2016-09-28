@@ -183,6 +183,7 @@
   when('GET', /^\/API\/bpm\/humanTask\?c=50&d=rootContainerId&f=state%3Dready&f=assigned_id%3D1&o=displayName\+ASC&p=0/).respond(require('./user/tasks/list/humanTasksSearchFilteredOnCurrentUser-mock.json'));
   when('GET', /^\/API\/bpm\/humanTask\?c=0&f=state%3Dready&f=assigned_id%3D0&f=user_id%3D1&p=0/).respond(require('./user/tasks/list/humanTasksSearchFilteredOnProcessId-mock.json'));
   when('GET', /^\/API\/bpm\/humanTask\?c=50&d=rootContainerId&f=state%3Dready&f=assigned_id%3D0&f=user_id%3D1&o=displayName\+ASC&p=0/).respond(require('./user/tasks/list/humanTasksSearchFilteredOnProcessId-mock.json'));
+  when('GET', /^\/API\/bpm\/humanTask\?c=50&d=rootContainerId&f=state%3Dready&f=user_id%3D1&f=caseId%3D6&o=displayName\+ASC&p=0/).respond(require('./user/tasks/list/humanTasksSearchFilteredOnCaseId-mock.json'));
 
   when('GET', /^\/API\/bpm\/humanTask\?c=(25|50)&d=rootContainerId&f=state%3Dready(&f=assigned_id%3D0)*&f=user_id%3D1(&f=processId%3D5545132423260882733)*&o=displayName\+ASC&p=[0|1]/).respond(require('./user/tasks/list/humanTaskSearchAsc-mock.json'));
 
