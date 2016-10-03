@@ -46,6 +46,7 @@
         } else {
           expect(caseList.all(by.css('tbody tr')).get(0).all(by.css('td')).getText()).toEqual(['2', 'Pool', '1.0', '10/16/2014 4:05 PM', 'William Jobs', '', '']);
         }
+        expect(caseList.all(by.css('#task-list-btn-2')).first().getAttribute('bonita-href')).toEqual('{ token: \'tasklistinguser\', case: case.ID, prependToken: false }');
       });
 
       it('should order by date desc', function() {
@@ -55,6 +56,7 @@
         } else {
           expect(caseList.all(by.css('tbody tr')).get(0).all(by.css('td')).getText()).toEqual(['1022', 'ProcessX', '2.0', '10/20/2014 10:08 AM', 'System', '', '']);
         }
+        expect(caseList.all(by.css('#task-list-btn-1022')).first().isPresent()).toBeTruthy();
       });
     });
 

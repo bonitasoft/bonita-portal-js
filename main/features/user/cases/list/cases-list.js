@@ -197,12 +197,6 @@
       }
     };
 
-    vm.getLinkToCase = function (caseItem) {
-      if (caseItem) {
-        return manageTopUrl.getPath() + manageTopUrl.getSearch() + '#?id=' + caseItem.id + '&_p=' + (moreUserDetailToken || '') + '&' + manageTopUrl.getCurrentProfile();
-      }
-    };
-
     vm.getLinkToCaseOverview = function (caseItem) {
       if (caseItem) {
         return manageTopUrl.getPath() + manageTopUrl.getSearch() + '#?name=' + caseItem.processDefinitionId.name + '&version=' + caseItem.processDefinitionId.version + '&processDefinitionId=' + caseItem.processDefinitionId.id + '&id=' + caseItem.id + '&token=DisplayCaseForm&_p=DisplayCaseForm' + '&_pf=' + manageTopUrl.getCurrentProfile();
