@@ -335,33 +335,6 @@
             manageTopUrl.getSearch.calls.reset();
             manageTopUrl.getCurrentProfile.calls.reset();
           }));
-          it('should change top location hash to case detail', function() {
-            expect(casesCtrl.getLinkToCase()).toBeUndefined();
-          });
-
-          it('should change top location hash to case detail', function() {
-            manageTopUrl.getPath.and.returnValue('/bonita/portal/homepage');
-            manageTopUrl.getSearch.and.returnValue('?tenant=1');
-            manageTopUrl.getCurrentProfile.and.returnValue('_pf=2');
-            var caseItem = {
-              id: 123,
-              processDefinitionId: {
-                id: 321
-              }
-            };
-            expect(casesCtrl.getLinkToCase(caseItem)).toEqual('/bonita/portal/homepage?tenant=1#?id=123&_p=casemoredetails&_pf=2');
-            caseItem = {
-              id: '4568',
-              processDefinitionId: {
-                id: 3987
-              }
-            };
-            casesCtrl.getLinkToCase(caseItem);
-            expect(casesCtrl.getLinkToCase(caseItem)).toEqual('/bonita/portal/homepage?tenant=1#?id=4568&_p=casemoredetails&_pf=2');
-            expect(manageTopUrl.getPath.calls.count()).toEqual(3);
-            expect(manageTopUrl.getSearch.calls.count()).toEqual(3);
-            expect(manageTopUrl.getCurrentProfile.calls.count()).toEqual(3);
-          });
         });
       });
 
