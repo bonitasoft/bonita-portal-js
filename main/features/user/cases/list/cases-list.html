@@ -46,18 +46,23 @@
               <td class="case-detail">{{::case['Version']}}</td>
               <td class="case-detail">{{::caseUserCtrl.parseAndFormat(case['Start date'])}}</td>
               <td class="case-detail" title="{{'username:' | translate}} {{::case['Started by'] || ('System' | translate)}}">{{::case['Started by fullname'] || ('System' | translate)}}</td>
-              <td class="case-detail text-right">{{::case['Available tasks']}}</td>
+              <td class="case-detail text-right">
+                <a ng-if="case['Available tasks'] > 0" id="task-list-btn-{{::case.id}}" bonita-href="{ token: 'tasklistinguser', case: case.ID, prependToken: false }" tooltip="{{'Show available tasks in task list for case' | translate }} {{::case.id}}"  tooltip-popup-delay="500" tooltip-animation="false"  href="" class="open-link">
+                  {{::case['Available tasks']}}
+                </a>
+                <span ng-if="case['Available tasks'] === 0">0</span>
+              </td>
               <td class="case-detail" ng-hide="!caseUserCtrl.displayKeys()"><search-index case="case" index="1"></search-index></td>
               <td class="case-detail" ng-hide="!caseUserCtrl.displayKeys()"><search-index case="case" index="2"></search-index></td>
               <td class="case-detail" ng-hide="!caseUserCtrl.displayKeys()"><search-index case="case" index="3"></search-index></td>
               <td class="case-detail" ng-hide="!caseUserCtrl.displayKeys()"><search-index case="case" index="4"></search-index></td>
               <td class="case-detail" ng-hide="!caseUserCtrl.displayKeys()"><search-index case="case" index="5"></search-index></td>
               <td class="case-link text-center">
-                <a id="case-overview-btn-{{::case.id}}" tooltip="{{'View case overview' | translate }}"  tooltip-popup-delay="500" tooltip-animation="false" target="_parent" ng-href="{{::caseUserCtrl.getLinkToCaseOverview(case)}}" class="open-link">
+                <a id="case-overview-btn-{{::case.id}}" tooltip="{{'View case overview' | translate }}"  tooltip-popup-delay="500" tooltip-animation="false" ng-href="{{::caseUserCtrl.getLinkToCaseOverview(case)}}" href="" class="open-link">
                   <span class="glyphicon glyphicon-eye-open"></span>
                 </a>
-                <a id="case-detail-btn-{{::case.id}}" tooltip="{{'View case details' | translate }}"  tooltip-popup-delay="500" tooltip-animation="false" target="_parent" ng-href="{{::caseUserCtrl.getLinkToCase(case)}}" class="open-link">
-                  <span class="glyphicon glyphicon-option-horizontal"></span>
+                <a id="task-list-btn-{{::case.id}}" tooltip="{{'Show available tasks in task list for case' | translate }} {{::case.ID}}"  tooltip-popup-delay="500" tooltip-animation="false" target="_parent" bonita-href="{ token: 'tasklistinguser', case: case.ID, prependToken: false }" href="" class="open-link">
+                  <span class="glyphicon glyphicon-list"></span>
                 </a>
               </td>
             </tr>
@@ -107,8 +112,8 @@
                 <a id="case-overview-btn-{{::case.id}}" tooltip="{{'View case overview' | translate }}"  tooltip-popup-delay="500" tooltip-animation="false" target="_parent" ng-href="{{::caseUserCtrl.getLinkToArchivedCaseOverview(case)}}" class="open-link">
                   <span class="glyphicon glyphicon-eye-open"></span>
                 </a>
-                <a id="case-detail-btn-{{::case.id}}" tooltip="{{'View case details' | translate }}"  tooltip-popup-delay="500" tooltip-animation="false" target="_parent" ng-href="{{::caseUserCtrl.getLinkToCase(case)}}" class="open-link">
-                  <span class="glyphicon glyphicon-option-horizontal"></span>
+                <a id="task-list-btn-{{::case.id}}" tooltip="{{'Show available tasks in task list for archived case' | translate }} {{::case.ID}}"  tooltip-popup-delay="500" tooltip-animation="false" bonita-href="{ token: 'tasklistinguser', case: case.ID, prependToken: false, filter: 'done' }" href="" class="open-link">
+                  <span class="glyphicon glyphicon-list"></span>
                 </a>
               </td>
             </tr>
