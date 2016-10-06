@@ -11,6 +11,7 @@
             </div>
             <div class="Comment-content">{{ comment.content }}</div>
         </div>
+        <div ng-if="vm.comments.length == 0" class="text-muted" translate>No comment on this case yet. To add one, use the input field at the bottom of this panel</div>
     </div>
 
     <footer class="Comments-footer">
