@@ -11,12 +11,13 @@ describe('iframe', function() {
 
   var mockedWindow = {
     location: {
-      href: bonitaHost
+      href: bonitaHost,
+      search: '?app=myApp&param=value'
     }
   };
 
-  var formUrl = bonitaHost+'resource/taskInstance/processName/1.1.1/task1/content/?id=1';
-  var overViewUrl = bonitaHost+'resource/processInstance/processName/1.1.1/content/?id=77';
+  var formUrl = bonitaHost+'resource/taskInstance/processName/1.1.1/task1/content/?id=1&app=myApp';
+  var overViewUrl = bonitaHost+'resource/processInstance/processName/1.1.1/content/?id=77&app=myApp';
 
   var userId = 123;
   var task =  {id:1, name:'task1', selected:true} ;
@@ -73,33 +74,37 @@ describe('iframe', function() {
     expect(toUrl).toContain('&locale=EN_en');
   });
 
-  it('should not include tenant ID when not in the current URL', function(){
+  it('should not include locale when not in the current URL', function(){
     var toUrl = iframe.getTaskForm(process, task, userId);
     expect(toUrl).not.toContain('locale');
   });
 
+  it('should include app when in the current URL', function(){
+    var toUrl = iframe.getTaskForm(process, task, userId);
+    expect(toUrl).toContain('&app=myApp');
+  });
 
   describe('should be called with encoded characters', function(){
     it('in task form url', function(){
       var confirmation = false;
       var encodedTaskFormUrl = iframe.getTaskForm(specialCharsProcess, specialCharsTask, userId, confirmation);
-      expect(encodedTaskFormUrl).toBe(bonitaHost+'resource/taskInstance/processus%20/%20accentu%C3%A9%20/deuxi%C3%A8me%20Version/%C3%A9tape%201/2/content/?id=1&displayConfirmation=false');
+      expect(encodedTaskFormUrl).toBe(bonitaHost+'resource/taskInstance/processus%20/%20accentu%C3%A9%20/deuxi%C3%A8me%20Version/%C3%A9tape%201/2/content/?id=1&app=myApp&displayConfirmation=false');
     });
 
     it('in case overview url', function(){
       var encodedCaseOverviewUrl = iframe.getCaseOverview(Case,specialCharsProcess);
-      expect(encodedCaseOverviewUrl).toBe(bonitaHost+'resource/processInstance/processus%20/%20accentu%C3%A9%20/deuxi%C3%A8me%20Version/content/?id=77');
+      expect(encodedCaseOverviewUrl).toBe(bonitaHost+'resource/processInstance/processus%20/%20accentu%C3%A9%20/deuxi%C3%A8me%20Version/content/?id=77&app=myApp');
     });
   });
 
   it('should not have displayConfirmation parameter in task form url if confirmation parameter value is not false', function(){
     var confirmation = true;
     var encodedTaskFormUrl = iframe.getTaskForm(specialCharsProcess, specialCharsTask, userId, confirmation);
-    expect(encodedTaskFormUrl).toBe(bonitaHost+'resource/taskInstance/processus%20/%20accentu%C3%A9%20/deuxi%C3%A8me%20Version/%C3%A9tape%201/2/content/?id=1');
+    expect(encodedTaskFormUrl).toBe(bonitaHost+'resource/taskInstance/processus%20/%20accentu%C3%A9%20/deuxi%C3%A8me%20Version/%C3%A9tape%201/2/content/?id=1&app=myApp');
   });
 
   it('should not have displayConfirmation parameter in task form url if confirmation parameter not given', function(){
     var encodedTaskFormUrl = iframe.getTaskForm(specialCharsProcess, specialCharsTask, userId);
-    expect(encodedTaskFormUrl).toBe(bonitaHost+'resource/taskInstance/processus%20/%20accentu%C3%A9%20/deuxi%C3%A8me%20Version/%C3%A9tape%201/2/content/?id=1');
+    expect(encodedTaskFormUrl).toBe(bonitaHost+'resource/taskInstance/processus%20/%20accentu%C3%A9%20/deuxi%C3%A8me%20Version/%C3%A9tape%201/2/content/?id=1&app=myApp');
   });
 });
