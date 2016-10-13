@@ -55,8 +55,6 @@
       I18N_KEYS['processDetails.startFor.user.helper'] = gettext('Type here to search for a user...');
       I18N_KEYS['processDetails.startFor.label'] = gettext('Enter the user to start the case for...');
       I18N_KEYS['processDetails.forms.add.error'] = gettext('Can\'t import page or form to the process');
-      I18N_KEYS['processDetails.forms.mapping.empty'] = gettext('No Mapping');
-      I18N_KEYS['processDetails.forms.mapping.edit.empty'] = gettext('Form cannot be empty');
       I18N_KEYS['processDetails.forms.upload.error.filename.length'] = gettext('Filename too long. The zip filename must be no longer than 50 characters');
       I18N_KEYS['processDetails.forms.upload.error.file.structure'] = gettext('Zip file structure error. Check that your .zip contains a well-formed page.properties and either the index.html or the Index.groovy file. For details, see the documentation or the example page readme (available in the custom page list)');
       I18N_KEYS['processDetails.forms.upload.error.name.already.exists'] = gettext('A page with this name already exists.');
@@ -66,7 +64,7 @@
       I18N_KEYS['processDetails.problemResolution.message.connector'] = gettext('Connectors must be resolved before enabling the Process.');
       I18N_KEYS['processDetails.problemResolution.message.parameter'] = gettext('Parameters must be resolved before enabling the Process.');
       I18N_KEYS['processDetails.problemResolution.message.businessData'] = gettext('The business data: [ {} ] uses Business Objects which are not defined in the current Business Data model. Deploy a compatible Business Data model before enabling the process.');
-      I18N_KEYS['processDetails.problemResolution.message.formMapping'] = gettext('The following form mappings are not resolved: [ {} ]. They must be resolved before enabling the Process.');
+      I18N_KEYS['processDetails.problemResolution.message.formMapping'] = gettext('The form mappings must be resolved before enabling the Process.');
       I18N_KEYS['processDetails.problemResolution.title'] = gettext('The Process cannot be enabled');
       I18N_KEYS['processDetails.problemResolution.resource.caseOverview'] = gettext('Case overview');
       I18N_KEYS['processDetails.problemResolution.resource.caseStart'] = gettext('Case start');
