@@ -57,6 +57,8 @@
         }
       };
 
+      var preferences = {};
+
       /**
        * Get preference corresponding to key
        * @param  {String} key
@@ -92,8 +94,6 @@
           $cookies.remove(key);
         });
       };
-
-      var preferences = {};
 
       angular.forEach(dict, function(value, key) {
         preferences[key] = JSON.parse($cookies.get(key) || 'null');

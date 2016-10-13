@@ -14,7 +14,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-(function() {
+(function () {
   'use strict';
   /**
    * org.bonitasoft.common.actors.selectbox Module
@@ -26,7 +26,7 @@
     'org.bonitasoft.common.properties',
     'org.bonitasoft.features.admin.mappings',
     'isteven-multi-select'
-  ]).directive('actorsSelectBox', function() {
+  ]).directive('actorsSelectBox', function () {
     return {
       priority: 10000,
       scope: {
@@ -40,18 +40,18 @@
       restrict: 'E',
       templateUrl: 'features/admin/mapping/actors.html',
       // replace: true
-      link: function($scope, iElm, iAttrs, controller) {
+      link: function ($scope, iElm, iAttrs, controller) {
         controller.selectionMode = iAttrs.selectionMode;
       }
     };
-  }).controller('ActorsSelectBoxCtrl', function($scope, MappingService) {
+  }).controller('ActorsSelectBoxCtrl', function ($scope, MappingService) {
     var vm = this;
     vm.selectedMembers = $scope.selectedMembers;
-    $scope.$watch(function() {
+    $scope.$watch(function () {
       return $scope.alreadyMappedActorsIds && $scope.alreadyMappedActorsIds.length;
-    }, function() {
+    }, function () {
       if (_.isArray($scope.alreadyMappedActorsIds)) {
-        vm.members = vm.members.filter(function(currentMember) {
+        vm.members = vm.members.filter(function (currentMember) {
           return $scope.alreadyMappedActorsIds.indexOf(currentMember.id) === -1;
         });
       }
@@ -65,22 +65,35 @@
     };
     var searchMemberParams = MappingService.getSearchMemberParams(type);
     var previousSearchTerm;
-    vm.search = function(search) {
+    vm.search = function (search) {
       if (search.keyword && previousSearchTerm === search.keyword) {
         return;
       } else {
         previousSearchTerm = searchOptions.s;
       }
       searchOptions.s = search.keyword;
-      MappingService.searchMembers(type, searchOptions, searchMemberParams, $scope.alreadyMappedActorsIds).then(function(results) {
-        vm.members = _.chain(results).filter(function(currentMember) {
+      MappingService.searchMembers(type, searchOptions, searchMemberParams, $scope.alreadyMappedActorsIds).then(function (results) {
+        vm.members = _.chain(results).filter(function (currentMember) {
           return $scope.alreadyMappedActorsIds.indexOf(currentMember.id) === -1;
-        }).forEach(function(currentMember) {
+        }).forEach(function (currentMember) {
           currentMember.listLabel = MappingService.labelFormatter[type](currentMember);
           currentMember.buttonLabel = currentMember.listLabel;
         }).value();
+        // isteven-multi-select filter input-model on search term but bonita search API search with a logical OR
+        // when there are space in search term. We need to re-apply search term in order to make input model consistent
+        // with mutli-select internal model
+        // see https://bonitasoft.atlassian.net/browse/BS-15195
+        if (search.keyword) {
+          vm.members = vm.ensureKeywordMatchesEntries(search.keyword, vm.members);
+        }
       });
     };
     vm.search({});
+    vm.ensureKeywordMatchesEntries = function (keyword, members) {
+      return members.filter(function (member) {
+        return member.listLabel.match(new RegExp(keyword, 'i'));
+      });
+    };
+
   });
 })();
