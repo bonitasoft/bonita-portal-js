@@ -118,7 +118,7 @@
           'ressource_id': 'PROCESS_OVERVIEW'
         }])).toEqual([{
           type: 'form mapping',
-          message: 'The following form mappings are not resolved: [ {} ]. They must be resolved before enabling the Process.',
+          message: 'The form mappings must be resolved before enabling the Process.',
           args: 'news, Case overview'
         }]);
         expect(processProblemResolutionService.buildProblemsList([{
@@ -132,7 +132,7 @@
           'ressource_id': 'links'
         }])).toEqual([{
           type: 'form mapping',
-          message: 'The following form mappings are not resolved: [ {} ]. They must be resolved before enabling the Process.',
+          message: 'The form mappings must be resolved before enabling the Process.',
           args: 'Case overview, Case start,...'
         }]);
       });
