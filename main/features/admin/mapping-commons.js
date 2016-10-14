@@ -73,20 +73,24 @@
     .value('groupIdAttribute', 'group_id')
     .value('roleIdAttribute', 'role_id').service('MappingService', function(i18nService, userIdAttribute, groupIdAttribute, roleIdAttribute, userAPI, groupAPI, roleAPI, MAPPING_PROFILES, store) {
       var mappingService = {};
+      var groupAndRoleFormatter = function groupAndRoleFormatter(currentMember) {
+        var member = currentMember[groupIdAttribute] || currentMember;
+        member = angular.copy(member, {});
+        member.listLabel = member.buttonLabel = member.displayName;
+        member.contentToSearch = member.name + ' ' + member.displayName + ' ' + member.description;
+        return member;
+      };
       /* jshint camelcase: false */
-      mappingService.labelFormatter = {
+      mappingService.formatToSelectBox = {
         USER: function(currentMember) {
           var member = currentMember[userIdAttribute] || currentMember;
-          return member.firstname + ' ' + member.lastname;
+          member = angular.copy(member, {});
+          member.listLabel = member.buttonLabel = member.firstname + ' ' + member.lastname;
+          member.contentToSearch = member.firstname + ' ' + member.lastname + ' ' + member.userName + ' ' + member.job_title;
+          return member;
         },
-        GROUP: function(currentMember) {
-          var member = currentMember[groupIdAttribute] || currentMember;
-          return member.displayName;
-        },
-        ROLE: function(currentMember) {
-          var member = currentMember[roleIdAttribute] || currentMember;
-          return member.displayName;
-        },
+        GROUP: groupAndRoleFormatter,
+        ROLE: groupAndRoleFormatter,
         MEMBERSHIP: function(currentMember) {
           return i18nService.getKey('processDetails.actors.memberships.item.label', {
             group: currentMember[groupIdAttribute].displayName,
@@ -131,7 +135,7 @@
           d: searchMemberParams.deploy
         }).then(function success(members) {
           members.forEach(function(currentMember) {
-            currentMember.label = mappingService.labelFormatter[type](currentMember);
+            currentMember.label = mappingService.formatToSelectBox[type](currentMember);
           });
           if (type !== MAPPING_PROFILES.MEMBERSHIP) {
             members.forEach(function(member) {
