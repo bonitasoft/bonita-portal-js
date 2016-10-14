@@ -76,10 +76,8 @@
         .then(function (results) {
           vm.members = _.chain(results).filter(function (currentMember) {
             return $scope.alreadyMappedActorsIds.indexOf(currentMember.id) === -1;
-          }).forEach(function (currentMember) {
-            currentMember.listLabel = MappingService.labelFormatter[type](currentMember);
-            currentMember.buttonLabel = currentMember.listLabel;
-          }).value();
+          }).map(MappingService.formatToSelectBox[type]).value();
+
           // isteven-multi-select filter input-model on search term but bonita search API search with a logical OR
           // when there are space in search term. We need to re-apply search term in order to make input model consistent
           // with mutli-select internal model
@@ -95,7 +93,7 @@
     vm.search({});
     vm.ensureKeywordMatchesEntries = function (keyword, members) {
       return members.filter(function (member) {
-        return member.listLabel.match(new RegExp(keyword, 'i'));
+        return member.contentToSearch.match(new RegExp(keyword, 'i'));
       });
     };
 

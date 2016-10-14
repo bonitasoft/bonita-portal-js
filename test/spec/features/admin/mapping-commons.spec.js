@@ -30,32 +30,49 @@ describe('mapping-commons', function () {
     spyOn(i18nService, 'getKey').and.callThrough();
     spyOn(store, 'load');
   }));
-  describe('labelFormatter', function () {
+  describe('formatToSelectBox', function () {
     it('for a user, should return "firstname lastname"', function () {
       var content = {
         displayName: 'Acme',
         firstname: 'walter',
-        lastname: 'bates'
+        lastname: 'bates',
+        'job_title': 'CEO',
+        userName: 'walter.bates'
       };
-      expect(mappingService.labelFormatter.USER({
-        'user_id': content
-      })).toEqual('walter bates');
-      expect(mappingService.labelFormatter.USER(content)).toEqual('walter bates');
+      let member = mappingService.formatToSelectBox.USER({'user_id': content});
+      expect(member.buttonLabel).toEqual('walter bates');
+      expect(member.contentToSearch).toEqual('walter bates walter.bates CEO');
+      expect(member.listLabel).toEqual('walter bates');
+      member = mappingService.formatToSelectBox.USER(content);
+      expect(member.buttonLabel).toEqual('walter bates');
+      expect(member.contentToSearch).toEqual('walter bates walter.bates CEO');
+      expect(member.listLabel).toEqual('walter bates');
     });
     it('for a group and role, should return the displayName', function () {
       var content = {
         displayName: 'Acme',
+        name: 'local',
+        description: 'Bonita role',
         firstname: 'walter',
         lastname: 'bates'
       };
-      expect(mappingService.labelFormatter.GROUP({
-        'group_id': content
-      })).toEqual('Acme');
-      expect(mappingService.labelFormatter.GROUP(content)).toEqual('Acme');
-      expect(mappingService.labelFormatter.ROLE({
-        'role_id': content
-      })).toEqual('Acme');
-      expect(mappingService.labelFormatter.ROLE(content)).toEqual('Acme');
+      let member = mappingService.formatToSelectBox.GROUP({'group_id': content});
+      expect(member.buttonLabel).toEqual('Acme');
+      expect(member.listLabel).toEqual('Acme');
+      expect(member.contentToSearch).toEqual('local Acme Bonita role');
+      member = mappingService.formatToSelectBox.GROUP(content);
+      expect(member.buttonLabel).toEqual('Acme');
+      expect(member.listLabel).toEqual('Acme');
+      expect(member.contentToSearch).toEqual('local Acme Bonita role');
+
+      member = mappingService.formatToSelectBox.ROLE({'group_id': content});
+      expect(member.buttonLabel).toEqual('Acme');
+      expect(member.listLabel).toEqual('Acme');
+      expect(member.contentToSearch).toEqual('local Acme Bonita role');
+      member = mappingService.formatToSelectBox.ROLE(content);
+      expect(member.buttonLabel).toEqual('Acme');
+      expect(member.listLabel).toEqual('Acme');
+      expect(member.contentToSearch).toEqual('local Acme Bonita role');
     });
     it('for a membership, should return "member of role"', function () {
       var groupContent = {
@@ -64,7 +81,7 @@ describe('mapping-commons', function () {
         roleContent = {
           displayName: 'Member'
         };
-      expect(mappingService.labelFormatter.MEMBERSHIP({
+      expect(mappingService.formatToSelectBox.MEMBERSHIP({
         'role_id': roleContent,
         'group_id': groupContent
       })).toEqual('Member of Acme');
