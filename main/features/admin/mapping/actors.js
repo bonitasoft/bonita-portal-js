@@ -72,7 +72,8 @@
         previousSearchTerm = searchOptions.s;
       }
       searchOptions.s = search.keyword;
-      MappingService.searchMembers(type, searchOptions, searchMemberParams, $scope.alreadyMappedActorsIds).then(function(results) {
+      MappingService.searchMembers(type, searchOptions, searchMemberParams, $scope.alreadyMappedActorsIds)
+        .then(function(results) {
         vm.members = _.chain(results).filter(function(currentMember) {
           return $scope.alreadyMappedActorsIds.indexOf(currentMember.id) === -1;
         }).forEach(function(currentMember) {
@@ -87,6 +88,7 @@
         if (search.keyword) {
           vm.members = vm.ensureKeywordMatchesEntries(search.keyword, vm.members);
         }
+        vm.members = _.unionWith(vm.selectedMembers.list, vm.members, function(member1, member2) { return member1.id === member2.id; });
       });
     };
     vm.search({});
