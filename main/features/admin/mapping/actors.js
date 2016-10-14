@@ -72,21 +72,25 @@
         previousSearchTerm = searchOptions.s;
       }
       searchOptions.s = search.keyword;
-      MappingService.searchMembers(type, searchOptions, searchMemberParams, $scope.alreadyMappedActorsIds).then(function (results) {
-        vm.members = _.chain(results).filter(function (currentMember) {
-          return $scope.alreadyMappedActorsIds.indexOf(currentMember.id) === -1;
-        }).forEach(function (currentMember) {
-          currentMember.listLabel = MappingService.labelFormatter[type](currentMember);
-          currentMember.buttonLabel = currentMember.listLabel;
-        }).value();
-        // isteven-multi-select filter input-model on search term but bonita search API search with a logical OR
-        // when there are space in search term. We need to re-apply search term in order to make input model consistent
-        // with mutli-select internal model
-        // see https://bonitasoft.atlassian.net/browse/BS-15195
-        if (search.keyword) {
-          vm.members = vm.ensureKeywordMatchesEntries(search.keyword, vm.members);
-        }
-      });
+      MappingService.searchMembers(type, searchOptions, searchMemberParams, $scope.alreadyMappedActorsIds)
+        .then(function (results) {
+          vm.members = _.chain(results).filter(function (currentMember) {
+            return $scope.alreadyMappedActorsIds.indexOf(currentMember.id) === -1;
+          }).forEach(function (currentMember) {
+            currentMember.listLabel = MappingService.labelFormatter[type](currentMember);
+            currentMember.buttonLabel = currentMember.listLabel;
+          }).value();
+          // isteven-multi-select filter input-model on search term but bonita search API search with a logical OR
+          // when there are space in search term. We need to re-apply search term in order to make input model consistent
+          // with mutli-select internal model
+          // see https://bonitasoft.atlassian.net/browse/BS-15195
+          if (search.keyword) {
+            vm.members = vm.ensureKeywordMatchesEntries(search.keyword, vm.members);
+          }
+          vm.members = _.unionWith(vm.selectedMembers.list, vm.members, function (member1, member2) {
+            return member1.id === member2.id;
+          });
+        });
     };
     vm.search({});
     vm.ensureKeywordMatchesEntries = function (keyword, members) {
