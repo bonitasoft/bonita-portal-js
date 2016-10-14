@@ -60,7 +60,7 @@
                     <form class="form-inline btn-group pull-right">
                       {{ 'Case' | translate }}
                       <div class="form-group Filter-process">
-                        <input type="number" ng-model="app.request.caseId" class="form-control TaskFilter-caseIdInput" id="case" name="case" placeholder="{{'Case ID' | translate}}"
+                        <input type="text" ng-model="app.request.caseId" class="form-control TaskFilter-caseIdInput" id="case" name="case" placeholder="{{'Case ID' | translate}}"
                              ng-model-options="{updateOn:'blur'}"
                              ng-change="app.searchTask()" tooltip-template="'tooltip-case-filter.html'" tooltip-placement="right" tooltip-popup-delay="500" tooltip-animation="false" tooltip-append-to-body="true">
                       </div>
