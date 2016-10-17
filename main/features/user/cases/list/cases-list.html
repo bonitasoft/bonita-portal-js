@@ -47,7 +47,7 @@
               <td class="case-detail">{{::caseUserCtrl.parseAndFormat(case['Start date'])}}</td>
               <td class="case-detail" title="{{'username:' | translate}} {{::case['Started by'] || ('System' | translate)}}">{{::case['Started by fullname'] || ('System' | translate)}}</td>
               <td class="case-detail text-right">
-                <a ng-if="case['Available tasks'] > 0" id="task-list-btn-{{::case.id}}" bonita-href="{ token: 'tasklistinguser', case: case.ID, prependToken: false }" tooltip="{{'Show available tasks in task list for case' | translate }} {{::case.id}}"  tooltip-popup-delay="500" tooltip-animation="false"  href="" class="open-link">
+                <a ng-if="case['Available tasks'] > 0" id="task-list-btn-{{::case.id}}" bonita-href="{ token: 'tasklistinguser', case: case.ID, prependToken: false }" tooltip="{{'Show available tasks in task list for case' | translate }} {{::case.id}}"  tooltip-popup-delay="500" tooltip-animation="false"  href="">
                   {{::case['Available tasks']}}
                 </a>
                 <span ng-if="case['Available tasks'] === 0">0</span>
