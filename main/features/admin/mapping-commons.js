@@ -135,7 +135,7 @@
           d: searchMemberParams.deploy
         }).then(function success(members) {
           members.forEach(function(currentMember) {
-            currentMember.label = mappingService.formatToSelectBox[type](currentMember);
+            currentMember.label = mappingService.formatToSelectBox[type](currentMember).listLabel;
           });
           if (type !== MAPPING_PROFILES.MEMBERSHIP) {
             members.forEach(function(member) {
