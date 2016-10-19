@@ -41,13 +41,26 @@
             <tbody>
 
             <tr ng-repeat="case in cases" id="caseId-{{::case.id}}" class="case-row" ng-class="{'info' : case.selected}">
-              <td class="text-right case-detail"><a id="case-detail-link-{{case.id}}" target="_parent" href="{{::caseUserCtrl.getLinkToCase(case)}}">{{case['ID']}}</a></td>
+              <td class="text-right case-detail">
+                  <a id="case-detail-link-{{case.id}}"
+                     bonita-href="{ token: 'casemoredetails', id: case.id, prependToken: false }"
+                     href="">
+                      {{case['ID']}}
+                  </a>
+              </td>
               <td class="case-detail">{{::case['Process name']}}</td>
               <td class="case-detail">{{::case['Version']}}</td>
               <td class="case-detail">{{::caseUserCtrl.parseAndFormat(case['Start date'])}}</td>
               <td class="case-detail" title="{{'username:' | translate}} {{::case['Started by'] || ('System' | translate)}}">{{::case['Started by fullname'] || ('System' | translate)}}</td>
               <td class="case-detail text-right">
-                <a ng-if="case['Available tasks'] > 0" id="task-list-btn-{{::case.id}}" bonita-href="{ token: 'tasklistinguser', case: case.ID, prependToken: false }" tooltip="{{'Show available tasks in task list for case' | translate }} {{::case.id}}"  tooltip-popup-delay="500" tooltip-animation="false"  href="">
+                <a ng-if="case['Available tasks'] > 0"
+                   id="task-list-btn-{{::case.id}}"
+                   bonita-href="{ token: 'tasklistinguser', case: case.ID, prependToken: false }"
+                   tooltip="{{'Show available tasks in task list for case' | translate }} {{::case.id}}"
+                   tooltip-popup-delay="500"
+                   tooltip-animation="false"
+                   href=""
+                   class="open-link">
                   {{::case['Available tasks']}}
                 </a>
                 <span ng-if="case['Available tasks'] === 0">0</span>
@@ -61,7 +74,13 @@
                 <a id="case-overview-btn-{{::case.id}}" tooltip="{{'View case overview' | translate }}"  tooltip-popup-delay="500" tooltip-animation="false" ng-href="{{::caseUserCtrl.getLinkToCaseOverview(case)}}" href="" class="open-link">
                   <span class="glyphicon glyphicon-eye-open"></span>
                 </a>
-                <a id="task-list-btn-{{::case.id}}" tooltip="{{'Show available tasks in task list for case' | translate }} {{::case.ID}}"  tooltip-popup-delay="500" tooltip-animation="false" target="_parent" bonita-href="{ token: 'tasklistinguser', case: case.ID, prependToken: false }" href="" class="open-link">
+                <a id="task-list-btn-{{::case.id}}"
+                   tooltip="{{'Show available tasks in task list for case' | translate }} {{::case.ID}}"
+                   tooltip-popup-delay="500"
+                   tooltip-animation="false"
+                   bonita-href="{ token: 'tasklistinguser', case: case.ID, prependToken: false }"
+                   href=""
+                   class="open-link">
                   <span class="glyphicon glyphicon-list"></span>
                 </a>
               </td>
@@ -97,7 +116,13 @@
             </thead>
             <tbody>
             <tr ng-repeat="case in cases" id="caseId-{{::case.id}}" class="case-row" ng-class="{'info' : case.selected}">
-              <td class="case-detail text-right"><a id="case-detail-link-{{case.id}}" target="_parent" href="{{::caseUserCtrl.getLinkToCase(case)}}">{{case['ID']}}</a></td>
+              <td class="case-detail text-right">
+                  <a id="case-detail-link-{{case.id}}"
+                     bonita-href="{ token: 'archivedcasemoredetails', id: case.id, prependToken: false }"
+                     href="">
+                      {{case['ID']}}
+                  </a>
+              </td>
               <td class="case-detail">{{::case['Process name']}}</td>
               <td class="case-detail">{{::case['Version']}}</td>
               <td class="case-detail">{{::caseUserCtrl.parseAndFormat(case['Start date'])}}</td>
@@ -112,7 +137,12 @@
                 <a id="case-overview-btn-{{::case.id}}" tooltip="{{'View case overview' | translate }}"  tooltip-popup-delay="500" tooltip-animation="false" target="_parent" ng-href="{{::caseUserCtrl.getLinkToArchivedCaseOverview(case)}}" class="open-link">
                   <span class="glyphicon glyphicon-eye-open"></span>
                 </a>
-                <a id="task-list-btn-{{::case.id}}" tooltip="{{'Show available tasks in task list for archived case' | translate }} {{::case.ID}}"  tooltip-popup-delay="500" tooltip-animation="false" bonita-href="{ token: 'tasklistinguser', case: case.ID, prependToken: false, filter: 'done' }" href="" class="open-link">
+                <a id="task-list-btn-{{::case.id}}"
+                   tooltip="{{'Show available tasks in task list for archived case' | translate }} {{::case.ID}}"
+                   tooltip-popup-delay="500" tooltip-animation="false"
+                   bonita-href="{ token: 'tasklistinguser', case: case.ID, prependToken: false, filter: 'done' }"
+                   href=""
+                   class="open-link">
                   <span class="glyphicon glyphicon-list"></span>
                 </a>
               </td>
