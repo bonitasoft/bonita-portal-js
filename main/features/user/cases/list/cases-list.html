@@ -59,6 +59,7 @@
                    tooltip="{{'Show available tasks in task list for case' | translate }} {{::case.id}}"
                    tooltip-popup-delay="500"
                    tooltip-animation="false"
+                   tooltip-append-to-body="true"
                    href=""
                    class="open-link">
                   {{::case['Available tasks']}}
@@ -78,6 +79,7 @@
                    tooltip="{{'Show available tasks in task list for case' | translate }} {{::case.ID}}"
                    tooltip-popup-delay="500"
                    tooltip-animation="false"
+                   tooltip-append-to-body="true"
                    bonita-href="{ token: 'tasklistinguser', case: case.ID, prependToken: false }"
                    href=""
                    class="open-link">
@@ -139,7 +141,9 @@
                 </a>
                 <a id="task-list-btn-{{::case.id}}"
                    tooltip="{{'Show available tasks in task list for archived case' | translate }} {{::case.ID}}"
-                   tooltip-popup-delay="500" tooltip-animation="false"
+                   tooltip-popup-delay="500"
+                   tooltip-animation="false"
+                   tooltip-append-to-body="true"
                    bonita-href="{ token: 'tasklistinguser', case: case.ID, prependToken: false, filter: 'done' }"
                    href=""
                    class="open-link">
