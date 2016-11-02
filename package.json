@@ -65,7 +65,8 @@
     "protractor": "4.0.5",
     "query-string": "4.2.3",
     "time-grunt": "0.2.10",
-    "watch": "^0.17.1"
+    "watch": "^0.17.1",
+    "webdriver-manager": "10.2.5"
   },
   "engines": {
     "node": ">=4.2.0"
