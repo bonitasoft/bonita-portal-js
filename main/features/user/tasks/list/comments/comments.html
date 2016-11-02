@@ -3,7 +3,7 @@
         Case comments
     </header>
 
-    <div class="Comments-content">
+    <div class="Comments-content" scroll-bottom="vm.comments">
         <div class="Comment" ng-repeat="comment in vm.comments">
             <img class="Comment-icon" ng-src="../theme/{{comment.userId.icon}}" alt="Author" onerror="this.style.display='none'"/>
             <div class="Comment-header">
