@@ -72,7 +72,12 @@
               <td class="case-detail" ng-hide="!caseUserCtrl.displayKeys()"><search-index case="case" index="4"></search-index></td>
               <td class="case-detail" ng-hide="!caseUserCtrl.displayKeys()"><search-index case="case" index="5"></search-index></td>
               <td class="case-link text-center">
-                <a id="case-overview-btn-{{::case.id}}" tooltip="{{'View case overview' | translate }}"  tooltip-popup-delay="500" tooltip-animation="false" ng-href="{{::caseUserCtrl.getLinkToCaseOverview(case)}}" href="" class="open-link">
+                <a id="case-overview-btn-{{::case.id}}"
+                   tooltip="{{'View case overview' | translate }}"
+                   tooltip-popup-delay="500" tooltip-animation="false"
+                   href=""
+                   bonita-href="{ token: 'DisplayCaseForm', name: case.processDefinitionId.name, version: case.processDefinitionId.version, processDefinitionId: case.processDefinitionId.id, id: case.id, prependToken: false }"
+                   class="open-link">
                   <span class="glyphicon glyphicon-eye-open"></span>
                 </a>
                 <a id="task-list-btn-{{::case.id}}"
@@ -136,7 +141,12 @@
               <td class="case-detail" ng-hide="!caseUserCtrl.displayKeys()"><search-index case="case" index="4"></search-index></td>
               <td class="case-detail" ng-hide="!caseUserCtrl.displayKeys()"><search-index case="case" index="5"></search-index></td>
               <td class="case-link text-center">
-                <a id="case-overview-btn-{{::case.id}}" tooltip="{{'View case overview' | translate }}"  tooltip-popup-delay="500" tooltip-animation="false" target="_parent" ng-href="{{::caseUserCtrl.getLinkToArchivedCaseOverview(case)}}" class="open-link">
+                <a id="case-overview-btn-{{::case.id}}"
+                  tooltip="{{'View case overview' | translate }}"
+                  tooltip-popup-delay="500" tooltip-animation="false"
+                  bonita-href="{ token: 'DisplayCaseForm', name: case.processDefinitionId.name, version: case.processDefinitionId.version, processDefinitionId: case.processDefinitionId.id, id: case.id, sourceObjectId: case.sourceObjectId, prependToken: false }"
+                  href=""
+                  class="open-link">
                   <span class="glyphicon glyphicon-eye-open"></span>
                 </a>
                 <a id="task-list-btn-{{::case.id}}"
