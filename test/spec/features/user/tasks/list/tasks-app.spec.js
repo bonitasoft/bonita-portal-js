@@ -143,6 +143,17 @@ describe('taskApp', function(){
         expect(controller.setFilter).not.toHaveBeenCalled();
       });
 
+      it('should reset process and search filters when case id is provided on init', function(){
+        angular.extend(controller.request, { process: { id:123 }, search: 'bonita' });
+        controller.search = { case: 456 };
+        controller.init();
+        scope.$digest();
+
+        expect(controller.request.process).toBeFalsy(); 
+        expect(controller.request.search).toBeFalsy(); 
+        expect(controller.request.caseId).toBe(456); 
+      });
+
       it('should fetch connected user and set filter to DONE tasks', function(){
         controller.search = {filter: 'done'};
         spyOn(controller, 'setFilter');
