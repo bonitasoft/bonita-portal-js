@@ -112,7 +112,21 @@ describe('task-details directive', () => {
 
     var isolatedScope = element.isolateScope();
 
+    expect(processAPI.get).toHaveBeenCalledWith({id: 42});
+    processAPI.get.calls.reset();
     expect(isolatedScope.formUrl).toBe(FORM_URL);
+
+    let formerTask = isolatedScope.currentTask;
+    isolatedScope.currentTask = null;
+    scope.$apply();
+
+    expect(processAPI.get).not.toHaveBeenCalledWith({id: 42});
+
+    isolatedScope.currentTask = formerTask;
+    scope.$apply();
+
+    expect(isolatedScope.formUrl).toBe(FORM_URL);
+    expect(processAPI.get).toHaveBeenCalledWith({id: 42});
   });
 
   it('should set showToolbar property to false when openDetailsPopup attribute is not set', function() {
