@@ -80,6 +80,10 @@
           this.user = store.user;
           if (this.search && !isNaN(Number(this.search.case))) {
             this.setCase(Number(this.search.case));
+            if(store && store.request) {
+              store.request.process = null;
+              store.request.search = null;
+            }
           }
           if (this.search && angular.isString(this.search.filter)) {
             this.setFilter(TASK_FILTERS[this.search.filter.toUpperCase()]);
