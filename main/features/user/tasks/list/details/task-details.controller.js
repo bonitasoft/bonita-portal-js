@@ -43,7 +43,7 @@
         //Check if the task has a form
         if ('USER_TASK' === $scope.currentTask.type) {
           //only check the form mapping if the selected task has changed or the first time a task is selected
-          if (newTask === oldTask || isNotSameTask(oldTask, newTask)) {
+          if (hasFormMappingToBeReloaded(oldTask, newTask)) {
             fetchFormMapping();
           } else {
             $scope.loading = false;
@@ -57,10 +57,10 @@
     });
 
     /**
-     * Check if the new task is a task different from the old task
+     * Check the tasks values to know if the form mapping must be reloadednew task is a task different from the old task
      */
-    function isNotSameTask(oldTask, newTask) {
-      return newTask.id !== oldTask.id || oldTask.archivedDate;
+    function hasFormMappingToBeReloaded(oldTask, newTask) {
+      return newTask === oldTask || !oldTask || (newTask && (newTask.id !== oldTask.id || oldTask.archivedDate));
     }
 
     /**
