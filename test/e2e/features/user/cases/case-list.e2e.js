@@ -46,7 +46,7 @@
         } else {
           expect(caseList.all(by.css('tbody tr')).get(0).all(by.css('td')).getText()).toEqual(['2', 'Pool', '1.0', '10/16/2014 4:05 PM', 'William Jobs', '', '']);
         }
-        expect(caseList.all(by.css('#task-list-btn-2')).first().getAttribute('bonita-href')).toEqual('{ token: \'tasklistinguser\', case: case.ID, prependToken: false }');
+        expect(caseList.all(by.css('#task-list-btn-2')).first().getAttribute('bonita-href')).toEqual('{ token: \'tasklistinguser\', case: case.ID, prependToken: false, filter: \'todo\' }');
       });
 
       it('should order by date desc', function() {
