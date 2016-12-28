@@ -45,17 +45,13 @@
          */
         this.getProcessList = function() {
           var req = {
-            c: 0,
+            c: 2147483646,  // magic number since we want all processes (~ Integer.MAX_INT)
             p: 0,
             /* jshint camelcase: false */
             f: ['user_id=' + this.user.user_id, 'forPendingOrAssignedTask=true']
           };
 
           var promise = processAPI.search(req).$promise
-            .then(function(response) {
-              req.c = response.resource.pagination.total;
-              return processAPI.search(req).$promise;
-            })
             .then(function(response) {
               store.processes = [{
                 name: gettextCatalog.getString('All'),
