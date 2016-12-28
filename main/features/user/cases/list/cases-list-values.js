@@ -43,7 +43,7 @@
       defaultValue : 'System'
     }])
     .value('caseStatesUserValues', {
-      Me: 'Me'
+      Me: gettext('Me')
     })
     .value('moreUserDetailToken', 'casemoredetails')
     .value('pageSizes', [25, 50, 100, 200])
@@ -51,8 +51,8 @@
     .value('defaultSort', 'id')
     .value('archivedDefaultSort', 'sourceObjectId')
     .value('defaultUserFilters', {
-      appName: 'All',
-      startedBy: 'Anyone'
+      appName: gettext('All'),
+      startedBy: gettext('Anyone')
     })
     .value('defaultDeployedFields', ['processDefinitionId', 'started_by', 'startedBySubstitute'])
     .value('defaultActiveCounterFields', ['activeFlowNodes', 'failedFlowNodes'])
@@ -72,7 +72,7 @@
     }, {
       name: 'Started by',
       path: ['started_by', 'userName'],
-      defaultValue : 'System'
+      defaultValue : gettext('System')
     }, {
       name: 'End date',
       path: ['end_date']
@@ -82,10 +82,18 @@
     }])
     .
     value('archivedCaseStatesValues', {
-      started: 'Started',
-      error: 'Failed'
+      started: gettext('Started'),
+      error: gettext('Failed')
     })
     .value('archivedUserMoreDetailToken', 'archivedcasemoredetails')
     .value('archivedTabName', 'archived')
     .value('defaultArchivedCounterFields', []);
+
+
+    /**
+     * Noop function that allow strings to be extracted by gettext while generating po file
+     */
+    function gettext(string) {
+      return string;
+    }
 })();
