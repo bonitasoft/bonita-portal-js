@@ -197,7 +197,7 @@
   when('GET', /^\/API\/bpm\/case\/[1|2|4|5]\?d=started_by&d=processDefinitionId$/).respond(require('./user/tasks/list/case-1-2-4-5-mock.json'));
   when('GET', /^\/API\/bpm\/case\/[6|7]\?d=started_by&d=processDefinitionId$/).respond(require('./user/tasks/list/case-6-7-mock.json'));
   when('GET', /^\/API\/bpm\/archivedCase\?c=1&d=started_by&d=processDefinitionId&f=sourceObjectId%3D99&p=0/).respond(require('./user/tasks/list/archived-case-mock.json'));
-  when('GET', /^\/API\/bpm\/process\?c=[0|2]&f=user_id%3D1&f=forPendingOrAssignedTask%3Dtrue&p=0$/).respond(require('./user/tasks/list/processes-mock.json'));
+  when('GET', /^\/API\/bpm\/process\?c=.*&f=user_id%3D1&f=forPendingOrAssignedTask%3Dtrue&p=0$/).respond(require('./user/tasks/list/processes-mock.json'));
   when('GET', /^\/API\/bpm\/processSupervisor\?c=10&d=user_id&f=process_id%3D(5545132423260882732|8007855270751208272)&p=0$/).respond(require('./user/tasks/list/processSupervisors-mock.json'));
   when('GET', /^\/API\/bpm\/process\/(5545132423260882732)$/).respond(require('./user/tasks/list/process5545132423260882732-mock.json'));
   when('GET', /^\/API\/bpm\/process\/(8007855270751208272)$/).respond(require('./user/tasks/list/process8007855270751208272-mock.json'));
