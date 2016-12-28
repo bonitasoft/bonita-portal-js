@@ -129,31 +129,6 @@
         };
 
         /**
-         * retrieve archived flowNode from a given caseId
-         * @param  {int} caseId the case id
-         * @return {object}        a promise of a case
-         * @throws {Error} If caseId is not provided
-         */
-        this.getArchivedFlowNode = function(caseId) {
-          /* jshint camelcase: false */
-          if (!caseId) {
-            throw new Error('Missing parameter when requesting getArchivedFlowNode caseId');
-          }
-
-          var promise = archivedFlowNodeAPI.search({
-            f: ['caseId=' + caseId, 'isTerminal=true'],
-            c: 100,
-            p: 0,
-            d: ['executedBySubstitute', 'executedBy']
-          }).$promise;
-
-          return promise.then(function(response) {
-            return response.resource;
-          });
-        };
-
-
-        /**
          * @internal replace user_id token in a predefined list of filters
          * @param  {int}   userId   the user id to replace
          * @param  {Array} filters  an array of filters for API request
@@ -168,33 +143,6 @@
             })
           };
         }
-
-        /**
-         * retrieve the number of task that match POOL_TASK filter
-         * @param  {int} userId  the use id
-         * @return {Object}      a promise of a search result
-         */
-        this.countPoolTasks = function(userId) {
-          return countTasks(userId, 'POOL_TASK');
-        };
-
-        /**
-         * retrieve the number of task that match MY_TASK filter
-         * @param  {int} userId  the use id
-         * @return {Object}      a promise of a search result
-         */
-        this.countMyTasks = function(userId) {
-          return countTasks(userId, 'MY_TASK');
-        };
-
-        /**
-         * retrieve the number of task that match TODO filter
-         * @param  {int} userId  the use id
-         * @return {Object}      a promise of a search result
-         */
-        this.countTodoTasks = function(userId) {
-          return countTasks(userId, 'TODO');
-        };
 
         /**
          * retrieve the number of tasks for all kind of filters
