@@ -11,12 +11,15 @@
     $scope.isEditable = isEditable;
     $scope.isInactive = isInactive;
     $scope.hideForm = hideForm;
+    $scope.selectTab = selectTab;
 
     $scope.tab = {
-      form: true,
-      comments: false,
-      context: false
+      form: undefined,
+      comments: undefined,
+      context: undefined
     };
+    resetTabsState();
+    selectTab('form');
 
     $scope.hasOverview = false;
     $scope.hasForm = false;
@@ -53,7 +56,8 @@
           $scope.loading = false;
         }
       }
-      $scope.tab.form = true;
+      resetTabsState();
+      selectTab('form');
     });
 
     /**
@@ -143,6 +147,17 @@
 
     function hideForm() {
       return taskListStore.request.taskFilter === TASK_FILTERS.DONE;
+    }
+
+    function selectTab(tabName) {
+      $scope.tab[tabName].active = true;
+      $scope.tab[tabName].loaded = true;
+    }
+
+    function resetTabsState() {
+      Object.keys($scope.tab).forEach(function(key) {
+        $scope.tab[key] = { loaded: false, active: false};
+      });
     }
   }
 

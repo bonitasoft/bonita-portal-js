@@ -20,7 +20,6 @@
     return {
       templateUrl: 'portalTemplates/user/tasks/list/common/directive/bonita-iframe-viewer.html',
       scope: {
-        trigger: '=isVisible',
         isEditable: '=',
         frameUrl: '='
       },
