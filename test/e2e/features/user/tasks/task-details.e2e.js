@@ -48,9 +48,10 @@ import TaskList from './tasklist.page.js';
     it('should display a case overview tab', function(){
       element.all(by.repeater('task in tasks')).last().click();
 
-      var overviewTab = element(by.css('#case-tab'));
+      var overviewTab = element(by.css('#case-tab a'));
       expect(overviewTab.isPresent()).toBe(true);
 
+      overviewTab.click();
       var iframe = element(by.css('.CaseViewer iframe'));
       expect(iframe.isPresent()).toBe(true);
     });

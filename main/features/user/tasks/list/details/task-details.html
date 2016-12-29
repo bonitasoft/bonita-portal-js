@@ -23,8 +23,9 @@
 
 <tabset class="TaskDetails">
   <tab id="form-tab" heading="{{ 'Form' | translate }}"
-       active="tab.form"
-       title="{{ 'Task form' | translate }}" >
+       active="tab.form.active"
+       title="{{ 'Task form' | translate }}"
+       select="selectTab('form')">
     <p class="alert alert-info TaskInfo" ng-if="hideForm()" translate>
       This task is completed.
     </p>
@@ -44,8 +45,7 @@
                             tabindex="0"
                             ng-if="!isInactive() && hasForm && !loading"
                             is-editable="isEditable()"
-                            frame-url="formUrl"
-                            is-visible="tab.form">
+                            frame-url="formUrl">
       </bonita-iframe-viewer>
       <no-form class="FormViewer"
                ng-if="!hasForm && !loading"
@@ -60,21 +60,22 @@
   <tab id="comments-tab"
        heading="{{ 'Comments' | translate }}"
        title="{{ 'Case comments' | translate }}"
-       active="tab.comments">
-      <comments case="currentCase"></comments>
+       active="tab.comments.active"
+       select="selectTab('comments')">
+      <comments ng-if="tab.comments.loaded" case="currentCase"></comments>
   </tab>
 
   <tab id="case-tab"
        ng-if="hasOverview"
        heading="{{ 'Overview' | translate }}"
        title="{{ 'Case overview' | translate }}"
-       active="tab.context">
+       active="tab.context.active"
+       select="selectTab('context')">
       <bonita-iframe-viewer
-        ng-if="!isInactive()"
+        ng-if="tab.context.loaded && !isInactive()"
         class="CaseViewer"
         frame-url="overviewUrl"
-        is-editable="true"
-        is-visible="tab.context">
+        is-editable="true">
       </bonita-iframe-viewer>
   </tab>
 </tabset>

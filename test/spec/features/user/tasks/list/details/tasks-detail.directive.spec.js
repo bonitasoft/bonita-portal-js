@@ -147,17 +147,13 @@ describe('task-details directive', () => {
   });
 
   it('should display task form when changing current task', function() {
-    var isolatedScope = element.isolateScope();
     element.find('#comments-tab a').click();
 
     scope.currentTask = {};
     scope.$apply();
 
-    expect(isolatedScope.tab).toEqual({
-      form: true,
-      comments: false,
-      context: false
-    });
+    let selectedTab = element.find('.nav-tabs .active');
+    expect(selectedTab.text().trim()).toEqual('Form');
   });
 
   it('should not allow to toggle assignation when displaying done tasks', function() {

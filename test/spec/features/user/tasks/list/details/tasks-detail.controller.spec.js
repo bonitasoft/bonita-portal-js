@@ -83,6 +83,32 @@
     $rootScope.$apply();
     expect(formMappingAPI.search.calls.count()).toBe(formMappingCalls + 1);
   });
+
+  it('should select form tab by default', () => {
+
+    expect(scope.tab).toEqual({
+      form: {loaded: true, active: true},
+      comments: {loaded: false, active: false},
+      context: {loaded: false, active: false}
+    });
+  });
+
+  it('should reset tabs state and select form tab when selected task change', () => {
+    scope.tab = {
+      form: {loaded: true, active: false},
+      comments: {loaded: true, active: true},
+      context: {loaded: true, active: false}
+    };
+
+    scope.currentTask = {};
+    scope.$apply();
+
+    expect(scope.tab).toEqual({
+      form: {loaded: true, active: true},
+      comments: {loaded: false, active: false},
+      context: {loaded: false, active: false}
+    });
+  });
 });
 
 })();
