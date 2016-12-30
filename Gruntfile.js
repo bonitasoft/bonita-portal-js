@@ -658,18 +658,6 @@ module.exports = function (grunt) {
     'karma'
   ]);
 
-  grunt.registerTask('buildE2e', [
-    'html2js',
-    'clean:dist',
-    'makeDist',
-    'clean:server',
-    'concurrent:test',
-    'autoprefixer',
-    'connect:dist',
-    'karma',
-    'protractor:e2e'
-  ]);
-
   grunt.registerTask('testE2e', [
     'html2js',
     'concurrent:test',
