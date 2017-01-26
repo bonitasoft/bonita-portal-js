@@ -191,25 +191,25 @@
         tableHeader.get(2).click();
         expect(tableHeader.get(2).getText()).toContain('Start date');
         if(browser.bonitaSpEdition()){
-          expect(caseList.all(by.css('tbody tr')).get(0).all(by.css('td')).getText()).toEqual(['', '1', 'Pool', '1.0', '10/16/2014 4:05 PM', 'william.jobs', '11/02/2014 10:07 AM', 'started', 'No value', '']);
+          expect(caseList.all(by.css('tbody tr')).get(0).all(by.css('td')).getText()).toEqual(['', '1', 'Pool', '1.0', '10/16/2014 4:05 PM', 'William Jobs', '11/02/2014 10:07 AM', 'started', 'No value', '']);
         } else {
-          expect(caseList.all(by.css('tbody tr')).get(0).all(by.css('td')).getText()).toEqual(['', '1', 'Pool', '1.0', '10/16/2014 4:05 PM', 'william.jobs', '11/02/2014 10:07 AM', 'started', '']);
+          expect(caseList.all(by.css('tbody tr')).get(0).all(by.css('td')).getText()).toEqual(['', '1', 'Pool', '1.0', '10/16/2014 4:05 PM', 'William Jobs', '11/02/2014 10:07 AM', 'started', '']);
         }
       });
       it('should order by date desc', function () {
         tableHeader.get(2).click();
         if(browser.bonitaSpEdition()){
-          expect(caseList.all(by.css('tbody tr')).get(0).all(by.css('td')).getText()).toEqual(['', '1', 'ProcessX', '2.0', '10/20/2014 10:08 AM', 'william.jobs', '11/02/2014 10:07 AM', 'started', 'No value', '']);
+          expect(caseList.all(by.css('tbody tr')).get(0).all(by.css('td')).getText()).toEqual(['', '1', 'ProcessX', '2.0', '10/20/2014 10:08 AM', 'System', '11/02/2014 10:07 AM', 'started', 'No value', '']);
         } else {
-          expect(caseList.all(by.css('tbody tr')).get(0).all(by.css('td')).getText()).toEqual(['', '1', 'ProcessX', '2.0', '10/20/2014 10:08 AM', 'william.jobs', '11/02/2014 10:07 AM', 'started', '']);
+          expect(caseList.all(by.css('tbody tr')).get(0).all(by.css('td')).getText()).toEqual(['', '1', 'ProcessX', '2.0', '10/20/2014 10:08 AM', 'System', '11/02/2014 10:07 AM', 'started', '']);
         }
       });
       it('should order by id desc', function () {
         tableHeader.get(0).click();
         if(browser.bonitaSpEdition()){
-          expect(caseList.all(by.css('tbody tr')).get(0).all(by.css('td')).getText()).toEqual(['', '1000', 'ProcessX', '2.0', '10/20/2014 10:08 AM', 'william.jobs', '11/02/2014 10:07 AM', 'started', 'No value', '']);
+          expect(caseList.all(by.css('tbody tr')).get(0).all(by.css('td')).getText()).toEqual(['', '1000', 'ProcessX', '2.0', '10/20/2014 10:08 AM', 'System', '11/02/2014 10:07 AM', 'started', 'No value', '']);
         } else {
-          expect(caseList.all(by.css('tbody tr')).get(0).all(by.css('td')).getText()).toEqual(['', '1000', 'ProcessX', '2.0', '10/20/2014 10:08 AM', 'william.jobs', '11/02/2014 10:07 AM', 'started', '']);
+          expect(caseList.all(by.css('tbody tr')).get(0).all(by.css('td')).getText()).toEqual(['', '1000', 'ProcessX', '2.0', '10/20/2014 10:08 AM', 'System', '11/02/2014 10:07 AM', 'started', '']);
         }
       });
     });
@@ -231,7 +231,7 @@
           expect(poolCaseDetails[2].element(by.css('a')).getAttribute('href')).toContain('#?id=7626384556180392799&_p=processmoredetailsadmin&');
           expect(poolCaseDetails[3].getText()).toContain('1.0');
           expect(poolCaseDetails[4].getText()).toContain('10/17/2014 4:05 PM');
-          expect(poolCaseDetails[5].getText()).toContain('walter.bates');
+          expect(poolCaseDetails[5].getText()).toContain('Walter Bates');
           expect(poolCaseDetails[6].getText()).toContain('11/02/2014 10:07 AM');
           expect(poolCaseDetails[7].getText()).toContain('started');
           if(browser.bonitaSpEdition()){
