@@ -25,7 +25,6 @@
     'org.bonitasoft.common.properties',
     'org.bonitasoft.features.admin.mappings'
   ])
-    .constant('ACTOR_PER_PAGE', 10)
     .constant('MEMBERS_PER_CELL', 5)
     .service('ActorMappingService', function(actorMemberAPI, MEMBERS_PER_CELL, $q) {
       var actorMappingService = {};
@@ -55,14 +54,8 @@
       };
       return actorMappingService;
     })
-    .controller('ActorsMappingCtrl', function($scope, $modal, process, ACTOR_PER_PAGE, MEMBERS_PER_CELL, growl, i18nService, $log, $filter, processActors, ActorMappingService, growlOptions, defaultLocalLang, ACTOR_PROFILES) {
+    .controller('ActorsMappingCtrl', function($scope, $modal, process, MEMBERS_PER_CELL, growl, i18nService, $log, $filter, processActors, ActorMappingService, growlOptions, defaultLocalLang, ACTOR_PROFILES) {
       var vm = this;
-      var resourceInit = [];
-      resourceInit.pagination = {
-        currentPage: 1,
-        numberPerPage: ACTOR_PER_PAGE
-      };
-
       vm.actors = processActors;
       vm.membersPerCell = MEMBERS_PER_CELL;
       vm.actorsMembers = {};

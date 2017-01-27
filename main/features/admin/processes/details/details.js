@@ -86,10 +86,10 @@
         });
       };
 
-      processMoreDetailsResolveService.retrieveProcessActors = function(processId, pagination) {
+      processMoreDetailsResolveService.retrieveProcessActors = function(processId) {
         return actorAPI.search({
-          'p': pagination.currentPage - 1,
-          'c': pagination.numberPerPage,
+          'c': 2147483646,   // java Integer.MAX_INT - 1
+          'p': 0,
           'o': 'name ASC',
           'f': 'process_id=' + processId,
           'n': ['users', 'groups', 'roles', 'memberships']
@@ -128,7 +128,7 @@
       return processMoreDetailsResolveService;
     })
     .config(
-      function ($stateProvider, ACTOR_PER_PAGE) {
+      function ($stateProvider) {
         $stateProvider.state('bonita.processesDetails', {
           url: '/admin/processes/details/:processId?supervisor_id',
           templateUrl: 'features/admin/processes/details/menu.html',
@@ -196,10 +196,7 @@
           controllerAs: 'actorsMappingCtrl',
           resolve: {
             processActors: function ($stateParams, ProcessMoreDetailsResolveService) {
-              return ProcessMoreDetailsResolveService.retrieveProcessActors($stateParams.processId, {
-                currentPage: 1,
-                numberPerPage: ACTOR_PER_PAGE
-              });
+              return ProcessMoreDetailsResolveService.retrieveProcessActors($stateParams.processId);
             }
           }
         });
