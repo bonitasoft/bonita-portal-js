@@ -1,6 +1,7 @@
 <div id="process-details-actors">
   <h2>{{'Actors' | translate}}</h2>
   <p>{{'Select the entities (users, groups, roles, memberships) to map to the actors. These entities will do the human tasks in the process.' | translate}}</p>
+    <p>{{'Check that each entity is mapped to a profile, for either Bonita BPM Portal or for applications you have created.' | translate}} {{'To do so, go to' | translate}} <a href="" bonita-href="profilelisting">{{'Profiles' | translate}}</a>.</p>
   <table class="table  actorMappingList">
     <thead>
       <tr>
@@ -17,7 +18,7 @@
         <td class="members">
           <span ng-repeat="user in actorsMappingCtrl.actorsMembers[actor.id].users.data" class="label label-default member">
             {{user.user_id.firstname}} {{user.user_id.lastname}}
-          </span> 
+          </span>
           <span ng-if="actorsMappingCtrl.actorsMembers[actor.id].users.resource.pagination.total > actorsMappingCtrl.membersPerCell" class="label label-default member">{{'{} more' | translate | stringTemplater: actorsMappingCtrl.actorsMembers[actor.id].users.resource.pagination.total - actorsMappingCtrl.membersPerCell}}</span>
         </td>
         <td class="members">
@@ -72,6 +73,4 @@
       </tr>
     </tbody>
   </table>
-  <pagination ng-if="actorsMappingCtrl.actors.resource.pagination.total>actorsMappingCtrl.actors.resource.pagination.numberPerPage" ng-click="actorsMappingCtrl.getProcessActors()" boundary-links="true" total-items="actorsMappingCtrl.actors.resource.pagination.total" ng-model="actorsMappingCtrl.actors.resource.pagination.currentPage" items-per-page="actorsMappingCtrl.actors.resource.pagination.numberPerPage " previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;" max-size="5"></pagination>
-  <p>{{'For each actor, check that each entity (user, group, role, membership) has the relevant user profile in the Portal.' | translate}} {{'To do so, go to' | translate}} <a href="" bonita-href="profilelisting">{{'Profiles' | translate}}</a>.</p>
 </div>
