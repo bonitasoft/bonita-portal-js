@@ -2,15 +2,16 @@
 
 describe('Actors select box', () => {
 
-  let actorsSelectBoxCtrl, $scope, $http, controller, MappingService;
+  let actorsSelectBoxCtrl, $scope, $http, controller, MappingService, $timeout;
   beforeEach(angular.mock.module('org.bonitasoft.common.actors.selectbox'));
 
-  beforeEach(inject(($controller, $rootScope, _$httpBackend_, _MappingService_) => {
+  beforeEach(inject(($controller, $rootScope, _$httpBackend_, _MappingService_, _$timeout_) => {
     $scope = $rootScope.$new();
     $scope.selectedMembers = {};
     $http = _$httpBackend_;
     MappingService = _MappingService_;
     controller = $controller;
+    $timeout  = _$timeout_;
   }));
 
   describe('Groups', () => {
@@ -19,6 +20,7 @@ describe('Actors select box', () => {
       $http.expectGET('../API/identity/group?c=200&o=displayName+asc&p=0').respond(200, []);
       $scope.alreadyMappedActorsIds = [];
       actorsSelectBoxCtrl = controller('ActorsSelectBoxCtrl', { $scope });
+      $timeout.flush();
       $http.flush();
     });
     it('should set selectedMembers on init', () => {
@@ -32,8 +34,8 @@ describe('Actors select box', () => {
         expect(actorsSelectBoxCtrl.ensureKeywordMatchesEntries('wa', memberResponseFromServer)).toEqual([...memberResponseFromServer]);
       });
       it('should match members more strictly than engine BS-15195', () => {
-        let memberResponseFromServer = [{ 'id': '31', contentToSearch: 'DL PF03-IP-Access ALL-ELC-Loesch' }, 
-          { 'id': '30', contentToSearch: 'DL PF03-IP-Access LAU-ELC-AS_AL' }, 
+        let memberResponseFromServer = [{ 'id': '31', contentToSearch: 'DL PF03-IP-Access ALL-ELC-Loesch' },
+          { 'id': '30', contentToSearch: 'DL PF03-IP-Access LAU-ELC-AS_AL' },
           { 'id': '29', contentToSearch: 'DL PF03-IP-Access ZUR-ELC-AS_AL' }];
         expect(actorsSelectBoxCtrl.ensureKeywordMatchesEntries('DL PF03-IP-Access zu', memberResponseFromServer)).toEqual([memberResponseFromServer[2]]);
       });
@@ -64,6 +66,7 @@ describe('Actors select box', () => {
       it('should search for groups', function() {
         $http.expectGET('../API/identity/group?c=200&o=displayName+asc&p=0&s=a').respond(200, groups);
         actorsSelectBoxCtrl.search({ keyword: 'a' });
+        $timeout.flush();
         $http.flush();
         expect(actorsSelectBoxCtrl.members).toEqual(groups.map(MappingService.formatToSelectBox.GROUP));
       });
@@ -72,6 +75,7 @@ describe('Actors select box', () => {
         actorsSelectBoxCtrl.selectedMembers.list = [selectedGroup];
         $http.expectGET('../API/identity/group?c=200&o=displayName+asc&p=0&s=a').respond(200, groups);
         actorsSelectBoxCtrl.search({ keyword: 'a' });
+        $timeout.flush();
         $http.flush();
         expect(actorsSelectBoxCtrl.members).toEqual([groups[1], groups[0], groups[2]].map(MappingService.formatToSelectBox.GROUP));
         expect(actorsSelectBoxCtrl.selectedMembers.list).toEqual([selectedGroup]);
@@ -88,6 +92,7 @@ describe('Actors select box', () => {
         actorsSelectBoxCtrl.selectedMembers.list = [selectedGroup];
         $http.expectGET('../API/identity/group?c=200&o=displayName+asc&p=0&s=a').respond(200, groups);
         actorsSelectBoxCtrl.search({ keyword: 'a' });
+        $timeout.flush();
         $http.flush();
         expect(actorsSelectBoxCtrl.members).toEqual([selectedGroup, ...groups].map(MappingService.formatToSelectBox.GROUP));
         expect(actorsSelectBoxCtrl.selectedMembers.list).toEqual([selectedGroup]);
@@ -104,6 +109,7 @@ describe('Actors select box', () => {
         actorsSelectBoxCtrl.selectedMembers.list = [selectedGroup];
         $http.expectGET('../API/identity/group?c=200&o=displayName+asc&p=0').respond(200, [...groups, selectedGroup]);
         actorsSelectBoxCtrl.search({});
+        $timeout.flush();
         $http.flush();
         expect(actorsSelectBoxCtrl.members).toEqual([selectedGroup, ...groups].map(MappingService.formatToSelectBox.GROUP));
         expect(actorsSelectBoxCtrl.selectedMembers.list).toEqual([selectedGroup]);
@@ -115,7 +121,10 @@ describe('Actors select box', () => {
       $scope.type = 'USER';
       $http.expectGET('../API/identity/user?c=200&o=firstname+asc&p=0').respond(200, []);
       $scope.alreadyMappedActorsIds = [];
+
+
       actorsSelectBoxCtrl = controller('ActorsSelectBoxCtrl', { $scope });
+      $timeout.flush();
       $http.flush();
     });
     describe('search keyword', function() {
@@ -150,6 +159,7 @@ describe('Actors select box', () => {
       it('should search for users', function() {
         $http.expectGET('../API/identity/user?c=200&o=firstname+asc&p=0&s=a').respond(200, users);
         actorsSelectBoxCtrl.search({ keyword: 'a' });
+        $timeout.flush();
         $http.flush();
         expect(actorsSelectBoxCtrl.members).toEqual(users.map(MappingService.formatToSelectBox.USER));
       });
@@ -158,6 +168,7 @@ describe('Actors select box', () => {
         actorsSelectBoxCtrl.selectedMembers.list = [selectedUser];
         $http.expectGET('../API/identity/user?c=200&o=firstname+asc&p=0&s=a').respond(200, users);
         actorsSelectBoxCtrl.search({ keyword: 'a' });
+        $timeout.flush();
         $http.flush();
         expect(actorsSelectBoxCtrl.members).toEqual([users[1], users[0], users[2]].map(MappingService.formatToSelectBox.USER));
         expect(actorsSelectBoxCtrl.selectedMembers.list).toEqual([selectedUser]);

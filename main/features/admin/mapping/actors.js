@@ -25,7 +25,8 @@
     'org.bonitasoft.common.i18n',
     'org.bonitasoft.common.properties',
     'org.bonitasoft.features.admin.mappings',
-    'isteven-multi-select'
+    'isteven-multi-select',
+    'org.bonitasoft.service.debounce'
   ]).directive('actorsSelectBox', function() {
     return {
       priority: 10000,
@@ -44,7 +45,7 @@
         controller.selectionMode = iAttrs.selectionMode;
       }
     };
-  }).controller('ActorsSelectBoxCtrl', function($scope, MappingService) {
+  }).controller('ActorsSelectBoxCtrl', function($scope, MappingService, debounce) {
     var vm = this;
     vm.selectedMembers = $scope.selectedMembers;
     $scope.$watch(function() {
@@ -66,12 +67,14 @@
     var searchMemberParams = MappingService.getSearchMemberParams(type);
     var previousSearchTerm;
     vm.search = function(search) {
+      debounce(function() {
       if (search.keyword && previousSearchTerm === search.keyword) {
         return;
       } else {
-        previousSearchTerm = searchOptions.s;
+        previousSearchTerm = search.keyword;
       }
       searchOptions.s = search.keyword;
+
       MappingService.searchMembers(type, searchOptions, searchMemberParams, $scope.alreadyMappedActorsIds)
         .then(function(results) {
         vm.members = _.chain(results).filter(function(currentMember) {
@@ -87,7 +90,9 @@
         }
         vm.members = _.unionWith(vm.selectedMembers.list, vm.members, function(member1, member2) { return member1.id === member2.id; });
       });
+      }, 300);
     };
+
     vm.search({});
 
     vm.ensureKeywordMatchesEntries = function(keyword, members) {
