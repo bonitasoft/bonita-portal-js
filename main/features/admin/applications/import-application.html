@@ -1,13 +1,13 @@
 <form role="form" name="form" novalidate>
   <div class="modal-header">
-    <h3 class="modal-title" ng-if="!importIsSuccessfull && !importNotSuccessfull">{{'Import an application' | translate}}</h3>
-    <h3 class="modal-title" ng-if="importIsSuccessfull">{{'Status of import' | translate}}</h3>
+    <h3 class="modal-title" ng-if="!importIsSuccessfull && !importNotSuccessfull">{{'Import an application descriptor' | translate}}</h3>
+    <h3 class="modal-title" ng-if="importIsSuccessfull">{{'Status of importation' | translate}}</h3>
     <h3 class="modal-title" ng-if="importNotSuccessfull">{{'Error' | translate}}</h3>
   </div>
   <div class="modal-body">
 
     <section id="beforeImport" ng-if="!importIsSuccessfull && !importNotSuccessfull">
-      <p>{{ 'Before you import the application, the pages and the profile must already be loaded in the Portal.' | translate }}</p>
+      <p>{{ 'Before you import the application descriptor, the pages and the profile must already be loaded in the Portal.' | translate }}</p>
 
       <bootstrap-form-control
         class="field-upload-container"
@@ -16,7 +16,7 @@
 
         <div class="upload-field">
           <input type="file" id="importAppXml" name="import-file" ng-model="importFile.file" required nv-file-select uploader="uploader" accept=".xml">
-          <div class="upload-field-content" ng-class="{'upload-success': isUploadSuccess}"><span ng-if="fileName">{{fileName}}</span><span ng-if="!fileName">{{ 'Click here to choose your file. XML file (.xml)' | translate }}</span></div>
+          <div class="upload-field-content" ng-class="{'upload-success': isUploadSuccess}"><span ng-if="fileName">{{fileName}}</span><span ng-if="!fileName">{{ 'Click here to choose the .xml file' | translate }}</span></div>
         </div>
 
       </bootstrap-form-control>
@@ -25,9 +25,9 @@
     <section id="afterImport" ng-if="importIsSuccessfull" >
 
       <div class="import-status">
-        <p ng-if="!errorsApi.length">1 {{'application has been successfully imported, with complete page mapping and menu mapping.' | translate}}</p>
+        <p ng-if="!errorsApi.length">1 {{'application descriptor has been successfully imported, with complete page mapping and menu mapping.' | translate}}</p>
 
-        <p ng-if="errorsApi.length">1 {{'application has been partially imported. The following items are not loaded in the Portal.' | translate}}</p>
+        <p ng-if="errorsApi.length">1 {{'application descriptor has been partially imported. The following items are not loaded in the Portal.' | translate}}</p>
 
         <ul>
           <li ng-repeat="imported in imports track by $index">{{'URL' | translate }}: ../apps/{{ imported.name}}</li>
