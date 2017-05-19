@@ -125,6 +125,15 @@
         expect(modal.all(by.css('.tag')).getText()).toEqual(['Member of Asia', 'Remove all']);
       });
 
+      it('should be display not mapped roles in role-selectbox', function () {
+        var checkBoxs = modal.all(by.tagName('actors-select-box'));
+        checkBoxs.get(0).click();
+        var containerRole = element.all(by.css('.checkBoxContainer')).get(0);
+        var roleItems = containerRole.all(by.css('.multiSelectItem '));
+
+        expect(containerRole.isDisplayed()).toBeTruthy();
+        expect(roleItems.count()).toBeGreaterThan(0);
+      });
 
       it('should be display not mapped groups in group-selectbox', function () {
         var checkBoxs = modal.all(by.tagName('actors-select-box'));
