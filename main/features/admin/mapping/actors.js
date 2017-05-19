@@ -67,14 +67,12 @@
     var searchMemberParams = MappingService.getSearchMemberParams(type);
     var previousSearchTerm;
     vm.search = function(search) {
-      debounce(function() {
       if (search.keyword && previousSearchTerm === search.keyword) {
         return;
       } else {
         previousSearchTerm = search.keyword;
       }
       searchOptions.s = search.keyword;
-
       MappingService.searchMembers(type, searchOptions, searchMemberParams, $scope.alreadyMappedActorsIds)
         .then(function(results) {
         vm.members = _.chain(results).filter(function(currentMember) {
@@ -90,7 +88,11 @@
         }
         vm.members = _.unionWith(vm.selectedMembers.list, vm.members, function(member1, member2) { return member1.id === member2.id; });
       });
-      }, 300);
+
+    };
+
+   vm.searchWithDebounce = function(mySearch) {
+      debounce(vm.search(mySearch), 300);
     };
 
     vm.search({});
