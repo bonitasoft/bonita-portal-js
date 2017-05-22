@@ -10,7 +10,7 @@ Part of bonita portal written using AngularJs
 Please run `npm install` Before launching any of following tasks
 
 ### Launch project in development mode
-Before running project in development mode, you need to launch a Bonita BPM backend available on URL http://localhost:8080/
+Before running project in development mode, you need to launch a Bonita backend available on URL http://localhost:8080/
 Then launch:
 
     npm start
