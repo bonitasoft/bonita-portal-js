@@ -38,7 +38,7 @@
       I18N_KEYS['processDetails.params.control.boolean'] = gettext('Error: value must be a boolean');
       I18N_KEYS['processDetails.params.control.double'] = gettext('Error: value must be a double');
       I18N_KEYS['processDetails.params.control.integer'] = gettext('Error: value must be an integer');
-      I18N_KEYS['processVisu.tooltip.error'] = gettext('To use this feature, create a new version of the process in Bonita BPM Studio version 6.4 and above, then create and install the new .bar file in the Portal.');
+      I18N_KEYS['processVisu.tooltip.error'] = gettext('To use this feature, create a new version of the process in Bonita Studio version 6.4 and above, then create and install the new .bar file in the Portal.');
       I18N_KEYS['processVisu.key.cancelled'] = gettext('Cancelled, skipped instances');
       I18N_KEYS['processVisu.key.completed'] = gettext('Completed instances');
       I18N_KEYS['processVisu.key.failed'] = gettext('Failed instances');
