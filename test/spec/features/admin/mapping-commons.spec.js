@@ -67,7 +67,7 @@
         expect(member.listLabel).toEqual('Acme');
         expect(member.contentToSearch).toEqual('local Acme Bonita role');
 
-        member = mappingService.formatToSelectBox.ROLE({ 'group_id': content });
+        member = mappingService.formatToSelectBox.ROLE({ 'role_id': content });
         expect(member.buttonLabel).toEqual('Acme');
         expect(member.listLabel).toEqual('Acme');
         expect(member.contentToSearch).toEqual('local Acme Bonita role');
@@ -86,7 +86,7 @@
         expect(mappingService.formatToSelectBox.MEMBERSHIP({
           'role_id': roleContent,
           'group_id': groupContent
-        })).toEqual('Member of Acme');
+        }).listLabel).toEqual('Member of Acme');
         expect(i18nService.getKey).toHaveBeenCalledWith('processDetails.actors.memberships.item.label', {
           group: 'Acme',
           role: 'Member'

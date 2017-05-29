@@ -13,16 +13,17 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-(function(module, verbose) {
+(function (module, verbose) {
   'use strict';
 
   var querystring = require('querystring');
 
-  var debug = !verbose ? function() {} : function(message) {
+  var debug = !verbose ? function () {
+  } : function (message) {
     console.log(message);
   };
 
-  var MockList = (function() {
+  var MockList = (function () {
     /*jshint validthis: true */
     function findMock(url) {
       for (var i = 0; i < this._mocks.length; i++) {
@@ -39,7 +40,8 @@
         mock: mock
       });
     }
-    var MockList = function() {
+
+    var MockList = function () {
       this._mocks = [];
 
     };
@@ -78,7 +80,7 @@
   }
 
   function mock(json) {
-    return function(request, response) {
+    return function (request, response) {
       var data = json;
       var headers = {
         'Content-Type': 'application/json'
@@ -98,16 +100,16 @@
 
   function when(method, url) {
     return {
-      respond: function(json) {
+      respond: function (json) {
         debug(url + ' => ' + JSON.stringify(json));
         mocks[method].addMock(url, mock(json));
       }
     };
   }
 
-  module.exports = function(request, response, next) {
+  module.exports = function (request, response, next) {
     debug(request.method + ' ' + request.url);
-    ((mocks[request.method] && mocks[request.method].findMock(request.url)) || function() {
+    ((mocks[request.method] && mocks[request.method].findMock(request.url)) || function () {
       next();
     })(request, response);
   };
@@ -163,6 +165,37 @@
     'target_type': 'parameter'
   }]);
 
+
+  // Actor Mapping
+  when('GET', /^\/API\/bpm\/actor\?c=\d+&f=process_id%3D321&(.*&)?p=\d+$/).respond(require('./admin/processes/details/actorsMapping/actor-321.json'));
+  when('GET', /^\/API\/bpm\/actorMember\??c=\d&d=user_id&f=process_id%3D321&f=actor_id%3D\d&f=member_type%3DUSER&p=\d+$/).respond(require('./admin/processes/details/actorsMapping/users/users-mapped-321.json'));
+  when('GET', /^\/API\/bpm\/actorMember\??c=\d&d=role_id&f=process_id%3D321&f=actor_id%3D\d&f=member_type%3DROLE&p=\d+$/).respond(require('./admin/processes/details/actorsMapping/roles/roles-mapped-321.json'));
+  when('GET', /^\/API\/bpm\/actorMember\??c=\d&d=group_id&f=process_id%3D321&f=actor_id%3D\d&f=member_type%3DGROUP&p=\d+$/).respond(require('./admin/processes/details/actorsMapping/groups/groups-mapped-321.json'));
+  when('GET', /^\/API\/bpm\/actorMember\??c=\d&d=role_id&d=group_id&f=process_id%3D321&f=actor_id%3D\d&f=member_type%3DMEMBERSHIP&p=\d+$/).respond(require('./admin/processes/details/actorsMapping/memberships/membership-mapped-321.json'));
+
+
+  //User
+  when('GET', /^\/API\/identity\/user\??c=.*&o=firstname\+asc&p=.*$/).respond(require('./admin/processes/details/actorsMapping/users/all-users-list-321.json'));
+  when('GET', /^\/API\/bpm\/actorMember\??c=\d&f=actor_id%3D\d&f=member_type%3DUSER&p=\d+$/).respond(require('./admin/processes/details/actorsMapping/users/users-mapped-321.json'));
+  when('GET', /^\/API\/bpm\/actorMember\??c=\d&d=user_id&f=actor_id%3D\d&f=member_type%3DUSER.*$/).respond(require('./admin/processes/details/actorsMapping/users/users-mapped-321.json'));
+  /*when('GET', /^\/API\/bpm\/actorMember\??c=\d&d=user_id&f=actor_id%3D\d&f=member_type%3DUSER&p=\d+$/).respond(require('./admin/processes/details/actorsMapping/users/users-mapped-321.json'));*/
+
+
+  //Role
+  when('GET', /^\/API\/identity\/role\??c=.*&o=displayName\+asc&p=.*$/).respond(require('./admin/processes/details/actorsMapping/roles/all-roles-list-321.json'));
+  when('GET', /^\/API\/bpm\/actorMember\??c=\d&f=actor_id%3D\d&f=member_type%3DROLE&p=\d+$/).respond(require('./admin/processes/details/actorsMapping/roles/roles-mapped-321.json'));
+  when('GET', /^\/API\/bpm\/actorMember\??c=\d&d=role_id&f=actor_id%3D\d&f=member_type%3DROLE.*$/).respond(require('./admin/processes/details/actorsMapping/roles/roles-mapped-321.json'));
+
+  // Group
+  when('GET', /^\/API\/identity\/group\??c=.*&o=displayName\+asc&p=.*$/).respond(require('./admin/processes/details/actorsMapping/groups/all-groups-list-321.json'));
+  when('GET', /^\/API\/bpm\/actorMember\??c=\d&f=actor_id%3D\d&f=member_type%3DGROUP&p=\d+$/).respond(require('./admin/processes/details/actorsMapping/groups/groups-mapped-321.json'));
+  when('GET', /^\/API\/bpm\/actorMember\??c=12&d=group_id&f=actor_id%3D\d&f=member_type%3DGROUP&p=\d$/).respond(require('./admin/processes/details/actorsMapping/groups/groups-mapped-321.json'));
+
+
+  // Membership
+  when('GET', /^\/API\/bpm\/actorMember\??c=\d&f=actor_id%3D\d&f=member_type%3DMEMBERSHIP&p=\d+$/).respond(require('./admin/processes/details/actorsMapping/memberships/membership-mapped-321.json'));
+  when('GET', /^\/API\/bpm\/actorMember\??c=\d&d=role_id&d=group_id&f=actor_id%3D\d&f=member_type%3DMEMBERSHIP&p=\d$/).respond(require('./admin/processes/details/actorsMapping/memberships/membership-mapped-321.json'));
+
   when('PUT', /^\/API\/bpm\/process\/\d+$/).respond();
 
   // task list comments
@@ -170,8 +203,7 @@
   when('GET', /^\/API\/bpm\/archivedComment\?c=2147483647&d=userId&f=processInstanceId%3D2&o=postDate\+ASC&p=0/).respond(require('./user/tasks/list/archived-comments-mock.json'));
 
 
-
-  var formRegexp  = /portal\/homepage\?.*ui=form.*/;
+  var formRegexp = /portal\/homepage\?.*ui=form.*/;
 
   when('GET', /^\/API\/identity\/professionalcontactdata\/18/).respond(require('./user/tasks/list/professionalContact18-mock.json'));
 
@@ -208,10 +240,10 @@
   //enable french translation
   //when('GET', /^\/API\/system\/i18ntranslation.*$/).respond(require('./i18translations.json'));
   when('GET', /^\/API\/system\/feature\?c=0&p=0$/).respond([]);
-  when('GET', /^\/API\/system\/session.*$/ ).respond(require('./session-mock.json'));
+  when('GET', /^\/API\/system\/session.*$/).respond(require('./session-mock.json'));
   var fs = require('fs');
-  var form = fs.readFileSync(__dirname+'/user/tasks/list/fixtures/form.html', 'utf8');
-  when('GET', formRegexp, 'html').respond( form );
+  var form = fs.readFileSync(__dirname + '/user/tasks/list/fixtures/form.html', 'utf8');
+  when('GET', formRegexp, 'html').respond(form);
 
 
 })(module, false);

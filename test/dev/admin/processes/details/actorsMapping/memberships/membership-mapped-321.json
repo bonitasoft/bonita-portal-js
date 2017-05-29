@@ -1,0 +1,29 @@
+[
+  {
+    "user_id": "-1",
+    "role_id": {
+      "displayName": "Member",
+      "name": "member",
+      "icon": "",
+      "description": "",
+      "id": "1",
+      "creation_date": "2017-05-15 11:25:46.133",
+      "created_by_user_id": "-1",
+      "last_update_date": "2017-05-15 11:25:46.133"
+    },
+    "group_id": {
+      "path": "/acme/sales/asia",
+      "displayName": "Asia",
+      "icon": "",
+      "name": "asia",
+      "description": "This group represents the asia department of the ACME organization",
+      "parent_path": "/acme/sales",
+      "creation_date": "2017-05-15 11:25:46.165",
+      "id": "9",
+      "created_by_user_id": "-1",
+      "last_update_date": "2017-05-15 11:25:46.165"
+    },
+    "id": "102",
+    "actor_id": "2"
+  }
+]
