@@ -72,30 +72,40 @@
     .value('userIdAttribute', 'user_id')
     .value('groupIdAttribute', 'group_id')
     .value('roleIdAttribute', 'role_id').service('MappingService', function(i18nService, userIdAttribute, groupIdAttribute, roleIdAttribute, userAPI, groupAPI, roleAPI, MAPPING_PROFILES, store) {
+
+      function copySelectedMember(attributeId, currentMember) {
+         var member = currentMember[attributeId] || currentMember;
+         return angular.copy(member, {});
+      }
+
       var mappingService = {};
-      var groupAndRoleFormatter = function groupAndRoleFormatter(currentMember) {
-        var member = currentMember[groupIdAttribute] || currentMember;
-        member = angular.copy(member, {});
-        member.listLabel = member.buttonLabel = member.displayName;
-        member.contentToSearch = member.name + ' ' + member.displayName + ' ' + member.description;
-        return member;
-      };
       /* jshint camelcase: false */
       mappingService.formatToSelectBox = {
         USER: function(currentMember) {
-          var member = currentMember[userIdAttribute] || currentMember;
-          member = angular.copy(member, {});
+          var member = copySelectedMember(userIdAttribute, currentMember);
           member.listLabel = member.buttonLabel = member.firstname + ' ' + member.lastname;
           member.contentToSearch = member.firstname + ' ' + member.lastname + ' ' + member.userName + ' ' + member.job_title;
           return member;
         },
-        GROUP: groupAndRoleFormatter,
-        ROLE: groupAndRoleFormatter,
+        GROUP: function (currentMember) {
+          var member = copySelectedMember(groupIdAttribute, currentMember);
+          member.listLabel = member.buttonLabel = member.displayName;
+          member.contentToSearch = member.name + ' ' + member.displayName + ' ' + member.description;
+          return member;
+        },
+        ROLE: function (currentMember) {
+          var member = copySelectedMember(roleIdAttribute, currentMember);
+          member.listLabel = member.buttonLabel = member.displayName;
+          member.contentToSearch = member.name + ' ' + member.displayName + ' ' + member.description;
+          return member;
+        },
         MEMBERSHIP: function(currentMember) {
-          return i18nService.getKey('processDetails.actors.memberships.item.label', {
+         var member = angular.copy(currentMember, {});
+         member.listLabel = i18nService.getKey('processDetails.actors.memberships.item.label', {
             group: currentMember[groupIdAttribute].displayName,
             role: currentMember[roleIdAttribute].displayName
-          });
+         });
+         return member;
         }
       };
       var searchMemberParamsValues = {
