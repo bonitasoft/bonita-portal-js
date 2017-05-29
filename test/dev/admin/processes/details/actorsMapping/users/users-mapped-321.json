@@ -1,0 +1,68 @@
+[
+  {
+    "user_id": {
+      "firstname": "Favio",
+      "icon": "icons/default/icon_user.png",
+      "creation_date": "2017-05-15 11:25:46.070",
+      "userName": "favio.riviera",
+      "title": "Mr",
+      "created_by_user_id": "-1",
+      "enabled": "true",
+      "lastname": "Riviera",
+      "last_connection": "",
+      "password": "",
+      "manager_id": "1",
+      "id": "11",
+      "job_title": "Vice President of Marketing",
+      "last_update_date": "2017-05-15 11:25:46.070"
+    },
+    "role_id": "-1",
+    "group_id": "-1",
+    "id": "28",
+    "actor_id": "2"
+  },
+  {
+    "user_id": {
+      "firstname": "April",
+      "icon": "icons/default/icon_user.png",
+      "creation_date": "2017-05-15 11:25:46.030",
+      "userName": "april.sanchez",
+      "title": "Mrs",
+      "created_by_user_id": "-1",
+      "enabled": "true",
+      "lastname": "Sanchez",
+      "last_connection": "",
+      "password": "",
+      "manager_id": "3",
+      "id": "2",
+      "job_title": "Compensation specialist",
+      "last_update_date": "2017-05-15 11:25:46.030"
+    },
+    "role_id": "-1",
+    "group_id": "-1",
+    "id": "29",
+    "actor_id": "2"
+  },
+  {
+    "user_id": {
+      "firstname": "Anthony",
+      "icon": "icons/default/icon_user.png",
+      "creation_date": "2017-05-15 11:25:46.100",
+      "userName": "anthony.nichols",
+      "title": "Mr",
+      "created_by_user_id": "-1",
+      "enabled": "true",
+      "lastname": "Nichols",
+      "last_connection": "",
+      "password": "",
+      "manager_id": "17",
+      "id": "18",
+      "job_title": "Account manager",
+      "last_update_date": "2017-05-15 11:25:46.100"
+    },
+    "role_id": "-1",
+    "group_id": "-1",
+    "id": "30",
+    "actor_id": "2"
+  }
+]

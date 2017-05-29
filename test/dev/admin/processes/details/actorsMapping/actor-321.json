@@ -1,0 +1,13 @@
+[
+  {
+    "process_id": "321",
+    "displayName": "Employee actor",
+    "roles": "0",
+    "name": "Employee actor",
+    "description": "Ceci est un exemple d\u0027acteur associé à tous les utilisateurs d\u0027ACME",
+    "groups": "13",
+    "id": "2",
+    "users": "3",
+    "memberships": "0"
+  }
+]
