@@ -13,10 +13,10 @@
                 <plugin>
                     <groupId>com.github.eirslett</groupId>
                     <artifactId>frontend-maven-plugin</artifactId>
-                    <version>1.0</version>
+                    <version>1.5</version>
                     <configuration>
                         <nodeVersion>v6.9.4</nodeVersion>
-                        <npmVersion>3.10.10</npmVersion>
+                        <yarnVersion>v0.27.5</yarnVersion>
                         <installDirectory>${session.executionRootDirectory}</installDirectory>
                     </configuration>
                 </plugin>
@@ -31,13 +31,13 @@
                     <execution>
                         <id>install node and npm</id>
                         <goals>
-                            <goal>install-node-and-npm</goal>
+                            <goal>install-node-and-yarn</goal>
                         </goals>
                     </execution>
                     <execution>
-                        <id>npm install</id>
+                        <id>yarn install</id>
                         <goals>
-                            <goal>npm</goal>
+                            <goal>yarn</goal>
                         </goals>
                         <phase>generate-resources</phase>
                         <configuration>
@@ -45,9 +45,9 @@
                         </configuration>
                     </execution>
                     <execution>
-                        <id>npm build</id>
+                        <id>yarn build</id>
                         <goals>
-                            <goal>npm</goal>
+                            <goal>yarn</goal>
                         </goals>
                         <phase>generate-resources</phase>
                         <configuration>
@@ -91,9 +91,9 @@
                         <artifactId>frontend-maven-plugin</artifactId>
                         <executions>
                             <execution>
-                                <id>npm e2e</id>
+                                <id>yarn e2e</id>
                                 <goals>
-                                    <goal>npm</goal>
+                                    <goal>yarn</goal>
                                 </goals>
                                 <phase>integration-test</phase>
                                 <configuration>
