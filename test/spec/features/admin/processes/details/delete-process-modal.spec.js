@@ -14,58 +14,68 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-(function() {
+(function () {
   'use strict';
 
-  describe('monitoringStatus Directive and Controller in Process More Details',
-    function() {
-      var scope, modal, controller, q;
+  describe('delete process modal instance controller', function () {
+    var scope, $q, controller, modalInstance, processAPI, process;
 
-      beforeEach(module('org.bonitasoft.features.admin.processes.details'));
+    beforeEach(module('org.bonitasoft.features.admin.processes.details'));
 
-      beforeEach(inject(function($rootScope, $modal, $controller, $q) {
-        scope = $rootScope.$new();
-        modal = $modal;
-        controller = $controller;
-        q = $q;
-      }));
+    beforeEach(inject(function ($rootScope, $controller, _$q_) {
+      scope = $rootScope.$new();
+      $q = _$q_;
 
-      describe('DeleteProcessModalInstanceCtrl', function() {
-        var deleteProcessModalInstanceCtrl, modalInstance, manageTopUrl, processAPI, process;
-        beforeEach(function() {
-          modalInstance = jasmine.createSpyObj('modalInstance', ['close', 'dismiss']);
-          manageTopUrl = jasmine.createSpyObj('manageTopUrl', ['goTo']);
-          processAPI = jasmine.createSpyObj('processAPI', ['delete']);
-          process = {
-              id: '1248',
-              name: 'SupportProcess',
-              version: '1.12.008'
-            };
-          
-          deleteProcessModalInstanceCtrl = controller('DeleteProcessModalInstanceCtrl', {
-            $scope: scope,
-            process: process,
-            $modalInstance: modalInstance,
-            manageTopUrl: manageTopUrl,
-            processAPI: processAPI
-          });
-        });
-        it('should init view model datas', function() {
-          expect(deleteProcessModalInstanceCtrl.process).toBe(process);
-          deleteProcessModalInstanceCtrl.cancel();
-          expect(modalInstance.dismiss).toHaveBeenCalled();
-        });
-        describe('should call delete on processAPI when "Delete" is clicked', function() {
-          it('should redirect to process listing page on delete success', function() {
-            var deferred = q.defer();
-            processAPI.delete.and.returnValue({$promise : deferred.promise});
-            deleteProcessModalInstanceCtrl.delete();
-            deferred.resolve();
-            scope.$apply();
-            expect(processAPI.delete).toHaveBeenCalledWith({id : process.id});
-            expect(modalInstance.close).toHaveBeenCalled();
-          });
-        });
+      modalInstance = jasmine.createSpyObj('modalInstance', ['close', 'dismiss']);
+      processAPI = jasmine.createSpyObj('processAPI', ['delete']);
+
+      process = {
+        id: '1248',
+        name: 'SupportProcess',
+        version: '1.12.008'
+      };
+
+      controller = $controller('DeleteProcessModalInstanceCtrl', {
+        process: process,
+        $modalInstance: modalInstance,
+        processAPI: processAPI
       });
+    }));
+
+    it('should init view model data', function () {
+      expect(controller.process).toBe(process);
     });
+
+    it('should dismiss modal instance on cancel', function () {
+      controller.cancel();
+      expect(modalInstance.dismiss).toHaveBeenCalled();
+    });
+
+    it('should delete a process', function () {
+      processAPI.delete.and.returnValue({$promise: $q.when()});
+
+      controller.delete();
+
+      expect(processAPI.delete).toHaveBeenCalledWith({id: process.id});
+    });
+
+    it('should close modal instance on delete success', function () {
+      processAPI.delete.and.returnValue({$promise: $q.resolve()});
+
+      controller.delete();
+      scope.$apply();
+
+      expect(modalInstance.close).toHaveBeenCalled();
+    });
+
+    it('should dismiss modal instance on deleted error', function () {
+      processAPI.delete.and.returnValue({$promise: $q.reject({an: 'error'})});
+
+      controller.delete();
+      scope.$apply();
+
+      expect(modalInstance.dismiss).toHaveBeenCalledWith({an: 'error'});
+    });
+
+  });
 }());
