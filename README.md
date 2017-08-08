@@ -3,36 +3,37 @@
 Part of bonita portal written using AngularJs
 
 ## Requirements
-- node.js > 4.2.0 + npm
-- maven > 3.0.5
+- node.js > v6.9.4 
+- yarn > v0.27.5
+- maven > 3.3.9
 
 ## Development tasks
-Please run `npm install` Before launching any of following tasks
+Please run `yarn install` Before launching any of following tasks
 
 ### Launch project in development mode
 Before running project in development mode, you need to launch a Bonita backend available on URL http://localhost:8080/
 Then launch:
 
-    npm start
+    yarn start
     
 Project should be running at URL http://localhost:9000/bonita/portaljs/
     
 ### Launch unit tests
-    npm run test
+    yarn run test
 
 ### Launch unit tests in watch mode
-    npm run test:watch
+    yarn run test:watch
     
 ### Launch end to end tests
-    npm run e2e
+    yarn run e2e
 
 ### Build project
-    npm run build
+    yarn run build
 
 ### Localization
 Localization keys can be extracted from source files to an .pot output file (./target/portal-js.pot). To do so, run the following command
 
-    npm run pot
+    yarn run pot
     
 ## Maven build
 Project can also be built using maven
