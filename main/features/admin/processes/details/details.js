@@ -23,26 +23,8 @@
   var processConnectorsStateName = 'bonita.processesDetails.processConnectors';
   var actorsMappingStateName = 'bonita.processesDetails.actorsMapping';
   /*eslint "angular/ng_di":0*/
-  angular.module('org.bonitasoft.features.admin.processes.details', [
-    'ngAnimate',
-    'ui.router',
-    'ui.bootstrap',
-    'gettext',
-    'org.bonitasoft.service.token',
-    'angular-growl',
-    'org.bonitasoft.services.topurl',
-    'org.bonitasoft.common.directives.bonitaHref',
-    'org.bonitasoft.common.directives.toggleButton',
-    'org.bonitasoft.common.resources',
-    'org.bonitasoft.features.admin.processes.details.actorMapping',
-    'org.bonitasoft.features.admin.processes.editActorMembers',
-    'org.bonitasoft.services.topurl',
-    'org.bonitasoft.features.admin.processes.details.information',
-    'org.bonitasoft.features.admin.processes.details.processConnectors',
-    'org.bonitasoft.features.admin.processes.details.params',
-    'org.bonitasoft.service.process.resolution',
-    'org.bonitasoft.common.filters.stringTemplater'
-  ])
+  angular
+    .module('org.bonitasoft.features.admin.processes.details')
     .value('menuContent', [])
     .config(function ($provide) {
       $provide.decorator('menuContent', function ($delegate, gettext) {
@@ -202,8 +184,8 @@
         });
       }
     )
-    .controller('ProcessMenuCtrl', ProcessMenuCtrl)
-    .controller('DeleteProcessModalInstanceCtrl', DeleteProcessModalInstanceCtrl);
+    .controller('ProcessMenuCtrl', ProcessMenuCtrl);
+
 
   /* jshint -W003 */
   function ProcessMenuCtrl($scope, menuContent, process, processAPI, $modal, $state, manageTopUrl, $window, processResolutionProblems, ProcessMoreDetailsResolveService, TokenExtensionService, growl, $log) {
@@ -281,21 +263,5 @@
     }
   }
 
-  function DeleteProcessModalInstanceCtrl($scope, processAPI, process, $modalInstance) {
-    var vm = this;
-    vm.process = process;
 
-    vm.delete = function () {
-      processAPI.delete({
-        id: process.id
-      }).$promise.then(function () {
-        $modalInstance.close();
-      }, function closePopupWithError(error) {
-        $modalInstance.dismiss(error);
-      });
-    };
-    vm.cancel = function () {
-      $modalInstance.dismiss();
-    };
-  }
 })();
