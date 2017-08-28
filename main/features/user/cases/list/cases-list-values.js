@@ -30,7 +30,7 @@
       path: ['id']
     }, {
       name: 'Process name',
-      path: ['processDefinitionId', 'name']
+      path: ['processDefinitionId', 'displayName']
     }, {
       name: 'Version',
       path: ['processDefinitionId', 'version']

@@ -129,7 +129,7 @@
           expect(mainActionButtons.get(0).getText()).toEqual('BACK');
           expect(mainActionButtons.get(0).getAttribute('ng-click')).toEqual('processMenuCtrl.goBack()');
 
-          expect(processDetails.all(by.css('h1')).getText()).toEqual(['Rock\'N\'Roll Process (6.6.6)']);
+          expect(processDetails.all(by.css('h1')).getText()).toEqual(['Rock\'N\'Roll Process To Display (6.6.6)']);
           expect(processDetails.all(by.css('.panel-danger > div')).getText()).toEqual(['The Process cannot be enabled', 'Actors must be resolved before enabling the Process.\nParameters must be resolved before enabling the Process.']);
         });
       });

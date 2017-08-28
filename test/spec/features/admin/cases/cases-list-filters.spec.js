@@ -19,7 +19,7 @@
   'use strict';
   describe('admin cases list features', function () {
 
-    var scope, globalProcesses , defaultFilters, caseStatesValues, store, caseFiltersCtrl;
+    var scope, globalProcesses, defaultFilters, caseStatesValues, store, caseFiltersCtrl;
     var storeLoadFunction = function (processes) {
       return function () {
         return {
@@ -100,9 +100,9 @@
           defaultFilters.appName = defaultSelectedApp;
           defaultFilters.appVersion = defaultSelectedVersion;
           globalProcesses = globalProcesses.concat([
-            {name: 'App1'},
-            {name: 'App2'},
-            {name: 'App3'}
+            {displayName: 'App1'},
+            {displayName: 'App2'},
+            {displayName: 'App3'}
           ]);
           store.load = storeLoadFunction(globalProcesses);
           caseFiltersCtrl = $controller('ActiveCaseFilterController', {
@@ -127,8 +127,8 @@
           defaultFilters.appVersion = defaultSelectedVersion;
           globalProcesses = globalProcesses.concat([
               {},
-              {name: 'App2'},
-              {name: 'App3'}
+              {displayName: 'App2'},
+              {displayName: 'App3'}
             ]);
           store.load = storeLoadFunction(globalProcesses);
           caseFiltersCtrl = $controller('ActiveCaseFilterController', {
@@ -224,14 +224,14 @@
           expect(caseFiltersCtrl.filterVersion).toHaveBeenCalled();
         });
 
-        it('should set process name, process version and available process version when processId is set', function () {
+        it('should set process displayName, process version and available process version when processId is set', function () {
           scope.selectedFilters.processId = 123;
-          var processes = [{id:123, name:'Process1', version:'1.0'}, {id:12, name:'Process1', version:'1.1'}, {id:3, name:'Process2', version:'1.0'}];
+          var processes = [{id:123, displayName:'Process1', version:'1.0'}, {id:12, displayName:'Process1', version:'1.1'}, {id:3, displayName:'Process2', version:'1.0'}];
           caseFiltersCtrl.initFilters(processes);
-          expect(scope.selectedFilters.selectedApp).toBe(processes[0].name);
+          expect(scope.selectedFilters.selectedApp).toBe(processes[0].displayName);
           expect(scope.selectedFilters.selectedVersion).toBe(processes[0].version);
-          expect(caseFiltersCtrl.filterVersion).toHaveBeenCalledWith(processes[0].name);
-          expect(scope.appNames).toEqual([processes[0].name, processes[2].name]);
+          expect(caseFiltersCtrl.filterVersion).toHaveBeenCalledWith(processes[0].displayName);
+          expect(scope.appNames).toEqual([processes[0].displayName, processes[2].displayName]);
         });
 
       });
@@ -274,8 +274,8 @@
           });
           it('should fill versions array with appropriate versions', function () {
             scope.apps = [
-              {name: 'Process1', version: '1.0'},
-              {name: 'Process1', version: '1.1'}
+              {displayName: 'Process1', version: '1.0'},
+              {displayName: 'Process1', version: '1.1'}
             ];
             caseFiltersCtrl.filterVersion('Process1');
             expect(scope.versions).toEqual(['1.0', '1.1']);
@@ -285,8 +285,8 @@
           });
           it('should fill versions array with appropriate versions when apps is wobbly', function () {
             scope.apps = [
-              {name: 'Process1'},
-              {name: 'Process1', version: '1.1'},
+              {displayName: 'Process1'},
+              {displayName: 'Process1', version: '1.1'},
               undefined
             ];
             caseFiltersCtrl.filterVersion('Process1');
@@ -390,8 +390,8 @@
             scope.selectedFilters.selectedProcessDefinition = '12321654875431';
             scope.selectedFilters.selectedApp = 'Process1';
             scope.apps = [
-              {name: 'Process1', version: '1.0', 'id': '32165465132'},
-              {name: 'Process1', version: '1.1', 'id': '98762168796'}
+              {displayName: 'Process1', version: '1.0', 'id': '32165465132'},
+              {displayName: 'Process1', version: '1.1', 'id': '98762168796'}
             ];
             caseFiltersCtrl.filterProcessDefinition('1.1');
             expect(scope.selectedFilters.selectedProcessDefinition).toBe('98762168796');
@@ -400,16 +400,16 @@
             scope.selectedFilters.selectedProcessDefinition = '12321654875431';
             scope.selectedFilters.selectedApp = 'Process1';
             scope.apps = [
-              {name: 'Process1', version: '1.0'},
-              {name: 'Process1', version: '1.1', 'id': '98762168796'},
+              {displayName: 'Process1', version: '1.0'},
+              {displayName: 'Process1', version: '1.1', 'id': '98762168796'},
               undefined
             ];
             caseFiltersCtrl.filterProcessDefinition('1.1');
             expect(scope.selectedFilters.selectedProcessDefinition).toBe('98762168796');
             scope.selectedFilters.selectedApp = 'Process1';
             scope.apps = [
-              {name: 'Process1', version: '1.0'},
-              {name: '', version: '1.2', 'id': '98762168796'},
+              {displayName: 'Process1', version: '1.0'},
+              {displayName: '', version: '1.2', 'id': '98762168796'},
               undefined
             ];
             caseFiltersCtrl.filterProcessDefinition('1.1');
