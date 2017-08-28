@@ -96,7 +96,7 @@
           <td class="TaskTable-displayName" title="{{::task.displayName}}">{{::task.displayName}}</td>
           <td class="TaskTable-displayDescription" title="{{::task.displayDescription}}">{{::task.displayDescription}}</td>
           <td class="text-right Cell--sortable TaskTable-caseId">{{::task.caseId}}</td>
-          <td class="TaskTable-processName">{{::task.rootContainerId.name}}</td>
+          <td class="TaskTable-processName">{{::task.rootContainerId.displayName}}</td>
           <td class="text-right TaskTable-lastUpdateDate" title="{{::task.last_update_date|moment:'LLL'}}">{{::task.last_update_date|moment:'MMM DD LT'}}</td>
           <td class="text-right TaskTable-assignedDate" title="{{::task.assigned_date|moment:'LLL'}}">{{::task.assigned_date|moment:'MMM DD LT'}}</td>
           <td class="text-right Cell--sortable TaskTable-dueDate" title="{{::getDueDateTitle(task)}}">{{::task.dueDate|moment:'MMM DD LT'}}</td>
