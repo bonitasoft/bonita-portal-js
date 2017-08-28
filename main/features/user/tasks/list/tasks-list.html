@@ -37,10 +37,10 @@
                     <div class="btn-group dropdown Filter-process" dropdown="">
                         <button dropdown-toggle type="button"
                                 class="btn btn-primary"
-                                title="{{'Process:' | translate }} {{ app.request.process.name + (app.request.process.version ? ' ' + app.request.process.version : '') }}"
+                                title="{{'Process:' | translate }} {{ app.request.process.displayName + (app.request.process.version ? ' ' + app.request.process.version : '') }}"
                                 ng-disabled="app.request.taskFilter === app.TASK_FILTERS.DONE || !app.processes || app.processes.length === 0">
                             <div class="ProcessList-label">
-                                {{app.request.process.name + (app.request.process.version?"
+                                {{app.request.process.displayName + (app.request.process.version?"
                                 "+app.request.process.version:"")}}
                                 <span class="caret"></span>
                             </div>
@@ -50,7 +50,7 @@
                                 <a ng-click="app.setProcess(p)"
                                    ng-class="{'active':p.id === app.request.process.id}"
                                    class="processOptionLink">
-                                    {{p.name+"&nbsp;"+p.version}}
+                                    {{p.displayName+"&nbsp;"+p.version}}
                                 </a>
                             </li>
                         </ul>

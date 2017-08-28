@@ -83,11 +83,11 @@
       $scope.apps = processes;
       var appNamesArray = processes.map(function(process) {
         if ($scope.selectedFilters.processId && $scope.selectedFilters.processId === process.id) {
-          $scope.selectedFilters.selectedApp = process.name;
+          $scope.selectedFilters.selectedApp = process.displayName;
           vm.filterVersion($scope.selectedFilters.selectedApp);
           $scope.selectedFilters.selectedVersion = process.version;
         }
-        return process.name;
+        return process.displayName;
       });
       appNamesArray.forEach(function(processName) {
         if (processName && $.inArray(processName, $scope.appNames) < 0) {
@@ -132,7 +132,7 @@
       $scope.selectedFilters.selectedVersion = defaultFilters.appVersion;
       if ($scope.apps && $scope.apps.filter) {
         $scope.versions = $scope.apps.filter(function(app) {
-          return app && app.name === appName && app.version;
+          return app && app.displayName === appName && app.version;
         }).map(function(app) {
           return app.version;
         });
@@ -145,7 +145,7 @@
     vm.filterProcessDefinition = function(selectedAppVersion) {
       if (selectedAppVersion && $scope.selectedFilters.selectedApp && $scope.apps) {
         var matchingProcessDefs = $scope.apps.filter(function(app) {
-          return app && app.name === $scope.selectedFilters.selectedApp && selectedAppVersion === app.version;
+          return app && app.displayName === $scope.selectedFilters.selectedApp && selectedAppVersion === app.version;
         });
         if (matchingProcessDefs && matchingProcessDefs.length) {
           $scope.selectedFilters.selectedProcessDefinition = matchingProcessDefs[0] && matchingProcessDefs[0].id;
