@@ -65,13 +65,13 @@ describe('taskListStore', function() {
   var mockProcesses = [
     {
       id: '11111',
-      name: 'process1'
+      displayName: 'process1'
     }, {
       id: '22222',
-      name: 'process2'
+      displayName: 'process2'
     }, {
       id: '33333',
-      name: 'process2'
+      displayName: 'process2'
     }
   ];
 
@@ -221,17 +221,17 @@ describe('taskListStore', function() {
       store.getProcessList();
       $httpBackend.flush();
 
-      expect(store.request.process).toEqual({ name: 'All', id: false });
+      expect(store.request.process).toEqual({ displayName: 'All', id: false });
     });
 
     it('should keep previously selected process', function() {
       $httpBackend.expectGET(processRegexp);
-      store.request.process = { id: 2, name: 'aProcess' };
+      store.request.process = { id: 2, displayName: 'aProcess' };
 
       store.getProcessList();
       $httpBackend.flush();
 
-      expect(store.request.process).toEqual({ id: 2, name: 'aProcess' });
+      expect(store.request.process).toEqual({ id: 2, displayName: 'aProcess' });
     });
   });
 
