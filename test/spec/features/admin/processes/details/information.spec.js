@@ -39,6 +39,7 @@
       spyOn(modal, 'open');
       log = $log;
       spyOn(growl,'success');
+      spyOn(growl,'warning');
       spyOn(growl,'error');
       spyOn(log, ['error']);
     }));
@@ -130,6 +131,18 @@
           expect(processInformationCtrl.categories).toEqual(categories);
           expect(processInformationCtrl.selectedCategories).toEqual(['cate1', 'cate2', 'cate3']);
           expect(growl.success.calls.mostRecent().args[0]).toEqual('Successfully updated categories');
+        });
+
+        it('should wait For Promise And Alert User No category updated has be done', function(){
+          var cat1 = {id:111, name: 'catego1'},
+            cat2 = {id:222, name: 'catego2'},
+            cat3 = {id:333, name: 'catego3'}, categories = [cat1, cat2, cat3];
+
+          processInformationCtrl.updateTagsAndAlertUser(categories);
+          scope.$apply();
+          expect(processInformationCtrl.categories).toEqual(categories);
+          expect(processInformationCtrl.selectedCategories).toEqual(['catego1', 'catego2', 'catego3']);
+          expect(growl.warning.calls.mostRecent().args[0]).toEqual('No updates have been made on categories. Don\'t forget to press "Enter" key after selecting a category.');
         });
       });
     });

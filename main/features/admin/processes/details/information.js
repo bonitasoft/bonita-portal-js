@@ -29,7 +29,8 @@
     .controller('ProcessInformationCtrl', ProcessInformationCtrl);
 
   /* jshint -W003 */
-  function ProcessInformationCtrl($scope, process, dateParser, store, categoryAPI, categories, $q, $modal, growl, i18nService, $log) {
+  function ProcessInformationCtrl($scope, process, dateParser, store, categoryAPI, categories, $q, $modal, growl,
+                                  i18nService, $log,gettextCatalog) {
     var vm = this;
     vm.process = process;
     vm.parseAndFormat = dateParser.parseAndFormat;
@@ -74,12 +75,19 @@
     }
 
     function updateTagsAndAlertUser(categories) {
+      var updateStatus = JSON.stringify(vm.categories) !== JSON.stringify(categories);
+
       vm.categories = categories;
       vm.selectedCategories.length = 0;
       [].push.apply(vm.selectedCategories, categories.map(function(category) {
         return category.name;
       }));
-      growl.success(i18nService.getKey('processDetails.informations.category.update.sucess'), growlOptions);
+      if(updateStatus){
+        growl.success(gettextCatalog.getString('Successfully updated categories'), growlOptions);
+      }else{
+        growl.warning(gettextCatalog.getString('No updates have been made on categories. Don\'t forget to press "Enter" key after selecting a category.'), growlOptions);
+      }
+
     }
 
     function isProcessResolved() {
