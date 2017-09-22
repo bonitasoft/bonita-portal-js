@@ -1,2 +1,19 @@
-<h1>{{vm.user.title}} {{vm.user.firstname}} {{vm.user.lastname}}</h1>
-<strong>NOT YET IMPLEMENTED</strong>
+<div class="col-xs-12">
+    <h1>{{vm.user.title}} {{vm.user.firstname}} {{vm.user.lastname}}</h1>
+</div>
+
+<div class="col-sm-3 col-md-3 col-lg-2">
+    <div class="list-group">
+        <a class="list-group-item"
+           ui-sref="bonita.userDetails.general"
+           ui-sref-active="active"
+           translate>
+            General
+        </a>
+    </div>
+</div>
+
+<div class="UserDetails col-sm-9 col-md-9 col-lg-10">
+    <ui-view></ui-view>
+</div>
+
