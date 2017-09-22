@@ -1,0 +1,25 @@
+.UserDetails {
+
+  .SubHeading {
+    margin-top: 0;
+  }
+
+  .UserMetadata {
+    display: flex;
+
+    margin-bottom: 1rem;
+
+    font-size: .9em;
+    color: #586069;
+
+    > *:not(:first-child) {
+      margin-left: 6rem;
+    }
+
+    @media (max-width: 480px) {
+      > *:not(:first-child) {
+        margin-left: 2rem;
+      }
+    }
+  }
+}
