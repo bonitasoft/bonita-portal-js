@@ -5,7 +5,13 @@
     </div>
     <div class="col-md-10 text-right">
       <start-for process="processMenuCtrl.process"></start-for>&nbsp;
-      <button id="processDetails-deleteProcess" type="button" class="btn btn-default" ng-disabled="processMenuCtrl.process.activationState === 'ENABLED'" ng-click="processMenuCtrl.deleteProcess()">{{'Delete' | translate}}</button>
+      <button id="processDetails-deleteProcess"
+              type="button"
+              class="btn btn-default"
+              ng-disabled="processMenuCtrl.process.activationState === 'ENABLED'"
+              ng-click="processMenuCtrl.deleteProcess()">
+          {{'Delete' | translate}}
+      </button>
     </div>
   </div>
   <div class="col-md-12">

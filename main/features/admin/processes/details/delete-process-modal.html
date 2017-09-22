@@ -6,10 +6,14 @@
       <p class="text-muted">{{ 'Delete the process' | translate }} {{deleteProcessModalInstanceCtrl.process.name}}</p>
     </div>
     <div class="modal-footer">
-        <button  class="start-for btn btn-primary" ng-click="deleteProcessModalInstanceCtrl.delete()">
+        <button  class="start-for btn btn-primary"
+                 ng-disabled="deleteProcessModalInstanceCtrl.processing"
+                 ng-click="deleteProcessModalInstanceCtrl.delete()">
             {{ 'Delete' | translate }}
         </button>
-        <button class="btn btn-default close_popup" ng-click="deleteProcessModalInstanceCtrl.cancel()">
+        <button class="btn btn-default close_popup"
+                ng-disabled="deleteProcessModalInstanceCtrl.processing"
+                ng-click="deleteProcessModalInstanceCtrl.cancel()">
             {{ 'Cancel' | translate }}
         </button>
     </div>
