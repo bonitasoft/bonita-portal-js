@@ -77,5 +77,16 @@
       expect(modalInstance.dismiss).toHaveBeenCalledWith({an: 'error'});
     });
 
+    it('should manage a processing state when deleting a process', function () {
+      processAPI.delete.and.returnValue({$promise: $q.when()});
+      expect(controller.processing).toBe(false);
+
+      controller.delete();
+      expect(controller.processing).toBe(true);
+
+      $q.resolve();
+      expect(controller.processing).toBe(true);
+    });
+
   });
 }());

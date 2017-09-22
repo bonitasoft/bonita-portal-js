@@ -236,7 +236,7 @@
           token: 'processlisting' + TokenExtensionService.tokenExtensionValue
         });
       }, function(error){
-        if(angular.isDefined(error)) {
+        if(error && error.message) {
           $log.error('An Error occurred during process deletion', error);
           growl.error('An Error occurred during process deletion: '+ error.message, growlOptions);
         }
