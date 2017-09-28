@@ -19,6 +19,14 @@
           }
         }
       })
+      .state('bonita.userDetails.businessCard', {
+        url: '/business-card',
+        templateUrl: 'features/admin/organisation/users/details/business-card/index.html',
+      })
+      .state('bonita.userDetails.personalInfo', {
+        url: '/personal-information',
+        templateUrl: 'features/admin/organisation/users/details/personal-information/index.html'
+      })
       .state('bonita.userDetails.general', {
         url: '',
         templateUrl: 'features/admin/organisation/users/details/general/index.html'
