@@ -26,5 +26,21 @@
       expect(state.resolve.user(userAPI, expectedUser.id)).toEqual(expectedUser);
     });
 
+    it('should define a user detail business card state', () => {
+
+      let state = $state.get('bonita.userDetails.businessCard');
+
+      expect(state.url).toEqual('/business-card');
+      expect(state.templateUrl).toEqual('features/admin/organisation/users/details/business-card/index.html');
+    });
+
+    it('should define a user detail personal information state', () => {
+
+      let state = $state.get('bonita.userDetails.personalInfo');
+
+      expect(state.url).toEqual('/personal-information');
+      expect(state.templateUrl).toEqual('features/admin/organisation/users/details/personal-information/index.html');
+    });
+
   });
 })();
