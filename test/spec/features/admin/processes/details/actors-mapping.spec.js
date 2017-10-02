@@ -166,7 +166,7 @@
         expect(options.resolve.actor()).toEqual(actor1);
         deferred.resolve([null, undefined, 'actor1', 'actor2']);
         scope.$apply();
-        expect(growl.success).toHaveBeenCalledWith('2 actor mapping updates succeeded', jasmine.any(Object));
+        expect(growl.success).toHaveBeenCalledWith('2 actor mapping updates succeeded');
         expect(scope.$emit).toHaveBeenCalledWith('process.refresh');
         expect(ActorMappingService.getActorMembers).toHaveBeenCalledWith(actor1, actorMappingCtrl.actorProfiles.groups.deploy, process);
         expect(actorMappingCtrl.actorsMembers[actor1.id].groups).toEqual(actorMapping2.groups);
@@ -182,7 +182,7 @@
 
         deferred.reject(['impossible to save']);
         scope.$apply();
-        expect(growl.error).toHaveBeenCalledWith('1 errors on mapping updates', jasmine.any(Object));
+        expect(growl.error).toHaveBeenCalledWith('1 errors on mapping updates');
         expect(scope.$emit).toHaveBeenCalledWith('process.refresh');
       });
       it('should init controller actors in view model', function() {

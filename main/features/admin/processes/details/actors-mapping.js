@@ -22,7 +22,6 @@
     'org.bonitasoft.common.resources',
     'org.bonitasoft.common.filters.stringTemplater',
     'org.bonitasoft.common.i18n',
-    'org.bonitasoft.common.properties',
     'org.bonitasoft.features.admin.mappings'
   ])
     .constant('MEMBERS_PER_CELL', 5)
@@ -54,7 +53,7 @@
       };
       return actorMappingService;
     })
-    .controller('ActorsMappingCtrl', function($scope, $modal, process, MEMBERS_PER_CELL, growl, i18nService, $log, $filter, processActors, ActorMappingService, growlOptions, defaultLocalLang, ACTOR_PROFILES) {
+    .controller('ActorsMappingCtrl', function($scope, $modal, process, MEMBERS_PER_CELL, growl, i18nService, $log, $filter, processActors, ActorMappingService, defaultLocalLang, ACTOR_PROFILES) {
       var vm = this;
       vm.actors = processActors;
       vm.membersPerCell = MEMBERS_PER_CELL;
@@ -88,11 +87,11 @@
           }
         }).result.then(function close(results) {
           results = _.compact(results);
-          growl.success(i18nService.getKey('processDetails.actors.update.success', {nbSucess: results.length}), growlOptions);
+          growl.success(i18nService.getKey('processDetails.actors.update.success', {nbSucess: results.length}));
         }, function cancel(errors) {
           if(angular.isDefined(errors) && _.isArray(errors)) {
             $log.error('Actor mapping errors', errors);
-            growl.error(i18nService.getKey('processDetails.actors.update.error', {nbErrors: errors.length}), growlOptions);
+            growl.error(i18nService.getKey('processDetails.actors.update.error', {nbErrors: errors.length}));
           }
         }).finally(function() {
           $scope.$emit('process.refresh');

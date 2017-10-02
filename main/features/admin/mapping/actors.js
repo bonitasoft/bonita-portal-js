@@ -23,7 +23,6 @@
    */
   angular.module('org.bonitasoft.common.actors.selectbox', [
     'org.bonitasoft.common.i18n',
-    'org.bonitasoft.common.properties',
     'org.bonitasoft.features.admin.mappings',
     'isteven-multi-select',
     'org.bonitasoft.service.debounce'

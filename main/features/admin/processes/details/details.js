@@ -216,11 +216,6 @@
     }
 
     function deleteProcess() {
-      var growlOptions = {
-        ttl: 3000,
-        disableCountDown: true,
-        disableIcons: true
-      };
       $modal.open({
         templateUrl: 'features/admin/processes/details/delete-process-modal.html',
         controller: 'DeleteProcessModalInstanceCtrl',
@@ -238,7 +233,7 @@
       }, function(error){
         if(error && error.message) {
           $log.error('An Error occurred during process deletion', error);
-          growl.error('An Error occurred during process deletion: '+ error.message, growlOptions);
+          growl.error('An Error occurred during process deletion: '+ error.message);
         }
       });
     }

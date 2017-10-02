@@ -24,7 +24,6 @@
     'angular-growl',
     'isteven-multi-select',
     'org.bonitasoft.common.resources.store',
-    'org.bonitasoft.common.properties',
     'org.bonitasoft.features.admin.mappings',
     'org.bonitasoft.common.actors.selectbox'
   ])

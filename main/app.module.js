@@ -6,6 +6,7 @@
     'ngCookies',
     'gettext',
     'ui.router',
+    'angular-growl',
     'org.bonitasoft.service.features',
     'org.bonitasoft.common.i18n',
     'org.bonitasoft.common.resources',
