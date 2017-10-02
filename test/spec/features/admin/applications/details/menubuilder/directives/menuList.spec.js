@@ -21,23 +21,14 @@
 
     var $compile, scope, rootScope;
 
-    var prefixUrl = 'features/admin/applications/details/menubuilder-',
-        templateUrl = prefixUrl + 'menuList.html',
-        templateSubDirective = prefixUrl + 'actionBar.html';
+    beforeEach(module('org.bonitasoft.features.admin.applications.details', 'org.bonitasoft.templates'));
 
-    beforeEach(module('org.bonitasoft.features.admin.applications.details'));
-    beforeEach(module('main/' + templateUrl));
-
-    beforeEach(inject(function ($injector, $rootScope, $templateCache) {
+    beforeEach(inject(function ($injector, $rootScope) {
 
       $compile = $injector.get('$compile');
       rootScope = $rootScope;
       scope = $rootScope.$new();
 
-      var template = $templateCache.get('main/' + templateUrl);
-      $templateCache.put(templateUrl, template);
-      // Angular cannot use empty string
-      $templateCache.put(templateSubDirective, '<div></div>');
     }));
 
     describe('loading the list', function () {

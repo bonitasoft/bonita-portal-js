@@ -21,14 +21,9 @@
 
     var scope, elm, compile, menuFactory, loadRequest, rootScope;
 
-    var prefixUrl = 'features/admin/applications/details/menubuilder-',
-        templateUrl = prefixUrl + 'menuCreator.html',
-        templateSubDirective = prefixUrl + 'menuList.html';
+    beforeEach(module('org.bonitasoft.features.admin.applications.details', 'org.bonitasoft.templates'));
 
-    beforeEach(module('org.bonitasoft.features.admin.applications.details'));
-    beforeEach(module('main/' + templateUrl));
-
-    beforeEach(inject(function ($injector, $rootScope, $compile, $templateCache, $q) {
+    beforeEach(inject(function ($injector, $rootScope, $compile, $q) {
 
       rootScope = $rootScope;
       scope = $rootScope.$new();
@@ -37,11 +32,6 @@
       menuFactory = $injector.get('menuFactory');
 
       spyOn(menuFactory, 'get').and.returnValue(loadRequest.promise);
-
-      var template = $templateCache.get('main/' + templateUrl);
-      $templateCache.put(templateUrl, template);
-      // Angular cannot use empty string
-      $templateCache.put(templateSubDirective, '<div></div>');
 
       elm = angular.element('<menu-creator app="app" class="col-md-6"></menu-creator>');
     }));
