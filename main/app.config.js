@@ -49,6 +49,12 @@
       $httpProvider.defaults.xsrfHeaderName = $httpProvider.defaults.xsrfCookieName = 'X-Bonita-API-Token';
     })
 
+    .config(function(growlProvider) {
+      growlProvider.globalTimeToLive(3000);
+      growlProvider.globalDisableCountDown(true);
+      growlProvider.globalDisableIcons(true);
+    })
+
     //parent state to use for every state in order to have the translations loaded correctly...
     .config(function($stateProvider, bonitaProvider) {
       $stateProvider.state('bonita', {
