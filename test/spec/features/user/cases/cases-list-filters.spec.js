@@ -30,9 +30,8 @@
       };
     };
 
-    beforeEach(module('main/features/user/cases/list/cases-list-filters.html'));
+    beforeEach(module('org.bonitasoft.features.user.cases.list.filters', 'org.bonitasoft.templates'));
 
-    beforeEach(module('org.bonitasoft.features.user.cases.list.filters'));
     beforeEach(inject(function ($rootScope, $compile, _defaultUserFilters_, _caseStatesUserValues_, _store_) {
       //{appVersion: 'All versions', appName: 'All apps', caseStatus: 'All states'}
       globalProcesses = [];

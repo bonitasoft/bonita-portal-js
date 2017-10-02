@@ -60,37 +60,7 @@
 
   describe('Load the module application-list', function() {
 
-    var templateCache, httpBackend;
-
-    var prefixUrl = 'features/admin/applications/details/',
-        templateUrl = prefixUrl + 'popverunsafe.html',
-        templateBtnDetails = prefixUrl + 'application-details-app.html';
-
     beforeEach(module('org.bonitasoft.features.admin.applications.list'));
-    beforeEach(module('main/' + templateUrl));
-    beforeEach(module('main/' + templateBtnDetails));
-
-
-    beforeEach(inject(function ($templateCache, $httpBackend) {
-
-      var template = $templateCache.get('main/' + templateUrl);
-      var templateBtnDetailsTpl = $templateCache.get('main/' + templateBtnDetails);
-
-      templateCache = $templateCache;
-      httpBackend = $httpBackend;
-
-      $templateCache.put(templateUrl,template);
-      $templateCache.put(templateBtnDetails,templateBtnDetailsTpl);
-
-      httpBackend
-        .whenGET(templateUrl)
-        .respond(200,template);
-
-      httpBackend
-        .whenGET(templateBtnDetails)
-        .respond(200,'<div></div>');
-    }));
-
 
     describe('Controller: applicationsListCtrl', function() {
 
@@ -343,7 +313,7 @@
       it('should load the template', function() {
         templateAppDetailLoader.load();
         expect(http.get).toHaveBeenCalled();
-        expect(http.get).toHaveBeenCalledWith(templateBtnDetails);
+        expect(http.get).toHaveBeenCalledWith('features/admin/applications/details/application-details-app.html');
       });
 
       it('should fill the templateCache', function() {
@@ -351,7 +321,7 @@
         loadRequestService.resolve({data: '<div>{{name}}</div>'});
         rootScope.$apply();
         expect(templateCache.put).toHaveBeenCalled();
-        expect(templateCache.put).toHaveBeenCalledWith(templateBtnDetails, '<div>{{name}}</div>');
+        expect(templateCache.put).toHaveBeenCalledWith('features/admin/applications/details/application-details-app.html', '<div>{{name}}</div>');
       });
 
       it('should set the $interpolate service with template to service.compile', function() {
