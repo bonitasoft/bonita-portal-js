@@ -42,11 +42,6 @@
     vm.openProcessCategoryManagementModal = openProcessCategoryManagementModal;
     vm.updateTagsAndAlertUser = updateTagsAndAlertUser;
     vm.isProcessResolved = isProcessResolved;
-    var growlOptions = {
-      ttl: 3000,
-      disableCountDown: true,
-      disableIcons: true
-    };
 
     function openProcessCategoryManagementModal() {
       var modalInstance = $modal.open({
@@ -68,7 +63,7 @@
       modalInstance.result.then(vm.updateTagsAndAlertUser, function(error) {
         if(['cancel', 'backdrop click'].indexOf(error) === -1) {
           $log.error('category update failed :' , error);
-          growl.error(i18nService.getKey('processDetails.informations.category.update.error') + ' : ' + error, growlOptions);
+          growl.error(i18nService.getKey('processDetails.informations.category.update.error') + ' : ' + error);
         }
       });
 
@@ -83,9 +78,9 @@
         return category.name;
       }));
       if(updateStatus){
-        growl.success(gettextCatalog.getString('Successfully updated categories'), growlOptions);
+        growl.success(gettextCatalog.getString('Successfully updated categories'));
       }else{
-        growl.warning(gettextCatalog.getString('No updates have been made on categories. Don\'t forget to press "Enter" key after selecting a category.'), growlOptions);
+        growl.warning(gettextCatalog.getString('No updates have been made on categories. Don\'t forget to press "Enter" key after selecting a category.'));
       }
 
     }
