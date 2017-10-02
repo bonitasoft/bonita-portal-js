@@ -34,6 +34,11 @@ module.exports = function(config) {
       }
     },
 
+    ngHtml2JsPreprocessor: {
+      stripPrefix: 'main/',
+      moduleName: 'org.bonitasoft.templates'
+    },
+
     // list of files / patterns to load in the browser
     files: [
       // bower:js

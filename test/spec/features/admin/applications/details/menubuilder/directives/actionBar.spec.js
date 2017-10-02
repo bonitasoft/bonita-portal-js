@@ -21,21 +21,12 @@
 
     var $compile, scope, rootScope;
 
-    beforeEach(module('org.bonitasoft.features.admin.applications.details'));
+    beforeEach(module('org.bonitasoft.features.admin.applications.details', 'org.bonitasoft.templates'));
 
-    beforeEach(module('main/features/admin/applications/details/menubuilder-actionBar.html'));
-
-    beforeEach(inject(function ($injector, $rootScope, $templateCache) {
-
+    beforeEach(inject(function ($injector, $rootScope) {
       $compile = $injector.get('$compile');
       rootScope = $rootScope;
       scope = $rootScope.$new();
-
-      var templateUrl = 'features/admin/applications/details/menubuilder-actionBar.html',
-          template = $templateCache.get('main/' + templateUrl);
-
-      $templateCache.put(templateUrl, template);
-
     }));
 
     it('should have the text inside', function () {
