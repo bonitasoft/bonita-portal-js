@@ -20,6 +20,7 @@
     'org.bonitasoft.features.admin.cases',
     'org.bonitasoft.features.admin.processes',
     'org.bonitasoft.features.admin.applications',
+    'org.bonitasoft.features.admin.organisation',
     'org.bonitasoft.common.utils.filters'
   ]);
 
