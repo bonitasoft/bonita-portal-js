@@ -176,6 +176,7 @@
 
   //User
   when('GET', /^\/API\/identity\/user\??c=.*&o=firstname\+asc&p=.*$/).respond(require('./admin/processes/details/actorsMapping/users/all-users-list-321.json'));
+  when('GET', /^\/API\/identity\/user\/1.*$/).respond(require('./admin/organisation/user.json'));
   when('GET', /^\/API\/bpm\/actorMember\??c=\d&f=actor_id%3D\d&f=member_type%3DUSER&p=\d+$/).respond(require('./admin/processes/details/actorsMapping/users/users-mapped-321.json'));
   when('GET', /^\/API\/bpm\/actorMember\??c=\d&d=user_id&f=actor_id%3D\d&f=member_type%3DUSER.*$/).respond(require('./admin/processes/details/actorsMapping/users/users-mapped-321.json'));
   /*when('GET', /^\/API\/bpm\/actorMember\??c=\d&d=user_id&f=actor_id%3D\d&f=member_type%3DUSER&p=\d+$/).respond(require('./admin/processes/details/actorsMapping/users/users-mapped-321.json'));*/
