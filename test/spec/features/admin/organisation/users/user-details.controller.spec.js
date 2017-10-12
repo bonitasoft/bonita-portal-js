@@ -80,6 +80,37 @@
       expect(growl.error).toHaveBeenCalled();
     });
 
+    it('should save user\'s new password', () => {
+      /* jshint camelcase: false */
+      controller.user = {id: 42};
+
+      controller.updatePassword({new: 'newPassword', confirm: 'newPassword'});
+
+      expect(userAPI.update).toHaveBeenCalledWith({
+        id: 42,
+        password: 'newPassword',
+        password_confirm: 'newPassword'
+      });
+    });
+
+    it('should toast a success message when password is successfully updated', () => {
+      userAPI.update.and.returnValue({$promise: $q.when({})});
+
+      controller.updatePassword({});
+      scope.$apply();
+
+      expect(growl.success).toHaveBeenCalled();
+    });
+
+    it('should toast an error message when password is not successfully updated', () => {
+      userAPI.update.and.returnValue({$promise: $q.reject({})});
+
+      controller.updatePassword({});
+      scope.$apply();
+
+      expect(growl.error).toHaveBeenCalled();
+    });
+
     it('should save user\'s business card', () => {
       /* jshint camelcase: false */
       let businessCard = {
