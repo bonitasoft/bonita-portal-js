@@ -26,6 +26,20 @@
       });
     };
 
+    vm.updatePassword = function (password) {
+      /* jshint camelcase: false */
+      userAPI.update({
+        id: vm.user.id,
+        password: password.new,
+        password_confirm: password.confirm
+      }).$promise.then(function () {
+        growl.success(gettextCatalog.getString('Password successfully updated'));
+      }, function () {
+        growl.error(gettextCatalog.getString(
+          'Password was not updated. Please retry later or contact an administrator'));
+      });
+    };
+
     vm.saveBusinessCard = function (cardData) {
       professionalDataAPI.save(cardData).$promise
         .then(function () {
