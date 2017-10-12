@@ -1,0 +1,28 @@
+<h2 class="SubHeading" translate>Custom information</h2>
+<form class="form-horizontal col-lg-9">
+
+    <div ng-if="vm.hasCustomInfo()">
+        <div ng-repeat="info in vm.customInformation" class="form-group">
+            <label class="col-md-2 control-label">{{info.definitionId.name}}</label>
+            <div class="col-md-10">
+                <input type="text" ng-model="info.value" class="form-control">
+                <p class="help-block" ng-if="info.definitionId.description">
+                    {{info.definitionId.description}}
+                </p>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <button class="btn btn-primary"
+                        ng-click="vm.saveCustomInfo(vm.customInformation)"
+                        translate>
+                    Update custom information
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div ng-if="!vm.hasCustomInfo()" translate>
+        No custom information defined.
+    </div>
+</form>

@@ -28,6 +28,12 @@
       personnalInfoMenuItem.click();
       expect(personnalInfoMenuItem.getAttribute('class')).toContain('active');
       expect(element(by.tagName('h2')).getText()).toBe('Personal information');
+
+      // custom info
+      let customInfoMenuItem = element(by.cssContainingText('a.list-group-item', 'Custom information'));
+      customInfoMenuItem.click();
+      expect(customInfoMenuItem.getAttribute('class')).toContain('active');
+      expect(element(by.tagName('h2')).getText()).toBe('Custom information');
     });
   });
 
