@@ -30,6 +30,10 @@
       .state('bonita.userDetails.general', {
         url: '',
         templateUrl: 'features/admin/organisation/users/details/general/index.html'
+      })
+      .state('bonita.userDetails.password', {
+        url: '/password',
+        templateUrl: 'features/admin/organisation/users/details/password/index.html'
       });
   }
 

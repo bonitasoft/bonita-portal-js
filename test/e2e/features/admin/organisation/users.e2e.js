@@ -11,6 +11,12 @@
       // should land on general information
       expect(element(by.tagName('h3')).getText()).toBe('General information');
 
+      // Password
+      let passwordMenuItem = element(by.cssContainingText('a.list-group-item', 'Password'));
+      passwordMenuItem.click();
+      expect(passwordMenuItem.getAttribute('class')).toContain('active');
+      expect(element(by.tagName('h2')).getText()).toBe('Password');
+
       // business card
       let businessCardMenuItem = element(by.cssContainingText('a.list-group-item', 'Business card'));
       businessCardMenuItem.click();
