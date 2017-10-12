@@ -26,7 +26,7 @@
           }
         }
       },
-      processCategoryAPI, processConnectorAPI, parameterAPI;
+      processCategoryAPI, processConnectorAPI, parameterAPI, customUserInfoAPI;
 
     beforeEach(module('org.bonitasoft.common.resources'));
     beforeEach(module(function($provide) {
@@ -37,13 +37,14 @@
 
     var $httpBackend, userAPI, unauthorizedResponseHandler;
 
-    beforeEach(inject(function(_$httpBackend_, _userAPI_, _unauthorizedResponseHandler_, _processCategoryAPI_, _processConnectorAPI_, _parameterAPI_) {
+    beforeEach(inject(function(_$httpBackend_, _userAPI_, _unauthorizedResponseHandler_, _processCategoryAPI_, _processConnectorAPI_, _parameterAPI_, _customUserInfoAPI_) {
       $httpBackend = _$httpBackend_;
       userAPI = _userAPI_;
       unauthorizedResponseHandler = _unauthorizedResponseHandler_;
       processCategoryAPI = _processCategoryAPI_;
       processConnectorAPI = _processConnectorAPI_;
       parameterAPI = _parameterAPI_;
+      customUserInfoAPI = _customUserInfoAPI_;
     }));
 
     it('should get user specified by the id', inject(function() {
@@ -204,6 +205,19 @@
           'process_id': 23,
           content: '1'
         });
+        $httpBackend.flush();
+      });
+    });
+
+    describe('customUserInfoAPI', function() {
+      it('should call PUT http requests with custom url', function() {
+        $httpBackend.expect('PUT', '../API/customuserinfo/value/42/1',
+          '{"value":"newValue"}').respond({});
+
+        customUserInfoAPI.update({
+          userId: 42,
+          id: 1
+        }, {value: 'newValue'});
         $httpBackend.flush();
       });
     });
