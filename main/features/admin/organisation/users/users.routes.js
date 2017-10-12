@@ -34,6 +34,21 @@
       .state('bonita.userDetails.password', {
         url: '/password',
         templateUrl: 'features/admin/organisation/users/details/password/index.html'
+      })
+      .state('bonita.userDetails.customInfo', {
+        url: '/custom-information',
+        templateUrl: 'features/admin/organisation/users/details/custom-information/index.html',
+        controller: 'UserCustomInfoCtrl as vm',
+        resolve: {
+          customInformation: function (customUserInfoAPI, $stateParams) {
+            return customUserInfoAPI.search({p: 0, c: 100, f: 'userId=' + $stateParams.id})
+              .$promise.then(function(response) {
+                return response.data;
+              }, function() {
+                return [];
+              });
+          }
+        }
       });
   }
 

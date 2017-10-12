@@ -272,4 +272,20 @@
       }
     });
   });
+
+  module.factory('customUserInfoAPI', function ($http, $resource) {
+    /*jshint camelcase: false */
+    return $resource(API_PATH + 'customuserinfo/user/:id', {
+      'id': '@id'
+    }, {
+      'update': {
+        url: API_PATH + 'customuserinfo/value/:userId/:id',
+        method: 'PUT',
+        params: {
+          userId: '@userId',
+          id: '@id'
+        }
+      }
+    });
+  });
 })();
