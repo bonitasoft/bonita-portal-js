@@ -13,32 +13,36 @@ p.warning {
 /**
   * Styles of directive content
  */
-#error-icon {
-  font-size: 2em;
+#iconPicture{
+  font-size: 1.5em;
+  float: left;
+  margin-right: 5px;
+}
+
+.error {
   color: red;
-  float: left;
 }
 
-#errorStatus{
-  display: inline;
-}
-
-#warning-icon {
-  font-size: 2em;
+.warning {
   color: #f89728;
-  float: left;
 }
 
-.status-message{
-  clear: both;
+.status-container{
+  display: inline-block;
+  padding-bottom: 30px;
+}
+.status-container span{
+  vertical-align: middle;
 }
 
 .status-context {
   list-style-position:inside;
-  clear: both;
 }
 
 .status-details {
-  clear: both;
   padding-left: 2.5rem;
+}
+
+.contextLastLevel{
+  font-style: italic;
 }
