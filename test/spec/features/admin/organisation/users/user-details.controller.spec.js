@@ -1,20 +1,23 @@
 (() => {
   'use strict';
 
-  /* jshint camelcase: false */
   describe('user details controller', () => {
 
-    let controller, scope, userAPI, growl, $q;
+    let controller, scope, userAPI, professionalDataAPI, personalDataAPI, growl, $q;
 
     beforeEach(module('org.bonitasoft.features.admin.organisation.users'));
 
     beforeEach(inject(function ($controller, $rootScope, _$q_) {
       $q = _$q_;
 
-      userAPI = jasmine.createSpyObj('userAPI', ['update']);
+      userAPI = jasmine.createSpyObj('userApi', ['update']);
+      professionalDataAPI = jasmine.createSpyObj('professionalDataAPI', ['save']);
+      personalDataAPI = jasmine.createSpyObj('personalDataAPI', ['save']);
       growl = jasmine.createSpyObj('growl', ['success', 'error']);
 
       userAPI.update.and.returnValue({$promise: $q.when({})});
+      professionalDataAPI.save.and.returnValue({$promise: $q.when({})});
+      personalDataAPI.save.and.returnValue({$promise: $q.when({})});
 
       scope = $rootScope.$new();
 
@@ -22,6 +25,8 @@
         $scope: scope,
         user: {},
         userAPI: userAPI,
+        professionalDataAPI: professionalDataAPI,
+        personalDataAPI: personalDataAPI,
         growl: growl
       });
       scope.$apply();
@@ -47,6 +52,7 @@
       controller.saveGeneralInformation(user);
 
       expect(userAPI.update).toHaveBeenCalledWith({
+        /* jshint camelcase: false */
         id: user.id,
         title: user.title,
         firstname: user.firstname,
@@ -65,10 +71,93 @@
       expect(growl.success).toHaveBeenCalled();
     });
 
-    it('should toast a success message when user\'s general information is successfully updated', () => {
+    it('should toast an error message when user\'s general information is not successfully updated', () => {
       userAPI.update.and.returnValue({$promise: $q.reject({})});
 
       controller.saveGeneralInformation({});
+      scope.$apply();
+
+      expect(growl.error).toHaveBeenCalled();
+    });
+
+    it('should save user\'s business card', () => {
+      /* jshint camelcase: false */
+      let businessCard = {
+          address: 'Renwick Drive',
+          building: '70',
+          city: 'Grenoble',
+          country: 'France',
+          email: 'walter.bates@acme.com',
+          fax_number: '484-302-0000',
+          id: '4',
+          mobile_number: '',
+          phone_number: '0606060606',
+          room: '',
+          state: 'PA',
+          website: '',
+          zipcode: '19108',
+        }
+      ;
+
+      controller.saveBusinessCard(businessCard);
+
+      expect(professionalDataAPI.save).toHaveBeenCalledWith(businessCard);
+    });
+
+    it('should toast a success message when user\'s business card is successfully updated', () => {
+      professionalDataAPI.save.and.returnValue({$promise: $q.when({})});
+
+      controller.saveBusinessCard({});
+      scope.$apply();
+
+      expect(growl.success).toHaveBeenCalled();
+    });
+
+    it('should toast an error message when user\'s business card is not successfully updated', () => {
+      professionalDataAPI.save.and.returnValue({$promise: $q.reject({})});
+
+      controller.saveBusinessCard({});
+      scope.$apply();
+
+      expect(growl.error).toHaveBeenCalled();
+    });
+
+    it('should save user\'s personal information', () => {
+      /* jshint camelcase: false */
+      let personalInfo = {
+        address: 'Renwick Drive',
+        building: '70',
+        city: 'Grenoble',
+        country: 'France',
+        email: 'walter.bates@acme.com',
+        fax_number: '484-302-0000',
+        id: '4',
+        mobile_number: '',
+        phone_number: '0606060606',
+        room: '',
+        state: 'PA',
+        website: '',
+        zipcode: '19108',
+      };
+
+      controller.savePersonalInformation(personalInfo);
+
+      expect(personalDataAPI.save).toHaveBeenCalledWith(personalInfo);
+    });
+
+    it('should toast a success message when user\'s personal information is successfully updated', () => {
+      personalDataAPI.save.and.returnValue({$promise: $q.when({})});
+
+      controller.savePersonalInformation({});
+      scope.$apply();
+
+      expect(growl.success).toHaveBeenCalled();
+    });
+
+    it('should toast an error message when user\'s personal information is not successfully updated', () => {
+      personalDataAPI.save.and.returnValue({$promise: $q.reject({})});
+
+      controller.savePersonalInformation({});
       scope.$apply();
 
       expect(growl.error).toHaveBeenCalled();
