@@ -5,7 +5,7 @@
     .module('org.bonitasoft.features.admin.organisation.users')
     .controller('UserDetailsCtrl', UserDetailsCtrl);
 
-  function UserDetailsCtrl(user, userAPI, growl, gettextCatalog) {
+  function UserDetailsCtrl(user, growl, gettextCatalog, professionalDataAPI, personalDataAPI, userAPI) {
     var vm = this;
     vm.user = user;
 
@@ -25,6 +25,26 @@
           'General information where not updated. Please retry later or contact an administrator'));
       });
     };
-  }
 
+    vm.saveBusinessCard = function (cardData) {
+      professionalDataAPI.save(cardData).$promise
+        .then(function () {
+          growl.success(gettextCatalog.getString('Business card successfully updated'));
+        }, function () {
+          growl.error(gettextCatalog.getString(
+            'Business card were not updated. Please retry later or contact an administrator'));
+        });
+    };
+
+    vm.savePersonalInformation = function (cardData) {
+      personalDataAPI.save(cardData).$promise
+        .then(function () {
+          growl.success(gettextCatalog.getString('Personal information successfully updated'));
+        }, function () {
+          growl.error(gettextCatalog.getString(
+            'Personal information were not updated. Please retry later or contact an administrator'));
+        });
+    };
+
+  }
 })();
