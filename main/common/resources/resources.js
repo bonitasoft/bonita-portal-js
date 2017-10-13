@@ -166,7 +166,6 @@
     'archivedHumanTaskAPI': 'bpm/archivedHumanTask',
     'humanTaskAPI': 'bpm/humanTask',
     'i18nAPI': 'system/i18ntranslation',
-    'membershipAPI': 'identity/membership',
     'personalDataAPI': 'identity/personalcontactdata',
     'processAPI': 'bpm/process',
     'processSupervisorAPI': 'bpm/processSupervisor',
@@ -284,6 +283,23 @@
         params: {
           userId: '@userId',
           id: '@id'
+        }
+      }
+    });
+  });
+
+  module.factory('membershipAPI', function ($http, $resource) {
+    /*jshint camelcase: false */
+    return $resource(API_PATH + 'identity/membership/:id', {
+      'id': '@id'
+    }, {
+      'delete': {
+        url: API_PATH + 'identity/membership/:userId/:groupId/:roleId',
+        method: 'DELETE',
+        params: {
+          userId: '@userId',
+          groupId: '@groupId',
+          roleId: '@roleId'
         }
       }
     });
