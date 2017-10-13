@@ -35,6 +35,19 @@
         url: '/password',
         templateUrl: 'features/admin/organisation/users/details/password/index.html'
       })
+      .state('bonita.userDetails.profiles', {
+        url: '/profiles',
+        templateUrl: 'features/admin/organisation/users/details/profiles/index.html',
+        controller: 'UserProfiles as vm',
+        resolve: {
+          profiles: function (profileAPI, $stateParams) {
+            return profileAPI.search({p: 0, c: 100, f: 'user_id=' + $stateParams.id});
+          },
+          memberships: function (membershipAPI, $stateParams) {
+            return membershipAPI.search({p:0, c:100, f:'user_id=' + $stateParams.id, d: ['role_id', 'group_id']});
+          }
+        }
+      })
       .state('bonita.userDetails.customInfo', {
         url: '/custom-information',
         templateUrl: 'features/admin/organisation/users/details/custom-information/index.html',
