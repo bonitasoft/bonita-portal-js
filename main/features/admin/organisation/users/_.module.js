@@ -6,6 +6,7 @@
       'ui.router',
       'gettext',
       'angular-growl',
+      'ui.bootstrap',
       'org.bonitasoft.common.moment',
       'org.bonitasoft.common.resources'
     ]);

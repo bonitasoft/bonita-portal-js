@@ -1,0 +1,7 @@
+<input type="text"
+       class="form-control"
+       ng-model="vm.manager"
+       typeahead="manager as vm.formatLabel(manager) for manager in vm.searchManagers($viewValue)"
+       typeahead-input-formatter="vm.formatLabel($model)"
+       ng-model-options="{ debounce: 200 }"
+       autocomplete="off">
