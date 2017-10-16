@@ -3,14 +3,15 @@
 
   describe('user details controller', () => {
 
-    let controller, scope, userAPI, professionalDataAPI, personalDataAPI, growl, $q;
+    let controller, scope, userAPI, professionalDataAPI, personalDataAPI, growl, $q, $timeout;
 
     beforeEach(module('org.bonitasoft.features.admin.organisation.users'));
 
-    beforeEach(inject(function ($controller, $rootScope, _$q_) {
+    beforeEach(inject(function ($controller, $rootScope, _$q_, _$timeout_) {
       $q = _$q_;
+      $timeout = _$timeout_;
 
-      userAPI = jasmine.createSpyObj('userApi', ['update']);
+      userAPI = jasmine.createSpyObj('userApi', ['update', 'search']);
       professionalDataAPI = jasmine.createSpyObj('professionalDataAPI', ['save']);
       personalDataAPI = jasmine.createSpyObj('personalDataAPI', ['save']);
       growl = jasmine.createSpyObj('growl', ['success', 'error']);
@@ -46,7 +47,8 @@
         'password': '',
         'id': '4',
         'job_title': 'Human resources benefits',
-        'last_update_date': '2017-09-22 16:24:20.005'
+        'last_update_date': '2017-09-22 16:24:20.005',
+        'manager_id': {id: 42}
       };
 
       controller.saveGeneralInformation(user);
@@ -58,7 +60,8 @@
         firstname: user.firstname,
         lastname: user.lastname,
         userName: user.userName,
-        job_title: user.job_title
+        job_title: user.job_title,
+        manager_id: 42
       });
     });
 
@@ -192,6 +195,17 @@
       scope.$apply();
 
       expect(growl.error).toHaveBeenCalled();
+    });
+
+    it('should search for managers', (done) => {
+      userAPI.search.and.returnValue({$promise: $q.when({data: [{manager: 1}, {manager: 2}]})});
+
+      controller.searchManagers('whatever')
+        .then(managers => {
+          expect(managers).toEqual([{manager: 1}, {manager: 2}]);
+          done();
+        });
+      scope.$apply();
     });
   });
 
