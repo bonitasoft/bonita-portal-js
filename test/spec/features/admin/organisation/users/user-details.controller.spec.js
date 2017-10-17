@@ -3,7 +3,7 @@
 
   describe('user details controller', () => {
 
-    let controller, scope, userAPI, professionalDataAPI, personalDataAPI, growl, $q, $timeout;
+    let controller, scope, userAPI, professionalDataAPI, personalDataAPI, growl, $q, $timeout, $state;
 
     beforeEach(module('org.bonitasoft.features.admin.organisation.users'));
 
@@ -15,6 +15,7 @@
       professionalDataAPI = jasmine.createSpyObj('professionalDataAPI', ['save']);
       personalDataAPI = jasmine.createSpyObj('personalDataAPI', ['save']);
       growl = jasmine.createSpyObj('growl', ['success', 'error']);
+      $state = jasmine.createSpyObj('$state', ['reload']);
 
       userAPI.update.and.returnValue({$promise: $q.when({})});
       professionalDataAPI.save.and.returnValue({$promise: $q.when({})});
@@ -28,7 +29,8 @@
         userAPI: userAPI,
         professionalDataAPI: professionalDataAPI,
         personalDataAPI: personalDataAPI,
-        growl: growl
+        growl: growl,
+        $state: $state
       });
       scope.$apply();
     }));
@@ -207,6 +209,22 @@
         });
       scope.$apply();
     });
+
+    it('should create an uploader for user avatar upload', () => {
+
+      expect(controller.uploader.url).toBe('../portal/imageUpload');
+    });
+
+    it('should update user on upload success', () => {
+      userAPI.update.and.returnValue({$promise: $q.when({})});
+
+      controller.uploader.onSuccessItem({}, 'tmp_123445656.png');
+      scope.$apply();
+
+      expect(userAPI.update).toHaveBeenCalled();
+      expect($state.reload).toHaveBeenCalled();
+    });
+
   });
 
 })();
