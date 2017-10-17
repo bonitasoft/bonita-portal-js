@@ -1,4 +1,8 @@
 <div class="col-xs-12">
+    <a class="btn btn-default" ng-click="vm.goBack()" translate>Back</a>
+</div>
+
+<div class="col-xs-12">
     <h1>{{vm.user.title}} {{vm.user.firstname}} {{vm.user.lastname}}</h1>
 </div>
 
@@ -7,36 +11,42 @@
         <a class="list-group-item"
            ui-sref="bonita.userDetails.general"
            ui-sref-active="active"
+           ui-sref-opts="{location:'replace'}"
            translate>
             General
         </a>
         <a class="list-group-item"
            ui-sref="bonita.userDetails.password"
            ui-sref-active="active"
+           ui-sref-opts="{location:'replace'}"
            translate>
             Password
         </a>
         <a class="list-group-item"
            ui-sref="bonita.userDetails.profiles"
            ui-sref-active="active"
+           ui-sref-opts="{location:'replace'}"
            translate>
             Profiles / Memberships
         </a>
         <a class="list-group-item"
            ui-sref="bonita.userDetails.businessCard"
            ui-sref-active="active"
+           ui-sref-opts="{location:'replace'}"
            translate>
             Business card
         </a>
         <a class="list-group-item"
            ui-sref="bonita.userDetails.personalInfo"
            ui-sref-active="active"
+           ui-sref-opts="{location:'replace'}"
            translate>
             Personal information
         </a>
         <a class="list-group-item"
            ui-sref="bonita.userDetails.customInfo"
            ui-sref-active="active"
+           ui-sref-opts="{location:'replace'}"
            translate>
             Custom information
         </a>
