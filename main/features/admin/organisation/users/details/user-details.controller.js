@@ -91,5 +91,9 @@
       }
     });
 
+    vm.goBack = function () {
+      history.back();
+    };
+
   }
 })();
