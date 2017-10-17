@@ -1,0 +1,24 @@
+<h2 class="SubHeading" translate>Profiles</h2>
+<table class="Profiles">
+    <tr ng-repeat="profile in vm.profiles">
+        <td>{{profile.name}}</td>
+    </tr>
+</table>
+
+<h2 class="SubHeading" translate>Memberships</h2>
+<table class="Memberships">
+    <tr ng-repeat="membership in vm.memberships">
+        <td translate>
+            {{membership.role_id.displayName}} of {{membership.group_id.displayName}}
+        </td>
+        <td>
+            <span class="glyphicon glyphicon-trash clickable"
+                  ng-click="vm.openDeletePopUp(membership)"></span>
+        </td>
+    </tr>
+</table>
+<button class="btn btn-primary AddMembershipsBtn"
+        ng-click="vm.openAddPopup()"
+        translate>
+    Add membership
+</button>

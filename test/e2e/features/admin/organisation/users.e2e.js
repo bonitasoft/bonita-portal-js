@@ -34,6 +34,12 @@
       customInfoMenuItem.click();
       expect(customInfoMenuItem.getAttribute('class')).toContain('active');
       expect(element(by.tagName('h2')).getText()).toBe('Custom information');
+
+      // profiles
+      let profilesMenuItem = element(by.cssContainingText('a.list-group-item', 'Profiles / Memberships'));
+      profilesMenuItem.click();
+      expect(profilesMenuItem.getAttribute('class')).toContain('active');
+      expect(element(by.tagName('h2')).getText()).toBe('Profiles');
     });
   });
 
