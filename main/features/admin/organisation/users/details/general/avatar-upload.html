@@ -1,0 +1,21 @@
+<div class="AvatarUpload">
+    <div class="AvatarUpload-preview"
+         ng-class="{'AvatarUpload-preview--busy': vm.uploader.isUploading, 'AvatarUpload-preview--default': !vm.hasIcon()}">
+        <img ng-if="vm.hasIcon()"
+             class="img-rounded img-responsive"
+             alt="avatar"
+             ng-src="{{vm.iconSrc}}">
+    </div>
+    <div class="AvatarUpload-btn">
+        <label class="btn btn-default btn-xs"
+               ng-class="{ 'disabled': vm.uploader.isUploading }">
+            <translate>Upload new picture</translate>
+            <input type="file"
+                   nv-file-select
+                   uploader="vm.uploader"
+                   ng-disabled="vm.uploader.isUploading"
+                   accept="image/*"
+            />
+        </label>
+    </div>
+</div>

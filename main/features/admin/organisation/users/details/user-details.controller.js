@@ -6,7 +6,7 @@
     .controller('UserDetailsCtrl', UserDetailsCtrl);
 
   /* jshint camelcase: false */
-  function UserDetailsCtrl(user, growl, gettextCatalog, professionalDataAPI, personalDataAPI, userAPI) {
+  function UserDetailsCtrl(user, growl, gettextCatalog, professionalDataAPI, personalDataAPI, userAPI, FileUploader, $state) {
     var vm = this;
     vm.user = user;
 
@@ -74,6 +74,22 @@
         return result.data;
       });
     };
+
+    vm.uploader = new FileUploader({
+      autoUpload: true,
+      url: '../portal/imageUpload',
+      onSuccessItem: function(item, response) {
+        userAPI.update({
+          id: user.id,
+          icon: response
+        }).$promise.then(function() {
+          $state.reload();
+        });
+      },
+      onErrorItem: function() {
+        throw new Error('Cannot upload the file');
+      }
+    });
 
   }
 })();

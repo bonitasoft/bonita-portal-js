@@ -1,67 +1,75 @@
 <h3 class="SubHeading">General information</h3>
 
-<form class="form-horizontal col-lg-9">
+<form class="form-horizontal col-lg-10">
 
-    <div class="UserMetadata col-md-offset-2">
-        <dl>
-            <dt translate>Last login</dt>
-            <dd>{{ vm.user.last_connection | moment:'LLL' }}</dd>
-        </dl>
-        <dl>
-            <dt translate>Creation date</dt>
-            <dd>{{ vm.user.creation_date | moment:'LLL' }}</dd>
-        </dl>
-    </div>
+    <div class="col-md-9">
+        <div class="UserMetadata col-md-offset-2">
+            <dl>
+                <dt translate>Last login</dt>
+                <dd>{{ vm.user.last_connection | moment:'LLL' }}</dd>
+            </dl>
+            <dl>
+                <dt translate>Creation date</dt>
+                <dd>{{ vm.user.creation_date | moment:'LLL' }}</dd>
+            </dl>
+        </div>
 
-    <div class="form-group">
-        <label class="col-md-2 control-label" for="title" translate>Title</label>
-        <div class="col-md-10">
-            <input class="form-control" type="text" id="title" ng-model="vm.user.title">
+        <div class="form-group">
+            <label class="col-md-2 control-label" for="title" translate>Title</label>
+            <div class="col-md-10">
+                <input class="form-control" type="text" id="title" ng-model="vm.user.title">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-2 control-label" for="firstname" translate>First name</label>
+            <div class="col-md-10">
+                <input class="form-control" type="text" id="firstname" ng-model="vm.user.firstname">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-2 control-label" for="lastname" translate>Last name</label>
+            <div class="col-md-10">
+                <input class="form-control" type="text" id="lastname" ng-model="vm.user.lastname">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-2 control-label" for="username" translate>Username</label>
+            <div class="col-md-10">
+                <input class="form-control" type="text" id="username" ng-model="vm.user.userName">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-2 control-label" for="jobtitle" translate>Job title</label>
+            <div class="col-md-10">
+                <input class="form-control" type="text" id="jobtitle" ng-model="vm.user.job_title">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-2 control-label" translate>Manager</label>
+            <div class="col-md-10">
+                <bo-manager-field
+                       selected="vm.user.manager_id"
+                       on-type="vm.searchManagers">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <button class="btn btn-primary" ng-click="vm.saveGeneralInformation(vm.user)" translate>
+                    Update general information
+                </button>
+            </div>
         </div>
     </div>
 
-    <div class="form-group">
-        <label class="col-md-2 control-label" for="firstname" translate>First name</label>
-        <div class="col-md-10">
-            <input class="form-control" type="text" id="firstname" ng-model="vm.user.firstname">
-        </div>
+    <div class="col-md-3">
+        <bo-avatar-upload icon-src="vm.user.icon" uploader="vm.uploader"></bo-avatar-upload>
     </div>
 
-    <div class="form-group">
-        <label class="col-md-2 control-label" for="lastname" translate>Last name</label>
-        <div class="col-md-10">
-            <input class="form-control" type="text" id="lastname" ng-model="vm.user.lastname">
-        </div>
-    </div>
-
-    <div class="form-group">
-        <label class="col-md-2 control-label" for="username" translate>Username</label>
-        <div class="col-md-10">
-            <input class="form-control" type="text" id="username" ng-model="vm.user.userName">
-        </div>
-    </div>
-
-    <div class="form-group">
-        <label class="col-md-2 control-label" for="jobtitle" translate>Job title</label>
-        <div class="col-md-10">
-            <input class="form-control" type="text" id="jobtitle" ng-model="vm.user.job_title">
-        </div>
-    </div>
-
-    <div class="form-group">
-        <label class="col-md-2 control-label" translate>Manager</label>
-        <div class="col-md-10">
-            <bo-manager-field
-                   selected="vm.user.manager_id"
-                   on-type="vm.searchManagers">
-        </div>
-    </div>
-
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <button class="btn btn-primary" ng-click="vm.saveGeneralInformation(vm.user)" translate>
-                Update general information
-            </button>
-        </div>
-    </div>
 </form>
+

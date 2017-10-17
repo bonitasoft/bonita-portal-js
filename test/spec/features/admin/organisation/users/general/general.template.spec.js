@@ -10,9 +10,12 @@
       'org.bonitasoft.templates'
     ));
 
-    beforeEach(inject(function ($templateCache, $compile, $rootScope) {
+    beforeEach(inject(function ($templateCache, $compile, $rootScope, FileUploader) {
       var template = $templateCache.get('features/admin/organisation/users/details/general/index.html');
       scope = $rootScope.$new();
+      scope.vm = {
+        uploader: new FileUploader()
+      };
       elm = $compile(template)(scope);
       scope.$apply();
     }));
