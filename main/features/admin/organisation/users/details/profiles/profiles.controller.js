@@ -27,7 +27,7 @@
               growl.success(gettextCatalog.getString('Membership successfully removed'));
             }, function () {
               growl.error(gettextCatalog.getString(
-                'Membership was not removed. Please retry later or contact an administrator'));
+                'Membership has not been removed. Please retry later or contact an administrator'));
             })
             .then(reloadCurrentState);
         });
@@ -88,7 +88,7 @@
               var error = new MembershipErrorResponse(response);
               if (error.isAlreadyExistsException()) {
                 growl.warning(gettextCatalog.getString(
-                  'Membership [{{role}} of {{group}}] is already added to the user {{firstname}} {{lastname}}', {
+                  '{{firstname}} {{lastname}} already has the membership <b>{{role}} of {{group}}</b>', {
                     role: membership.role.name,
                     group: membership.group.name,
                     firstname: vm.user.firstname,
@@ -98,7 +98,7 @@
                 ;
               } else {
                 growl.error(gettextCatalog.getString(
-                  'Membership was not added. Please retry later or contact an administrator'));
+                  'Membership has not been added. Please retry later or contact an administrator'));
               }
             })
             .then(reloadCurrentState);
