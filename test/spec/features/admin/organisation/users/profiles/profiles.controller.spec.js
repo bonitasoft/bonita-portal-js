@@ -121,7 +121,7 @@
       modalInstance.close({role: {name: 'Member'}, group: {name: 'HR'}});
       scope.$apply();
 
-      expect(growl.warning).toHaveBeenCalledWith('Membership [Member of HR] is already added to the user Walter Bates');
+      expect(growl.warning).toHaveBeenCalled();
     });
 
     it('should open a delete pop up', () => {

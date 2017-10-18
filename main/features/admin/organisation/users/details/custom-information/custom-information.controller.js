@@ -24,7 +24,7 @@
           growl.success(gettextCatalog.getString('Custom information successfully updated'));
         }, function() {
           growl.error(gettextCatalog.getString(
-            'Custom information were not updated. Please retry later or contact an administrator'));
+            'Custom information has not been updated. Please retry later or contact an administrator'));
         });
     };
 
