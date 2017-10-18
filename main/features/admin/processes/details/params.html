@@ -1,5 +1,5 @@
 <div id="process-details-params">
-  <h2>{{'Parameters' | translate}}</h2>
+  <h2 class="SubHeading">{{'Parameters' | translate}}</h2>
   <div ng-if="!processParamsCtrl.parameters.length">
     {{ 'The current process has no parameters defined.' | translate}}
   </div>
@@ -7,7 +7,7 @@
     <table class="table table-striped">
         <thead>
             <tr>
-                <th>{{'Name' | translate}}</th> 
+                <th>{{'Name' | translate}}</th>
                 <th>{{'Description' | translate}}</th>
                 <th>{{'Type' | translate}}</th>
                 <th>{{'Value' | translate}}</th>
@@ -31,6 +31,6 @@
               </td>
             </tr>
         </tbody>
-    </table> 
+    </table>
   </div>
 </div>
