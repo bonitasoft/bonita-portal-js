@@ -22,7 +22,22 @@
         </div>
     </div>
 
-    <div ng-if="!vm.hasCustomInfo()" translate>
-        No custom information defined.
+    <div ng-if="!vm.hasCustomInfo()">
+        <p translate>No custom information defined.</p>
+        <div class="CustomInformation-guidance">
+            <translate>You can create custom information in Bonita Studio:</translate>
+            <ul>
+                <li translate>
+                    In the menu <i>Organization > Manage</i>, go to the <i>Users</i> page of the wizard
+                </li>
+                <li translate>
+                    Select the <i>User information management</i> tab to add <i>Custom information</i> on the right
+                </li>
+            </ul>
+            <translate>
+                Then for each user, fill out the custom information value, in the Studio (<i>List of users</i> tab of
+                the organization), or right on this Portal page.
+            </translate>
+        </div>
     </div>
 </form>
