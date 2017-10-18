@@ -26,7 +26,7 @@
         growl.success(gettextCatalog.getString('General information successfully updated'));
       }, function () {
         growl.error(gettextCatalog.getString(
-          'General information where not updated. Please retry later or contact an administrator'));
+          'General information has not been updated. Please retry later or contact an administrator'));
       });
     };
 
@@ -40,7 +40,7 @@
         growl.success(gettextCatalog.getString('Password successfully updated'));
       }, function () {
         growl.error(gettextCatalog.getString(
-          'Password was not updated. Please retry later or contact an administrator'));
+          'Password has not been updated. Please retry later or contact an administrator'));
       });
     };
 
@@ -50,7 +50,7 @@
           growl.success(gettextCatalog.getString('Business card successfully updated'));
         }, function () {
           growl.error(gettextCatalog.getString(
-            'Business card were not updated. Please retry later or contact an administrator'));
+            'Business card has not been updated. Please retry later or contact an administrator'));
         });
     };
 
@@ -60,7 +60,7 @@
           growl.success(gettextCatalog.getString('Personal information successfully updated'));
         }, function () {
           growl.error(gettextCatalog.getString(
-            'Personal information were not updated. Please retry later or contact an administrator'));
+            'Personal information has not been updated. Please retry later or contact an administrator'));
         });
     };
 
