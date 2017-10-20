@@ -17,7 +17,7 @@
     };
   }
 
-  function BoPasswordCtrl($timeout) {
+  function BoPasswordCtrl() {
     var vm = this;
     vm.password = {};
     vm.invalid = false;
@@ -34,10 +34,6 @@
 
       vm.onUpdate(password);
       vm.resetValidity();
-      // timeout to not trigger native browser validation when resetting fields
-      $timeout(function() {
-        vm.password = {};
-      });
     };
 
     vm.resetValidity = function() {

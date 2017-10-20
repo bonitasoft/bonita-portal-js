@@ -8,10 +8,9 @@
       'org.bonitasoft.templates'
     ));
 
-    let element, scope, $timeout;
+    let element, scope;
 
-    beforeEach(inject(function ($compile, $rootScope, _$timeout_) {
-      $timeout = _$timeout_;
+    beforeEach(inject(function ($compile, $rootScope) {
       scope = $rootScope.$new();
 
       scope.updatePassword = jasmine.createSpy('updatePassword');
@@ -38,17 +37,6 @@
       element.find('.btn-primary').click();
 
       expect(scope.updatePassword).toHaveBeenCalledWith({new: 'newPassword', confirm: 'newPassword'});
-    });
-
-    it('should reset fields when update has been triggered', () => {
-
-      setValue('input#password', 'newPassword');
-      setValue('input#confirm', 'newPassword');
-      element.find('.btn-primary').click();
-      $timeout.flush();
-
-      expect(element.find('input#password').val()).toBe('');
-      expect(element.find('input#confirm').val()).toBe('');
     });
 
     it('should not trigger an update when new password is empty', () => {
