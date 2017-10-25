@@ -2,8 +2,8 @@
 'use strict';
 exports.config = {
 
-    chromeDriver: '../node_modules/webdriver-manager/selenium/chromedriver_2.24',
-    seleniumServerJar: '../node_modules/webdriver-manager/selenium/selenium-server-standalone-2.53.1.jar',
+    chromeDriver: '../node_modules/webdriver-manager/selenium/chromedriver_2.33',
+    seleniumServerJar: '../node_modules/webdriver-manager/selenium/selenium-server-standalone-3.6.0.jar',
     directConnect: false,
 
     specs: [
