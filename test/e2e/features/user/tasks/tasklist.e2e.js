@@ -215,7 +215,7 @@ import TaskList from './tasklist.page.js';
       });
 
       it('should be localized', function() {
-        browser.manage().addCookie('BOS_Locale', 'fr');
+        browser.manage().addCookie({name:'BOS_Locale', value:'fr'});
         browser.refresh();
 
         expect(element(by.css('.TaskFilters #todo-tasks')).getText()).toEqual('A faire');
