@@ -12,14 +12,14 @@
       $timeout = _$timeout_;
 
       userAPI = jasmine.createSpyObj('userApi', ['update', 'search']);
-      professionalDataAPI = jasmine.createSpyObj('professionalDataAPI', ['save']);
-      personalDataAPI = jasmine.createSpyObj('personalDataAPI', ['save']);
+      professionalDataAPI = jasmine.createSpyObj('professionalDataAPI', ['update']);
+      personalDataAPI = jasmine.createSpyObj('personalDataAPI', ['update']);
       growl = jasmine.createSpyObj('growl', ['success', 'error']);
       $state = jasmine.createSpyObj('$state', ['reload']);
 
       userAPI.update.and.returnValue({$promise: $q.when({})});
-      professionalDataAPI.save.and.returnValue({$promise: $q.when({})});
-      personalDataAPI.save.and.returnValue({$promise: $q.when({})});
+      professionalDataAPI.update.and.returnValue({$promise: $q.when({})});
+      personalDataAPI.update.and.returnValue({$promise: $q.when({})});
 
       scope = $rootScope.$new();
 
@@ -137,11 +137,11 @@
 
       controller.saveBusinessCard(businessCard);
 
-      expect(professionalDataAPI.save).toHaveBeenCalledWith(businessCard);
+      expect(professionalDataAPI.update).toHaveBeenCalledWith(angular.extend({id: 42}, businessCard));
     });
 
     it('should toast a success message when user\'s business card is successfully updated', () => {
-      professionalDataAPI.save.and.returnValue({$promise: $q.when({})});
+      professionalDataAPI.update.and.returnValue({$promise: $q.when({})});
 
       controller.saveBusinessCard({});
       scope.$apply();
@@ -150,7 +150,7 @@
     });
 
     it('should toast an error message when user\'s business card is not successfully updated', () => {
-      professionalDataAPI.save.and.returnValue({$promise: $q.reject({})});
+      professionalDataAPI.update.and.returnValue({$promise: $q.reject({})});
 
       controller.saveBusinessCard({});
       scope.$apply();
@@ -178,11 +178,11 @@
 
       controller.savePersonalInformation(personalInfo);
 
-      expect(personalDataAPI.save).toHaveBeenCalledWith(personalInfo);
+      expect(personalDataAPI.update).toHaveBeenCalledWith(angular.extend({id: 42}, personalInfo));
     });
 
     it('should toast a success message when user\'s personal information is successfully updated', () => {
-      personalDataAPI.save.and.returnValue({$promise: $q.when({})});
+      personalDataAPI.update.and.returnValue({$promise: $q.when({})});
 
       controller.savePersonalInformation({});
       scope.$apply();
@@ -191,7 +191,7 @@
     });
 
     it('should toast an error message when user\'s personal information is not successfully updated', () => {
-      personalDataAPI.save.and.returnValue({$promise: $q.reject({})});
+      personalDataAPI.update.and.returnValue({$promise: $q.reject({})});
 
       controller.savePersonalInformation({});
       scope.$apply();
