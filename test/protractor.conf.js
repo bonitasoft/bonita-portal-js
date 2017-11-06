@@ -3,7 +3,7 @@
 exports.config = {
 
     chromeDriver: '../node_modules/webdriver-manager/selenium/chromedriver_2.33',
-    seleniumServerJar: '../node_modules/webdriver-manager/selenium/selenium-server-standalone-3.6.0.jar',
+    seleniumServerJar: '../node_modules/webdriver-manager/selenium/selenium-server-standalone-3.7.0.jar',
     directConnect: false,
 
     specs: [
