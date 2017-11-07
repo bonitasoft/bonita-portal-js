@@ -45,7 +45,7 @@
     };
 
     vm.saveBusinessCard = function (cardData) {
-      professionalDataAPI.save(cardData).$promise
+      professionalDataAPI.update(angular.extend({id: vm.user.id}, cardData)).$promise
         .then(function () {
           growl.success(gettextCatalog.getString('Business card successfully updated'));
         }, function () {
@@ -55,7 +55,7 @@
     };
 
     vm.savePersonalInformation = function (cardData) {
-      personalDataAPI.save(cardData).$promise
+      personalDataAPI.update(angular.extend({id: vm.user.id}, cardData)).$promise
         .then(function () {
           growl.success(gettextCatalog.getString('Personal information successfully updated'));
         }, function () {
