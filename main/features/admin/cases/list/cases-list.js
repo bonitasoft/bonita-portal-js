@@ -45,13 +45,13 @@
       growlProvider.globalPosition('top-center');
     }])
     .controller('ActiveCaseListCtrl', ['$scope', 'caseAPI', 'casesColumns', 'defaultPageSize', 'defaultSort',
-      'defaultDeployedFields', 'defaultActiveCounterFields', '$location', 'pageSizes', 'defaultFilters', 'dateParser',
+      'defaultDeployedFields', 'defaultActiveCounterFields', '$location', '$stateParams', 'pageSizes', 'defaultFilters', 'dateParser',
       '$anchorScroll', 'growl', 'moreDetailToken', 'tabName', 'manageTopUrl',
       'processId', 'supervisorId', 'caseStateFilter', 'FeatureManager', CaseListCtrl])
 
 
     .controller('ArchivedCaseListCtrl', ['$scope', 'archivedCaseAPI', 'archivedCasesColumns', 'defaultPageSize',
-      'archivedDefaultSort', 'defaultDeployedFields', 'defaultArchivedCounterFields', '$location', 'pageSizes', 'defaultFilters', 'dateParser',
+      'archivedDefaultSort', 'defaultDeployedFields', 'defaultArchivedCounterFields', '$location', '$stateParams', 'pageSizes', 'defaultFilters', 'dateParser',
       '$anchorScroll', 'growl', 'archivedMoreDetailToken', 'tabName', 'manageTopUrl',
       'processId', 'supervisorId', 'caseStateFilter', 'FeatureManager', CaseListCtrl]);
 
@@ -68,6 +68,7 @@
    * @requires defaultSort
    * @requires defaultDeployedFields
    * @requires $location
+   * @requires $stateParams
    * @requires $window
    * @requires pageSizes
    * @requires defaultFilters
@@ -76,7 +77,7 @@
    * @requires growl
    */
   /* jshint -W003 */
-  function CaseListCtrl($scope, caseAPI, casesColumns, defaultPageSize, defaultSort, defaultDeployedFields, defaultCounterFields, $location, pageSizes, defaultFilters, dateParser, $anchorScroll, growl, moreDetailToken, tabName, manageTopUrl, processId, supervisorId, caseStateFilter, FeatureManager) {
+  function CaseListCtrl($scope, caseAPI, casesColumns, defaultPageSize, defaultSort, defaultDeployedFields, defaultCounterFields, $location, $stateParams, pageSizes, defaultFilters, dateParser, $anchorScroll, growl, moreDetailToken, tabName, manageTopUrl, processId, supervisorId, caseStateFilter, FeatureManager) {
     var vm = this;
     var modeDetailProcessToken = 'processmoredetailsadmin';
 
@@ -282,6 +283,7 @@
     vm.searchForCases = searchForCases;
     vm.displayKeys = displayKeys;
     vm.hasMonitoring = hasMonitoring;
+    vm.isSupervisor = isSupervisor;
 
     function displayKeys() {
       return FeatureManager.isSearchIndexedFeatureActivated();
@@ -289,6 +291,11 @@
 
     function hasMonitoring() {
       return FeatureManager.isMonitoringFeatureActivated();
+    }
+
+    function isSupervisor() {
+      var supervisorId = $stateParams['supervisor_id'];
+      return angular.isDefined(supervisorId);
     }
 
     function searchForCases() {

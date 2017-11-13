@@ -72,7 +72,7 @@
               <td class="case-detail" ng-hide="!caseCtrl.displayKeys()"><search-index case="case" index="4"></search-index></td>
               <td class="case-detail" ng-hide="!caseCtrl.displayKeys()"><search-index case="case" index="5"></search-index></td>
               <td class="case-link text-center">
-                <case-visu process-id='{{::case.processDefinitionId.id}}' case-id='{{::case.ID}}' ng-if="caseCtrl.hasMonitoring()"></case-visu>
+                <case-visu process-id='{{::case.processDefinitionId.id}}' case-id='{{::case.ID}}' is-supervisor="caseCtrl.isSupervisor()" ng-if="caseCtrl.hasMonitoring()"></case-visu>
                 <a id="case-overview-btn-{{::case.id}}" tooltip="{{'View case overview' | translate }}"  tooltip-popup-delay="500" tooltip-animation="false" target="_parent" ng-href="{{::caseCtrl.getLinkToCaseOverview(case)}}" class="open-link">
                   <span class="glyphicon glyphicon-eye-open"></span>
                 </a>
@@ -135,7 +135,7 @@
               <td class="case-detail" ng-hide="!caseCtrl.displayKeys()"><search-index case="case" index="4"></search-index></td>
               <td class="case-detail" ng-hide="!caseCtrl.displayKeys()"><search-index case="case" index="5"></search-index></td>
               <td class="case-link text-center">
-                <case-visu process-id='{{::case.processDefinitionId.id}}' case-id='{{::case.ID}}' ng-if="caseCtrl.hasMonitoring()"></case-visu>
+                <case-visu process-id='{{::case.processDefinitionId.id}}' case-id='{{::case.ID}}' is-supervisor="caseCtrl.isSupervisor()" ng-if="caseCtrl.hasMonitoring()"></case-visu>
                 <a id="case-overview-btn-{{::case.id}}" tooltip="{{'View case overview' | translate }}"  tooltip-popup-delay="500" tooltip-animation="false" target="_parent" ng-href="{{::caseCtrl.getLinkToArchivedCaseOverview(case)}}" class="open-link">
                   <span class="glyphicon glyphicon-eye-open"></span>
                 </a>
