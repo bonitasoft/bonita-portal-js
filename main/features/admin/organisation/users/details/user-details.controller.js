@@ -10,9 +10,6 @@
     var vm = this;
     vm.user = user;
 
-    // reset the manager field when user has no manager. (i.e. rest API is sending us manager_id: "0")
-    vm.user.manager_id = !angular.isObject(vm.user.manager_id) ? undefined : vm.user.manager_id;
-
     vm.saveGeneralInformation = function (user) {
       userAPI.update({
         id: user.id,
