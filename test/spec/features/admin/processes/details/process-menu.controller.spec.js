@@ -143,28 +143,31 @@
     });
 
 
-    it('opens the deletion modal when delete button is clicked and redirect to admin listing page', function () {
-      var deferred = q.defer();
-      modal.open.and.returnValue({
-        result: deferred.promise
-      });
-      deferred.resolve();
-      processMenuCtrl.deleteProcess();
-      scope.$apply();
-      expect(modal.open).toHaveBeenCalled();
-      expect(manageTopUrl.goTo).toHaveBeenCalledWith({
-        token: 'processlistingadmin'
-      });
+    it('should open the deletion modal when delete button is clicked', function () {
+      modal.open.and.returnValue({result: q.when({})});
 
+      processMenuCtrl.deleteProcess();
+
+      expect(modal.open).toHaveBeenCalled();
     });
 
-    it('delete is done, do a redirect to listing page', function () {
-      var deferred = q.defer();
+    it('should delete process when modal is closed', function () {
+      let process = {id: 42};
+      modal.open.and.returnValue({result: q.when(process)});
+      processAPI.delete.and.returnValue({$promise: q.when({})});
       tokenExtensionService.tokenExtensionValue = 'pm';
-      modal.open.and.returnValue({
-        result: deferred.promise
-      });
-      deferred.resolve();
+
+      processMenuCtrl.deleteProcess();
+      scope.$apply();
+
+      expect(processAPI.delete).toHaveBeenCalledWith(process);
+    });
+
+    it('should a redirect to listing page when delete is successful', function () {
+      modal.open.and.returnValue({result: q.when({id: 42})});
+      processAPI.delete.and.returnValue({$promise: q.when({})});
+      tokenExtensionService.tokenExtensionValue = 'pm';
+
       processMenuCtrl.deleteProcess();
       scope.$apply();
 
@@ -172,17 +175,6 @@
         token: 'processlistingpm'
       });
 
-    });
-
-    it('opens the deletion modal when delete button is clicked and do noop on success', function () {
-      var deferred = q.defer();
-      modal.open.and.returnValue({
-        result: deferred.promise
-      });
-      deferred.resolve();
-      processMenuCtrl.deleteProcess();
-      scope.$apply();
-      expect(modal.open).toHaveBeenCalled();
     });
 
     it('opens the deletion modal when delete button is clicked and do noop on cancel', function () {

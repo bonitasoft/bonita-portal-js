@@ -45,15 +45,16 @@
             return process;
           }
         }
-      }).result.then(function() {
-        manageTopUrl.goTo({
-          token: 'processlisting' + TokenExtensionService.tokenExtensionValue
-        });
-      }, function(error){
-        if(error && error.message) {
-          $log.error('An Error occurred during process deletion', error);
-          growl.error('An Error occurred during process deletion: '+ error.message);
-        }
+      }).result.then(function(process) {
+        processAPI.delete({id: process.id}).$promise
+          .then(function () {
+            manageTopUrl.goTo({
+              token: 'processlisting' + TokenExtensionService.tokenExtensionValue
+            });
+          }, function (error) {
+            $log.error('An Error occurred during process deletion', error);
+            growl.error('An Error occurred during process deletion: '+ error.message);
+          });
       });
     }
 
