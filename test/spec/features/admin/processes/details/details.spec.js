@@ -130,44 +130,5 @@
         });
       });
 
-      describe('DeleteProcessModalInstanceCtrl', function () {
-        var modalInstance, deleteCtrl;
-        beforeEach(function () {
-          modalInstance = jasmine.createSpyObj('$modalInstance', ['close', 'dismiss']);
-          deleteCtrl = controller('DeleteProcessModalInstanceCtrl', {
-            $scope: scope,
-            processAPI: processAPI,
-            process: {id: 123},
-            $modalInstance: modalInstance,
-            manageTopUrl: manageTopUrl
-          });
-        });
-        it('should call API to deletel goTo on manageTopUrl when DELETE is clicked', function () {
-          var deferred = q.defer();
-          processAPI.delete.and.returnValue({
-            $promise: deferred.promise
-          });
-          deferred.resolve();
-          deleteCtrl.delete();
-          scope.$apply();
-          expect(modalInstance.close).toHaveBeenCalled();
-        });
-        it('should call API to deletel goTo on manageTopUrl when DELETE is clicked', function () {
-          var deferred = q.defer();
-          processAPI.delete.and.returnValue({
-            $promise: deferred.promise
-          });
-          var error = {
-            message: 'Network Unreachable'
-          };
-          deferred.reject(error);
-          deleteCtrl.delete();
-          scope.$apply();
-          expect(modalInstance.close).not.toHaveBeenCalled();
-          expect(modalInstance.dismiss).toHaveBeenCalledWith(error);
-        });
-      });
-
-
     });
 })();
