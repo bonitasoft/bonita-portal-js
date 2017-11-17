@@ -18,7 +18,7 @@
   'use strict';
 
   describe('delete process modal instance controller', function () {
-    var scope, $q, controller, modalInstance, processAPI, process;
+    var scope, $q, controller, modalInstance, process;
 
     beforeEach(module('org.bonitasoft.features.admin.processes.details'));
 
@@ -27,7 +27,6 @@
       $q = _$q_;
 
       modalInstance = jasmine.createSpyObj('modalInstance', ['close', 'dismiss']);
-      processAPI = jasmine.createSpyObj('processAPI', ['delete']);
 
       process = {
         id: '1248',
@@ -37,8 +36,7 @@
 
       controller = $controller('DeleteProcessModalInstanceCtrl', {
         process: process,
-        $modalInstance: modalInstance,
-        processAPI: processAPI
+        $modalInstance: modalInstance
       });
     }));
 
@@ -51,41 +49,11 @@
       expect(modalInstance.dismiss).toHaveBeenCalled();
     });
 
-    it('should delete a process', function () {
-      processAPI.delete.and.returnValue({$promise: $q.when()});
+    it('should close model instance on delete', function () {
 
       controller.delete();
 
-      expect(processAPI.delete).toHaveBeenCalledWith({id: process.id});
-    });
-
-    it('should close modal instance on delete success', function () {
-      processAPI.delete.and.returnValue({$promise: $q.resolve()});
-
-      controller.delete();
-      scope.$apply();
-
-      expect(modalInstance.close).toHaveBeenCalled();
-    });
-
-    it('should dismiss modal instance on deleted error', function () {
-      processAPI.delete.and.returnValue({$promise: $q.reject({an: 'error'})});
-
-      controller.delete();
-      scope.$apply();
-
-      expect(modalInstance.dismiss).toHaveBeenCalledWith({an: 'error'});
-    });
-
-    it('should manage a processing state when deleting a process', function () {
-      processAPI.delete.and.returnValue({$promise: $q.when()});
-      expect(controller.processing).toBe(false);
-
-      controller.delete();
-      expect(controller.processing).toBe(true);
-
-      $q.resolve();
-      expect(controller.processing).toBe(true);
+      expect(modalInstance.close).toHaveBeenCalledWith(process);
     });
 
   });
