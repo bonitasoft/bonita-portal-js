@@ -15,7 +15,13 @@
         abstract: true,
         resolve: {
           user: function (userAPI, $stateParams) {
-            return userAPI.get({id: $stateParams.id, d: ['professional_data', 'personnal_data', 'manager_id']});
+            return userAPI.get({id: $stateParams.id, d: ['professional_data', 'personnal_data', 'manager_id']})
+              .$promise.then(function(user) {
+                // reset the manager field when user has no manager. (i.e. rest API is sending us manager_id: "0")
+                /* jshint camelcase: false */
+                user.manager_id = !angular.isObject(user.manager_id) ? undefined : user.manager_id;
+                return user;
+              });
           }
         }
       })
