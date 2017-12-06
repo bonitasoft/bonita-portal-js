@@ -4,7 +4,7 @@
   "devDependencies": {
     "babel-core": "6.7.4",
     "babel-preset-bonita": "1.0.1",
-    "bower": "1.5.2",
+    "bower": "1.5.3",
     "copyfiles": "^0.2.1",
     "glob": "4.0.6",
     "grunt": "0.4.5",
@@ -84,7 +84,7 @@
     "pree2e": "webdriver-manager update --versions.standalone=3.7.0 --versions.chrome=2.33 && npm-run-all --parallel build:*",
     "e2e": "node --max-old-space-size=2048 ./node_modules/grunt-cli/bin/grunt default testE2e",
     "dev:serve": "grunt serve",
-    "dev:less": "watch --wait=1 'npm-run-all --parallel build:*' main/styles",
+    "dev:less": "watch --wait=1 \"npm-run-all --parallel build:*\" main/styles",
     "start": "npm-run-all --parallel dev:*"
   }
 }
