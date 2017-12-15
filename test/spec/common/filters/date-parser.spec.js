@@ -17,6 +17,6 @@ describe('date-parser', function() {
   });
 
   it('should return UTC date', function() {
-    expect(dateParser.parseAndFormat('2016-12-23 21:45:09.000Z')).toEqual('12/23/2016 9:45 PM');
+    expect(dateParser.parseAndFormat('2016-12-23 21:45:09.000')).toEqual('12/23/2016 9:45 PM');
   });
 });
