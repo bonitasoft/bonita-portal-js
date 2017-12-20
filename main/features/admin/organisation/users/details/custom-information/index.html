@@ -3,8 +3,8 @@
 
     <div ng-if="vm.hasCustomInfo()">
         <div ng-repeat="info in vm.customInformation" class="form-group">
-            <label class="col-md-2 control-label">{{info.definitionId.name}}</label>
-            <div class="col-md-10">
+            <label class="col-md-3 control-label">{{info.definitionId.name}}</label>
+            <div class="col-md-9">
                 <input type="text" ng-model="info.value" class="form-control">
                 <p class="help-block" ng-if="info.definitionId.description">
                     {{info.definitionId.description}}
@@ -12,7 +12,7 @@
             </div>
         </div>
         <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
+            <div class="col-md-offset-3 col-md-9">
                 <button class="btn btn-primary"
                         ng-click="vm.saveCustomInfo(vm.customInformation)"
                         translate>
