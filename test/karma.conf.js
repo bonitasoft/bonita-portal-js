@@ -24,6 +24,7 @@ module.exports = function(config) {
       'main/*.js': ['coverage'],
       'main/!(assets)/**/*.js': ['coverage'],
       'main/features/**/*.html': ['ng-html2js'],
+      'main/common/directives/**/*.html': ['ng-html2js'],
       'test/**/*.js': ['babel']
     },
 
@@ -35,7 +36,10 @@ module.exports = function(config) {
     },
 
     ngHtml2JsPreprocessor: {
+      // prepend this to the
       stripPrefix: 'main/',
+      //setting this option will create only a single module that contains templates
+      // from all the files, so you can load them all with module('foo')
       moduleName: 'org.bonitasoft.templates'
     },
 
@@ -127,14 +131,6 @@ module.exports = function(config) {
       dir: 'target/reports/coverage',
       subdir: '.'
     }
-
-    //ngHtml2JsPreprocessor: {
-    // prepend this to the
-    //stripPrefix: 'main/',
-    // setting this option will create only a single module that contains templates
-    // from all the files, so you can load them all with module('foo')
-    //moduleName: 'org.bonitasoft.templates'
-    //}
 
   });
 };
