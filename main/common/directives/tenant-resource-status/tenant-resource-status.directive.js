@@ -47,7 +47,11 @@
     var INSTALLING = 'INSTALLING';
 
     vm.isInstalled = function isInstalled() {
-      return vm.data && vm.data.state === 'INSTALLED';
+      return vm.data && vm.data.state === INSTALLED;
+    };
+
+    vm.isInstalling = function isInstalling() {
+      return vm.data && vm.data.state === INSTALLING;
     };
 
     $scope.update = function (newValue) {

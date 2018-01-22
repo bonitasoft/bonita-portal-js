@@ -60,8 +60,18 @@ section {padding: 5px}
   .object-attribute-icon {
     font-size: 1.4em;
     margin:10px;
+    &.glyphicon-calendar, &.glyphicon-user {
+      color: @alternativeAccentColor;
+    }
+  }
+  dt {
+    color: @alternativeAccentColor;
   }
   dl {
     flex-grow: 1;
   }
+}
+
+.glyphicon.text-success {
+  color: @iconSuccessColor;
 }
