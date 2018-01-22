@@ -58,6 +58,7 @@
 
         expect(element.find('.glyphicon-ok-circle').length).toBe(1);
         expect(element.find('.glyphicon-ban-circle').length).toBe(0);
+        expect(element.find('.glyphicon-cog').length).toBe(0);
         expect(element.find('#displayState')[0].innerHTML).toBe('installed');
         expect(element.find('#lastUpdate')[0].innerHTML).toBe('January 17, 2018 2:28 PM');
         expect(element.find('#updatedBy')[0].innerHTML).toBe('walter.bates');
@@ -88,6 +89,7 @@
 
         expect(element.find('.glyphicon-ok-circle').length).toBe(1);
         expect(element.find('.glyphicon-ban-circle').length).toBe(0);
+        expect(element.find('.glyphicon-cog').length).toBe(0);
         expect(element.find('#displayState')[0].innerHTML).toBe('installed');
         expect(element.find('#lastUpdate')[0].innerHTML).toBe('January 17, 2018 2:28 PM');
         expect(element.find('#updatedBy')[0].innerHTML).toBe('-');
@@ -109,7 +111,24 @@
 
         expect(element.find('.glyphicon-ok-circle').length).toBe(0);
         expect(element.find('.glyphicon-ban-circle').length).toBe(1);
+        expect(element.find('.glyphicon-cog').length).toBe(0);
         expect(element.find('#displayState')[0].innerHTML).toBe('Not installed');
+        expect(element.find('#lastUpdate')[0].innerHTML).toBe('-');
+        expect(element.find('#updatedBy')[0].innerHTML).toBe('-');
+      });
+    });
+
+    describe('Installing status', function(){
+      it('should be display default data when status is not installing', function () {
+        scope.status = {
+          'state': 'INSTALLING'
+        };
+        scope.$apply();
+
+        expect(element.find('.glyphicon-ok-circle').length).toBe(0);
+        expect(element.find('.glyphicon-ban-circle').length).toBe(0);
+        expect(element.find('.glyphicon-cog').length).toBe(1);
+        expect(element.find('#displayState')[0].innerHTML).toBe('installing');
         expect(element.find('#lastUpdate')[0].innerHTML).toBe('-');
         expect(element.find('#updatedBy')[0].innerHTML).toBe('-');
       });
@@ -121,6 +140,7 @@
 
       expect(element.find('.glyphicon-ok-circle').length).toBe(0);
       expect(element.find('.glyphicon-ban-circle').length).toBe(1);
+      expect(element.find('.glyphicon-cog').length).toBe(0);
       expect(element.find('#lastUpdate')[0].innerHTML).toBe('-');
       expect(element.find('#updatedBy')[0].innerHTML).toBe('-');
       expect(element.find('#displayState')[0].innerHTML).toBe('N/A');
