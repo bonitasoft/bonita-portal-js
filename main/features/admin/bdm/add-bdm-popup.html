@@ -1,0 +1,39 @@
+<div class="modal-header">
+    <h1 class="modal-title" translate>Install a BDM file</h1>
+</div>
+
+<div class="modal-body modal-body-scrollable">
+    <div class="callout callout-warning">
+        <h4 translate>Warning:</h4>
+        <span translate>Note that updating the model modifies existing database tables definitively.</span><br/>
+        <span translate>Bonita uses Hibernate for data persistence, therefore some changes are handled well, like adding new objects or attributes,
+            but some others we cannot guarantee so far, like changing the type of an attribute.</span><br/>
+        <span translate>In such cases, you will have to script the changes, after backuping the database,
+            and through careful validation in a staging environment.
+        </span>
+    </div>
+    <bootstrap-form-control
+        class="field-upload-container"
+        form="form"
+        label="{{'BDM file' | translate}}">
+        <div class="upload-field">
+            <input type="file" id="importBdmZip" name="import-file" ng-model="importFile.file"
+                   required nv-file-select uploader="uploader" accept=".zip">
+            <div class="upload-field-content" ng-class="{'upload-success': isUploadSuccess}">
+                <span ng-if="fileName">{{fileName}}</span><span ng-if="!fileName" translate>Click here to choose your .zip file</span>
+            </div>
+        </div>
+    </bootstrap-form-control>
+</div>
+
+<div class="modal-footer">
+    <button id="btn-open-modal" ng-disabled="!isUploadSuccess"
+            ng-click="AddBDMPopupCtrl.closeModalSuccess()" class="btn btn-primary"
+            translate>Install
+    </button>
+
+    <button class="btn btn-default"
+            ng-click="this.$dismiss()"
+            translate>Cancel
+    </button>
+</div>

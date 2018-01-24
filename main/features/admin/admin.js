@@ -21,6 +21,7 @@
     'org.bonitasoft.features.admin.processes',
     'org.bonitasoft.features.admin.applications',
     'org.bonitasoft.features.admin.organisation',
+    'org.bonitasoft.features.admin.bdm',
     'org.bonitasoft.common.utils.filters'
   ]);
 

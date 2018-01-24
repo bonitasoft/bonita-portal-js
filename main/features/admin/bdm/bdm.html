@@ -1,0 +1,42 @@
+<div class="page" id="access-rules">
+
+    <section class="row">
+        <h1 class="SubHeading" translate>Business Data Model definition</h1>
+
+        <bo-tenant-resource-status data="vm.bdm"></bo-tenant-resource-status>
+
+        <p>
+            <span translate>Only one Business Data Model (BDM) can be active at a time.</span><br/>
+            <span translate>Make sure all artifacts enabled on the platform are compatible with the new BDM.</span>
+        <p>
+        <ul class="list-group">
+            <li class="list-group-item list-group-item-action">
+                <button ng-click="vm.openBDMUpload()"
+                        class="btn btn-primary btn-section-action"
+                        ng-disabled="vm.isInstallDisable()">{{vm.isBDMInstalled()? ('Update'|translate) : ('Install'|translate)}}
+                </button>
+                <h2 class="panel-title" ng-show="!vm.isBDMInstalled()" translate>Install Business Data Model</h2>
+                <h2 class="panel-title" ng-show="vm.isBDMInstalled()" translate>Update Business Data Model</h2>
+                <div ng-show="vm.isTenantPaused==false">
+                    <span class="glyphicon glyphicon-warning-sign text-warning"/>
+                    <span translate>BPM Services must be paused. Go to "BPM Services" menu option.</span>
+                </div>
+                <div ng-show="vm.isBDMInstallProcessing">
+                    <span class="glyphicon glyphicon-cog gly-spin text-info "/>
+                    <span translate>Installing Business Data Model</span>
+                </div>
+                <div ng-show="vm.isBDMInstallSuccessfull">
+                    <span class="glyphicon glyphicon-ok text-success"/>
+                    <span translate>BDM successfully updated.</span><br/>
+                    <span class="glyphicon glyphicon-info-sign text-info "/>
+                    <span translate>Don't forget to start BPM Services again.</span><br/>
+                </div>
+                <div ng-show="vm.isBDMInstallError">
+                    <span class="glyphicon glyphicon-remove text-danger"/>
+                    <span translate>An error occurred when deploying the BDM.
+                    Consult the logs for more information.</span>
+                </div>
+            </li>
+        </ul>
+    </section>
+</div>
