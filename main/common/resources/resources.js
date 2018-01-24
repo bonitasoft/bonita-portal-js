@@ -174,7 +174,8 @@
     'profileAPI': 'portal/profile',
     'roleAPI': 'identity/role',
     'userAPI': 'identity/user',
-    'sessionAPI': 'system/session'
+    'sessionAPI': 'system/session',
+    'tenantAdminAPI': 'system/tenant',
   });
 
   module.factory('userTaskAPI', function($http) {
@@ -199,7 +200,6 @@
     }
   );
 
-
   module.factory('processCategoryAPI', function($http) {
     /*jshint camelcase: false */
     var processCategoryAPI = {};
@@ -222,7 +222,6 @@
     };
     return processCategoryAPI;
   });
-
 
   module.factory('processConnectorAPI', function($http, $resource) {
     /*jshint camelcase: false */
@@ -248,7 +247,6 @@
 
     });
   });
-
 
   module.factory('parameterAPI', function($http, $resource) {
     /*jshint camelcase: false */
@@ -303,5 +301,27 @@
         }
       }
     });
+  });
+
+  module.factory('bdmAPI', function($http) {
+    /*jshint camelcase: false */
+    var bdmAPI = {};
+    bdmAPI.save = function(options) {
+      return $http({
+        url: API_PATH + 'tenant/bdm',
+        method: 'POST',
+        data: {
+          'fileUpload': '' + options.fileUpload
+        }
+      });
+    };
+    bdmAPI.get = function() {
+      return $http({
+        url: API_PATH + 'tenant/bdm',
+        method: 'GET'
+      });
+    };
+
+    return bdmAPI;
   });
 })();
