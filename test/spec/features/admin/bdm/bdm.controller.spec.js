@@ -13,7 +13,7 @@
 
     const INSTALLED = 'INSTALLED';
 
-    var bdmCtrl, addBDMPopupCtrl, scope, tenantAdminAPI, bdmAPI, getTenantStatusRequest, getBDMRequest, installRequest,
+    var bdmCtrl, addBDMPopupCtrl, scope, tenantAdminAPI, sessionAPI, bdmAPI, getTenantStatusRequest, sessionRequest, getBDMRequest, installRequest,
       fileUploader, gettext, modal, modalOpenDeferred, modalInstance, featureManager,
       featureAPI;
 
@@ -28,9 +28,10 @@
         $provide.value('featureAPI', featureAPI);
       });
 
-      inject(function ($controller, $rootScope, FileUploader, _tenantAdminAPI_, _bdmAPI_, $q, _gettext_, $injector) {
+      inject(function ($controller, $rootScope, FileUploader, _tenantAdminAPI_, _sessionAPI_,  _bdmAPI_, $q, _gettext_, $injector) {
 
         tenantAdminAPI = _tenantAdminAPI_;
+        sessionAPI = _sessionAPI_;
         bdmAPI = _bdmAPI_;
         fileUploader = FileUploader;
         gettext = _gettext_;
@@ -47,6 +48,11 @@
         getTenantStatusRequest = $q.defer();
         spyOn(tenantAdminAPI, 'get').and.returnValue({
           $promise: getTenantStatusRequest.promise
+        });
+
+        sessionRequest = $q.defer();
+        spyOn(sessionAPI, 'get').and.returnValue({
+          $promise: sessionRequest.promise
         });
 
         getBDMRequest = $q.defer();
@@ -77,6 +83,24 @@
           'gettext': gettext
         });
       });
+    });
+
+    it('should set technical user property to true', function () {
+      var ctrl = bdmCtrl();
+
+      sessionRequest.resolve({'is_technical_user': 'true'});
+      scope.$apply();
+
+      expect(ctrl.isTechnicalUser).toBeTruthy();
+    });
+
+    it('should set technical user property to false', function () {
+      var ctrl = bdmCtrl();
+
+      sessionRequest.resolve({'is_technical_user': 'false'});
+      scope.$apply();
+
+      expect(ctrl.isTechnicalUser).toBeFalsy();
     });
 
 
