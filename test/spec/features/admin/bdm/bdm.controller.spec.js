@@ -9,59 +9,76 @@
 (function () {
   'use strict';
 
-  describe('Business Data Model', function () {
+  describe('Business Data Model in community edition', function () {
 
     const INSTALLED = 'INSTALLED';
 
     var bdmCtrl, addBDMPopupCtrl, scope, tenantAdminAPI, bdmAPI, getTenantStatusRequest, getBDMRequest, installRequest,
-      fileUploader, gettext, modal, modalOpenDeferred, modalInstance;
+      fileUploader, gettext, modal, modalOpenDeferred, modalInstance, featureManager,
+      featureAPI;
 
+    beforeEach(module('org.bonitasoft.service.features'));
     beforeEach(module('org.bonitasoft.features.admin.bdm'));
 
-    beforeEach(inject(function ($controller, $rootScope, FileUploader, _tenantAdminAPI_, _bdmAPI_, $q, _gettext_) {
+    beforeEach(function () {
 
-      tenantAdminAPI = _tenantAdminAPI_;
-      bdmAPI = _bdmAPI_;
-      fileUploader = FileUploader;
-      gettext = _gettext_;
-      scope = $rootScope.$new();
-      modalOpenDeferred = $q.defer();
-      modal = {
-        open: jasmine.createSpy('open').and.returnValue({
-          result: modalOpenDeferred.promise
-        })
-      };
-      modalInstance = jasmine.createSpyObj('modalInstance', ['close', 'dismiss']);
+      featureAPI = jasmine.createSpyObj('featureAPI', ['query']);
 
-      getTenantStatusRequest = $q.defer();
-      spyOn(tenantAdminAPI, 'get').and.returnValue({
-        $promise: getTenantStatusRequest.promise
+      module(function ($provide) {
+        $provide.value('featureAPI', featureAPI);
       });
 
-      getBDMRequest = $q.defer();
-      spyOn(bdmAPI, 'get').and.returnValue(getBDMRequest.promise);
+      inject(function ($controller, $rootScope, FileUploader, _tenantAdminAPI_, _bdmAPI_, $q, _gettext_, $injector) {
 
-      bdmCtrl = function () {
-        return $controller('bdmCtrl', {
-          '$scope': scope,
-          'FileUploader': fileUploader,
-          'tenantAdminAPI': tenantAdminAPI,
-          'bdmAPI': bdmAPI,
-          'gettext': gettext,
-          '$modal': modal
+        tenantAdminAPI = _tenantAdminAPI_;
+        bdmAPI = _bdmAPI_;
+        fileUploader = FileUploader;
+        gettext = _gettext_;
+        scope = $rootScope.$new();
+        modalOpenDeferred = $q.defer();
+        modal = {
+          open: jasmine.createSpy('open').and.returnValue({
+            result: modalOpenDeferred.promise
+          })
+        };
+
+        modalInstance = jasmine.createSpyObj('modalInstance', ['close', 'dismiss']);
+
+        getTenantStatusRequest = $q.defer();
+        spyOn(tenantAdminAPI, 'get').and.returnValue({
+          $promise: getTenantStatusRequest.promise
         });
-      };
 
-      installRequest = $q.defer();
-      spyOn(bdmAPI, 'save').and.returnValue(installRequest.promise);
+        getBDMRequest = $q.defer();
+        spyOn(bdmAPI, 'get').and.returnValue(getBDMRequest.promise);
 
-      addBDMPopupCtrl = $controller('AddBDMPopupCtrl', {
-        '$scope': scope,
-        '$modalInstance': modalInstance,
-        'FileUploader': FileUploader,
-        'gettext': gettext
+        featureManager = $injector.get('FeatureManager');
+        spyOn(featureManager, 'isAccessControlFeatureActivated').and.returnValue(false);
+
+        bdmCtrl = function () {
+          return $controller('bdmCtrl', {
+            '$scope': scope,
+            'tenantAdminAPI': tenantAdminAPI,
+            'bdmAPI': bdmAPI,
+            'gettext': gettext,
+            '$modal': modal,
+            'FeatureManager': featureManager,
+            '$injector': $injector
+          });
+        };
+
+        installRequest = $q.defer();
+        spyOn(bdmAPI, 'save').and.returnValue(installRequest.promise);
+
+        addBDMPopupCtrl = $controller('AddBDMPopupCtrl', {
+          '$scope': scope,
+          '$modalInstance': modalInstance,
+          'FileUploader': FileUploader,
+          'gettext': gettext
+        });
       });
-    }));
+    });
+
 
     it('should get install button disabled when tenant is not paused', function () {
       var ctrl = bdmCtrl();
