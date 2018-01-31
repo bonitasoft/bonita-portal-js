@@ -11,18 +11,9 @@
 
   angular
     .module('org.bonitasoft.features.admin.bdm')
-    .config(function ($stateProvider) {
-        $stateProvider.state('bonita.bdmInstall', {
-          url: '/admin/bdm',
-          templateUrl: 'features/admin/bdm/bdm.html',
-          controller: 'bdmCtrl',
-          controllerAs: 'vm'
-        });
-      }
-    )
     .controller('bdmCtrl', bdmCtrl);
 
-  function bdmCtrl(tenantAdminAPI, bdmAPI, gettext, $modal) {
+  function bdmCtrl(tenantAdminAPI, bdmAPI, gettext, $modal, FeatureManager, $injector) {
     /*jshint validthis: true */
     var vm = this;
     var INSTALLED = 'INSTALLED';
@@ -45,11 +36,31 @@
       });
     }
 
-    vm.isInstallDisable = function isInstallDisable() {
-      return !vm.isTenantPaused || vm.isBDMInstallProcessing;
+    vm.isAccessControlFeatureActivated = function () {
+      return FeatureManager.isAccessControlFeatureActivated();
     };
 
-    vm.isBDMInstalled = function isBDMInstalled() {
+    vm.accessControlStatus = {};
+
+    updateAccessControlStatus();
+
+    function updateAccessControlStatus() {
+      if (vm.isAccessControlFeatureActivated()) {
+        return $injector.get('bdmAccessControlAPI').get().then(function (response) {
+          vm.accessControlStatus = response.data;
+        });
+      }
+    }
+
+    vm.isAccessControlInstalled = function () {
+        return vm.accessControlStatus && vm.accessControlStatus.state === 'INSTALLED';
+    };
+
+    vm.isInstallDisable = function () {
+      return !vm.isTenantPaused || vm.isBDMInstallProcessing || vm.isAccessControlInstalled();
+    };
+
+    vm.isBDMInstalled = function () {
       return vm.bdm && vm.bdm.state === INSTALLED;
     };
 

@@ -27,7 +27,8 @@
     'org.bonitasoft.common.resources.store'
   ]).constant('FEATURES', {
     searchIndexes : 'SEARCH_INDEX',
-    monitoring : 'PROCESS_MONITORING'
+    monitoring : 'PROCESS_MONITORING',
+    accessControl : 'BDM_ACCESSCONTROL',
   }).service('FeatureManagerResolver', function(FeatureManager, featureAPI) {
     return (function loadTranslations() {
       return featureAPI.query({p: 0,c: 0}).$promise.then(populateFeatures);
@@ -40,6 +41,10 @@
 
     FeatureManager.isSearchIndexedFeatureActivated = function () {
       return featuresList.indexOf(FEATURES.searchIndexes) > -1;
+    };
+
+    FeatureManager.isAccessControlFeatureActivated = function () {
+      return featuresList.indexOf(FEATURES.accessControl) > -1;
     };
 
     FeatureManager.isMonitoringFeatureActivated = function () {
