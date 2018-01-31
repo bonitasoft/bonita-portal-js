@@ -13,7 +13,7 @@
     .module('org.bonitasoft.features.admin.bdm')
     .controller('bdmCtrl', bdmCtrl);
 
-  function bdmCtrl(tenantAdminAPI, bdmAPI, gettext, $modal, FeatureManager, $injector) {
+  function bdmCtrl(tenantAdminAPI, sessionAPI, bdmAPI, gettext, $modal, FeatureManager, $injector) {
     /*jshint validthis: true */
     var vm = this;
     var INSTALLED = 'INSTALLED';
@@ -23,6 +23,12 @@
     vm.isBDMInstallError = false;
     vm.isBDMInstallProcessing = false;
     vm.bdm = {};
+
+    vm.isTechnicalUser = true;
+    sessionAPI.get({id: 'unusedId'}).$promise.then(function (session) {
+      /*jshint camelcase: false */
+      vm.isTechnicalUser = (session.is_technical_user === 'true');
+    });
 
     tenantAdminAPI.get({id: 'unusedId'}).$promise.then(function (tenantAdmin) {
       vm.isTenantPaused = (tenantAdmin.paused === 'true');
