@@ -48,15 +48,15 @@
 
     vm.accessControlStatus = {};
 
-    updateAccessControlStatus();
-
-    function updateAccessControlStatus() {
+    vm.updateAccessControlStatus = function () {
       if (vm.isAccessControlFeatureActivated()) {
         return $injector.get('bdmAccessControlAPI').get().then(function (response) {
           vm.accessControlStatus = response.data;
         });
       }
-    }
+    };
+
+    vm.updateAccessControlStatus();
 
     vm.isAccessControlInstalled = function () {
         return vm.accessControlStatus && vm.accessControlStatus.state === 'INSTALLED';
