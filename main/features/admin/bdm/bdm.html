@@ -45,7 +45,7 @@
                         <span class="glyphicon glyphicon-info-sign text-info "/>
                         <span translate>Don't forget to start BPM Services again.</span><br/>
                     </div>
-                    <div ng-show="vm.isBDMInstallSuccessfull && vm.isAccessControlFeatureActivated()">
+                    <div ng-show="vm.isBDMInstallSuccessfull && vm.isAccessControlFeatureActivated() && !vm.isAccessControlInstalled()">
                         <span class="glyphicon glyphicon-info-sign text-info "/>
                         <span translate>BDM access control file can now be installed.</span><br/>
                     </div>
@@ -59,6 +59,9 @@
         </div>
     </section>
 
-    <access-control is-bdm-installed='vm.isBDMInstalled()'></access-control>
+    <access-control is-bdm-installed='vm.isBDMInstalled()'
+                    access-control-status='vm.accessControlStatus'
+                    on-access-control-update='vm.updateAccessControlStatus'
+                    is-access-control-installed='vm.isAccessControlInstalled()'></access-control>
 
 </div>
