@@ -4,3 +4,20 @@
   -o-animation: spin 2s infinite linear;
   animation: spin 2s infinite linear;
 }
+
+.message-status-animation.ng-enter,
+.message-status-animation.ng-leave {
+  -webkit-transition: opacity ease-in-out 1s;
+  -moz-transition: opacity ease-in-out 1s;
+  -ms-transition: opacity ease-in-out 1s;
+  -o-transition: opacity ease-in-out 1s;
+  transition: opacity ease-in-out 1s;
+}
+.message-status-animation.ng-enter,
+.message-status-animation.ng-leave.ng-leave-active {
+  opacity: 0;
+}
+.message-status-animation.ng-leave,
+.message-status-animation.ng-enter.ng-enter-active {
+  opacity: 1;
+}
