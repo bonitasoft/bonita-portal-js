@@ -2,17 +2,14 @@
 
     <section class="row">
         <h1 class="SubHeading" translate>Business Data Model definition</h1>
-
+        <bo-tenant-resource-status data="vm.bdm"></bo-tenant-resource-status>
         <div ng-show="!vm.isTechnicalUser">
             <p>
-                <span translate>Installing or updating the BDM implies to shut down all BPM services.</span><br/>
+                <span translate>Installing or updating the BDM implies to be logged in as Technical User, and to shut down all BPM services.</span><br/>
                 <span translate>To do so, log out and then log back in as the Technical User, whose credentials are set upon Bonita platform installation.</span><br/>
             <p>
         </div>
         <div ng-show="vm.isTechnicalUser">
-
-            <bo-tenant-resource-status data="vm.bdm"></bo-tenant-resource-status>
-
             <p>
                 <span translate>Only one Business Data Model (BDM) can be active at a time.</span><br/>
                 <span translate>Make sure all artifacts enabled on the platform are compatible with the new BDM.</span>
