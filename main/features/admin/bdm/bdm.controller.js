@@ -13,7 +13,7 @@
     .module('org.bonitasoft.features.admin.bdm')
     .controller('bdmCtrl', bdmCtrl);
 
-  function bdmCtrl(tenantAdminAPI, sessionAPI, bdmAPI, gettext, $modal, FeatureManager, $injector) {
+  function bdmCtrl(tenantAdminAPI, sessionAPI, bdmAPI, gettext, $modal, FeatureManager, $injector, $timeout) {
     /*jshint validthis: true */
     var vm = this;
     var INSTALLED = 'INSTALLED';
@@ -95,12 +95,18 @@
       loadBdmStatus();
       vm.isBDMInstallProcessing = false;
       vm.isBDMInstallSuccessfull = true;
+      $timeout(function(){
+        vm.isBDMInstallSuccessfull = false;
+      }, 10000);
     }
 
     function bdmErrorInstall() {
       loadBdmStatus();
       vm.isBDMInstallProcessing = false;
       vm.isBDMInstallError = true;
+      $timeout(function(){
+        vm.isBDMInstallError = false;
+      }, 5000);
     }
 
     function resetActionsStatus() {
