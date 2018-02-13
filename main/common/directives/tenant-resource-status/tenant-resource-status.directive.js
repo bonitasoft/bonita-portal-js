@@ -67,9 +67,9 @@
         return;
       }
       if (vm.data.state === INSTALLED) {
-        vm.displayState = gettext('installed');
+        vm.displayState = gettext('Installed');
       } else if (vm.data.state === INSTALLING) {
-        vm.displayState = gettext('installing');
+        vm.displayState = gettext('Installing');
       } else {
         vm.displayState = gettext('Not installed');
       }
