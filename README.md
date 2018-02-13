@@ -26,6 +26,10 @@ Project should be running at URL http://localhost:9000/bonita/portaljs/
     
 ### Launch end to end tests
     yarn run e2e
+    
+You can run specific e2e class test with this command line.
+
+    yarn run e2eOnly --specs=path_to_file.e2e.js
 
 ### Build project
     yarn run build
