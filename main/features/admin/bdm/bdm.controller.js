@@ -22,6 +22,7 @@
     vm.isBDMInstallSuccessfull = false;
     vm.isBDMInstallError = false;
     vm.isBDMInstallProcessing = false;
+    vm.isAccessControlAvailable = false;
     vm.bdm = {};
 
     vm.isTechnicalUser = true;
@@ -30,13 +31,16 @@
       vm.isTechnicalUser = (session.is_technical_user === 'true');
     });
 
-    tenantAdminAPI.get({id: 'unusedId'}).$promise.then(function (tenantAdmin) {
-      vm.isTenantPaused = (tenantAdmin.paused === 'true');
-    });
-
     loadBdmStatus();
 
+    function refreshTenantStatus(){
+      tenantAdminAPI.get({id: 'unusedId'}).$promise.then(function (tenantAdmin) {
+        vm.isTenantPaused = (tenantAdmin.paused === 'true');
+      });
+    }
+
     function loadBdmStatus() {
+      refreshTenantStatus();
       return bdmAPI.get().then(function (response) {
         vm.bdm = response.data;
       });
@@ -95,8 +99,10 @@
       loadBdmStatus();
       vm.isBDMInstallProcessing = false;
       vm.isBDMInstallSuccessfull = true;
+      vm.isAccessControlAvailable = true;
       $timeout(function(){
         vm.isBDMInstallSuccessfull = false;
+        vm.isAccessControlAvailable = false;
       }, 10000);
     }
 
@@ -104,9 +110,6 @@
       loadBdmStatus();
       vm.isBDMInstallProcessing = false;
       vm.isBDMInstallError = true;
-      $timeout(function(){
-        vm.isBDMInstallError = false;
-      }, 5000);
     }
 
     function resetActionsStatus() {

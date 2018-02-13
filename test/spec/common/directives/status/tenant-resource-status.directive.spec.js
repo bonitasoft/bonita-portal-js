@@ -59,7 +59,7 @@
         expect(element.find('.glyphicon-ok-circle').length).toBe(1);
         expect(element.find('.glyphicon-ban-circle').length).toBe(0);
         expect(element.find('.glyphicon-cog').length).toBe(0);
-        expect(element.find('#displayState')[0].innerHTML).toBe('installed');
+        expect(element.find('#displayState')[0].innerHTML).toBe('Installed');
         expect(element.find('#lastUpdate')[0].innerHTML).toBe('January 17, 2018 2:28 PM');
         expect(element.find('#updatedBy')[0].innerHTML).toBe('walter.bates');
       });
@@ -71,7 +71,7 @@
         };
         scope.$apply();
 
-        expect(element.find('#displayState')[0].innerHTML).toBe('installed');
+        expect(element.find('#displayState')[0].innerHTML).toBe('Installed');
         expect(element.find('#updatedBy')[0].innerHTML).toBe('Technical User');
       });
 
@@ -90,7 +90,7 @@
         expect(element.find('.glyphicon-ok-circle').length).toBe(1);
         expect(element.find('.glyphicon-ban-circle').length).toBe(0);
         expect(element.find('.glyphicon-cog').length).toBe(0);
-        expect(element.find('#displayState')[0].innerHTML).toBe('installed');
+        expect(element.find('#displayState')[0].innerHTML).toBe('Installed');
         expect(element.find('#lastUpdate')[0].innerHTML).toBe('January 17, 2018 2:28 PM');
         expect(element.find('#updatedBy')[0].innerHTML).toBe('-');
       });
@@ -128,7 +128,7 @@
         expect(element.find('.glyphicon-ok-circle').length).toBe(0);
         expect(element.find('.glyphicon-ban-circle').length).toBe(0);
         expect(element.find('.glyphicon-cog').length).toBe(1);
-        expect(element.find('#displayState')[0].innerHTML).toBe('installing');
+        expect(element.find('#displayState')[0].innerHTML).toBe('Installing');
         expect(element.find('#lastUpdate')[0].innerHTML).toBe('-');
         expect(element.find('#updatedBy')[0].innerHTML).toBe('-');
       });

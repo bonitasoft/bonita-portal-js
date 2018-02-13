@@ -19,18 +19,18 @@
                 <li class="list-group-item list-group-item-action">
                     <button ng-click="vm.openBDMUpload()"
                             class="btn btn-primary btn-section-action"
-                            ng-disabled="vm.isInstallDisable()">{{vm.isBDMInstalled()? ('Update'|translate) :
-                        ('Install'|translate)}}
+                            ng-disabled="vm.isInstallDisable()">
+                        {{vm.isBDMInstalled()? ('Update'|translate) : ('Install'|translate)}}
                     </button>
                     <h2 class="panel-title" ng-if="!vm.isBDMInstalled()" translate>Install Business Data Model</h2>
                     <h2 class="panel-title" ng-if="vm.isBDMInstalled()" translate>Update Business Data Model</h2>
-                    <div ng-if="vm.isTenantPaused==false" class="message-status-animation">
+                    <div ng-if="!vm.isTenantPaused">
                         <span class="glyphicon glyphicon-warning-sign text-warning"/>
                         <span translate>BPM Services must be paused. Go to "BPM Services" menu option.</span>
                     </div>
                     <div ng-if="vm.isAccessControlInstalled()" class="message-status-animation">
                         <span class="glyphicon glyphicon-warning-sign text-warning"/>
-                        <span translate>BDM access control file must be deleted.</span>
+                        <span translate>Before updating the BDM, access control file should be deleted.</span>
                     </div>
                     <div ng-if="vm.isBDMInstallProcessing" class="message-status-animation">
                         <span class="glyphicon glyphicon-cog gly-spin text-info"/>
@@ -39,12 +39,17 @@
                     <div ng-if="vm.isBDMInstallSuccessfull" class="message-status-animation">
                         <span class="glyphicon glyphicon-ok text-success"/>
                         <span translate>BDM successfully updated.</span><br/>
-                        <span class="glyphicon glyphicon-info-sign text-info"/>
-                        <span translate>Don't forget to start BPM Services again.</span><br/>
                     </div>
-                    <div ng-if="vm.isBDMInstallSuccessfull && vm.isAccessControlFeatureActivated() && !vm.isAccessControlInstalled()" class="message-status-animation">
+                    <div ng-if="vm.isAccessControlFeatureActivated() &&
+                                vm.isAccessControlAvailable &&
+                                !vm.isAccessControlInstalled()"
+                         class="message-status-animation">
                         <span class="glyphicon glyphicon-info-sign text-info"/>
                         <span translate>BDM access control file can now be installed.</span><br/>
+                    </div>
+                    <div ng-if="vm.isTenantPaused">
+                        <span class="glyphicon glyphicon-info-sign text-info"/>
+                        <span translate>Don't forget to start BPM Services again.</span><br/>
                     </div>
                     <div ng-if="vm.isBDMInstallError" class="message-status-animation">
                         <span class="glyphicon glyphicon-remove text-danger"/>

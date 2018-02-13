@@ -186,6 +186,7 @@
 
       expect(ctrl.isBDMInstallProcessing).toEqual(false);
       expect(ctrl.isBDMInstallSuccessfull).toEqual(true);
+      expect(ctrl.isAccessControlAvailable).toEqual(true);
       expect(ctrl.isBDMInstallError).toEqual(false);
     });
 
@@ -211,6 +212,7 @@
 
       expect(ctrl.isBDMInstallProcessing).toEqual(false);
       expect(ctrl.isBDMInstallSuccessfull).toEqual(false);
+      expect(ctrl.isAccessControlAvailable).toEqual(false);
       expect(ctrl.isBDMInstallError).toEqual(true);
     });
 
