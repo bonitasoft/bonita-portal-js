@@ -64,6 +64,7 @@
     "npm-run-all": "1.5.1",
     "optimist": "0.6.1",
     "protractor": "5.2.0",
+    "protractor-http-mock": "0.10.0",
     "query-string": "4.2.3",
     "time-grunt": "0.2.10",
     "watch": "^0.17.1",
