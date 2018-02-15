@@ -118,6 +118,9 @@
   // localization
   when('GET', /^\/API\/system\/i18ntranslation\?f=locale%3Dfr/).respond(require('./localization-fr.json'));
 
+  //fileUpload
+  when('POST', /^\/portal\/fileUpload$/).respond('uploadedFile');
+
   //case admin
   when('GET', /^\/API\/bpm\/case\?c=.*&d=processDefinitionId&d=started_by&d=startedBySubstitute&n=activeFlowNodes&n=failedFlowNodes&o=id\+DESC&p=.*$/).respond(require('./admin/cases/list/cases-list-320-desc-mocks.json'));
   when('GET', /^\/API\/bpm\/case\?c=25&d=processDefinitionId&d=started_by&d=startedBySubstitute&n=activeFlowNodes&n=failedFlowNodes&o=startDate\+ASC&p=0&s=$/).respond(require('./admin/cases/list/cases-list-28-mocks-ordered-by-date.json'));

@@ -23,7 +23,7 @@ exports.config = {
     directConnect: false,
 
     specs: [
-        'e2e/**/*.e2e.js'
+      'e2e/**/*.e2e.js'
     ],
 
     capabilities: {
@@ -34,7 +34,17 @@ exports.config = {
 
     rootElement: 'body',
 
+   mocks: {
+      dir: 'e2e/mocks',
+      default: [] //To load default mock, you need to add mock() in your test
+    },
+
     onPrepare: function() {
+      require('protractor-http-mock').config = {
+        rootDirectory: __dirname, // default value: process.cwd()
+        protractorConfig: 'protractor.conf.js' // default value: 'protractor-conf.js'
+      };
+
       require('babel-core/register')({presets: ['babel-preset-bonita']});
 
       browser.bonitaSpEdition = function() {

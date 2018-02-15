@@ -5387,6 +5387,12 @@ protoduck@^4.0.0:
   dependencies:
     genfun "^4.0.1"
 
+protractor-http-mock@^0.10.0:
+  version "0.10.0"
+  resolved "https://registry.yarnpkg.com/protractor-http-mock/-/protractor-http-mock-0.10.0.tgz#021b2f75bbfdc1920008f56c36df8157fed5f8b4"
+  dependencies:
+    query-string "<=4.2.3"
+
 protractor@5.2.0, protractor@^5.0.0:
   version "5.2.0"
   resolved "https://registry.yarnpkg.com/protractor/-/protractor-5.2.0.tgz#d3f39b195e85f3539ad9d8cb6560a9d2b63297c4"
@@ -5509,7 +5515,7 @@ qs@~6.3.0:
   version "6.3.2"
   resolved "https://registry.yarnpkg.com/qs/-/qs-6.3.2.tgz#e75bd5f6e268122a2a0e0bda630b2550c166502c"
 
-query-string@4.2.3:
+query-string@4.2.3, query-string@<=4.2.3:
   version "4.2.3"
   resolved "https://registry.yarnpkg.com/query-string/-/query-string-4.2.3.tgz#9f27273d207a25a8ee4c7b8c74dcd45d556db822"
   dependencies:
