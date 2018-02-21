@@ -28,9 +28,11 @@
       element(by.css('input[type="file"]')).sendKeys(__filename);
       installPopUpButton.click();
 
-      element.all(by.css('.modal-dialog')).then(function(items) {
+      setTimeout(() => {
+        element.all(by.css('.modal-dialog')).then(function (items) {
           expect(items.length).toBe(0);
-      });
+        });
+      }, 200);
     });
   });
 
