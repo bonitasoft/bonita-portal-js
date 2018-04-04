@@ -423,6 +423,17 @@
               'defaultFilters' : {caseStatus : allStatus}
             });
           }));
+          it('should load case stat filter from URL', function(){
+            inject(function ($controller) {
+              caseFiltersCtrl = $controller('ActiveCaseFilterController', {
+                '$scope': scope,
+                '$stateParams': { 'caseStateFilter' : 'error' }
+              });
+            });
+            expect(scope.selectedFilters.selectedStatus).toBe('error');
+            caseFiltersCtrl.selectCaseStatus('allStatus');
+            expect(scope.selectedFilters.selectedStatus).toBe('allStatus');
+          });
           it('should not change anything if the same filter ', function(){
             var startedStatus = 'started';
             scope.selectedStatus = startedStatus;
