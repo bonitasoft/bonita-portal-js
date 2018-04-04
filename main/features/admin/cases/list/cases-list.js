@@ -122,9 +122,6 @@
       moreDetailToken = moreDetailToken.replace('admin', 'pm');
       modeDetailProcessToken = modeDetailProcessToken.replace('admin', 'pm');
     }
-    if(angular.isDefined(caseStateFilter) && !!caseStateFilter){
-      defaultFiltersArray.push('state=' + caseStateFilter);
-    }
     $scope.processManager = +!!supervisorId;
     $scope.supervisorId = supervisorId;
 

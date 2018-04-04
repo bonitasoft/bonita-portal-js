@@ -120,6 +120,7 @@
 
         it('should fill the scope cases', inject(function() {
           deferred.resolve(fullCases);
+
           scope.$apply();
           expect(scope.cases).toBeDefined();
           expect(scope.cases.length).toBe(4);
@@ -134,7 +135,7 @@
             c: defaultPageSize,
             o: defaultSort + ' DESC',
             d: defaultDeployedFields,
-            f: ['state=error'],
+            f: [],
             n: defaultActiveCounterFields,
             s: undefined
           });
