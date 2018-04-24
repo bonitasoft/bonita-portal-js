@@ -2,25 +2,9 @@
 'use strict';
 exports.config = {
 
-    /**
-     * ChromeDriver location is used to help find the chromedriver binary. This will be passed to the
-     * Selenium jar as the system property webdriver.chrome.driver. If the value is not set when
-     * launching locally, it will use the default values downloaded from webdriver-manager.
-     *
-     * example:
-     * chromeDriver: './node_modules/webdriver-manager/selenium/chromedriver_X'
-     */
-    chromeDriver: '',
+    chromeDriver: '../node_modules/webdriver-manager/selenium/chromedriver_2.33',
 
-    /**
-    * The location of the standalone Selenium Server jar file, relative
-    * to the location of webdriver-manager. If no other method of starting
-    * Selenium Server is found, this will default to
-    * node_modules/protractor/node_modules/webdriver-manager/selenium/<jar file>
-    */
-    seleniumServerJar: '',
-
-    directConnect: false,
+    seleniumServerJar: '../node_modules/webdriver-manager/selenium/selenium-server-standalone-3.7.0.jar',
 
     specs: [
       'e2e/**/*.e2e.js'
