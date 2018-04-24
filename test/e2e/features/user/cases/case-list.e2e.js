@@ -17,6 +17,9 @@
 /* global element, by */
 (function() {
   'use strict';
+
+  const edition = require('../../../utils/edition');
+
   describe('user case list', function() {
 
     var caseList;
@@ -41,7 +44,7 @@
         tableHeader.get(2).click();
         tableHeader.get(2).click();
         expect(tableHeader.get(2).getText()).toContain('Start date');
-        if (browser.bonitaSpEdition()) {
+        if (edition.isSP()) {
           expect(caseList.all(by.css('tbody tr')).get(0).all(by.css('td')).getText()).toEqual(['2', 'Pool', '10/16/2014 4:05 PM', 'William Jobs', '', 'No value', '']);
         } else {
           expect(caseList.all(by.css('tbody tr')).get(0).all(by.css('td')).getText()).toEqual(['2', 'Pool', '1.0', '10/16/2014 4:05 PM', 'William Jobs', '', '']);
@@ -51,7 +54,7 @@
 
       it('should order by date desc', function() {
         tableHeader.get(2).click();
-        if (browser.bonitaSpEdition()) {
+        if (edition.isSP()) {
           expect(caseList.all(by.css('tbody tr')).get(0).all(by.css('td')).getText()).toEqual(['1022', 'ProcessX', '10/20/2014 10:08 AM', 'System', '', 'No value', '']);
         } else {
           expect(caseList.all(by.css('tbody tr')).get(0).all(by.css('td')).getText()).toEqual(['1022', 'ProcessX', '2.0', '10/20/2014 10:08 AM', 'System', '', '']);

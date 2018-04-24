@@ -21,10 +21,6 @@ exports.config = {
     onPrepare: function() {
       require('babel-core/register')({presets: ['babel-preset-bonita']});
 
-      browser.bonitaSpEdition = function() {
-            return false;
-        };
-
         var jasmineReporters = require('jasmine-reporters');
         jasmine.getEnv().addReporter(
             new jasmineReporters.JUnitXmlReporter({
