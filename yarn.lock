@@ -5387,7 +5387,7 @@ protoduck@^4.0.0:
   dependencies:
     genfun "^4.0.1"
 
-protractor-http-mock@0.10.0:
+protractor-http-mock@^0.10.0:
   version "0.10.0"
   resolved "https://registry.yarnpkg.com/protractor-http-mock/-/protractor-http-mock-0.10.0.tgz#021b2f75bbfdc1920008f56c36df8157fed5f8b4"
   dependencies:
