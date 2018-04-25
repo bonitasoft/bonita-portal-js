@@ -19,9 +19,11 @@
   'use strict';
   describe('case admin list', function () {
 
+    const edition = require('../../../utils/edition');
+
     var caseList,
-      nbColumnsDiplayed = (browser.bonitaSpEdition())?8:7,
-      nbTotalcolumns = (browser.bonitaSpEdition())?12:7;
+      nbColumnsDiplayed = (edition.isSP())?8:7,
+      nbTotalcolumns = (edition.isSP())?12:7;
 
     beforeEach(function () {
       browser.get('#/admin/cases/list');
@@ -44,7 +46,7 @@
         expect(columnList.get(5).getText()).toContain('Started by');
         expect(columnList.get(6).getText()).toContain('Failed Flow Nodes');
         expect(columnList.get(7).getText()).toContain('Pending Flow Nodes');
-        if (browser.bonitaSpEdition()) {
+        if (edition.isSP()) {
           expect(columnList.get(8).getText()).toContain('Search Key 1');
         }
       });
@@ -252,7 +254,7 @@
         tableHeader.get(2).click();
         tableHeader.get(2).click();
         expect(tableHeader.get(2).getText()).toContain('Start date');
-        if(browser.bonitaSpEdition()){
+        if(edition.isSP()){
           expect(caseList.all(by.css('tbody tr')).get(0).all(by.css('td')).getText()).toEqual(['', '2', 'Pool', '1.0', '10/16/2014 4:05 PM', 'William Jobs', '0', '1', 'No value', '']);
         }else{
           expect(caseList.all(by.css('tbody tr')).get(0).all(by.css('td')).getText()).toEqual(['', '2', 'Pool', '1.0', '10/16/2014 4:05 PM', 'William Jobs', '0', '1', '']);
@@ -260,7 +262,7 @@
       });
       it('should order by date desc', function () {
         tableHeader.get(2).click();
-        if(browser.bonitaSpEdition()){
+        if(edition.isSP()){
           expect(caseList.all(by.css('tbody tr')).get(0).all(by.css('td')).getText()).toEqual(['', '1022', 'ProcessX', '2.0', '10/20/2014 10:08 AM', 'System', '0', '1', 'No value', '']);
         }else {
           expect(caseList.all(by.css('tbody tr')).get(0).all(by.css('td')).getText()).toEqual(['', '1022', 'ProcessX', '2.0', '10/20/2014 10:08 AM', 'System', '0', '1', '']);
@@ -284,7 +286,7 @@
           expect(poolCaseDetails[5].getText()).toContain('William Jobs');
           expect(poolCaseDetails[6].getText()).toContain('0');
           expect(poolCaseDetails[7].getText()).toContain('1');
-          if(browser.bonitaSpEdition()){
+          if(edition.isSP()){
             expect(poolCaseDetails[8].getText()).toContain('No value');
           }
           expect(poolCaseDetails[nbColumnsDiplayed+1].element(by.id('case-detail-btn-298')).getAttribute('href')).toContain('#?id=298&_p=casemoredetailsadmin&');
