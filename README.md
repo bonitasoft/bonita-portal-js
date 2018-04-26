@@ -31,6 +31,9 @@ You can run specific e2e class test with this command line.
 
     yarn run e2eOnly --specs=path_to_file.e2e.js
 
+### Launch end to end tests in headless mode
+    yarn run e2e:headless
+
 ### Build project
     yarn run build
 
