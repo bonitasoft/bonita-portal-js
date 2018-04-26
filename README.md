@@ -34,6 +34,9 @@ You can run specific e2e class test with this command line.
 ### Launch end to end tests in headless mode
     yarn run e2e:headless
 
+### Launch end to end tests in headless mode
+    yarn run e2e:headless
+
 ### Build project
     yarn run build
 
