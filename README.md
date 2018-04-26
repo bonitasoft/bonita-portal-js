@@ -27,6 +27,9 @@ Project should be running at URL http://localhost:9000/bonita/portaljs/
 ### Launch end to end tests
     yarn run e2e
 
+### Launch end to end tests in headless mode
+    yarn run e2e:headless
+
 ### Build project
     yarn run build
 

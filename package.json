@@ -6,6 +6,7 @@
     "babel-preset-bonita": "1.0.1",
     "bower": "1.5.2",
     "copyfiles": "^0.2.1",
+    "cross-env": "^5.1.4",
     "glob": "4.0.6",
     "grunt": "0.4.5",
     "grunt-angular-gettext": "2.1.0",
@@ -83,6 +84,7 @@
     "pot": "grunt pot",
     "pree2e": "webdriver-manager update --versions.standalone=3.11.0 --versions.chrome=2.38 && npm-run-all --parallel build:*",
     "e2e": "node --max-old-space-size=2048 ./node_modules/grunt-cli/bin/grunt default testE2e",
+    "e2e:headless": "cross-env HEADLESS=true npm-run-all e2e",
     "dev:serve": "grunt serve",
     "dev:less": "watch --wait=1 'npm-run-all --parallel build:*' main/styles",
     "start": "npm-run-all --parallel dev:*"
