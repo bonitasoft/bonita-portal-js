@@ -1,5 +1,25 @@
 // A reference configuration file.
 'use strict';
+
+const capabilities = {
+  browserName: 'chrome',
+  chromeOptions: {
+    args: ['--window-size=1920,1080']
+  }
+};
+
+// activate chrome in headless mode
+// see https://developers.google.com/web/updates/2017/04/headless-chrome
+if (process.env.HEADLESS) {
+  capabilities.chromeOptions.args = capabilities.chromeOptions.args.concat([
+    '--headless',
+    // Temporarily needed if running on Windows.
+    '--disable-gpu',
+    // We must disable the Chrome sandbox when running Chrome inside Docker
+    '--no-sandbox'
+  ]);
+}
+
 exports.config = {
 
     chromeDriver: '../node_modules/webdriver-manager/selenium/chromedriver_2.38',
@@ -10,9 +30,7 @@ exports.config = {
       'e2e/**/*.e2e.js'
     ],
 
-    capabilities: {
-        'browserName': 'chrome'
-    },
+    capabilities,
 
     baseUrl: 'http://localhost:' + (process.env.PROTRACTOR_PORT || 9002),
 
@@ -38,18 +56,6 @@ exports.config = {
                 filePrefix: 'e2e',
                 consolidateAll: true
             }));
-
-        // maximize window - xvnc approved
-        setTimeout(function() {
-            browser.driver.executeScript(function() {
-                return {
-                    width: window.screen.availWidth,
-                    height: window.screen.availHeight
-                };
-            }).then(function(result) {
-                browser.driver.manage().window().setSize(result.width, result.height);
-            });
-        });
 
         var disableNgAnimate = function() {
             angular.module('disableNgAnimate', []).run(['$animate', function($animate) {
