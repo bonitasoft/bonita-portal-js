@@ -12,10 +12,11 @@
 
     beforeEach(inject(function ($compile, $rootScope) {
       scope = $rootScope.$new();
+      scope.errors = [];
 
       scope.updatePassword = jasmine.createSpy('updatePassword');
 
-      let template = '<bo-password on-update="updatePassword"></bo-password>';
+      let template = '<bo-password on-update="updatePassword" errors="errors"></bo-password>';
       element = $compile(template)(scope);
       scope.$apply();
     }));
@@ -41,9 +42,9 @@
 
     it('should not trigger an update when new password is empty', () => {
 
-        element.find('.btn-primary').click();
+      element.find('.btn-primary').click();
 
-        expect(scope.updatePassword).not.toHaveBeenCalled();
+      expect(scope.updatePassword).not.toHaveBeenCalled();
     });
 
     it('should not trigger an update when passwords does not match', () => {
@@ -80,6 +81,18 @@
       let confirmFormGroup = element.find('.form-group')[1];
       expect(confirmFormGroup.className).not.toContain('has-error');
       expect(angular.element(confirmFormGroup).find('.help-block').length).toBe(0);
+    });
+
+    it('should show validation error message when update password has failed', () => {
+      scope.errors = ['Password must contain at least 3 digits',
+        'Password must contain at least 2 lower case characters',
+        'Password must contain at least 2 upper case characters'];
+      scope.$apply();
+
+      expect(scope.updatePassword).not.toHaveBeenCalled();
+      let confirmFormGroup = element.find('.form-group')[0];
+      expect(confirmFormGroup.className).toContain('has-error');
+      expect(angular.element(confirmFormGroup).find('.help-block').length).toBe(3);
     });
 
   });

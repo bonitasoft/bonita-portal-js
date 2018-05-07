@@ -8,7 +8,8 @@
   function boPassword() {
     return {
       scope: {
-        onUpdate: '='
+        onUpdate: '=',
+        errors : '='
       },
       bindToController: true,
       controllerAs: 'vm',
