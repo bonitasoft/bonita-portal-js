@@ -34,10 +34,15 @@
         password: password.new,
         password_confirm: password.confirm
       }).$promise.then(function () {
+        vm.errors = [];
         growl.success(gettextCatalog.getString('Password successfully updated'));
-      }, function () {
-        growl.error(gettextCatalog.getString(
-          'Password has not been updated. Please retry later or contact an administrator'));
+      }, function (response) {
+        if (response.data && response.data.message) {
+          var messages = response.data.message.split('\n');
+          vm.errors = messages.slice(0, messages.length - 1);
+        } else {
+          growl.error(gettextCatalog.getString('Password has not been updated. Please retry later or contact an administrator'));
+        }
       });
     };
 

@@ -107,6 +107,16 @@
       expect(growl.success).toHaveBeenCalled();
     });
 
+    it('should display error message when password is not successfully updated and throw an e', () => {
+      var response = {data: {message:'Password must contain at least 3 digits\\nPassword must contain at least 2 lower case characters\\nPassword must contain at least 2 upper case characters'}};
+      userAPI.update.and.returnValue({$promise: $q.reject(response)});
+
+      controller.updatePassword({});
+      scope.$apply();
+
+      expect(growl.error).not.toHaveBeenCalled();
+    });
+
     it('should toast an error message when password is not successfully updated', () => {
       userAPI.update.and.returnValue({$promise: $q.reject({})});
 
