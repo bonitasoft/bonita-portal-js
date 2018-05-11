@@ -15,7 +15,7 @@
 
     var bdmCtrl, addBDMPopupCtrl, scope, tenantAdminAPI, sessionAPI, bdmAPI, getTenantStatusRequest, sessionRequest, getBDMRequest, installRequest,
       fileUploader, gettext, modal, modalOpenDeferred, modalInstance, featureManager,
-      featureAPI;
+      featureAPI, bonitaVersion;
 
     beforeEach(module('org.bonitasoft.service.features'));
     beforeEach(module('org.bonitasoft.features.admin.bdm'));
@@ -76,11 +76,13 @@
         installRequest = $q.defer();
         spyOn(bdmAPI, 'save').and.returnValue(installRequest.promise);
 
+        bonitaVersion = '7.7';
         addBDMPopupCtrl = $controller('AddBDMPopupCtrl', {
           '$scope': scope,
           '$modalInstance': modalInstance,
           'FileUploader': FileUploader,
-          'gettext': gettext
+          'gettext': gettext,
+          'bonitaVersion': bonitaVersion
         });
       });
     });
@@ -103,6 +105,23 @@
       expect(ctrl.isTechnicalUser).toBeFalsy();
     });
 
+    it('should set version property', function () {
+      var ctrl = bdmCtrl();
+
+      sessionRequest.resolve({'version': '7.10'});
+      scope.$apply();
+
+      expect(ctrl.bonitaVersion).toEqual('7.10');
+    });
+
+    it('should set version property even when in snapshot', function () {
+      var ctrl = bdmCtrl();
+
+      sessionRequest.resolve({'version': '7.7.0-SNAPSHOT'});
+      scope.$apply();
+
+      expect(ctrl.bonitaVersion).toEqual('7.7');
+    });
 
     it('should get install button disabled when tenant is not paused', function () {
       var ctrl = bdmCtrl();

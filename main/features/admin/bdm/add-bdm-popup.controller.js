@@ -12,9 +12,10 @@
   angular.module('org.bonitasoft.features.admin.bdm')
     .controller('AddBDMPopupCtrl', AddBDMPopupCtrl);
 
-  function AddBDMPopupCtrl($scope, $modalInstance, FileUploader, gettext) {
+  function AddBDMPopupCtrl($scope, $modalInstance, FileUploader, gettext, bonitaVersion) {
 
     var self = this;
+    $scope.bonitaVersion = bonitaVersion;
 
     self.errorUpload = function errorUpload() {
       $scope.isTechnicalError = true;

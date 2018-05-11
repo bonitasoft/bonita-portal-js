@@ -12,7 +12,7 @@
   describe('Add BDM Popup', function () {
 
 
-    var addBDMPopupCtrl, scope, fileUploader, gettext, modalInstance;
+    var addBDMPopupCtrl, scope, fileUploader, gettext, modalInstance, bonitaVersion;
 
     beforeEach(module('org.bonitasoft.features.admin.bdm'));
 
@@ -21,13 +21,15 @@
       gettext = _gettext_;
       scope = $rootScope.$new();
       modalInstance = jasmine.createSpyObj('modalInstance', ['close', 'dismiss']);
+      bonitaVersion = '7.7';
 
       addBDMPopupCtrl = function () {
         return $controller('AddBDMPopupCtrl', {
           '$scope': scope,
           'FileUploader': FileUploader,
           'gettext': gettext,
-          '$modalInstance': modalInstance
+          '$modalInstance': modalInstance,
+          'bonitaVersion': bonitaVersion
         });
       };
     }));
