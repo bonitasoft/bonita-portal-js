@@ -26,9 +26,18 @@
     vm.bdm = {};
 
     vm.isTechnicalUser = true;
+    vm.bonitaVersion = '';
     sessionAPI.get({id: 'unusedId'}).$promise.then(function (session) {
       /*jshint camelcase: false */
       vm.isTechnicalUser = (session.is_technical_user === 'true');
+      if (session.version) {
+        var splittedVersion = session.version.split('.');
+        if (splittedVersion.length > 1) {
+          vm.bonitaVersion = splittedVersion[0] + '.' + splittedVersion[1];
+        } else {
+          vm.bonitaVersion = session.version;
+        }
+      }
     });
 
     loadBdmStatus();
@@ -79,7 +88,12 @@
       $modal.open({
         templateUrl: 'features/admin/bdm/add-bdm-popup.html',
         controller: 'AddBDMPopupCtrl',
-        controllerAs: 'AddBDMPopupCtrl'
+        controllerAs: 'AddBDMPopupCtrl',
+        resolve: {
+          bonitaVersion: function () {
+            return vm.bonitaVersion;
+          }
+        }
       }).result.then(function(filePath) {
         installBdmFile(filePath);
       });

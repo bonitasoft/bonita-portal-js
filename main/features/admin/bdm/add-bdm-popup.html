@@ -7,10 +7,12 @@
         <h4 translate>Warning:</h4>
         <span translate>Note that updating the model modifies existing database tables definitively.</span><br/>
         <span translate>Bonita uses Hibernate for data persistence, therefore some changes are handled well, like adding new objects or attributes,
-            but some others we cannot guarantee so far, like changing the type of an attribute.</span><br/>
-        <span translate>In such cases, you will have to script the changes, after backuping the database,
-            and through careful validation in a staging environment.
-        </span>
+            but some others we cannot guarantee so far, like changing the type of an attribute or deleting an attribute.</span><br/>
+        <span translate>If the new BDM contains such changes, the database administrator will need to first handle the database update with scripts,
+            then you will need to update only the data model and thoroughly test the changes.</span><br/>
+        <span translate>To know more about this platform configuration option, go to the</span>
+        <!-- Link to Bonita Documentation page BDM Management in Bonita Portal -->
+        <a ng-href="http://www.bonitasoft.com/bos_redirect.php?bos_redirect_id=674&bos_redirect_product=bos&bos_redirect_major_version={{bonitaVersion}}&bos_redirect_minor_version=0" translate>documentation</a>.
     </div>
     <bootstrap-form-control
         class="field-upload-container"
