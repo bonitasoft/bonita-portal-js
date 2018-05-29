@@ -68,7 +68,7 @@
           <th>{{ 'Description' | translate }}</th>
           <th bo-sorter="processInstanceId" class="text-right TaskTable-caseIdHeader">{{ 'Case' | translate }}</th>
           <th>{{ 'Process name' | translate }}</th>
-          <th class="text-right">{{ 'Last update' | translate }}</th>
+          <th bo-sorter="reachedStateDate" visible="false" class="text-right">{{ 'Last update' | translate }}</th>
           <th class="text-right">{{ 'Assigned on' | translate }}</th>
           <th bo-sorter="dueDate" class="text-right TaskTable-dueDateHeader">{{ 'Due date' | translate }}</th>
           <th bo-sorter="priority">{{ 'Priority' | translate }}</th>
