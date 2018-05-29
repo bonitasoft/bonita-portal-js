@@ -88,9 +88,16 @@
             params.s = this.search || '';
           }
 
+
+          var sortProperty  = this.taskFilter.sortOption.property;
+          // Parse this sort value to snake_case is mandatory to work without API break (BS-18375)
+          if(sortProperty  === 'reachedStateDate' && this.taskFilter === TASK_FILTERS.DONE){
+            sortProperty  = 'reached_state_date';
+          }
+
           params.c = this.pagination.numberPerPage;
           params.p = this.pagination.currentPage-1 || 0;
-          params.o = this.taskFilter.sortOption.property + ' ' + (this.taskFilter.sortOption.direction ? 'DESC' : 'ASC');
+          params.o = sortProperty  + ' ' + (this.taskFilter.sortOption.direction ? 'DESC' : 'ASC');
           params.f = this.taskFilter.filters.slice();
 
           if (this.caseId) {
