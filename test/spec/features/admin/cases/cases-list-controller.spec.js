@@ -796,7 +796,15 @@
                 s: undefined
               }]
             ]);
-
+            /* jshint -W069 */
+            it('should set started by fullname', function() {
+              deferred.resolve(fullCases);
+              scope.$apply();
+              expect(scope.cases[0]['Started by fullname']).toEqual('William Jobs');
+              expect(scope.cases[1]['Started by fullname']).toEqual(' Jobs');
+              expect(scope.cases[2]['Started by fullname']).toEqual('William ');
+              expect(scope.cases[3]['Started by fullname']).toEqual('william.jobs');
+            });
           });
         });
       });
