@@ -105,7 +105,7 @@ var cases = [
             'job_title': 'Chief Executive Officer',
             'userName': 'william.jobs',
             'lastname': 'Jobs',
-            'firstname': 'William',
+            'firstname': '',
             'password': '',
             'last_update_date': '2014-10-09 14:19:31.623'
           },
@@ -159,7 +159,7 @@ var cases = [
             'manager_id': '0',
             'job_title': 'Chief Executive Officer',
             'userName': 'william.jobs',
-            'lastname': 'Jobs',
+            'lastname': '',
             'firstname': 'William',
             'password': '',
             'last_update_date': '2014-10-09 14:19:31.623'
@@ -214,8 +214,8 @@ var cases = [
             'manager_id': '0',
             'job_title': 'Chief Executive Officer',
             'userName': 'william.jobs',
-            'lastname': 'Jobs',
-            'firstname': 'William',
+            'lastname': '',
+            'firstname': '',
             'password': '',
             'last_update_date': '2014-10-09 14:19:31.623'
           },
