@@ -5,11 +5,29 @@
     .module('org.bonitasoft.features.admin.organisation.users')
     .controller('UserProfiles', UserProfiles);
 
-  function UserProfiles(user, profiles, memberships, $modal, membershipAPI, growl, gettextCatalog, $state) {
+  function UserProfiles($scope, user, profiles, memberships, $modal, membershipAPI, growl, gettextCatalog, $state) {
     var vm = this;
     vm.profiles = profiles;
     vm.memberships = memberships;
     vm.user = user;
+
+    $scope.$watch('vm.memberships.pagination', function (newPaginationVal) {
+      // Memberships Pagination
+      vm.paginationMembership = {
+        itemsPerPage: newPaginationVal && newPaginationVal.numberPerPage ? newPaginationVal.numberPerPage : 25,
+        currentPage: newPaginationVal && newPaginationVal.currentPage ? newPaginationVal.currentPage : 1,
+        total: newPaginationVal && newPaginationVal.total ? newPaginationVal.total : 0
+      };
+    }, true);
+
+    vm.searchMemberships = function () {
+      vm.memberships = membershipAPI.search({
+        p: vm.paginationMembership.currentPage - 1,
+        c: vm.paginationMembership.itemsPerPage,
+        f: 'user_id=' + user.id,
+        d: ['role_id', 'group_id']
+      });
+    };
 
     vm.openDeletePopUp = function (membership) {
       var modalInstance = $modal.open({
@@ -61,15 +79,15 @@
             return this.membership.group.list.length > 0 && this.membership.role.list.length > 0;
           };
 
-          this.mapMembershipObject = function(m) {
+          this.mapMembershipObject = function (m) {
             return {
               role: {
                 id: m.role.list[0].id,
-                name: m.role.list[0].displayName ||  m.role.list[0].name
+                name: m.role.list[0].displayName || m.role.list[0].name
               },
               group: {
                 id: m.group.list[0].id,
-                name: m.group.list[0].displayName ||  m.group.list[0].name
+                name: m.group.list[0].displayName || m.group.list[0].name
               }
             };
           };
