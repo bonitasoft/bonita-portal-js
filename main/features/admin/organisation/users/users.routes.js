@@ -50,7 +50,7 @@
             return profileAPI.search({p: 0, c: 100, f: 'user_id=' + $stateParams.id});
           },
           memberships: function (membershipAPI, $stateParams) {
-            return membershipAPI.search({p:0, c:100, f:'user_id=' + $stateParams.id, d: ['role_id', 'group_id']});
+            return membershipAPI.search({p:0, c:25, f:'user_id=' + $stateParams.id, d: ['role_id', 'group_id']});
           }
         }
       })
