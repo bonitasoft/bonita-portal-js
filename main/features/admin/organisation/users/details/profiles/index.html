@@ -5,7 +5,14 @@
     </tr>
 </table>
 
-<h2 class="SubHeading" translate>Memberships</h2>
+<div class="memberships-title-section">
+    <h2 class="SubHeading" translate>Memberships</h2>
+    <span>
+        <button class="btn btn-primary AddMembershipsBtn"
+                ng-click="vm.openAddPopup()"> +
+        </button>
+    </span>
+</div>
 <table class="Memberships">
     <tr ng-repeat="membership in vm.memberships">
         <td translate>
@@ -17,8 +24,14 @@
         </td>
     </tr>
 </table>
-<button class="btn btn-primary AddMembershipsBtn"
-        ng-click="vm.openAddPopup()"
-        translate>
-    Add membership
-</button>
+<div class="col-md-12">
+    <div class="pull-left" ng-if="vm.paginationMembership.total">
+        <pagination id="memberships-results-pages"
+                    ng-if="vm.paginationMembership.total > vm.paginationMembership.itemsPerPage" boundary-links="true"
+                    total-items="vm.paginationMembership.total"
+                    ng-click="vm.searchMemberships()"
+                    ng-model="vm.paginationMembership.currentPage"
+                    items-per-page="vm.paginationMembership.itemsPerPage " previous-text="&lsaquo;" next-text="&rsaquo;"
+                    first-text="&laquo;" last-text="&raquo;" max-size="5"></pagination>
+    </div>
+</div>
