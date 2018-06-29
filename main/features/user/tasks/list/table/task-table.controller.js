@@ -131,7 +131,7 @@
     }
 
     function sort(options) {
-      if ($scope.request.taskFilter !== TASK_FILTERS.DONE || options.property !== 'dueDate' && options.property !== 'processInstanceId') {
+      if ($scope.request.taskFilter !== TASK_FILTERS.DONE || options.property !== 'dueDate') {
         $scope.request.taskFilter.sortOption.property = options.property;
         $scope.request.taskFilter.sortOption.direction = options.direction;
         $scope.refresh();
