@@ -260,6 +260,16 @@
       return FeatureManager.isSearchIndexedFeatureActivated();
     }
 
+    function getStartedByDisplayName(fullCase) {
+      var startedBy;
+      if (fullCase['started_by'].firstname || fullCase['started_by'].lastname) {
+        startedBy = fullCase['started_by'].firstname + ' ' + fullCase['started_by'].lastname;
+      } else if (fullCase['started_by'].userName) {
+        startedBy = fullCase['started_by'].userName;
+      }
+      return startedBy;
+    }
+
     function searchForCases() {
       $scope.loading = true;
       //these tmp variables are here to store curren tSearch results
@@ -296,9 +306,7 @@
                 simpleCase[column.name] = currentCase;
               });
 
-              if(fullCase['started_by'].firstname && fullCase['started_by'].lastname) {
-                simpleCase['Started by fullname'] = fullCase['started_by'].firstname + ' ' + fullCase['started_by'].lastname;
-              }
+              simpleCase['Started by fullname'] = getStartedByDisplayName(fullCase);
 
               simpleCase.id = fullCase.id;
               simpleCase.processDefinitionId = fullCase.processDefinitionId;

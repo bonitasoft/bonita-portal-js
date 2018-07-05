@@ -120,13 +120,13 @@ describe('User TaskList Controller', function() {
     expect(scope.refresh).toHaveBeenCalled();
   });
 
-  it('should not sort done tasks on process instance id', function() {
+  it('should sort done tasks on process instance id', function() {
     scope.request.taskFilter = TASK_FILTERS.DONE;
     scope.refresh = jasmine.createSpy();
 
-    scope.sort({ property: 'processInstanceId', direction: true });
+    scope.sort({ property: 'rootCaseId', direction: true });
 
-    expect(scope.request.taskFilter.sortOption).toEqual({ property: 'displayName', direction: false });
-    expect(scope.refresh).not.toHaveBeenCalled();
+    expect(scope.request.taskFilter.sortOption).toEqual({ property: 'rootCaseId', direction: true });
+    expect(scope.refresh).toHaveBeenCalled();
   });
 });
