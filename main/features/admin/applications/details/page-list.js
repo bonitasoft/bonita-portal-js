@@ -35,7 +35,7 @@
         $scope.i18n = i18nMsg.field;
         $scope.application = application;
 
-        store.load(customPageAPI, {f:'contentType=page'})
+        store.load(customPageAPI, {f: ['contentType=page', 'isHidden=false']})
           .then(function (pages) {
             $scope.customPages = pages;
           });
