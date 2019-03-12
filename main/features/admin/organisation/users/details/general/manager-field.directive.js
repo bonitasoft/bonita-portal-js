@@ -8,7 +8,7 @@
   function boManagerField() {
     return {
       scope: {
-        manager: '=selected',
+        selectedManager: '=',
         onType: '=',
       },
       replace: true,

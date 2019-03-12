@@ -11,7 +11,7 @@
       scope = $rootScope.$new();
       $timeout = _$timeout_;
 
-      scope.selected = {};
+      scope.selectedManager = {};
       scope.search = function(value) {
         return [
           {firstname: 'Walter', lastname: 'Bates', userName: 'walter.bates'},
@@ -19,21 +19,21 @@
           {firstname: 'Hellen', lastname: 'Kelly', userName: 'hellen.kelly'}
         ].filter(manager => manager.firstname.indexOf(value) !== -1);
       };
-      let template = '<div><bo-manager-field selected="selected" on-type="search"> </bo-manager-field></div>';
+      let template = '<div><bo-manager-field selected-manager="selectedManager" on-type="search"> </bo-manager-field></div>';
       element = $compile(template)(scope);
       scope.$apply();
       modelCtrl = element.find('input').controller('ngModel');
     }));
 
     it('should display an empty field when selected manager is not defined', () => {
-      scope.selected = undefined;
+      scope.selectedManager = undefined;
       scope.$apply();
 
       expect(element.find('input').val()).toEqual('');
     });
 
     it('should format the manager\'s name', () => {
-      scope.selected = {firstname: 'Walter', lastname: 'Bates', userName: 'walter.bates'};
+      scope.selectedManager = {firstname: 'Walter', lastname: 'Bates', userName: 'walter.bates'};
       scope.$apply();
 
       expect(element.find('input').val()).toEqual('Walter Bates (walter.bates)');
@@ -85,7 +85,7 @@
       let lis = element.find('li');
       angular.element(lis[0]).click();
 
-      expect(scope.selected).toEqual({firstname: 'Walter', lastname: 'Bates', userName: 'walter.bates'});
+      expect(scope.selectedManager).toEqual({firstname: 'Walter', lastname: 'Bates', userName: 'walter.bates'});
     });
 
   });
