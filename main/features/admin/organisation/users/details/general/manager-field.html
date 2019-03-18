@@ -1,6 +1,6 @@
 <input type="text"
        class="form-control"
-       ng-model="vm.manager"
+       ng-model="vm.selectedManager"
        typeahead="manager as vm.formatLabel(manager) for manager in vm.searchManagers($viewValue)"
        typeahead-input-formatter="vm.formatLabel($model)"
        ng-model-options="{ debounce: 200 }"
