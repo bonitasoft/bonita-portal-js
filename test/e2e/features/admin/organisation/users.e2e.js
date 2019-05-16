@@ -9,7 +9,7 @@
       expect(element(by.tagName('h1')).getText()).toBe('Mr Walter Bates');
 
       // should land on general information
-      expect(element(by.tagName('h3')).getText()).toBe('General information');
+      expect(element(by.tagName('h2')).getText()).toBe('General information');
 
       // Password
       let passwordMenuItem = element(by.cssContainingText('a.list-group-item', 'Password'));
