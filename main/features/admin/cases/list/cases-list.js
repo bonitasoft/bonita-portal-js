@@ -135,9 +135,13 @@
     };
 
     vm.reinitCases = function () {
-      delete $scope.searchOptions.searchSort;
       $scope.pagination.currentPage = 1;
-      vm.searchForCases();
+      if ($scope.searchOptions.searchSort) {
+        delete $scope.searchOptions.searchSort;
+        //that's it because searchForCases() is called by the watch on searchOptions
+      } else {
+        vm.searchForCases();
+      }
     };
 
     $scope.$on('caselist:http-error', handleHttpErrorEvent);
