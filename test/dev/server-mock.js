@@ -240,6 +240,7 @@
 
   //global
   when('GET', /^\/API\/bpm\/process\?c=\d+&.*p=0$/).respond(require('./admin/cases/list/process-def-4.json'));
+  when('GET', /^\/API\/bpm\/process\?c=\d+&.*p=0&.*s=.*$/).respond(require('./admin/cases/list/process-def-4.json'));
   when('GET', /^\/API\/system\/i18ntranslation.*$/).respond([]);
   //enable french translation
   //when('GET', /^\/API\/system\/i18ntranslation.*$/).respond(require('./i18translations.json'));
@@ -248,6 +249,5 @@
   var fs = require('fs');
   var form = fs.readFileSync(__dirname + '/user/tasks/list/fixtures/form.html', 'utf8');
   when('GET', formRegexp, 'html').respond(form);
-
 
 })(module, false);
