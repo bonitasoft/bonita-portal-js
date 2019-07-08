@@ -992,6 +992,19 @@
         });
         scope.searchOptions.searchSort = {};
         scope.pagination.currentPage = 10;
+        casesCtrl.reinitCases();
+        expect(scope.searchOptions.searchSort).toBeUndefined();
+        expect(scope.pagination.currentPage).toBe(1);
+      }));
+      it('should perform search', inject(function($controller) {
+        casesCtrl = $controller('ActiveCaseListCtrl', {
+          '$scope': scope,
+          'processId': undefined,
+          'supervisorId': undefined,
+          'caseStateFilter': ''
+        });
+        delete scope.searchOptions.searchSort;
+        scope.pagination.currentPage = 10;
         spyOn(casesCtrl, 'searchForCases');
         casesCtrl.reinitCases();
         expect(scope.searchOptions.searchSort).toBeUndefined();
