@@ -252,7 +252,7 @@
       if ($scope.selectedFilters.selectedProcessDefinition) {
         filters.push('processDefinitionId=' + $scope.selectedFilters.selectedProcessDefinition);
       } else if ($scope.selectedFilters.selectedApp && $scope.selectedFilters.selectedApp !== defaultFilters.appName) {
-        filters.push('name=' + $scope.selectedFilters.selectedApp);
+        filters.push('displayName=' + $scope.selectedFilters.selectedApp);
       }
       if ($scope.selectedFilters.selectedStatus && $scope.selectedFilters.selectedStatus !== defaultFilters.caseStatus) {
         filters.push('state=' + $scope.selectedFilters.selectedStatus);
