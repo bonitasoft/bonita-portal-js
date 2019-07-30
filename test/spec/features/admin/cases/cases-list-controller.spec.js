@@ -1079,7 +1079,7 @@
           var processName = 'Process1';
           scope.selectedFilters.selectedApp = processName;
           casesCtrl.buildFilters();
-          expect(scope.searchOptions.filters).toEqual(['displayName=' + processName]);
+          expect(scope.searchOptions.filters).toEqual(['name=' + processName]);
           expect(scope.pagination.currentPage).toBe(1);
         });
       });
