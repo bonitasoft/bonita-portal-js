@@ -1,40 +1,42 @@
 <div id="case-filters" class="panel panel-default">
   <div class="panel-heading title">{{'Filters' | translate}}</div>
   <div class="panel-body">
-    <div class="col-md-3 button-filter">{{'Process name' | translate}}
-      <div class="btn-group" dropdown id="case-app-name-filter">
-        <button type="button" dropdown-toggle class="btn btn-primary dropdown-toggle">{{selectedFilters.selectedApp | translate}} <span class="caret"></span></button>
-        <ul class="dropdown-menu" role="menu">
-          <li ng-click="filterCtrl.selectApp(defaultFilters.appName)"><a>{{defaultFilters.appName | translate}}</a></li>
-          <li ng-if="appNames &amp;&amp; appNames.length>0" class="divider"></li>
-          <li ng-repeat="appName in appNames" ng-click="filterCtrl.selectApp(appName)"><a>{{appName}}</a></li>
-        </ul>
-      </div>
-    </div>
-    <div class="col-md-3 button-filter">{{'Process version' | translate}}
-      <div class="btn-group" dropdown id="case-app-version-filter">
-        <button type="button" dropdown-toggle class="btn btn-primary dropdown-toggle" ng-disabled="selectedFilters.selectedApp  === defaultFilters.appName">{{selectedFilters.selectedVersion | translate}} <span class="caret"></span></button>
-        <ul class="dropdown-menu" role="menu">
-          <li ng-click="filterCtrl.selectVersion(defaultFilters.appVersion)"><a>{{defaultFilters.appVersion | translate}}</a></li>
-          <li class="divider"></li>
-          <li ng-repeat="version in versions" ng-click="filterCtrl.selectVersion(version)"><a>{{version}}</a></li>
-        </ul>
-      </div>
-    </div>
-    <div class="col-md-3 button-filter">{{'Case state' | translate}}
-      <div class="btn-group" dropdown id="case-app-status-filter">
-        <button type="button" dropdown-toggle class="btn btn-primary dropdown-toggle">{{caseStatesValues[selectedFilters.selectedStatus] | translate}} <span class="caret"></span></button>
-        <ul class="dropdown-menu" role="menu">
-          <li ng-click="filterCtrl.selectCaseStatus(defaultFilters.caseStatus)"><a>{{defaultFilters.caseStatus | translate}}</a></li>
-          <li class="divider"></li>
-          <li ng-click="filterCtrl.selectCaseStatus('error')"><a>{{'With failures' | translate}}</a></li>
-        </ul>
-      </div>
+    <div class="col-md-9">
+        <span class="button-filter">{{'Process' | translate}} <span id="infoPopover" class="glyphicon glyphicon-info-sign" popover="{{'This filters the case list only by process name. The display name is shown for information purposes. ' | translate}}" popover-trigger="mouseenter"></span>
+          <div class="btn-group" dropdown id="case-app-name-filter">
+            <button type="button" dropdown-toggle class="btn btn-primary dropdown-toggle">{{selectedFilters.selectedApp[0] | translate}} <span ng-if="selectedFilters.selectedApp[0] !== defaultFilters.appName">({{selectedFilters.selectedApp[1] | translate}})</span> <span class="caret"></span></button>
+            <ul class="dropdown-menu" role="menu">
+              <li ng-click="filterCtrl.selectApp(defaultFilters.appName, defaultFilters.appName)"><a>{{defaultFilters.appName | translate}}</a></li>
+              <li ng-if="appNames &amp;&amp; appNames.length>0" class="divider"></li>
+              <li ng-repeat="appName in appNames" ng-click="filterCtrl.selectApp(appName[0], appName[1])"><a>{{appName[1]}}</a></li>
+            </ul>
+          </div>
+        </span>
+        <span class="col-md-offset-1 button-filter">{{'Version' | translate}}
+          <div class="btn-group" dropdown id="case-app-version-filter">
+            <button type="button" dropdown-toggle class="btn btn-primary dropdown-toggle" ng-disabled="selectedFilters.selectedApp  === defaultFilters.appName || versions.length < 2">{{selectedFilters.selectedVersion | translate}} <span class="caret"></span></button>
+            <ul class="dropdown-menu" role="menu">
+              <li ng-click="filterCtrl.selectVersion(defaultFilters.appVersion)"><a>{{defaultFilters.appVersion | translate}}</a></li>
+              <li class="divider"></li>
+              <li ng-repeat="version in versions" ng-click="filterCtrl.selectVersion(version)"><a>{{version}}</a></li>
+            </ul>
+          </div>
+        </span>
+        <span class="col-md-offset-1 button-filter">{{'Case state' | translate}}
+              <div class="btn-group" dropdown id="case-app-status-filter">
+                <button type="button" dropdown-toggle class="btn btn-primary dropdown-toggle">{{caseStatesValues[selectedFilters.selectedStatus] | translate}} <span class="caret"></span></button>
+                <ul class="dropdown-menu" role="menu">
+                  <li ng-click="filterCtrl.selectCaseStatus(defaultFilters.caseStatus)"><a>{{defaultFilters.caseStatus | translate}}</a></li>
+                  <li class="divider"></li>
+                  <li ng-click="filterCtrl.selectCaseStatus('error')"><a>{{'With failures' | translate}}</a></li>
+                </ul>
+              </div>
+        </span>
     </div>
     <div class="col-md-3">
       <form role="form" name="searchForm" novalidate ng-submit="filterCtrl.submitSearch()">
         <div class="input-group">
-          <input type="text" class="form-control" ng-model="selectedFilters.currentSearch" name="searchField" id="case-list-search" placeholder="{{ 'Search...' | translate }}">
+          <input type="text" class="form-control" ng-model="selectedFilters.currentSearch" name="searchField" id="case-list-search" placeholder="{{ 'Search by process name or search keys' | translate }}">
           <span ng-click="filterCtrl.submitSearch()" class="input-group-addon pointer"><span class="glyphicon glyphicon-search"></span></span>
         </div>
       </form>

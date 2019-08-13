@@ -1076,10 +1076,10 @@
         });
         it('should have app name', function() {
           scope.$digest();
-          var processName = 'Process1';
+          var processName = ['Process1', 'Process1'];
           scope.selectedFilters.selectedApp = processName;
           casesCtrl.buildFilters();
-          expect(scope.searchOptions.filters).toEqual(['name=' + processName]);
+          expect(scope.searchOptions.filters).toEqual(['name=' + processName[0]]);
           expect(scope.pagination.currentPage).toBe(1);
         });
       });

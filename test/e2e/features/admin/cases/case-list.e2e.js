@@ -22,8 +22,8 @@
     const edition = require('../../../utils/edition');
 
     var caseList,
-      nbColumnsDiplayed = (edition.isSP())?8:7,
-      nbTotalcolumns = (edition.isSP())?12:7;
+      nbColumnsDiplayed = (edition.isSP())?9:8,
+      nbTotalcolumns = (edition.isSP())?13:8;
 
     beforeEach(function () {
       browser.get('#/admin/cases/list');
@@ -41,13 +41,14 @@
         expect(columnList.count()).toBe(nbColumnsDiplayed+2);
         expect(columnList.get(1).getText()).toContain('ID');
         expect(columnList.get(2).getText()).toContain('Process name');
-        expect(columnList.get(3).getText()).toContain('Version');
-        expect(columnList.get(4).getText()).toContain('Start date');
-        expect(columnList.get(5).getText()).toContain('Started by');
-        expect(columnList.get(6).getText()).toContain('Failed Flow Nodes');
-        expect(columnList.get(7).getText()).toContain('Pending Flow Nodes');
+        expect(columnList.get(3).getText()).toContain('Display name');
+        expect(columnList.get(4).getText()).toContain('Version');
+        expect(columnList.get(5).getText()).toContain('Start date');
+        expect(columnList.get(6).getText()).toContain('Started by');
+        expect(columnList.get(7).getText()).toContain('Failed Flow Nodes');
+        expect(columnList.get(8).getText()).toContain('Pending Flow Nodes');
         if (edition.isSP()) {
-          expect(columnList.get(8).getText()).toContain('Search Key 1');
+          expect(columnList.get(9).getText()).toContain('Search Key 1');
         }
       });
       it('should contains page size selection', function () {
@@ -255,17 +256,17 @@
         tableHeader.get(2).click();
         expect(tableHeader.get(2).getText()).toContain('Start date');
         if(edition.isSP()){
-          expect(caseList.all(by.css('tbody tr')).get(0).all(by.css('td')).getText()).toEqual(['', '2', 'Pool', '1.0', '10/16/2014 4:05 PM', 'William Jobs', '0', '1', 'No value', '']);
+          expect(caseList.all(by.css('tbody tr')).get(0).all(by.css('td')).getText()).toEqual(['', '2', 'Pool', 'Pool', '1.0', '10/16/2014 4:05 PM', 'William Jobs', '0', '1', 'No value', '']);
         }else{
-          expect(caseList.all(by.css('tbody tr')).get(0).all(by.css('td')).getText()).toEqual(['', '2', 'Pool', '1.0', '10/16/2014 4:05 PM', 'William Jobs', '0', '1', '']);
+          expect(caseList.all(by.css('tbody tr')).get(0).all(by.css('td')).getText()).toEqual(['', '2', 'Pool', 'Pool', '1.0', '10/16/2014 4:05 PM', 'William Jobs', '0', '1', '']);
         }
       });
       it('should order by date desc', function () {
         tableHeader.get(2).click();
         if(edition.isSP()){
-          expect(caseList.all(by.css('tbody tr')).get(0).all(by.css('td')).getText()).toEqual(['', '1022', 'ProcessX', '2.0', '10/20/2014 10:08 AM', 'System', '0', '1', 'No value', '']);
+          expect(caseList.all(by.css('tbody tr')).get(0).all(by.css('td')).getText()).toEqual(['', '1022', 'ProcessX', 'ProcessX', '2.0', '10/20/2014 10:08 AM', 'System', '0', '1', 'No value', '']);
         }else {
-          expect(caseList.all(by.css('tbody tr')).get(0).all(by.css('td')).getText()).toEqual(['', '1022', 'ProcessX', '2.0', '10/20/2014 10:08 AM', 'System', '0', '1', '']);
+          expect(caseList.all(by.css('tbody tr')).get(0).all(by.css('td')).getText()).toEqual(['', '1022', 'ProcessX', 'ProcessX', '2.0', '10/20/2014 10:08 AM', 'System', '0', '1', '']);
         }
       });
     });
@@ -281,13 +282,14 @@
           expect(poolCaseDetails[1].element(by.css('a')).getAttribute('href')).toContain('#?id=298&_p=casemoredetailsadmin&');
           expect(poolCaseDetails[2].getText()).toContain('Leave Request');
           expect(poolCaseDetails[2].element(by.css('a')).getAttribute('href')).toContain('#?id=7626384556180392799&_p=processmoredetailsadmin&');
-          expect(poolCaseDetails[3].getText()).toContain('1.0');
-          expect(poolCaseDetails[4].getText()).toContain('10/17/2014 4:05 PM');
-          expect(poolCaseDetails[5].getText()).toContain('William Jobs');
-          expect(poolCaseDetails[6].getText()).toContain('0');
-          expect(poolCaseDetails[7].getText()).toContain('1');
+          expect(poolCaseDetails[3].getText()).toContain('Leave Request');
+          expect(poolCaseDetails[4].getText()).toContain('1.0');
+          expect(poolCaseDetails[5].getText()).toContain('10/17/2014 4:05 PM');
+          expect(poolCaseDetails[6].getText()).toContain('William Jobs');
+          expect(poolCaseDetails[7].getText()).toContain('0');
+          expect(poolCaseDetails[8].getText()).toContain('1');
           if(edition.isSP()){
-            expect(poolCaseDetails[8].getText()).toContain('No value');
+            expect(poolCaseDetails[9].getText()).toContain('No value');
           }
           expect(poolCaseDetails[nbColumnsDiplayed+1].element(by.id('case-detail-btn-298')).getAttribute('href')).toContain('#?id=298&_p=casemoredetailsadmin&');
         });
