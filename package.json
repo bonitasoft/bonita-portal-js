@@ -89,6 +89,8 @@
     "e2eOnly": "node --max-old-space-size=2048 ./node_modules/grunt-cli/bin/grunt testE2e",
     "dev:serve": "grunt serve",
     "dev:less": "watch --wait=1 \"npm-run-all --parallel build:*\" main/styles",
-    "start": "npm-run-all --parallel dev:*"
+    "start": "npm-run-all --parallel dev:*",
+    "listDependencies": "bower-license -e json > ./bonita-portal-js-bower-dependencies.json",
+    "listDependenciesYarn": "license-checker --json --production > ./bonita-portal-js-yarn-dependencies.json"
   }
 }
