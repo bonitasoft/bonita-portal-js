@@ -99,9 +99,9 @@
           defaultFilters.appName = defaultSelectedApp;
           defaultFilters.appVersion = defaultSelectedVersion;
           globalProcesses = globalProcesses.concat([
-            {displayName: 'App1'},
-            {displayName: 'App2'},
-            {displayName: 'App3'}
+            {name: 'App1', displayName: 'App1'},
+            {name: 'App2', displayName: 'App2'},
+            {name: 'App3', displayName: 'App3'}
           ]);
           store.load = storeLoadFunction(globalProcesses);
           caseFiltersCtrl = $controller('ActiveCaseFilterController', {
@@ -111,7 +111,7 @@
           });
           //scope.$apply();
           expect(scope.apps).toBe(globalProcesses);
-          expect(scope.appNames).toEqual(['App1', 'App2', 'App3']);
+          expect(scope.appNames).toEqual([['App1', 'App1'], ['App2', 'App2'], ['App3', 'App3']]);
           expect(scope.versions).toEqual([]);
           expect(scope.selectedFilters.selectedProcessDefinition).toEqual(undefined);
           expect(scope.selectedFilters.selectedVersion).toBe(defaultSelectedVersion);
@@ -126,8 +126,8 @@
           defaultFilters.appVersion = defaultSelectedVersion;
           globalProcesses = globalProcesses.concat([
               {},
-              {displayName: 'App2'},
-              {displayName: 'App3'}
+              {name: 'App2', displayName: 'App2'},
+              {name: 'App3', displayName: 'App3'}
             ]);
           store.load = storeLoadFunction(globalProcesses);
           caseFiltersCtrl = $controller('ActiveCaseFilterController', {
@@ -136,11 +136,80 @@
             'store' : store
           });
           expect(scope.apps).toBe(globalProcesses);
-          expect(scope.appNames).toEqual(['App2', 'App3']);
+          expect(scope.appNames).toEqual([['App2', 'App2'], ['App3', 'App3']]);
           expect(scope.versions).toEqual([]);
           expect(scope.selectedFilters.selectedProcessDefinition).toEqual(undefined);
           expect(scope.selectedFilters.selectedVersion).toBe(defaultSelectedVersion);
           expect(scope.defaultFilters.appName).toEqual(defaultSelectedApp);
+        }));
+
+        it('should have the default app value (all Apps) selected on init and apps filter filled without duplicata of pair displayName/name', inject(function ($controller) {
+          var defaultSelectedApp = 'default App',
+            defaultSelectedVersion = 'default Version';
+
+          defaultFilters.appName = defaultSelectedApp;
+          defaultFilters.appVersion = defaultSelectedVersion;
+          globalProcesses = globalProcesses.concat([
+            {name: 'App2', displayName: 'App2', version: '1.0'},
+            {name: 'App2', displayName: 'App2', version: '2.0'},
+            {name: 'App3', displayName: 'App3', version: '2.0'}
+          ]);
+          store.load = storeLoadFunction(globalProcesses);
+          caseFiltersCtrl = $controller('ActiveCaseFilterController', {
+            '$scope': scope,
+            'defaultFilters': defaultFilters,
+            'store' : store
+          });
+          expect(scope.apps).toBe(globalProcesses);
+          expect(scope.appNames).toEqual([['App2', 'App2'], ['App3', 'App3']]);
+          expect(scope.versions).toEqual([]);
+          expect(scope.selectedFilters.selectedProcessDefinition).toEqual(undefined);
+        }));
+
+        it('should have the default app value (all Apps) selected on init and apps filter filled with all information, while displayName is different between two apps', inject(function ($controller) {
+          var defaultSelectedApp = 'default App',
+            defaultSelectedVersion = 'default Version';
+
+          defaultFilters.appName = defaultSelectedApp;
+          defaultFilters.appVersion = defaultSelectedVersion;
+          globalProcesses = globalProcesses.concat([
+            {name: 'App2', displayName: 'App2', version: '1.0'},
+            {name: 'App3', displayName: 'App2', version: '2.0'},
+            {name: 'App4', displayName: 'App4', version: '4.0'}
+          ]);
+          store.load = storeLoadFunction(globalProcesses);
+          caseFiltersCtrl = $controller('ActiveCaseFilterController', {
+            '$scope': scope,
+            'defaultFilters': defaultFilters,
+            'store' : store
+          });
+          expect(scope.apps).toBe(globalProcesses);
+          expect(scope.appNames).toEqual([['App2', 'App2'], ['App3', 'App2'], ['App4', 'App4']]);
+          expect(scope.versions).toEqual([]);
+          expect(scope.selectedFilters.selectedProcessDefinition).toEqual(undefined);
+        }));
+
+        it('should have the default app value (all Apps) selected on init and apps filter filled with all information, while name is different between two apps', inject(function ($controller) {
+          var defaultSelectedApp = 'default App',
+            defaultSelectedVersion = 'default Version';
+
+          defaultFilters.appName = defaultSelectedApp;
+          defaultFilters.appVersion = defaultSelectedVersion;
+          globalProcesses = globalProcesses.concat([
+            {name: 'App2', displayName: 'App2', version: '1.0'},
+            {name: 'App2', displayName: 'App3', version: '2.0'},
+            {name: 'App4', displayName: 'App4', version: '4.0'}
+          ]);
+          store.load = storeLoadFunction(globalProcesses);
+          caseFiltersCtrl = $controller('ActiveCaseFilterController', {
+            '$scope': scope,
+            'defaultFilters': defaultFilters,
+            'store' : store
+          });
+          expect(scope.apps).toBe(globalProcesses);
+          expect(scope.appNames).toEqual([['App2', 'App2'], ['App2', 'App3'], ['App4', 'App4']]);
+          expect(scope.versions).toEqual([]);
+          expect(scope.selectedFilters.selectedProcessDefinition).toEqual(undefined);
         }));
       });
     });
@@ -164,11 +233,11 @@
       });
 
       describe('AppName', function () {
-        var allApps = 'AllApps';
+        var allApps = ['AllApps', 'AllApps'];
         beforeEach(inject(function ($controller) {
           caseFiltersCtrl = $controller('ActiveCaseFilterController', {
             '$scope': scope,
-            'defaultFilters': {appName: allApps},
+            'defaultFilters': {appName: 'AllApps'},
             'store': {
               load: function () {
                 return {
@@ -193,44 +262,49 @@
         }));
 
         it('should change the App Name Filter and update search filter when an app is selected', function () {
-          var appName = 'tests';
-          caseFiltersCtrl.selectApp(appName);
-          expect(scope.selectedFilters.selectedApp).toBe(appName);
+          var appName = ['tests', 'tests'];
+          caseFiltersCtrl.selectApp(appName[0], appName[1]);
+          expect(scope.selectedFilters.selectedApp[0]).toBe(appName[0]);
+          expect(scope.selectedFilters.selectedApp[1]).toBe(appName[1]);
           scope.$apply();
-          expect(caseFiltersCtrl.filterVersion).toHaveBeenCalledWith(appName);
+          expect(caseFiltersCtrl.filterVersion).toHaveBeenCalledWith(appName[0], appName[1]);
           expect(scope.selectedFilters.selectedProcessDefinition).toBeUndefined();
         });
         it('should do nothing when the same app is selected', function () {
-          var appName = 'tests';
+          var appName =  ['tests', 'tests'];
           scope.selectedFilters.selectedApp = appName;
-          caseFiltersCtrl.selectApp(appName);
+          caseFiltersCtrl.selectApp(appName[0], appName[1]);
           expect(caseFiltersCtrl.filterVersion).not.toHaveBeenCalled();
-          expect(scope.selectedFilters.selectedApp).toBe(appName);
+          expect(scope.selectedFilters.selectedApp[0]).toBe(appName[0]);
+          expect(scope.selectedFilters.selectedApp[1]).toBe(appName[1]);
         });
         it('should change the App Name Filter and reset search filter when all apps is selected', function () {
           var appName = allApps;
-          scope.selectedFilters.selectedApp = 'tests';
-          caseFiltersCtrl.selectApp(appName);
-          expect(scope.selectedFilters.selectedApp).toBe(allApps);
+          scope.selectedFilters.selectedApp = ['tests', 'tests'];
+          caseFiltersCtrl.selectApp(appName[0], appName[1]);
+          expect(scope.selectedFilters.selectedApp[0]).toBe(allApps[0]);
+          expect(scope.selectedFilters.selectedApp[1]).toBe(allApps[1]);
           scope.$apply();
           expect(caseFiltersCtrl.filterVersion).toHaveBeenCalled();
         });
         it('should change the App Name Filter and reset search filter when empty app is selected', function () {
-          scope.selectedFilters.selectedApp = 'tests';
+          scope.selectedFilters.selectedApp =  ['tests', 'tests'];
           caseFiltersCtrl.selectApp();
-          expect(scope.selectedFilters.selectedApp).toBe(allApps);
+          expect(scope.selectedFilters.selectedApp[0]).toBe(allApps[0]);
+          expect(scope.selectedFilters.selectedApp[1]).toBe(allApps[1]);
           scope.$apply();
           expect(caseFiltersCtrl.filterVersion).toHaveBeenCalled();
         });
 
         it('should set process displayName, process version and available process version when processId is set', function () {
           scope.selectedFilters.processId = 123;
-          var processes = [{id:123, displayName:'Process1', version:'1.0'}, {id:12, displayName:'Process1', version:'1.1'}, {id:3, displayName:'Process2', version:'1.0'}];
+          var processes = [{id:123, displayName:'Process1', name:'Process1', version:'1.0'}, {id:12, displayName:'Process1', name:'Process1', version:'1.1'}, {id:3, displayName:'Process2', name:'Process2', version:'1.0'}];
           caseFiltersCtrl.initFilters(processes);
-          expect(scope.selectedFilters.selectedApp).toBe(processes[0].displayName);
+          expect(scope.selectedFilters.selectedApp[0]).toBe(processes[0].displayName);
+          expect(scope.selectedFilters.selectedApp[1]).toBe(processes[0].name);
           expect(scope.selectedFilters.selectedVersion).toBe(processes[0].version);
-          expect(caseFiltersCtrl.filterVersion).toHaveBeenCalledWith(processes[0].displayName);
-          expect(scope.appNames).toEqual([processes[0].displayName, processes[2].displayName]);
+          expect(caseFiltersCtrl.filterVersion).toHaveBeenCalledWith(processes[0].name, processes[0].displayName);
+          expect(scope.appNames).toEqual([[processes[0].name, processes[0].displayName], [processes[2].name, processes[2].displayName]]);
         });
 
       });
@@ -273,10 +347,10 @@
           });
           it('should fill versions array with appropriate versions', function () {
             scope.apps = [
-              {displayName: 'Process1', version: '1.0'},
-              {displayName: 'Process1', version: '1.1'}
+              {displayName: 'Process1', name: 'Process1', version: '1.0'},
+              {displayName: 'Process1', name: 'Process1', version: '1.1'}
             ];
-            caseFiltersCtrl.filterVersion('Process1');
+            caseFiltersCtrl.filterVersion('Process1', 'Process1');
             expect(scope.versions).toEqual(['1.0', '1.1']);
             expect(scope.selectedFilters.selectedVersion).toEqual(allVersions);
             scope.$apply();
@@ -284,15 +358,40 @@
           });
           it('should fill versions array with appropriate versions when apps is wobbly', function () {
             scope.apps = [
-              {displayName: 'Process1'},
-              {displayName: 'Process1', version: '1.1'},
+              {displayName: 'Process1', name: 'Process1'},
+              {displayName: 'Process1', name: 'Process1', version: '1.1'},
               undefined
             ];
-            caseFiltersCtrl.filterVersion('Process1');
+            caseFiltersCtrl.filterVersion('Process1', 'Process1');
             expect(scope.versions).toEqual(['1.1']);
             expect(scope.selectedFilters.selectedVersion).toEqual('1.1');
             scope.$apply();
             expect(caseFiltersCtrl.filterProcessDefinition).toHaveBeenCalledWith('1.1');
+          });
+          it('should fill versions array with appropriate versions when displayName and name are different', function () {
+            scope.apps = [
+              {displayName: 'Process1', name: 'Process1', version: '1.0'},
+              {displayName: 'Process1', name: 'Process1', version: '1.1'},
+              {displayName: 'Process2', name: 'Process3', version: '1.3'},
+              {displayName: 'Process3', name: 'Process3', version: '5.4'}
+            ];
+            caseFiltersCtrl.filterVersion('Process1', 'Process1');
+            expect(scope.versions).toEqual(['1.0', '1.1']);
+            expect(scope.selectedFilters.selectedVersion).toEqual(allVersions);
+            scope.$apply();
+            expect(caseFiltersCtrl.filterProcessDefinition).not.toHaveBeenCalled();
+
+            caseFiltersCtrl.filterVersion('Process3', 'Process2');
+            expect(scope.versions).toEqual(['1.3']);
+            expect(scope.selectedFilters.selectedVersion).toEqual('1.3');
+            scope.$apply();
+            expect(caseFiltersCtrl.filterProcessDefinition).toHaveBeenCalledWith('1.3');
+
+            caseFiltersCtrl.filterVersion('Process3', 'Process3');
+            expect(scope.versions).toEqual(['5.4']);
+            expect(scope.selectedFilters.selectedVersion).toEqual('5.4');
+            scope.$apply();
+            expect(caseFiltersCtrl.filterProcessDefinition).toHaveBeenCalledWith('5.4');
           });
         });
 
@@ -387,28 +486,28 @@
           });
           it('should delete selectedProcessDefinition when nothing is passed and was previously set', function () {
             scope.selectedFilters.selectedProcessDefinition = '12321654875431';
-            scope.selectedFilters.selectedApp = 'Process1';
+            scope.selectedFilters.selectedApp = ['Process1', 'Process1'];
             scope.apps = [
-              {displayName: 'Process1', version: '1.0', 'id': '32165465132'},
-              {displayName: 'Process1', version: '1.1', 'id': '98762168796'}
+              {displayName: 'Process1', name: 'Process1', version: '1.0', 'id': '32165465132'},
+              {displayName: 'Process1', name: 'Process1', version: '1.1', 'id': '98762168796'}
             ];
             caseFiltersCtrl.filterProcessDefinition('1.1');
             expect(scope.selectedFilters.selectedProcessDefinition).toBe('98762168796');
           });
           it('should delete selectedProcessDefinition when nothing is passed and was previously set and wobbly apps', function () {
             scope.selectedFilters.selectedProcessDefinition = '12321654875431';
-            scope.selectedFilters.selectedApp = 'Process1';
+            scope.selectedFilters.selectedApp = ['Process1', 'Process1'];
             scope.apps = [
-              {displayName: 'Process1', version: '1.0'},
-              {displayName: 'Process1', version: '1.1', 'id': '98762168796'},
+              {displayName: 'Process1', name: 'Process1', version: '1.0'},
+              {displayName: 'Process1', name: 'Process1', version: '1.1', 'id': '98762168796'},
               undefined
             ];
             caseFiltersCtrl.filterProcessDefinition('1.1');
             expect(scope.selectedFilters.selectedProcessDefinition).toBe('98762168796');
             scope.selectedFilters.selectedApp = 'Process1';
             scope.apps = [
-              {displayName: 'Process1', version: '1.0'},
-              {displayName: '', version: '1.2', 'id': '98762168796'},
+              {displayName: 'Process1', name: 'Process1', version: '1.0'},
+              {displayName: '', name: '', version: '1.2', 'id': '98762168796'},
               undefined
             ];
             caseFiltersCtrl.filterProcessDefinition('1.1');

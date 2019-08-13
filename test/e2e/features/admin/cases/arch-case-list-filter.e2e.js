@@ -77,6 +77,9 @@
         element.all(by.xpath('//tbody//td[3]')).each(function(appNameColumn){
           expect(appNameColumn.getText()).toBe('Poule');
         });
+        element.all(by.xpath('//tbody//td[4]')).each(function(appNameColumn){
+          expect(appNameColumn.getText()).toBe('Poule');
+        });
         expect(element.all(by.css('#cases-results-size-top')).count()).toBe(1);
         expect(element.all(by.css('#cases-results-size-bottom')).count()).toBe(1);
       });
@@ -90,11 +93,14 @@
           expect(appNameColumn.getText()).toBe('ProcessX');
         });
         element.all(by.xpath('//tbody//td[4]')).each(function(appNameColumn){
+          expect(appNameColumn.getText()).toBe('ProcessX');
+        });
+        element.all(by.xpath('//tbody//td[5]')).each(function(appNameColumn){
           expect(appNameColumn.getText()).toBe('2.0');
         });
         var versionFilterButton = caseFilters.all(by.css('#case-app-version-filter button'));
         expect(versionFilterButton.getText()).toEqual(['2.0']);
-        expect(element.all(by.css('#case-app-version-filter button')).getAttribute('disabled')).toEqual([null]);
+        expect(element.all(by.css('#case-app-version-filter button')).getAttribute('disabled')).toEqual(['true']);
         expect(element.all(by.css('#cases-results-size-top')).count()).toBe(1);
         expect(element.all(by.css('#cases-results-size-bottom')).count()).toBe(1);
         expect(element.all(by.css('#cases-results-pages')).count()).toBe(0);
