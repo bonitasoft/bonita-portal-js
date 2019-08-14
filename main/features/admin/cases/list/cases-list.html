@@ -29,6 +29,7 @@
                 <th class="text-right case-column" bo-sorter="id" bo-sorter-title-asc="{{'sort by ID ascending' | translate}}" bo-sorter-title-desc="{{'sort by ID descending' | translate}}">{{'ID' | translate}}</th>
 
                 <th class="case-column" bo-sorter="name" bo-sorter-title-asc="{{'sort by Process name ascending' | translate}}" bo-sorter-title-desc="{{'sort by Process name descending' | translate}}">{{'Process name' | translate}}</th>
+                <th class="case-column">{{'Display name' | translate}}</th>
                 <th class="case-column" >{{'Version' | translate}}</th>
                 <th bo-sorter="startDate" class="case-column" bo-sorter-title-asc="{{'sort by Start date ascending' | translate}}" bo-sorter-title-desc="{{'sort by Start date descending' | translate}}">{{'Start date' | translate}}</th>
                 <th class="case-column">{{'Started by' | translate}}</th>
@@ -50,7 +51,8 @@
               </td>
 
               <td class="text-right case-detail"><a id="case-detail-link-{{case.id}}" target="_parent" href="{{::caseCtrl.getLinkToCase(case)}}">{{case['ID']}}</a></td>
-              <td class="case-detail"><a id="case-process-link-{{case.id}}" target="_parent" href="{{::caseCtrl.getLinkToProcess(case)}}">{{case['Process name']}}</a></td>
+                <td class="case-detail"><a id="case-process-link-{{case.id}}" target="_parent" href="{{::caseCtrl.getLinkToProcess(case)}}">{{case.processDefinitionId.name}}</a></td>
+                <td class="case-detail"><a id="case-process-link-{{case.id}}" target="_parent" href="{{::caseCtrl.getLinkToProcess(case)}}">{{case.processDefinitionId.displayName}}</a></td>
               <td class="case-detail">{{::case['Version']}}</td>
               <td class="case-detail">{{::caseCtrl.parseAndFormat(case['Start date'])}}</td>
               <td class="case-detail" title="{{'username:' | translate}} {{::case['Started by'] || ('System' | translate)}}">{{::case['Started by fullname'] || ('System' | translate)}}</td>
@@ -101,6 +103,7 @@
                 <th class="case-checkbox" data-ignore><div bo-selectall></div></th>
                 <th class="text-right case-column" bo-sorter="sourceObjectId" bo-sorter-title-asc="{{'sort by ID ascending' | translate}}" bo-sorter-title-desc="{{'sort by ID descending' | translate}}">{{'ID' | translate}}</th>
                 <th class="case-column" bo-sorter="name" bo-sorter-title-asc="{{'sort by Process name ascending' | translate}}" bo-sorter-title-desc="{{'sort by Process name descending' | translate}}">{{'Process name' | translate}}</th>
+                <th class="case-column">{{'Display name' | translate}}</th>
                 <th class="case-column" >{{'Version' | translate}}</th>
                 <th bo-sorter="startDate" class="case-column" bo-sorter-title-asc="{{'sort by Start date ascending' | translate}}" bo-sorter-title-desc="{{'sort by Start date descending' | translate}}">{{'Start date' | translate}}</th>
                 <th class="case-column" >{{'Started by' | translate}}</th>
@@ -123,7 +126,8 @@
               </td>
 
               <td class="case-detail text-right"><a id="case-detail-link-{{case.id}}" target="_parent" href="{{::caseCtrl.getLinkToCase(case)}}">{{case['ID']}}</a></td>
-              <td class="case-detail"><a id="case-process-link-{{case.id}}" target="_parent" href="{{::caseCtrl.getLinkToProcess(case)}}">{{case['Process name']}}</a></td>
+              <td class="case-detail"><a id="case-process-link-{{case.id}}" target="_parent" href="{{::caseCtrl.getLinkToProcess(case)}}">{{case.processDefinitionId.name}}</a></td>
+              <td class="case-detail"><a id="case-process-link-{{case.id}}" target="_parent" href="{{::caseCtrl.getLinkToProcess(case)}}">{{case.processDefinitionId.displayName}}</a></td>
               <td class="case-detail">{{::case['Version']}}</td>
               <td class="case-detail">{{::caseCtrl.parseAndFormat(case['Start date'])}}</td>
               <td class="case-detail" title="{{'username:' | translate}} {{::case['Started by'] || ('System' | translate)}}">{{::case['Started by fullname'] || ('System' | translate)}}</td>

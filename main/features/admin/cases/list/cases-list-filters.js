@@ -58,7 +58,7 @@
    */
   /* jshint -W003 */
   function CaseFilterController($scope, store, processAPI, defaultFilters, caseStatesValues, $stateParams) {
-    $scope.selectedFilters.selectedApp = defaultFilters.appName;
+    $scope.selectedFilters.selectedApp = [defaultFilters.appName, defaultFilters.appName];
     $scope.selectedFilters.selectedVersion = defaultFilters.appVersion;
     $scope.selectedFilters.selectedStatus = defaultFilters.caseStatus;
     $scope.defaultFilters = defaultFilters;
@@ -83,31 +83,40 @@
       $scope.apps = processes;
       var appNamesArray = processes.map(function(process) {
         if ($scope.selectedFilters.processId && $scope.selectedFilters.processId === process.id) {
-          $scope.selectedFilters.selectedApp = process.displayName;
-          vm.filterVersion($scope.selectedFilters.selectedApp);
+          $scope.selectedFilters.selectedApp = [process.name, process.displayName];
+          vm.filterVersion($scope.selectedFilters.selectedApp[0], $scope.selectedFilters.selectedApp[1]);
           $scope.selectedFilters.selectedVersion = process.version;
         }
-        return process.displayName;
+        return [process.name, process.displayName];
       });
-      appNamesArray.forEach(function(processName) {
-        if (processName && $.inArray(processName, $scope.appNames) < 0) {
-          $scope.appNames.push(processName);
+      appNamesArray.forEach(function(process) {
+        if (process && process[0] && process[1] && !isAppInArray(process, $scope.appNames)) {
+          $scope.appNames.push(process);
         }
       });
     };
+
+    function isAppInArray(app, array) {
+      for (var i = 0; i < array.length; i++) {
+        if(array[i][0] === app[0] && array[i][1] === app[1]) {
+          return true;
+        }
+      }
+      return false;
+    }
 
     store.load(processAPI, {
       f: processFilter
     }).then(vm.initFilters);
 
-    vm.selectApp = function(selectedAppName) {
-      if (selectedAppName) {
-        if (selectedAppName !== $scope.selectedFilters.selectedApp) {
-          $scope.selectedFilters.selectedApp = selectedAppName;
+    vm.selectApp = function(selectedAppName, selectedAppDisplayName) {
+      if (selectedAppName && selectedAppDisplayName) {
+        if (selectedAppName !== $scope.selectedFilters.selectedApp[0] || selectedAppDisplayName !== $scope.selectedFilters.selectedApp[1]) {
+          $scope.selectedFilters.selectedApp = [selectedAppName, selectedAppDisplayName];
         }
         //selected App is the same than before, do nothing
       } else {
-        $scope.selectedFilters.selectedApp = defaultFilters.appName;
+        $scope.selectedFilters.selectedApp = [defaultFilters.appName, defaultFilters.appName];
       }
     };
 
@@ -127,12 +136,12 @@
       }
     };
 
-    vm.filterVersion = function(appName) {
+    vm.filterVersion = function(appName, appDisplayName) {
       $scope.versions = [];
       $scope.selectedFilters.selectedVersion = defaultFilters.appVersion;
       if ($scope.apps && $scope.apps.filter) {
         $scope.versions = $scope.apps.filter(function(app) {
-          return app && app.displayName === appName && app.version;
+          return app && app.name === appName && app.displayName === appDisplayName && app.version;
         }).map(function(app) {
           return app.version;
         });
@@ -145,7 +154,7 @@
     vm.filterProcessDefinition = function(selectedAppVersion) {
       if (selectedAppVersion && $scope.selectedFilters.selectedApp && $scope.apps) {
         var matchingProcessDefs = $scope.apps.filter(function(app) {
-          return app && app.displayName === $scope.selectedFilters.selectedApp && selectedAppVersion === app.version;
+          return app && app.name === $scope.selectedFilters.selectedApp[0] && app.displayName === $scope.selectedFilters.selectedApp[1] && selectedAppVersion === app.version;
         });
         if (matchingProcessDefs && matchingProcessDefs.length) {
           $scope.selectedFilters.selectedProcessDefinition = matchingProcessDefs[0] && matchingProcessDefs[0].id;
@@ -165,9 +174,9 @@
     //it will not be mockable
     $scope.$watch('selectedFilters.selectedApp', function() {
       if (!$scope.selectedFilters.processId) {
-        vm.filterVersion($scope.selectedFilters.selectedApp);
+        vm.filterVersion($scope.selectedFilters.selectedApp[0], $scope.selectedFilters.selectedApp[1]);
         delete $scope.selectedFilters.selectedProcessDefinition;
-      } else if ($scope.selectedFilters.selectedApp !== defaultFilters.appName) {
+      } else if ($scope.selectedFilters.selectedApp[0] !== defaultFilters.appName) {
         delete $scope.selectedFilters.processId;
       }
     });

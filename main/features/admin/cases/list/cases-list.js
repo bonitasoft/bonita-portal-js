@@ -80,6 +80,12 @@
   function CaseListCtrl($scope, caseAPI, casesColumns, defaultPageSize, defaultSort, defaultDeployedFields, defaultCounterFields, $location, $stateParams, pageSizes, defaultFilters, dateParser, $anchorScroll, growl, moreDetailToken, tabName, manageTopUrl, processId, supervisorId, caseStateFilter, FeatureManager) {
     var vm = this;
     var modeDetailProcessToken = 'processmoredetailsadmin';
+    var defaultFiltersArray = [];
+    if (supervisorId) {
+      defaultFiltersArray.push('supervisor_id=' + supervisorId);
+      moreDetailToken = moreDetailToken.replace('admin', 'pm');
+      modeDetailProcessToken = modeDetailProcessToken.replace('admin', 'pm');
+    }
 
     /**
      * @ngdoc property
@@ -103,7 +109,8 @@
       total: 0
     };
     $scope.selectedFilters = {
-      processId: processId
+      processId: processId,
+      selectedApp: [defaultFilters.appName, defaultFilters.appName]
     };
     $scope.pageSizes = pageSizes;
     /**
@@ -116,12 +123,6 @@
     $scope.cases = undefined;
     $scope.loading = true;
 
-    var defaultFiltersArray = [];
-    if (supervisorId) {
-      defaultFiltersArray.push('supervisor_id=' + supervisorId);
-      moreDetailToken = moreDetailToken.replace('admin', 'pm');
-      modeDetailProcessToken = modeDetailProcessToken.replace('admin', 'pm');
-    }
     $scope.processManager = +!!supervisorId;
     $scope.supervisorId = supervisorId;
 
@@ -251,8 +252,8 @@
       var filters = angular.copy(defaultFiltersArray);
       if ($scope.selectedFilters.selectedProcessDefinition) {
         filters.push('processDefinitionId=' + $scope.selectedFilters.selectedProcessDefinition);
-      } else if ($scope.selectedFilters.selectedApp && $scope.selectedFilters.selectedApp !== defaultFilters.appName) {
-        filters.push('name=' + $scope.selectedFilters.selectedApp);
+      } else if ($scope.selectedFilters.selectedApp[0] && $scope.selectedFilters.selectedApp[0] !== defaultFilters.appName) {
+        filters.push('name=' + $scope.selectedFilters.selectedApp[0]);
       }
       if ($scope.selectedFilters.selectedStatus && $scope.selectedFilters.selectedStatus !== defaultFilters.caseStatus) {
         filters.push('state=' + $scope.selectedFilters.selectedStatus);
