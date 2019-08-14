@@ -74,8 +74,11 @@
         appNamesFilter.all(by.css('ul')).each(function(column){
           expect(column.isDisplayed()).toBeFalsy();
         });
-        expect(appNamesFilter.all(by.css('button')).getText()).toEqual(['Poule']);
+        expect(appNamesFilter.all(by.css('button')).getText()).toEqual(['Poule (Poule)']);
         element.all(by.xpath('//tbody//td[3]')).each(function(appNameColumn){
+          expect(appNameColumn.getText()).toBe('Poule');
+        });
+        element.all(by.xpath('//tbody//td[4]')).each(function(appNameColumn){
           expect(appNameColumn.getText()).toBe('Poule');
         });
         expect(element.all(by.css('#cases-results-size-bottom')).count()).toBe(1);
@@ -88,16 +91,19 @@
         var appFilterButton = caseFilters.all(by.css('#case-app-name-filter button'));
         appFilterButton.click();
         appNamesFilter.all(by.css('ul li')).get(4).click();
-        expect(appNamesFilter.all(by.css('button')).getText()).toEqual(['ProcessX']);
+        expect(appNamesFilter.all(by.css('button')).getText()).toEqual(['ProcessX (ProcessX)']);
         element.all(by.xpath('//tbody//td[3]')).each(function(appNameColumn){
           expect(appNameColumn.getText()).toBe('ProcessX');
         });
         element.all(by.xpath('//tbody//td[4]')).each(function(appNameColumn){
+          expect(appNameColumn.getText()).toBe('ProcessX');
+        });
+        element.all(by.xpath('//tbody//td[5]')).each(function(appNameColumn){
           expect(appNameColumn.getText()).toBe('2.0');
         });
         var versionFilterButton = caseFilters.all(by.css('#case-app-version-filter button'));
         expect(versionFilterButton.getText()).toEqual(['2.0']);
-        expect(element.all(by.css('#case-app-version-filter button')).getAttribute('disabled')).toEqual([null]);
+        expect(element.all(by.css('#case-app-version-filter button')).getAttribute('disabled')).toEqual(['true']);
         expect(element.all(by.css('#cases-results-size-bottom')).count()).toBe(1);
         expect(element.all(by.css('#cases-results-size-top')).count()).toBe(1);
         expect(element.all(by.css('#cases-results-pages')).count()).toBe(0);
@@ -119,7 +125,7 @@
         var appNamesFilterButton = caseFilters.all(by.css('#case-app-name-filter button'));
         appNamesFilterButton.click();
         appNamesFilter.all(by.css('ul li')).get(3).click();
-        expect(appNamesFilter.all(by.css('button')).getText()).toEqual(['Poule']);
+        expect(appNamesFilter.all(by.css('button')).getText()).toEqual(['Poule (Poule)']);
         var versionFilter = caseFilters.all(by.css('#case-app-version-filter'));
         var versionFilterButton = caseFilters.all(by.css('#case-app-version-filter button'));
         expect(versionFilter.getText()).toEqual(['All']);
