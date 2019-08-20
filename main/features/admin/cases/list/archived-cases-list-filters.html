@@ -9,7 +9,7 @@
             <ul class="dropdown-menu" role="menu">
               <li ng-click="filterCtrl.selectApp(defaultFilters.appName, defaultFilters.appName)"><a>{{defaultFilters.appName | translate}}</a></li>
               <li ng-if="appNames &amp;&amp; appNames.length>0" class="divider"></li>
-              <li ng-repeat="appName in appNames" ng-click="filterCtrl.selectApp(appName[0], appName[1])"><a>{{appName[0]}} ({{appName[1]}})</a></li>
+              <li ng-repeat="appName in appNames" ng-click="filterCtrl.selectApp(appName[0], appName[1])"><a>{{appName[0]}}<span ng-if="appName[1] !== appName[0]"> ({{appName[1] | translate}})</span></a></li>
             </ul>
           </div>
         </span>

@@ -51,8 +51,8 @@
               </td>
 
               <td class="text-right case-detail"><a id="case-detail-link-{{case.id}}" target="_parent" href="{{::caseCtrl.getLinkToCase(case)}}">{{case['ID']}}</a></td>
-                <td class="case-detail"><a id="case-process-link-{{case.id}}" target="_parent" href="{{::caseCtrl.getLinkToProcess(case)}}">{{case.processDefinitionId.name}}</a></td>
-                <td class="case-detail"><a id="case-process-link-{{case.id}}" target="_parent" href="{{::caseCtrl.getLinkToProcess(case)}}">{{case.processDefinitionId.displayName}}</a></td>
+              <td class="case-detail"><a id="case-process-link-{{case.id}}" target="_parent" href="{{::caseCtrl.getLinkToProcess(case)}}">{{case.processDefinitionId.name}}</a></td>
+              <td class="case-detail"><a id="case-process-display-name-link-{{case.id}}" target="_parent" href="{{::caseCtrl.getLinkToProcess(case)}}">{{case.processDefinitionId.displayName}}</a></td>
               <td class="case-detail">{{::case['Version']}}</td>
               <td class="case-detail">{{::caseCtrl.parseAndFormat(case['Start date'])}}</td>
               <td class="case-detail" title="{{'username:' | translate}} {{::case['Started by'] || ('System' | translate)}}">{{::case['Started by fullname'] || ('System' | translate)}}</td>
@@ -127,7 +127,7 @@
 
               <td class="case-detail text-right"><a id="case-detail-link-{{case.id}}" target="_parent" href="{{::caseCtrl.getLinkToCase(case)}}">{{case['ID']}}</a></td>
               <td class="case-detail"><a id="case-process-link-{{case.id}}" target="_parent" href="{{::caseCtrl.getLinkToProcess(case)}}">{{case.processDefinitionId.name}}</a></td>
-              <td class="case-detail"><a id="case-process-link-{{case.id}}" target="_parent" href="{{::caseCtrl.getLinkToProcess(case)}}">{{case.processDefinitionId.displayName}}</a></td>
+              <td class="case-detail"><a id="case-process-display-name-link-{{case.id}}" target="_parent" href="{{::caseCtrl.getLinkToProcess(case)}}">{{case.processDefinitionId.displayName}}</a></td>
               <td class="case-detail">{{::case['Version']}}</td>
               <td class="case-detail">{{::caseCtrl.parseAndFormat(case['Start date'])}}</td>
               <td class="case-detail" title="{{'username:' | translate}} {{::case['Started by'] || ('System' | translate)}}">{{::case['Started by fullname'] || ('System' | translate)}}</td>
