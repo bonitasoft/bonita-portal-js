@@ -4,11 +4,11 @@
     <div class="col-md-9">
         <span class="button-filter">{{'Process' | translate}} <span id="infoPopover" class="glyphicon glyphicon-info-sign" popover="{{'This filters the case list only by process name. The display name is shown for information purposes. ' | translate}}" popover-trigger="mouseenter"></span>
           <div class="btn-group" dropdown id="case-app-name-filter">
-            <button type="button" dropdown-toggle class="btn btn-primary dropdown-toggle">{{selectedFilters.selectedApp[0] | translate}} <span ng-if="selectedFilters.selectedApp[0] !== defaultFilters.appName">({{selectedFilters.selectedApp[1] | translate}})</span> <span class="caret"></span></button>
+            <button type="button" dropdown-toggle class="btn btn-primary dropdown-toggle">{{selectedFilters.selectedApp[1] | translate}} <span class="caret"></span></button>
             <ul class="dropdown-menu" role="menu">
               <li ng-click="filterCtrl.selectApp(defaultFilters.appName, defaultFilters.appName)"><a>{{defaultFilters.appName | translate}}</a></li>
               <li ng-if="appNames &amp;&amp; appNames.length>0" class="divider"></li>
-              <li ng-repeat="appName in appNames" ng-click="filterCtrl.selectApp(appName[0], appName[1])"><a>{{appName[1]}}</a></li>
+              <li ng-repeat="appName in appNames" ng-click="filterCtrl.selectApp(appName[0], appName[1])"><a>{{appName[0]}} <span ng-if="appName[1] !== appName[0]">({{appName[1] | translate}})</span></a></li>
             </ul>
           </div>
         </span>
