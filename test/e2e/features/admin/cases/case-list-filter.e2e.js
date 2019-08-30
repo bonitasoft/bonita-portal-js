@@ -74,7 +74,7 @@
         appNamesFilter.all(by.css('ul')).each(function(column){
           expect(column.isDisplayed()).toBeFalsy();
         });
-        expect(appNamesFilter.all(by.css('button')).getText()).toEqual(['Poule (Poule)']);
+        expect(appNamesFilter.all(by.css('button')).getText()).toEqual(['Poule']);
         element.all(by.xpath('//tbody//td[3]')).each(function(appNameColumn){
           expect(appNameColumn.getText()).toBe('Poule');
         });
@@ -91,7 +91,7 @@
         var appFilterButton = caseFilters.all(by.css('#case-app-name-filter button'));
         appFilterButton.click();
         appNamesFilter.all(by.css('ul li')).get(4).click();
-        expect(appNamesFilter.all(by.css('button')).getText()).toEqual(['ProcessX (ProcessX)']);
+        expect(appNamesFilter.all(by.css('button')).getText()).toEqual(['ProcessX']);
         element.all(by.xpath('//tbody//td[3]')).each(function(appNameColumn){
           expect(appNameColumn.getText()).toBe('ProcessX');
         });
@@ -125,7 +125,7 @@
         var appNamesFilterButton = caseFilters.all(by.css('#case-app-name-filter button'));
         appNamesFilterButton.click();
         appNamesFilter.all(by.css('ul li')).get(3).click();
-        expect(appNamesFilter.all(by.css('button')).getText()).toEqual(['Poule (Poule)']);
+        expect(appNamesFilter.all(by.css('button')).getText()).toEqual(['Poule']);
         var versionFilter = caseFilters.all(by.css('#case-app-version-filter'));
         var versionFilterButton = caseFilters.all(by.css('#case-app-version-filter button'));
         expect(versionFilter.getText()).toEqual(['All']);

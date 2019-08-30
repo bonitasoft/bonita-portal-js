@@ -239,6 +239,10 @@
   when('GET', /^\/API\/bpm\/process\/(8007855270751208272)$/).respond(require('./user/tasks/list/process8007855270751208272-mock.json'));
 
   //global
+
+  when('GET', /^\/API\/bpm\/process\?c=\d+&n=openCases&n=failedCases&o=displayName\+ASC&p=0$/).respond(require('./admin/cases/list/process-def-4.json'));
+  when('GET', /^\/API\/bpm\/process\?c=\d+&n=openCases&n=failedCases&o=displayName\+DESC&p=0$/).respond(require('./admin/cases/list/process-def-4-ordered-by-process-name.json'));
+  when('GET', /^\/API\/bpm\/process\?c=\d+&f=displayName%3DPool&.*p=0$/).respond(require('./admin/cases/list/process-def-4-filtered-by-pool-display-name.json'));
   when('GET', /^\/API\/bpm\/process\?c=\d+&.*p=0$/).respond(require('./admin/cases/list/process-def-4.json'));
   when('GET', /^\/API\/bpm\/process\?c=\d+&.*p=0&.*s=.*$/).respond(require('./admin/cases/list/process-def-4.json'));
   when('GET', /^\/API\/system\/i18ntranslation.*$/).respond([]);
