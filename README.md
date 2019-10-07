@@ -46,8 +46,9 @@ Localization keys can be extracted from source files to an .pot output file (./t
     yarn run pot
     
 ## Maven build
+
 Project can also be built using maven
 
-    mvn clean package [-Pe2e]
+    ./mvnw clean package [-Pe2e]
 
 This will build the project, package it in a zip file and, run end to end test if _e2e_ profile is activated
