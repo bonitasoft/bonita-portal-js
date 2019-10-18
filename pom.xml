@@ -7,6 +7,10 @@
     <version>7.10.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
+    <modules>
+        <module>custom-pages</module>
+    </modules>
+
     <build>
         <pluginManagement>
             <plugins>

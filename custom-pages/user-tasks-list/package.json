@@ -1,0 +1,31 @@
+{
+  "name": "user-task-list-custom-page",
+  "engines": {
+    "node": ">=4.2.0"
+  },
+  "devDependencies": {
+    "connect": "3.4.1",
+    "cross-env": "^5.1.4",
+    "gulp": "3.9.0",
+    "gulp-bower": "0.0.11",
+    "gulp-concat": "2.4.1",
+    "gulp-inject": "3.0.0",
+    "gulp-less": "3.0.5",
+    "gulp-ng-html2js": "0.1.8",
+    "gulp-protractor": "4.1.0",
+    "gulp-rename": "1.2.2",
+    "gulp-replace": "0.5.0",
+    "gulp-strip-css-comments": "1.2.0",
+    "less-plugin-csscomb": "0.0.2",
+    "rimraf": "2.5.2",
+    "serve-static": "1.10.2",
+    "wrench": "1.5.8",
+    "webdriver-manager": "12.0.6"
+  },
+  "scripts": {
+    "build": "gulp",
+    "pree2e": "webdriver-manager update --versions.standalone=3.11.0 --versions.chrome=2.38",
+    "e2e": "gulp e2e",
+    "e2e:headless": "cross-env HEADLESS=true npm run e2e"
+  }
+}
