@@ -140,8 +140,7 @@
           //click on delete
           deleteButton.click();
           var deleteModal = element(by.css('#delete-process-modal'));
-          expect(deleteModal.all(by.css('.modal-title')).getText()).toEqual(['Delete process']);
-          expect(deleteModal.all(by.css('.modal-body')).getText()).toEqual(['Delete the process Rock\'N\'Roll Process']);
+          expect(deleteModal.all(by.css('.modal-title')).getText()).toEqual(['Delete process Rock\'N\'Roll Process (6.6.6)']);
 
           expect(deleteModal.all(by.css('.btn')).get(0).getText()).toEqual('DELETE');
           expect(deleteModal.all(by.css('.btn')).get(1).getText()).toEqual('CANCEL');
