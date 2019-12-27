@@ -138,7 +138,7 @@
       expect(options.templateUrl).toEqual('features/admin/processes/details/delete-process-modal.html');
       expect(options.controller).toEqual('DeleteProcessModalInstanceCtrl');
       expect(options.controllerAs).toEqual('deleteProcessModalInstanceCtrl');
-      expect(options.size).toEqual('sm');
+      expect(options.size).toEqual('md');
       expect(options.resolve.process()).toEqual(process);
     });
 
