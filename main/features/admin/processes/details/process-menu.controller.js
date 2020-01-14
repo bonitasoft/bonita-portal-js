@@ -39,7 +39,7 @@
         templateUrl: 'features/admin/processes/details/delete-process-modal.html',
         controller: 'DeleteProcessModalInstanceCtrl',
         controllerAs: 'deleteProcessModalInstanceCtrl',
-        size: 'sm',
+        size: 'md',
         resolve: {
           process: function () {
             return process;
