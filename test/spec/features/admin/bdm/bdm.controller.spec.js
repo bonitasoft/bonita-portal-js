@@ -206,10 +206,10 @@
       expect(ctrl.isBDMInstallProcessing).toEqual(false);
       expect(ctrl.isBDMInstallSuccessfull).toEqual(true);
       expect(ctrl.isAccessControlAvailable).toEqual(true);
-      expect(ctrl.isBDMInstallError).toEqual(false);
+      expect(ctrl.isBDMInstallError).toEqual('');
     });
 
-    it('should display error message when BDM install fail', function () {
+    it('should display error 500 message when BDM install fail', function () {
       var ctrl = bdmCtrl();
       getTenantStatusRequest.resolve({'paused': 'true'});
       getBDMRequest.resolve({'data': {'state': INSTALLED}});
@@ -224,7 +224,7 @@
       expect(bdmAPI.save).toHaveBeenCalled();
       expect(ctrl.isBDMInstallProcessing).toEqual(true);
 
-      installRequest.reject();
+      installRequest.reject({'status':500});
       scope.$apply();
 
       expect(bdmAPI.get).toHaveBeenCalled();
@@ -232,7 +232,33 @@
       expect(ctrl.isBDMInstallProcessing).toEqual(false);
       expect(ctrl.isBDMInstallSuccessfull).toEqual(false);
       expect(ctrl.isAccessControlAvailable).toEqual(false);
-      expect(ctrl.isBDMInstallError).toEqual(true);
+      expect(ctrl.isBDMInstallError).toEqual(500);
+    });
+
+    it('should display error 400 message when BDM is invalid', function () {
+      var ctrl = bdmCtrl();
+      getTenantStatusRequest.resolve({'paused': 'true'});
+      getBDMRequest.resolve({'data': {'state': INSTALLED}});
+      ctrl.openBDMUpload();
+      modalOpenDeferred.resolve();
+
+      scope.$apply();
+      addBDMPopupCtrl.closeModalSuccess();
+
+      scope.$apply();
+      expect(modalInstance.close).toHaveBeenCalled();
+      expect(bdmAPI.save).toHaveBeenCalled();
+      expect(ctrl.isBDMInstallProcessing).toEqual(true);
+
+      installRequest.reject({'status':400});
+      scope.$apply();
+
+      expect(bdmAPI.get).toHaveBeenCalled();
+
+      expect(ctrl.isBDMInstallProcessing).toEqual(false);
+      expect(ctrl.isBDMInstallSuccessfull).toEqual(false);
+      expect(ctrl.isAccessControlAvailable).toEqual(false);
+      expect(ctrl.isBDMInstallError).toEqual(400);
     });
 
     it('Should reset all messages when open install popup ', function () {
@@ -249,7 +275,7 @@
 
       expect(ctrl.isBDMInstallProcessing).toEqual(false);
       expect(ctrl.isBDMInstallSuccessfull).toEqual(false);
-      expect(ctrl.isBDMInstallError).toEqual(false);
+      expect(ctrl.isBDMInstallError).toEqual('');
     });
 
   });
