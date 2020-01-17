@@ -41,18 +41,19 @@
                 <translate>Take</translate>
             </button>
         </div>
-      <bonita-iframe-viewer class="FormViewer"
+        <bonita-iframe-viewer class="FormViewer"
                             tabindex="0"
                             ng-if="!isInactive() && hasForm && !loading"
                             is-editable="isEditable()"
                             frame-url="formUrl">
-      </bonita-iframe-viewer>
-      <no-form class="FormViewer"
+        </bonita-iframe-viewer>
+        <no-form class="FormViewer"
                ng-if="!hasForm && !loading"
                current-task="currentTask"
                editable="isEditable()"
-               inactive="isInactive()">
-      </no-form>
+               inactive="isInactive()"
+               has-contract="hasContract">
+        </no-form>
     </div>
   </tab>
 
