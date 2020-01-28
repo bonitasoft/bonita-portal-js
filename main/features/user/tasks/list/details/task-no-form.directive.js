@@ -23,7 +23,8 @@
       scope: {
         currentTask: '=',
         editable: '=',
-        inactive: '='
+        inactive: '=',
+        hasContract: '='
       },
       link: function(scope) {
 

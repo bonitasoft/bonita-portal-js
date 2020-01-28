@@ -188,6 +188,12 @@
         data: data
       });
     };
+    userTaskAPI.getContract = function(taskId) {
+      return $http({
+        url: API_PATH + 'bpm/userTask/'+ taskId +'/contract',
+        method: 'GET'
+      });
+    };
     return userTaskAPI;
   });
 
