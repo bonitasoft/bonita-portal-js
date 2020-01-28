@@ -20,7 +20,7 @@
     var INSTALLING = 'INSTALLING';
 
     vm.isBDMInstallSuccessfull = false;
-    vm.isBDMInstallError = false;
+    vm.isBDMInstallError = '';
     vm.isBDMInstallProcessing = false;
     vm.isAccessControlAvailable = false;
     vm.bdm = {};
@@ -120,15 +120,15 @@
       }, 10000);
     }
 
-    function bdmErrorInstall() {
+    function bdmErrorInstall(response) {
       loadBdmStatus();
       vm.isBDMInstallProcessing = false;
-      vm.isBDMInstallError = true;
+      vm.isBDMInstallError = response.status;
     }
 
     function resetActionsStatus() {
       vm.isBDMInstallSuccessfull = false;
-      vm.isBDMInstallError = false;
+      vm.isBDMInstallError = '';
       vm.isBDMInstallProcessing = false;
     }
   }

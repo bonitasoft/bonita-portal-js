@@ -4,11 +4,11 @@
 
   describe('Task details controller', () => {
 
-    let taskListStore, taskDetailsHelper, processAPI, formMappingAPI, controller, scope, $q, $rootScope;
+    let taskListStore, taskDetailsHelper, processAPI, formMappingAPI, userTaskAPI, controller, scope, $q, $rootScope;
 
   beforeEach(module('org.bonitasoft.features.user.tasks.details'));
 
-  beforeEach(inject(function(_taskListStore_, _taskDetailsHelper_, _processAPI_, _formMappingAPI_, $controller, _$q_, _$rootScope_) {
+  beforeEach(inject(function(_taskListStore_, _taskDetailsHelper_, _processAPI_, _formMappingAPI_, _userTaskAPI_, $controller, _$q_, _$rootScope_) {
     $q = _$q_;
     $rootScope = _$rootScope_;
     taskListStore = _taskListStore_;
@@ -24,10 +24,16 @@
     formMappingAPI = _formMappingAPI_;
     spyOn(formMappingAPI, 'search').and.callFake(function() {
       var deferred = $q.defer();
-      deferred.resolve({resource: {0: {target: 'INTERNAL'}, pagination: {total: 1}}});
+      deferred.resolve({resource: {0: {target: 'NONE'}, pagination: {total: 1}}});
       return {
         $promise: deferred.promise
       };
+    });
+    userTaskAPI = _userTaskAPI_;
+    spyOn(userTaskAPI, 'getContract').and.callFake(function() {
+      var deferred = $q.defer();
+      deferred.resolve({data: {inputs: [{type:'TEXT', description:null, name: 'input1', multiple:false, inputs:[]}]}});
+      return deferred.promise;
     });
     taskDetailsHelper = _taskDetailsHelper_;
     spyOn(taskDetailsHelper, 'takeReleaseTask').and.callFake(function(task) {
@@ -66,22 +72,26 @@
     expect(scope.refresh).toHaveBeenCalled();
   });
 
-  it('should not check mapping when the current task did not change', function() {
+  it('should not check mapping and contract when the current task did not change', function() {
     /*jshint camelcase: false*/
     $rootScope.$apply();
     var formMappingCalls = formMappingAPI.search.calls.count();
+    var userTaskContractCalls = userTaskAPI.getContract.calls.count();
     scope.currentTask = {id: 1, name: 'task1', selected: false, processId: 42, type: 'USER_TASK'};
     $rootScope.$apply();
     expect(formMappingAPI.search.calls.count()).toBe(formMappingCalls);
+    expect(userTaskAPI.getContract.calls.count()).toBe(userTaskContractCalls);
   });
 
-  it('should check mapping when the current task changes', function() {
+  it('should check mapping and contract when the current task changes', function() {
     /*jshint camelcase: false*/
     $rootScope.$apply();
     var formMappingCalls = formMappingAPI.search.calls.count();
+    var userTaskContractCalls = userTaskAPI.getContract.calls.count();
     scope.currentTask = {id: 2, name: 'task2', selected: true, processId: 42, type: 'USER_TASK'};
     $rootScope.$apply();
     expect(formMappingAPI.search.calls.count()).toBe(formMappingCalls + 1);
+    expect(userTaskAPI.getContract.calls.count()).toBe(userTaskContractCalls + 1);
   });
 
   it('should select form tab by default', () => {

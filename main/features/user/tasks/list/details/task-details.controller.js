@@ -6,7 +6,7 @@
     .module('org.bonitasoft.features.user.tasks.details')
     .controller('TaskDetailsCtrl', TaskDetailsCtrl);
 
-  function TaskDetailsCtrl($scope, iframe, taskListStore, taskDetailsHelper, processAPI, formMappingAPI, TASK_FILTERS) {
+  function TaskDetailsCtrl($scope, iframe, taskListStore, taskDetailsHelper, processAPI, formMappingAPI, userTaskAPI, TASK_FILTERS) {
     $scope.isAssignable = isAssignable;
     $scope.isEditable = isEditable;
     $scope.isInactive = isInactive;
@@ -23,6 +23,7 @@
 
     $scope.hasOverview = false;
     $scope.hasForm = false;
+    $scope.hasContract = false;
 
     // Watch the currentCase
     $scope.$watch(function() {
@@ -107,21 +108,46 @@
         c: 1,
         f: ['processDefinitionId=' + $scope.currentTask.processId, 'task=' + $scope.currentTask.name, 'type=TASK']
       }).$promise.then(function (response) {
-          $scope.hasForm = hasFormMapping(response);
-          if ($scope.hasForm && !hideForm()) {
+        $scope.hasForm = hasFormMapping(response);
+        if (!hideForm()) {
+          if ($scope.hasForm) {
             /*jshint camelcase: false*/
-            return processAPI
-              .get({
-                id: $scope.currentTask.processId
-              })
+            return processAPI.get({
+              id: $scope.currentTask.processId
+            })
               .$promise.then(function (data) {
                 // Load the task informatioin for the iframe
                 $scope.formUrl = iframe.getTaskForm(data, $scope.currentTask, taskListStore.user.user_id, false);
+              })
+              .finally(function () {
+                $scope.loading = false;
               });
+          } else {
+            fetchTaskContract();
           }
-        })
+        } else {
+          $scope.loading = false;
+        }
+      })
         .catch(function () {
           $scope.hasForm = false;
+          fetchTaskContract();
+        });
+    }
+
+    /**
+     * Check the task has a contract not empty and set hasContract accordingly and loading to false
+     */
+    function fetchTaskContract() {
+      userTaskAPI.getContract($scope.currentTask.id).then(function (response) {
+        if (response.data && response.data.inputs && response.data.inputs.length > 0) {
+          $scope.hasContract = true;
+        } else {
+          $scope.hasContract = false;
+        }
+      })
+        .catch(function () {
+          $scope.hasContract = false;
         })
         .finally(function () {
           $scope.loading = false;
