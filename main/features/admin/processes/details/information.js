@@ -38,10 +38,14 @@
       return category.name;
     });
     vm.categories = categories;
+    vm.processActivationState = '';
 
     vm.openProcessCategoryManagementModal = openProcessCategoryManagementModal;
     vm.updateTagsAndAlertUser = updateTagsAndAlertUser;
     vm.isProcessResolved = isProcessResolved;
+    vm.getUserInfo = getUserInfo;
+
+    $scope.$on('activation.state.change', changeStateEvent);
 
     function openProcessCategoryManagementModal() {
       var modalInstance = $modal.open({
@@ -87,6 +91,14 @@
 
     function isProcessResolved() {
       return vm.process.configurationState === 'RESOLVED';
+    }
+
+    function getUserInfo(user) {
+      return user.firstname && user.lastname ? user.firstname + ' ' + user.lastname : user.userName;
+    }
+
+    function changeStateEvent(event, args) {
+      vm.process.activationState = args.newState;
     }
   }
 })();

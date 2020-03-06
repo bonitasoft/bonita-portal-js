@@ -82,10 +82,18 @@
 
         describe('Enable/Disable Button', function() {
           it('should disable process and enable delete then enable process and disable delete', function() {
-            element(by.css('.bonita-toggle')).click();
+            element(by.buttonText('Disable')).click();
             expect(processDetails.all(by.css('.actions #processDetails-deleteProcess')).get(0).getAttribute('disabled')).toEqual(null);
-            element(by.css('.bonita-toggle')).click();
+            element(by.buttonText('Enable')).click();
             expect(processDetails.all(by.css('.actions #processDetails-deleteProcess')).get(0).getAttribute('disabled')).toEqual('true');
+          });
+
+          it('should update state and button informations when button is pressed', function() {
+            element(by.buttonText('Disable')).click();
+            // This also checks if the button has changed it's label, since if the button is not found, the label has not changed
+            expect(element(by.buttonText('Enable')).getAttribute('id')).toEqual('processDetails-enableProcess');
+            element(by.buttonText('Enable')).click();
+            expect(element(by.buttonText('Disable')).getAttribute('id')).toEqual('processDetails-disableProcess');
           });
         });
 

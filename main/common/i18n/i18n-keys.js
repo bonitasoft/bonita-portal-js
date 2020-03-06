@@ -72,6 +72,8 @@
       I18N_KEYS['application.edit.reservedTokenError'] = gettext('The words \'content\', \'API\' and \'theme\' are reserved for internal use. They must not be used in an application or page URL.');
       I18N_KEYS['processDetails.start.success'] = gettext('The case {{caseId}} has been started successfully.');
       I18N_KEYS['processDetails.start.error'] = gettext('Error while trying to start the case. Some required information is missing (contract not fulfilled).');
+      I18N_KEYS['processDetails.state.button.enable'] = gettext('Enable');
+      I18N_KEYS['processDetails.state.button.disable'] = gettext('Disable');
     });
 
 })();

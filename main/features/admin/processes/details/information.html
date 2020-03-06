@@ -3,24 +3,38 @@
   <div class="panel panel-default">
     <div class="panel-body">
       <div class="col-md-12 row">
-        <div class="metatags-label form-group">{{ 'Configuration state' | translate }}
-          <b>{{::processInformationCtrl.process.configurationState}}</b>
+        <div class="metatags-label form-group">
+          {{ 'Process id' | translate }}
+          <b>{{::processInformationCtrl.process.id}}</b>
+        </div>
+        <div class="metatags-label form-group">
+          {{ 'Configuration state' | translate }}
+          <b>{{processInformationCtrl.process.configurationState}}</b>
         </div>
         <div class="metatags-label  form-group">
           {{ 'Activation state' | translate }}&nbsp;
-              <toggle-button on="Enabled" off="Disabled" process-id="{{::processInformationCtrl.process.id}}" initial-state="{{::processInformationCtrl.process.activationState === 'ENABLED'}}" enable-toggle="processInformationCtrl.isProcessResolved()"></toggle-button>
-        </div>
-        <div class="metatags-label form-group">
-            {{ 'Updated on' | translate }}
-            <b >{{::processInformationCtrl.parseAndFormat(processInformationCtrl.process.last_update_date)}}</b>
+          <b>{{processInformationCtrl.process.activationState}}</b>
         </div>
       </div>
       <div class="col-md-12 row">
-
         <p ng-if="processInformationCtrl.process.description" >{{processInformationCtrl.process.description}}</p>
         <p class="text-muted" ng-if="!processInformationCtrl.process.description" >{{'No description.' | translate}}</p>
       </div>
-      <div class="col-md-12 row">
+        <div class="col-md-12 row">
+            <div class="metatags-label form-group">
+                {{ 'Installed on' | translate }}
+                <b>{{::processInformationCtrl.parseAndFormat(processInformationCtrl.process.deploymentDate)}}</b>
+            </div>
+            <div class="metatags-label form-group">
+                {{ 'Installed by' | translate }}
+                <b>{{::processInformationCtrl.getUserInfo(processInformationCtrl.process.deployedBy)}}</b>
+            </div>
+            <div class="metatags-label form-group">
+                {{ 'Updated on' | translate }}
+                <b >{{processInformationCtrl.parseAndFormat(processInformationCtrl.process.last_update_date)}}</b>
+            </div>
+        </div>
+        <div class="col-md-12 row">
         <div class="col-md-12 row categories">
           <div class="col-md-2 row metatags-label">
           {{'Categories' | translate}} <button class="btn btn-primary" ng-click="processInformationCtrl.openProcessCategoryManagementModal()"><span class="glyphicon glyphicon-pencil"></span></button>

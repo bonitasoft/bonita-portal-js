@@ -5,6 +5,12 @@
     </div>
     <div class="col-md-10 text-right">
       <start-for process="processMenuCtrl.process"></start-for>&nbsp;
+      <button id="{{processMenuCtrl.getProcessStatusButtonId()}}"
+              type="button"
+              class="btn btn-success"
+              ng-click="processMenuCtrl.changeProcessState()">
+          {{processMenuCtrl.getNewButtonLabel()}}
+      </button>
       <button id="processDetails-deleteProcess"
               type="button"
               class="btn btn-default"

@@ -88,7 +88,6 @@
       expect(processMenuCtrl.includesCurrentState('parameter')).toBeTruthy();
       expect(state.includes).toHaveBeenCalledWith('parameter');
       expect(scope.$on.calls.allArgs()).toEqual([
-        ['button.toggle', processMenuCtrl.toggleProcessActivation],
         ['process.refresh', processMenuCtrl.refreshProcess]
       ]);
     });
@@ -96,12 +95,14 @@
     it('toggleProcessActivation should update process via REST API and process in view model', function () {
       var deferred = q.defer();
       process.id = 45654;
+      process.activationState = 'DISABLED';
       processAPI.update.and.returnValue({
         $promise: deferred.promise
       });
-      processMenuCtrl.toggleProcessActivation({}, {
-        value: true
-      });
+      // change process state, expect toggle process activation to be called with enabled
+      // maybe also check if the other functions have been called
+      scope.$apply();
+      processMenuCtrl.changeProcessState();
       deferred.resolve();
       scope.$apply();
       expect(processAPI.update.calls.count()).toEqual(1);
@@ -111,9 +112,7 @@
       }]);
       expect(process.activationState).toEqual('ENABLED');
       processAPI.update.calls.reset();
-      processMenuCtrl.toggleProcessActivation({}, {
-        value: false
-      });
+      processMenuCtrl.changeProcessState();
       scope.$apply();
       expect(processAPI.update.calls.count()).toEqual(1);
       expect(processAPI.update.calls.mostRecent().args).toEqual([{
