@@ -138,7 +138,7 @@
           expect(mainActionButtons.get(0).getAttribute('ng-click')).toEqual('processMenuCtrl.goBack()');
 
           expect(processDetails.all(by.css('h1')).getText()).toEqual(['Rock\'N\'Roll Process To Display (6.6.6)']);
-          expect(processDetails.all(by.css('.panel-danger > div')).getText()).toEqual(['The Process cannot be enabled', 'Actors must be resolved before enabling the Process.\nParameters must be resolved before enabling the Process.']);
+          expect(processDetails.all(by.css('.panel-danger > div')).getText()).toEqual(['This process is not fully configured. It cannot be enabled.', 'Actors must be resolved before enabling the Process.\nParameters must be resolved before enabling the Process.']);
         });
       });
       describe('Delete button', function() {
@@ -152,6 +152,24 @@
 
           expect(deleteModal.all(by.css('.btn')).get(0).getText()).toEqual('DELETE');
           expect(deleteModal.all(by.css('.btn')).get(1).getText()).toEqual('CANCEL');
+        });
+      });
+    });
+
+    describe('Unresolved enabled Process', function() {
+
+      beforeEach(function() {
+        browser.get('#/admin/processes/details/101');
+        processDetails = element(by.css('#process-details'));
+        //browser.debugger(); //launch protractor with debug option and use 'c' in console to continue test execution
+      });
+
+      describe('main elements', function() {
+        it('should change error message depending on activation state', function() {
+          expect(processDetails.all(by.css('.panel-danger > div')).get(0).getText()).toEqual('This process is not fully configured, but it is still enabled. Users may still be able to start cases or do tasks, which may lead to errors.');
+          element(by.buttonText('Disable')).click();
+          expect(processDetails.all(by.css('.panel-danger > div')).get(0).getText()).toEqual('This process is not fully configured. It cannot be enabled.');
+          expect(element(by.buttonText('Enable')).isEnabled()).toBe(false);
         });
       });
     });

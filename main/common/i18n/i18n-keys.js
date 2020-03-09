@@ -64,7 +64,7 @@
       I18N_KEYS['processDetails.problemResolution.message.parameter'] = gettext('Parameters must be resolved before enabling the Process.');
       I18N_KEYS['processDetails.problemResolution.message.businessData'] = gettext('The business data: [ {} ] uses Business Objects which are not defined in the current Business Data model. Deploy a compatible Business Data model before enabling the process.');
       I18N_KEYS['processDetails.problemResolution.message.formMapping'] = gettext('The form mappings must be resolved before enabling the Process.');
-      I18N_KEYS['processDetails.problemResolution.title'] = gettext('The Process cannot be enabled');
+      I18N_KEYS['processDetails.problemResolution.title'] = gettext('This process is not fully configured.');
       I18N_KEYS['processDetails.problemResolution.resource.caseOverview'] = gettext('Case overview');
       I18N_KEYS['processDetails.problemResolution.resource.caseStart'] = gettext('Case start');
       I18N_KEYS['processDetails.scripts.update.success'] = gettext('Expression content has been updated');
