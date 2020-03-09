@@ -23,6 +23,7 @@
     vm.changeProcessState = changeProcessState;
     vm.getProcessStatusButtonId = getProcessStatusButtonId;
     vm.getNewButtonLabel = getNewButtonLabel;
+    vm.canProcessBeEnabled = canProcessBeEnabled;
     vm.ENABLED = 'ENABLED';
     vm.DISABLED = 'DISABLED';
     vm.Enable = i18nService.getKey('processDetails.state.button.enable');
@@ -97,6 +98,10 @@
 
     function getNewButtonLabel() {
       return process.activationState.toLowerCase() === vm.ENABLED.toLowerCase() ? vm.Disable : vm.Enable;
+    }
+
+    function canProcessBeEnabled() {
+      return process.activationState.toLowerCase() === vm.DISABLED.toLowerCase() && vm.processResolutionProblems.length > 0;
     }
   }
 })();

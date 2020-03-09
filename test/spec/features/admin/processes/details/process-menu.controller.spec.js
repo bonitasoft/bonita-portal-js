@@ -70,7 +70,6 @@
       });
     });
 
-
     it('should call browser history on back function', function () {
       processMenuCtrl.goBack();
       expect($window.history.back).toHaveBeenCalled();
@@ -141,7 +140,6 @@
       expect(options.resolve.process()).toEqual(process);
     });
 
-
     it('should open the deletion modal when delete button is clicked', function () {
       modal.open.and.returnValue({result: q.when({})});
 
@@ -186,7 +184,6 @@
       scope.$apply();
       expect(modal.open).toHaveBeenCalled();
     });
-
 
     it('should find the resolution message of a given problem type', function () {
       processMenuCtrl.processResolutionProblems = [];

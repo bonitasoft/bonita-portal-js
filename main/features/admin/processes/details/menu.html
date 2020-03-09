@@ -8,6 +8,7 @@
       <button id="{{processMenuCtrl.getProcessStatusButtonId()}}"
               type="button"
               class="btn btn-success"
+              ng-disabled="processMenuCtrl.canProcessBeEnabled()"
               ng-click="processMenuCtrl.changeProcessState()">
           {{processMenuCtrl.getNewButtonLabel()}}
       </button>
@@ -25,7 +26,8 @@
   </div>
   <div class="col-md-12" style="padding-top: 10px;">
     <div ng-if="processMenuCtrl.processResolutionProblems.length" style=" padding-bottom: 0px;" class="panel panel-danger slide">
-      <div class="panel-heading"><span class="glyphicon glyphicon-exclamation-sign"></span> {{ 'The Process cannot be enabled' | translate }}</div>
+      <div class="panel-heading" ng-if="processMenuCtrl.process.activationState === processMenuCtrl.DISABLED"><span class="glyphicon glyphicon-exclamation-sign"></span> {{ 'This process is not fully configured. It cannot be enabled.' | translate }}</div>
+      <div class="panel-heading" ng-if="processMenuCtrl.process.activationState === processMenuCtrl.ENABLED"><span class="glyphicon glyphicon-exclamation-sign"></span> {{ 'This process is not fully configured, but it is still enabled. Users may still be able to start cases or do tasks, which may lead to errors.' | translate }}</div>
       <div class="panel-body">
         <div class="col-md-12">
           <ul>

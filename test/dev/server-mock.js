@@ -152,8 +152,10 @@
   when('GET', /^\/API\/bpm\/archivedCase\?c=25&d=processDefinitionId&d=started_by&d=startedBySubstitute&f=name%3DPoule&f=user_id%3D1&f=started_by%3D1&o=sourceObjectId\+DESC&p=0&s=$/).respond([]);
 
   //process details
+  when('GET', /^\/API\/bpm\/process\/101\?d=deployedBy&n=openCases&n=failedCases$/).respond(require('./admin/processes/details/process-def-101.json'));
   when('GET', /^\/API\/bpm\/process\/321\?d=deployedBy&n=openCases&n=failedCases$/).respond(require('./admin/processes/details/process-def-321.json'));
   when('GET', /^\/API\/bpm\/process\/789\?d=deployedBy&n=openCases&n=failedCases$/).respond(require('./admin/processes/details/process-def-789.json'));
+  when('GET', /^\/API\/bpm\/category\?c=\d+&f=id%3D101&p=\d+$/).respond([]);
   when('GET', /^\/API\/bpm\/category\?c=\d+&f=id%3D321&p=\d+$/).respond(require('./admin/processes/details/process-categories-321.json'));
   when('GET', /^\/API\/bpm\/category\?c=\d+&p=\d+$/).respond(require('./admin/processes/details/categories.json'));
   when('GET', /^\/API\/bpm\/category\?c=\d+&f=id%3D789&p=\d+$/).respond([]);
@@ -161,6 +163,11 @@
   when('GET', /^\/API\/bpm\/processConnector\?c=\d+&f=process_id%3D321&p=\d+$/).respond([]);
   when('GET', /^\/API\/bpm\/processParameter\?c=\d+&f=process_id%3D321&(.*&)?p=\d+$/).respond(require('./admin/processes/details/process-parameters-321.json'));
   when('GET', /^\/API\/form\/mapping\?c=\d+&f=processDefinitionId%3D321&(.*&)?p=\d+$/).respond(require('./admin/processes/details/process-form-mappings-321.json'));
+  when('GET', /^\/API\/bpm\/processResolutionProblem\?c=\d+&f=process_id%3D101&p=\d+$/).respond([{
+    'target_type': 'actor'
+  }, {
+    'target_type': 'parameter'
+  }]);
   when('GET', /^\/API\/bpm\/processResolutionProblem\?c=\d+&f=process_id%3D321&p=\d+$/).respond([]);
   when('GET', /^\/API\/bpm\/processResolutionProblem\?c=\d+&f=process_id%3D789&p=\d+$/).respond([{
     'target_type': 'actor'
