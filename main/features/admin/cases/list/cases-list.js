@@ -39,7 +39,8 @@
     'org.bonitasoft.templates',
     'as.sortable',
     'org.bonitasoft.common.filters.date.parser',
-    'org.bonitasoft.service.features'
+    'org.bonitasoft.service.features',
+    'org.bonitasoft.service.applicationLink'
   ])
     .config(['growlProvider', function (growlProvider) {
       growlProvider.globalPosition('top-center');
@@ -47,13 +48,13 @@
     .controller('ActiveCaseListCtrl', ['$scope', 'caseAPI', 'casesColumns', 'defaultPageSize', 'defaultSort',
       'defaultDeployedFields', 'defaultActiveCounterFields', '$location', '$stateParams', 'pageSizes', 'defaultFilters', 'dateParser',
       '$anchorScroll', 'growl', 'moreDetailToken', 'tabName', 'manageTopUrl',
-      'processId', 'supervisorId', 'caseStateFilter', 'FeatureManager', CaseListCtrl])
+      'processId', 'supervisorId', 'caseStateFilter', 'FeatureManager', 'ApplicationLink', CaseListCtrl])
 
 
     .controller('ArchivedCaseListCtrl', ['$scope', 'archivedCaseAPI', 'archivedCasesColumns', 'defaultPageSize',
       'archivedDefaultSort', 'defaultDeployedFields', 'defaultArchivedCounterFields', '$location', '$stateParams', 'pageSizes', 'defaultFilters', 'dateParser',
       '$anchorScroll', 'growl', 'archivedMoreDetailToken', 'tabName', 'manageTopUrl',
-      'processId', 'supervisorId', 'caseStateFilter', 'FeatureManager', CaseListCtrl]);
+      'processId', 'supervisorId', 'caseStateFilter', 'FeatureManager', 'ApplicationLink', CaseListCtrl]);
 
   /**
    * @ngdoc object
@@ -77,7 +78,7 @@
    * @requires growl
    */
   /* jshint -W003 */
-  function CaseListCtrl($scope, caseAPI, casesColumns, defaultPageSize, defaultSort, defaultDeployedFields, defaultCounterFields, $location, $stateParams, pageSizes, defaultFilters, dateParser, $anchorScroll, growl, moreDetailToken, tabName, manageTopUrl, processId, supervisorId, caseStateFilter, FeatureManager) {
+  function CaseListCtrl($scope, caseAPI, casesColumns, defaultPageSize, defaultSort, defaultDeployedFields, defaultCounterFields, $location, $stateParams, pageSizes, defaultFilters, dateParser, $anchorScroll, growl, moreDetailToken, tabName, manageTopUrl, processId, supervisorId, caseStateFilter, FeatureManager, ApplicationLink) {
     var vm = this;
     var modeDetailProcessToken = 'processmoredetailsadmin';
     var defaultFiltersArray = [];
@@ -162,6 +163,7 @@
     };
 
     vm.parseAndFormat = dateParser.parseAndFormat;
+    vm.getCaseOverviewTarget = getCaseOverviewTarget;
 
     vm.updateSortField = function updateSortField(sortOptions) {
       if (!$scope.searchOptions.searchSort || sortOptions) {
@@ -203,27 +205,39 @@
       }
     };
 
+    function getCaseOverviewTarget() {
+      return ApplicationLink.isInApps ? '_self' : '_parent';
+    }
+
     vm.getLinkToCase = function (caseItem) {
-      if (caseItem) {
-        return manageTopUrl.getPath() + manageTopUrl.getSearch() + '#?id=' + caseItem.id + '&_p=' + (moreDetailToken || '') + '&' + manageTopUrl.getCurrentProfile();
+      if(caseItem) {
+        var portalUrl = manageTopUrl.getPath() + manageTopUrl.getSearch() + '#?id=' + caseItem.id + '&_p=' + (moreDetailToken || '') + '&' + manageTopUrl.getCurrentProfile();
+        var appsUrl = manageTopUrl.getPath() + '../case-details' + ApplicationLink.sanitizeSearchQuery(manageTopUrl.getSearch()) + 'id=' + caseItem.id;
+        return ApplicationLink.getLink(portalUrl, appsUrl);
       }
     };
 
     vm.getLinkToProcess = function (caseItem) {
       if (caseItem && caseItem.processDefinitionId) {
-        return manageTopUrl.getPath() + manageTopUrl.getSearch() + '#?id=' + caseItem.processDefinitionId.id + '&_p=' + (modeDetailProcessToken || '') + '&' + manageTopUrl.getCurrentProfile();
+        var portalUrl = manageTopUrl.getPath() + manageTopUrl.getSearch() + '#?id=' + caseItem.processDefinitionId.id + '&_p=' + (modeDetailProcessToken || '') + '&' + manageTopUrl.getCurrentProfile();
+        var appsUrl = manageTopUrl.getPath() + '../process-details' + ApplicationLink.sanitizeSearchQuery(manageTopUrl.getSearch()) + 'id=' + caseItem.processDefinitionId.id;
+        return ApplicationLink.getLink(portalUrl, appsUrl);
       }
     };
 
     vm.getLinkToCaseOverview = function (caseItem) {
       if (caseItem) {
-        return manageTopUrl.getPath() + manageTopUrl.getSearch() + '#?name=' + caseItem.processDefinitionId.name + '&version=' + caseItem.processDefinitionId.version + '&processDefinitionId=' + caseItem.processDefinitionId.id + '&id=' + caseItem.id + '&token=DisplayCaseForm&_p=DisplayCaseForm' + '&_pf=' + manageTopUrl.getCurrentProfile();
+        var portalUrl = manageTopUrl.getPath() + manageTopUrl.getSearch() + '#?name=' + caseItem.processDefinitionId.name + '&version=' + caseItem.processDefinitionId.version + '&processDefinitionId=' + caseItem.processDefinitionId.id + '&id=' + caseItem.id + '&token=DisplayCaseForm&_p=DisplayCaseForm' + '&_pf=' + manageTopUrl.getCurrentProfile();
+        var appsUrl = ApplicationLink.getPortalUrl() + '/portal/form/processInstance/' + caseItem.id + ApplicationLink.sanitizeSearchQuery(manageTopUrl.getSearch()) + ApplicationLink.getAppTokenParam();
+        return ApplicationLink.getLink(portalUrl, appsUrl);
       }
     };
 
     vm.getLinkToArchivedCaseOverview = function(archivedCaseItem) {
       if (archivedCaseItem) {
-        return manageTopUrl.getPath() + manageTopUrl.getSearch() + '#?name=' + archivedCaseItem.processDefinitionId.name + '&version=' + archivedCaseItem.processDefinitionId.version + '&processDefinitionId=' + archivedCaseItem.processDefinitionId.id + '&id=' + archivedCaseItem.id + '&sourceObjectId=' + archivedCaseItem.sourceObjectId + '&token=DisplayCaseForm&_p=DisplayCaseForm' + '&_pf=' + manageTopUrl.getCurrentProfile();
+        var portalUrl =  manageTopUrl.getPath() + manageTopUrl.getSearch() + '#?name=' + archivedCaseItem.processDefinitionId.name + '&version=' + archivedCaseItem.processDefinitionId.version + '&processDefinitionId=' + archivedCaseItem.processDefinitionId.id + '&id=' + archivedCaseItem.id + '&sourceObjectId=' + archivedCaseItem.sourceObjectId + '&token=DisplayCaseForm&_p=DisplayCaseForm' + '&_pf=' + manageTopUrl.getCurrentProfile();
+        var appsUrl = ApplicationLink.getPortalUrl() + '/portal/form/processInstance/' + archivedCaseItem.sourceObjectId + ApplicationLink.sanitizeSearchQuery(manageTopUrl.getSearch()) + ApplicationLink.getAppTokenParam();
+        return ApplicationLink.getLink(portalUrl, appsUrl);
       }
     };
 
