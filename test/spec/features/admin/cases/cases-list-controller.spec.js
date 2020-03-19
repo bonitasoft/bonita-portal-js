@@ -380,8 +380,8 @@
             casesCtrl.getLinkToProcess(caseItem);
             expect(casesCtrl.getLinkToCase(caseItem)).toEqual('/bonita/portal/homepage?tenant=1#?id=4568&_p=casemoredetailsadmin&_pf=2');
             expect(casesCtrl.getLinkToProcess(caseItem)).toEqual('/bonita/portal/homepage?tenant=1#?id=3987&_p=processmoredetailsadmin&_pf=2');
-            expect(manageTopUrl.getPath.calls.count()).toEqual(6);
-            expect(manageTopUrl.getSearch.calls.count()).toEqual(6);
+            expect(manageTopUrl.getPath.calls.count()).toEqual(12);
+            expect(manageTopUrl.getSearch.calls.count()).toEqual(12);
             expect(manageTopUrl.getCurrentProfile.calls.count()).toEqual(6);
           });
         });
@@ -427,8 +427,8 @@
             casesCtrl.getLinkToProcess(caseItem);
             expect(casesCtrl.getLinkToCase(caseItem)).toEqual('/bonita/portal/homepage?tenant=1#?id=4568&_p=casemoredetailspm&_pf=2');
             expect(casesCtrl.getLinkToProcess(caseItem)).toEqual('/bonita/portal/homepage?tenant=1#?id=78987&_p=processmoredetailspm&_pf=2');
-            expect(manageTopUrl.getPath.calls.count()).toEqual(6);
-            expect(manageTopUrl.getSearch.calls.count()).toEqual(6);
+            expect(manageTopUrl.getPath.calls.count()).toEqual(12);
+            expect(manageTopUrl.getSearch.calls.count()).toEqual(12);
             expect(manageTopUrl.getCurrentProfile.calls.count()).toEqual(6);
           });
 
@@ -464,9 +464,140 @@
             casesCtrl.getLinkToProcess(caseItem);
             expect(casesCtrl.getLinkToCase(caseItem)).toEqual('/bonita/portal/homepage?tenant=1#?id=4568&_p=casemoredetails&_pf=2');
             expect(casesCtrl.getLinkToProcess(caseItem)).toEqual('/bonita/portal/homepage?tenant=1#?id=54545&_p=processmoredetailspm&_pf=2');
-            expect(manageTopUrl.getPath.calls.count()).toEqual(6);
-            expect(manageTopUrl.getSearch.calls.count()).toEqual(6);
+            expect(manageTopUrl.getPath.calls.count()).toEqual(12);
+            expect(manageTopUrl.getSearch.calls.count()).toEqual(12);
             expect(manageTopUrl.getCurrentProfile.calls.count()).toEqual(6);
+          }));
+        });
+      });
+
+      describe('go to case details in app', function() {
+        var mockedWindow,
+          manageTopUrl = jasmine.createSpyObj('manageTopUrl', ['getPath', 'getSearch', 'getCurrentProfile']),
+          ApplicationLink = jasmine.createSpyObj('ApplicationLink', ['getSearch', 'sanitizeSearchQuery']);
+        ApplicationLink.getLink = function(portalUrl, appsUrl) {
+            return appsUrl;
+        };
+        beforeEach(function() {
+          mockedWindow = {
+            top: {
+              location: {}
+            }
+          };
+        });
+
+        describe('without supervisorId', function() {
+          beforeEach(function() {
+            inject(function($controller) {
+              casesCtrl = $controller('ActiveCaseListCtrl', {
+                '$scope': scope,
+                '$window': mockedWindow,
+                'manageTopUrl': manageTopUrl,
+                'ApplicationLink': ApplicationLink,
+                'processId': undefined,
+                'supervisorId': undefined,
+                'caseStateFilter': ''
+              });
+            });
+          });
+          it('should show undefined when no case is selected', function() {
+            expect(casesCtrl.getLinkToCase()).toBeUndefined();
+          });
+
+          it('should change top location to case detail', function() {
+            manageTopUrl.getPath.and.returnValue('/bonita/apps/appName/pageName/');
+            manageTopUrl.getSearch.and.returnValue('?tenant=1');
+            manageTopUrl.getCurrentProfile.and.returnValue('');
+            var caseItem = {
+              id: 123,
+              processDefinitionId: {
+                id: 321
+              }
+            };
+            ApplicationLink.sanitizeSearchQuery.and.returnValue('?tenant=1&');
+            expect(casesCtrl.getLinkToCase(caseItem)).toEqual('/bonita/apps/appName/pageName/../case-details?tenant=1&id=123');
+            expect(casesCtrl.getLinkToProcess(caseItem)).toEqual('/bonita/apps/appName/pageName/../process-details?tenant=1&id=321');
+            caseItem = {
+              id: '4568',
+              processDefinitionId: {
+                id: 3987
+              }
+            };
+            expect(casesCtrl.getLinkToCase(caseItem)).toEqual('/bonita/apps/appName/pageName/../case-details?tenant=1&id=4568');
+            expect(casesCtrl.getLinkToProcess(caseItem)).toEqual('/bonita/apps/appName/pageName/../process-details?tenant=1&id=3987');
+          });
+        });
+        describe('with supervisorId', function() {
+          beforeEach(inject(function($controller) {
+            casesCtrl = $controller('ActiveCaseListCtrl', {
+              '$scope': scope,
+              '$window': mockedWindow,
+              'manageTopUrl': manageTopUrl,
+              'ApplicationLink': ApplicationLink,
+              'processId': undefined,
+              'supervisorId': 1,
+              'caseStateFilter': ''
+            });
+          }));
+          it('should show undefined when no case is selected', function() {
+            expect(casesCtrl.getLinkToCase()).toBeUndefined();
+          });
+
+          it('should change top location hash to case detail', function() {
+            manageTopUrl.getPath.and.returnValue('/bonita/apps/appName/pageName/');
+            manageTopUrl.getSearch.and.returnValue('?tenant=1');
+            manageTopUrl.getCurrentProfile.and.returnValue('');
+            var caseItem = {
+              id: 123,
+              processDefinitionId: {
+                id: 321
+              }
+            };
+            ApplicationLink.sanitizeSearchQuery.and.returnValue('?tenant=1&');
+            expect(casesCtrl.getLinkToCase(caseItem)).toEqual('/bonita/apps/appName/pageName/../case-details?tenant=1&id=123');
+            expect(casesCtrl.getLinkToProcess(caseItem)).toEqual('/bonita/apps/appName/pageName/../process-details?tenant=1&id=321');
+            caseItem = {
+              id: '4568',
+              processDefinitionId: {
+                id: 78987
+              }
+            };
+            expect(casesCtrl.getLinkToCase(caseItem)).toEqual('/bonita/apps/appName/pageName/../case-details?tenant=1&id=4568');
+            expect(casesCtrl.getLinkToProcess(caseItem)).toEqual('/bonita/apps/appName/pageName/../process-details?tenant=1&id=78987');
+          });
+
+          it('should change top location hash to case detail', inject(function($controller) {
+            casesCtrl = $controller('ActiveCaseListCtrl', {
+              '$scope': scope,
+              '$window': mockedWindow,
+              'manageTopUrl': manageTopUrl,
+              'moreDetailToken': 'casemoredetails',
+              'processId': undefined,
+              'supervisorId': 1,
+              'caseStateFilter': ''
+            });
+
+            manageTopUrl.getPath.and.returnValue('/bonita/portal/homepage');
+            manageTopUrl.getSearch.and.returnValue('?tenant=1');
+            manageTopUrl.getCurrentProfile.and.returnValue('_pf=2');
+            var caseItem = {
+              id: 123,
+              processDefinitionId: {
+                id: 321
+              }
+            };
+            expect(casesCtrl.getLinkToCase(caseItem)).toEqual('/bonita/portal/homepage?tenant=1#?id=123&_p=casemoredetails&_pf=2');
+            expect(casesCtrl.getLinkToProcess(caseItem)).toEqual('/bonita/portal/homepage?tenant=1#?id=321&_p=processmoredetailspm&_pf=2');
+            caseItem = {
+              id: '4568',
+              processDefinitionId: {
+                id: 54545
+              }
+            };
+            casesCtrl.getLinkToCase(caseItem);
+            casesCtrl.getLinkToProcess(caseItem);
+            expect(casesCtrl.getLinkToCase(caseItem)).toEqual('/bonita/portal/homepage?tenant=1#?id=4568&_p=casemoredetails&_pf=2');
+            expect(casesCtrl.getLinkToProcess(caseItem)).toEqual('/bonita/portal/homepage?tenant=1#?id=54545&_p=processmoredetailspm&_pf=2');
           }));
         });
       });
@@ -857,10 +988,10 @@
             expect(growl.error.calls.allArgs()).toEqual([
               [
                 error.status + ' ' + error.statusText + ' ' + error.data.message, {
-                  ttl: 3000,
-                  disableCountDown: true,
-                  disableIcons: true
-                }
+                ttl: 3000,
+                disableCountDown: true,
+                disableIcons: true
+              }
               ]
             ]);
           }));
@@ -940,10 +1071,10 @@
         expect(growl.error.calls.allArgs()).toEqual([
           [
             error.status + ' ' + error.statusText + ' ' + error.errorMsg, {
-              ttl: 3000,
-              disableCountDown: true,
-              disableIcons: true
-            }
+            ttl: 3000,
+            disableCountDown: true,
+            disableIcons: true
+          }
           ]
         ]);
       });
@@ -957,10 +1088,10 @@
         expect(growl.success.calls.allArgs()).toEqual([
           [
             error.statusText, {
-              ttl: 3000,
-              disableCountDown: true,
-              disableIcons: true
-            }
+            ttl: 3000,
+            disableCountDown: true,
+            disableIcons: true
+          }
           ]
         ]);
       });
@@ -973,10 +1104,10 @@
         expect(growl.info.calls.allArgs()).toEqual([
           [
             error.statusText, {
-              ttl: 3000,
-              disableCountDown: true,
-              disableIcons: true
-            }
+            ttl: 3000,
+            disableCountDown: true,
+            disableIcons: true
+          }
           ]
         ]);
       });
