@@ -212,7 +212,7 @@
     vm.getLinkToCase = function (caseItem) {
       if(caseItem) {
         var portalUrl = manageTopUrl.getPath() + manageTopUrl.getSearch() + '#?id=' + caseItem.id + '&_p=' + (moreDetailToken || '') + '&' + manageTopUrl.getCurrentProfile();
-        var appsUrl = manageTopUrl.getPath() + '../case-details' + ApplicationLink.sanitizeSearchQuery(manageTopUrl.getSearch()) + 'id=' + caseItem.id;
+        var appsUrl = manageTopUrl.getPath() + '../admin-case-details' + ApplicationLink.sanitizeSearchQuery(manageTopUrl.getSearch()) + 'id=' + caseItem.id;
         return ApplicationLink.getLink(portalUrl, appsUrl);
       }
     };
@@ -220,7 +220,7 @@
     vm.getLinkToProcess = function (caseItem) {
       if (caseItem && caseItem.processDefinitionId) {
         var portalUrl = manageTopUrl.getPath() + manageTopUrl.getSearch() + '#?id=' + caseItem.processDefinitionId.id + '&_p=' + (modeDetailProcessToken || '') + '&' + manageTopUrl.getCurrentProfile();
-        var appsUrl = manageTopUrl.getPath() + '../process-details' + ApplicationLink.sanitizeSearchQuery(manageTopUrl.getSearch()) + 'id=' + caseItem.processDefinitionId.id;
+        var appsUrl = manageTopUrl.getPath() + '../admin-process-details' + ApplicationLink.sanitizeSearchQuery(manageTopUrl.getSearch()) + 'id=' + caseItem.processDefinitionId.id;
         return ApplicationLink.getLink(portalUrl, appsUrl);
       }
     };

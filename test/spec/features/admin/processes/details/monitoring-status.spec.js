@@ -124,7 +124,7 @@
 
           monitoringStatusCtrl.goToFailedCaseList();
 
-          expect(mockedWindowApps.parent.location).toBe('/bonita/apps/app/appName/pageName/../case-list/?tenant=1&processId=123&state=error');
+          expect(mockedWindowApps.parent.location).toBe('/bonita/apps/app/appName/pageName/../admin-case-list/?tenant=1&processId=123&state=error');
         });
 
         it('should modify the window url for case list', function(){
@@ -142,7 +142,7 @@
 
           monitoringStatusCtrl.goToCaseList();
 
-          expect(mockedWindowApps.parent.location).toBe('/bonita/apps/app/appName/pageName/../case-list/?tenant=1&processId=123');
+          expect(mockedWindowApps.parent.location).toBe('/bonita/apps/app/appName/pageName/../admin-case-list/?tenant=1&processId=123');
         });
 
         it('should modify the window url for archived case list', function(){
@@ -160,7 +160,7 @@
 
           monitoringStatusCtrl.goToArchivedCaseList();
 
-          expect(mockedWindowApps.parent.location).toBe('/bonita/apps/app/appName/pageName/../case-list/?tenant=1&processId=123&tab=archived');
+          expect(mockedWindowApps.parent.location).toBe('/bonita/apps/app/appName/pageName/../admin-case-list/?tenant=1&processId=123&tab=archived');
         });
 
       });
