@@ -515,16 +515,16 @@
               }
             };
             ApplicationLink.sanitizeSearchQuery.and.returnValue('?tenant=1&');
-            expect(casesCtrl.getLinkToCase(caseItem)).toEqual('/bonita/apps/appName/pageName/../case-details?tenant=1&id=123');
-            expect(casesCtrl.getLinkToProcess(caseItem)).toEqual('/bonita/apps/appName/pageName/../process-details?tenant=1&id=321');
+            expect(casesCtrl.getLinkToCase(caseItem)).toEqual('/bonita/apps/appName/pageName/../admin-case-details?tenant=1&id=123');
+            expect(casesCtrl.getLinkToProcess(caseItem)).toEqual('/bonita/apps/appName/pageName/../admin-process-details?tenant=1&id=321');
             caseItem = {
               id: '4568',
               processDefinitionId: {
                 id: 3987
               }
             };
-            expect(casesCtrl.getLinkToCase(caseItem)).toEqual('/bonita/apps/appName/pageName/../case-details?tenant=1&id=4568');
-            expect(casesCtrl.getLinkToProcess(caseItem)).toEqual('/bonita/apps/appName/pageName/../process-details?tenant=1&id=3987');
+            expect(casesCtrl.getLinkToCase(caseItem)).toEqual('/bonita/apps/appName/pageName/../admin-case-details?tenant=1&id=4568');
+            expect(casesCtrl.getLinkToProcess(caseItem)).toEqual('/bonita/apps/appName/pageName/../admin-process-details?tenant=1&id=3987');
           });
         });
         describe('with supervisorId', function() {
@@ -554,16 +554,16 @@
               }
             };
             ApplicationLink.sanitizeSearchQuery.and.returnValue('?tenant=1&');
-            expect(casesCtrl.getLinkToCase(caseItem)).toEqual('/bonita/apps/appName/pageName/../case-details?tenant=1&id=123');
-            expect(casesCtrl.getLinkToProcess(caseItem)).toEqual('/bonita/apps/appName/pageName/../process-details?tenant=1&id=321');
+            expect(casesCtrl.getLinkToCase(caseItem)).toEqual('/bonita/apps/appName/pageName/../admin-case-details?tenant=1&id=123');
+            expect(casesCtrl.getLinkToProcess(caseItem)).toEqual('/bonita/apps/appName/pageName/../admin-process-details?tenant=1&id=321');
             caseItem = {
               id: '4568',
               processDefinitionId: {
                 id: 78987
               }
             };
-            expect(casesCtrl.getLinkToCase(caseItem)).toEqual('/bonita/apps/appName/pageName/../case-details?tenant=1&id=4568');
-            expect(casesCtrl.getLinkToProcess(caseItem)).toEqual('/bonita/apps/appName/pageName/../process-details?tenant=1&id=78987');
+            expect(casesCtrl.getLinkToCase(caseItem)).toEqual('/bonita/apps/appName/pageName/../admin-case-details?tenant=1&id=4568');
+            expect(casesCtrl.getLinkToProcess(caseItem)).toEqual('/bonita/apps/appName/pageName/../admin-process-details?tenant=1&id=78987');
           });
 
           it('should change top location hash to case detail', inject(function($controller) {
