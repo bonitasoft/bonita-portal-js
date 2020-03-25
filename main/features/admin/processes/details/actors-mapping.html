@@ -1,7 +1,7 @@
 <div id="process-details-actors">
   <h2 class="SubHeading">{{'Actors' | translate}}</h2>
   <p>{{'Select the entities (users, groups, roles, memberships) to map to the actors. These entities will do the human tasks in the process.' | translate}}</p>
-    <p>{{'Check that each entity is mapped to a profile, for either Bonita Portal or for applications you have created.' | translate}} {{'To do so, go to' | translate}} <a href="" bonita-href="profilelisting">{{'Profiles' | translate}}</a>.</p>
+    <p>{{'Check that each entity is mapped to a profile, for either Bonita Portal or for applications you have created.' | translate}} {{'To do so, go to' | translate}} <a ng-if="!actorsMappingCtrl.isInApps()" href="" bonita-href="profilelisting">{{'Profiles' | translate}}</a><a ng-if="actorsMappingCtrl.isInApps()" target="_parent" ng-href="{{actorsMappingCtrl.getLinkToProfiles()}}">{{'Profiles' | translate}}</a>.</p>
   <table class="table  actorMappingList">
     <thead>
       <tr>

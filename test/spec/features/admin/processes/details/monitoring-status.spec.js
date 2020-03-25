@@ -11,7 +11,7 @@
 
   describe('monitoringStatus Directive and Controller in Process More Details',
     function() {
-      var scope, compile, archivedCaseAPI, q, defferedArchivedCases, controller, httpBackend;
+      var scope, compile, archivedCaseAPI, q, defferedArchivedCases, controller, httpBackend, mockedWindowApps;
 
       beforeEach(module('org.bonitasoft.templates'));
       beforeEach(angular.mock.module('org.bonitasoft.features.admin.processes.details.monitoringStatus',
@@ -20,6 +20,14 @@
             // Service/Factory Mock
             return jasmine.createSpyObj('archivedCaseAPI', ['search']);
           });
+
+          mockedWindowApps = {
+            parent : {
+              location:'/bonita/apps/app/appName/pageName/?tenant=1'
+            }
+          };
+
+          $provide.value('$window', mockedWindowApps);
       }));
 
       beforeEach(module('org.bonitasoft.features.admin.processes.details.monitoringStatus'));
@@ -94,6 +102,67 @@
           expect(angular.element(counters.get(2)).text()).toEqual('7');
           expect(angular.element(counters.get(3)).text()).toEqual('1');
         });
+      });
+
+      describe('monitoringStatus directive in app', function() {
+        var monitoringStatusCtrl,
+          manageTopUrl = jasmine.createSpyObj('manageTopUrl', ['getPath', 'getSearch']),
+          ApplicationLink = jasmine.createSpyObj('ApplicationLink', ['sanitizeSearchQuery']);
+
+        it('should modify the window url for failed case list', function(){
+          scope.process = {
+            id: '123'
+          };
+          manageTopUrl.getPath.and.returnValue('/bonita/apps/app/appName/pageName/');
+          ApplicationLink.sanitizeSearchQuery.and.returnValue('?tenant=1&');
+          monitoringStatusCtrl = controller('MonitoringStatusCtrl', {
+            $scope: scope,
+            ApplicationLink: ApplicationLink,
+            $window: mockedWindowApps,
+            manageTopUrl: manageTopUrl
+          });
+
+          monitoringStatusCtrl.goToFailedCaseList();
+
+          expect(mockedWindowApps.parent.location).toBe('/bonita/apps/app/appName/pageName/../case-list/?tenant=1&processId=123&state=error');
+        });
+
+        it('should modify the window url for case list', function(){
+          scope.process = {
+            id: '123'
+          };
+          manageTopUrl.getPath.and.returnValue('/bonita/apps/app/appName/pageName/');
+          ApplicationLink.sanitizeSearchQuery.and.returnValue('?tenant=1&');
+          monitoringStatusCtrl = controller('MonitoringStatusCtrl', {
+            $scope: scope,
+            ApplicationLink: ApplicationLink,
+            $window: mockedWindowApps,
+            manageTopUrl: manageTopUrl
+          });
+
+          monitoringStatusCtrl.goToCaseList();
+
+          expect(mockedWindowApps.parent.location).toBe('/bonita/apps/app/appName/pageName/../case-list/?tenant=1&processId=123');
+        });
+
+        it('should modify the window url for archived case list', function(){
+          scope.process = {
+            id: '123'
+          };
+          manageTopUrl.getPath.and.returnValue('/bonita/apps/app/appName/pageName/');
+          ApplicationLink.sanitizeSearchQuery.and.returnValue('?tenant=1&');
+          monitoringStatusCtrl = controller('MonitoringStatusCtrl', {
+            $scope: scope,
+            ApplicationLink: ApplicationLink,
+            $window: mockedWindowApps,
+            manageTopUrl: manageTopUrl
+          });
+
+          monitoringStatusCtrl.goToArchivedCaseList();
+
+          expect(mockedWindowApps.parent.location).toBe('/bonita/apps/app/appName/pageName/../case-list/?tenant=1&processId=123&tab=archived');
+        });
+
       });
     });
 }());
