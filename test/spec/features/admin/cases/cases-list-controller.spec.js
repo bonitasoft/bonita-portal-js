@@ -486,6 +486,47 @@
           };
         });
 
+        describe('for archived case', function() {
+          beforeEach(function() {
+            inject(function($controller) {
+              casesCtrl = $controller('ArchivedCaseListCtrl', {
+                '$scope': scope,
+                '$window': mockedWindow,
+                'manageTopUrl': manageTopUrl,
+                'ApplicationLink': ApplicationLink,
+                'processId': undefined,
+                'supervisorId': undefined,
+                'caseStateFilter': ''
+              });
+            });
+          });
+
+          it('should change top location to case detail', function() {
+            manageTopUrl.getPath.and.returnValue('/bonita/apps/appName/pageName/');
+            manageTopUrl.getSearch.and.returnValue('?tenant=1');
+            manageTopUrl.getCurrentProfile.and.returnValue('');
+            var caseItem = {
+              id: 123,
+              processDefinitionId: {
+                id: 321
+              },
+              sourceObjectId: 994
+            };
+            ApplicationLink.sanitizeSearchQuery.and.returnValue('?tenant=1&');
+            expect(casesCtrl.getLinkToCase(caseItem)).toEqual('/bonita/apps/appName/pageName/../admin-case-details?tenant=1&id=994');
+            expect(casesCtrl.getLinkToProcess(caseItem)).toEqual('/bonita/apps/appName/pageName/../admin-process-details?tenant=1&id=321');
+            caseItem = {
+              id: '4568',
+              processDefinitionId: {
+                id: 3987
+              },
+              sourceObjectId: 5843
+            };
+            expect(casesCtrl.getLinkToCase(caseItem)).toEqual('/bonita/apps/appName/pageName/../admin-case-details?tenant=1&id=5843');
+            expect(casesCtrl.getLinkToProcess(caseItem)).toEqual('/bonita/apps/appName/pageName/../admin-process-details?tenant=1&id=3987');
+          });
+        });
+
         describe('without supervisorId', function() {
           beforeEach(function() {
             inject(function($controller) {
