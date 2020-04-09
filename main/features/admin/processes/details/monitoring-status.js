@@ -38,7 +38,7 @@
       vm.goToCaseList = goToCaseList;
       vm.goToArchivedCaseList = goToArchivedCaseList;
 
-      var caseListUrl = '../admin-case-list/' + ApplicationLink.sanitizeSearchQuery(manageTopUrl.getSearch()) + 'processId=' + vm.process.id;
+      var caseListUrl = '../admin-case-list/?processId=' + vm.process.id;
 
       function isInApps() {
         return ApplicationLink.isInApps;

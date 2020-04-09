@@ -35,13 +35,12 @@
       },
       getAppTokenParam: getAppTokenParam,
       getPortalUrl: getPortalUrl,
-      sanitizeSearchQuery: sanitizeSearchQuery,
       isInApps: vm.isInApps
     };
 
     function getAppTokenParam() {
       var appToken = getAppFromUrl();
-      return vm.isInApps ? '&app=' + appToken[1] : '';
+      return vm.isInApps ? 'app=' + appToken[1] : '';
     }
 
     function getPortalUrl() {
@@ -57,10 +56,6 @@
           throw 'Not a supported top URL';
         }
       }
-    }
-
-    function sanitizeSearchQuery(searchQuery) {
-      return searchQuery === '' ? '?' : searchQuery + '&';
     }
 
     function isInApps() {
