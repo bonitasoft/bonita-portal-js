@@ -74,7 +74,7 @@
       }
 
       function getLinkToProfiles() {
-        return manageTopUrl.getPath() + '../admin-profile-list/' + ApplicationLink.sanitizeSearchQuery(manageTopUrl.getSearch());
+        return manageTopUrl.getPath() + '../admin-profile-list/';
       }
 
       vm.editMapping = function(actor, memberType) {

@@ -381,7 +381,7 @@
             expect(casesCtrl.getLinkToCase(caseItem)).toEqual('/bonita/portal/homepage?tenant=1#?id=4568&_p=casemoredetailsadmin&_pf=2');
             expect(casesCtrl.getLinkToProcess(caseItem)).toEqual('/bonita/portal/homepage?tenant=1#?id=3987&_p=processmoredetailsadmin&_pf=2');
             expect(manageTopUrl.getPath.calls.count()).toEqual(12);
-            expect(manageTopUrl.getSearch.calls.count()).toEqual(12);
+            expect(manageTopUrl.getSearch.calls.count()).toEqual(6);
             expect(manageTopUrl.getCurrentProfile.calls.count()).toEqual(6);
           });
         });
@@ -428,7 +428,7 @@
             expect(casesCtrl.getLinkToCase(caseItem)).toEqual('/bonita/portal/homepage?tenant=1#?id=4568&_p=casemoredetailspm&_pf=2');
             expect(casesCtrl.getLinkToProcess(caseItem)).toEqual('/bonita/portal/homepage?tenant=1#?id=78987&_p=processmoredetailspm&_pf=2');
             expect(manageTopUrl.getPath.calls.count()).toEqual(12);
-            expect(manageTopUrl.getSearch.calls.count()).toEqual(12);
+            expect(manageTopUrl.getSearch.calls.count()).toEqual(6);
             expect(manageTopUrl.getCurrentProfile.calls.count()).toEqual(6);
           });
 
@@ -465,7 +465,7 @@
             expect(casesCtrl.getLinkToCase(caseItem)).toEqual('/bonita/portal/homepage?tenant=1#?id=4568&_p=casemoredetails&_pf=2');
             expect(casesCtrl.getLinkToProcess(caseItem)).toEqual('/bonita/portal/homepage?tenant=1#?id=54545&_p=processmoredetailspm&_pf=2');
             expect(manageTopUrl.getPath.calls.count()).toEqual(12);
-            expect(manageTopUrl.getSearch.calls.count()).toEqual(12);
+            expect(manageTopUrl.getSearch.calls.count()).toEqual(6);
             expect(manageTopUrl.getCurrentProfile.calls.count()).toEqual(6);
           }));
         });
@@ -474,7 +474,7 @@
       describe('go to case details in app', function() {
         var mockedWindow,
           manageTopUrl = jasmine.createSpyObj('manageTopUrl', ['getPath', 'getSearch', 'getCurrentProfile']),
-          ApplicationLink = jasmine.createSpyObj('ApplicationLink', ['getSearch', 'sanitizeSearchQuery']);
+          ApplicationLink = jasmine.createSpyObj('ApplicationLink', ['getSearch']);
         ApplicationLink.getLink = function(portalUrl, appsUrl) {
             return appsUrl;
         };
@@ -503,7 +503,6 @@
 
           it('should change top location to case detail', function() {
             manageTopUrl.getPath.and.returnValue('/bonita/apps/appName/pageName/');
-            manageTopUrl.getSearch.and.returnValue('?tenant=1');
             manageTopUrl.getCurrentProfile.and.returnValue('');
             var caseItem = {
               id: 123,
@@ -512,9 +511,8 @@
               },
               sourceObjectId: 994
             };
-            ApplicationLink.sanitizeSearchQuery.and.returnValue('?tenant=1&');
-            expect(casesCtrl.getLinkToCase(caseItem)).toEqual('/bonita/apps/appName/pageName/../admin-case-details?tenant=1&id=994');
-            expect(casesCtrl.getLinkToProcess(caseItem)).toEqual('/bonita/apps/appName/pageName/../admin-process-details?tenant=1&id=321');
+            expect(casesCtrl.getLinkToCase(caseItem)).toEqual('/bonita/apps/appName/pageName/../admin-case-details?id=994');
+            expect(casesCtrl.getLinkToProcess(caseItem)).toEqual('/bonita/apps/appName/pageName/../admin-process-details?id=321');
             caseItem = {
               id: '4568',
               processDefinitionId: {
@@ -522,8 +520,8 @@
               },
               sourceObjectId: 5843
             };
-            expect(casesCtrl.getLinkToCase(caseItem)).toEqual('/bonita/apps/appName/pageName/../admin-case-details?tenant=1&id=5843');
-            expect(casesCtrl.getLinkToProcess(caseItem)).toEqual('/bonita/apps/appName/pageName/../admin-process-details?tenant=1&id=3987');
+            expect(casesCtrl.getLinkToCase(caseItem)).toEqual('/bonita/apps/appName/pageName/../admin-case-details?id=5843');
+            expect(casesCtrl.getLinkToProcess(caseItem)).toEqual('/bonita/apps/appName/pageName/../admin-process-details?id=3987');
           });
         });
 
@@ -547,7 +545,6 @@
 
           it('should change top location to case detail', function() {
             manageTopUrl.getPath.and.returnValue('/bonita/apps/appName/pageName/');
-            manageTopUrl.getSearch.and.returnValue('?tenant=1');
             manageTopUrl.getCurrentProfile.and.returnValue('');
             var caseItem = {
               id: 123,
@@ -555,17 +552,16 @@
                 id: 321
               }
             };
-            ApplicationLink.sanitizeSearchQuery.and.returnValue('?tenant=1&');
-            expect(casesCtrl.getLinkToCase(caseItem)).toEqual('/bonita/apps/appName/pageName/../admin-case-details?tenant=1&id=123');
-            expect(casesCtrl.getLinkToProcess(caseItem)).toEqual('/bonita/apps/appName/pageName/../admin-process-details?tenant=1&id=321');
+            expect(casesCtrl.getLinkToCase(caseItem)).toEqual('/bonita/apps/appName/pageName/../admin-case-details?id=123');
+            expect(casesCtrl.getLinkToProcess(caseItem)).toEqual('/bonita/apps/appName/pageName/../admin-process-details?id=321');
             caseItem = {
               id: '4568',
               processDefinitionId: {
                 id: 3987
               }
             };
-            expect(casesCtrl.getLinkToCase(caseItem)).toEqual('/bonita/apps/appName/pageName/../admin-case-details?tenant=1&id=4568');
-            expect(casesCtrl.getLinkToProcess(caseItem)).toEqual('/bonita/apps/appName/pageName/../admin-process-details?tenant=1&id=3987');
+            expect(casesCtrl.getLinkToCase(caseItem)).toEqual('/bonita/apps/appName/pageName/../admin-case-details?id=4568');
+            expect(casesCtrl.getLinkToProcess(caseItem)).toEqual('/bonita/apps/appName/pageName/../admin-process-details?id=3987');
           });
         });
         describe('with supervisorId', function() {
@@ -586,7 +582,6 @@
 
           it('should change top location hash to case detail', function() {
             manageTopUrl.getPath.and.returnValue('/bonita/apps/appName/pageName/');
-            manageTopUrl.getSearch.and.returnValue('?tenant=1');
             manageTopUrl.getCurrentProfile.and.returnValue('');
             var caseItem = {
               id: 123,
@@ -594,17 +589,16 @@
                 id: 321
               }
             };
-            ApplicationLink.sanitizeSearchQuery.and.returnValue('?tenant=1&');
-            expect(casesCtrl.getLinkToCase(caseItem)).toEqual('/bonita/apps/appName/pageName/../admin-case-details?tenant=1&id=123');
-            expect(casesCtrl.getLinkToProcess(caseItem)).toEqual('/bonita/apps/appName/pageName/../admin-process-details?tenant=1&id=321');
+            expect(casesCtrl.getLinkToCase(caseItem)).toEqual('/bonita/apps/appName/pageName/../admin-case-details?id=123');
+            expect(casesCtrl.getLinkToProcess(caseItem)).toEqual('/bonita/apps/appName/pageName/../admin-process-details?id=321');
             caseItem = {
               id: '4568',
               processDefinitionId: {
                 id: 78987
               }
             };
-            expect(casesCtrl.getLinkToCase(caseItem)).toEqual('/bonita/apps/appName/pageName/../admin-case-details?tenant=1&id=4568');
-            expect(casesCtrl.getLinkToProcess(caseItem)).toEqual('/bonita/apps/appName/pageName/../admin-process-details?tenant=1&id=78987');
+            expect(casesCtrl.getLinkToCase(caseItem)).toEqual('/bonita/apps/appName/pageName/../admin-case-details?id=4568');
+            expect(casesCtrl.getLinkToProcess(caseItem)).toEqual('/bonita/apps/appName/pageName/../admin-process-details?id=78987');
           });
 
           it('should change top location hash to case detail', inject(function($controller) {

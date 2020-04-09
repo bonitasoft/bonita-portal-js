@@ -34,11 +34,6 @@
           applicationLink = $injector.get('ApplicationLink');
         });
       });
-
-      it('sanitizeSearchQuery should return correct search value', function () {
-        expect(applicationLink.sanitizeSearchQuery('?locale=fr')).toBe('?locale=fr&');
-        expect(applicationLink.sanitizeSearchQuery('')).toBe('?');
-      });
     });
 
     describe('when in portal', function () {
@@ -83,7 +78,7 @@
       });
 
       it('getAppTokenParam should return the correct query string fragment', function () {
-        expect(applicationLink.getAppTokenParam()).toBe('&app=appName');
+        expect(applicationLink.getAppTokenParam()).toBe('app=appName');
       });
 
       it('getPortalUrl should return the url prefix', function () {
@@ -104,7 +99,7 @@
       });
 
       it('getAppTokenParam should return the correct query string fragment', function () {
-        expect(applicationLink.getAppTokenParam()).toBe('&app=apps');
+        expect(applicationLink.getAppTokenParam()).toBe('app=apps');
       });
     });
   });
