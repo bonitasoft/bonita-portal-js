@@ -212,7 +212,7 @@
     vm.getLinkToCase = function (caseItem) {
       if(caseItem) {
         var portalUrl = manageTopUrl.getPath() + manageTopUrl.getSearch() + '#?id=' + caseItem.id + '&_p=' + (moreDetailToken || '') + '&' + manageTopUrl.getCurrentProfile();
-        var appsUrl = manageTopUrl.getPath() + '../admin-case-details' + ApplicationLink.sanitizeSearchQuery(manageTopUrl.getSearch()) + 'id=' + caseItem.id;
+        var appsUrl = manageTopUrl.getPath() + '../admin-case-details' + ApplicationLink.sanitizeSearchQuery(manageTopUrl.getSearch()) + 'id=' + (caseItem.sourceObjectId || caseItem.id);
         return ApplicationLink.getLink(portalUrl, appsUrl);
       }
     };
