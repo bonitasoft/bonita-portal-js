@@ -4,7 +4,7 @@
     <groupId>org.bonitasoft.web</groupId>
     <artifactId>bonita-portal-js</artifactId>
     <name>bonita portal js</name>
-    <version>7.11.0-SNAPSHOT</version>
+    <version>7.11.0.W15</version>
     <packaging>pom</packaging>
 
     <modules>
