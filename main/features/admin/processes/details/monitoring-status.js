@@ -45,7 +45,7 @@
       }
 
       function goToFailedCaseList() {
-        goTo(caseListUrl + '&state=error');
+        goTo(caseListUrl + '&caseStateFilter=error');
       }
 
       function goToCaseList() {
