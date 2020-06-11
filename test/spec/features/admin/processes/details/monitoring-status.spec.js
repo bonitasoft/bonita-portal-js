@@ -121,7 +121,7 @@
 
           monitoringStatusCtrl.goToFailedCaseList();
 
-          expect(mockedWindowApps.parent.location).toBe('/bonita/apps/app/appName/pageName/../admin-case-list/?processId=123&state=error');
+          expect(mockedWindowApps.parent.location).toBe('/bonita/apps/app/appName/pageName/../admin-case-list/?processId=123&caseStateFilter=error');
         });
 
         it('should modify the window url for case list', function(){
