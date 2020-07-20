@@ -10,6 +10,8 @@
       I18N_KEYS['caselist.casesStates.archived.title'] = gettext('Archived cases');
       I18N_KEYS['caselist.delete.single'] = gettext('1 case has been deleted');
       I18N_KEYS['caselist.delete.multiple'] = gettext('{{nbOfDeletedCases}} cases have been deleted');
+      I18N_KEYS['caselist.filters.all'] = gettext('All');
+      I18N_KEYS['caselist.filters.processNotFound'] = gettext('Unknown process Id');
       I18N_KEYS['processDetails.informations.category.update.error'] = gettext('An error occured during categories update');
       I18N_KEYS['processDetails.actors.update.success'] = gettext('{{nbSucess}} actor mapping updates succeeded');
       I18N_KEYS['processDetails.actors.update.error'] = gettext('{{nbErrors}} errors on mapping updates');
