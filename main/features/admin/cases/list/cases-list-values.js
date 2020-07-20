@@ -64,8 +64,8 @@
     .value('defaultSort', 'id')
     .value('archivedDefaultSort', 'sourceObjectId')
     .value('defaultFilters', {
-      appVersion: 'All',
-      appName: 'All',
+      processVersion: undefined,
+      processName: undefined,
       caseStatus: 'All'
     })
     .value('defaultDeployedFields', ['processDefinitionId', 'started_by', 'startedBySubstitute'])

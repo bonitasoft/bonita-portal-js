@@ -1235,17 +1235,17 @@
         it('should have process definition Id only even id app name is set', function() {
           var processId = '2121354687951';
           scope.selectedFilters.selectedProcessDefinition = processId;
-          scope.selectedFilters.selectedApp = 'Process1';
+          scope.selectedFilters.selectedProcessName = 'Process1';
           casesCtrl.buildFilters();
           expect(scope.searchOptions.filters).toEqual(['processDefinitionId=' + processId]);
           expect(scope.pagination.currentPage).toBe(1);
         });
-        it('should have app name', function() {
+        it('should have process name', function() {
           scope.$digest();
-          var processName = ['Process1', 'Process1'];
-          scope.selectedFilters.selectedApp = processName;
+          var processName = 'Process1';
+          scope.selectedFilters.selectedProcessName = processName;
           casesCtrl.buildFilters();
-          expect(scope.searchOptions.filters).toEqual(['name=' + processName[0]]);
+          expect(scope.searchOptions.filters).toEqual(['name=' + processName]);
           expect(scope.pagination.currentPage).toBe(1);
         });
       });
