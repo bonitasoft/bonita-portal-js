@@ -53,7 +53,6 @@ module.exports = function(config) {
       'main/assets/angular-bootstrap/ui-bootstrap-tpls.js',
       'main/assets/angular-cookies/angular-cookies.js',
       'main/assets/angular-file-upload/dist/angular-file-upload.min.js',
-      'main/assets/angular-filter/dist/angular-filter.js',
       'main/assets/angular-gettext/dist/angular-gettext.js',
       'main/assets/angular-growl-2/build/angular-growl.js',
       'main/assets/angular-multi-select/isteven-multi-select.js',

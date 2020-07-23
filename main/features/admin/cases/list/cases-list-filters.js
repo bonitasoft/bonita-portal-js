@@ -18,18 +18,13 @@
   'use strict';
   angular.module('org.bonitasoft.features.admin.cases.list.filters', [
     'org.bonitasoft.common.resources',
-    'org.bonitasoft.common.i18n',
     'org.bonitasoft.features.admin.cases.list.values',
-    'angular.filter',
     'gettext',
     'ui.bootstrap',
     'ui.router',
-    'org.bonitasoft.service.debounce'
+    'org.bonitasoft.common.resources.store'
   ])
-  .constant('CASES_FILTERS_CONSTANTS', {
-    notFound : 'not found'
-  })
-  .controller('ActiveCaseFilterController', ['$scope', 'processAPI', 'defaultFilters', 'caseStatesValues', '$stateParams', '$q', 'debounce', 'i18nService', 'CASES_FILTERS_CONSTANTS',CaseFilterController])
+  .controller('ActiveCaseFilterController', ['$scope', 'store', 'processAPI', 'defaultFilters', 'caseStatesValues', '$stateParams', CaseFilterController])
   .directive('activeCaseFilters', function () {
     return {
       restrict: 'E',
@@ -39,7 +34,7 @@
       controllerAs : 'filterCtrl'
     };
   })
-  .controller('ArchivedCaseFilterController', ['$scope', 'processAPI', 'defaultFilters', 'caseStatesValues', '$stateParams', '$q', 'debounce', 'i18nService', 'CASES_FILTERS_CONSTANTS',CaseFilterController])
+  .controller('ArchivedCaseFilterController', ['$scope', 'store', 'processAPI', 'defaultFilters', 'caseStatesValues', '$stateParams', CaseFilterController])
   .directive('archivedCaseFilters', function() {
     return {
       restrict: 'E',
@@ -56,17 +51,15 @@
    * This is a controller that manages the case search filters
    *
    * @requires $scope
+   * @requires store
    * @requires processAPI
    * @requires defaultFilters
    * @requires caseStatesValues
-   * @requires $q
-   * @requires debounce
    */
   /* jshint -W003 */
-  /* jshint sub:true */
-  function CaseFilterController($scope, processAPI, defaultFilters, caseStatesValues, $stateParams, $q, debounce, i18nService, CASES_FILTERS_CONSTANTS) {
-    $scope.selectedFilters.selectedProcessName = defaultFilters.processName;
-    $scope.selectedFilters.selectedProcessVersion = defaultFilters.processVersion;
+  function CaseFilterController($scope, store, processAPI, defaultFilters, caseStatesValues, $stateParams) {
+    $scope.selectedFilters.selectedApp = [defaultFilters.appName, defaultFilters.appName];
+    $scope.selectedFilters.selectedVersion = defaultFilters.appVersion;
     $scope.selectedFilters.selectedStatus = defaultFilters.caseStatus;
     $scope.defaultFilters = defaultFilters;
     $scope.caseStatesValues = caseStatesValues;
@@ -74,33 +67,64 @@
       $scope.selectedFilters.selectedStatus = $stateParams.caseStateFilter;
     }
     $scope.caseStatesValues[defaultFilters.caseStatus] = defaultFilters.caseStatus;
+    $scope.apps = [];
+    $scope.versions = [];
+    $scope.appNames = [];
     $scope.allCasesSelected = false;
     $scope.selectedFilters.currentSearch = '';
-    $scope.displayProcessSearch = false;
-    $scope.selectedFilters.processSearch = '';
-    $scope.displayVersionSearch = false;
-    $scope.selectedFilters.versionSearch = '';
-    $scope.processFilterList = [];
-    $scope.versionFilterListProcesses = [];
-
     var vm = this;
 
-    var supervisorId = $stateParams['supervisor_id'];
+    var processFilter = [];
+    if ($scope.supervisorId) {
+      processFilter.push('supervisor_id=' + $scope.supervisorId);
+    }
 
-    vm.selectProcess = function(processName) {
-      $scope.selectedFilters.selectedProcessVersion = undefined;
-      if (processName) {
-        $scope.selectedFilters.selectedProcessName = processName;
+    vm.initFilters = function(processes) {
+      $scope.apps = processes;
+      var appNamesArray = processes.map(function(process) {
+        if ($scope.selectedFilters.processId && $scope.selectedFilters.processId === process.id) {
+          $scope.selectedFilters.selectedApp = [process.name, process.displayName];
+          vm.filterVersion($scope.selectedFilters.selectedApp[0], $scope.selectedFilters.selectedApp[1]);
+          $scope.selectedFilters.selectedVersion = process.version;
+        }
+        return [process.name, process.displayName];
+      });
+      appNamesArray.forEach(function(process) {
+        if (process && process[0] && process[1] && !isAppInArray(process, $scope.appNames)) {
+          $scope.appNames.push(process);
+        }
+      });
+    };
+
+    function isAppInArray(app, array) {
+      for (var i = 0; i < array.length; i++) {
+        if(array[i][0] === app[0] && array[i][1] === app[1]) {
+          return true;
+        }
+      }
+      return false;
+    }
+
+    store.load(processAPI, {
+      f: processFilter
+    }).then(vm.initFilters);
+
+    vm.selectApp = function(selectedAppName, selectedAppDisplayName) {
+      if (selectedAppName && selectedAppDisplayName) {
+        if (selectedAppName !== $scope.selectedFilters.selectedApp[0] || selectedAppDisplayName !== $scope.selectedFilters.selectedApp[1]) {
+          $scope.selectedFilters.selectedApp = [selectedAppName, selectedAppDisplayName];
+        }
+        //selected App is the same than before, do nothing
       } else {
-        $scope.selectedFilters.selectedProcessName = defaultFilters.processName;
+        $scope.selectedFilters.selectedApp = [defaultFilters.appName, defaultFilters.appName];
       }
     };
 
-    vm.selectVersion = function(selectedProcessVersion) {
-      if (selectedProcessVersion) {
-        $scope.selectedFilters.selectedProcessVersion = selectedProcessVersion;
+    vm.selectVersion = function(selectedAppVersion) {
+      if (selectedAppVersion && selectedAppVersion !== defaultFilters.appVersion) {
+        $scope.selectedFilters.selectedVersion = selectedAppVersion;
       } else {
-        $scope.selectedFilters.selectedProcessVersion = defaultFilters.processVersion;
+        $scope.selectedFilters.selectedVersion = defaultFilters.appVersion;
       }
     };
 
@@ -112,28 +136,25 @@
       }
     };
 
-    vm.getLabelProcessFiltered = function() {
-      if ($scope.selectedFilters.selectedProcessName === undefined) {
-        return i18nService.getKey('caselist.filters.all');
-      } else if ($scope.selectedFilters.selectedProcessName === CASES_FILTERS_CONSTANTS.notFound) {
-        return i18nService.getKey('caselist.filters.processNotFound');
-      } else {
-        return $scope.selectedFilters.selectedProcessName;
+    vm.filterVersion = function(appName, appDisplayName) {
+      $scope.versions = [];
+      $scope.selectedFilters.selectedVersion = defaultFilters.appVersion;
+      if ($scope.apps && $scope.apps.filter) {
+        $scope.versions = $scope.apps.filter(function(app) {
+          return app && app.name === appName && app.displayName === appDisplayName && app.version;
+        }).map(function(app) {
+          return app.version;
+        });
+      }
+      if ($scope && $scope.versions && $scope.versions.length === 1) {
+        $scope.selectedFilters.selectedVersion = $scope.versions[0];
       }
     };
 
-    vm.getLabelVersionFiltered = function() {
-      if ($scope.selectedFilters.selectedProcessVersion === undefined) {
-        return 'All';
-      } else {
-        return $scope.selectedFilters.selectedProcessVersion;
-      }
-    };
-
-    vm.filterProcessDefinition = function(selectedProcessVersion) {
-      if (selectedProcessVersion && $scope.selectedFilters.selectedProcessName && $scope.versionFilterListProcesses) {
-        var matchingProcessDefs = $scope.versionFilterListProcesses.filter(function(process) {
-          return process && process.name === $scope.selectedFilters.selectedProcessName && selectedProcessVersion === process.version;
+    vm.filterProcessDefinition = function(selectedAppVersion) {
+      if (selectedAppVersion && $scope.selectedFilters.selectedApp && $scope.apps) {
+        var matchingProcessDefs = $scope.apps.filter(function(app) {
+          return app && app.name === $scope.selectedFilters.selectedApp[0] && app.displayName === $scope.selectedFilters.selectedApp[1] && selectedAppVersion === app.version;
         });
         if (matchingProcessDefs && matchingProcessDefs.length) {
           $scope.selectedFilters.selectedProcessDefinition = matchingProcessDefs[0] && matchingProcessDefs[0].id;
@@ -145,129 +166,22 @@
       }
     };
 
-    vm.updateProcessFilterList = function() {
-      var filters = {supervisorId: supervisorId};
-      vm.getProcessFilterList(filters, $scope.selectedFilters.processSearch, 'last_update_date DESC').then(
-        function (result) {
-          result.forEach(function (process) {
-            if (process && process.name && process.displayName) {
-              process.nameUniqueIdentifier = process.name + '-' + process.displayName;
-            }
-          });
-          $scope.processFilterList = result;
-        });
-    };
-
-    vm.updateProcessFilterListDebounced = function() {
-      debounce(vm.updateProcessFilterList, 300);
-    };
-
-    vm.updateVersionFilterList = function(selectVersionIfUnique) {
-      $scope.versionFilterListProcesses = [];
-      $scope.versions = [];
-      if($scope.selectedFilters.selectedProcessName) {
-        var filters = {name: $scope.selectedFilters.selectedProcessName, supervisorId: supervisorId};
-        vm.getProcessFilterList(filters, $scope.selectedFilters.versionSearch, 'version DESC').then(
-          function (result) {
-            $scope.versionFilterListProcesses = result;
-            if (result && result.filter) {
-              $scope.versions = result.filter(function(process) {
-                return process && process.version;
-              }).map(function(process) {
-                return process.version;
-              });
-            }
-            if (selectVersionIfUnique) {
-              if ($scope && $scope.versions && $scope.versions.length === 1) {
-                $scope.selectedFilters.selectedProcessVersion = $scope.versions[0];
-              }
-            }
-          }
-        );
-      }
-    };
-
-    vm.updateVersionFilterListDebounced = function() {
-      debounce(vm.updateVersionFilterList, 300);
-    };
-
-    vm.processListToggled = function(open) {
-      if(!open && $scope.selectedFilters.processSearch){
-        $scope.selectedFilters.processSearch = '';
-        vm.updateProcessFilterList();
-      }
-    };
-
-    vm.versionListToggled = function(open) {
-      if(!open && $scope.selectedFilters.versionSearch){
-        $scope.selectedFilters.versionSearch = '';
-        vm.updateVersionFilterList();
-      }
-    };
-
     vm.submitSearch = function(){
       $scope.pagination.currentPage = 1;
       $scope.$emit('caselist:search');
     };
-
-    vm.getProcessFilterList = function(filters, searchTerm, order) {
-      var filterArray = [];
-      if (filters){
-        if(filters.supervisorId) {
-          filterArray.push('supervisor_id=' + filters.supervisorId);
-        }
-        if(filters.name) {
-          filterArray.push('name=' + filters.name);
-        }
-      }
-      var deferred = $q.defer();
-      processAPI.search({
-        p: 0,
-        c: 9,
-        f: filterArray,
-        s: searchTerm,
-        o: order
-      }).$promise.then(function (response) {
-        if (response.resource && response.resource.pagination.total > 0) {
-          $scope.displayProcessSearch = true;
-        }
-        deferred.resolve(response.data);
-      }, function (error) {
-        deferred.reject(error);
-      });
-      return deferred.promise;
-    };
-
-    vm.selectProcessIfDefined = function() {
-      if ($scope.selectedFilters.processId) {
-        processAPI.get({
-          id: $scope.selectedFilters.processId
-        }).$promise.then(function(process) {
-            $scope.selectedFilters.selectedProcessName = process.name;
-            vm.updateVersionFilterList(true);
-            $scope.selectedFilters.selectedProcessVersion = process.version;
-            return process;
-        }, function() {
-          $scope.selectedFilters.selectedProcessName = CASES_FILTERS_CONSTANTS.notFound;
-        });
-      }
-    };
-
     //we cannot watch the updateFilter function directly otherwise
     //it will not be mockable
-    $scope.$watch('selectedFilters.selectedProcessName', function() {
+    $scope.$watch('selectedFilters.selectedApp', function() {
       if (!$scope.selectedFilters.processId) {
+        vm.filterVersion($scope.selectedFilters.selectedApp[0], $scope.selectedFilters.selectedApp[1]);
         delete $scope.selectedFilters.selectedProcessDefinition;
-        vm.updateVersionFilterList(true);
-      } else if ($scope.selectedFilters.selectedProcessName !== CASES_FILTERS_CONSTANTS.notFound) {
+      } else if ($scope.selectedFilters.selectedApp[0] !== defaultFilters.appName) {
         delete $scope.selectedFilters.processId;
       }
     });
-    $scope.$watch('selectedFilters.selectedProcessVersion', function() {
-      vm.filterProcessDefinition($scope.selectedFilters.selectedProcessVersion);
+    $scope.$watch('selectedFilters.selectedVersion', function() {
+      vm.filterProcessDefinition($scope.selectedFilters.selectedVersion);
     });
-
-    vm.updateProcessFilterList();
-    vm.selectProcessIfDefined();
   }
 })();

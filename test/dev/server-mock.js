@@ -121,10 +121,6 @@
   //fileUpload
   when('POST', /^\/portal\/fileUpload$/).respond('uploadedFile');
 
-  //cases list filters
-  when('GET', /^\/API\/bpm\/process\?c=\d+&f=name%3DProcessX&.*p=0&.*s=.*$/).respond(require('./admin/cases/list/process-def-4-filtered-by-processx-name.json'));
-  when('GET', /^\/API\/bpm\/process\?c=\d+&f=name%3DPoule&.*p=0&.*s=.*$/).respond(require('./admin/cases/list/process-def-4-filtered-by-poule-name.json'));
-
   //case admin
   when('GET', /^\/API\/bpm\/case\?c=.*&d=processDefinitionId&d=started_by&d=startedBySubstitute&n=activeFlowNodes&n=failedFlowNodes&o=id\+DESC&p=.*$/).respond(require('./admin/cases/list/cases-list-320-desc-mocks.json'));
   when('GET', /^\/API\/bpm\/case\?c=25&d=processDefinitionId&d=started_by&d=startedBySubstitute&n=activeFlowNodes&n=failedFlowNodes&o=startDate\+ASC&p=0&s=$/).respond(require('./admin/cases/list/cases-list-28-mocks-ordered-by-date.json'));
@@ -256,7 +252,6 @@
   when('GET', /^\/API\/bpm\/process\?c=\d+&f=displayName%3DPool&.*p=0$/).respond(require('./admin/cases/list/process-def-4-filtered-by-pool-display-name.json'));
   when('GET', /^\/API\/bpm\/process\?c=\d+&.*p=0$/).respond(require('./admin/cases/list/process-def-4.json'));
   when('GET', /^\/API\/bpm\/process\?c=\d+&.*p=0&.*s=.*$/).respond(require('./admin/cases/list/process-def-4.json'));
-
   when('GET', /^\/API\/system\/i18ntranslation.*$/).respond([]);
   //enable french translation
   //when('GET', /^\/API\/system\/i18ntranslation.*$/).respond(require('./i18translations.json'));
