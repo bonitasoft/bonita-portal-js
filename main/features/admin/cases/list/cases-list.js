@@ -110,7 +110,8 @@
       total: 0
     };
     $scope.selectedFilters = {
-      processId: processId
+      processId: processId,
+      selectedApp: [defaultFilters.appName, defaultFilters.appName]
     };
     $scope.pageSizes = pageSizes;
     /**
@@ -265,8 +266,8 @@
       var filters = angular.copy(defaultFiltersArray);
       if ($scope.selectedFilters.selectedProcessDefinition) {
         filters.push('processDefinitionId=' + $scope.selectedFilters.selectedProcessDefinition);
-      } else if ($scope.selectedFilters.selectedProcessName && $scope.selectedFilters.selectedProcessName !== defaultFilters.processName) {
-        filters.push('name=' + $scope.selectedFilters.selectedProcessName);
+      } else if ($scope.selectedFilters.selectedApp[0] && $scope.selectedFilters.selectedApp[0] !== defaultFilters.appName) {
+        filters.push('name=' + $scope.selectedFilters.selectedApp[0]);
       }
       if ($scope.selectedFilters.selectedStatus && $scope.selectedFilters.selectedStatus !== defaultFilters.caseStatus) {
         filters.push('state=' + $scope.selectedFilters.selectedStatus);
