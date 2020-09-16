@@ -10,6 +10,7 @@ import TaskList from './tasklist.page.js';
 
     afterEach(function() {
       browser.executeScript('window.localStorage.clear();');
+      browser.restart();
     });
 
     it('should display task\'s case human comments ordered by postDate descendant' , function() {
