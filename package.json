@@ -3,7 +3,7 @@
   "devDependencies": {
     "babel-core": "6.7.4",
     "babel-preset-bonita": "1.0.1",
-    "bower": "1.5.3",
+    "bower": "1.8.8",
     "bower-license": "^0.4.4",
     "copyfiles": "^0.2.1",
     "cross-env": "^5.1.4",
