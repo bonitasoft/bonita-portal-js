@@ -377,7 +377,7 @@
         expect(caseCheckBoxesP13.count()).toBe(20);
       });
 
-      it('should reset the pager when item displayed number is clicked', function () {
+      xit('should reset the pager when item displayed number is clicked', function () {
         var caseList = element(by.css('#case-list'));
         //browser.debugger();
         // |<<|<|1|2|3|4|5>|>>|
@@ -420,7 +420,7 @@
 
       });
 
-      it('should change the number of displayed element when settings are changed to 100', function () {
+      xit('should change the number of displayed element when settings are changed to 100', function () {
         var caseListSettingsButton = element(by.css('#case-list button.bo-Settings'));
         caseListSettingsButton.click();
 
