@@ -28,11 +28,11 @@
                 <th bo-sorter="startDate" class="case-column" bo-sorter-title-asc="{{'sort by Start date ascending' | translate}}" bo-sorter-title-desc="{{'sort by Start date descending' | translate}}">{{'Start date' | translate}}</th>
                 <th class="case-column">{{'Started by' | translate}}</th>
                 <th class="text-right case-column">{{'Available tasks' | translate}}</th>
-                <th bo-sorter="index1" class="case-column" remove-column="{{!caseUserCtrl.displayKeys()}}" ng-hide="!caseUserCtrl.displayKeys()"><span id="infoPopover" class="glyphicon glyphicon-info-sign" popover="{{'To personalize the display of search keys (and columns in general), use the table settings button on the right. You can search on up to 5 search keys.' | translate}}" popover-trigger="mouseenter"></span> {{'Search Key 1' | translate}}</th>
-                <th bo-sorter="index2" visible="false" class="case-column" remove-column="{{!caseUserCtrl.displayKeys()}}" ng-hide="!caseUserCtrl.displayKeys()">{{'Search Key 2' | translate}}</th>
-                <th bo-sorter="index3" visible="false" class="case-column" remove-column="{{!caseUserCtrl.displayKeys()}}" ng-hide="!caseUserCtrl.displayKeys()">{{'Search Key 3' | translate}}</th>
-                <th bo-sorter="index4" visible="false" class="case-column" remove-column="{{!caseUserCtrl.displayKeys()}}" ng-hide="!caseUserCtrl.displayKeys()">{{'Search Key 4' | translate}}</th>
-                <th bo-sorter="index5" visible="false" class="case-column" remove-column="{{!caseUserCtrl.displayKeys()}}" ng-hide="!caseUserCtrl.displayKeys()">{{'Search Key 5' | translate}}</th>
+                <th bo-sorter="index1" class="case-column" ><span id="infoPopover" class="glyphicon glyphicon-info-sign" popover="{{'To personalize the display of search keys (and columns in general), use the table settings button on the right. You can search on up to 5 search keys.' | translate}}" popover-trigger="mouseenter"></span> {{'Search Key 1' | translate}}</th>
+                <th bo-sorter="index2" visible="false" class="case-column" >{{'Search Key 2' | translate}}</th>
+                <th bo-sorter="index3" visible="false" class="case-column" >{{'Search Key 3' | translate}}</th>
+                <th bo-sorter="index4" visible="false" class="case-column" >{{'Search Key 4' | translate}}</th>
+                <th bo-sorter="index5" visible="false" class="case-column" >{{'Search Key 5' | translate}}</th>
                 <th data-ignore class="text-center">{{'Actions' | translate}}</th>
 
               </tr>
@@ -65,11 +65,11 @@
                 </a>
                 <span ng-if="case['Available tasks'] === 0">0</span>
               </td>
-              <td class="case-detail" ng-hide="!caseUserCtrl.displayKeys()"><search-index case="case" index="1"></search-index></td>
-              <td class="case-detail" ng-hide="!caseUserCtrl.displayKeys()"><search-index case="case" index="2"></search-index></td>
-              <td class="case-detail" ng-hide="!caseUserCtrl.displayKeys()"><search-index case="case" index="3"></search-index></td>
-              <td class="case-detail" ng-hide="!caseUserCtrl.displayKeys()"><search-index case="case" index="4"></search-index></td>
-              <td class="case-detail" ng-hide="!caseUserCtrl.displayKeys()"><search-index case="case" index="5"></search-index></td>
+              <td class="case-detail"><search-index case="case" index="1"></search-index></td>
+              <td class="case-detail"><search-index case="case" index="2"></search-index></td>
+              <td class="case-detail"><search-index case="case" index="3"></search-index></td>
+              <td class="case-detail"><search-index case="case" index="4"></search-index></td>
+              <td class="case-detail"><search-index case="case" index="5"></search-index></td>
               <td class="case-link text-center">
                 <a id="case-overview-btn-{{::case.id}}"
                    tooltip="{{'View case overview' | translate }}"
@@ -111,11 +111,11 @@
                 <th bo-sorter="startDate" class="case-column" bo-sorter-title-asc="{{'sort by Start date ascending' | translate}}" bo-sorter-title-desc="{{'sort by Start date descending' | translate}}">{{'Start date' | translate}}</th>
                 <th class="case-column" >{{'Started by' | translate}}</th>
                 <th bo-sorter="endDate" class="case-column" bo-sorter-title-asc="{{'sort by End date ascending' | translate}}" bo-sorter-title-desc="{{'sort by End date descending' | translate}}">{{'End date' | translate}}</th>
-                <th bo-sorter="index1" class="case-column" remove-column="{{!caseUserCtrl.displayKeys()}}" ng-hide="!caseUserCtrl.displayKeys()"><span id="infoPopover" class="glyphicon glyphicon-info-sign" popover="{{'To personalize the display of search keys (and columns in general), use the table settings button on the right. You can search on up to 5 search keys.' | translate}}" popover-trigger="mouseenter"></span> {{'Search Key 1' | translate}}</th>
-                <th bo-sorter="index2" visible="false" class="case-column" remove-column="{{!caseUserCtrl.displayKeys()}}" ng-hide="!caseUserCtrl.displayKeys()">{{'Search Key 2' | translate}}</th>
-                <th bo-sorter="index3" visible="false" class="case-column" remove-column="{{!caseUserCtrl.displayKeys()}}" ng-hide="!caseUserCtrl.displayKeys()">{{'Search Key 3' | translate}}</th>
-                <th bo-sorter="index4" visible="false" class="case-column" remove-column="{{!caseUserCtrl.displayKeys()}}" ng-hide="!caseUserCtrl.displayKeys()">{{'Search Key 4' | translate}}</th>
-                <th bo-sorter="index5" visible="false" class="case-column" remove-column="{{!caseUserCtrl.displayKeys()}}" ng-hide="!caseUserCtrl.displayKeys()">{{'Search Key 5' | translate}}</th>
+                <th bo-sorter="index1" class="case-column" ><span id="infoPopover" class="glyphicon glyphicon-info-sign" popover="{{'To personalize the display of search keys (and columns in general), use the table settings button on the right. You can search on up to 5 search keys.' | translate}}" popover-trigger="mouseenter"></span> {{'Search Key 1' | translate}}</th>
+                <th bo-sorter="index2" visible="false" class="case-column" >{{'Search Key 2' | translate}}</th>
+                <th bo-sorter="index3" visible="false" class="case-column" >{{'Search Key 3' | translate}}</th>
+                <th bo-sorter="index4" visible="false" class="case-column" >{{'Search Key 4' | translate}}</th>
+                <th bo-sorter="index5" visible="false" class="case-column" >{{'Search Key 5' | translate}}</th>
 
                 <th data-ignore class="text-center">{{'Actions' | translate}}</th>
               </tr>
@@ -134,11 +134,11 @@
               <td class="case-detail">{{::caseUserCtrl.parseAndFormat(case['Start date'])}}</td>
               <td class="case-detail" title="{{'username:' | translate}} {{::case['Started by'] || ('System' | translate)}}">{{::case['Started by fullname'] || ('System' | translate)}}</td>
               <td class="case-detail">{{::caseUserCtrl.parseAndFormat(case['End date'])}}</td>
-              <td class="case-detail" ng-hide="!caseUserCtrl.displayKeys()"><search-index case="case" index="1"></search-index></td>
-              <td class="case-detail" ng-hide="!caseUserCtrl.displayKeys()"><search-index case="case" index="2"></search-index></td>
-              <td class="case-detail" ng-hide="!caseUserCtrl.displayKeys()"><search-index case="case" index="3"></search-index></td>
-              <td class="case-detail" ng-hide="!caseUserCtrl.displayKeys()"><search-index case="case" index="4"></search-index></td>
-              <td class="case-detail" ng-hide="!caseUserCtrl.displayKeys()"><search-index case="case" index="5"></search-index></td>
+              <td class="case-detail"><search-index case="case" index="1"></search-index></td>
+              <td class="case-detail"><search-index case="case" index="2"></search-index></td>
+              <td class="case-detail"><search-index case="case" index="3"></search-index></td>
+              <td class="case-detail"><search-index case="case" index="4"></search-index></td>
+              <td class="case-detail"><search-index case="case" index="5"></search-index></td>
               <td class="case-link text-center">
                 <a id="case-overview-btn-{{::case.id}}"
                   tooltip="{{'View case overview' | translate }}"

@@ -1,0 +1,7 @@
+<div>
+  <span ng-hide="!case.fullCase['searchIndex'+index+'Label'] &amp;&amp; !case.fullCase['searchIndex'+index+'Value']">{{::case.fullCase['searchIndex'+index+'Label']}}:<br></span>
+
+  <span ng-hide="!case.fullCase['searchIndex'+index+'Value']">{{case.fullCase['searchIndex'+index+'Value']}}</span>
+
+  <span ng-hide="!!case.fullCase['searchIndex'+index+'Value']">{{'No value' | translate}}</span>
+</div>
