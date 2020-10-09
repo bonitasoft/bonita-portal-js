@@ -25,6 +25,7 @@
     'org.bonitasoft.features.admin.cases.list.values',
     'org.bonitasoft.features.admin.cases.list.filters',
     'org.bonitasoft.features.admin.cases.list.delete',
+    'org.bonitasoft.features.admin.cases.list.searchIndex',
     'gettext',
     'ui.bootstrap',
     'ui.router',
@@ -297,13 +298,8 @@
 
 
     vm.searchForCases = searchForCases;
-    vm.displayKeys = displayKeys;
     vm.hasMonitoring = hasMonitoring;
     vm.isSupervisor = isSupervisor;
-
-    function displayKeys() {
-      return FeatureManager.isSearchIndexedFeatureActivated();
-    }
 
     function hasMonitoring() {
       return FeatureManager.isMonitoringFeatureActivated();

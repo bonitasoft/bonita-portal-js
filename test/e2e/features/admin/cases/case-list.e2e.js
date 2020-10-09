@@ -19,21 +19,27 @@
   'use strict';
   describe('case admin list', function () {
 
-    const edition = require('../../../utils/edition');
-
     var caseList,
-      nbColumnsDiplayed = (edition.isSP())?9:8,
-      nbTotalcolumns = (edition.isSP())?13:8;
+      nbColumnsDiplayed = 13,
+      nbTotalcolumns = 13;
 
     beforeEach(function () {
       browser.get('#/admin/cases/list');
       caseList = element(by.css('#case-list'));
-    });
+
+      // Show all the columns
+      element(by.css('.bo-Settings')).click();
+      var selectAllUncheckedCB = element.all(by.css('.bo-TableSettings-content input[type=\'checkbox\']:not(:checked)'));
+      selectAllUncheckedCB.each(function(uncheckedCB) {
+        uncheckedCB.click();
+      });
+      element(by.css('.bo-Settings')).click();
+    }, 60000);
 
     afterEach(function () {
       browser.executeScript('window.sessionStorage.clear();');
       browser.executeScript('window.localStorage.clear();');
-    });
+    }, 60000);
 
     describe('table surroundings ', function () {
       it('should contains table headers', function () {
@@ -47,9 +53,11 @@
         expect(columnList.get(6).getText()).toContain('Started by');
         expect(columnList.get(7).getText()).toContain('Failed Flow Nodes');
         expect(columnList.get(8).getText()).toContain('Pending Flow Nodes');
-        if (edition.isSP()) {
-          expect(columnList.get(9).getText()).toContain('Search Key 1');
-        }
+        expect(columnList.get(9).getText()).toContain('Search Key 1');
+        expect(columnList.get(10).getText()).toContain('Search Key 2');
+        expect(columnList.get(11).getText()).toContain('Search Key 3');
+        expect(columnList.get(12).getText()).toContain('Search Key 4');
+        expect(columnList.get(13).getText()).toContain('Search Key 5');
       });
       it('should contains page size selection', function () {
         var caseListSettingsButton = element(by.css('#case-list button.bo-Settings'));
@@ -255,19 +263,11 @@
         tableHeader.get(2).click();
         tableHeader.get(2).click();
         expect(tableHeader.get(2).getText()).toContain('Start date');
-        if(edition.isSP()){
-          expect(caseList.all(by.css('tbody tr')).get(0).all(by.css('td')).getText()).toEqual(['', '2', 'Pool', 'Pool', '1.0', '10/16/2014 4:05 PM', 'William Jobs', '0', '1', 'No value', '']);
-        }else{
-          expect(caseList.all(by.css('tbody tr')).get(0).all(by.css('td')).getText()).toEqual(['', '2', 'Pool', 'Pool', '1.0', '10/16/2014 4:05 PM', 'William Jobs', '0', '1', '']);
-        }
+        expect(caseList.all(by.css('tbody tr')).get(0).all(by.css('td')).getText()).toEqual(['', '2', 'Pool', 'Pool', '1.0', '10/16/2014 4:05 PM', 'William Jobs', '0', '1', 'No value', 'No value', 'No value', 'No value', 'No value', '']);
       });
       it('should order by date desc', function () {
         tableHeader.get(2).click();
-        if(edition.isSP()){
-          expect(caseList.all(by.css('tbody tr')).get(0).all(by.css('td')).getText()).toEqual(['', '1022', 'ProcessX', 'ProcessX', '2.0', '10/20/2014 10:08 AM', 'System', '0', '1', 'No value', '']);
-        }else {
-          expect(caseList.all(by.css('tbody tr')).get(0).all(by.css('td')).getText()).toEqual(['', '1022', 'ProcessX', 'ProcessX', '2.0', '10/20/2014 10:08 AM', 'System', '0', '1', '']);
-        }
+        expect(caseList.all(by.css('tbody tr')).get(0).all(by.css('td')).getText()).toEqual(['', '1022', 'ProcessX', 'ProcessX', '2.0', '10/20/2014 10:08 AM', 'System', '0', '1', 'No value', 'No value', 'No value', 'No value', 'No value', '']);
       });
     });
 
@@ -288,9 +288,7 @@
           expect(poolCaseDetails[6].getText()).toContain('William Jobs');
           expect(poolCaseDetails[7].getText()).toContain('0');
           expect(poolCaseDetails[8].getText()).toContain('1');
-          if(edition.isSP()){
-            expect(poolCaseDetails[9].getText()).toContain('No value');
-          }
+          expect(poolCaseDetails[9].getText()).toContain('No value');
           expect(poolCaseDetails[nbColumnsDiplayed+1].element(by.id('case-detail-btn-298')).getAttribute('href')).toContain('#?id=298&_p=casemoredetailsadmin&');
         });
 
@@ -333,6 +331,12 @@
     });
 
     describe('case admin pager', function () {
+      beforeEach(function() {
+        jasmine.getEnv().defaultTimeoutInterval = 60000;
+      });
+      afterEach(function() {
+        jasmine.getEnv().defaultTimeoutInterval = 30000;
+      });
       it('should display the list of the 25 first cases and navigate using pager', function () {
         var caseList = element(by.css('#case-list'));
         expect(caseList).toBeDefined();
@@ -372,6 +376,7 @@
         var caseCheckBoxesP13 = element.all(by.css('#case-list tbody tr.case-row td.case-checkbox input'));
         expect(caseCheckBoxesP13.count()).toBe(20);
       });
+
       it('should reset the pager when item displayed number is clicked', function () {
         var caseList = element(by.css('#case-list'));
         //browser.debugger();
@@ -396,6 +401,12 @@
 
 
     describe('case admin displayed items per page', function () {
+      beforeEach(function() {
+        jasmine.getEnv().defaultTimeoutInterval = 60000;
+      });
+      afterEach(function() {
+        jasmine.getEnv().defaultTimeoutInterval = 30000;
+      });
       it('should change the number of displayed element when settings are changed to 50', function () {
         var caseListSettingsButton = element(by.css('#case-list button.bo-Settings'));
         caseListSettingsButton.click();
@@ -403,17 +414,6 @@
         var settingsSection = element.all(by.css('.bo-TableSettings-content div'));
         var pageNumberButtons = settingsSection.get(0).all(by.css('button'));
 
-        // click on the third number of page size buttons
-        pageNumberButtons.get(2).click();
-        caseListSettingsButton.click();
-        pageNumberButtons.get(0).click();
-
-        // 1st page must be the active
-        // by default it is the first value of the item number (25)
-        var caseCheckBoxes25 = element.all(by.css('#case-list tbody tr.case-row td.case-checkbox input'));
-        expect(caseCheckBoxes25.count()).toBe(25);
-
-        caseListSettingsButton.click();
         pageNumberButtons.get(1).click();
         var caseCheckBoxes50 = element.all(by.css('#case-list tbody tr.case-row td.case-checkbox input'));
         expect(caseCheckBoxes50.count()).toBe(50);

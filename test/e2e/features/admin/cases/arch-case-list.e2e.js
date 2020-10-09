@@ -18,23 +18,29 @@
 (function () {
   'use strict';
 
-  const edition = require('../../../utils/edition');
-
   describe('archived case admin list', function () {
 
     var caseList,
-      nbColumnsDiplayed = (edition.isSP())?9:8,
-      nbTotalcolumns = (edition.isSP())?13:8;
+      nbColumnsDiplayed = 13,
+      nbTotalcolumns = 13;
 
     beforeEach(function () {
       browser.get('#/admin/cases/list/archived');
       caseList = element(by.css('#case-list'));
-    });
+
+      // Show all the columns
+      element(by.css('.bo-Settings')).click();
+      var selectAllUncheckedCB = element.all(by.css('.bo-TableSettings-content input[type=\'checkbox\']:not(:checked)'));
+      selectAllUncheckedCB.each(function(uncheckedCB) {
+        uncheckedCB.click();
+      });
+      element(by.css('.bo-Settings')).click();
+    }, 60000);
 
     afterEach(function () {
       browser.executeScript('window.sessionStorage.clear();');
       browser.executeScript('window.localStorage.clear();');
-    });
+    }, 60000);
 
     describe('table surroundings ', function () {
       it('should contains table headers', function () {
@@ -48,9 +54,11 @@
         expect(columnList.get(6).getText()).toContain('Started by');
         expect(columnList.get(7).getText()).toContain('End date');
         expect(columnList.get(8).getText()).toContain('State');
-        if (edition.isSP()) {
-          expect(columnList.get(9).getText()).toContain('Search Key 1');
-        }
+        expect(columnList.get(9).getText()).toContain('Search Key 1');
+        expect(columnList.get(10).getText()).toContain('Search Key 2');
+        expect(columnList.get(11).getText()).toContain('Search Key 3');
+        expect(columnList.get(12).getText()).toContain('Search Key 4');
+        expect(columnList.get(13).getText()).toContain('Search Key 5');
       });
       it('should contains page size selection', function () {
         var caseListSettingsButton = element(by.css('#case-list button.bo-Settings'));
@@ -186,27 +194,15 @@
         tableHeader.get(2).click();
         tableHeader.get(2).click();
         expect(tableHeader.get(2).getText()).toContain('Start date');
-        if(edition.isSP()){
-          expect(caseList.all(by.css('tbody tr')).get(0).all(by.css('td')).getText()).toEqual(['', '1', 'Pool', 'Pool', '1.0', '10/16/2014 4:05 PM', 'William Jobs', '11/02/2014 10:07 AM', 'started', 'No value', '']);
-        } else {
-          expect(caseList.all(by.css('tbody tr')).get(0).all(by.css('td')).getText()).toEqual(['', '1', 'Pool', 'Pool', '1.0', '10/16/2014 4:05 PM', 'William Jobs', '11/02/2014 10:07 AM', 'started', '']);
-        }
+        expect(caseList.all(by.css('tbody tr')).get(0).all(by.css('td')).getText()).toEqual(['', '1', 'Pool', 'Pool', '1.0', '10/16/2014 4:05 PM', 'William Jobs', '11/02/2014 10:07 AM', 'started', 'No value', 'No value', 'No value', 'No value', 'No value', '']);
       });
       it('should order by date desc', function () {
         tableHeader.get(2).click();
-        if(edition.isSP()){
-          expect(caseList.all(by.css('tbody tr')).get(0).all(by.css('td')).getText()).toEqual(['', '1', 'ProcessX', 'ProcessX', '2.0', '10/20/2014 10:08 AM', 'System', '11/02/2014 10:07 AM', 'started', 'No value', '']);
-        } else {
-          expect(caseList.all(by.css('tbody tr')).get(0).all(by.css('td')).getText()).toEqual(['', '1', 'ProcessX', 'ProcessX', '2.0', '10/20/2014 10:08 AM', 'System', '11/02/2014 10:07 AM', 'started', '']);
-        }
+        expect(caseList.all(by.css('tbody tr')).get(0).all(by.css('td')).getText()).toEqual(['', '1', 'ProcessX', 'ProcessX', '2.0', '10/20/2014 10:08 AM', 'System', '11/02/2014 10:07 AM', 'started', 'No value', 'No value', 'No value', 'No value', 'No value', '']);
       });
       it('should order by id desc', function () {
         tableHeader.get(0).click();
-        if(edition.isSP()){
-          expect(caseList.all(by.css('tbody tr')).get(0).all(by.css('td')).getText()).toEqual(['', '1', 'Leave Request', 'Leave Request', '1.0', '10/17/2014 4:05 PM', 'Walter Bates', '11/02/2014 10:07 AM', 'started', 'No value', '']);
-        } else {
-          expect(caseList.all(by.css('tbody tr')).get(0).all(by.css('td')).getText()).toEqual(['', '1', 'Leave Request', 'Leave Request', '1.0', '10/17/2014 4:05 PM', 'Walter Bates', '11/02/2014 10:07 AM', 'started', '' ]);
-        }
+        expect(caseList.all(by.css('tbody tr')).get(0).all(by.css('td')).getText()).toEqual(['', '1', 'Leave Request', 'Leave Request', '1.0', '10/17/2014 4:05 PM', 'Walter Bates', '11/02/2014 10:07 AM', 'started', 'No value', 'No value', 'No value', 'No value', 'No value', '']);
       });
     });
 
@@ -231,9 +227,11 @@
           expect(poolCaseDetails[6].getText()).toContain('Walter Bates');
           expect(poolCaseDetails[7].getText()).toContain('11/02/2014 10:07 AM');
           expect(poolCaseDetails[8].getText()).toContain('started');
-          if(edition.isSP()){
-            expect(poolCaseDetails[9].getText()).toContain('No value');
-          }
+          expect(poolCaseDetails[9].getText()).toContain('No value');
+          expect(poolCaseDetails[10].getText()).toContain('No value');
+          expect(poolCaseDetails[11].getText()).toContain('No value');
+          expect(poolCaseDetails[12].getText()).toContain('No value');
+          expect(poolCaseDetails[13].getText()).toContain('No value');
           expect(poolCaseDetails[nbColumnsDiplayed+1].element(by.id('case-detail-btn-1')).getAttribute('href')).toContain('#?id=1&_p=archivedcasemoredetailsadmin&');
         });
       });
@@ -275,6 +273,34 @@
     });
 
     describe('case admin pager', function () {
+      beforeEach(function() {
+        jasmine.getEnv().defaultTimeoutInterval = 60000;
+      });
+      afterEach(function() {
+        jasmine.getEnv().defaultTimeoutInterval = 30000;
+      });
+
+      it('should reset the pager when item displayed number is clicked', function () {
+        var caseList = element(by.css('#case-list'));
+        //browser.debugger();
+        // |<<|<|1|2|3|4|5>|>>|
+        //click on the 4th page
+        var pagination = caseList.all(by.css('.pagination li a'));
+        pagination.get(5).click();
+        // get the fourth page pager
+        var paginationP4 = caseList.all(by.css('.pagination li'));
+
+        expect(paginationP4.get(4).getAttribute('class')).toContain('active');
+        // click on the third number of page size buttons
+        var caseListSettingsButton = element(by.css('#case-list button.bo-Settings'));
+        caseListSettingsButton.click();
+
+        var settingsSection = element.all(by.css('.bo-TableSettings-content div'));
+        settingsSection.get(0).all(by.css('button')).get(2).click();
+        // 1st page must be the active
+        expect(caseList.all(by.css('.pagination li')).get(2).getAttribute('class')).toContain('active');
+      });
+
       it('should display the list of the 25 first cases and navigate using pager', function () {
         var caseList = element(by.css('#case-list'));
         expect(caseList).toBeDefined();
@@ -314,30 +340,16 @@
         var caseCheckBoxesP13 = element.all(by.css('#case-list tbody tr.case-row td.case-checkbox input'));
         expect(caseCheckBoxesP13.count()).toBe(20);
       });
-      it('should reset the pager when item displayed number is clicked', function () {
-        var caseList = element(by.css('#case-list'));
-        //browser.debugger();
-        // |<<|<|1|2|3|4|5>|>>|
-        //click on the 4th page
-        var pagination = caseList.all(by.css('.pagination li a'));
-        pagination.get(5).click();
-        // get the fourth page pager
-        var paginationP4 = caseList.all(by.css('.pagination li'));
-
-        expect(paginationP4.get(4).getAttribute('class')).toContain('active');
-        // click on the third number of page size buttons
-        var caseListSettingsButton = element(by.css('#case-list button.bo-Settings'));
-        caseListSettingsButton.click();
-
-        var settingsSection = element.all(by.css('.bo-TableSettings-content div'));
-        settingsSection.get(0).all(by.css('button')).get(2).click();
-        // 1st page must be the active
-        expect(caseList.all(by.css('.pagination li')).get(2).getAttribute('class')).toContain('active');
-      });
     });
 
 
     describe('case admin displayed items per page', function () {
+      beforeEach(function() {
+        jasmine.getEnv().defaultTimeoutInterval = 60000;
+      });
+      afterEach(function() {
+        jasmine.getEnv().defaultTimeoutInterval = 30000;
+      });
       it('should change the number of displayed element when settings are changed to 50', function () {
         var caseListSettingsButton = element(by.css('#case-list button.bo-Settings'));
         caseListSettingsButton.click();
@@ -345,22 +357,12 @@
         var settingsSection = element.all(by.css('.bo-TableSettings-content div'));
         var pageNumberButtons = settingsSection.get(0).all(by.css('button'));
 
-        // click on the third number of page size buttons
-        pageNumberButtons.get(2).click();
-        caseListSettingsButton.click();
-        pageNumberButtons.get(0).click();
-
-        // 1st page must be the active
-        // by default it is the first value of the item number (25)
-        var caseCheckBoxes25 = element.all(by.css('#case-list tbody tr.case-row td.case-checkbox input'));
-        expect(caseCheckBoxes25.count()).toBe(25);
-
-        caseListSettingsButton.click();
         pageNumberButtons.get(1).click();
         var caseCheckBoxes50 = element.all(by.css('#case-list tbody tr.case-row td.case-checkbox input'));
         expect(caseCheckBoxes50.count()).toBe(50);
 
       });
+
       it('should change the number of displayed element when settings are changed to 100', function () {
         var caseListSettingsButton = element(by.css('#case-list button.bo-Settings'));
         caseListSettingsButton.click();

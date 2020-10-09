@@ -63,20 +63,6 @@
         expect(featureManager.isMonitoringFeatureActivated()).toBeFalsy();
       });
     });
-    describe('isSearchIndexedFeatureActivated', function() {
-      it('should return true if feature is present', function() {
-        var features = [{name: 'SEARCH_INDEX'}, {name: 'Monitoring'}];
-        deferred.resolve(features);
-        scope.$apply();
-        expect(featureManager.isSearchIndexedFeatureActivated()).toBeTruthy();
-      });
-      it('should return false if feature is not present', function() {
-        var features = [{name: 'Monitoring'}];
-        deferred.resolve(features);
-        scope.$apply();
-        expect(featureManager.isSearchIndexedFeatureActivated()).toBeFalsy();
-      });
-    });
     describe('isAccessControlFeatureActivated', function() {
       it('should return true if feature is present', function() {
         var features = [{name: 'SEARCH_INDEX'}, {name: 'BDM_ACCESSCONTROL'}];

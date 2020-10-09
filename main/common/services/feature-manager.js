@@ -26,7 +26,6 @@
   angular.module('org.bonitasoft.service.features', [
     'org.bonitasoft.common.resources.store'
   ]).constant('FEATURES', {
-    searchIndexes : 'SEARCH_INDEX',
     monitoring : 'PROCESS_MONITORING',
     accessControl : 'BDM_ACCESSCONTROL',
   }).service('FeatureManagerResolver', function(FeatureManager, featureAPI) {
@@ -37,10 +36,6 @@
     var FeatureManager = {};
     FeatureManager.isFeatureAvailable = function isFeatureAvailable(feature) {
       return featuresList.indexOf(feature) > -1;
-    };
-
-    FeatureManager.isSearchIndexedFeatureActivated = function () {
-      return featuresList.indexOf(FEATURES.searchIndexes) > -1;
     };
 
     FeatureManager.isAccessControlFeatureActivated = function () {

@@ -24,6 +24,7 @@
     'org.bonitasoft.services.topurl',
     'org.bonitasoft.features.user.cases.list.values',
     'org.bonitasoft.features.user.cases.list.filters',
+    'org.bonitasoft.features.admin.cases.list.searchIndex',
     'gettext',
     'ui.bootstrap',
     'ui.router',
@@ -46,13 +47,13 @@
     .controller('ActiveCaseListUserCtrl', ['$scope', 'sessionAPI', 'caseAPI', 'humanTaskAPI', 'casesUserColumns', 'defaultPageSize', 'defaultSort',
       'defaultDeployedFields', 'defaultActiveCounterFields', '$location', 'pageSizes', 'defaultUserFilters', 'dateParser',
       '$anchorScroll', 'growl', 'moreUserDetailToken', 'tabName', 'manageTopUrl',
-      'processId', 'supervisorId', 'caseStateFilter', 'FeatureManager', CaseListUserCtrl])
+      'processId', 'supervisorId', 'caseStateFilter', CaseListUserCtrl])
 
 
     .controller('ArchivedCaseListUserCtrl', ['$scope', 'sessionAPI', 'archivedCaseAPI', 'humanTaskAPI', 'archivedCasesColumns', 'defaultPageSize',
       'archivedDefaultSort', 'defaultDeployedFields', 'defaultArchivedCounterFields', '$location', 'pageSizes', 'defaultUserFilters', 'dateParser',
       '$anchorScroll', 'growl', 'archivedUserMoreDetailToken', 'tabName', 'manageTopUrl',
-      'processId', 'supervisorId', 'caseStateFilter', 'FeatureManager', CaseListUserCtrl]);
+      'processId', 'supervisorId', 'caseStateFilter', CaseListUserCtrl]);
 
   /**
    * @ngdoc object
@@ -75,7 +76,7 @@
    * @requires growl
    */
   /* jshint -W003 */
-  function CaseListUserCtrl($scope, sessionAPI, caseAPI, humanTaskAPI, casesUserColumns, defaultPageSize, defaultSort, defaultDeployedFields, defaultCounterFields, $location, pageSizes, defaultUserFilters, dateParser, $anchorScroll, growl, moreUserDetailToken, tabName, manageTopUrl, processId, supervisorId, caseStateFilter, FeatureManager) {
+  function CaseListUserCtrl($scope, sessionAPI, caseAPI, humanTaskAPI, casesUserColumns, defaultPageSize, defaultSort, defaultDeployedFields, defaultCounterFields, $location, pageSizes, defaultUserFilters, dateParser, $anchorScroll, growl, moreUserDetailToken, tabName, manageTopUrl, processId, supervisorId, caseStateFilter) {
     var vm = this;
 
     /**
@@ -258,11 +259,6 @@
 
 
     vm.searchForCases = searchForCases;
-    vm.displayKeys = displayKeys;
-
-    function displayKeys() {
-      return FeatureManager.isSearchIndexedFeatureActivated();
-    }
 
     function getStartedByDisplayName(fullCase) {
       var startedBy;
