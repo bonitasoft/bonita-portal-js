@@ -41,6 +41,11 @@ exports.config = {
       default: [] //To load default mock, you need to add mock() in your test
     },
 
+    jasmineNodeOpts: {
+      includeStackTrace: true,
+      defaultTimeoutInterval: 120000
+    },
+
     onPrepare: function() {
       require('protractor-http-mock').config = {
         rootDirectory: __dirname, // default value: process.cwd()

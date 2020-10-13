@@ -35,12 +35,12 @@
         uncheckedCB.click();
       });
       element(by.css('.bo-Settings')).click();
-    }, 60000);
+    });
 
     afterEach(function () {
       browser.executeScript('window.sessionStorage.clear();');
       browser.executeScript('window.localStorage.clear();');
-    }, 60000);
+    });
 
     describe('table surroundings ', function () {
       it('should contains table headers', function () {
@@ -207,12 +207,6 @@
     });
 
     describe('case admin list content', function () {
-      beforeEach(function() {
-        jasmine.getEnv().defaultTimeoutInterval = 60000;
-      });
-      afterEach(function() {
-        jasmine.getEnv().defaultTimeoutInterval = 30000;
-      });
       it('should display the list of the 25 first cases and check the specific content of the first row', function () {
         expect(element.all(by.css('#case-list tr.case-row')).count()).toBe(25);
 
@@ -271,111 +265,6 @@
       });
 
     });
-
-    describe('case admin pager', function () {
-      beforeEach(function() {
-        jasmine.getEnv().defaultTimeoutInterval = 60000;
-      });
-      afterEach(function() {
-        jasmine.getEnv().defaultTimeoutInterval = 30000;
-      });
-
-      xit('should reset the pager when item displayed number is clicked', function () {
-        var caseList = element(by.css('#case-list'));
-        //browser.debugger();
-        // |<<|<|1|2|3|4|5>|>>|
-        //click on the 4th page
-        var pagination = caseList.all(by.css('.pagination li a'));
-        pagination.get(5).click();
-        // get the fourth page pager
-        var paginationP4 = caseList.all(by.css('.pagination li'));
-
-        expect(paginationP4.get(4).getAttribute('class')).toContain('active');
-        // click on the third number of page size buttons
-        var caseListSettingsButton = element(by.css('#case-list button.bo-Settings'));
-        caseListSettingsButton.click();
-
-        var settingsSection = element.all(by.css('.bo-TableSettings-content div'));
-        settingsSection.get(0).all(by.css('button')).get(2).click();
-        // 1st page must be the active
-        expect(caseList.all(by.css('.pagination li')).get(2).getAttribute('class')).toContain('active');
-      });
-
-      it('should display the list of the 25 first cases and navigate using pager', function () {
-        var caseList = element(by.css('#case-list'));
-        expect(caseList).toBeDefined();
-        // check how many lines there are in the table
-        // by default it is the first value of the item number (25)
-        var caseCheckBoxes = element.all(by.css('#case-list tbody tr.case-row td.case-checkbox input'));
-        expect(caseCheckBoxes.count()).toBe(25);
-        // retrieve pager links
-        var pagination = caseList.all(by.css('.pagination li a'));
-        // before clicking the pager is : |<<|<|1|2|3|4|5|>|>>|
-        // click on the 6th element, the 4th page
-        pagination.get(5).click();
-        // now it must be |<<|<|2|3|4|5|6|>|>>| because we display 5 page links
-        var paginationListElementP4 = element.all(by.css('.pagination li'));
-        //check if the 4th page has active class
-        expect(paginationListElementP4.get(4).getAttribute('class')).toContain('active');
-        // check if we have 25 results because 4*25 < 300
-        var caseCheckBoxesP4 = element.all(by.css('#case-list tbody tr.case-row td.case-checkbox input'));
-        expect(caseCheckBoxesP4.count()).toBe(25);
-        expect(paginationListElementP4.getText()).toEqual(['«', '‹', '2', '3', '4', '5', '6', '›', '»']);
-
-        //return to the first page using the first pager link
-        paginationListElementP4.get(0).element(by.css('a')).click();
-        // now pager it must be |<<|<|1|2|3|4|5>|>>|
-        var paginationListElementsP1 = caseList.all(by.css('.pagination li'));
-        //check if the first page is the active
-        expect(paginationListElementsP1.get(2).getAttribute('class')).toContain('active');
-        //click on last page
-        paginationListElementsP1.get(8).element(by.css('a')).click();
-        // now pager it must be |<<|<|9|10|11|12|13>|>>|
-        var paginationListElementsP8 = caseList.all(by.css('.pagination li'));
-        //check if the last page is the last element before the > and >>
-        expect(paginationListElementsP8.get(6).getAttribute('class')).toContain('active');
-        // check if the last element is 13 => 320 / 25 = 13
-        expect(paginationListElementsP8.get(6).getText()).toBe('13');
-        // in last page we must have only 20 elements displayed 320 = 25*12 + 20
-        var caseCheckBoxesP13 = element.all(by.css('#case-list tbody tr.case-row td.case-checkbox input'));
-        expect(caseCheckBoxesP13.count()).toBe(20);
-      });
-    });
-
-
-    describe('case admin displayed items per page', function () {
-      beforeEach(function() {
-        jasmine.getEnv().defaultTimeoutInterval = 60000;
-      });
-      afterEach(function() {
-        jasmine.getEnv().defaultTimeoutInterval = 30000;
-      });
-      it('should change the number of displayed element when settings are changed to 50', function () {
-        var caseListSettingsButton = element(by.css('#case-list button.bo-Settings'));
-        caseListSettingsButton.click();
-
-        var settingsSection = element.all(by.css('.bo-TableSettings-content div'));
-        var pageNumberButtons = settingsSection.get(0).all(by.css('button'));
-
-        pageNumberButtons.get(1).click();
-        var caseCheckBoxes50 = element.all(by.css('#case-list tbody tr.case-row td.case-checkbox input'));
-        expect(caseCheckBoxes50.count()).toBe(50);
-
-      });
-
-      xit('should change the number of displayed element when settings are changed to 100', function () {
-        var caseListSettingsButton = element(by.css('#case-list button.bo-Settings'));
-        caseListSettingsButton.click();
-
-        var settingsSection = element.all(by.css('.bo-TableSettings-content div'));
-        var pageNumberButtons = settingsSection.get(0).all(by.css('button'));
-
-        pageNumberButtons.get(2).click();
-        var caseCheckBoxes100 = element.all(by.css('#case-list tbody tr.case-row td.case-checkbox input'));
-        expect(caseCheckBoxes100.count()).toBe(100);
-      });
-    });
-
 
     describe('case admin select all buttons', function () {
       it('should select all checkboxes when selectAllCB is clicked', function () {
