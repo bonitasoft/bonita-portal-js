@@ -21,20 +21,12 @@
   describe('archived case admin list', function () {
 
     var caseList,
-      nbColumnsDiplayed = 13,
+      nbColumnsDiplayed = 9,
       nbTotalcolumns = 13;
 
     beforeEach(function () {
       browser.get('#/admin/cases/list/archived');
       caseList = element(by.css('#case-list'));
-
-      // Show all the columns
-      element(by.css('.bo-Settings')).click();
-      var selectAllUncheckedCB = element.all(by.css('.bo-TableSettings-content input[type=\'checkbox\']:not(:checked)'));
-      selectAllUncheckedCB.each(function(uncheckedCB) {
-        uncheckedCB.click();
-      });
-      element(by.css('.bo-Settings')).click();
     });
 
     afterEach(function () {
@@ -55,10 +47,6 @@
         expect(columnList.get(7).getText()).toContain('End date');
         expect(columnList.get(8).getText()).toContain('State');
         expect(columnList.get(9).getText()).toContain('Search Key 1');
-        expect(columnList.get(10).getText()).toContain('Search Key 2');
-        expect(columnList.get(11).getText()).toContain('Search Key 3');
-        expect(columnList.get(12).getText()).toContain('Search Key 4');
-        expect(columnList.get(13).getText()).toContain('Search Key 5');
       });
       it('should contains page size selection', function () {
         var caseListSettingsButton = element(by.css('#case-list button.bo-Settings'));
@@ -194,15 +182,15 @@
         tableHeader.get(2).click();
         tableHeader.get(2).click();
         expect(tableHeader.get(2).getText()).toContain('Start date');
-        expect(caseList.all(by.css('tbody tr')).get(0).all(by.css('td')).getText()).toEqual(['', '1', 'Pool', 'Pool', '1.0', '10/16/2014 4:05 PM', 'William Jobs', '11/02/2014 10:07 AM', 'started', 'No value', 'No value', 'No value', 'No value', 'No value', '']);
+        expect(caseList.all(by.css('tbody tr')).get(0).all(by.css('td')).getText()).toEqual(['', '1', 'Pool', 'Pool', '1.0', '10/16/2014 4:05 PM', 'William Jobs', '11/02/2014 10:07 AM', 'started', 'No value', '']);
       });
       it('should order by date desc', function () {
         tableHeader.get(2).click();
-        expect(caseList.all(by.css('tbody tr')).get(0).all(by.css('td')).getText()).toEqual(['', '1', 'ProcessX', 'ProcessX', '2.0', '10/20/2014 10:08 AM', 'System', '11/02/2014 10:07 AM', 'started', 'No value', 'No value', 'No value', 'No value', 'No value', '']);
+        expect(caseList.all(by.css('tbody tr')).get(0).all(by.css('td')).getText()).toEqual(['', '1', 'ProcessX', 'ProcessX', '2.0', '10/20/2014 10:08 AM', 'System', '11/02/2014 10:07 AM', 'started', 'No value', '']);
       });
       it('should order by id desc', function () {
         tableHeader.get(0).click();
-        expect(caseList.all(by.css('tbody tr')).get(0).all(by.css('td')).getText()).toEqual(['', '1', 'Leave Request', 'Leave Request', '1.0', '10/17/2014 4:05 PM', 'Walter Bates', '11/02/2014 10:07 AM', 'started', 'No value', 'No value', 'No value', 'No value', 'No value', '']);
+        expect(caseList.all(by.css('tbody tr')).get(0).all(by.css('td')).getText()).toEqual(['', '1', 'Leave Request', 'Leave Request', '1.0', '10/17/2014 4:05 PM', 'Walter Bates', '11/02/2014 10:07 AM', 'started', 'No value', '']);
       });
     });
 
@@ -222,10 +210,6 @@
           expect(poolCaseDetails[7].getText()).toContain('11/02/2014 10:07 AM');
           expect(poolCaseDetails[8].getText()).toContain('started');
           expect(poolCaseDetails[9].getText()).toContain('No value');
-          expect(poolCaseDetails[10].getText()).toContain('No value');
-          expect(poolCaseDetails[11].getText()).toContain('No value');
-          expect(poolCaseDetails[12].getText()).toContain('No value');
-          expect(poolCaseDetails[13].getText()).toContain('No value');
           expect(poolCaseDetails[nbColumnsDiplayed+1].element(by.id('case-detail-btn-1')).getAttribute('href')).toContain('#?id=1&_p=archivedcasemoredetailsadmin&');
         });
       });

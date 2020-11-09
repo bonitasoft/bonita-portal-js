@@ -48,6 +48,19 @@
     .value('moreUserDetailToken', 'casemoredetails')
     .value('pageSizes', [25, 50, 100, 200])
     .value('defaultPageSize', 25)
+    .value('defaultColumnSettings', [
+      true, //'id'
+      true, //'Process name'
+      false, //'Version'
+      true, //'Start date'
+      true, //'Started by'
+      true, //'Available tasks' or 'En dtae' (archived)
+      true, //'Search index 1'
+      false, //'Search index 2'
+      false, //'Search index 3'
+      false, //'Search index 4'
+      false //'Search index 5'
+    ])
     .value('defaultSort', 'id')
     .value('archivedDefaultSort', 'sourceObjectId')
     .value('defaultUserFilters', {

@@ -44,14 +44,14 @@
     .config(['growlProvider', function (growlProvider) {
       growlProvider.globalPosition('top-center');
     }])
-    .controller('ActiveCaseListUserCtrl', ['$scope', 'sessionAPI', 'caseAPI', 'humanTaskAPI', 'casesUserColumns', 'defaultPageSize', 'defaultSort',
-      'defaultDeployedFields', 'defaultActiveCounterFields', '$location', 'pageSizes', 'defaultUserFilters', 'dateParser',
+    .controller('ActiveCaseListUserCtrl', ['$scope', 'sessionAPI', 'caseAPI', 'humanTaskAPI', 'casesUserColumns', 'defaultPageSize', 'defaultSort', 'defaultColumnSettings',
+      'defaultDeployedFields', 'defaultActiveCounterFields', '$location', '$localStorage', 'pageSizes', 'defaultUserFilters', 'dateParser',
       '$anchorScroll', 'growl', 'moreUserDetailToken', 'tabName', 'manageTopUrl',
       'processId', 'supervisorId', 'caseStateFilter', CaseListUserCtrl])
 
 
     .controller('ArchivedCaseListUserCtrl', ['$scope', 'sessionAPI', 'archivedCaseAPI', 'humanTaskAPI', 'archivedCasesColumns', 'defaultPageSize',
-      'archivedDefaultSort', 'defaultDeployedFields', 'defaultArchivedCounterFields', '$location', 'pageSizes', 'defaultUserFilters', 'dateParser',
+      'archivedDefaultSort', 'defaultColumnSettings', 'defaultDeployedFields', 'defaultArchivedCounterFields', '$location', '$localStorage', 'pageSizes', 'defaultUserFilters', 'dateParser',
       '$anchorScroll', 'growl', 'archivedUserMoreDetailToken', 'tabName', 'manageTopUrl',
       'processId', 'supervisorId', 'caseStateFilter', CaseListUserCtrl]);
 
@@ -76,7 +76,7 @@
    * @requires growl
    */
   /* jshint -W003 */
-  function CaseListUserCtrl($scope, sessionAPI, caseAPI, humanTaskAPI, casesUserColumns, defaultPageSize, defaultSort, defaultDeployedFields, defaultCounterFields, $location, pageSizes, defaultUserFilters, dateParser, $anchorScroll, growl, moreUserDetailToken, tabName, manageTopUrl, processId, supervisorId, caseStateFilter) {
+  function CaseListUserCtrl($scope, sessionAPI, caseAPI, humanTaskAPI, casesUserColumns, defaultPageSize, defaultSort, defaultColumnSettings, defaultDeployedFields, defaultCounterFields, $location, $localStorage, pageSizes, defaultUserFilters, dateParser, $anchorScroll, growl, moreUserDetailToken, tabName, manageTopUrl, processId, supervisorId, caseStateFilter) {
     var vm = this;
 
     /**
@@ -133,6 +133,19 @@
       property: defaultSort,
       direction: true
     };
+    var storageId = 'user-cases-list';
+    if (tabName && tabName !== '') {
+      storageId = tabName + '-' +  storageId;
+    }
+    if (!$localStorage[storageId] || !$localStorage[storageId].columns) {
+      $scope.columnSettings = defaultColumnSettings;
+    } else {
+      var storedColumns = $localStorage[storageId].columns;
+      $scope.columnSettings = [];
+      storedColumns.forEach(function(column, index) {
+         $scope.columnSettings[index] = column.visible;
+      });
+    }
 
     vm.reinitCases = function () {
       $scope.pagination.currentPage = 1;
