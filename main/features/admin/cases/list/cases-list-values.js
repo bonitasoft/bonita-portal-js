@@ -61,6 +61,36 @@
     .value('moreDetailToken', 'casemoredetailsadmin')
     .value('pageSizes', [25, 50, 100, 200])
     .value('defaultPageSize', 25)
+    .value('activeDefaultColumnSettings', [
+      true, //'id'
+      true, //'Process name'
+      true, //'Display name'
+      true, //'Version'
+      true, //'Start date'
+      true, //'Started by'
+      true, //'Failed Flow Nodes'
+      true, //'Pending Flow Nodes'
+      true, //'Search index 1'
+      false, //'Search index 2'
+      false, //'Search index 3'
+      false, //'Search index 4'
+      false //'Search index 5'
+    ])
+    .value('archivedDefaultColumnSettings', [
+      true, //'id'
+      true, //'Process name'
+      true, //'Display name'
+      true, //'Version'
+      true, //'Start date'
+      true, //'Started by'
+      true, //'En date'
+      true, //'State'
+      true, //'Search index 1'
+      false, //'Search index 2'
+      false, //'Search index 3'
+      false, //'Search index 4'
+      false //'Search index 5'
+    ])
     .value('defaultSort', 'id')
     .value('archivedDefaultSort', 'sourceObjectId')
     .value('defaultFilters', {
