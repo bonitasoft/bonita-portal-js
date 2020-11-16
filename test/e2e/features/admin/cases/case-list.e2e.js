@@ -20,20 +20,12 @@
   describe('case admin list', function () {
 
     var caseList,
-      nbColumnsDiplayed = 13,
+      nbColumnsDiplayed = 9,
       nbTotalcolumns = 13;
 
     beforeEach(function () {
       browser.get('#/admin/cases/list');
       caseList = element(by.css('#case-list'));
-
-      // Show all the columns
-      element(by.css('.bo-Settings')).click();
-      var selectAllUncheckedCB = element.all(by.css('.bo-TableSettings-content input[type=\'checkbox\']:not(:checked)'));
-      selectAllUncheckedCB.each(function(uncheckedCB) {
-        uncheckedCB.click();
-      });
-      element(by.css('.bo-Settings')).click();
     });
 
     afterEach(function () {
@@ -54,10 +46,6 @@
         expect(columnList.get(7).getText()).toContain('Failed Flow Nodes');
         expect(columnList.get(8).getText()).toContain('Pending Flow Nodes');
         expect(columnList.get(9).getText()).toContain('Search Key 1');
-        expect(columnList.get(10).getText()).toContain('Search Key 2');
-        expect(columnList.get(11).getText()).toContain('Search Key 3');
-        expect(columnList.get(12).getText()).toContain('Search Key 4');
-        expect(columnList.get(13).getText()).toContain('Search Key 5');
       });
       it('should contains page size selection', function () {
         var caseListSettingsButton = element(by.css('#case-list button.bo-Settings'));
@@ -263,11 +251,11 @@
         tableHeader.get(2).click();
         tableHeader.get(2).click();
         expect(tableHeader.get(2).getText()).toContain('Start date');
-        expect(caseList.all(by.css('tbody tr')).get(0).all(by.css('td')).getText()).toEqual(['', '2', 'Pool', 'Pool', '1.0', '10/16/2014 4:05 PM', 'William Jobs', '0', '1', 'No value', 'No value', 'No value', 'No value', 'No value', '']);
+        expect(caseList.all(by.css('tbody tr')).get(0).all(by.css('td')).getText()).toEqual(['', '2', 'Pool', 'Pool', '1.0', '10/16/2014 4:05 PM', 'William Jobs', '0', '1', 'No value', '']);
       });
       it('should order by date desc', function () {
         tableHeader.get(2).click();
-        expect(caseList.all(by.css('tbody tr')).get(0).all(by.css('td')).getText()).toEqual(['', '1022', 'ProcessX', 'ProcessX', '2.0', '10/20/2014 10:08 AM', 'System', '0', '1', 'No value', 'No value', 'No value', 'No value', 'No value', '']);
+        expect(caseList.all(by.css('tbody tr')).get(0).all(by.css('td')).getText()).toEqual(['', '1022', 'ProcessX', 'ProcessX', '2.0', '10/20/2014 10:08 AM', 'System', '0', '1', 'No value', '']);
       });
     });
 

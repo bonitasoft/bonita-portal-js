@@ -10,8 +10,8 @@
     <div class="panel-heading title">{{ 'Case list' | translate }} <span id="infoPopover" class="glyphicon glyphicon-info-sign" popover="{{'Only cases from root processes are displayed in the table below. No details are available for cases started by call activities.' | translate}}" popover-trigger="mouseenter"></span> <span ng-click="caseCtrl.reinitCases()" tooltip="{{ 'Refresh' | translate}}" tooltip-animation="false" tooltip-popup-delay="300" class="case-list-refresh glyphicon glyphicon-repeat"></span></div>
     <div class="panel-body">
       <div ng-show="cases.length">
-        <div class="col-md-12">
-          <table ng-if="!archivedTabName" bonitable bo-storable="admin-cases-list" on-storage-loaded="caseCtrl.loadContent()" bo-repeatable  on-sort="caseCtrl.updateSortField(sortOptions)" sort-options="sortOptions" resizable-column="$columns" resize-selector="tr th.case-column" class="table table-striped table-hover table-responsive">
+        <div class="col-md-12 table-responsive">
+          <table ng-if="!archivedTabName" bonitable bo-storable="admin-cases-list" on-storage-loaded="caseCtrl.loadContent()" bo-repeatable repeatable-config="columnSettings" on-sort="caseCtrl.updateSortField(sortOptions)" sort-options="sortOptions" resizable-column="$columns" resize-selector="tr th.case-column" class="table table-striped table-hover">
             <thead>
               <tr>
                 <th colspan="{{$columns.length+2}}">
@@ -36,10 +36,10 @@
                 <th class="text-right case-column">{{'Failed Flow Nodes' | translate}}</th>
                 <th class="text-right case-column">{{'Pending Flow Nodes' | translate}} <span id="pendingFlowNodePopover" class="glyphicon glyphicon-info-sign" popover-template="'cases/pengind-flownode.html'" popover-trigger="mouseenter"></span></th>
                 <th bo-sorter="index1" class="case-column"><span id="infoPopover" class="glyphicon glyphicon-info-sign" popover="{{'To personalize the display of search keys (and columns in general), use the table settings button on the right. You can search on up to 5 search keys.' | translate}}" popover-trigger="mouseenter"></span> {{'Search Key 1' | translate}}</th>
-                <th bo-sorter="index2" visible="false" class="case-column">{{'Search Key 2' | translate}}</th>
-                <th bo-sorter="index3" visible="false" class="case-column">{{'Search Key 3' | translate}}</th>
-                <th bo-sorter="index4" visible="false" class="case-column">{{'Search Key 4' | translate}}</th>
-                <th bo-sorter="index5" visible="false" class="case-column">{{'Search Key 5' | translate}}</th>
+                <th bo-sorter="index2" class="case-column">{{'Search Key 2' | translate}}</th>
+                <th bo-sorter="index3" class="case-column">{{'Search Key 3' | translate}}</th>
+                <th bo-sorter="index4" class="case-column">{{'Search Key 4' | translate}}</th>
+                <th bo-sorter="index5" class="case-column">{{'Search Key 5' | translate}}</th>
                 <th data-ignore class="text-center">{{'Actions' | translate}}</th>
               </tr>
             </thead>
@@ -86,7 +86,7 @@
             </tbody>
           </table>
 
-          <table ng-if="archivedTabName" bonitable bo-storable="archived-admin-cases-list" on-storage-loaded="caseCtrl.loadContent()" bo-repeatable on-sort="caseCtrl.updateSortField(sortOptions)" sort-options="sortOptions" resizable-column="$columns" resize-selector="tr th.case-column" class="table table-striped table-hover table-responsive">
+          <table ng-if="archivedTabName" bonitable bo-storable="archived-admin-cases-list" on-storage-loaded="caseCtrl.loadContent()" bo-repeatable repeatable-config="columnSettings" on-sort="caseCtrl.updateSortField(sortOptions)" sort-options="sortOptions" resizable-column="$columns" resize-selector="tr th.case-column" class="table table-striped table-hover">
             <thead>
               <tr>
                 <th colspan="{{$columns.length+2}}">
@@ -110,10 +110,10 @@
                 <th bo-sorter="endDate" class="case-column" bo-sorter-title-asc="{{'sort by End date ascending' | translate}}" bo-sorter-title-desc="{{'sort by End date descending' | translate}}">{{'End date' | translate}}</th>
                 <th class="case-column" >{{'State' | translate}}</th>
                 <th bo-sorter="index1" class="case-column"><span id="infoPopover" class="glyphicon glyphicon-info-sign" popover="{{'To personalize the display of search keys (and columns in general), use the table settings button on the right. You can search on up to 5 search keys.' | translate}}" popover-trigger="mouseenter"></span> {{'Search Key 1' | translate}}</th>
-                <th bo-sorter="index2" visible="false" class="case-column">{{'Search Key 2' | translate}}</th>
-                <th bo-sorter="index3" visible="false" class="case-column">{{'Search Key 3' | translate}}</th>
-                <th bo-sorter="index4" visible="false" class="case-column">{{'Search Key 4' | translate}}</th>
-                <th bo-sorter="index5" visible="false" class="case-column">{{'Search Key 5' | translate}}</th>
+                <th bo-sorter="index2" class="case-column">{{'Search Key 2' | translate}}</th>
+                <th bo-sorter="index3" class="case-column">{{'Search Key 3' | translate}}</th>
+                <th bo-sorter="index4" class="case-column">{{'Search Key 4' | translate}}</th>
+                <th bo-sorter="index5" class="case-column">{{'Search Key 5' | translate}}</th>
 
                 <th data-ignore class="text-center">{{'Actions' | translate}}</th>
               </tr>
