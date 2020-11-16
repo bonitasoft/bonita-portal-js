@@ -46,14 +46,14 @@
     .config(['growlProvider', function (growlProvider) {
       growlProvider.globalPosition('top-center');
     }])
-    .controller('ActiveCaseListCtrl', ['$scope', 'caseAPI', 'casesColumns', 'defaultPageSize', 'defaultSort',
-      'defaultDeployedFields', 'defaultActiveCounterFields', '$location', '$stateParams', 'pageSizes', 'defaultFilters', 'dateParser',
+    .controller('ActiveCaseListCtrl', ['$scope', 'caseAPI', 'casesColumns', 'defaultPageSize', 'defaultSort', 'activeDefaultColumnSettings',
+      'defaultDeployedFields', 'defaultActiveCounterFields', '$location', '$localStorage', '$stateParams', 'pageSizes', 'defaultFilters', 'dateParser',
       '$anchorScroll', 'growl', 'moreDetailToken', 'tabName', 'manageTopUrl',
       'processId', 'supervisorId', 'caseStateFilter', 'FeatureManager', 'ApplicationLink', CaseListCtrl])
 
 
     .controller('ArchivedCaseListCtrl', ['$scope', 'archivedCaseAPI', 'archivedCasesColumns', 'defaultPageSize',
-      'archivedDefaultSort', 'defaultDeployedFields', 'defaultArchivedCounterFields', '$location', '$stateParams', 'pageSizes', 'defaultFilters', 'dateParser',
+      'archivedDefaultSort', 'archivedDefaultColumnSettings', 'defaultDeployedFields', 'defaultArchivedCounterFields', '$location', '$localStorage', '$stateParams', 'pageSizes', 'defaultFilters', 'dateParser',
       '$anchorScroll', 'growl', 'archivedMoreDetailToken', 'tabName', 'manageTopUrl',
       'processId', 'supervisorId', 'caseStateFilter', 'FeatureManager', 'ApplicationLink', CaseListCtrl]);
 
@@ -79,7 +79,7 @@
    * @requires growl
    */
   /* jshint -W003 */
-  function CaseListCtrl($scope, caseAPI, casesColumns, defaultPageSize, defaultSort, defaultDeployedFields, defaultCounterFields, $location, $stateParams, pageSizes, defaultFilters, dateParser, $anchorScroll, growl, moreDetailToken, tabName, manageTopUrl, processId, supervisorId, caseStateFilter, FeatureManager, ApplicationLink) {
+  function CaseListCtrl($scope, caseAPI, casesColumns, defaultPageSize, defaultSort, defaultColumnSettings, defaultDeployedFields, defaultCounterFields, $location, $localStorage, $stateParams, pageSizes, defaultFilters, dateParser, $anchorScroll, growl, moreDetailToken, tabName, manageTopUrl, processId, supervisorId, caseStateFilter, FeatureManager, ApplicationLink) {
     var vm = this;
     var modeDetailProcessToken = 'processmoredetailsadmin';
     var defaultFiltersArray = [];
@@ -98,6 +98,7 @@
      * to display and retrieve the content
      */
     $scope.columns = casesColumns;
+    
     /**
      * @ngdoc property
      * @name o.b.f.admin.cases.list.CaseListCtrl#pagination
@@ -136,6 +137,19 @@
       property: defaultSort,
       direction: true
     };
+    var storageId = 'admin-cases-list';
+    if (tabName && tabName !== '') {
+      storageId = tabName + '-' +  storageId;
+    }
+    if (!$localStorage[storageId] || !$localStorage[storageId].columns) {
+      $scope.columnSettings = defaultColumnSettings;
+    } else {
+      var storedColumns = $localStorage[storageId].columns;
+      $scope.columnSettings = [];
+      storedColumns.forEach(function(column, index) {
+         $scope.columnSettings[index] = column.visible;
+      });
+    }
 
     vm.reinitCases = function () {
       $scope.pagination.currentPage = 1;

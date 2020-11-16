@@ -10,8 +10,8 @@
     <div class="panel-heading title">{{ 'Case list' | translate }}  <span ng-click="caseUserCtrl.reinitCases()" tooltip="{{ 'Refresh' | translate}}" tooltip-animation="false" tooltip-popup-delay="300" class="case-list-refresh glyphicon glyphicon-repeat"></span></div>
     <div class="panel-body">
         <div ng-show="cases.length">
-        <div class="col-md-12">
-          <table ng-if="!archivedTabName" bonitable bo-storable="user-cases-list" on-storage-loaded="caseUserCtrl.loadContent()" bo-repeatable  on-sort="caseUserCtrl.updateSortField(sortOptions)" sort-options="sortOptions" resizable-column="$columns" resize-selector="tr th.case-column" class="table table-striped table-hover table-responsive">
+        <div class="col-md-12 table-responsive">
+          <table ng-if="!archivedTabName" bonitable bo-storable="user-cases-list" on-storage-loaded="caseUserCtrl.loadContent()" bo-repeatable repeatable-config="columnSettings" on-sort="caseUserCtrl.updateSortField(sortOptions)" sort-options="sortOptions" resizable-column="$columns" resize-selector="tr th.case-column" class="table table-striped table-hover">
             <thead>
               <tr>
                 <th colspan="{{$columns.length+2}}">
@@ -24,15 +24,15 @@
               <tr data-headers>
                 <th class="text-right case-column" bo-sorter="id" bo-sorter-title-asc="{{'sort by ID ascending' | translate}}" bo-sorter-title-desc="{{'sort by ID descending' | translate}}">{{'ID' | translate}}</th>
                 <th class="case-column" bo-sorter="name" bo-sorter-title-asc="{{'sort by Process name ascending' | translate}}" bo-sorter-title-desc="{{'sort by Process name descending' | translate}}">{{'Process name' | translate}}</th>
-                <th class="case-column" visible="false">{{'Version' | translate}}</th>
+                <th class="case-column">{{'Version' | translate}}</th>
                 <th bo-sorter="startDate" class="case-column" bo-sorter-title-asc="{{'sort by Start date ascending' | translate}}" bo-sorter-title-desc="{{'sort by Start date descending' | translate}}">{{'Start date' | translate}}</th>
                 <th class="case-column">{{'Started by' | translate}}</th>
                 <th class="text-right case-column">{{'Available tasks' | translate}}</th>
                 <th bo-sorter="index1" class="case-column" ><span id="infoPopover" class="glyphicon glyphicon-info-sign" popover="{{'To personalize the display of search keys (and columns in general), use the table settings button on the right. You can search on up to 5 search keys.' | translate}}" popover-trigger="mouseenter"></span> {{'Search Key 1' | translate}}</th>
-                <th bo-sorter="index2" visible="false" class="case-column" >{{'Search Key 2' | translate}}</th>
-                <th bo-sorter="index3" visible="false" class="case-column" >{{'Search Key 3' | translate}}</th>
-                <th bo-sorter="index4" visible="false" class="case-column" >{{'Search Key 4' | translate}}</th>
-                <th bo-sorter="index5" visible="false" class="case-column" >{{'Search Key 5' | translate}}</th>
+                <th bo-sorter="index2" class="case-column" >{{'Search Key 2' | translate}}</th>
+                <th bo-sorter="index3" class="case-column" >{{'Search Key 3' | translate}}</th>
+                <th bo-sorter="index4" class="case-column" >{{'Search Key 4' | translate}}</th>
+                <th bo-sorter="index5" class="case-column" >{{'Search Key 5' | translate}}</th>
                 <th data-ignore class="text-center">{{'Actions' | translate}}</th>
 
               </tr>
@@ -94,7 +94,7 @@
             </tbody>
           </table>
 
-          <table ng-if="archivedTabName" bonitable bo-storable="archived-user-cases-list" on-storage-loaded="caseUserCtrl.loadContent()" bo-repeatable on-sort="caseUserCtrl.updateSortField(sortOptions)" sort-options="sortOptions" resizable-column="$columns" resize-selector="tr th.case-column" class="table table-striped table-responsive">
+          <table ng-if="archivedTabName" bonitable bo-storable="archived-user-cases-list" on-storage-loaded="caseUserCtrl.loadContent()" bo-repeatable repeatable-config="columnSettings" on-sort="caseUserCtrl.updateSortField(sortOptions)" sort-options="sortOptions" resizable-column="$columns" resize-selector="tr th.case-column" class="table table-striped">
             <thead>
               <tr>
                 <th colspan="{{$columns.length+2}}">
@@ -107,15 +107,15 @@
               <tr data-headers>
                 <th class="text-right case-column" bo-sorter="sourceObjectId" bo-sorter-title-asc="{{'sort by ID ascending' | translate}}" bo-sorter-title-desc="{{'sort by ID descending' | translate}}">{{'ID' | translate}}</th>
                 <th class="case-column" bo-sorter="name" bo-sorter-title-asc="{{'sort by Process name ascending' | translate}}" bo-sorter-title-desc="{{'sort by Process name descending' | translate}}">{{'Process name' | translate}}</th>
-                <th class="case-column" visible="false">{{'Version' | translate}}</th>
+                <th class="case-column">{{'Version' | translate}}</th>
                 <th bo-sorter="startDate" class="case-column" bo-sorter-title-asc="{{'sort by Start date ascending' | translate}}" bo-sorter-title-desc="{{'sort by Start date descending' | translate}}">{{'Start date' | translate}}</th>
                 <th class="case-column" >{{'Started by' | translate}}</th>
                 <th bo-sorter="endDate" class="case-column" bo-sorter-title-asc="{{'sort by End date ascending' | translate}}" bo-sorter-title-desc="{{'sort by End date descending' | translate}}">{{'End date' | translate}}</th>
                 <th bo-sorter="index1" class="case-column" ><span id="infoPopover" class="glyphicon glyphicon-info-sign" popover="{{'To personalize the display of search keys (and columns in general), use the table settings button on the right. You can search on up to 5 search keys.' | translate}}" popover-trigger="mouseenter"></span> {{'Search Key 1' | translate}}</th>
-                <th bo-sorter="index2" visible="false" class="case-column" >{{'Search Key 2' | translate}}</th>
-                <th bo-sorter="index3" visible="false" class="case-column" >{{'Search Key 3' | translate}}</th>
-                <th bo-sorter="index4" visible="false" class="case-column" >{{'Search Key 4' | translate}}</th>
-                <th bo-sorter="index5" visible="false" class="case-column" >{{'Search Key 5' | translate}}</th>
+                <th bo-sorter="index2" class="case-column" >{{'Search Key 2' | translate}}</th>
+                <th bo-sorter="index3" class="case-column" >{{'Search Key 3' | translate}}</th>
+                <th bo-sorter="index4" class="case-column" >{{'Search Key 4' | translate}}</th>
+                <th bo-sorter="index5" class="case-column" >{{'Search Key 5' | translate}}</th>
 
                 <th data-ignore class="text-center">{{'Actions' | translate}}</th>
               </tr>

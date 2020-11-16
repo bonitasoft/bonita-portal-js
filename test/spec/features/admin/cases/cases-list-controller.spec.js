@@ -48,6 +48,21 @@
       var defaultSort = 'id';
       var defaultDeployedFields = ['titi', 'tata', 'toto'];
       var defaultActiveCounterFields = ['failed', 'ongoing'];
+      var defaultColumnSettings = [
+        true, //'id'
+        true, //'Process name'
+        true, //'Display name'
+        true, //'Version'
+        true, //'Start date'
+        true, //'Started by'
+        true, //'Failed Flow Nodes'
+        true, //'Pending Flow Nodes'
+        true, //'Search index 1'
+        false, //'Search index 2'
+        false, //'Search index 3'
+        false, //'Search index 4'
+        false //'Search index 5'
+      ];
 
       describe('with incorrect columns', function() {
         beforeEach(inject(function($controller) {
@@ -56,6 +71,7 @@
             'caseAPI': caseAPI,
             'defaultPageSize': defaultPageSize,
             'defaultSort': defaultSort,
+            'defaultColumnSettings': defaultColumnSettings,
             'defaultDeployedFields': defaultDeployedFields,
             'defaultActiveCounterFields': defaultActiveCounterFields,
             'casesColumns': [{
@@ -109,6 +125,7 @@
             'caseAPI': caseAPI,
             'defaultPageSize': defaultPageSize,
             'defaultSort': defaultSort,
+            'defaultColumnSettings': defaultColumnSettings,
             'defaultDeployedFields': defaultDeployedFields,
             'defaultActiveCounterFields': defaultActiveCounterFields,
             'processId': undefined,
@@ -149,6 +166,7 @@
               'caseAPI': caseAPI,
               'defaultPageSize': defaultPageSize,
               'defaultSort': defaultSort,
+              'defaultColumnSettings': defaultColumnSettings,
               'defaultDeployedFields': defaultDeployedFields,
               'defaultActiveCounterFields': defaultActiveCounterFields,
               'processId': undefined,
@@ -168,6 +186,7 @@
               'caseAPI': caseAPI,
               'defaultPageSize': defaultPageSize,
               'defaultSort': defaultSort,
+              'defaultColumnSettings': defaultColumnSettings,
               'defaultDeployedFields': defaultDeployedFields,
               'defaultActiveCounterFields': defaultActiveCounterFields,
               'processId': undefined,
@@ -189,6 +208,7 @@
               'caseAPI': caseAPI,
               'defaultPageSize': defaultPageSize,
               'defaultSort': defaultSort,
+              'defaultColumnSettings': defaultColumnSettings,
               'defaultDeployedFields': defaultDeployedFields,
               'defaultActiveCounterFields': defaultActiveCounterFields,
               'processId': undefined,
@@ -640,6 +660,21 @@
       describe('page changes', function() {
         var defaultPageSize = 2;
         var defaultSort = 'id';
+        var defaultColumnSettings = [
+          true, //'id'
+          true, //'Process name'
+          true, //'Display name'
+          true, //'Version'
+          true, //'Start date'
+          true, //'Started by'
+          true, //'Failed Flow Nodes'
+          true, //'Pending Flow Nodes'
+          true, //'Search index 1'
+          false, //'Search index 2'
+          false, //'Search index 3'
+          false, //'Search index 4'
+          false //'Search index 5'
+        ];
         var defaultDeployedFields = ['titi', 'tata', 'toto'];
         var anchorScroll = jasmine.createSpy();
         var defaultActiveCounterFields = ['failed', 'ongoing'];
@@ -650,6 +685,7 @@
             'caseAPI': caseAPI,
             'defaultPageSize': defaultPageSize,
             'defaultSort': defaultSort,
+            'defaultColumnSettings': defaultColumnSettings,
             'defaultDeployedFields': defaultDeployedFields,
             'casesColumns': [{
               name: 'AppName',
@@ -862,6 +898,21 @@
         describe('casesSearch', function() {
           var defaultPageSize = 1000;
           var defaultSort = 'id';
+          var defaultColumnSettings = [
+            true, //'id'
+            true, //'Process name'
+            true, //'Display name'
+            true, //'Version'
+            true, //'Start date'
+            true, //'Started by'
+            true, //'Failed Flow Nodes'
+            true, //'Pending Flow Nodes'
+            true, //'Search index 1'
+            false, //'Search index 2'
+            false, //'Search index 3'
+            false, //'Search index 4'
+            false //'Search index 5'
+          ];
           var defaultDeployedFields = ['titi', 'tata', 'toto'];
           var anchorScroll = jasmine.createSpy();
           var defaultActiveCounterFields = ['failed', 'ongoing'];
@@ -872,6 +923,7 @@
               'caseAPI': caseAPI,
               'defaultPageSize': defaultPageSize,
               'defaultSort': defaultSort,
+              'defaultColumnSettings': defaultColumnSettings,
               'defaultDeployedFields': defaultDeployedFields,
               'casesColumns': [{
                 name: 'AppName',
