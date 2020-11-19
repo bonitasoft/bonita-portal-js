@@ -7,13 +7,14 @@
     .controller('ProcessMenuCtrl', ProcessMenuCtrl);
 
   /* jshint -W003 */
-  function ProcessMenuCtrl($scope, menuContent, process, processAPI, $modal, $state, manageTopUrl, $window, processResolutionProblems, ProcessMoreDetailsResolveService, TokenExtensionService, growl, $log, i18nService) {
+  function ProcessMenuCtrl($scope, menuContent, process, stateParamsProcessId, processAPI, $modal, $state, manageTopUrl, $window, processResolutionProblems, ProcessMoreDetailsResolveService, TokenExtensionService, growl, $log, i18nService) {
     var vm = this;
     vm.includesCurrentState = function(state) {
       return $state.includes(state);
     };
     vm.menuContent = menuContent;
     vm.process = process;
+    vm.stateParamsProcessId = stateParamsProcessId;
     vm.toggleProcessActivation = toggleProcessActivation;
     vm.refreshProcess = refreshProcess;
     vm.deleteProcess = deleteProcess;
@@ -24,6 +25,7 @@
     vm.getProcessStatusButtonId = getProcessStatusButtonId;
     vm.getNewButtonLabel = getNewButtonLabel;
     vm.canProcessBeEnabled = canProcessBeEnabled;
+    vm.isProcessFound = isProcessFound;
     vm.ENABLED = 'ENABLED';
     vm.DISABLED = 'DISABLED';
     vm.Enable = i18nService.getKey('processDetails.state.button.enable');
@@ -34,6 +36,10 @@
     vm.goBack = function () {
       $window.history.back();
     };
+
+    function isProcessFound() {
+      return !!process.id;
+    }
 
     function hasResolutionProblem(problemType) {
       return vm.processResolutionProblems.some(function(resolutionProblem) {

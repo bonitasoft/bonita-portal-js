@@ -174,6 +174,11 @@
   }, {
     'target_type': 'parameter'
   }]);
+  when('GET', /^\/API\/bpm\/category\?c=0&f=id%3D10001&p=0$/).respond([]);
+
+
+  // application details
+  when('GET', /^\/API\/living\/application\/456\?d=createdBy&d=updatedBy&d=profileId&d=layoutId&d=themeId/).respond(require('./admin/application/details/details.json'));
 
 
   // Actor Mapping
