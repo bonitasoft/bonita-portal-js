@@ -2,7 +2,7 @@
   'use strict';
 
   var scope, controller, q, processMenuCtrl, processAPI, modal, state, processResolutionProblems,
-    processMoreDetailsResolveService, growl, manageTopUrl, tokenExtensionService, $window;
+    processMoreDetailsResolveService, growl, manageTopUrl, tokenExtensionService, $window, stateParamsProcessId;
 
   describe('processMenuCtrl', function () {
     var menu, process;
@@ -54,6 +54,7 @@
         },
         includes: jasmine.createSpy()
       };
+      stateParamsProcessId = 1234;
       processAPI = jasmine.createSpyObj('processAPI', ['get', 'update', 'delete']);
       processMenuCtrl = controller('ProcessMenuCtrl', {
         $window: $window,
@@ -66,7 +67,8 @@
         processResolutionProblems: processResolutionProblems,
         TokenExtensionService: tokenExtensionService,
         growl: growl,
-        manageTopUrl: manageTopUrl
+        manageTopUrl: manageTopUrl,
+        stateParamsProcessId: stateParamsProcessId
       });
     });
 

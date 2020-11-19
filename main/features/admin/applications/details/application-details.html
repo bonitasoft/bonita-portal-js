@@ -1,9 +1,15 @@
 <div id="app-details-container" class="container">
   <div class="btn-toolbar actions">
     <div class="col-md-2"><back-button></back-button></div>
-    <div class="col-md-10 text-right"><button id="app-edit-btn" class="btn btn-primary" ng-click="applicationDetailsCtrl.update('lg', app )" aria-label="{{'Edit' | translate}}">{{'Edit' | translate}}</button></div>
+    <div class="col-md-10 text-right" ng-hide="!applicationDetailsCtrl.isApplicationFound()"><button id="app-edit-btn" class="btn btn-primary" ng-click="applicationDetailsCtrl.update('lg', app )" aria-label="{{'Edit' | translate}}">{{'Edit' | translate}}</button></div>
   </div>
-  <div id="app-edit-section" class="app-details-container col-md-12">
+  <div id="id-wrong" class="app-details-container col-md-12" ng-hide="applicationDetailsCtrl.isApplicationFound() || !applicationDetailsCtrl.applicationId">
+    <div class="alert alert-info" translate><i class="glyphicon glyphicon-info-sign"></i> {{'No application found with id:' | translate }} <b>{{applicationDetailsCtrl.applicationId}}</b></div>
+  </div>
+  <div id="id-not-provided" class="app-details-container col-md-12" ng-hide="applicationDetailsCtrl.isApplicationFound() || applicationDetailsCtrl.applicationId">
+      <div class="alert alert-info" translate><i class="glyphicon glyphicon-info-sign"></i> {{'Application id not provided. Unable to retrieve the application details.' | translate }}</div>
+  </div>
+  <div id="app-edit-section" class="app-details-container col-md-12" ng-hide="!applicationDetailsCtrl.isApplicationFound()">
     <h1 id="app-details-title">{{app.displayName}} ({{app.version}})</h1>
     <div class="panel panel-default">
       <div class="panel-body">
@@ -37,7 +43,7 @@
       </div>
     </div>
   </div>
-  <div id="look-n-feel-edit-section" class="col-md-12">
+  <div id="look-n-feel-edit-section" class="col-md-12" ng-hide="!applicationDetailsCtrl.isApplicationFound()">
     <h2>{{'Look & Feel' | translate}}</h2>
     <div class="panel panel-default">
       <div class="row panel-body">
@@ -63,8 +69,9 @@
       </div>
     </div>
   </div>
-  <div id="application-page-list-section" ng-if="app.id">
+  <div id="application-page-list-section" ng-hide="!applicationDetailsCtrl.isApplicationFound()">
     <page-list id="page-list" application="app" class="col-md-6"></page-list>
     <menu-creator id="menu-creator" app="app" class="col-md-6 menu-creator"></menu-creator>
   </div>
 </div>
+

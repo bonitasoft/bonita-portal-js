@@ -54,6 +54,9 @@
     .service('ProcessMoreDetailsResolveService', function (store, processConnectorAPI, parameterAPI, categoryAPI, processAPI, actorAPI, processResolutionProblemAPI, ProcessProblemResolutionService) {
       var processMoreDetailsResolveService = {};
       processMoreDetailsResolveService.retrieveProcessResolutionProblem = function (processId) {
+        if (!processId || processId === '') {
+          return [];
+        }
         return store.load(processResolutionProblemAPI, {
           f: ['process_id=' + processId]
         }).then(function(processResolutionProblems) {
@@ -89,6 +92,9 @@
       };
 
       processMoreDetailsResolveService.retrieveCategories = function (processId) {
+        if (!processId || processId === '') {
+          return [];
+        }
         return store.load(categoryAPI, {
           f: ['id=' + processId]
         });
@@ -118,13 +124,23 @@
           controller: 'ProcessMenuCtrl',
           controllerAs: 'processMenuCtrl',
           resolve: {
-            process: function ($stateParams, ProcessMoreDetailsResolveService) {
-              var process = ProcessMoreDetailsResolveService.retrieveProcess($stateParams.processId);
-              process.id = $stateParams.processId;
-              return process;
+            stateParamsProcessId: function ($stateParams) {
+              return $stateParams.processId;
             },
-            processResolutionProblems: function ($stateParams, ProcessMoreDetailsResolveService) {
-              return ProcessMoreDetailsResolveService.retrieveProcessResolutionProblem($stateParams.processId);
+            process: function ($stateParams, ProcessMoreDetailsResolveService) {
+              if (!$stateParams.processId || $stateParams.processId === '') {
+                return {};
+              }
+              var process = ProcessMoreDetailsResolveService.retrieveProcess($stateParams.processId);
+              return process.$promise.then(function (result) {
+                return result;
+              }).catch(function () {
+                return {};
+              });
+            },
+            processResolutionProblems: function (process, ProcessMoreDetailsResolveService) {
+              /* Depends on process resolution */
+              return ProcessMoreDetailsResolveService.retrieveProcessResolutionProblem(process.id);
             },
             supervisorId: function($stateParams, TokenExtensionService) {
               TokenExtensionService.tokenExtensionValue = (angular.isDefined($stateParams['supervisor_id']) ? 'pm' : 'admin');
