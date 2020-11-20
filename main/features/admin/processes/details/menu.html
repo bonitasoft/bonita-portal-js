@@ -22,12 +22,12 @@
     </div>
   </div>
   <div id="id-wrong" class="col-md-12" ng-if="!processMenuCtrl.isProcessFound() && processMenuCtrl.stateParamsProcessId">
-    <div class="alert alert-info" translate><i class="glyphicon glyphicon-info-sign"></i>
+    <div class="alert alert-info"><i class="glyphicon glyphicon-info-sign"></i>
       {{'No process found with id:' | translate }} <b>{{processMenuCtrl.stateParamsProcessId}}</b>
     </div>
   </div>
   <div id="id-not-provided" class="col-md-12" ng-if="!processMenuCtrl.isProcessFound() && !processMenuCtrl.stateParamsProcessId">
-    <div class="alert alert-info" translate><i class="glyphicon glyphicon-info-sign"></i>
+    <div class="alert alert-info"><i class="glyphicon glyphicon-info-sign"></i>
       {{'Process id not provided. Unable to retrieve the process details.' | translate }}
     </div>
   </div>

@@ -4,10 +4,10 @@
     <div class="col-md-10 text-right" ng-hide="!applicationDetailsCtrl.isApplicationFound()"><button id="app-edit-btn" class="btn btn-primary" ng-click="applicationDetailsCtrl.update('lg', app )" aria-label="{{'Edit' | translate}}">{{'Edit' | translate}}</button></div>
   </div>
   <div id="id-wrong" class="app-details-container col-md-12" ng-hide="applicationDetailsCtrl.isApplicationFound() || !applicationDetailsCtrl.applicationId">
-    <div class="alert alert-info" translate><i class="glyphicon glyphicon-info-sign"></i> {{'No application found with id:' | translate }} <b>{{applicationDetailsCtrl.applicationId}}</b></div>
+    <div class="alert alert-info"><i class="glyphicon glyphicon-info-sign"></i> {{'No application found with id:' | translate }} <b>{{applicationDetailsCtrl.applicationId}}</b></div>
   </div>
   <div id="id-not-provided" class="app-details-container col-md-12" ng-hide="applicationDetailsCtrl.isApplicationFound() || applicationDetailsCtrl.applicationId">
-      <div class="alert alert-info" translate><i class="glyphicon glyphicon-info-sign"></i> {{'Application id not provided. Unable to retrieve the application details.' | translate }}</div>
+      <div class="alert alert-info"><i class="glyphicon glyphicon-info-sign"></i> {{'Application id not provided. Unable to retrieve the application details.' | translate }}</div>
   </div>
   <div id="app-edit-section" class="app-details-container col-md-12" ng-hide="!applicationDetailsCtrl.isApplicationFound()">
     <h1 id="app-details-title">{{app.displayName}} ({{app.version}})</h1>
@@ -74,4 +74,3 @@
     <menu-creator id="menu-creator" app="app" class="col-md-6 menu-creator"></menu-creator>
   </div>
 </div>
-
