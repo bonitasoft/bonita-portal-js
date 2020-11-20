@@ -3,7 +3,7 @@
     <div class="col-md-2">
         <a id="processDetails-back" class="btn btn-default" ng-click="processMenuCtrl.goBack()">{{'Back' | translate}}</a>
     </div>
-    <div class="col-md-10 text-right">
+    <div class="col-md-10 text-right" ng-if="processMenuCtrl.isProcessFound() && processMenuCtrl.stateParamsProcessId">
       <start-for process="processMenuCtrl.process"></start-for>&nbsp;
       <button id="{{processMenuCtrl.getProcessStatusButtonId()}}"
               type="button"
@@ -21,32 +21,44 @@
       </button>
     </div>
   </div>
-  <div class="col-md-12">
-    <h1>{{processMenuCtrl.process.displayName}} ({{processMenuCtrl.process.version}})</h1>
+  <div id="id-wrong" class="col-md-12" ng-if="!processMenuCtrl.isProcessFound() && processMenuCtrl.stateParamsProcessId">
+    <div class="alert alert-info"><i class="glyphicon glyphicon-info-sign"></i>
+      {{'No process found with id:' | translate }} <b>{{processMenuCtrl.stateParamsProcessId}}</b>
+    </div>
   </div>
-  <div class="col-md-12" style="padding-top: 10px;">
-    <div ng-if="processMenuCtrl.processResolutionProblems.length" style=" padding-bottom: 0px;" class="panel panel-danger slide">
-      <div class="panel-heading" ng-if="processMenuCtrl.process.activationState === processMenuCtrl.DISABLED"><span class="glyphicon glyphicon-exclamation-sign"></span> {{ 'This process is not fully configured. It cannot be enabled.' | translate }}</div>
-      <div class="panel-heading" ng-if="processMenuCtrl.process.activationState === processMenuCtrl.ENABLED"><span class="glyphicon glyphicon-exclamation-sign"></span> {{ 'This process is not fully configured, but it is still enabled. Users may still be able to start cases or do tasks, which may lead to errors.' | translate }}</div>
-      <div class="panel-body">
-        <div class="col-md-12">
-          <ul>
-            <li ng-repeat="problem in processMenuCtrl.processResolutionProblems">
-              {{problem.message | translate | stringTemplater: problem.args}}
-            </li>
-          </ul>
+  <div id="id-not-provided" class="col-md-12" ng-if="!processMenuCtrl.isProcessFound() && !processMenuCtrl.stateParamsProcessId">
+    <div class="alert alert-info"><i class="glyphicon glyphicon-info-sign"></i>
+      {{'Process id not provided. Unable to retrieve the process details.' | translate }}
+    </div>
+  </div>
+  <div id="process-menu" ng-if="processMenuCtrl.isProcessFound()">
+      <div class="col-md-12">
+        <h1>{{processMenuCtrl.process.displayName}} ({{processMenuCtrl.process.version}})</h1>
+      </div>
+      <div class="col-md-12" style="padding-top: 10px;">
+        <div ng-if="processMenuCtrl.processResolutionProblems.length" style=" padding-bottom: 0px;" class="panel panel-danger slide">
+          <div class="panel-heading" ng-if="processMenuCtrl.process.activationState === processMenuCtrl.DISABLED"><span class="glyphicon glyphicon-exclamation-sign"></span> {{ 'This process is not fully configured. It cannot be enabled.' | translate }}</div>
+          <div class="panel-heading" ng-if="processMenuCtrl.process.activationState === processMenuCtrl.ENABLED"><span class="glyphicon glyphicon-exclamation-sign"></span> {{ 'This process is not fully configured, but it is still enabled. Users may still be able to start cases or do tasks, which may lead to errors.' | translate }}</div>
+          <div class="panel-body">
+            <div class="col-md-12">
+              <ul>
+                <li ng-repeat="problem in processMenuCtrl.processResolutionProblems">
+                  {{problem.message | translate | stringTemplater: problem.args}}
+                </li>
+              </ul>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
-  </div>
-  <div class="col-sm-3 col-md-3 col-lg-2">
-    <div class="list-group">
-      <a class="list-group-item" ng-repeat="item in processMenuCtrl.menuContent" ng-class="{active: processMenuCtrl.includesCurrentState(item.state) }" ui-sref="{{item.defaultDestinationState || item.state}}" ui-sref-opts="{location:false}">{{item.name | translate}}<span ng-if="processMenuCtrl.hasResolutionProblem(item.resolutionLabel)" ng-class="{'text-danger': !processMenuCtrl.includesCurrentState(item.state) }" class="glyphicon glyphicon-exclamation-sign"></span> </a>
-    </div>
-  </div>
-  <div class="col-sm-9 col-md-9 col-lg-10">
-    <div class="col-md-12">
-      <ui-view></ui-view>
-    </div>
+      <div class="col-sm-3 col-md-3 col-lg-2">
+        <div class="list-group">
+          <a class="list-group-item" ng-repeat="item in processMenuCtrl.menuContent" ng-class="{active: processMenuCtrl.includesCurrentState(item.state) }" ui-sref="{{item.defaultDestinationState || item.state}}" ui-sref-opts="{location:false}">{{item.name | translate}}<span ng-if="processMenuCtrl.hasResolutionProblem(item.resolutionLabel)" ng-class="{'text-danger': !processMenuCtrl.includesCurrentState(item.state) }" class="glyphicon glyphicon-exclamation-sign"></span> </a>
+        </div>
+      </div>
+      <div class="col-sm-9 col-md-9 col-lg-10">
+        <div class="col-md-12">
+          <ui-view></ui-view>
+        </div>
+      </div>
   </div>
 </div>

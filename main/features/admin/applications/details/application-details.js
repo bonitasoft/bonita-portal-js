@@ -44,6 +44,7 @@
       var ctrl = this;
       ctrl.modal = null;
       ctrl.isEditLayoutAvailable = FeatureManager.isFeatureAvailable('APPLICATION_LOOK_N_FEEL');
+      ctrl.applicationId = $stateParams.id;
 
       store
         .load(customPageAPI, {f:'contentType=layout'})
@@ -58,9 +59,13 @@
         });
 
       ctrl.reload = function reload() {
+        if (ctrl.applicationId === '') {
+          $scope.app = undefined;
+          return;
+        }
         $scope.app = applicationAPI.get({
-          id: $stateParams.id,
-          d: ['createdBy', 'updatedBy', 'profileId', 'layoutId', 'themeId']
+          id: ctrl.applicationId,
+          d: ['createdBy', 'updatedBy', 'profileId', 'layoutId', 'themeId'],
         });
       };
 
@@ -103,6 +108,13 @@
 
       ctrl.handleErrors = function handleErrors(response) {
         return response.data.message;
+      };
+
+      ctrl.isApplicationFound = function () {
+        if ($scope.app) {
+          return !!$scope.app.id;
+        }
+        return false;
       };
 
     }
