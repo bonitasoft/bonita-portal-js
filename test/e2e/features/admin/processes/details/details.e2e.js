@@ -123,6 +123,7 @@
         expect(processDetails.all(by.css('.actions #processDetails-deleteProcess')).get(0).getAttribute('disabled')).toEqual('true');
       }
     });
+
     describe('Unresolved Process', function() {
 
       beforeEach(function() {
@@ -173,5 +174,36 @@
         });
       });
     });
+
+    describe('with no process id', function() {
+
+      beforeEach(function() {
+        browser.get('#/admin/processes/details/');
+      });
+
+      it('should display no id message', function() {
+        expect(element(by.css('#processDetails-back')).isPresent()).toBe(true);
+        expect(element(by.css('#id-not-provided')).isPresent()).toBe(true);
+        expect(element(by.tagName('start-for')).isPresent()).toBe(false);
+        expect(element(by.css('#id-wrong')).isPresent()).toBe(false);
+        expect(element(by.css('#process-menu')).isPresent()).toBe(false);
+      });
+    });
+
+    describe('with wrong process id', function() {
+
+      beforeEach(function() {
+        browser.get('#/admin/processes/details/10001');
+      });
+
+      it('should display wrong id message', function() {
+        expect(element(by.css('#processDetails-back')).isPresent()).toBe(true);
+        expect(element(by.css('#id-wrong')).isPresent()).toBe(true);
+        expect(element(by.tagName('start-for')).isPresent()).toBe(false);
+        expect(element(by.css('#id-not-provided')).isPresent()).toBe(false);
+        expect(element(by.css('#process-menu')).isPresent()).toBe(false);
+      });
+    });
+
   });
 })();
