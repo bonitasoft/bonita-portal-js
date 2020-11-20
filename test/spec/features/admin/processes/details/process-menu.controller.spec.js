@@ -5,7 +5,7 @@
     processMoreDetailsResolveService, growl, manageTopUrl, tokenExtensionService, $window, stateParamsProcessId;
 
   describe('processMenuCtrl', function () {
-    var menu, process;
+    var menu, process, ApplicationLink;
 
     beforeEach(module('org.bonitasoft.features.admin.processes.details'));
 
@@ -19,10 +19,14 @@
       tokenExtensionService = {
         tokenExtensionValue: 'admin'
       };
+      ApplicationLink = {
+        isInApps: false
+      };
       growl = jasmine.createSpyObj('growl', ['error']);
-      manageTopUrl = jasmine.createSpyObj('manageTopUrl', ['goTo', 'getCurrentPageToken']);
+      manageTopUrl = jasmine.createSpyObj('manageTopUrl', ['goTo', 'getPath', 'getCurrentPageToken']);
       $window = {
-        history: jasmine.createSpyObj('history', ['back'])
+        history: jasmine.createSpyObj('history', ['back']),
+        parent: jasmine.createSpyObj('location', ['href'])
       };
     }));
 
@@ -68,6 +72,7 @@
         TokenExtensionService: tokenExtensionService,
         growl: growl,
         manageTopUrl: manageTopUrl,
+        ApplicationLink: ApplicationLink,
         stateParamsProcessId: stateParamsProcessId
       });
     });
@@ -162,7 +167,7 @@
       expect(processAPI.delete).toHaveBeenCalledWith(process);
     });
 
-    it('should a redirect to listing page when delete is successful', function () {
+    it('should a redirect to listing page when delete is successful in old portal', function () {
       modal.open.and.returnValue({result: q.when({id: 42})});
       processAPI.delete.and.returnValue({$promise: q.when({})});
       tokenExtensionService.tokenExtensionValue = 'pm';
@@ -199,6 +204,19 @@
       expect(processMenuCtrl.hasResolutionProblem('connector')).toBeFalsy();
       expect(processMenuCtrl.hasResolutionProblem('actor')).toBeTruthy();
     });
+
+    it('should redirect to admin process list on delete success when in application', function () {
+      ApplicationLink.isInApps = true;
+      manageTopUrl.getPath.and.returnValue('/bonita/apps/appName/admin-process-details/?id=42');
+      modal.open.and.returnValue({result: q.when({id: 42})});
+      processAPI.delete.and.returnValue({$promise: q.when({})});
+
+      processMenuCtrl.deleteProcess();
+      scope.$apply();
+
+      expect($window.parent.location).toBe('/bonita/apps/appName/admin-process-details/?id=42../admin-process-list');
+    });
+
   });
 
 })();
