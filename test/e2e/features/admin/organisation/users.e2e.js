@@ -41,6 +41,26 @@
       expect(profilesMenuItem.getAttribute('class')).toContain('active');
       expect(element(by.tagName('h2')).getText()).toBe('Profiles');
     });
+
+    it('should display no user id information', () => {
+      browser.get('#/admin/organisation/users/');
+
+      expect(element(by.cssContainingText('a', 'Back')).isPresent()).toBe(true);
+      expect(element(by.css('#id-not-provided')).isPresent()).toBe(true);
+      expect(element(by.css('#id-wrong')).isPresent()).toBe(false);
+      expect(element(by.css('.list-group')).isPresent()).toBe(false);
+      expect(element(by.css('.UserDetails')).isPresent()).toBe(false);
+    });
+
+    it('should display user not found information', () => {
+      browser.get('#/admin/organisation/users/500');
+
+      expect(element(by.cssContainingText('a', 'Back')).isPresent()).toBe(true);
+      expect(element(by.css('#id-wrong')).isPresent()).toBe(true);
+      expect(element(by.css('#id-not-provided')).isPresent()).toBe(false);
+      expect(element(by.css('.list-group')).isPresent()).toBe(false);
+      expect(element(by.css('.UserDetails')).isPresent()).toBe(false);
+    });
   });
 
 })();
