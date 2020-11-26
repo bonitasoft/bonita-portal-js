@@ -6,9 +6,10 @@
     .controller('UserDetailsCtrl', UserDetailsCtrl);
 
   /* jshint camelcase: false */
-  function UserDetailsCtrl(user, growl, gettextCatalog, professionalDataAPI, personalDataAPI, userAPI, FileUploader, $state) {
+  function UserDetailsCtrl(user, growl, gettextCatalog, professionalDataAPI, personalDataAPI, userAPI, FileUploader, $state, stateParamsUserId) {
     var vm = this;
     vm.user = user;
+    vm.stateParamsUserId = stateParamsUserId;
 
     vm.saveGeneralInformation = function (user) {
       userAPI.update({
@@ -67,6 +68,9 @@
     };
 
     vm.searchManagers = function(search) {
+      if (!vm.isUserFound()) {
+        return [];
+      }
       return userAPI.search({
         'c': 20,
         'p': 0,
@@ -75,6 +79,13 @@
       }).$promise.then(function(result){
         return result.data;
       });
+    };
+
+    vm.isUserFound = function() {
+      if (user) {
+        return !!user.id;
+      }
+      return false;
     };
 
     vm.uploader = new FileUploader({

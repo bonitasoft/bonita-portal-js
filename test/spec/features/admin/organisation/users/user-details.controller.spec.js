@@ -3,7 +3,7 @@
 
   describe('user details controller', () => {
 
-    let controller, scope, userAPI, professionalDataAPI, personalDataAPI, growl, $q, $timeout, $state;
+    let controller, scope, userAPI, professionalDataAPI, personalDataAPI, growl, $q, $timeout, $state, stateParamsUserId;
 
     beforeEach(module('org.bonitasoft.features.admin.organisation.users'));
 
@@ -16,6 +16,7 @@
       personalDataAPI = jasmine.createSpyObj('personalDataAPI', ['update']);
       growl = jasmine.createSpyObj('growl', ['success', 'error']);
       $state = jasmine.createSpyObj('$state', ['reload']);
+      stateParamsUserId = 4;
 
       userAPI.update.and.returnValue({$promise: $q.when({})});
       professionalDataAPI.update.and.returnValue({$promise: $q.when({})});
@@ -30,7 +31,8 @@
         professionalDataAPI: professionalDataAPI,
         personalDataAPI: personalDataAPI,
         growl: growl,
-        $state: $state
+        $state: $state,
+        stateParamsUserId: stateParamsUserId
       });
       scope.$apply();
     }));
@@ -88,6 +90,7 @@
     it('should save user\'s new password', () => {
       /* jshint camelcase: false */
       controller.user = {id: 42};
+      controller.stateParamsUserId = 42;
 
       controller.updatePassword({new: 'newPassword', confirm: 'newPassword'});
 
@@ -142,8 +145,7 @@
           state: 'PA',
           website: '',
           zipcode: '19108',
-        }
-      ;
+        };
 
       controller.saveBusinessCard(businessCard);
 
@@ -210,6 +212,7 @@
     });
 
     it('should search for managers', (done) => {
+      controller.user.id = 4;
       userAPI.search.and.returnValue({$promise: $q.when({data: [{manager: 1}, {manager: 2}]})});
 
       controller.searchManagers('whatever')
