@@ -31,7 +31,7 @@
         expect(element(by.css('#app-edit-btn')).isDisplayed()).toBe(false);
         expect(element(by.css('#app-edit-section')).isDisplayed()).toBe(false);
         expect(element(by.css('#look-n-feel-edit-section')).isDisplayed()).toBe(false);
-        expect(element(by.css('#application-page-list-section')).isDisplayed()).toBe(false);
+        expect(element(by.css('#application-page-list-section')).isPresent()).toBe(false);
       });
     });
 
@@ -48,7 +48,7 @@
         expect(element(by.css('#app-edit-btn')).isDisplayed()).toBe(false);
         expect(element(by.css('#app-edit-section')).isDisplayed()).toBe(false);
         expect(element(by.css('#look-n-feel-edit-section')).isDisplayed()).toBe(false);
-        expect(element(by.css('#application-page-list-section')).isDisplayed()).toBe(false);
+        expect(element(by.css('#application-page-list-section')).isPresent()).toBe(false);
       });
     });
 
