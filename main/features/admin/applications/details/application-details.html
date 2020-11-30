@@ -69,7 +69,7 @@
       </div>
     </div>
   </div>
-  <div id="application-page-list-section" ng-hide="!applicationDetailsCtrl.isApplicationFound()">
+  <div id="application-page-list-section" ng-if="app.id">
     <page-list id="page-list" application="app" class="col-md-6"></page-list>
     <menu-creator id="menu-creator" app="app" class="col-md-6 menu-creator"></menu-creator>
   </div>
