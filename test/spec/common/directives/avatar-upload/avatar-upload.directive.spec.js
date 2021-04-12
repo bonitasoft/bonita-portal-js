@@ -5,7 +5,7 @@
 
     let element, scope;
 
-    beforeEach(module('org.bonitasoft.features.admin.organisation.users', 'org.bonitasoft.templates'));
+    beforeEach(module('angularFileUpload', 'org.bonitasoft.common.directives.avatar-upload', 'org.bonitasoft.templates'));
 
     beforeEach(inject(function ($compile, $rootScope, FileUploader) {
       scope = $rootScope.$new();

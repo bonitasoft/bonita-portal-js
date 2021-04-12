@@ -47,23 +47,29 @@
     <h2>{{'Look & Feel' | translate}}</h2>
     <div class="panel panel-default">
       <div class="row panel-body">
-        <div class="col-md-6">
+        <div class="col-md-12 app-details-flex-display">
           <dl class="dl-horizontal app-details-col">
-            <dt id="app-layout-label">{{'Layout' | translate}}</dt>
-            <dd id="app-layout-value">
-              <div  ng-if="!applicationDetailsCtrl.isEditLayoutAvailable">{{app.layoutId.displayName}}</div>
-              <a  ng-if="applicationDetailsCtrl.isEditLayoutAvailable"  href="" editable-select="app.layoutId" onbeforesave="applicationDetailsCtrl.updateLayout(app, $data)" e-ng-options="layoutPage as layoutPage.displayName for layoutPage in layoutPages track by layoutPage.id">{{ app.layoutId.displayName }}</a>
-            </dd>
-          </dl>
-        </div>
-        <div class="col-md-6">
-          <dl class="dl-horizontal app-details-col">
-            <dt id="app-theme-label">{{'Theme' | translate}}</dt>
-            <dd id="app-theme-value">
-              <div  ng-if="!applicationDetailsCtrl.isEditLayoutAvailable">{{app.themeId.displayName}}</div>
-              <a  ng-if="applicationDetailsCtrl.isEditLayoutAvailable"  href="" editable-select="app.themeId" onbeforesave="applicationDetailsCtrl.updateTheme(app, $data)"
-                  e-ng-options="themePage as themePage.displayName for themePage in themePages track by themePage.id">{{ app.themeId.displayName }}</a>
-            </dd>
+              <div class="col-md-4">
+                  <dt id="app-logo-label">{{'Logo' | translate}}</dt>
+                  <dd id="app-logo-value">
+                      <bo-avatar-upload icon-src="app.icon" uploader="applicationDetailsCtrl.uploader"></bo-avatar-upload>
+                  </dd>
+              </div>
+              <div class="col-md-4">
+                  <dt id="app-layout-label">{{'Layout' | translate}}</dt>
+                  <dd id="app-layout-value">
+                      <div ng-if="!applicationDetailsCtrl.isEditLayoutAvailable">{{app.layoutId.displayName}}</div>
+                      <a ng-if="applicationDetailsCtrl.isEditLayoutAvailable"  href="" editable-select="app.layoutId" onbeforesave="applicationDetailsCtrl.updateLayout(app, $data)" e-ng-options="layoutPage as layoutPage.displayName for layoutPage in layoutPages track by layoutPage.id">{{ app.layoutId.displayName }}</a>
+                  </dd>
+              </div>
+              <div class="col-md-4">
+                  <dt id="app-theme-label">{{'Theme' | translate}}</dt>
+                  <dd id="app-theme-value">
+                      <div ng-if="!applicationDetailsCtrl.isEditLayoutAvailable">{{app.themeId.displayName}}</div>
+                      <a ng-if="applicationDetailsCtrl.isEditLayoutAvailable"  href="" editable-select="app.themeId" onbeforesave="applicationDetailsCtrl.updateTheme(app, $data)"
+                         e-ng-options="themePage as themePage.displayName for themePage in themePages track by themePage.id">{{ app.themeId.displayName }}</a>
+                  </dd>
+              </div>
           </dl>
         </div>
       </div>

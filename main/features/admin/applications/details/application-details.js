@@ -22,11 +22,13 @@
     'org.bonitasoft.common.resources',
     'ui.router',
     'org.bonitasoft.common.directives.bootstrap-form-control',
+    'org.bonitasoft.common.directives.avatar-upload',
     'org.bonitasoft.features.admin.applications.details.page-list',
     'org.bonitasoft.common.moment',
     'ui.tree',
     'org.bonitasoft.service.features',
-    'xeditable'
+    'xeditable',
+    'angularFileUpload'
   ])
 
     .config(['$stateProvider', function ($stateProvider) {
@@ -39,7 +41,7 @@
     }
     ])
 
-    .controller('applicationDetailsCtrl', ['$rootScope', '$scope', '$modal', 'applicationAPI', '$stateParams', 'FeatureManager', 'store', 'customPageAPI', function ($rootScope, $scope, $modal, applicationAPI, $stateParams, FeatureManager, store, customPageAPI) {
+    .controller('applicationDetailsCtrl', ['$rootScope', '$scope', '$modal', 'applicationAPI', '$stateParams', 'FeatureManager', 'store', 'customPageAPI', '$state', 'FileUploader', function ($rootScope, $scope, $modal, applicationAPI, $stateParams, FeatureManager, store, customPageAPI, $state, FileUploader) {
 
       var ctrl = this;
       ctrl.modal = null;
@@ -116,6 +118,22 @@
         }
         return false;
       };
+
+      ctrl.uploader = new FileUploader({
+        autoUpload: true,
+        url: '../portal/imageUpload',
+        onSuccessItem: function(item, response) {
+          applicationAPI.update({
+            id: ctrl.applicationId,
+            icon: response
+          }).$promise.then(function () {
+            $state.reload();
+          });
+        },
+        onErrorItem: function(item, response, status) {
+          this.status = status;
+        }
+      });
 
     }
     ])

@@ -205,6 +205,79 @@
 
   });
 
+  describe('Application details icon', function() {
+
+    var ctrl, scope, applicationAPI, modal, store, $httpBackend, $q, $state;
+
+    beforeEach(module('org.bonitasoft.features.admin.applications.details', 'org.bonitasoft.services.topurl'));
+
+    beforeEach(inject(function ($controller, $injector, $rootScope, manageTopUrl, _$q_) {
+
+      scope = $rootScope.$new();
+      applicationAPI = jasmine.createSpyObj('applicationAPI', ['get', 'update', 'search']);
+      store = $injector.get('store');
+      modal = $injector.get('$modal');
+      manageTopUrl =  $injector.get('manageTopUrl');
+      $httpBackend = $injector.get('$httpBackend');
+      $q = _$q_;
+      spyOn(modal, 'open').and.returnValue(fakeModal);
+      $state = jasmine.createSpyObj('$state', ['reload']);
+
+      ctrl = function(id) {
+        scope.app = mockApiApp;
+        return $controller('applicationDetailsCtrl', {
+          '$scope': scope,
+          'applicationAPI': applicationAPI,
+          'store': store,
+          '$stateParams': {
+            id: id
+          },
+          '$state': $state
+        });
+      };
+
+    }));
+
+    describe('uploader', function() {
+
+      beforeEach(function() {
+        $httpBackend
+          .expectGET('../API/portal/page?c=0&f=contentType%3Dlayout&p=0')
+          .respond([],{'Content-Range': '0-3/3'});
+        $httpBackend
+          .expectGET('../API/portal/page?c=0&f=contentType%3Dtheme&p=0')
+          .respond([],{'Content-Range': '0-3/3'});
+        $httpBackend
+          .expectGET('../API/portal/page?c=3&f=contentType%3Dlayout&p=0')
+          .respond([{id: 1},{id: 2},{id: 3}]);
+        $httpBackend
+          .expectGET('../API/portal/page?c=3&f=contentType%3Dtheme&p=0')
+          .respond([{id: 1},{id: 2},{id: 3}]);
+      });
+
+      it('should create an uploader for user avatar upload', () => {
+        expect(ctrl(2).uploader.url).toBe('../portal/imageUpload');
+        $httpBackend.flush();
+      });
+
+      it('should update user on upload success', () => {
+        applicationAPI.update.and.returnValue({$promise: $q.when({})});
+
+        ctrl(2).uploader.onSuccessItem({}, 'tmp_123445656.png');
+        $httpBackend.flush();
+        scope.$apply();
+
+        expect(applicationAPI.update).toHaveBeenCalled();
+        expect($state.reload).toHaveBeenCalled();
+      });
+
+      afterEach(function() {
+        $httpBackend.verifyNoOutstandingExpectation();
+      });
+
+    });
+  });
+
   describe('Directive: backButton', function() {
 
     var $compile,
