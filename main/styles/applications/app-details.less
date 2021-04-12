@@ -10,5 +10,31 @@
   max-width: 280px;
 }
 #app-details-container .actions{
-	padding-top: 20px;
+  padding-top: 20px;
+}
+
+.app-details-flex-display {
+  .app-details-col {
+    margin: 0;
+    display: flex;
+    align-items: center;
+
+    > div {
+      display: flex;
+      align-items: center;
+
+      > dd {
+        margin-left: 20px;
+      }
+    }
+
+    > dl {
+      margin-bottom: 0;
+
+      > div {
+        margin: 10px 0;
+      }
+    }
+  }
+
 }

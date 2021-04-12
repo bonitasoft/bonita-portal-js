@@ -99,8 +99,8 @@
           $state.reload();
         });
       },
-      onErrorItem: function() {
-        throw new Error('Cannot upload the file');
+      onErrorItem: function(item, response, status) {
+        this.status = status;
       }
     });
 

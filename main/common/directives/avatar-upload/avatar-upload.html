@@ -18,4 +18,6 @@
             />
         </label>
     </div>
+    <div ng-if="vm.isUploadedFileTooBig()" class="AvatarUpload-error" translate>The image you are trying to upload is too big</div>
+    <div ng-if="vm.hasUploadedFileWrongMimeType()" class="AvatarUpload-error" translate>The file you are trying to upload has the wrong mime type</div>
 </div>
