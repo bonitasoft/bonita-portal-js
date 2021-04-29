@@ -8,7 +8,7 @@
         <version>7.13.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>user-tasks-list</artifactId>
+    <artifactId>page-user-task-list</artifactId>
 
     <build>
         <plugins>
