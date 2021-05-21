@@ -109,8 +109,9 @@
       }).then(bdmSuccessInstall, bdmErrorInstall);
     }
 
-    function bdmSuccessInstall() {
-      loadBdmStatus();
+    function bdmSuccessInstall(response) {
+      refreshTenantStatus();
+      vm.bdm = response.data;
       vm.isBDMInstallProcessing = false;
       vm.isBDMInstallSuccessfull = true;
       vm.isAccessControlAvailable = true;

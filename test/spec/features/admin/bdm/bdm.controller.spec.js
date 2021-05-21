@@ -186,7 +186,6 @@
     it('should display success message when BDM is installed', function () {
       var ctrl = bdmCtrl();
       getTenantStatusRequest.resolve({'paused': 'true'});
-      getBDMRequest.resolve({'data': {'state': INSTALLED}});
       ctrl.openBDMUpload();
       modalOpenDeferred.resolve();
 
@@ -198,10 +197,8 @@
       expect(bdmAPI.save).toHaveBeenCalled();
       expect(ctrl.isBDMInstallProcessing).toEqual(true);
 
-      installRequest.resolve();
+      installRequest.resolve({'data': {'state': INSTALLED}});
       scope.$apply();
-
-      expect(bdmAPI.get).toHaveBeenCalled();
 
       expect(ctrl.isBDMInstallProcessing).toEqual(false);
       expect(ctrl.isBDMInstallSuccessfull).toEqual(true);
