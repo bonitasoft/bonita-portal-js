@@ -3,16 +3,17 @@
 </div>
 
 <div class="modal-body modal-body-scrollable">
-    <div class="callout callout-warning">
+    <div class="callout callout-warning" ng-hide="!isBDMInstalled">
         <h4 translate>Warning:</h4>
-        <span translate>Note that updating the model modifies existing database tables definitively.</span><br/>
-        <span translate>Bonita uses Hibernate for data persistence, therefore some changes are handled well, like adding new objects or attributes,
-            but some others we cannot guarantee so far, like changing the type of an attribute or deleting an attribute.</span><br/>
-        <span translate>If the new BDM contains such changes, the database administrator will need to first handle the database update with scripts,
-            then you will need to update only the data model and thoroughly test the changes.</span><br/>
-        <span translate>To know more about this platform configuration option, go to the</span>
-        <!-- Link to Bonita Documentation page BDM Management in Bonita Portal -->
-        <a ng-href="http://www.bonitasoft.com/bos_redirect.php?bos_redirect_id=674&bos_redirect_product=bos&bos_redirect_major_version={{bonitaVersion}}&bos_redirect_minor_version=0" target="_blank" translate>documentation</a>.
+        <ul>
+            <li translate>Updating the Business Data Model applies changes to both existing database tables and data.</li>
+            <li translate>However, due to the use of Hibernate for data persistence, some changes on the data may not be well handled. These changes may lead to a corrupted database and CANNOT BE REVERTED.</li>
+            <li translate>The whole list of such changes is listed <a ng-href="https://documentation.bonitasoft.com/bonita/{{bonitaVersion}}/bdm-management-in-bonita-bpm-portal" target="_blank" translate>here</a>.</li>
+            <li translate>In such cases, you must CANCEL THIS UPDATE and let the database administrator carefully script the changes and apply them to the database. Only then will you be able to update the BDM from this page.</li>
+            <li translate>If your changes do not fall into those change types, you can go ahead and proceed with the BDM update now.</li>
+        </ul>
+        <div translate>IN ANY CASE, you MUST CREATE A BACKUP of the current BDM database before undergoing a BDM update.</div>
+        <br/>
     </div>
     <bootstrap-form-control
         class="field-upload-container"
@@ -29,7 +30,13 @@
 </div>
 
 <div class="modal-footer">
-    <button id="btn-open-modal" ng-disabled="!isUploadSuccess"
+    <div class="callout callout-warning text-left" ng-hide="!isBDMInstalled">
+        <input type="checkbox" ng-model="warningAccepted"> <span translate ng-click="AddBDMPopupCtrl.clickCheckbox()">I have read and understood the previous warning message. I have prepared a database backup so I can rollback this operation.</span>
+        <br/>
+    </div>
+
+    <button id="btn-open-modal"
+            ng-disabled="AddBDMPopupCtrl.isBDMInstallDisabled()"
             ng-click="AddBDMPopupCtrl.closeModalSuccess()" class="btn btn-primary"
             translate>Install
     </button>

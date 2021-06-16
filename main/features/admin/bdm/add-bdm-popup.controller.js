@@ -12,10 +12,12 @@
   angular.module('org.bonitasoft.features.admin.bdm')
     .controller('AddBDMPopupCtrl', AddBDMPopupCtrl);
 
-  function AddBDMPopupCtrl($scope, $modalInstance, FileUploader, gettext, bonitaVersion) {
+  function AddBDMPopupCtrl($scope, $modalInstance, FileUploader, gettext, bonitaVersion, isBDMInstalled) {
 
     var self = this;
     $scope.bonitaVersion = bonitaVersion;
+    $scope.warningAccepted = false;
+    $scope.isBDMInstalled = isBDMInstalled;
 
     self.errorUpload = function errorUpload() {
       $scope.isTechnicalError = true;
@@ -27,6 +29,14 @@
       $scope.isUploadSuccess = true;
       $scope.fileName = fileItem.file.name;
       $scope.filePath = response || '';
+    };
+
+    self.isBDMInstallDisabled = function isBDMInstallDisabled() {
+      return !$scope.isUploadSuccess || ($scope.isBDMInstalled && !$scope.warningAccepted);
+    };
+
+    self.clickCheckbox = function clickCheckbox() {
+      $scope.warningAccepted = !$scope.warningAccepted;
     };
 
     $scope.uploader = new FileUploader({

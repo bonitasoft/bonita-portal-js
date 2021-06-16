@@ -29,7 +29,8 @@
           'FileUploader': FileUploader,
           'gettext': gettext,
           '$modalInstance': modalInstance,
-          'bonitaVersion': bonitaVersion
+          'bonitaVersion': bonitaVersion,
+          'isBDMInstalled': false
         });
       };
     }));

@@ -92,7 +92,8 @@
         resolve: {
           bonitaVersion: function () {
             return vm.bonitaVersion;
-          }
+          },
+          isBDMInstalled: vm.isBDMInstalled()
         }
       }).result.then(function(filePath) {
         installBdmFile(filePath);
