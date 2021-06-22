@@ -3,8 +3,9 @@
 </header>
 
 <div class="col-md-3">
-    <button id="menu-list-add-button" ng-click="menuCreatorCtrl.add()" ng-disabled="!hasPages" class="btn btn-primary"
-            title="{{'Add top-level menu' | translate}}">{{ 'Add' | translate }}
+    <button id="menu-list-add-button" ng-click="menuCreatorCtrl.add()" ng-disabled="!hasPages || application.editable !== 'true'" class="btn btn-primary"
+        ng-attr-title="{{application.editable === 'true' ? 'Add top-level menu' : 'You cannot modify the menu of this application.' | translate}}">
+        {{ 'Add' | translate }}
     </button>
 </div>
 <div class="col-md-9">
