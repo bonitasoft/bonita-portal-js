@@ -186,6 +186,16 @@
 
           self.modalDelete.result.then(reload);
         };
+
+        this.getVisibilityName = function getVisibilityName(visibility) {
+          switch (visibility) {
+            case "ALL":
+              return "All profiles";
+            case "TECHNICAL_USER":
+              return "Super administrator";
+          }
+          return "";
+        }
       }]
     )
     .controller('exportApplicationCtrl', ['$scope', '$modalInstance', 'application', function ($scope, $modalInstance, application) {
