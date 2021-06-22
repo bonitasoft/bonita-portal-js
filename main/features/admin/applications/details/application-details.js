@@ -135,6 +135,16 @@
         }
       });
 
+      ctrl.getVisibilityName = function getVisibilityName(visibility) {
+        switch (visibility) {
+          case "ALL":
+            return "All profiles";
+          case "TECHNICAL_USER":
+            return "Super administrator";
+        }
+        return "";
+      };
+
     }
     ])
     .directive('backButton', function () {
