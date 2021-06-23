@@ -16,7 +16,6 @@
 
 angular.module('org.bonitasoft.features.admin.applications.details').controller('actionBarCtrl', ['$scope', '$modal', 'menuFactory',
   function($scope, $modal, menuFactory) {
-
     'use strict';
 
     var self = this;
@@ -361,7 +360,8 @@ angular.module('org.bonitasoft.features.admin.applications.details').directive('
       add: '@',
       collapsed: '=',
       menu: '=',
-      data: '='
+      data: '=',
+      application: '='
     },
     templateUrl: 'features/admin/applications/details/menubuilder-actionBar.html',
     controller: 'actionBarCtrl',
@@ -393,7 +393,8 @@ angular.module('org.bonitasoft.features.admin.applications.details').directive('
   return {
     restrict: 'AE',
     scope: {
-      model: '=ngModel'
+      model: '=ngModel',
+      application: '='
     },
     templateUrl: 'features/admin/applications/details/menubuilder-menuList.html',
     controller: 'menuListCtrl'

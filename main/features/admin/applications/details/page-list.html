@@ -2,7 +2,7 @@
   <h2>{{'Pages' | translate}}</h2>
 </header>
 <div class="col-md-3">
-  <button id="page-list-add-button" ng-click="list.add()" class="btn btn-primary" ng-attr-title="{{application.editable === 'true' ? 'Add from custom pages' : 'You cannot add a new page to this application.' | translate}}" ng-disabled="application.editable !== 'true'">{{'Add' | translate}}</button>
+  <button id="page-list-add-button" ng-click="list.add()" class="btn btn-primary" ng-attr-title="{{application.editable === 'true' ? 'Add from custom pages' : 'You cannot add a new page to this application.' | translate}}" ng-hide="application.editable !== 'true'">{{'Add' | translate}}</button>
 </div>
 <div class="col-md-9">
   <table class="table table-condensed">
@@ -24,7 +24,7 @@
               ng-attr-title="{{application.editable === 'true' ? 'Remove' : 'You cannot delete any pages from this application.' | translate}}"
               ng-if="application.homePageId != page.id"
               ng-class="application.editable === 'true' ? '' : 'btn-action-disabled'"
-              ng-click="list.remove(page)" ng-disabled="application.editable !== 'true'">
+              ng-click="list.remove(page)" ng-hide="application.editable !== 'true'">
             <span aria-hidden="true">{{'Remove' | translate}}</span>
           </button>
         </td>

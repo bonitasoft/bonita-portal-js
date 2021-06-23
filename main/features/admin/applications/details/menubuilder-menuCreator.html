@@ -3,7 +3,7 @@
 </header>
 
 <div class="col-md-3">
-    <button id="menu-list-add-button" ng-click="menuCreatorCtrl.add()" ng-disabled="!hasPages || application.editable !== 'true'" class="btn btn-primary"
+    <button id="menu-list-add-button" ng-click="menuCreatorCtrl.add()" ng-hide="!hasPages || application.editable !== 'true'" class="btn btn-primary"
         ng-attr-title="{{application.editable === 'true' ? 'Add top-level menu' : 'You cannot modify the menu of this application.' | translate}}">
         {{ 'Add' | translate }}
     </button>
@@ -13,6 +13,6 @@
     <em>{{ 'Specify the menu structure.' | translate }}<br> {{ 'You must add a page before you can reference it in a
       menu.' | translate }}</em>
   </div>
-  <menu-list ng-model="data.menuItemBuilder" ng-if="data.menuItemBuilder.length"></menu-list>
+  <menu-list ng-model="data.menuItemBuilder" ng-if="data.menuItemBuilder.length" application="application"></menu-list>
 </div>
 

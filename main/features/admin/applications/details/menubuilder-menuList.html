@@ -4,12 +4,12 @@
 
     <li class="list-group-item" data-ng-repeat="menu in model" ui-tree-node ng-class="{'menucontainer-has-submenu-items': !menu.applicationPageId || menu.applicationPageId === '-1', 'menucontainer-no-submenu-items': menu.applicationPageId && menu.applicationPageId !== '-1'}">
          <div ui-tree-handle ng-class="{'hidden-submenu': collapsed}">
-           <action-bar collapsed="collapsed" menu="menu" data="data">{{menu.displayName}}</action-bar>
+           <action-bar collapsed="collapsed" menu="menu" data="data" application="application">{{menu.displayName}}</action-bar>
          </div>
 
          <ul ui-tree-nodes="" ng-if="!menu.applicationPageId || menu.applicationPageId === '-1'" data-ng-model="menu.children" ng-class="{'menucontainer-submenu-exist':menu.children.length,'menucontainer-submenu':!menu.children.length}" ><li data-ng-repeat="subItem in menu.children"  ui-tree-node>
              <div ui-tree-handle>
-                <action-bar add="false" menu="subItem" data="data">{{subItem.displayName}}</action-bar>
+                <action-bar add="false" menu="subItem" data="data" application="application">{{subItem.displayName}}</action-bar>
              </div>
            </li></ul>
 
