@@ -35,7 +35,9 @@
           <a target="_blank" title="../apps/{{ application.token }}" ng-href="../apps/{{ application.token }}" ng-disabled="!application.profileId.name"> ../apps/{{application.token}}</a>
         </td>
         <td ng-if="application.profileId.name" class="application-profile" title="{{ application.profileId.name }}">{{ application.profileId.name }}</td>
-        <td ng-if="!application.profileId.name && application.visibility === 'RESTRICTED'" class="application-profile"><span tooltip="{{ 'No profile mapped to this application' | translate }}" class="glyphicon glyphicon-warning-sign text-warning"></span></td>
+        <td ng-if="!application.profileId.name && application.visibility === 'RESTRICTED'" class="application-profile">
+            <span title="{{ 'No profile mapped to this application' | translate }}" class="glyphicon glyphicon-warning-sign text-warning"></span>
+        </td>
         <td ng-if="!application.profileId.name && application.visibility !== 'RESTRICTED'" class="application-profile" title="{{ applicationsListCtrl.getVisibilityName(application.visibility) }}">{{ applicationsListCtrl.getVisibilityName(application.visibility) }}</td>
         <td class="application-last-update-date" aria-label="{{ application.lastUpdateDate | dateI18n:'YYYY-MM-DD HH:mm:ss'}}">
           <span class="clickable" popover="{{applicationsListCtrl.loadTemplatePopover(application)}}" popover-trigger="mouseenter">{{ application.lastUpdateDate | dateAgo }}</span>
