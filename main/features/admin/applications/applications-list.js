@@ -195,7 +195,7 @@
               return 'Super administrator';
           }
           return '';
-        }
+        };
       }]
     )
     .controller('exportApplicationCtrl', ['$scope', '$modalInstance', 'application', function ($scope, $modalInstance, application) {
