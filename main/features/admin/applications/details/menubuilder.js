@@ -361,7 +361,7 @@ angular.module('org.bonitasoft.features.admin.applications.details').directive('
       collapsed: '=',
       menu: '=',
       data: '=',
-      application: '='
+      isAppEditable: '='
     },
     templateUrl: 'features/admin/applications/details/menubuilder-actionBar.html',
     controller: 'actionBarCtrl',
@@ -394,7 +394,7 @@ angular.module('org.bonitasoft.features.admin.applications.details').directive('
     restrict: 'AE',
     scope: {
       model: '=ngModel',
-      application: '='
+      isAppEditable: '='
     },
     templateUrl: 'features/admin/applications/details/menubuilder-menuList.html',
     controller: 'menuListCtrl'

@@ -22,7 +22,7 @@
         <td class="td-small">
           <button class="btn-action-delete clickable glyphicon glyphicon-trash"
               title="{{'Remove' | translate}}"
-              ng-if="application.homePageId != page.id || application.editable === 'true'"
+              ng-if="application.homePageId != page.id && application.editable === 'true'"
               ng-click="list.remove(page)">
             <span aria-hidden="true">{{'Remove' | translate}}</span>
           </button>

@@ -13,6 +13,6 @@
     <em>{{ 'Specify the menu structure.' | translate }}<br> {{ 'You must add a page before you can reference it in a
       menu.' | translate }}</em>
   </div>
-  <menu-list ng-model="data.menuItemBuilder" ng-if="data.menuItemBuilder.length" application="application"></menu-list>
+  <menu-list ng-model="data.menuItemBuilder" ng-if="data.menuItemBuilder.length" is-app-editable="application.editable"></menu-list>
 </div>
 
