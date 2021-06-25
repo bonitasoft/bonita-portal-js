@@ -10,7 +10,7 @@
       <div class="alert alert-info"><i class="glyphicon glyphicon-info-sign"></i> {{'Application id not provided. Unable to retrieve the application details.' | translate }}</div>
   </div>
   <div id="app-edit-section" class="app-details-container col-md-12" ng-hide="!applicationDetailsCtrl.isApplicationFound()">
-    <h1 id="app-details-title">{{app.displayName}} ({{app.version}})  <img class="bonitasoft-default-logo" src="images/bonitasoftLogo.png" title="{{'Core to Bonita platform' | translate}}" ng-if="app.editable !== 'true'"></h1>
+    <h1 id="app-details-title">{{app.displayName}} ({{app.version}})  <img class="bonitasoft-default-logo" src="images/bonitasoftLogo.png" title="{{'Core to Bonita platform' | translate}}" aria-label="{{'Core to Bonita platform' | translate}}" ng-if="app.editable !== 'true'"></h1>
       <div id="app-details-information" ng-if="app.editable !== 'true'">
         <div class="inline-block">
             <i class="glyphicon glyphicon-info-sign text-info"></i>
