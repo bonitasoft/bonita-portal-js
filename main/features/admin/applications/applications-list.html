@@ -49,7 +49,7 @@
                 <button class="glyphicon glyphicon-export btn-action-export" title="{{'Export' | translate}}" aria-label="{{'Export' | translate}}" ng-click="applicationsListCtrl.exportApplication(application, 'sm')"></button>
             </div>
             <button class="glyphicon glyphicon-trash btn-action-delete" title="{{'Delete' | translate}}" ng-if="application.editable === 'true'"></button>
-            <img src="../theme/icons/default/favicon.ico" class="glyphicon glyphicon-picture btn-action-delete" title="{{'Core to Bonita platform; cannot be deleted' | translate}}" ng-if="application.editable !== 'true'"></img>
+            <img class="bonitasoft-default-logo" src="images/bonitasoftLogo.png" title="{{'Core to Bonita platform; cannot be deleted' | translate}}" ng-if="application.editable !== 'true'">
         </td>
       </tr>
     </tbody>

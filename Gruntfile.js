@@ -491,7 +491,8 @@ module.exports = function (grunt) {
             cwd: '<%= portaljs.app %>',
             dest: '<%= portaljs.dist %>',
             src: [
-              '**/*.html'
+              '**/*.html',
+              'images/**/*.png'
             ]
           }
         ]
