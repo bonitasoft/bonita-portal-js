@@ -166,6 +166,16 @@
         expect(dom.find('.list-group > .menucontainer-has-submenu-items').length).toBe(5);
       });
 
+      it('should have 5 menu items that are not movable when app is not editable', function () {
+        scope.isAppEditable = 'false';
+        var dom = $compile('<menu-list ng-model="model"></menu-list>')(scope);
+        scope.$apply();
+        expect(dom.find('.list-group > .menucontainer-has-submenu-items').length).toBe(5);
+        expect(dom.find('.container-menubuilder[data-drop-enabled="false"][data-drag-enabled="false"]').length).toBe(1);
+        // All 13 items should have the default cursor
+        expect(dom.find('.default-cursor').length).toBe(13);
+      });
+
       it('should have 5 menu items with menucontainer-no-submenu-items', function () {
         var dom = $compile('<menu-list ng-model="model"></menu-list>')(scope);
         scope.$apply();

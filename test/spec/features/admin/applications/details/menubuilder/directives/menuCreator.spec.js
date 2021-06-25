@@ -41,7 +41,8 @@
       var dom;
       beforeEach(function () {
         scope.app = {
-          id: 1
+          id: 1,
+          editable: 'true'
         };
         dom = compile(elm)(scope);
         scope.$apply();
@@ -81,6 +82,14 @@
         scope.$apply();
         expect(dom.find('menu-list').length).toBe(1);
       });
+
+      it('should have no edit button when app is non editable', function () {
+        scope.app.editable = 'false';
+        scope.$apply();
+        expect(dom.find('#menu-list-add-button').length).toBe(0);
+      });
+
+
     });
 
     describe('the button add', function () {
@@ -88,7 +97,8 @@
       var dom;
       beforeEach(function () {
         scope.app = {
-          id: 1
+          id: 1,
+          editable: 'true'
         };
         dom = compile(elm)(scope);
         scope.$apply();
