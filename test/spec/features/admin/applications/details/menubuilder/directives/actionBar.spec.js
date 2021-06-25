@@ -38,39 +38,45 @@
     describe('we have some buttons', function () {
 
       it('should have a remove button', function () {
-        var dom = $compile('<action-bar>toto</action-bar>')(scope);
+        var dom = $compile('<action-bar is-app-editable="\'true\'">toto</action-bar>')(scope);
         scope.$apply();
         expect(dom.get(0).querySelector('.btn-action-remove')).not.toBeNull();
       });
 
       it('should not have a remove button', function () {
-        var dom = $compile('<action-bar remove="false">toto</action-bar>')(scope);
+        var dom = $compile('<action-bar remove="false" is-app-editable="\'true\'">toto</action-bar>')(scope);
         scope.$apply();
         expect(dom.get(0).querySelector('.btn-action-remove')).toBeNull();
       });
 
       it('should have an add button', function () {
-        var dom = $compile('<action-bar>toto</action-bar>')(scope);
+        var dom = $compile('<action-bar is-app-editable="\'true\'">toto</action-bar>')(scope);
         scope.$apply();
         expect(dom.get(0).querySelector('.btn-action-add')).not.toBeNull();
       });
 
       it('should not have an add button', function () {
-        var dom = $compile('<action-bar add="false">toto</action-bar>')(scope);
+        var dom = $compile('<action-bar add="false" is-app-editable="\'true\'">toto</action-bar>')(scope);
         scope.$apply();
         expect(dom.get(0).querySelector('.btn-action-add')).toBeNull();
       });
 
       it('should have an edit button', function () {
-        var dom = $compile('<action-bar>toto</action-bar>')(scope);
+        var dom = $compile('<action-bar is-app-editable="\'true\'">toto</action-bar>')(scope);
         scope.$apply();
         expect(dom.get(0).querySelector('.btn-action-edit')).not.toBeNull();
       });
 
       it('should not have an edit button', function () {
-        var dom = $compile('<action-bar edit="false">toto</action-bar>')(scope);
+        var dom = $compile('<action-bar edit="false" is-app-editable="\'true\'">toto</action-bar>')(scope);
         scope.$apply();
         expect(dom.get(0).querySelector('.btn-action-edit')).toBeNull();
+      });
+
+      it('should not have any buttons if app is non editable', function () {
+        var dom = $compile('<action-bar edit="false" is-app-editable="\'false\'">toto</action-bar>')(scope);
+        scope.$apply();
+        expect(dom.get(0).querySelector('button')).toBeNull();
       });
 
     });
@@ -114,7 +120,7 @@
     describe('we can trigger an action on each button', function () {
 
       it('should trigger removeItem on remove button', function () {
-        var dom = $compile('<action-bar>toto</action-bar>')(scope);
+        var dom = $compile('<action-bar is-app-editable="\'true\'">toto</action-bar>')(scope);
         scope.$apply();
         spyOn(dom.controller('actionBar'), 'removeItem').and.returnValue('test');
         dom.find('.btn-action-remove').triggerHandler('click');
@@ -125,7 +131,7 @@
 
 
       it('should trigger addItem on add button', function () {
-        var dom = $compile('<action-bar>toto</action-bar>')(scope);
+        var dom = $compile('<action-bar is-app-editable="\'true\'">toto</action-bar>')(scope);
         scope.$apply();
         spyOn(dom.controller('actionBar'), 'addItem').and.returnValue('test');
         angular.element(dom.find('.btn-action-add')).triggerHandler('click');
@@ -134,7 +140,7 @@
 
 
       it('should trigger editItem on edit button', function () {
-        var dom = $compile('<action-bar>toto</action-bar>')(scope);
+        var dom = $compile('<action-bar is-app-editable="\'true\'">toto</action-bar>')(scope);
         scope.$apply();
         spyOn(dom.controller('actionBar'), 'editItem').and.returnValue('test');
         angular.element(dom.find('.btn-action-edit')).triggerHandler('click');
