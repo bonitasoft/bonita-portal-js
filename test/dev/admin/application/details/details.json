@@ -51,5 +51,7 @@
   },
   "id": "456",
   "state": "ACTIVATED",
-  "iconPath": ""
+  "iconPath": "",
+  "editable": "true",
+  "visibility": "RESTRICTED"
 }

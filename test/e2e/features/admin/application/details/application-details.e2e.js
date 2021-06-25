@@ -27,10 +27,10 @@
       it('should display no id message', function() {
         expect(element(by.tagName('back-button')).isDisplayed()).toBe(true);
         expect(element(by.css('#id-not-provided')).isDisplayed()).toBe(true);
-        expect(element(by.css('#id-wrong')).isDisplayed()).toBe(false);
-        expect(element(by.css('#app-edit-btn')).isDisplayed()).toBe(false);
-        expect(element(by.css('#app-edit-section')).isDisplayed()).toBe(false);
-        expect(element(by.css('#look-n-feel-edit-section')).isDisplayed()).toBe(false);
+        expect(element(by.css('#id-wrong')).isPresent()).toBe(false);
+        expect(element(by.css('#app-edit-btn')).isPresent()).toBe(false);
+        expect(element(by.css('#app-edit-section')).isPresent()).toBe(false);
+        expect(element(by.css('#look-n-feel-edit-section')).isPresent()).toBe(false);
         expect(element(by.css('#application-page-list-section')).isPresent()).toBe(false);
       });
     });
@@ -44,10 +44,10 @@
       it('should display wrong id message', function() {
         expect(element(by.tagName('back-button')).isDisplayed()).toBe(true);
         expect(element(by.css('#id-wrong')).isDisplayed()).toBe(true);
-        expect(element(by.css('#id-not-provided')).isDisplayed()).toBe(false);
-        expect(element(by.css('#app-edit-btn')).isDisplayed()).toBe(false);
-        expect(element(by.css('#app-edit-section')).isDisplayed()).toBe(false);
-        expect(element(by.css('#look-n-feel-edit-section')).isDisplayed()).toBe(false);
+        expect(element(by.css('#id-not-provided')).isPresent()).toBe(false);
+        expect(element(by.css('#app-edit-btn')).isPresent()).toBe(false);
+        expect(element(by.css('#app-edit-section')).isPresent()).toBe(false);
+        expect(element(by.css('#look-n-feel-edit-section')).isPresent()).toBe(false);
         expect(element(by.css('#application-page-list-section')).isPresent()).toBe(false);
       });
     });
@@ -64,8 +64,8 @@
         expect(element(by.css('#app-edit-section')).isDisplayed()).toBe(true);
         expect(element(by.css('#look-n-feel-edit-section')).isDisplayed()).toBe(true);
         expect(element(by.css('#application-page-list-section')).isDisplayed()).toBe(true);
-        expect(element(by.css('#id-wrong')).isDisplayed()).toBe(false);
-        expect(element(by.css('#id-not-provided')).isDisplayed()).toBe(false);
+        expect(element(by.css('#id-wrong')).isPresent()).toBe(false);
+        expect(element(by.css('#id-not-provided')).isPresent()).toBe(false);
       });
     });
   });
