@@ -1,0 +1,42 @@
+[
+  {
+    "applicationPageId": "10",
+    "parentMenuId": "203",
+    "menuIndex": "1",
+    "displayName": "Cases submenu",
+    "id": "204",
+    "applicationId": "999"
+  },
+  {
+    "applicationPageId": "101",
+    "parentMenuId": "203",
+    "menuIndex": "2",
+    "displayName": "Applications submenu",
+    "id": "205",
+    "applicationId": "999"
+  },
+  {
+    "applicationPageId": "10",
+    "parentMenuId": "-1",
+    "menuIndex": "8",
+    "displayName": "Cases",
+    "id": "201",
+    "applicationId": "999"
+  },
+  {
+    "applicationPageId": "101",
+    "parentMenuId": "-1",
+    "menuIndex": "9",
+    "displayName": "Applications",
+    "id": "202",
+    "applicationId": "999"
+  },
+  {
+    "applicationPageId": "-1",
+    "parentMenuId": "-1",
+    "menuIndex": "10",
+    "displayName": "All",
+    "id": "203",
+    "applicationId": "999"
+  }
+]

@@ -13,7 +13,8 @@
           {{ page.token }} - <em>{{ page.pageId.displayName }}</em>
         </td>
         <td class="td-small">
-          <button class="btn-action-sethome clickable glyphicon glyphicon-home"
+          <button class="btn-action-sethome glyphicon glyphicon-home"
+              ng-class="application.editable === 'true' ? 'clickable' : ''"
               title="{{'Set as Home page' | translate}}"
               aria-label="{{'Set as Home page' | translate}}"
               ng-click="list.setAsHomePage(page)" ng-if="application.homePageId == page.id || application.editable === 'true'">

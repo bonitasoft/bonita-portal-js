@@ -179,6 +179,11 @@
 
   // application details
   when('GET', /^\/API\/living\/application\/456\?d=createdBy&d=updatedBy&d=profileId&d=layoutId&d=themeId/).respond(require('./admin/application/details/details.json'));
+  when('GET', /^\/API\/living\/application\/999\?d=createdBy&d=updatedBy&d=profileId&d=layoutId&d=themeId/).respond(require('./admin/application/details/detailsNonEditable.json'));
+  when('GET', /^\/API\/living\/application-page\?c=0&f=applicationId%3D999&p=0/).respond(require('./admin/application/details/pageListDetailsNonEditable.json'));
+  when('GET', /^\/API\/living\/application-page\?c=3&d=pageId&f=applicationId%3D999&p=0/).respond(require('./admin/application/details/pageListDetailsNonEditable.json'));
+  when('GET', /^\/API\/living\/application-menu\?c=0&f=applicationId%3D999&p=0/).respond(require('./admin/application/details/menuDetailsNonEditable.json'));
+  when('GET', /^\/API\/living\/application-menu\?c=5&f=applicationId%3D999&o=menuIndex\+ASC&p=0/).respond(require('./admin/application/details/menuDetailsNonEditable.json'));
 
 
   // Actor Mapping
