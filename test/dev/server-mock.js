@@ -177,6 +177,11 @@
   when('GET', /^\/API\/bpm\/category\?c=0&f=id%3D10001&p=0$/).respond([]);
 
 
+  // application list
+  when('GET', /^\/API\/living\/application\?c=0&p=0/).respond(require('./admin/application/appList.json'));
+  when('GET', /^\/API\/living\/application\?c=4&d=profileId&d=createdBy&d=updatedBy&d=layoutId&p=0/).respond(require('./admin/application/appList.json'));
+
+
   // application details
   when('GET', /^\/API\/living\/application\/456\?d=createdBy&d=updatedBy&d=profileId&d=layoutId&d=themeId/).respond(require('./admin/application/details/details.json'));
   when('GET', /^\/API\/living\/application\/999\?d=createdBy&d=updatedBy&d=profileId&d=layoutId&d=themeId/).respond(require('./admin/application/details/detailsNonEditable.json'));
