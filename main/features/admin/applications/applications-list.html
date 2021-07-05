@@ -48,7 +48,7 @@
                 <button ng-if="applicationsListCtrl.isInApps()" ng-click="applicationsListCtrl.goToApplicationDetails(application.id)" class="glyphicon glyphicon-option-horizontal btn-action-edit" title="{{'View application details' | translate}}" aria-label="{{'View application details' | translate}}"></button>
                 <button class="glyphicon glyphicon-export btn-action-export" title="{{'Export' | translate}}" aria-label="{{'Export' | translate}}" ng-click="applicationsListCtrl.exportApplication(application, 'sm')"></button>
             </div>
-            <button class="glyphicon glyphicon-trash btn-action-delete" title="{{'Delete' | translate}}" ng-if="application.editable === 'true'" aria-label="{{'Delete' | translate}}"></button>
+            <button class="glyphicon glyphicon-trash btn-action-delete" title="{{'Delete' | translate}}" ng-if="application.editable === 'true'" aria-label="{{'Delete' | translate}}" ng-click="applicationsListCtrl.deleteApplication(application, 'sm')"></button>
             <img class="bonitasoft-default-logo" src="images/bonitasoftLogo.png" title="{{'Core to Bonita platform; cannot be deleted' | translate}}" aria-label="{{'Core to Bonita platform; cannot be deleted' | translate}}" ng-if="application.editable !== 'true'">
         </td>
       </tr>
