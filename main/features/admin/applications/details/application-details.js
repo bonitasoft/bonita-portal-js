@@ -28,7 +28,8 @@
     'ui.tree',
     'org.bonitasoft.service.features',
     'xeditable',
-    'angularFileUpload'
+    'angularFileUpload',
+    'org.bonitasoft.common.i18n'
   ])
 
     .config(['$stateProvider', function ($stateProvider) {
@@ -41,7 +42,7 @@
     }
     ])
 
-    .controller('applicationDetailsCtrl', ['$rootScope', '$scope', '$modal', 'applicationAPI', '$stateParams', 'FeatureManager', 'store', 'customPageAPI', '$state', 'FileUploader', function ($rootScope, $scope, $modal, applicationAPI, $stateParams, FeatureManager, store, customPageAPI, $state, FileUploader) {
+    .controller('applicationDetailsCtrl', ['$rootScope', '$scope', '$modal', 'applicationAPI', '$stateParams', 'FeatureManager', 'store', 'customPageAPI', '$state', 'FileUploader', 'i18nService', function ($rootScope, $scope, $modal, applicationAPI, $stateParams, FeatureManager, store, customPageAPI, $state, FileUploader, i18nService) {
 
       var ctrl = this;
       ctrl.modal = null;
@@ -143,6 +144,13 @@
             return 'Super administrator';
         }
         return '';
+      };
+
+      ctrl.getUserInfo = function getUserInfo(userInfo) {
+        if (userInfo !== '-1') {
+          return userInfo.firstname + ' ' + userInfo.lastname;
+        }
+        return i18nService.getKey('System');
       };
 
     }

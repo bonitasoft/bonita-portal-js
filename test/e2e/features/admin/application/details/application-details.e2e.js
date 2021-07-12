@@ -66,6 +66,8 @@
         expect(element(by.css('#application-page-list-section')).isDisplayed()).toBe(true);
         expect(element(by.css('#id-wrong')).isPresent()).toBe(false);
         expect(element(by.css('#id-not-provided')).isPresent()).toBe(false);
+        expect(element(by.css('#app-created-by-value')).getText()).toContain('Walter Bates');
+        expect(element(by.css('#app-updated-by-value')).getText()).toContain('Helen Kelly');
       });
     });
 
@@ -85,6 +87,8 @@
         expect(element(by.css('#app-profile-value-visibility')).getText()).toContain('All profiles');
         expect(element(by.css('#app-profile-value')).isPresent()).toBe(false);
         expect(element(by.css('#app-edit-btn')).isPresent()).toBe(false);
+        expect(element(by.css('#app-created-by-value')).getText()).toContain('System');
+        expect(element(by.css('#app-updated-by-value')).getText()).toContain('System');
       });
 
       it('should have non editable page list', function() {

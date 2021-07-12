@@ -1,5 +1,20 @@
 {
-  "updatedBy": "-1",
+  "updatedBy": {
+    "firstname": "Helen",
+    "icon": "icons/default/icon_user.png",
+    "creation_date": "2021-07-05 10:22:52.404",
+    "userName": "walter.bates",
+    "title": "Mr",
+    "created_by_user_id": "-1",
+    "enabled": "true",
+    "lastname": "Kelly",
+    "last_connection": "2021-07-08 15:01:31.708",
+    "password": "",
+    "manager_id": "3",
+    "id": "4",
+    "job_title": "Human resources benefits",
+    "last_update_date": "2021-07-05 10:22:52.404"
+  },
   "displayName": "My App",
   "lastUpdateDate": "1604654491141",
   "description": "",
@@ -37,7 +52,22 @@
     "contentType": "layout"
   },
   "token": "myApp",
-  "createdBy": "-1",
+  "createdBy": {
+    "firstname": "Walter",
+    "icon": "icons/default/icon_user.png",
+    "creation_date": "2021-07-05 10:22:52.404",
+    "userName": "walter.bates",
+    "title": "Mr",
+    "created_by_user_id": "-1",
+    "enabled": "true",
+    "lastname": "Bates",
+    "last_connection": "2021-07-08 15:01:31.708",
+    "password": "",
+    "manager_id": "3",
+    "id": "4",
+    "job_title": "Human resources benefits",
+    "last_update_date": "2021-07-05 10:22:52.404"
+  },
   "profileId": {
     "updatedBy": "-1",
     "createdBy": "-1",

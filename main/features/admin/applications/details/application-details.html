@@ -39,7 +39,7 @@
               <dt id="app-creation-on-label">{{'Creation on' | translate}}</dt>
               <dd id="app-creation-on-value">{{ app.creationDate | dateI18n:'YYYY-MM-DD HH:mm:ss'}}</dd>
               <dt id="app-created-by-label">{{'Created by' | translate}}</dt>
-              <dd id="app-created-by-value">{{ app.createdBy.firstname }} {{app.createdBy.lastname}}</dd>
+              <dd id="app-created-by-value">{{ applicationDetailsCtrl.getUserInfo(app.createdBy)}}</dd>
             </dl>
           </div>
           <div class="col-md-4">
@@ -47,7 +47,7 @@
               <dt id="app-updated-on-label">{{'Updated on' | translate}}</dt>
               <dd id="app-updated-on-value">{{ app.lastUpdateDate | dateI18n:'YYYY-MM-DD HH:mm:ss'}}</dd>
               <dt id="app-updated-by-label">{{'Updated by' | translate}}</dt>
-              <dd id="app-updated-by-value">{{ app.updatedBy.firstname }} {{ app.updatedBy.lastname }}</dd>
+              <dd id="app-updated-by-value">{{ applicationDetailsCtrl.getUserInfo(app.updatedBy)}}</dd>
             </dl>
           </div>
         </div>
