@@ -200,7 +200,7 @@ module.exports = function (grunt) {
 
             // Setup the proxy
               var middlewares = [
-                  redirectCSS('/bonita/portal/themeResource?theme=portal&location=bonita-skin.css', __dirname + '/target/css/bonita-skin.css'),
+                  redirectCSS('/bonita/portal-theme/bonita-skin.css', __dirname + '/target/css/bonita-skin.css'),
                   require('grunt-connect-proxy/lib/utils').proxyRequest,
                   require('grunt-connect-rewrite/lib/utils').rewriteRequest];
 
@@ -237,8 +237,8 @@ module.exports = function (grunt) {
             }
             // Setup the proxy
             var middlewares = [
-                  redirectCSS('/portal/themeResource?theme=portal&location=bonita-skin.css', __dirname + '/target/css/bonita-skin.css'),
-                  redirectCSS('/portal/themeResource?theme=portal&location=css/bootstrap.min.css', __dirname + '/main/assets/bootstrap/dist/css/bootstrap.min.css'),
+                  redirectCSS('/portal-theme/bonita-skin.css', __dirname + '/target/css/bonita-skin.css'),
+                  redirectCSS('/portal-theme/css/bootstrap.min.css', __dirname + '/main/assets/bootstrap/dist/css/bootstrap.min.css'),
                   require('./test/dev/server-mock.js'),
                   require('grunt-connect-proxy/lib/utils').proxyRequest,
                   require('grunt-connect-rewrite/lib/utils').rewriteRequest];
