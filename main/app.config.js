@@ -38,9 +38,31 @@
     })
 
     .run(function($rootScope, $modalStack) {
-      // Close modals on location changes
+      var getQueryParamValue = function(param, searchParams) {
+        var searchParamsList = searchParams.replace('?', '').split('&');
+        for (var i = 0; i < searchParamsList.length; i++) {
+          if (searchParamsList[i].indexOf(param) === 0) {
+            return searchParamsList[i].split('=')[1];
+          }
+        }
+        return undefined;
+      }
+
       $rootScope.$on('$locationChangeStart', function() {
+        // Close modals on location changes
         $modalStack.dismissAll();
+
+        // Get app theme
+        var appValue = getQueryParamValue('app', window.location.search);
+        if (appValue) {
+          var themeUrl = '../apps/'
+            + appValue
+            + '/theme/theme.css';
+          var themeLink = window.document.createElement('link');
+          themeLink.setAttribute('rel', 'stylesheet');
+          themeLink.setAttribute('href', themeUrl);
+          window.document.head.appendChild(themeLink);
+        }
       });
     })
 
