@@ -55,9 +55,7 @@
         // Get app theme
         var appValue = getQueryParamValue('app', window.location.search);
         if (appValue) {
-          var themeUrl = '../apps/'
-            + appValue
-            + '/theme/theme.css';
+          var themeUrl = window.top.location.origin + window.top.location.pathname + '../theme/theme.css';
           var themeLink = window.document.createElement('link');
           themeLink.setAttribute('rel', 'stylesheet');
           themeLink.setAttribute('href', themeUrl);
