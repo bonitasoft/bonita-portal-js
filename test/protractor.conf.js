@@ -24,7 +24,7 @@ exports.config = {
 
     chromeDriver: '../node_modules/webdriver-manager/selenium/chromedriver_2.38',
 
-    seleniumServerJar: '../node_modules/webdriver-manager/selenium/selenium-server-standalone-3.11.0.jar',
+    seleniumServerJar: '../node_modules/webdriver-manager/selenium/selenium-server-standalone-3.141.59.jar',
 
     specs: [
       'e2e/**/*.e2e.js'
