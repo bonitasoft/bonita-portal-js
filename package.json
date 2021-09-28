@@ -76,9 +76,10 @@
     "node": ">=4.2.0"
   },
   "scripts": {
-    "build:fonts": "copyfiles -f 'main/styles/fonts/*.eot' 'main/styles/fonts/*.ttf' 'main/styles/fonts/*.woff' 'main/styles/fonts/*.svg' target/css/skin/fonts",
+    "build:fonts": "copyfiles -f 'main/styles/fonts/*.eot' 'main/styles/fonts/*.ttf' 'main/styles/fonts/*.woff' 'main/styles/fonts/*.svg' 'main/assets/bootstrap/fonts/*.*' target/css/skin/fonts",
     "prebuild:less": "mkdirp target/css",
     "build:less": "lessc main/styles/main.less > target/css/bonita-skin.css",
+    "build:bootstrap": "copyfiles -f main/assets/bootstrap/dist/css/bootstrap.min.css target/css",
     "build": "npm-run-all --parallel build:* && grunt",
     "test": "grunt test",
     "test:watch": "karma start test/karma.conf.js --auto-watch",
