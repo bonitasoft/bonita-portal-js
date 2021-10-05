@@ -20,6 +20,19 @@ function redirectCSS(url, file) {
   }
 }
 
+function redirectFonts(urlPrefix, filePrefix) {
+  return function (req, res, next) {
+    if (req.url.startsWith(urlPrefix)) {
+      var fileName = req.url.replace(urlPrefix, "");
+      require('fs')
+        .createReadStream(filePrefix + fileName)
+        .pipe(res);
+      return;
+    }
+    next();
+  }
+}
+
 module.exports = function (grunt) {
 
   // Load grunt tasks automatically
@@ -201,6 +214,8 @@ module.exports = function (grunt) {
             // Setup the proxy
               var middlewares = [
                   redirectCSS('/bonita/portal-theme/bonita-skin.css', __dirname + '/target/css/bonita-skin.css'),
+                  redirectCSS('/bonita/portal-theme/css/bootstrap.min.css', __dirname + '/target/css/bootstrap.min.css'),
+                  redirectFonts('/bonita/portal-theme/skin/fonts/', __dirname + '/target/css/skin/fonts/'),
                   require('grunt-connect-proxy/lib/utils').proxyRequest,
                   require('grunt-connect-rewrite/lib/utils').rewriteRequest];
 
@@ -238,7 +253,8 @@ module.exports = function (grunt) {
             // Setup the proxy
             var middlewares = [
                   redirectCSS('/portal-theme/bonita-skin.css', __dirname + '/target/css/bonita-skin.css'),
-                  redirectCSS('/portal-theme/css/bootstrap.min.css', __dirname + '/main/assets/bootstrap/dist/css/bootstrap.min.css'),
+                  redirectCSS('/portal-theme/css/bootstrap.min.css', __dirname + '/target/css/bootstrap.min.css'),
+                  redirectFonts('/portal-theme/skin/fonts/', __dirname + '/target/css/skin/fonts/'),
                   require('./test/dev/server-mock.js'),
                   require('grunt-connect-proxy/lib/utils').proxyRequest,
                   require('grunt-connect-rewrite/lib/utils').rewriteRequest];
