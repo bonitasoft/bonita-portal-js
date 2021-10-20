@@ -10,6 +10,7 @@
     beforeEach(module('org.bonitasoft.features.admin.processes.details'));
 
     beforeEach(inject(function ($rootScope, $compile, $controller, $q, ProcessMoreDetailsResolveService) {
+      jasmine.clock().install();
       scope = $rootScope.$new();
       controller = $controller;
       q = $q;
@@ -167,7 +168,7 @@
       expect(processAPI.delete).toHaveBeenCalledWith(process);
     });
 
-    it('should a redirect to listing page when delete is successful in old portal', function () {
+    it('should redirect to listing page when delete is successful in old portal', function () {
       modal.open.and.returnValue({result: q.when({id: 42})});
       processAPI.delete.and.returnValue({$promise: q.when({})});
       tokenExtensionService.tokenExtensionValue = 'pm';
@@ -175,6 +176,25 @@
       processMenuCtrl.deleteProcess();
       scope.$apply();
 
+      expect(manageTopUrl.goTo).toHaveBeenCalledWith({
+        token: 'processlistingpm'
+      });
+
+    });
+
+    it('should redirect to listing page when delete returns 404 in old portal', function () {
+      var deferred = q.defer();
+      modal.open.and.returnValue({result: q.when({id: 42})});
+      processAPI.delete.and.returnValue({$promise: deferred.promise});
+      deferred.reject({
+        status: 404
+      });
+
+      tokenExtensionService.tokenExtensionValue = 'pm';
+
+      processMenuCtrl.deleteProcess();
+      scope.$apply();
+      jasmine.clock().tick(2001);
       expect(manageTopUrl.goTo).toHaveBeenCalledWith({
         token: 'processlistingpm'
       });
@@ -216,6 +236,40 @@
 
       expect($window.parent.location).toBe('/bonita/apps/appName/admin-process-details/?id=42../admin-process-list');
     });
+
+    it('should redirect to admin process list on delete returns 404 when in application', function () {
+      var deferred = q.defer();
+      ApplicationLink.isInApps = true;
+      manageTopUrl.getPath.and.returnValue('/bonita/apps/appName/admin-process-details/?id=42');
+      modal.open.and.returnValue({result: q.when({id: 42})});
+      processAPI.delete.and.returnValue({$promise: deferred.promise});
+      deferred.reject({
+        status: 404
+      });
+
+      processMenuCtrl.deleteProcess();
+      scope.$apply();
+      jasmine.clock().tick(2001);
+      expect($window.parent.location).toBe('/bonita/apps/appName/admin-process-details/?id=42../admin-process-list');
+    });
+
+    it('should redirect to admin process list on activate returns 404 when in application', function () {
+      var deferred = q.defer();
+      ApplicationLink.isInApps = true;
+      manageTopUrl.getPath.and.returnValue('/bonita/apps/appName/admin-process-details/?id=42');
+      process.activationState = 'DISABLED';
+      processAPI.update.and.returnValue({
+        $promise: deferred.promise
+      });
+      processMenuCtrl.changeProcessState();
+      deferred.reject({
+        status: 404
+      });
+      scope.$apply();
+      jasmine.clock().tick(2001);
+      expect($window.parent.location).toBe('/bonita/apps/appName/admin-process-details/?id=42../admin-process-list');
+    });
+
 
   });
 
