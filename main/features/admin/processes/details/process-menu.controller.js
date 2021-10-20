@@ -47,6 +47,16 @@
       });
     }
 
+    function goToProcessList(){
+      if (ApplicationLink.isInApps) {
+        $window.parent.location = manageTopUrl.getPath() + '../admin-process-list';
+        return;
+      }
+      manageTopUrl.goTo({
+        token: 'processlisting' + TokenExtensionService.tokenExtensionValue
+      });
+    }
+
     function deleteProcess() {
       $modal.open({
         templateUrl: 'features/admin/processes/details/delete-process-modal.html',
@@ -61,16 +71,16 @@
       }).result.then(function(process) {
         processAPI.delete({id: process.id}).$promise
           .then(function () {
-            if (ApplicationLink.isInApps) {
-              $window.parent.location = manageTopUrl.getPath() + '../admin-process-list';
-              return;
-            }
-            manageTopUrl.goTo({
-              token: 'processlisting' + TokenExtensionService.tokenExtensionValue
-            });
+            goToProcessList();
           }, function (error) {
-            $log.error('An Error occurred during process deletion', error);
-            growl.error('An Error occurred during process deletion: '+ error.message);
+            if (error.status === 404) {
+              $log.error('Error while deleting process. The process is not available anymore.', error);
+              growl.error(i18nService.getKey('processDetails.not.found') + '<br/>' + i18nService.getKey('processDetails.error.redirection'));
+              setTimeout(goToProcessList, 2000);
+            } else {
+              $log.error('An Error occurred during process deletion', error);
+              growl.error(i18nService.getKey('processDetails.delete.error'));
+            }
           });
       });
     }
@@ -91,6 +101,15 @@
       }).$promise.then(function () {
         process.activationState = newState;
         $scope.$broadcast('activation.state.change', {newState: newState});
+      }, function (error) {
+        if (error.status === 404) {
+          $log.error('Error while activating/deactivating process. The process is not available anymore.', error);
+          growl.error(i18nService.getKey('processDetails.not.found') + '<br/>' + i18nService.getKey('processDetails.error.redirection'));
+          setTimeout(goToProcessList, 2000);
+        } else {
+          $log.error('An Error occurred during process activation/deactivation', error);
+          growl.error(i18nService.getKey('processDetails.state.error') + '<br/>' + i18nService.getKey('processDetails.error.refresh'));
+        }
       });
     }
 

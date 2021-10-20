@@ -74,6 +74,11 @@
       I18N_KEYS['processDetails.start.error'] = gettext('Error while trying to start the case. Some required information is missing (contract not fulfilled).');
       I18N_KEYS['processDetails.state.button.enable'] = gettext('Enable');
       I18N_KEYS['processDetails.state.button.disable'] = gettext('Disable');
+      I18N_KEYS['processDetails.delete.error'] = gettext('An Error occurred during process deletion.');
+      I18N_KEYS['processDetails.not.found'] = gettext('This process is no longer available.');
+      I18N_KEYS['processDetails.state.error'] = gettext('An Error occurred during process activation/deactivation.');
+      I18N_KEYS['processDetails.error.redirection'] = gettext('You are going to be redirected to the process list.');
+      I18N_KEYS['processDetails.error.refresh'] = gettext('Please refresh the page.');
     });
 
 })();
