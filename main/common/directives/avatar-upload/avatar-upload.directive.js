@@ -10,6 +10,9 @@
       scope: {
         iconSrc: '=',
         uploader: '=',
+        itemId: '=',
+        apiToCall: '=',
+        successFunction: '='
       },
       replace: true,
       bindToController: true,
@@ -21,6 +24,7 @@
 
   function BoAvatarUploadController() {
     var vm = this;
+    vm.deleteError = undefined;
 
     // User coming from API has an icon field set to 'icons/default/icon_user.png' by default
     vm.hasIcon = function() {
@@ -33,6 +37,26 @@
 
     vm.hasUploadedFileWrongMimeType = function () {
       return vm.uploader && !vm.uploader.isUploading && vm.uploader.status === 415;
+    };
+
+    vm.didServerErrorOccur = function () {
+      return (vm.uploader && !vm.uploader.isUploading && vm.uploader.status === 500) ||
+             (vm.deleteError && vm.deleteError.status === 500);
+    };
+
+    vm.isItemNotFound = function () {
+      return vm.deleteError && vm.deleteError.status === 404;
+    };
+
+    vm.deleteIcon = function() {
+      var model = {
+        id: vm.itemId
+      };
+      vm.apiToCall.delete(model)
+        .then(vm.successFunction)
+        .catch(function(error) {
+          vm.deleteError = error;
+        });
     };
   }
 

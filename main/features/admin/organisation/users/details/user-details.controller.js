@@ -6,10 +6,11 @@
     .controller('UserDetailsCtrl', UserDetailsCtrl);
 
   /* jshint camelcase: false */
-  function UserDetailsCtrl(user, growl, gettextCatalog, professionalDataAPI, personalDataAPI, userAPI, FileUploader, $state, stateParamsUserId) {
+  function UserDetailsCtrl(user, growl, gettextCatalog, professionalDataAPI, personalDataAPI, userAPI, userIconAPI, FileUploader, $state, stateParamsUserId) {
     var vm = this;
     vm.user = user;
     vm.stateParamsUserId = stateParamsUserId;
+    vm.userIconAPI = userIconAPI;
 
     vm.saveGeneralInformation = function (user) {
       userAPI.update({
@@ -96,7 +97,7 @@
           id: user.id,
           icon: response
         }).$promise.then(function() {
-          $state.reload();
+          vm.reload();
         });
       },
       onErrorItem: function(item, response, status) {
@@ -106,6 +107,10 @@
 
     vm.goBack = function () {
       history.back();
+    };
+
+    vm.reload = function () {
+      $state.reload();
     };
 
   }

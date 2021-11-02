@@ -14,7 +14,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-(function() {
+(function () {
   'use strict';
   /**
    * @ngdoc service
@@ -39,7 +39,7 @@
   }
 
   var contentRangeInterceptor = {
-    response: function(response) {
+    response: function (response) {
       response.resource.pagination = parseContentRange(response.headers('Content-Range'));
       return response;
     }
@@ -66,8 +66,8 @@
   }
 
   var resourceDecorator = ['$delegate', '$http',
-    function($delegate, $http) {
-      return function(url, paramDefaults, actions, options) {
+    function ($delegate, $http) {
+      return function (url, paramDefaults, actions, options) {
         //in angular 1.4 use angular.merge instead of angular.extend
         actions = angular.extend({}, actions, {
           'search': angular.extend({
@@ -90,33 +90,33 @@
   var module = angular.module('org.bonitasoft.common.resources', ['ngResource'])
     .constant('API_PATH', API_PATH)
 
-  /**
-   * @ngdoc method
-   * @name Resources#search
-   * @methodOf bonita.common.resources.Resources
-   * @description
-   * the Resources service decorate the $resource to add a new search
-   * function parsing the http header response to find the number of results
-   * for the given resource search
-   */
-  .config(function($provide, $httpProvider) {
-    $httpProvider.interceptors.push('unauthorizedResponseHandler');
-    $provide.decorator('$resource', resourceDecorator);
-  })
+    /**
+     * @ngdoc method
+     * @name Resources#search
+     * @methodOf bonita.common.resources.Resources
+     * @description
+     * the Resources service decorate the $resource to add a new search
+     * function parsing the http header response to find the number of results
+     * for the given resource search
+     */
+    .config(function ($provide, $httpProvider) {
+      $httpProvider.interceptors.push('unauthorizedResponseHandler');
+      $provide.decorator('$resource', resourceDecorator);
+    })
 
-  .factory('unauthorizedResponseHandler',
-    function($q, $window) {
-      return {
-        'responseError': function(rejection) {
+    .factory('unauthorizedResponseHandler',
+      function ($q, $window) {
+        return {
+          'responseError': function (rejection) {
 
-          if (rejection.status === 401 && !/\/API\/platform\/license/.test(rejection.config.url)) {
-            $window.parent.location.reload();
+            if (rejection.status === 401 && !/\/API\/platform\/license/.test(rejection.config.url)) {
+              $window.parent.location.reload();
+            }
+            return $q.reject(rejection);
           }
-          return $q.reject(rejection);
-        }
-      };
-    }
-  );
+        };
+      }
+    );
 
 
   /**
@@ -136,10 +136,10 @@
    * });
    *
    **/
-  (function(resources) {
-    angular.forEach(resources, function(path, name) {
+  (function (resources) {
+    angular.forEach(resources, function (path, name) {
       module.factory(name, ['$resource',
-        function($resource) {
+        function ($resource) {
           return $resource(API_PATH + path + '/:id', {
             id: '@id'
           });
@@ -178,19 +178,19 @@
     'tenantAdminAPI': 'system/tenant',
   });
 
-  module.factory('userTaskAPI', function($http) {
+  module.factory('userTaskAPI', function ($http) {
     /*jshint camelcase: false */
     var userTaskAPI = {};
-    userTaskAPI.execute = function(taskId, data) {
+    userTaskAPI.execute = function (taskId, data) {
       return $http({
-        url: API_PATH + 'bpm/userTask/'+ taskId +'/execution',
+        url: API_PATH + 'bpm/userTask/' + taskId + '/execution',
         method: 'POST',
         data: data
       });
     };
-    userTaskAPI.getContract = function(taskId) {
+    userTaskAPI.getContract = function (taskId) {
       return $http({
-        url: API_PATH + 'bpm/userTask/'+ taskId +'/contract',
+        url: API_PATH + 'bpm/userTask/' + taskId + '/contract',
         method: 'GET'
       });
     };
@@ -198,7 +198,7 @@
   });
 
   module.factory('importApplication',
-    function($resource) {
+    function ($resource) {
       return $resource('../services/application/import', {
         importPolicy: '@importPolicy',
         applicationsDataUpload: '@applicationsDataUpload'
@@ -206,10 +206,10 @@
     }
   );
 
-  module.factory('processCategoryAPI', function($http) {
+  module.factory('processCategoryAPI', function ($http) {
     /*jshint camelcase: false */
     var processCategoryAPI = {};
-    processCategoryAPI.save = function(options) {
+    processCategoryAPI.save = function (options) {
       return $http({
         url: API_PATH + 'bpm/processCategory',
         method: 'POST',
@@ -219,7 +219,7 @@
         }
       });
     };
-    processCategoryAPI.delete = function(options) {
+    processCategoryAPI.delete = function (options) {
       return $http({
         url: API_PATH + 'bpm/processCategory',
         method: 'DELETE',
@@ -229,7 +229,7 @@
     return processCategoryAPI;
   });
 
-  module.factory('processConnectorAPI', function($http, $resource) {
+  module.factory('processConnectorAPI', function ($http, $resource) {
     /*jshint camelcase: false */
     return $resource(API_PATH + 'bpm/processConnector/:process_id/:definition_id/:definition_version', {
       'process_id': '@process_id',
@@ -242,7 +242,7 @@
         interceptor: contentRangeInterceptor
       },
       'update': {
-        transformRequest: function(data) {
+        transformRequest: function (data) {
           delete data.process_id;
           delete data.definition_id;
           delete data.definition_version;
@@ -254,7 +254,7 @@
     });
   });
 
-  module.factory('parameterAPI', function($http, $resource) {
+  module.factory('parameterAPI', function ($http, $resource) {
     /*jshint camelcase: false */
     return $resource(API_PATH + 'bpm/processParameter/:process_id/:name', {
       'process_id': '@process_id',
@@ -266,7 +266,7 @@
         interceptor: contentRangeInterceptor
       },
       'update': {
-        transformRequest: function(data) {
+        transformRequest: function (data) {
           delete data.process_id;
           delete data.name;
           return angular.toJson(data);
@@ -309,10 +309,10 @@
     });
   });
 
-  module.factory('bdmAPI', function($http) {
+  module.factory('bdmAPI', function ($http) {
     /*jshint camelcase: false */
     var bdmAPI = {};
-    bdmAPI.save = function(options) {
+    bdmAPI.save = function (options) {
       return $http({
         url: API_PATH + 'tenant/bdm',
         method: 'POST',
@@ -321,7 +321,7 @@
         }
       });
     };
-    bdmAPI.get = function() {
+    bdmAPI.get = function () {
       return $http({
         url: API_PATH + 'tenant/bdm',
         method: 'GET'
@@ -329,5 +329,29 @@
     };
 
     return bdmAPI;
+  });
+
+  module.factory('applicationIconAPI', function ($http) {
+    /*jshint camelcase: false */
+    var applicationIconAPI = {};
+    applicationIconAPI.delete = function (options) {
+      return $http({
+        url: API_PATH + 'applicationIcon/' + options.id,
+        method: 'DELETE'
+      });
+    };
+    return applicationIconAPI;
+  });
+
+  module.factory('userIconAPI', function ($http) {
+    /*jshint camelcase: false */
+    var userIconAPI = {};
+    userIconAPI.delete = function (options) {
+      return $http({
+        url: API_PATH + 'avatars/' + options.id + '?type=user',
+        method: 'DELETE'
+      });
+    };
+    return userIconAPI;
   });
 })();

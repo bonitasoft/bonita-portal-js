@@ -42,12 +42,13 @@
     }
     ])
 
-    .controller('applicationDetailsCtrl', ['$rootScope', '$scope', '$modal', 'applicationAPI', '$stateParams', 'FeatureManager', 'store', 'customPageAPI', '$state', 'FileUploader', 'i18nService', function ($rootScope, $scope, $modal, applicationAPI, $stateParams, FeatureManager, store, customPageAPI, $state, FileUploader, i18nService) {
+    .controller('applicationDetailsCtrl', ['$rootScope', '$scope', '$modal', 'applicationAPI', 'applicationIconAPI', '$stateParams', 'FeatureManager', 'store', 'customPageAPI', '$state', 'FileUploader', 'i18nService', function ($rootScope, $scope, $modal, applicationAPI, applicationIconAPI, $stateParams, FeatureManager, store, customPageAPI, $state, FileUploader, i18nService) {
 
       var ctrl = this;
       ctrl.modal = null;
       ctrl.isEditLayoutAvailable = FeatureManager.isFeatureAvailable('APPLICATION_LOOK_N_FEEL');
       ctrl.applicationId = $stateParams.id;
+      ctrl.applicationIconAPI = applicationIconAPI;
 
       store
         .load(customPageAPI, {f:'contentType=layout'})
