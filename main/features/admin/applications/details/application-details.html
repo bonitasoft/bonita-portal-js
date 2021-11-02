@@ -63,7 +63,7 @@
               <div class="col-md-4">
                   <dt id="app-logo-label">{{'Logo' | translate}}</dt>
                   <dd id="app-logo-value">
-                      <bo-avatar-upload icon-src="app.icon" uploader="applicationDetailsCtrl.uploader"></bo-avatar-upload>
+                      <bo-avatar-upload icon-src="app.icon" uploader="applicationDetailsCtrl.uploader" item-id="applicationDetailsCtrl.applicationId" api-to-call="applicationDetailsCtrl.applicationIconAPI" success-function="applicationDetailsCtrl.reload"></bo-avatar-upload>
                   </dd>
               </div>
               <div class="col-md-4">

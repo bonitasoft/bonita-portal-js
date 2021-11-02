@@ -68,7 +68,7 @@
     </div>
 
     <div class="col-md-3">
-        <bo-avatar-upload icon-src="vm.user.icon" uploader="vm.uploader"></bo-avatar-upload>
+        <bo-avatar-upload icon-src="vm.user.icon" uploader="vm.uploader" item-id="vm.user.id" api-to-call="vm.userIconAPI" success-function="vm.reload"></bo-avatar-upload>
     </div>
 
 </form>
