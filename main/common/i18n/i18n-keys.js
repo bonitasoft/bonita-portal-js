@@ -79,6 +79,9 @@
       I18N_KEYS['processDetails.state.error'] = gettext('An Error occurred during process activation/deactivation.');
       I18N_KEYS['processDetails.error.redirection'] = gettext('You are going to be redirected to the process list.');
       I18N_KEYS['processDetails.error.refresh'] = gettext('Please refresh the page.');
+      I18N_KEYS['applicationDetails.error.access.denied'] = gettext('Access denied. For more information, check the log file.');
+      I18N_KEYS['applicationDetails.error.page.not.exist'] = gettext('The application page does not exist. Reload the page to see the new list of application pages.');
+      I18N_KEYS['applicationDetails.error.internal.Server'] = gettext('An error has occurred. For more information, check the log file.');
+      I18N_KEYS['applicationDetails.error.unknown'] = gettext('Something went wrong during the deletion. You might want to cancel and try again.');
     });
-
 })();

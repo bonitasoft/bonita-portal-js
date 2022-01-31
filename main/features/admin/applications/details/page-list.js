@@ -137,12 +137,12 @@
           $scope.application.homePageId = page.id;
         });
     };
-
-
   }])
-    .factory('pageModel', ['$rootScope', '$q', 'store', 'applicationPageAPI', 'applicationAPI', function($rootScope, $q, store, applicationPageAPI, applicationAPI) {
+    .factory('pageModel', ['$rootScope', '$q', 'store', 'applicationPageAPI', 'applicationAPI', 'i18nService',
+      function($rootScope, $q, store, applicationPageAPI, applicationAPI, i18nService) {
 
       var service = {};
+      $rootScope.errorMessage = undefined;
 
       /**
        * Check if we have some pages in da scope
@@ -211,6 +211,7 @@
        * @param  {Object} page Page to remoce
        * @return {$q.Promise}
        */
+
       service.remove = function remove(page) {
         var deferred = $q.defer();
 
@@ -219,10 +220,22 @@
           .$promise.then(function(data) {
             deferred.resolve(data);
             $rootScope.$emit('page-list:update');
-          });
+          }, handleErrors);
 
         return deferred.promise;
       };
+
+      function handleErrors(response) {
+        if (response.status === 403) {
+          $rootScope.errorMessage = i18nService.getKey('applicationDetails.error.access.denied');
+        } else if (response.status === 404) {
+          $rootScope.errorMessage = i18nService.getKey('applicationDetails.error.page.not.exist');
+        } else if (response.status === 500) {
+          $rootScope.errorMessage = i18nService.getKey('applicationDetails.error.internal.Server');
+        } else {
+          $rootScope.errorMessage = i18nService.getKey('applicationDetails.error.unknown');
+        }
+      }
 
       /**
        * Set a page as the home page
@@ -251,7 +264,7 @@
           .$promise.then(function() {
             console.debug('[pageModel@setHome] Set the page:' + page.pageId.displayName + ' as the Home Page');
             deferred.resolve(page);
-          }, deferred.reject);
+          }, handleErrors);
 
         return deferred.promise;
       };

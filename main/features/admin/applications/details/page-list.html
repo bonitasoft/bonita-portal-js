@@ -1,6 +1,9 @@
 <header class="page-header">
   <h2>{{'Pages' | translate}}</h2>
 </header>
+<div class="alert ng-isolate-scope alert-danger alert-dismissible text-center" ng-if="$root.errorMessage">
+    <span class="glyphicon glyphicon-remove-sign text-danger"></span> {{ $root.errorMessage | translate }}
+</div>
 <div class="col-md-3">
   <button id="page-list-add-button" ng-click="list.add()" class="btn btn-primary" title="{{'Add from custom pages' | translate}}" aria-label="{{'Add from custom pages' | translate}}" ng-if="application.editable === 'true'">{{'Add' | translate}}</button>
 </div>
