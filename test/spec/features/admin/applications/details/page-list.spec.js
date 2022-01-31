@@ -237,9 +237,74 @@
           expect(console.debug).toHaveBeenCalledWith('[pageModel@setHome] Set the page:toto as the Home Page');
         });
 
+        it('should add an error on homepage failure with error 403 response', function () {
+          pageModel.setHome({
+            id: 24,
+            pageId: {
+              displayName: 'toto'
+            }
+          }, app);
+
+          loadRequest.reject({
+            status: 403,
+            data: {}
+          });
+          rootScope.$apply();
+
+          expect(rootScope.$root.errorMessage).toBe('Access denied. For more information, check the log file.');
+        });
+
+        it('should add an error on homepage failure with error 404 response', function () {
+          pageModel.setHome({
+            id: 24,
+            pageId: {
+              displayName: 'toto'
+            }
+          }, app);
+
+          loadRequest.reject({
+            status: 404,
+            data: {}
+          });
+          rootScope.$apply();
+
+          expect(rootScope.$root.errorMessage).toBe('The application page does not exist. Reload the page to see the new list of application pages.');
+        });
+
+        it('should add an error on homepage failure with error 500 response', function () {
+          pageModel.setHome({
+            id: 24,
+            pageId: {
+              displayName: 'toto'
+            }
+          }, app);
+
+          loadRequest.reject({
+            status: 500,
+            data: {}
+          });
+          rootScope.$apply();
+
+          expect(rootScope.$root.errorMessage).toBe('An error has occurred. For more information, check the log file.');
+        });
+
+        it('should add an error on homepage failure with error XXX response', function () {
+          pageModel.setHome({
+            id: 24,
+            pageId: {
+              displayName: 'toto'
+            }
+          }, app);
+
+          loadRequest.reject({
+            status: 501,
+            data: {}
+          });
+          rootScope.$apply();
+
+          expect(rootScope.$root.errorMessage).toBe('Something went wrong during the deletion. You might want to cancel and try again.');
+        });
       });
-
-
     });
 
 
@@ -265,7 +330,6 @@
         spyOn(pageModel, 'load').and.returnValue(loadRequest.promise);
         spyOn(pageModel, 'remove').and.returnValue(loadRequest.promise);
         spyOn(pageModel, 'setHome').and.returnValue(loadRequest.promise);
-
 
         createController = function (application) {
           scope.application = application;
@@ -369,7 +433,6 @@
           expect(pageModel.remove).toHaveBeenCalledWith({
             id: 333
           });
-
         });
 
         it('should reload da pages on resolve', function () {
@@ -388,7 +451,6 @@
           expect(Ctrl.loadPages).toHaveBeenCalledWith(void 0);
 
         });
-
       });
 
       describe('We want to specify a page as the home page', function () {
@@ -442,6 +504,132 @@
       });
 
 
+    });
+
+    describe('Controller: pageListCtrl error messages', function () {
+      var createController,
+        scope,
+        pageModel,
+        loadRequest,
+        saveRequest,
+        deleteRequest,
+        modal,
+        applicationPageAPI,
+        store;
+
+      beforeEach(module('org.bonitasoft.features.admin.applications.details.page-list'));
+
+      beforeEach(inject(function ($controller, $rootScope, $injector, $q) {
+
+        scope = $rootScope.$new();
+        var application = {
+          id: '1'
+        };
+
+        pageModel = $injector.get('pageModel');
+        applicationPageAPI = $injector.get('applicationPageAPI');
+        store = $injector.get('store');
+        pageModel.applicationPageAPI = applicationPageAPI;
+
+        loadRequest = $q.defer();
+        saveRequest = $q.defer();
+        deleteRequest = $q.defer();
+
+        spyOn(store, 'load').and.returnValue(loadRequest.promise);
+        spyOn(applicationPageAPI, 'delete').and.returnValue({
+         $promise: deleteRequest.promise
+        });
+
+        createController = function () {
+          scope.application = application;
+          return $controller('pageListCtrl', {
+            $scope: scope,
+            $modal: modal,
+            pageModel: pageModel
+          });
+        };
+      }));
+
+      it('should add an error on delete failure with error 403 response', function () {
+        var ctrl = createController();
+
+        ctrl.remove({
+          id: 333
+        });
+
+        loadRequest.resolve({
+          status: 200,
+          data: {}
+        });
+        deleteRequest.reject({
+          status: 403,
+          data: {}
+        });
+        scope.$apply();
+
+        expect(scope.$root.errorMessage).toBe('Access denied. For more information, check the log file.');
+      });
+
+
+      it('should add an error on delete failure with error 404 response', function () {
+        var ctrl = createController();
+
+        ctrl.remove({
+          id: 333
+        });
+
+        loadRequest.resolve({
+          status: 200,
+          data: {}
+        });
+        deleteRequest.reject({
+          status: 404,
+          data: {}
+        });
+        scope.$apply();
+
+        expect(scope.$root.errorMessage).toBe('The application page does not exist. Reload the page to see the new list of application pages.');
+      });
+
+      it('should add an error on delete failure with error 500 response', function () {
+        var ctrl = createController();
+
+        ctrl.remove({
+          id: 333
+        });
+
+        loadRequest.resolve({
+          status: 200,
+          data: {}
+        });
+        deleteRequest.reject({
+          status: 500,
+          data: {}
+        });
+        scope.$apply();
+
+        expect(scope.$root.errorMessage).toBe('An error has occurred. For more information, check the log file.');
+      });
+
+      it('should add an error on delete failure with error XXX response', function () {
+        var ctrl = createController();
+
+        ctrl.remove({
+          id: 333
+        });
+
+        loadRequest.resolve({
+          status: 200,
+          data: {}
+        });
+        deleteRequest.reject({
+          status: 'XXX',
+          data: {}
+        });
+        scope.$apply();
+
+        expect(scope.$root.errorMessage).toBe('Something went wrong during the deletion. You might want to cancel and try again.');
+      });
     });
 
 
@@ -498,9 +686,7 @@
 
 
       it('should remove an alert when we trigger closeAlert', function () {
-        createController({
-          id: 1
-        });
+        createController();
         scope.$apply();
         scope.alerts.push({
           name: 'de'
@@ -612,7 +798,6 @@
         expect(scope.page.form.token.$duplicate).toBe(true);
       });
 
-
       it('should turn reservedToken to true on save with "API" token', function () {
         createController();
         scope.page = {form: { token: {}}};
@@ -643,9 +828,6 @@
         scope.cancel();
         expect(modalInstance.dismiss).toHaveBeenCalled();
       });
-
     });
   });
-
-
 })();
