@@ -1,5 +1,6 @@
 <div class="container-menubuilder" ui-tree="treeOptions" data-max-depth="2" ng-attr-data-drop-enabled="{{isAppEditable === 'true' ? true: false}}" ng-attr-data-drag-enabled="{{isAppEditable === 'true' ? true: false}}" >
-  <ul class="list-group" ui-tree-nodes="" data-ng-model="model">
+
+    <ul class="list-group" ui-tree-nodes="" data-ng-model="model">
     <li class="list-group-item" data-ng-repeat="menu in model" ui-tree-node ng-class="{'menucontainer-has-submenu-items': !menu.applicationPageId || menu.applicationPageId === '-1', 'menucontainer-no-submenu-items': menu.applicationPageId && menu.applicationPageId !== '-1'}">
          <div ui-tree-handle ng-class="{'hidden-submenu': collapsed, 'default-cursor': isAppEditable !== 'true'} " >
            <action-bar collapsed="collapsed" menu="menu" data="data" is-app-editable="isAppEditable">{{menu.displayName}}</action-bar>
