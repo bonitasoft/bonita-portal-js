@@ -55,7 +55,7 @@
         }
 
         spyOn(applicationMenuAPI, 'save').and.callFake(mockNgResource);
-        spyOn(applicationMenuAPI, 'remove');
+        spyOn(applicationMenuAPI, 'remove').and.callFake(mockNgResource);
         spyOn(applicationMenuAPI, 'update').and.callFake(mockNgResource);
 
       }));
@@ -88,6 +88,7 @@
 
       it('should call applicationMenuAPI.remove on remove', function () {
         service.remove(1);
+
         expect(applicationMenuAPI.remove).toHaveBeenCalled();
         expect(applicationMenuAPI.remove).toHaveBeenCalledWith({
           id: 1
@@ -122,16 +123,12 @@
           menuIndex: 1,
           parentMenuId: '-1'
         });
-
       });
-
     });
-
 
     describe('When we contact the webservice, emulate da HTTP', function () {
 
       beforeEach(function () {
-
         $httpBackend.when('GET', '../API/living/application-menu?f=applicationId%3D1&o=menuIndex+ASC&p=0').respond(200, ['de']);
         $httpBackend.when('GET', '../API/living/application-menu?c=0&f=applicationId%3D1&p=0').respond(200, ['de']);
         $httpBackend.when('GET', '../API/living/application-menu?c=0&f=applicationId%3D3&p=0').respond(200, ['de']);
@@ -156,6 +153,73 @@
         });
       });
 
+      it('should show 403 error message while updating a menu', function () {
+        $httpBackend.when('PUT', '../API/living/application-menu/1').respond(403, {
+          id: 1,
+          name: 'test',
+          applicationId: 2
+        });
+        $httpBackend.when('GET', '../API/living/application-menu?f=applicationId%3D2&o=menuIndex+ASC&p=0').respond(403, ['de']);
+        service.update({
+          id: 1,
+          name: 'test',
+          applicationId: 2
+        });
+        $httpBackend.flush();
+        rootScope.$apply();
+        expect(rootScope.errorMessage).toBe('Access denied. For more information, check the log file.');
+      });
+
+      it('should show 404 error message while updating a menu', function () {
+        $httpBackend.when('PUT', '../API/living/application-menu/1').respond(404, {
+          id: 1,
+          name: 'test',
+          applicationId: 2
+        });
+        $httpBackend.when('GET', '../API/living/application-menu?f=applicationId%3D2&o=menuIndex+ASC&p=0').respond(404, ['de']);
+        service.update({
+          id: 1,
+          name: 'test',
+          applicationId: 2
+        });
+        $httpBackend.flush();
+        rootScope.$apply();
+        expect(rootScope.errorMessage).toBe('The menu does not exist. Reload the page to see the new list of menus.');
+      });
+
+      it('should show 500 error message while updating a menu', function () {
+        $httpBackend.when('PUT', '../API/living/application-menu/1').respond(500, {
+          id: 1,
+          name: 'test',
+          applicationId: 2
+        });
+        $httpBackend.when('GET', '../API/living/application-menu?f=applicationId%3D2&o=menuIndex+ASC&p=0').respond(500, ['de']);
+        service.update({
+          id: 1,
+          name: 'test',
+          applicationId: 2
+        });
+        $httpBackend.flush();
+        rootScope.$apply();
+        expect(rootScope.errorMessage).toBe('An error has occurred. For more information, check the log file.');
+      });
+
+      it('should show XXX error message while updating a menu', function () {
+        $httpBackend.when('PUT', '../API/living/application-menu/1').respond(501, {
+          id: 1,
+          name: 'test',
+          applicationId: 2
+        });
+        $httpBackend.when('GET', '../API/living/application-menu?f=applicationId%3D2&o=menuIndex+ASC&p=0').respond(501, ['de']);
+        service.update({
+          id: 1,
+          name: 'test',
+          applicationId: 2
+        });
+        $httpBackend.flush();
+        rootScope.$apply();
+        expect(rootScope.errorMessage).toBe('Something went wrong. You might want to cancel and try again.');
+      });
 
       it('should remove and fetch some data from the API', function () {
         $httpBackend.when('DELETE', '../API/living/application-menu/1').respond(200, {
@@ -167,6 +231,57 @@
         service.remove(1);
       });
 
+      it('should show 403 error message while removing a menu', function () {
+        $httpBackend.when('DELETE', '../API/living/application-menu/1').respond(403, {
+          id: 1,
+          name: 'test',
+          applicationId: 2
+        });
+
+        service.remove(1);
+        $httpBackend.flush();
+        rootScope.$apply();
+        expect(rootScope.errorMessage).toBe('Access denied. For more information, check the log file.');
+      });
+
+      it('should show 404 error message while removing a menu', function () {
+        $httpBackend.when('DELETE', '../API/living/application-menu/1').respond(404, {
+          id: 1,
+          name: 'test',
+          applicationId: 2
+        });
+
+        service.remove(1);
+        $httpBackend.flush();
+        rootScope.$apply();
+        expect(rootScope.errorMessage).toBe('The menu does not exist. Reload the page to see the new list of menus.');
+      });
+
+      it('should show 500 error message while removing a menu', function () {
+        $httpBackend.when('DELETE', '../API/living/application-menu/1').respond(500, {
+          id: 1,
+          name: 'test',
+          applicationId: 2
+        });
+
+        service.remove(1);
+        $httpBackend.flush();
+        rootScope.$apply();
+        expect(rootScope.errorMessage).toBe('An error has occurred. For more information, check the log file.');
+      });
+
+      it('should show XXX error message while removing a menu', function () {
+        $httpBackend.when('DELETE', '../API/living/application-menu/1').respond(501, {
+          id: 1,
+          name: 'test',
+          applicationId: 2
+        });
+
+        service.remove(1);
+        $httpBackend.flush();
+        rootScope.$apply();
+        expect(rootScope.errorMessage).toBe('Something went wrong. You might want to cancel and try again.');
+      });
 
       it('should create and fetch some data from the API', function () {
         $httpBackend.when('POST', '../API/living/application-menu/1').respond(200, {
@@ -186,8 +301,6 @@
         // $httpBackend.flush();
         // $httpBackend.verifyNoOutstandingExpectation();
       });
-
     });
-
   });
 })();

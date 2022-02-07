@@ -44,7 +44,6 @@ angular.module('org.bonitasoft.features.admin.applications.details').controller(
      */
     this.addItem = function addItem(scope, menuItem) {
 
-
       self.modal = $modal.open({
         templateUrl: 'features/admin/applications/details/menubuilder-addCustomMenuModal.html',
         controller: 'addCustomMenuCtrl',
@@ -82,7 +81,6 @@ angular.module('org.bonitasoft.features.admin.applications.details').controller(
           menuItem.children.push(data.item.toJSON());
         });
       });
-
     };
 
     /**
@@ -118,7 +116,6 @@ angular.module('org.bonitasoft.features.admin.applications.details').controller(
         menuFactory.update(angular.copy(menuItem));
       });
     };
-
   }
 ]);
 
@@ -146,15 +143,12 @@ angular.module('org.bonitasoft.features.admin.applications.details').controller(
      * }
      */
     if (customDataModal) {
-
       $scope.isAddition = !!customDataModal.isAddition;
       $scope.isEdition = !!customDataModal.isEdition;
       $scope.isEditionParentMenu = customDataModal.isEditionParentMenu;
 
       // If we are in edition mode we need to bind the values to the modal
       if (customDataModal.data && customDataModal.data.displayName) {
-
-
         $scope.menu = {
           model: {
             name: (!$scope.isEdition) ? '' : customDataModal.data.displayName,
@@ -174,15 +168,12 @@ angular.module('org.bonitasoft.features.admin.applications.details').controller(
           } else {
             $scope.currentSelectedPageId = 0;
           }
-
         }
         if (customDataModal.isEditionParentMenu && (customDataModal.data.applicationPageId === '-1' || !customDataModal.data.applicationPageId)) {
           $scope.isLabelOnly = 'active';
         }
-
       }
     }
-
 
     this.cancel = function cancel() {
       $modalInstance.dismiss('cancel');
@@ -204,7 +195,6 @@ angular.module('org.bonitasoft.features.admin.applications.details').controller(
         raw: config.model
       });
     };
-
   }
 ]);
 
@@ -231,7 +221,8 @@ angular.module('org.bonitasoft.features.admin.applications.details').controller(
           $scope.data.menuItemBuilder = data;
         }, function errorCb(data) {
           console.error('[menuCreatorCtrl@errorCb] ' + data.message);
-        });
+        }
+      );
     }
 
     /**
@@ -318,7 +309,6 @@ angular.module('org.bonitasoft.features.admin.applications.details').controller(
             return false;
           }
         }
-
         return true;
       },
 
@@ -330,6 +320,7 @@ angular.module('org.bonitasoft.features.admin.applications.details').controller(
        * @param  {Event} e
        * @return {void}
        */
+
       dragStop: function dragStop(e) {
         /**
          * if we drop from a submenu, the key subMenu exist
@@ -341,7 +332,7 @@ angular.module('org.bonitasoft.features.admin.applications.details').controller(
 
         menuFactory.update(menuUtils.findItemPerId(menuItem.id, menuOrdered)).then(function(data) {
           $scope.model = data;
-        });
+        }, console.error);
       }
     };
   }
@@ -552,7 +543,6 @@ angular.module('org.bonitasoft.features.admin.applications.details').factory('me
     })[0] || {};
   }
 
-
   return {
     bindChildren: bindChildren,
     findItemPerId: findItemPerId
@@ -560,12 +550,13 @@ angular.module('org.bonitasoft.features.admin.applications.details').factory('me
 
 });
 
-angular.module('org.bonitasoft.features.admin.applications.details').service('menuFactory', ['$rootScope', '$q', 'menuConvertor', 'applicationMenuAPI', 'menuUtils', 'store',
-  function($rootScope, $q, menuConvertor, applicationMenuAPI, menuUtils, store) {
+angular.module('org.bonitasoft.features.admin.applications.details').service('menuFactory', ['$rootScope', '$q', 'menuConvertor', 'applicationMenuAPI', 'menuUtils', 'store', 'gettext',
+  function($rootScope, $q, menuConvertor, applicationMenuAPI, menuUtils, store, gettext) {
 
     'use strict';
 
     var service = {};
+    $rootScope.errorMessage = undefined;
 
     /**
      * Event to detect when the application is updated
@@ -614,13 +605,13 @@ angular.module('org.bonitasoft.features.admin.applications.details').service('me
       }, menuItem).$promise.then(
 
         function successCb(data) {
-
           triggerEventUpdate();
           console.debug('[menuFactory@update] Update success', data);
           service.get(menuItem.applicationId).then(function(data) {
+            $rootScope.errorMessage = undefined;
             deferred.resolve(data);
           });
-        }, deferred.reject);
+        }, function (data) { return handleErrors(deferred, data); });
 
       return deferred.promise;
     };
@@ -642,7 +633,7 @@ angular.module('org.bonitasoft.features.admin.applications.details').service('me
           triggerEventUpdate();
           console.debug('[menuFactory@create] record success', record);
           service.get(menuItem.applicationId).then(function(data) {
-
+            $rootScope.errorMessage = undefined;
             var apiRep = record.toJSON();
             if ('-1' === apiRep.parentMenuId && !apiRep.applicationPageId) {
               apiRep.children = [];
@@ -654,7 +645,7 @@ angular.module('org.bonitasoft.features.admin.applications.details').service('me
               col: data
             });
           });
-        }, deferred.reject);
+        }, function (data) { return handleErrors(deferred, data); });
 
       return deferred.promise;
     };
@@ -665,13 +656,30 @@ angular.module('org.bonitasoft.features.admin.applications.details').service('me
      * @return {$q.Promise}
      */
     service.remove = function remove(id) {
-      triggerEventUpdate();
-      return applicationMenuAPI.remove({
+      var deferred = $q.defer();
+      applicationMenuAPI.remove({
         id: id
-      });
+      }).$promise.then(function (data) {
+        triggerEventUpdate();
+        $rootScope.errorMessage = undefined;
+        deferred.resolve(data);
+      }, function(data) { return handleErrors(deferred, data); });
+
+      return deferred.promise;
     };
 
+    function handleErrors(promise, response) {
+      if(response.status === 403) {
+        $rootScope.errorMessage = gettext('Access denied. For more information, check the log file.');
+      } else if(response.status === 404) {
+        $rootScope.errorMessage = gettext('The menu does not exist. Reload the page to see the new list of menus.');
+      } else if(response.status === 500) {
+        $rootScope.errorMessage = gettext('An error has occurred. For more information, check the log file.');
+      } else {
+        $rootScope.errorMessage = gettext('Something went wrong. You might want to cancel and try again.');
+      }
+      return promise.reject(response);
+    }
     return service;
-
   }
 ]);
