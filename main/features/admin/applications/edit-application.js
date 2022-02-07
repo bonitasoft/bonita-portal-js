@@ -25,8 +25,8 @@
     'org.bonitasoft.common.resources.store',
     'org.bonitasoft.common.i18n'
   ])
-    .controller('addApplicationCtrl', ['$scope', 'applicationAPI', 'profileAPI', 'customPageAPI', '$modalInstance', 'application', 'store', 'i18nMsg',
-      function ($scope, applicationAPI, profileAPI, customPageAPI, $modalInstance, application, store, i18nMsg) {
+    .controller('addApplicationCtrl', ['$scope', 'applicationAPI', 'profileAPI', 'customPageAPI', '$modalInstance', 'application', 'store', 'i18nMsg', 'i18nService',
+      function ($scope, applicationAPI, profileAPI, customPageAPI, $modalInstance, application, store, i18nMsg, i18nService) {
 
         $scope.i18n = i18nMsg.field;
 
@@ -68,17 +68,26 @@
         };
 
         function handleErrors(response) {
-          if (response.status === 404) {
+          if (response.status === 403) {
             $scope.alerts.push({
               type: 'danger',
-              msg: 'The custom page "home" or "defaultlayout" doesn\'t seems installed properly. Go to Configuration > Custom Pages to install it.'
+              msg: i18nService.getKey('applications.error.access.denied')
+            });
+          } else if (response.status === 404) {
+            $scope.alerts.push({
+              type: 'danger',
+              msg: i18nService.getKey('application.edit.error.page.not.exist')
             });
           } else if (response.status === 500 && response.data.cause.exception.indexOf('AlreadyExistsException') > -1) {
             $scope.application.form.token.$duplicate = true;
+            $scope.alerts.push({
+              type: 'danger',
+              msg: i18nService.getKey('An error has occurred. For more information, check the log file.')
+            });
           } else {
             $scope.alerts.push({
               type: 'danger',
-              msg: response.data.message || 'Something went wrong during the creation. You might want to cancel and try again.'
+              msg: response.data.message || i18nService.getKey('application.edit.error.unknown')
             });
           }
         }

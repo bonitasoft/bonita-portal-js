@@ -2,7 +2,8 @@
     <h3 class="modal-title">{{'Delete application' | translate}}</h3>
 </div>
 <div class="modal-body">
-    <p>{{ 'The application' | translate }} <i>{{application.displayName||application.name}}</i> {{'will be permanently deleted.' | translate}}</p>
+    <p ng-if="!errorMessage">{{ 'The application' | translate }} <i>{{application.displayName||application.name}}</i> {{'will be permanently deleted.' | translate}}</p>
+    <div class="alert ng-isolate-scope alert-danger alert-dismissible" ng-if="errorMessage"><span class="glyphicon glyphicon-remove-sign text-danger"></span> {{ errorMessage | translate }}</div>
 </div>
 
 <div class="modal-footer">
