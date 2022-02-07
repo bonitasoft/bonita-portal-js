@@ -67,4 +67,45 @@ describe('Controller: deleteApplicationCtrl', function () {
 
     expect(modalInstance.dismiss).toHaveBeenCalledWith('cancel');
   });
+
+  it('should add an error on delete failure with error 403 response', function () {
+    createCtrl({id: '1'});
+    scope.confirmDelete({model: {token: ''}});
+    deleteRequest.reject({ status: 403 });
+    scope.$apply();
+
+    expect(applicationAPI.delete).toHaveBeenCalledWith({id: '1'});
+    expect(scope.errorMessage).toBe('Access denied. For more information, check the log file.');
+  });
+
+  it('should add an error on delete failure with error 404 response', function () {
+    createCtrl({id: '1'});
+    scope.confirmDelete({model: {token: ''}});
+    deleteRequest.reject({ status: 404 });
+    scope.$apply();
+
+    expect(applicationAPI.delete).toHaveBeenCalledWith({id: '1'});
+    expect(scope.errorMessage).toBe('The application does not exist. Reload the page to see the new list of applications.');
+  });
+
+  it('should add an error on delete failure with error 500 response', function () {
+    createCtrl({id: '1'});
+    scope.confirmDelete({model: {token: ''}});
+    deleteRequest.reject({ status: 500 });
+    scope.$apply();
+
+    expect(applicationAPI.delete).toHaveBeenCalledWith({id: '1'});
+    expect(scope.errorMessage).toBe('An error has occurred. For more information, check the log file.');
+  });
+
+  it('should add an error on delete failure with error XXX response', function () {
+    createCtrl({id: '1'});
+    scope.confirmDelete({model: {token: ''}});
+    deleteRequest.reject({ status: 501 });
+    scope.$apply();
+
+    expect(applicationAPI.delete).toHaveBeenCalledWith({id: '1'});
+    expect(scope.errorMessage).toBe('Something went wrong during the deletion. You might want to cancel and try again.');
+  });
+
 });

@@ -227,13 +227,13 @@
 
       function handleErrors(response) {
         if (response.status === 403) {
-          $rootScope.errorMessage = i18nService.getKey('applicationDetails.error.access.denied');
+          $rootScope.errorMessage = i18nService.getKey('applications.error.access.denied');
         } else if (response.status === 404) {
-          $rootScope.errorMessage = i18nService.getKey('applicationDetails.error.page.not.exist');
+          $rootScope.errorMessage = i18nService.getKey('application.page.error.page.not.exist');
         } else if (response.status === 500) {
-          $rootScope.errorMessage = i18nService.getKey('applicationDetails.error.internal.Server');
+          $rootScope.errorMessage = i18nService.getKey('applications.error.internal.Server');
         } else {
-          $rootScope.errorMessage = i18nService.getKey('applicationDetails.error.unknown');
+          $rootScope.errorMessage = i18nService.getKey('applications.error.unknown');
         }
       }
 

@@ -20,20 +20,33 @@
   angular.module('org.bonitasoft.features.admin.applications.delete',
     [
       'ui.bootstrap',
-      'org.bonitasoft.common.resources'
+      'org.bonitasoft.common.resources',
+      'org.bonitasoft.common.i18n'
     ])
-    .controller('deleteApplicationCtrl', ['$scope', 'applicationAPI', '$modalInstance', 'application', function ($scope, applicationAPI, $modalInstance, application) {
+    .controller('deleteApplicationCtrl', ['$scope', 'applicationAPI', '$modalInstance', 'application', 'i18nService',
+      function ($scope, applicationAPI, $modalInstance, application, i18nService) {
 
       $scope.application = application;
+      $scope.errorMessage = undefined;
 
       $scope.confirmDelete = function () {
-        applicationAPI.delete({id: $scope.application.id}).$promise.then(function () {
-          $modalInstance.close();
-        });
+        applicationAPI.delete({id: $scope.application.id}).$promise.then($modalInstance.close, handleErrors);
       };
 
       $scope.cancel = function () {
         $modalInstance.dismiss('cancel');
       };
+
+      function handleErrors(response) {
+        if (response.status === 403) {
+          $scope.errorMessage = i18nService.getKey('applications.error.access.denied');
+        } else if (response.status === 404) {
+          $scope.errorMessage = i18nService.getKey('applications.error.page.not.exist');
+        } else if (response.status === 500) {
+          $scope.errorMessage = i18nService.getKey('applications.error.internal.Server');
+        } else {
+          $scope.errorMessage = i18nService.getKey('applications.error.unknown');
+        }
+      }
     }]);
 })();
