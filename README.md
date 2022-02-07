@@ -8,7 +8,7 @@ Part of bonita portal written using AngularJs
 - maven > 3.3.9
 
 ## Development tasks
-Please run `yarn install` Before launching any of following tasks
+Please run `yarn install` and `yarn build` at least once before launching any of the following tasks
 
 ### Launch project in development mode
 Before running project in development mode, you need to launch a Bonita backend available on URL http://localhost:8080/
