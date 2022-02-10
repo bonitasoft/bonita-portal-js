@@ -164,5 +164,45 @@ describe('Controller: addApplicationCtrl', function () {
 
       expect(applicationAPI.update).toHaveBeenCalledWith({token: ''});
     });
+
+    it('should add an error on update failure with error 403 response', function () {
+      scope.application = {form: {token: {}}};
+      scope.submit(application);
+      updateRequest.reject({ status: 403 });
+
+      expect(applicationAPI.update).toHaveBeenCalledWith({token: ''});
+      expect(scope.alerts.push({type: 'danger', msg: 'Access denied. For more information, check the log file.'}));
+      expect(scope.alerts[0].msg).toBe('Access denied. For more information, check the log file.');
+    });
+
+    it('should add an error on update failure with error 404 response', function () {
+      scope.application = {form: {token: {}}};
+      scope.submit(application);
+      updateRequest.reject({ status: 404 });
+
+      expect(applicationAPI.update).toHaveBeenCalledWith({token: ''});
+      expect(scope.alerts.push({ type: 'danger', msg: 'The application does not exist. Go to application list page to see the new list of applications.'}));
+      expect(scope.alerts[0].msg).toBe('The application does not exist. Go to application list page to see the new list of applications.');
+    });
+
+    it('should add an error on update failure with error 500 response', function () {
+      scope.application = {form: {token: {}}};
+      scope.submit(application);
+      updateRequest.reject({ status: 500 });
+
+      expect(applicationAPI.update).toHaveBeenCalledWith({token: ''});
+      expect(scope.alerts.push({ type: 'danger', msg: 'An error has occurred. For more information, check the log file.'}));
+      expect(scope.alerts[0].msg).toBe('An error has occurred. For more information, check the log file.');
+    });
+
+    it('should add an error on update failure with error XXX response', function () {
+      scope.application = {form: {token: {}}};
+      scope.submit(application);
+      updateRequest.reject({ status: 501 });
+
+      expect(applicationAPI.update).toHaveBeenCalledWith({token: ''});
+      expect(scope.alerts.push({ type: 'danger', msg: 'Something went wrong during the modification. You might want to cancel and try again.'}));
+      expect(scope.alerts[0].msg).toBe('Something went wrong during the modification. You might want to cancel and try again.');
+    });
   });
 });
