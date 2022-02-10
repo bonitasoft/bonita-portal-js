@@ -82,7 +82,7 @@
             $scope.application.form.token.$duplicate = true;
             $scope.alerts.push({
               type: 'danger',
-              msg: i18nService.getKey('An error has occurred. For more information, check the log file.')
+              msg: i18nService.getKey('applications.error.internal.Server')
             });
           } else {
             $scope.alerts.push({

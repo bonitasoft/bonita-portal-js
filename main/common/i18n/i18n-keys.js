@@ -74,9 +74,11 @@
       I18N_KEYS['application.edit.error.unknown'] = gettext('Something went wrong during the modification. You might want to cancel and try again.');
       I18N_KEYS['applications.error.access.denied'] = gettext('Access denied. For more information, check the log file.');
       I18N_KEYS['applications.error.page.not.exist'] = gettext('The application does not exist. Reload the page to see the new list of applications.');
-      I18N_KEYS['application.page.error.page.not.exist'] = gettext('The application page does not exist. Reload the page to see the new list of application pages.');
       I18N_KEYS['applications.error.internal.Server'] = gettext('An error has occurred. For more information, check the log file.');
       I18N_KEYS['applications.error.unknown'] = gettext('Something went wrong during the deletion. You might want to cancel and try again.');
+      I18N_KEYS['application.page.error.page.not.exist'] = gettext('The application page does not exist. Reload the page to see the new list of application pages.');
+      I18N_KEYS['application.menu.error.page.not.exist'] = gettext('The menu does not exist. Reload the page to see the new list of menus.');
+      I18N_KEYS['application.menu.error.unknown'] = gettext('Something went wrong. You might want to cancel and try again.');
       I18N_KEYS['processDetails.start.success'] = gettext('The case {{caseId}} has been started successfully.');
       I18N_KEYS['processDetails.start.error'] = gettext('Error while trying to start the case. Some required information is missing (contract not fulfilled).');
       I18N_KEYS['processDetails.state.button.enable'] = gettext('Enable');

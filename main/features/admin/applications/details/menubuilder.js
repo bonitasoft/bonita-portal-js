@@ -550,8 +550,8 @@ angular.module('org.bonitasoft.features.admin.applications.details').factory('me
 
 });
 
-angular.module('org.bonitasoft.features.admin.applications.details').service('menuFactory', ['$rootScope', '$q', 'menuConvertor', 'applicationMenuAPI', 'menuUtils', 'store', 'gettext',
-  function($rootScope, $q, menuConvertor, applicationMenuAPI, menuUtils, store, gettext) {
+angular.module('org.bonitasoft.features.admin.applications.details').service('menuFactory', ['$rootScope', '$q', 'menuConvertor', 'applicationMenuAPI', 'menuUtils', 'store', 'i18nService',
+  function($rootScope, $q, menuConvertor, applicationMenuAPI, menuUtils, store, i18nService) {
 
     'use strict';
 
@@ -670,13 +670,13 @@ angular.module('org.bonitasoft.features.admin.applications.details').service('me
 
     function handleErrors(promise, response) {
       if(response.status === 403) {
-        $rootScope.errorMessage = gettext('Access denied. For more information, check the log file.');
+        $rootScope.errorMessage = i18nService.getKey('applications.error.access.denied');
       } else if(response.status === 404) {
-        $rootScope.errorMessage = gettext('The menu does not exist. Reload the page to see the new list of menus.');
+        $rootScope.errorMessage = i18nService.getKey('application.menu.error.page.not.exist');
       } else if(response.status === 500) {
-        $rootScope.errorMessage = gettext('An error has occurred. For more information, check the log file.');
+        $rootScope.errorMessage = i18nService.getKey('applications.error.internal.Server');
       } else {
-        $rootScope.errorMessage = gettext('Something went wrong. You might want to cancel and try again.');
+        $rootScope.errorMessage = i18nService.getKey('application.menu.error.unknown');
       }
       return promise.reject(response);
     }
