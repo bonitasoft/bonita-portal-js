@@ -154,7 +154,6 @@ angular.module('org.bonitasoft.features.admin.applications.details').controller(
       // If we are in edition mode we need to bind the values to the modal
       if (customDataModal.data && customDataModal.data.displayName) {
 
-
         $scope.menu = {
           model: {
             name: (!$scope.isEdition) ? '' : customDataModal.data.displayName,
@@ -339,9 +338,7 @@ angular.module('org.bonitasoft.features.admin.applications.details').controller(
         var menuItem = e.source.nodeScope.subItem || e.source.nodeScope.menu;
         var menuOrdered = menuConvertor.buildIndex(angular.copy($scope.model));
 
-        menuFactory.update(menuUtils.findItemPerId(menuItem.id, menuOrdered)).then(function(data) {
-          $scope.model = data;
-        });
+        menuFactory.update(menuUtils.findItemPerId(menuItem.id, menuOrdered)).catch(console.error);
       }
     };
   }
@@ -552,7 +549,6 @@ angular.module('org.bonitasoft.features.admin.applications.details').factory('me
     })[0] || {};
   }
 
-
   return {
     bindChildren: bindChildren,
     findItemPerId: findItemPerId
@@ -560,12 +556,13 @@ angular.module('org.bonitasoft.features.admin.applications.details').factory('me
 
 });
 
-angular.module('org.bonitasoft.features.admin.applications.details').service('menuFactory', ['$rootScope', '$q', 'menuConvertor', 'applicationMenuAPI', 'menuUtils', 'store',
-  function($rootScope, $q, menuConvertor, applicationMenuAPI, menuUtils, store) {
+angular.module('org.bonitasoft.features.admin.applications.details').service('menuFactory', ['$rootScope', '$q', 'menuConvertor', 'applicationMenuAPI', 'menuUtils', 'store', 'i18nService',
+  function($rootScope, $q, menuConvertor, applicationMenuAPI, menuUtils, store, i18nService) {
 
     'use strict';
 
     var service = {};
+    $rootScope.messageError = undefined;
 
     /**
      * Event to detect when the application is updated
@@ -614,13 +611,12 @@ angular.module('org.bonitasoft.features.admin.applications.details').service('me
       }, menuItem).$promise.then(
 
         function successCb(data) {
-
           triggerEventUpdate();
           console.debug('[menuFactory@update] Update success', data);
-          service.get(menuItem.applicationId).then(function(data) {
-            deferred.resolve(data);
+          service.get(menuItem.applicationId).then(function() {
+            $rootScope.messageError = undefined;
           });
-        }, deferred.reject);
+        }, function(data) { return handleErrors(deferred, data); });
 
       return deferred.promise;
     };
@@ -642,7 +638,7 @@ angular.module('org.bonitasoft.features.admin.applications.details').service('me
           triggerEventUpdate();
           console.debug('[menuFactory@create] record success', record);
           service.get(menuItem.applicationId).then(function(data) {
-
+            $rootScope.messageError = undefined;
             var apiRep = record.toJSON();
             if ('-1' === apiRep.parentMenuId && !apiRep.applicationPageId) {
               apiRep.children = [];
@@ -665,13 +661,31 @@ angular.module('org.bonitasoft.features.admin.applications.details').service('me
      * @return {$q.Promise}
      */
     service.remove = function remove(id) {
-      triggerEventUpdate();
-      return applicationMenuAPI.remove({
+      var deferred = $q.defer();
+
+      applicationMenuAPI.remove({
         id: id
-      });
+      }).$promise.then(function () {
+        triggerEventUpdate();
+        $rootScope.messageError = undefined;
+      }, function(data) { return handleErrors(deferred, data); });
+
+      return deferred.promise;
     };
 
-    return service;
+    function handleErrors(promise, response) {
+      if(response.status === 403) {
+        $rootScope.messageError = i18nService.getKey('applications.error.access.denied');
+      } else if(response.status === 404) {
+        $rootScope.messageError = i18nService.getKey('application.menu.error.page.not.exist');
+      } else if(response.status === 500) {
+        $rootScope.messageError = i18nService.getKey('applications.error.internal.Server');
+      } else {
+        $rootScope.messageError = i18nService.getKey('application.edit.error.unknown');
+      }
+      return promise.reject(response);
+    }
 
+    return service;
   }
 ]);
