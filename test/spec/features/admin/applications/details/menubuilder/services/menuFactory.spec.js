@@ -55,7 +55,7 @@
         }
 
         spyOn(applicationMenuAPI, 'save').and.callFake(mockNgResource);
-        spyOn(applicationMenuAPI, 'remove');
+        spyOn(applicationMenuAPI, 'remove').and.callFake(mockNgResource);
         spyOn(applicationMenuAPI, 'update').and.callFake(mockNgResource);
 
       }));
