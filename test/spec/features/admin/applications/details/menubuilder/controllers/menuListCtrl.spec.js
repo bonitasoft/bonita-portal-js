@@ -117,12 +117,6 @@
       });
 
       expect(scope.model.length).toBe(2);
-      loadRequest.resolve([{
-        id: 42,
-        displayName: 'de'
-      }]);
-      scope.$apply();
-      expect(scope.model.length).toBe(1);
     });
 
     describe('trying to drag&drop an item', function () {
@@ -138,7 +132,6 @@
           },
           className: 'menucontainer-submenu'
         };
-
 
         beforeEach(function () {
 
@@ -174,10 +167,7 @@
           opt.className = '';
           expect(scope.treeOptions.accept(opt.sourceNode, opt.destNodes)).toBeTruthy();
         });
-
-
       });
-
 
       describe('When we try for a menu with a page', function () {
         var opt = {
@@ -189,7 +179,6 @@
           },
           className: 'menucontainer-submenu'
         };
-
 
         beforeEach(function () {
 
@@ -212,11 +201,7 @@
           createController();
           expect(scope.treeOptions.accept(opt.sourceNode, opt.destNodes)).toBeTruthy();
         });
-
       });
-
-
     });
-
   });
 })();

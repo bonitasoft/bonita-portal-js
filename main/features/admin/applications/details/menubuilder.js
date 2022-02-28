@@ -149,6 +149,7 @@ angular.module('org.bonitasoft.features.admin.applications.details').controller(
 
       // If we are in edition mode we need to bind the values to the modal
       if (customDataModal.data && customDataModal.data.displayName) {
+
         $scope.menu = {
           model: {
             name: (!$scope.isEdition) ? '' : customDataModal.data.displayName,
@@ -330,9 +331,7 @@ angular.module('org.bonitasoft.features.admin.applications.details').controller(
         var menuItem = e.source.nodeScope.subItem || e.source.nodeScope.menu;
         var menuOrdered = menuConvertor.buildIndex(angular.copy($scope.model));
 
-        menuFactory.update(menuUtils.findItemPerId(menuItem.id, menuOrdered)).then(function(data) {
-          $scope.model = data;
-        }, console.error);
+        menuFactory.update(menuUtils.findItemPerId(menuItem.id, menuOrdered)).catch(console.error);
       }
     };
   }
@@ -556,7 +555,7 @@ angular.module('org.bonitasoft.features.admin.applications.details').service('me
     'use strict';
 
     var service = {};
-    $rootScope.errorMessage = undefined;
+    $rootScope.messageError = undefined;
 
     /**
      * Event to detect when the application is updated
@@ -607,11 +606,10 @@ angular.module('org.bonitasoft.features.admin.applications.details').service('me
         function successCb(data) {
           triggerEventUpdate();
           console.debug('[menuFactory@update] Update success', data);
-          service.get(menuItem.applicationId).then(function(data) {
-            $rootScope.errorMessage = undefined;
-            deferred.resolve(data);
+          service.get(menuItem.applicationId).then(function() {
+            $rootScope.messageError = undefined;
           });
-        }, function (data) { return handleErrors(deferred, data); });
+        }, function(data) { return handleErrors(deferred, data); });
 
       return deferred.promise;
     };
@@ -633,7 +631,7 @@ angular.module('org.bonitasoft.features.admin.applications.details').service('me
           triggerEventUpdate();
           console.debug('[menuFactory@create] record success', record);
           service.get(menuItem.applicationId).then(function(data) {
-            $rootScope.errorMessage = undefined;
+            $rootScope.messageError = undefined;
             var apiRep = record.toJSON();
             if ('-1' === apiRep.parentMenuId && !apiRep.applicationPageId) {
               apiRep.children = [];
@@ -657,12 +655,12 @@ angular.module('org.bonitasoft.features.admin.applications.details').service('me
      */
     service.remove = function remove(id) {
       var deferred = $q.defer();
+
       applicationMenuAPI.remove({
         id: id
-      }).$promise.then(function (data) {
+      }).$promise.then(function () {
         triggerEventUpdate();
-        $rootScope.errorMessage = undefined;
-        deferred.resolve(data);
+        $rootScope.messageError = undefined;
       }, function(data) { return handleErrors(deferred, data); });
 
       return deferred.promise;
@@ -670,16 +668,17 @@ angular.module('org.bonitasoft.features.admin.applications.details').service('me
 
     function handleErrors(promise, response) {
       if(response.status === 403) {
-        $rootScope.errorMessage = i18nService.getKey('applications.error.access.denied');
+        $rootScope.messageError = i18nService.getKey('applications.error.access.denied');
       } else if(response.status === 404) {
-        $rootScope.errorMessage = i18nService.getKey('application.menu.error.page.not.exist');
+        $rootScope.messageError = i18nService.getKey('application.menu.error.page.not.exist');
       } else if(response.status === 500) {
-        $rootScope.errorMessage = i18nService.getKey('applications.error.internal.Server');
+        $rootScope.messageError = i18nService.getKey('applications.error.internal.Server');
       } else {
-        $rootScope.errorMessage = i18nService.getKey('application.menu.error.unknown');
+        $rootScope.messageError = i18nService.getKey('application.edit.error.unknown');
       }
       return promise.reject(response);
     }
+
     return service;
   }
 ]);
