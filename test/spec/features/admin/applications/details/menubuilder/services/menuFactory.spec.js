@@ -167,7 +167,7 @@
         });
         $httpBackend.flush();
         rootScope.$apply();
-        expect(rootScope.errorMessage).toBe('Access denied. For more information, check the log file.');
+        expect(rootScope.messageError).toBe('Access denied. For more information, check the log file.');
       });
 
       it('should show 404 error message while updating a menu', function () {
@@ -184,7 +184,7 @@
         });
         $httpBackend.flush();
         rootScope.$apply();
-        expect(rootScope.errorMessage).toBe('The menu does not exist. Reload the page to see the new list of menus.');
+        expect(rootScope.messageError).toBe('The menu does not exist. Reload the page to see the new list of menus.');
       });
 
       it('should show 500 error message while updating a menu', function () {
@@ -201,7 +201,7 @@
         });
         $httpBackend.flush();
         rootScope.$apply();
-        expect(rootScope.errorMessage).toBe('An error has occurred. For more information, check the log file.');
+        expect(rootScope.messageError).toBe('An error has occurred. For more information, check the log file.');
       });
 
       it('should show XXX error message while updating a menu', function () {
@@ -218,7 +218,7 @@
         });
         $httpBackend.flush();
         rootScope.$apply();
-        expect(rootScope.errorMessage).toBe('Something went wrong. You might want to cancel and try again.');
+        expect(rootScope.messageError).toBe('Something went wrong during the modification. You might want to cancel and try again.');
       });
 
       it('should remove and fetch some data from the API', function () {
@@ -241,7 +241,7 @@
         service.remove(1);
         $httpBackend.flush();
         rootScope.$apply();
-        expect(rootScope.errorMessage).toBe('Access denied. For more information, check the log file.');
+        expect(rootScope.messageError).toBe('Access denied. For more information, check the log file.');
       });
 
       it('should show 404 error message while removing a menu', function () {
@@ -254,7 +254,7 @@
         service.remove(1);
         $httpBackend.flush();
         rootScope.$apply();
-        expect(rootScope.errorMessage).toBe('The menu does not exist. Reload the page to see the new list of menus.');
+        expect(rootScope.messageError).toBe('The menu does not exist. Reload the page to see the new list of menus.');
       });
 
       it('should show 500 error message while removing a menu', function () {
@@ -267,7 +267,7 @@
         service.remove(1);
         $httpBackend.flush();
         rootScope.$apply();
-        expect(rootScope.errorMessage).toBe('An error has occurred. For more information, check the log file.');
+        expect(rootScope.messageError).toBe('An error has occurred. For more information, check the log file.');
       });
 
       it('should show XXX error message while removing a menu', function () {
@@ -280,7 +280,7 @@
         service.remove(1);
         $httpBackend.flush();
         rootScope.$apply();
-        expect(rootScope.errorMessage).toBe('Something went wrong. You might want to cancel and try again.');
+        expect(rootScope.messageError).toBe('Something went wrong during the modification. You might want to cancel and try again.');
       });
 
       it('should create and fetch some data from the API', function () {
