@@ -53,7 +53,7 @@
                         <goals>
                             <goal>yarn</goal>
                         </goals>
-                        <phase>generate-resources</phase>
+                        <phase>process-resources</phase>
                         <configuration>
                             <arguments>run build</arguments>
                         </configuration>
@@ -144,6 +144,29 @@
                                     <arguments>
                                         listDependenciesYarn
                                     </arguments>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>translations</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>com.github.eirslett</groupId>
+                        <artifactId>frontend-maven-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>generate pot</id>
+                                <goals>
+                                    <goal>yarn</goal>
+                                </goals>
+                                <phase>generate-resources</phase>
+                                <configuration>
+                                    <arguments>run pot</arguments>
                                 </configuration>
                             </execution>
                         </executions>
