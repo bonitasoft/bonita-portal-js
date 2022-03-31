@@ -74,10 +74,6 @@ module.exports = function (grunt) {
 
     // Watches files for changes and runs tasks based on the changed files
     watch: {
-      bower: {
-        files: ['bower.json'],
-        tasks: ['wiredep']
-      },
       js: {
         files: ['<%= portaljs.app %>/*.js', '<%= portaljs.app %>/features/**/*.js', '<%= portaljs.app %>/commons/**/*.js', '<%= portaljs.app %>/assets/**/*.js', '!<%= portaljs.app %>/templates.js'],
         tasks: ['newer:jshint:all', 'ngdocs:all'],
@@ -131,9 +127,6 @@ module.exports = function (grunt) {
           key: null, // provide a filepath or Buffer for `key` and `cert` to enable SSL.
           cert: null
         }
-      },
-      bower: function() {
-        return ['wiredep'];
       },
       js: function(filepath) {
         grunt.config(['esteJs','app'], filepath);
@@ -474,7 +467,7 @@ module.exports = function (grunt) {
           {
             expand: true,
             cwd: '<%= portaljs.dist %>',
-            src: ['*.html', '**/*.html','!**/keymaster/test.html'],
+            src: ['*.html', '**/*.html','!**/keymaster/test.html','!**/bootstrap/docs/**/*.html'],
             dest: '<%= portaljs.dist %>'
           }
         ]
@@ -634,7 +627,6 @@ module.exports = function (grunt) {
     grunt.task.run([
       'html2js',
       'clean:server',
-      'wiredep:build',
       'injector',
       'lineending',
       'concurrent:server',
@@ -654,7 +646,6 @@ module.exports = function (grunt) {
     grunt.task.run([
       'html2js',
       'clean:server',
-      'wiredep:build',
       'injector',
       'lineending',
       'concurrent:server',
@@ -696,7 +687,6 @@ module.exports = function (grunt) {
   grunt.registerTask('build', [
     'html2js',
     'clean:dist',
-    'wiredep:build',
     'makeDist'
   ]);
 
