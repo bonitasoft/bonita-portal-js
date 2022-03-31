@@ -125,28 +125,15 @@
                                 <phase>initialize</phase>
                             </execution>
                             <execution>
-                                <id>bower-license license-checker</id>
+                                <id>license-checker</id>
                                 <goals>
                                     <goal>yarn</goal>
                                 </goals>
                                 <phase>initialize</phase>
                                 <configuration>
-                                    <arguments>add --dev bower-license license-checker</arguments>
+                                    <arguments>add --dev license-checker</arguments>
                                 </configuration>
                             </execution>
-                            <execution>
-                                <id>list bower dependencies</id>
-                                <goals>
-                                    <goal>yarn</goal>
-                                </goals>
-                                <phase>initialize</phase>
-                                <configuration>
-                                    <arguments>
-                                        listDependencies
-                                    </arguments>
-                                </configuration>
-                            </execution>
-                            <!-- TODO enable if we add some yarn dependencies
                             <execution>
                                 <id>list yarn dependencies</id>
                                 <goals>
@@ -158,7 +145,7 @@
                                         listDependenciesYarn
                                     </arguments>
                                 </configuration>
-                            </execution>-->
+                            </execution>
                         </executions>
                     </plugin>
                 </plugins>
