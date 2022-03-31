@@ -7,7 +7,6 @@
     "connect": "3.4.1",
     "cross-env": "^5.1.4",
     "gulp": "3.9.0",
-    "gulp-bower": "0.0.15",
     "gulp-concat": "2.4.1",
     "gulp-inject": "3.0.0",
     "gulp-less": "3.0.5",
