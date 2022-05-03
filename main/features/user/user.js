@@ -18,7 +18,6 @@
   'use strict';
 
   angular.module('org.bonitasoft.features.user', [
-    'org.bonitasoft.features.user.cases',
     'org.bonitasoft.features.user.tasks',
     'org.bonitasoft.common.utils.filters'
   ]);

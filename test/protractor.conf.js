@@ -46,6 +46,9 @@ exports.config = {
       defaultTimeoutInterval: 120000
     },
 
+    allScriptsTimeout: 120000,
+    getPageTimeout: 120000,
+
     onPrepare: function() {
       require('protractor-http-mock').config = {
         rootDirectory: __dirname, // default value: process.cwd()
