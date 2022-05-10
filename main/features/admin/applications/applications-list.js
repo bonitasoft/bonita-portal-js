@@ -29,8 +29,7 @@
     'ui.router',
     'org.bonitasoft.services.topurl',
     'org.bonitasoft.bonitable',
-    'org.bonitasoft.templates',
-    'org.bonitasoft.service.applicationLink'
+    'org.bonitasoft.templates'
   ])
     .config(['$stateProvider', function ($stateProvider) {
       $stateProvider.state('bonita.applications', {
@@ -45,14 +44,13 @@
         }
       });
     }])
-    .controller('applicationsListCtrl', ['$scope', 'applicationAPI', '$modal', '$window', 'store', 'templateAppDetailLoader', 'manageTopUrl', 'ApplicationLink', function ($scope, applicationAPI, $modal, $window, store, templateAppDetailLoader, manageTopUrl, ApplicationLink) {
+    .controller('applicationsListCtrl', ['$scope', 'applicationAPI', '$modal', '$window', 'store', 'templateAppDetailLoader', 'manageTopUrl', function ($scope, applicationAPI, $modal, $window, store, templateAppDetailLoader, manageTopUrl) {
 
         var self = this;
         self.modalCreate = null;
         self.modalDelete = null;
         self.modalImport = null;
         self.modalExport = null;
-        self.isInApps = isInApps;
         self.goToApplicationDetails = goToApplicationDetails;
 
         /**
@@ -60,14 +58,6 @@
          */
         function goToApplicationDetails(applicationId) {
           $window.parent.location = manageTopUrl.getPath() + '../admin-application-details?id=' + applicationId;
-        }
-
-        /**
-         * Checks if we are in a living application
-         * @returns {true: if in an app, false: otherwise}
-         */
-        function isInApps() {
-          return ApplicationLink.isInApps;
         }
 
         /**

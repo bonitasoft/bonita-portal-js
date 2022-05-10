@@ -5,7 +5,7 @@
     processMoreDetailsResolveService, growl, manageTopUrl, tokenExtensionService, $window, stateParamsProcessId;
 
   describe('processMenuCtrl', function () {
-    var menu, process, ApplicationLink;
+    var menu, process;
 
     beforeEach(module('org.bonitasoft.features.admin.processes.details'));
 
@@ -19,9 +19,6 @@
       processMoreDetailsResolveService = ProcessMoreDetailsResolveService;
       tokenExtensionService = {
         tokenExtensionValue: 'admin'
-      };
-      ApplicationLink = {
-        isInApps: false
       };
       growl = jasmine.createSpyObj('growl', ['error']);
       manageTopUrl = jasmine.createSpyObj('manageTopUrl', ['goTo', 'getPath', 'getCurrentPageToken']);
@@ -73,7 +70,6 @@
         TokenExtensionService: tokenExtensionService,
         growl: growl,
         manageTopUrl: manageTopUrl,
-        ApplicationLink: ApplicationLink,
         stateParamsProcessId: stateParamsProcessId
       });
     });
@@ -168,39 +164,6 @@
       expect(processAPI.delete).toHaveBeenCalledWith(process);
     });
 
-    it('should redirect to listing page when delete is successful in old portal', function () {
-      modal.open.and.returnValue({result: q.when({id: 42})});
-      processAPI.delete.and.returnValue({$promise: q.when({})});
-      tokenExtensionService.tokenExtensionValue = 'pm';
-
-      processMenuCtrl.deleteProcess();
-      scope.$apply();
-
-      expect(manageTopUrl.goTo).toHaveBeenCalledWith({
-        token: 'processlistingpm'
-      });
-
-    });
-
-    it('should redirect to listing page when delete returns 404 in old portal', function () {
-      var deferred = q.defer();
-      modal.open.and.returnValue({result: q.when({id: 42})});
-      processAPI.delete.and.returnValue({$promise: deferred.promise});
-      deferred.reject({
-        status: 404
-      });
-
-      tokenExtensionService.tokenExtensionValue = 'pm';
-
-      processMenuCtrl.deleteProcess();
-      scope.$apply();
-      jasmine.clock().tick(2001);
-      expect(manageTopUrl.goTo).toHaveBeenCalledWith({
-        token: 'processlistingpm'
-      });
-
-    });
-
     it('opens the deletion modal when delete button is clicked and do noop on cancel', function () {
       var deferred = q.defer();
       modal.open.and.returnValue({
@@ -226,7 +189,6 @@
     });
 
     it('should redirect to admin process list on delete success when in application', function () {
-      ApplicationLink.isInApps = true;
       manageTopUrl.getPath.and.returnValue('/bonita/apps/appName/admin-process-details/?id=42');
       modal.open.and.returnValue({result: q.when({id: 42})});
       processAPI.delete.and.returnValue({$promise: q.when({})});
@@ -239,7 +201,6 @@
 
     it('should redirect to admin process list on delete returns 404 when in application', function () {
       var deferred = q.defer();
-      ApplicationLink.isInApps = true;
       manageTopUrl.getPath.and.returnValue('/bonita/apps/appName/admin-process-details/?id=42');
       modal.open.and.returnValue({result: q.when({id: 42})});
       processAPI.delete.and.returnValue({$promise: deferred.promise});
@@ -255,7 +216,6 @@
 
     it('should redirect to admin process list on activate returns 404 when in application', function () {
       var deferred = q.defer();
-      ApplicationLink.isInApps = true;
       manageTopUrl.getPath.and.returnValue('/bonita/apps/appName/admin-process-details/?id=42');
       process.activationState = 'DISABLED';
       processAPI.update.and.returnValue({
