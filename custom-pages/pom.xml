@@ -4,7 +4,7 @@
 
     <groupId>org.bonitasoft.web.page</groupId>
     <artifactId>custom-pages</artifactId>
-    <version>7.15-SNAPSHOT</version>
+    <version>7.15.0.W24-03</version>
     <packaging>pom</packaging>
 
     <modules>
