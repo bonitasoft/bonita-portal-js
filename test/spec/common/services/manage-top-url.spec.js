@@ -37,17 +37,16 @@
       beforeEach(function () {
         spyOn(manageTopUrl, 'getCurrentProfile').and.returnValue('_pf=2');
         mockedWindow.parent.location.pathname = '/bonita/portal/homepage';
-        mockedWindow.parent.location.search = '?tenant=1';
       });
       it('should change top location hash to case detail', function () {
-        expect(manageTopUrl.getUrlToTokenAndId()).toBe('/bonita/portal/homepage?tenant=1#?id=&_p=&_pf=2');
+        expect(manageTopUrl.getUrlToTokenAndId()).toBe('/bonita/portal/homepage#?id=&_p=&_pf=2');
       });
       it('should change top location hash to case detail', function () {
         var caseItemId = 123;
-        expect(manageTopUrl.getUrlToTokenAndId(caseItemId, 'casedetails')).toEqual('/bonita/portal/homepage?tenant=1#?id=123&_p=casedetails&_pf=2');
+        expect(manageTopUrl.getUrlToTokenAndId(caseItemId, 'casedetails')).toEqual('/bonita/portal/homepage#?id=123&_p=casedetails&_pf=2');
         caseItemId = '4658';
         manageTopUrl.getUrlToTokenAndId(caseItemId, 'casedetails');
-        expect(manageTopUrl.getUrlToTokenAndId(caseItemId, 'casedetails')).toEqual('/bonita/portal/homepage?tenant=1#?id=4658&_p=casedetails&_pf=2');
+        expect(manageTopUrl.getUrlToTokenAndId(caseItemId, 'casedetails')).toEqual('/bonita/portal/homepage#?id=4658&_p=casedetails&_pf=2');
       });
     });
     describe('retrieve current profile from top Url', function(){

@@ -57,17 +57,6 @@ describe('iframe', function() {
     expect(toUrl).toBe(overViewUrl);
   });
 
-  it('should include tenant ID when in the current URL', function(){
-    mockedLocation.search = function() {return({tenant:'2'});};
-    var toUrl = iframe.getTaskForm(process, task, userId);
-    expect(toUrl).toContain('&tenant=2');
-  });
-
-  it('should not include tenant ID when not in the current URL', function(){
-    var toUrl = iframe.getTaskForm(process, task, userId);
-    expect(toUrl).not.toContain('tenant=');
-  });
-
   it('should include locale when in the current URL', function(){
     mockedLocation.search = function() {return({locale:'EN_en'});};
     var toUrl = iframe.getTaskForm(process, task, userId);
