@@ -42,7 +42,7 @@
          */
         this.getTaskForm = function(process, task, userId, confirmation) {
           // the formurl template
-          var tpl=this.getPortalUrl()+'/portal/resource/taskInstance/<process.name>/<process.version>/<task.name>/content/?id=<task.id><tenantQueryString><localeQueryString><appQueryString>';
+          var tpl=this.getPortalUrl()+'/portal/resource/taskInstance/<process.name>/<process.version>/<task.name>/content/?id=<task.id><localeQueryString><appQueryString>';
 
           var dict = [
             ['<process.name>', encodeURIComponentForPathSegment(process.name)],
@@ -50,7 +50,6 @@
             ['<task.name>', encodeURIComponentForPathSegment(task.name)],
             ['<task.id>', task.id],
             ['<user.id>', userId],
-            ['<tenantQueryString>', getParamFromHash('&', 'tenant')],
             ['<localeQueryString>', getParamFromHash('&', 'locale')],
             ['<appQueryString>', getParamFromQueryString('&', 'app')]
           ];
@@ -72,11 +71,10 @@
          * @param  {Object} process
          */
         this.getCaseVisu = function(Case, process) {
-          var tpl=this.getPortalUrl()+'/portal.js/<tenantQueryString><localeQueryString>#/admin/monitoring/<process.id>-<case.id>?diagramOnly=1';
+          var tpl=this.getPortalUrl()+'/portal.js/<localeQueryString>#/admin/monitoring/<process.id>-<case.id>?diagramOnly=1';
 
           var dict = [
-            ['<tenantQueryString>', getParamFromHash('?', 'tenant')],
-            ['<localeQueryString>', getParamFromHash('&', 'locale')],
+            ['<localeQueryString>', getParamFromHash('?', 'locale')],
             ['<process.id>', process.id],
             ['<case.id>', Case.id]
           ];
@@ -94,13 +92,12 @@
          */
         this.getCaseOverview = function(Case, process) {
           // Case Overview iframe template
-          var tpl=this.getPortalUrl()+'/portal/resource/processInstance/<process.name>/<process.version>/content/?id=<case.id><tenantQueryString><localeQueryString><appQueryString>';
+          var tpl=this.getPortalUrl()+'/portal/resource/processInstance/<process.name>/<process.version>/content/?id=<case.id><localeQueryString><appQueryString>';
 
           var dict = [
             ['<process.name>', encodeURIComponentForPathSegment(process.name)],
             ['<process.version>', encodeURIComponentForPathSegment(process.version)],
             ['<case.id>', Case.sourceObjectId || Case.id],
-            ['<tenantQueryString>', getParamFromHash('&', 'tenant')],
             ['<localeQueryString>', getParamFromHash('&', 'locale')],
             ['<appQueryString>', getParamFromQueryString('&', 'app')]
           ];

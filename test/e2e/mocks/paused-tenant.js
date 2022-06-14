@@ -5,8 +5,7 @@ module.exports = {
   },
   response: {
     data: {
-      'paused': 'true',
-      'id': '1'
+      'paused': 'true'
     }
   }
 };
