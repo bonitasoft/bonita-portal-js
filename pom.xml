@@ -76,7 +76,6 @@
                             <descriptors>
                                 <descriptor>assembly-app.xml</descriptor>
                                 <descriptor>assembly-looknfeel-css.xml</descriptor>
-                                <descriptor>assembly-looknfeel-less.xml</descriptor>
                             </descriptors>
                         </configuration>
                     </execution>
