@@ -20,11 +20,17 @@ if (process.env.HEADLESS) {
   ]);
 }
 
+var webdriverManagerPath = '../node_modules/webdriver-manager/selenium/chromedriver_2.38';
+
+//Specify binary path to enable windows build
+if(process.platform.indexOf('win') === 0) {
+  webdriverManagerPath += '.exe';
+}
+
 exports.config = {
 
-    chromeDriver: '../node_modules/webdriver-manager/selenium/chromedriver_2.38',
-
-    seleniumServerJar: '../node_modules/webdriver-manager/selenium/selenium-server-standalone-3.11.0.jar',
+    directConnect: true,
+    chromeDriver: webdriverManagerPath,
 
     specs: [
       'e2e/**/*.e2e.js'
