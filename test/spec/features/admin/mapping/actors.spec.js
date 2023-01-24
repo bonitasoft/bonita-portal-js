@@ -72,12 +72,14 @@ describe('Actors select box', () => {
       });
       it('should search for groups and keep selected element even if in the search results too', function() {
         const selectedGroup = MappingService.formatToSelectBox.GROUP(groups[1]);
+        let expectedSelectedGroup1 = groups[1];
+        expectedSelectedGroup1.selected = true;
         actorsSelectBoxCtrl.selectedMembers.list = [selectedGroup];
         $http.expectGET('../API/identity/group?c=200&o=displayName+asc&p=0&s=a').respond(200, groups);
         actorsSelectBoxCtrl.search({ keyword: 'a' });
         $timeout.flush();
         $http.flush();
-        expect(actorsSelectBoxCtrl.members).toEqual([groups[1], groups[0], groups[2]].map(MappingService.formatToSelectBox.GROUP));
+        expect(actorsSelectBoxCtrl.members).toEqual([groups[0] , expectedSelectedGroup1, groups[2]].map(MappingService.formatToSelectBox.GROUP));
         expect(actorsSelectBoxCtrl.selectedMembers.list).toEqual([selectedGroup]);
       });
       it('should search for groups and keep selected element', function() {
@@ -94,7 +96,7 @@ describe('Actors select box', () => {
         actorsSelectBoxCtrl.search({ keyword: 'a' });
         $timeout.flush();
         $http.flush();
-        expect(actorsSelectBoxCtrl.members).toEqual([selectedGroup, ...groups].map(MappingService.formatToSelectBox.GROUP));
+        expect(actorsSelectBoxCtrl.members).toEqual([ ...groups, selectedGroup].map(MappingService.formatToSelectBox.GROUP));
         expect(actorsSelectBoxCtrl.selectedMembers.list).toEqual([selectedGroup]);
       });
       it('should reset search for groups and keep selected element', function() {
@@ -104,14 +106,16 @@ describe('Actors select box', () => {
           'name': 'bonita',
           'description': 'Bonita group',
           'parent_path': '',
-          'id': '81',
+          'id': '81'
         });
+        let expectedSelectedGroup = selectedGroup;
+        expectedSelectedGroup.selected = true;
         actorsSelectBoxCtrl.selectedMembers.list = [selectedGroup];
         $http.expectGET('../API/identity/group?c=200&o=displayName+asc&p=0').respond(200, [...groups, selectedGroup]);
         actorsSelectBoxCtrl.search({});
         $timeout.flush();
         $http.flush();
-        expect(actorsSelectBoxCtrl.members).toEqual([selectedGroup, ...groups].map(MappingService.formatToSelectBox.GROUP));
+        expect(actorsSelectBoxCtrl.members).toEqual([...groups, expectedSelectedGroup].map(MappingService.formatToSelectBox.GROUP));
         expect(actorsSelectBoxCtrl.selectedMembers.list).toEqual([selectedGroup]);
       });
     });
@@ -165,12 +169,14 @@ describe('Actors select box', () => {
       });
       it('should search for users and keep selected element even if in the search results too', function() {
         const selectedUser = MappingService.formatToSelectBox.USER(users[1]);
+        let expectedSelectedUser1 =  users[1];
+        expectedSelectedUser1.selected = true;
         actorsSelectBoxCtrl.selectedMembers.list = [selectedUser];
         $http.expectGET('../API/identity/user?c=200&o=firstname+asc&p=0&s=a').respond(200, users);
         actorsSelectBoxCtrl.search({ keyword: 'a' });
         $timeout.flush();
         $http.flush();
-        expect(actorsSelectBoxCtrl.members).toEqual([users[1], users[0], users[2]].map(MappingService.formatToSelectBox.USER));
+        expect(actorsSelectBoxCtrl.members).toEqual([users[0], expectedSelectedUser1, users[2]].map(MappingService.formatToSelectBox.USER));
         expect(actorsSelectBoxCtrl.selectedMembers.list).toEqual([selectedUser]);
       });
     });
