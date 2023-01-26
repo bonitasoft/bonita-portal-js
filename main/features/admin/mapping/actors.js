@@ -85,26 +85,13 @@
         if (search.keyword) {
           vm.members = vm.ensureKeywordMatchesEntries(search.keyword, vm.members);
         }
-
-        // Avoid loosing the already selected members by adding the "selected" metadata
-        // see https://bonitasoft.atlassian.net/browse/RUNTIME-1555
-        vm.members.forEach(function(member) {
-          if(vm.selectedMembers.list.filter(function(selectedMember) { return selectedMember.id === member.id; }).length > 0){
-            member.selected = true;
-          }
-        });
-
-        // Modify the list used by isteven-multi-select generate unexpected behaviours in drop down selection
-        // Need to preserve selectedMembers.list in the same position in the array to avoid conflict on select
-        // see https://bonitasoft.atlassian.net/browse/RUNTIME-1555
-        vm.members = _.unionWith( vm.members, vm.selectedMembers.list,function(member1, member2) { return member1.id === member2.id; });
-
+        vm.members = _.unionWith(vm.selectedMembers.list, vm.members, function(member1, member2) { return member1.id === member2.id; });
       });
 
     };
 
    vm.searchWithDebounce = function(mySearch) {
-     debounce(vm.search(mySearch), 300);
+      debounce(vm.search(mySearch), 300);
     };
 
     vm.search({});
