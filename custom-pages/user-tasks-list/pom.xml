@@ -20,9 +20,18 @@
                         <id>install node and npm</id>
                         <goals>
                             <goal>install-node-and-npm</goal>
+                        </goals>
+                        <phase>generate-resources</phase>
+                    </execution>
+                    <execution>
+                        <id>npm</id>
+                        <goals>
                             <goal>npm</goal>
                         </goals>
                         <phase>generate-resources</phase>
+                        <configuration>
+                            <arguments>install ${offlineFlag}</arguments>
+                        </configuration>
                     </execution>
                     <execution>
                         <id>npm build</id>
@@ -31,7 +40,7 @@
                         </goals>
                         <phase>process-resources</phase>
                         <configuration>
-                            <arguments>run build</arguments>
+                            <arguments>run build ${offlineFlag}</arguments>
                         </configuration>
                     </execution>
                 </executions>
@@ -76,7 +85,7 @@
                                 </goals>
                                 <phase>integration-test</phase>
                                 <configuration>
-                                    <arguments>run e2e:headless</arguments>
+                                    <arguments>run e2e:headless ${offlineFlag}</arguments>
                                 </configuration>
                             </execution>
                         </executions>
