@@ -10,6 +10,11 @@
     <modules>
         <module>custom-pages</module>
     </modules>
+    
+    <properties>
+        <!-- A flag to indicate whether yarn must be run with the offline option -->
+        <offlineFlag></offlineFlag>
+    </properties>
 
     <build>
         <pluginManagement>
@@ -45,7 +50,7 @@
                         </goals>
                         <phase>generate-resources</phase>
                         <configuration>
-                            <arguments>install</arguments>
+                            <arguments>install ${offlineFlag}</arguments>
                         </configuration>
                     </execution>
                     <execution>
@@ -55,7 +60,7 @@
                         </goals>
                         <phase>process-resources</phase>
                         <configuration>
-                            <arguments>run build</arguments>
+                            <arguments>run build ${offlineFlag}</arguments>
                         </configuration>
                     </execution>
                 </executions>
@@ -86,6 +91,12 @@
 
     <profiles>
         <profile>
+            <id>offline</id>
+            <properties>
+                <offlineFlag>--offline</offlineFlag>
+            </properties>
+        </profile>
+        <profile>
             <id>e2e</id>
             <build>
                 <plugins>
@@ -100,7 +111,7 @@
                                 </goals>
                                 <phase>integration-test</phase>
                                 <configuration>
-                                    <arguments>run e2e:headless</arguments>
+                                    <arguments>run e2e:headless ${offlineFlag}</arguments>
                                 </configuration>
                             </execution>
                         </executions>
@@ -130,7 +141,7 @@
                                 </goals>
                                 <phase>initialize</phase>
                                 <configuration>
-                                    <arguments>add --dev license-checker</arguments>
+                                    <arguments>add --dev license-checker ${offlineFlag}</arguments>
                                 </configuration>
                             </execution>
                             <execution>
@@ -141,7 +152,7 @@
                                 <phase>initialize</phase>
                                 <configuration>
                                     <arguments>
-                                        listDependenciesYarn
+                                        listDependenciesYarn ${offlineFlag}
                                     </arguments>
                                 </configuration>
                             </execution>
@@ -165,7 +176,7 @@
                                 </goals>
                                 <phase>generate-resources</phase>
                                 <configuration>
-                                    <arguments>run pot</arguments>
+                                    <arguments>run pot ${offlineFlag}</arguments>
                                 </configuration>
                             </execution>
                         </executions>

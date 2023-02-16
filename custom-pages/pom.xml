@@ -10,6 +10,20 @@
     <modules>
         <module>user-tasks-list</module>
     </modules>
+    
+    <properties>
+        <!-- A flag to indicate whether yarn must be run with the offline option -->
+        <offlineFlag></offlineFlag>
+    </properties>
+
+    <profiles>
+        <profile>
+            <id>offline</id>
+            <properties>
+                <offlineFlag>--offline</offlineFlag>
+            </properties>
+        </profile>
+    </profiles>
 
     <dependencies>
         <dependency>
