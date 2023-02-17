@@ -298,8 +298,7 @@
       });
 
       afterEach(function () {
-        // $httpBackend.flush();
-        // $httpBackend.verifyNoOutstandingExpectation();
+        $httpBackend.verifyNoOutstandingExpectation();
       });
     });
   });

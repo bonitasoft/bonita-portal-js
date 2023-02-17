@@ -81,5 +81,10 @@
         template: '<ui-view/>',
         resolve: bonitaProvider.stateResolve
       });
-    });
+    })
+
+    .config(['$locationProvider', function($locationProvider) {
+      $locationProvider.hashPrefix('');
+    }]);
+
 })();

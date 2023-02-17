@@ -41,7 +41,7 @@
    * currentCase.
    */
   .controller('TaskAppCtrl',
-    function($modal, $modalStack, $q, taskListStore, sessionAPI, screen, iframe, preference, ngToast, TASK_FILTERS, PAGE_SIZES, $timeout, gettextCatalog, $location) {
+    function($modal, $modalStack, taskListStore, sessionAPI, screen, iframe, preference, ngToast, TASK_FILTERS, PAGE_SIZES, $timeout, gettextCatalog, $location) {
       var vm = this;
       var store = taskListStore;
       this.tasks = store.tasks;

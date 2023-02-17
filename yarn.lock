@@ -2,17 +2,17 @@
 # yarn lockfile v1
 
 
-"@bower_components/angular-animate@angular/bower-angular-animate#1.4.5":
-  version "1.4.5"
-  resolved "https://codeload.github.com/angular/bower-angular-animate/tar.gz/830538c7b2faf061471823bbeeb91f86ec54a52b"
+"@bower_components/angular-animate@angular/bower-angular-animate#1.6.10":
+  version "1.6.10"
+  resolved "https://codeload.github.com/angular/bower-angular-animate/tar.gz/531f49c338d8eb95e87e8a369684d8a5069a4aba"
 
 "@bower_components/angular-bootstrap@angular-ui/bootstrap-bower#0.13.4", angular-bootstrap@angular-ui/bootstrap-bower#0.13.4:
   version "0.13.4"
   resolved "https://codeload.github.com/angular-ui/bootstrap-bower/tar.gz/4fa8d643acc1829e77984dc004ceb52791c50592"
 
-"@bower_components/angular-cookies@angular/bower-angular-cookies#1.4.5":
-  version "1.4.5"
-  resolved "https://codeload.github.com/angular/bower-angular-cookies/tar.gz/9d4876af74bea267480a21abd30939c955fa55d9"
+"@bower_components/angular-cookies@angular/bower-angular-cookies#1.6.10":
+  version "1.6.10"
+  resolved "https://codeload.github.com/angular/bower-angular-cookies/tar.gz/a2675d6a6f5176fe7252cbbba3fb1fbbf5e5f757"
 
 "@bower_components/angular-file-upload@nervgh/angular-file-upload#2.1.4":
   version "2.1.4"
@@ -26,29 +26,31 @@
   version "0.7.3"
   resolved "https://codeload.github.com/JanStevens/angular-growl-2/tar.gz/8d27c06c2903538cd740a80edeae548922d057a5"
 
-"@bower_components/angular-mocks@angular/bower-angular-mocks#1.4.5":
-  version "1.4.5"
-  resolved "https://codeload.github.com/angular/bower-angular-mocks/tar.gz/c0946298e513a645776c7c334ba077524db7ad9e"
+"@bower_components/angular-mocks@angular/bower-angular-mocks#1.6.10":
+  version "1.6.10"
+  resolved "https://codeload.github.com/angular/bower-angular-mocks/tar.gz/ca366bd8f81416e73641340b8e06cf19b1942e6b"
 
 "@bower_components/angular-multi-select@isteven/angular-multi-select#4.0.0":
   version "4.0.0"
   resolved "https://codeload.github.com/isteven/angular-multi-select/tar.gz/6355f1f2b5f36e69b0f2c38065ed725114b365f0"
 
-"@bower_components/angular-resource@angular/bower-angular-resource#1.4.5":
-  version "1.4.5"
-  resolved "https://codeload.github.com/angular/bower-angular-resource/tar.gz/1b00ddb9576b35da312fc044f114e4ec31bc7377"
+"@bower_components/angular-resource@angular/bower-angular-resource#1.6.10":
+  version "1.6.10"
+  resolved "https://codeload.github.com/angular/bower-angular-resource/tar.gz/9c2935a6ea0d54540f7f8411185197e354768236"
 
-"@bower_components/angular-sanitize@angular/bower-angular-sanitize#1.4.5":
-  version "1.4.5"
-  resolved "https://codeload.github.com/angular/bower-angular-sanitize/tar.gz/0e2789bafea2c9294dcea209ca56a8ba308a90c0"
+"@bower_components/angular-sanitize@angular/bower-angular-sanitize#1.6.10":
+  version "1.6.10"
+  resolved "https://codeload.github.com/angular/bower-angular-sanitize/tar.gz/4edf1d245f0f3453d2766a16283ba5a70c82d55f"
 
-"@bower_components/angular-touch@angular/bower-angular-touch#1.4.5":
-  version "1.4.5"
-  resolved "https://codeload.github.com/angular/bower-angular-touch/tar.gz/461677c7531416a84af7f505ed6be83fd1a674fe"
+"@bower_components/angular-touch@angular/bower-angular-touch#1.6.10":
+  version "1.6.10"
+  resolved "https://codeload.github.com/angular/bower-angular-touch/tar.gz/63aebaa62e2347a453ff0a1109b629d2c685607f"
 
-"@bower_components/angular-ui-router@angular-ui/angular-ui-router-bower#0.2.15":
-  version "0.0.0"
-  resolved "https://codeload.github.com/angular-ui/angular-ui-router-bower/tar.gz/90ce66133afc3572a8d7556d6d3fcee0efd8bb13"
+"@bower_components/angular-ui-router@angular-ui/angular-ui-router-bower#0.3.2":
+  version "0.3.2"
+  resolved "https://codeload.github.com/angular-ui/angular-ui-router-bower/tar.gz/c1989bcd4185a0f5e206646b267024f45a905c06"
+  dependencies:
+    angular "^1.0.8"
 
 "@bower_components/angular-ui-tree@JimLiu/angular-ui-tree#2.9.0":
   version "2.9.0"
@@ -58,19 +60,19 @@
   version "0.1.8"
   resolved "https://codeload.github.com/vitalets/angular-xeditable/tar.gz/d8b65839c2b11ff6ab4dbc4230dd33cb9d5b5e4e"
 
-"@bower_components/angular@angular/bower-angular#1.4.5", angular@angular/bower-angular#1.4.5:
-  version "1.4.5"
-  resolved "https://codeload.github.com/angular/bower-angular/tar.gz/3809d44e5279e94a0596d5bc216d921f34f8ab2a"
+"@bower_components/angular@angular/bower-angular#1.6.10", angular@angular/bower-angular#1.6.10:
+  version "1.6.10"
+  resolved "https://codeload.github.com/angular/bower-angular/tar.gz/309e7f82ecc9098e1f93870eb33083b84dead289"
 
 "@bower_components/animate.css@daneden/animate.css#3.1.1":
   version "3.1.1"
   resolved "https://codeload.github.com/daneden/animate.css/tar.gz/1d0401008b73494fcde9d606140625ac38753e5c"
 
-"@bower_components/bonita-js-components@bonitasoft/bonita-js-components#0.6.1":
-  version "0.6.1"
-  resolved "https://codeload.github.com/bonitasoft/bonita-js-components/tar.gz/8afbe4798722c8031f573eb522a15afd502b574e"
+"@bower_components/bonita-js-components@bonitasoft/bonita-js-components#0.8.0":
+  version "0.8.0"
+  resolved "https://codeload.github.com/bonitasoft/bonita-js-components/tar.gz/603b4df9605b7ce8f6704c379806ba46aae0dddb"
   dependencies:
-    angular angular/bower-angular#1.4.5
+    angular angular/bower-angular#1.6.10
     angular-bootstrap angular-ui/bootstrap-bower#0.13.4
     bootstrap twbs/bootstrap#3.4.1
     gulp-ngdocs "0.2.13"
@@ -253,6 +255,11 @@ angular-gettext-tools@~2.1.0:
     espree "^2.0.0"
     lodash "^4.0.0"
     pofile "~1.0.0"
+
+angular@^1.0.8:
+  version "1.8.3"
+  resolved "https://registry.yarnpkg.com/angular/-/angular-1.8.3.tgz#851ad75d5163c105a7e329555ef70c90aa706894"
+  integrity sha512-5qjkWIQQVsHj4Sb5TcEs4WZWpFeVFHXwxEBHUhrny41D8UrBAd6T/6nPPAsLngJCReIOqi95W3mxdveveutpZw==
 
 angular@~1.3.1:
   version "1.3.20"

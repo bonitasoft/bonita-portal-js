@@ -12,7 +12,7 @@
   angular.module('org.bonitasoft.features.admin.bdm')
     .controller('AddBDMPopupCtrl', AddBDMPopupCtrl);
 
-  function AddBDMPopupCtrl($scope, $modalInstance, FileUploader, gettext, bonitaVersion, isBDMInstalled) {
+  function AddBDMPopupCtrl($scope, $modalInstance, FileUploader, gettext, bonitaVersion, isBDMInstalled, $sce) {
 
     var self = this;
     $scope.bonitaVersion = bonitaVersion;
@@ -48,6 +48,10 @@
 
     self.closeModalSuccess = function closeModalSuccess() {
       $modalInstance.close($scope.filePath);
+    };
+
+    self.getDocumentationUrl = function () {
+      return $sce.trustAsResourceUrl('https://documentation.bonitasoft.com/bonita/' + $scope.bonitaVersion + '/bdm-management-in-bonita-bpm-portal');
     };
   }
 })();

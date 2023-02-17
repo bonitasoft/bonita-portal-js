@@ -8,7 +8,7 @@
         <ul>
             <li translate>Updating the Business Data Model applies changes to both existing database tables and data.</li>
             <li translate>However, due to the use of Hibernate for data persistence, some changes on the data may not be well handled. These changes may lead to a corrupted database and CANNOT BE REVERTED.</li>
-            <li translate>The whole list of such changes is listed <a ng-href="https://documentation.bonitasoft.com/bonita/{{bonitaVersion}}/bdm-management-in-bonita-bpm-portal" target="_blank" translate>here</a>.</li>
+            <li translate>The whole list of such changes is listed <a ng-href="{{AddBDMPopupCtrl.getDocumentationUrl()}}" target="_blank" translate>here</a>.</li>
             <li translate>In such cases, you must CANCEL THIS UPDATE and let the database administrator carefully script the changes and apply them to the database. Only then will you be able to update the BDM from this page.</li>
             <li translate>If your changes do not fall into those change types, you can go ahead and proceed with the BDM update now.</li>
         </ul>

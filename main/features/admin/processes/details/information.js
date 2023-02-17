@@ -29,7 +29,7 @@
     .controller('ProcessInformationCtrl', ProcessInformationCtrl);
 
   /* jshint -W003 */
-  function ProcessInformationCtrl($scope, process, dateParser, store, categoryAPI, categories, $q, $modal, growl,
+  function ProcessInformationCtrl($scope, process, dateParser, store, categoryAPI, categories, $modal, growl,
                                   i18nService, $log,gettextCatalog) {
     var vm = this;
     vm.process = process;

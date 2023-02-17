@@ -36,6 +36,8 @@
         $promise: getUserRequest.promise
       });
 
+      getUserRequest.promise.catch(angular.noop);
+
       var template = '<bo-tenant-resource-status data="status"></bo-tenant-resource-status>';
       element = $compile(template)(scope);
       scope.$apply();
