@@ -38,7 +38,6 @@
             <span arial-label="application">{{'URL' | translate }}: ../apps/{{ error.name}}</span>
 
             <ul ng-repeat="(key, value) in error.errors track by $index">
-                <!-- angular.lowercase is deprecated, will be removed in 1.7.0 -->
               <li ng-repeat="label in value track by $index">{{label}}  {{ key | lowercase | ucfirst }}</li>
             </ul>
           </li>
