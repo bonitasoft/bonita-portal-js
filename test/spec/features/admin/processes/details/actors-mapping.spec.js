@@ -178,6 +178,8 @@
         modal.open.and.returnValue({
           result: deferred.promise
         });
+        var deferredActors = q.defer();
+        ActorMappingService.getActorMembers.and.returnValue(deferredActors.promise);
         actorMappingCtrl.editMapping(actor1, 'users');
 
         deferred.reject(['impossible to save']);

@@ -76,7 +76,7 @@
               growl.error(i18nService.getKey('processDetails.delete.error'));
             }
           });
-      });
+      }, angular.noop);
     }
 
     function refreshProcess() {

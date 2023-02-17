@@ -1,6 +1,6 @@
 (function () {
   'use strict';
-  
+
   /* jshint camelcase: false */
   describe('users routes', () => {
 

@@ -29,14 +29,14 @@
       };
     }).controller('MonitoringStatusCtrl', function($scope, i18nService, TokenExtensionService, archivedCaseAPI, manageTopUrl, $window) {
       var vm = this;
+      var caseListUrl;
       vm.process = $scope.process;
+      caseListUrl = '../admin-case-list/?processId=' + vm.process.id;
       vm.pageProfileToken = TokenExtensionService.tokenExtensionValue;
       vm.archivedCaseCount = 0;
       vm.goToFailedCaseList = goToFailedCaseList;
       vm.goToCaseList = goToCaseList;
       vm.goToArchivedCaseList = goToArchivedCaseList;
-
-      var caseListUrl = '../admin-case-list/?processId=' + vm.process.id;
 
       function goToFailedCaseList() {
         goTo(caseListUrl + '&caseStateFilter=error');

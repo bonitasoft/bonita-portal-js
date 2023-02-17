@@ -72,8 +72,7 @@
         previousSearchTerm = search.keyword;
       }
       searchOptions.s = search.keyword;
-      MappingService.searchMembers(type, searchOptions, searchMemberParams, $scope.alreadyMappedActorsIds)
-        .then(function(results) {
+      MappingService.searchMembers(type, searchOptions, searchMemberParams, $scope.alreadyMappedActorsIds).then(function(results) {
         vm.members = _.chain(results).filter(function(currentMember) {
           return $scope.alreadyMappedActorsIds.indexOf(currentMember.id) === -1;
         }).map(MappingService.formatToSelectBox[type]).value();
