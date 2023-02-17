@@ -51,7 +51,7 @@
     };
 
     self.getDocumentationUrl = function () {
-      return $sce.trustAsResourceUrl('https://documentation.bonitasoft.com/bonita/' + $scope.bonitaVersion + '/bdm-management-in-bonita-bpm-portal');
+      $scope.documentationUrl = $sce.trustAsResourceUrl('https://documentation.bonitasoft.com/bonita/' + $scope.bonitaVersion + '/bdm-management-in-bonita-bpm-portal');
     };
   }
 })();

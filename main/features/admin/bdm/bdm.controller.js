@@ -97,7 +97,7 @@
         }
       }).result.then(function(filePath) {
         installBdmFile(filePath);
-      });
+      }, angular.noop);
     };
 
     function installBdmFile(filePath) {

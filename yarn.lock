@@ -2,49 +2,54 @@
 # yarn lockfile v1
 
 
-"@bower_components/angular-animate@angular/bower-angular-animate#1.6.10":
-  version "1.6.10"
-  resolved "https://codeload.github.com/angular/bower-angular-animate/tar.gz/531f49c338d8eb95e87e8a369684d8a5069a4aba"
+"@babel/parser@^7.4.3":
+  version "7.20.15"
+  resolved "https://registry.yarnpkg.com/@babel/parser/-/parser-7.20.15.tgz#eec9f36d8eaf0948bb88c87a46784b5ee9fd0c89"
+  integrity sha512-DI4a1oZuf8wC+oAJA9RW6ga3Zbe8RZFt7kD9i4qAspz3I/yHet1VvC3DiSy/fsUvv5pvJuNPh0LPOdCcqinDPg==
+
+"@bower_components/angular-animate@angular/bower-angular-animate#1.7.9":
+  version "1.7.9"
+  resolved "https://codeload.github.com/angular/bower-angular-animate/tar.gz/2562fbe49ec3bc1d76e21b9647ec4c676669b119"
 
 "@bower_components/angular-bootstrap@angular-ui/bootstrap-bower#0.13.4", angular-bootstrap@angular-ui/bootstrap-bower#0.13.4:
   version "0.13.4"
   resolved "https://codeload.github.com/angular-ui/bootstrap-bower/tar.gz/4fa8d643acc1829e77984dc004ceb52791c50592"
 
-"@bower_components/angular-cookies@angular/bower-angular-cookies#1.6.10":
-  version "1.6.10"
-  resolved "https://codeload.github.com/angular/bower-angular-cookies/tar.gz/a2675d6a6f5176fe7252cbbba3fb1fbbf5e5f757"
+"@bower_components/angular-cookies@angular/bower-angular-cookies#1.7.9":
+  version "1.7.9"
+  resolved "https://codeload.github.com/angular/bower-angular-cookies/tar.gz/9d2e49488662321c95d65d8d2423842184ba2696"
 
-"@bower_components/angular-file-upload@nervgh/angular-file-upload#2.1.4":
-  version "2.1.4"
-  resolved "https://codeload.github.com/nervgh/angular-file-upload/tar.gz/888127c60b2946196784a3af474931ae48a8afca"
+"@bower_components/angular-file-upload@nervgh/angular-file-upload#2.6.1":
+  version "2.6.1"
+  resolved "https://codeload.github.com/nervgh/angular-file-upload/tar.gz/829986e74ed08e3e00ca6b88695bb5649a0bbc2e"
 
-"@bower_components/angular-gettext@rubenv/angular-gettext#2.1.0":
-  version "2.1.0"
-  resolved "https://codeload.github.com/rubenv/angular-gettext/tar.gz/98de89361bf8fe81d7645502610cb9e378f81e83"
+"@bower_components/angular-gettext@rubenv/angular-gettext#2.4.2":
+  version "2.4.2"
+  resolved "https://codeload.github.com/rubenv/angular-gettext/tar.gz/caa6799841bb619b1a28d516b7fc07a8ed8d5f7a"
 
 "@bower_components/angular-growl-2@JanStevens/angular-growl-2#0.7.4":
   version "0.7.3"
   resolved "https://codeload.github.com/JanStevens/angular-growl-2/tar.gz/8d27c06c2903538cd740a80edeae548922d057a5"
 
-"@bower_components/angular-mocks@angular/bower-angular-mocks#1.6.10":
-  version "1.6.10"
-  resolved "https://codeload.github.com/angular/bower-angular-mocks/tar.gz/ca366bd8f81416e73641340b8e06cf19b1942e6b"
+"@bower_components/angular-mocks@angular/bower-angular-mocks#1.7.9":
+  version "1.7.9"
+  resolved "https://codeload.github.com/angular/bower-angular-mocks/tar.gz/4eb32ff0c23ceb2485b7569ced76af33a0a61dfb"
 
 "@bower_components/angular-multi-select@isteven/angular-multi-select#4.0.0":
   version "4.0.0"
   resolved "https://codeload.github.com/isteven/angular-multi-select/tar.gz/6355f1f2b5f36e69b0f2c38065ed725114b365f0"
 
-"@bower_components/angular-resource@angular/bower-angular-resource#1.6.10":
-  version "1.6.10"
-  resolved "https://codeload.github.com/angular/bower-angular-resource/tar.gz/9c2935a6ea0d54540f7f8411185197e354768236"
+"@bower_components/angular-resource@angular/bower-angular-resource#1.7.9":
+  version "1.7.9"
+  resolved "https://codeload.github.com/angular/bower-angular-resource/tar.gz/045acd795b95c02d84f266cb0154db998151a820"
 
-"@bower_components/angular-sanitize@angular/bower-angular-sanitize#1.6.10":
-  version "1.6.10"
-  resolved "https://codeload.github.com/angular/bower-angular-sanitize/tar.gz/4edf1d245f0f3453d2766a16283ba5a70c82d55f"
+"@bower_components/angular-sanitize@angular/bower-angular-sanitize#1.7.9":
+  version "1.7.9"
+  resolved "https://codeload.github.com/angular/bower-angular-sanitize/tar.gz/2c8c3dcf36da6d9de1f52c466f2808cef3b978b8"
 
-"@bower_components/angular-touch@angular/bower-angular-touch#1.6.10":
-  version "1.6.10"
-  resolved "https://codeload.github.com/angular/bower-angular-touch/tar.gz/63aebaa62e2347a453ff0a1109b629d2c685607f"
+"@bower_components/angular-touch@angular/bower-angular-touch#1.7.9":
+  version "1.7.9"
+  resolved "https://codeload.github.com/angular/bower-angular-touch/tar.gz/842ae3eb6d80153c87c7825d89af43b51527f236"
 
 "@bower_components/angular-ui-router@angular-ui/angular-ui-router-bower#0.3.2":
   version "0.3.2"
@@ -60,9 +65,9 @@
   version "0.1.8"
   resolved "https://codeload.github.com/vitalets/angular-xeditable/tar.gz/d8b65839c2b11ff6ab4dbc4230dd33cb9d5b5e4e"
 
-"@bower_components/angular@angular/bower-angular#1.6.10", angular@angular/bower-angular#1.6.10:
-  version "1.6.10"
-  resolved "https://codeload.github.com/angular/bower-angular/tar.gz/309e7f82ecc9098e1f93870eb33083b84dead289"
+"@bower_components/angular@angular/bower-angular#1.7.9":
+  version "1.7.9"
+  resolved "https://codeload.github.com/angular/bower-angular/tar.gz/84a5b810f33f82a552cee361268b77181691ce65"
 
 "@bower_components/animate.css@daneden/animate.css#3.1.1":
   version "3.1.1"
@@ -246,20 +251,25 @@ angular-animate@~1.3.1:
   version "1.3.20"
   resolved "https://registry.yarnpkg.com/angular-animate/-/angular-animate-1.3.20.tgz#d1707c727f8ad0df21c4a2dec20cd7fc4945b52a"
 
-angular-gettext-tools@~2.1.0:
-  version "2.1.15"
-  resolved "https://registry.yarnpkg.com/angular-gettext-tools/-/angular-gettext-tools-2.1.15.tgz#8531050d68138658ce6d0b062691db2056b2713e"
+angular-gettext-tools@~2.5.3:
+  version "2.5.3"
+  resolved "https://registry.yarnpkg.com/angular-gettext-tools/-/angular-gettext-tools-2.5.3.tgz#3aaafa75aa96708b1a172e3a387ba0b9f38e852a"
+  integrity sha512-/SyBMhPwMSoasZRXfMkXsKxaAHkDHHaFr3jAMqPuh3wGNJ8s9LfHKOGzcM0FW2mGIotmF1CRoWKgUIHMCwUYcg==
   dependencies:
+    "@babel/parser" "^7.4.3"
     binary-search "^1.2.0"
-    cheerio "~0.19.0"
-    espree "^2.0.0"
-    lodash "^4.0.0"
+    cheerio "^0.22.0"
+    lodash "^4.17.5"
     pofile "~1.0.0"
 
 angular@^1.0.8:
   version "1.8.3"
   resolved "https://registry.yarnpkg.com/angular/-/angular-1.8.3.tgz#851ad75d5163c105a7e329555ef70c90aa706894"
   integrity sha512-5qjkWIQQVsHj4Sb5TcEs4WZWpFeVFHXwxEBHUhrny41D8UrBAd6T/6nPPAsLngJCReIOqi95W3mxdveveutpZw==
+
+angular@angular/bower-angular#1.6.10:
+  version "1.6.10"
+  resolved "https://codeload.github.com/angular/bower-angular/tar.gz/309e7f82ecc9098e1f93870eb33083b84dead289"
 
 angular@~1.3.1:
   version "1.3.20"
@@ -1220,15 +1230,27 @@ character-parser@1.2.1:
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/character-parser/-/character-parser-1.2.1.tgz#c0dde4ab182713b919b970959a123ecc1a30fcd6"
 
-cheerio@~0.19.0:
-  version "0.19.0"
-  resolved "https://registry.yarnpkg.com/cheerio/-/cheerio-0.19.0.tgz#772e7015f2ee29965096d71ea4175b75ab354925"
+cheerio@^0.22.0:
+  version "0.22.0"
+  resolved "https://registry.yarnpkg.com/cheerio/-/cheerio-0.22.0.tgz#a9baa860a3f9b595a6b81b1a86873121ed3a269e"
+  integrity sha512-8/MzidM6G/TgRelkzDG13y3Y9LxBjCb+8yOEZ9+wwq5gVF2w2pV0wmHvjfT0RvuxGyR7UEuK36r+yYMbT4uKgA==
   dependencies:
-    css-select "~1.0.0"
+    css-select "~1.2.0"
     dom-serializer "~0.1.0"
     entities "~1.1.1"
-    htmlparser2 "~3.8.1"
-    lodash "^3.2.0"
+    htmlparser2 "^3.9.1"
+    lodash.assignin "^4.0.9"
+    lodash.bind "^4.1.4"
+    lodash.defaults "^4.0.1"
+    lodash.filter "^4.4.0"
+    lodash.flatten "^4.2.0"
+    lodash.foreach "^4.3.0"
+    lodash.map "^4.4.0"
+    lodash.merge "^4.4.0"
+    lodash.pick "^4.2.1"
+    lodash.reduce "^4.4.0"
+    lodash.reject "^4.4.0"
+    lodash.some "^4.4.0"
 
 chokidar@^1.0.0, chokidar@^1.4.1:
   version "1.7.0"
@@ -1565,14 +1587,15 @@ css-parse@1.0.4:
   version "1.6.0"
   resolved "https://registry.yarnpkg.com/css-parse/-/css-parse-1.6.0.tgz#b8fc2416f8ed859c5fbf791c86b9ebc0225898ce"
 
-css-select@~1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/css-select/-/css-select-1.0.0.tgz#b1121ca51848dd264e2244d058cee254deeb44b0"
+css-select@~1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/css-select/-/css-select-1.2.0.tgz#2b3a110539c5355f1cd8d314623e870b121ec858"
+  integrity sha512-dUQOBoqdR7QwV90WysXPLXG5LO7nhYBgiWVfxF80DKPF8zx1t/pUd2FYy73emg3zrjtM6dzmYgbHKfV2rxiHQA==
   dependencies:
     boolbase "~1.0.0"
-    css-what "1.0"
-    domutils "1.4"
-    nth-check "~1.0.0"
+    css-what "2.1"
+    domutils "1.5.1"
+    nth-check "~1.0.1"
 
 css-stringify@1.0.5:
   version "1.0.5"
@@ -1584,9 +1607,10 @@ css-stringify@1.0.5:
   dependencies:
     source-map "~0.1.31"
 
-css-what@1.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/css-what/-/css-what-1.0.0.tgz#d7cc2df45180666f99d2b14462639469e00f736c"
+css-what@2.1:
+  version "2.1.3"
+  resolved "https://registry.yarnpkg.com/css-what/-/css-what-2.1.3.tgz#a6d7604573365fe74686c3f311c56513d88285f2"
+  integrity sha512-a+EPoD+uZiNfh+5fxw2nO9QwFa6nJe2Or35fGY6Ipw1R3R4AGz1d1TEZrCegvw2YTmZ0jXirGYlzxxpYSHwpEg==
 
 css@~1.0.8:
   version "1.0.8"
@@ -1761,6 +1785,11 @@ domelementtype@1:
   version "1.3.0"
   resolved "https://registry.yarnpkg.com/domelementtype/-/domelementtype-1.3.0.tgz#b17aed82e8ab59e52dd9c19b1756e0fc187204c2"
 
+domelementtype@^1.3.1:
+  version "1.3.1"
+  resolved "https://registry.yarnpkg.com/domelementtype/-/domelementtype-1.3.1.tgz#d048c44b37b0d10a7f2a3d5fee3f4333d790481f"
+  integrity sha512-BSKB+TSpMpFI/HOxCNr1O8aMOTZ8hT3pM3GQ0w/mWRmkhEDSFJkkyzz4XQsBV44BChwGkrDfMyjVD0eA2aFV3w==
+
 domelementtype@~1.1.1:
   version "1.1.3"
   resolved "https://registry.yarnpkg.com/domelementtype/-/domelementtype-1.1.3.tgz#bd28773e2642881aec51544924299c5cd822185b"
@@ -1771,15 +1800,25 @@ domhandler@2.3:
   dependencies:
     domelementtype "1"
 
-domutils@1.4:
-  version "1.4.3"
-  resolved "https://registry.yarnpkg.com/domutils/-/domutils-1.4.3.tgz#0865513796c6b306031850e175516baf80b72a6f"
+domhandler@^2.3.0:
+  version "2.4.2"
+  resolved "https://registry.yarnpkg.com/domhandler/-/domhandler-2.4.2.tgz#8805097e933d65e85546f726d60f5eb88b44f803"
+  integrity sha512-JiK04h0Ht5u/80fdLMCEmV4zkNh2BcoMFBmZ/91WtYZ8qVXSKjiw7fXMgFPnHcSZgOo3XdinHvmnDUeMf5R4wA==
   dependencies:
     domelementtype "1"
 
-domutils@1.5:
+domutils@1.5, domutils@1.5.1:
   version "1.5.1"
   resolved "https://registry.yarnpkg.com/domutils/-/domutils-1.5.1.tgz#dcd8488a26f563d61079e48c9f7b7e32373682cf"
+  integrity sha512-gSu5Oi/I+3wDENBsOWBiRK1eoGxcywYSqg3rR960/+EfY0CF4EX1VPkgHOZ3WiS/Jg2DtliF6BhWcHlfpYUcGw==
+  dependencies:
+    dom-serializer "0"
+    domelementtype "1"
+
+domutils@^1.5.1:
+  version "1.7.0"
+  resolved "https://registry.yarnpkg.com/domutils/-/domutils-1.7.0.tgz#56ea341e834e06e6748af7a1cb25da67ea9f8c2a"
+  integrity sha512-Lgd2XcJ/NjEw+7tFvfKxOzCYKZsdct5lczQ2ZaQY8Djz7pfAD3Gbp8ySJWtreII/vDlMVmxwa6pHmdxIYgttDg==
   dependencies:
     dom-serializer "0"
     domelementtype "1"
@@ -1863,6 +1902,11 @@ ent@~2.2.0:
 entities@1.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/entities/-/entities-1.0.0.tgz#b2987aa3821347fcde642b24fdfc9e4fb712bf26"
+
+entities@^1.1.1:
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/entities/-/entities-1.1.2.tgz#bdfa735299664dfafd34529ed4f8522a275fea56"
+  integrity sha512-f2LZMYl1Fzu7YSBKg+RoROelpOaNrcGmE9AZubeDfrCEia483oW4MI4VyFd5VNHIgQ/7qm1I0wUHK1eJnn2y2w==
 
 entities@~1.1.1:
   version "1.1.1"
@@ -1957,10 +2001,6 @@ escodegen@1.8.x:
     optionator "^0.8.1"
   optionalDependencies:
     source-map "~0.2.0"
-
-espree@^2.0.0:
-  version "2.2.5"
-  resolved "https://registry.yarnpkg.com/espree/-/espree-2.2.5.tgz#df691b9310889402aeb29cc066708c56690b854b"
 
 esprima-fb@~15001.1001.0-dev-harmony-fb:
   version "15001.1001.0-dev-harmony-fb"
@@ -2433,11 +2473,12 @@ graceful-fs@~2, graceful-fs@~2.0.0:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/graceful-readlink/-/graceful-readlink-1.0.1.tgz#4cafad76bc62f02fa039b2f94e9a3dd3a391a725"
 
-grunt-angular-gettext@2.1.0:
-  version "2.1.0"
-  resolved "https://registry.yarnpkg.com/grunt-angular-gettext/-/grunt-angular-gettext-2.1.0.tgz#1b28d9466c65b47b11b4c163dc9f4ea42c87a00f"
+grunt-angular-gettext@2.5.3:
+  version "2.5.3"
+  resolved "https://registry.yarnpkg.com/grunt-angular-gettext/-/grunt-angular-gettext-2.5.3.tgz#095d5fc3cf7e62bd82be035a29f0350c9e617f6e"
+  integrity sha512-PEJvkZHifk6Qi7+Y6vIAtjdUII6EhhDXLaAOb7pZzyx0B1+8HUSbseM/e0lmJW1/sRe749qzrtluBNM6/VowFQ==
   dependencies:
-    angular-gettext-tools "~2.1.0"
+    angular-gettext-tools "~2.5.3"
 
 grunt-autoprefixer@0.4.2:
   version "0.4.2"
@@ -2881,7 +2922,7 @@ html-minifier@~0.6.0:
     relateurl "0.2.x"
     uglify-js "2.4.x"
 
-htmlparser2@3.8.x, htmlparser2@~3.8.1:
+htmlparser2@3.8.x:
   version "3.8.3"
   resolved "https://registry.yarnpkg.com/htmlparser2/-/htmlparser2-3.8.3.tgz#996c28b191516a8be86501a7d79757e5c70c1068"
   dependencies:
@@ -2890,6 +2931,18 @@ htmlparser2@3.8.x, htmlparser2@~3.8.1:
     domutils "1.5"
     entities "1.0"
     readable-stream "1.1"
+
+htmlparser2@^3.9.1:
+  version "3.10.1"
+  resolved "https://registry.yarnpkg.com/htmlparser2/-/htmlparser2-3.10.1.tgz#bd679dc3f59897b6a34bb10749c855bb53a9392f"
+  integrity sha512-IgieNijUMbkDovyoKObU1DUhm1iwNYE/fuifEoEHfd1oZKZDaONBSkal7Y01shxsM49R4XaMdGez3WnF9UfiCQ==
+  dependencies:
+    domelementtype "^1.3.1"
+    domhandler "^2.3.0"
+    domutils "^1.5.1"
+    entities "^1.1.1"
+    inherits "^2.0.1"
+    readable-stream "^3.1.1"
 
 http-errors@~1.6.1:
   version "1.6.1"
@@ -3652,12 +3705,27 @@ lodash._shimkeys@~2.4.1:
   dependencies:
     lodash._objecttypes "~2.4.1"
 
+lodash.assignin@^4.0.9:
+  version "4.2.0"
+  resolved "https://registry.yarnpkg.com/lodash.assignin/-/lodash.assignin-4.2.0.tgz#ba8df5fb841eb0a3e8044232b0e263a8dc6a28a2"
+  integrity sha512-yX/rx6d/UTVh7sSVWVSIMjfnz95evAgDFdb1ZozC35I9mSFCkmzptOzevxjgbQUsc78NR44LVHWjsoMQXy9FDg==
+
+lodash.bind@^4.1.4:
+  version "4.2.1"
+  resolved "https://registry.yarnpkg.com/lodash.bind/-/lodash.bind-4.2.1.tgz#7ae3017e939622ac31b7d7d7dcb1b34db1690d35"
+  integrity sha512-lxdsn7xxlCymgLYo1gGvVrfHmkjDiyqVv62FAeF2i5ta72BipE1SLxw8hPEPLhD4/247Ijw07UQH7Hq/chT5LA==
+
 lodash.clonedeep@~3.0.0:
   version "3.0.2"
   resolved "https://registry.yarnpkg.com/lodash.clonedeep/-/lodash.clonedeep-3.0.2.tgz#a0a1e40d82a5ea89ff5b147b8444ed63d92827db"
   dependencies:
     lodash._baseclone "^3.0.0"
     lodash._bindcallback "^3.0.0"
+
+lodash.defaults@^4.0.1:
+  version "4.2.0"
+  resolved "https://registry.yarnpkg.com/lodash.defaults/-/lodash.defaults-4.2.0.tgz#d09178716ffea4dde9e5fb7b37f6f0802274580c"
+  integrity sha512-qjxPLHd3r5DnsdGacqOMU6pb/avJzdh9tFX2ymgoZE27BmjXrNy/y4LoaiTeAb+O3gL8AfpJGtqfX/ae2leYYQ==
 
 lodash.defaults@~2.4.1:
   version "2.4.1"
@@ -3673,6 +3741,21 @@ lodash.escape@~2.4.1:
     lodash._escapehtmlchar "~2.4.1"
     lodash._reunescapedhtml "~2.4.1"
     lodash.keys "~2.4.1"
+
+lodash.filter@^4.4.0:
+  version "4.6.0"
+  resolved "https://registry.yarnpkg.com/lodash.filter/-/lodash.filter-4.6.0.tgz#668b1d4981603ae1cc5a6fa760143e480b4c4ace"
+  integrity sha512-pXYUy7PR8BCLwX5mgJ/aNtyOvuJTdZAo9EQFUvMIYugqmJxnrYaANvTbgndOzHSCSR0wnlBBfRXJL5SbWxo3FQ==
+
+lodash.flatten@^4.2.0:
+  version "4.4.0"
+  resolved "https://registry.yarnpkg.com/lodash.flatten/-/lodash.flatten-4.4.0.tgz#f31c22225a9632d2bbf8e4addbef240aa765a61f"
+  integrity sha512-C5N2Z3DgnnKr0LOpv/hKCgKdb7ZZwafIrsesve6lmzvZIRZRGaZ/l6Q8+2W7NaT+ZwO3fFlSCzCzrDCFdJfZ4g==
+
+lodash.foreach@^4.3.0:
+  version "4.5.0"
+  resolved "https://registry.yarnpkg.com/lodash.foreach/-/lodash.foreach-4.5.0.tgz#1a6a35eace401280c7f06dddec35165ab27e3e53"
+  integrity sha512-aEXTF4d+m05rVOAUG3z4vZZ4xVexLKZGF0lIxuHZ1Hplpk/3B6Z1+/ICICYRLm7c41Z2xiejbkCkJoTlypoXhQ==
 
 lodash.isarguments@^3.0.0:
   version "3.1.0"
@@ -3703,6 +3786,36 @@ lodash.keys@~2.4.1:
     lodash._isnative "~2.4.1"
     lodash._shimkeys "~2.4.1"
     lodash.isobject "~2.4.1"
+
+lodash.map@^4.4.0:
+  version "4.6.0"
+  resolved "https://registry.yarnpkg.com/lodash.map/-/lodash.map-4.6.0.tgz#771ec7839e3473d9c4cde28b19394c3562f4f6d3"
+  integrity sha512-worNHGKLDetmcEYDvh2stPCrrQRkP20E4l0iIS7F8EvzMqBBi7ltvFN5m1HvTf1P7Jk1txKhvFcmYsCr8O2F1Q==
+
+lodash.merge@^4.4.0:
+  version "4.6.2"
+  resolved "https://registry.yarnpkg.com/lodash.merge/-/lodash.merge-4.6.2.tgz#558aa53b43b661e1925a0afdfa36a9a1085fe57a"
+  integrity sha512-0KpjqXRVvrYyCsX1swR/XTK0va6VQkQM6MNo7PqW77ByjAhoARA8EfrP1N4+KlKj8YS0ZUCtRT/YUuhyYDujIQ==
+
+lodash.pick@^4.2.1:
+  version "4.4.0"
+  resolved "https://registry.yarnpkg.com/lodash.pick/-/lodash.pick-4.4.0.tgz#52f05610fff9ded422611441ed1fc123a03001b3"
+  integrity sha512-hXt6Ul/5yWjfklSGvLQl8vM//l3FtyHZeuelpzK6mm99pNvN9yTDruNZPEJZD1oWrqo+izBmB7oUfWgcCX7s4Q==
+
+lodash.reduce@^4.4.0:
+  version "4.6.0"
+  resolved "https://registry.yarnpkg.com/lodash.reduce/-/lodash.reduce-4.6.0.tgz#f1ab6b839299ad48f784abbf476596f03b914d3b"
+  integrity sha512-6raRe2vxCYBhpBu+B+TtNGUzah+hQjVdu3E17wfusjyrXBka2nBS8OH/gjVZ5PvHOhWmIZTYri09Z6n/QfnNMw==
+
+lodash.reject@^4.4.0:
+  version "4.6.0"
+  resolved "https://registry.yarnpkg.com/lodash.reject/-/lodash.reject-4.6.0.tgz#80d6492dc1470864bbf583533b651f42a9f52415"
+  integrity sha512-qkTuvgEzYdyhiJBx42YPzPo71R1aEr0z79kAv7Ixg8wPFEjgRgJdUsGMG3Hf3OYSF/kHI79XhNlt+5Ar6OzwxQ==
+
+lodash.some@^4.4.0:
+  version "4.6.0"
+  resolved "https://registry.yarnpkg.com/lodash.some/-/lodash.some-4.6.0.tgz#1bb9f314ef6b8baded13b549169b2a945eb68e4d"
+  integrity sha512-j7MJE+TuT51q9ggt4fSgVqro163BEFjAt3u97IqU+JA2DkWl80nFTrowzLpZ/BnpN7rrl0JA/593NAdd8p/scQ==
 
 lodash.template@^2.4.1:
   version "2.4.1"
@@ -3741,17 +3854,22 @@ lodash@^2.4.1, lodash@~2.4.1:
   version "2.4.2"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-2.4.2.tgz#fadd834b9683073da179b3eae6d9c0d15053f73e"
 
-lodash@^3.10.0, lodash@^3.10.1, lodash@^3.2.0, lodash@^3.8.0:
+lodash@^3.10.0, lodash@^3.10.1, lodash@^3.8.0:
   version "3.10.1"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-3.10.1.tgz#5bf45e8e49ba4189e17d482789dfd15bd140b7b6"
 
-lodash@^4.0.0, lodash@^4.0.1, lodash@^4.2.0:
+lodash@^4.0.1, lodash@^4.2.0:
   version "4.17.4"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.4.tgz#78203a4d1c328ae1d86dca6460e369b57f4055ae"
 
 lodash@^4.17.0, lodash@^4.17.4:
   version "4.17.20"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.20.tgz#b44a9b6297bcb698f1c51a3545a2b3b368d59c52"
+
+lodash@^4.17.5:
+  version "4.17.21"
+  resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.21.tgz#679591c564c3bffaae8454cf0b3df370c3d6911c"
+  integrity sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==
 
 lodash@~0.9.0, lodash@~0.9.2:
   version "0.9.2"
@@ -4182,9 +4300,10 @@ npmlog@^4.0.2:
     gauge "~2.7.3"
     set-blocking "~2.0.0"
 
-nth-check@~1.0.0:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/nth-check/-/nth-check-1.0.1.tgz#9929acdf628fc2c41098deab82ac580cf149aae4"
+nth-check@~1.0.1:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/nth-check/-/nth-check-1.0.2.tgz#b2bd295c37e3dd58a3bf0700376663ba4d9cf05c"
+  integrity sha512-WeBOdju8SnzPN5vTUJYxYUxLeXpCaVP5i5e0LF8fg7WORF2Wd7wFX/pk0tYZk7s8T+J7VLy0Da6J1+wCT0AtHg==
   dependencies:
     boolbase "~1.0.0"
 
@@ -4768,6 +4887,15 @@ readable-stream@^2.0.2, readable-stream@^2.0.6, readable-stream@^2.1.4, readable
     string_decoder "~1.0.3"
     util-deprecate "~1.0.1"
 
+readable-stream@^3.1.1:
+  version "3.6.0"
+  resolved "https://registry.yarnpkg.com/readable-stream/-/readable-stream-3.6.0.tgz#337bbda3adc0706bd3e024426a286d4b4b2c9198"
+  integrity sha512-BViHy7LKeTz4oNnkcLJ+lVSL6vpiFeX6/d3oSH8zCW7UxP2onchk+vTGB143xuFjHS3deTgkKoXXymXqymiIdA==
+  dependencies:
+    inherits "^2.0.3"
+    string_decoder "^1.1.1"
+    util-deprecate "^1.0.1"
+
 readable-stream@~1.1.9:
   version "1.1.14"
   resolved "https://registry.yarnpkg.com/readable-stream/-/readable-stream-1.1.14.tgz#7cf4c54ef648e3813084c636dd2079e166c081d9"
@@ -5016,9 +5144,10 @@ safe-buffer@^5.0.1, safe-buffer@~5.1.0, safe-buffer@~5.1.1:
   version "5.1.1"
   resolved "https://registry.yarnpkg.com/safe-buffer/-/safe-buffer-5.1.1.tgz#893312af69b2123def71f57889001671eeb2c853"
 
-safe-buffer@^5.1.2:
+safe-buffer@^5.1.2, safe-buffer@~5.2.0:
   version "5.2.1"
   resolved "https://registry.yarnpkg.com/safe-buffer/-/safe-buffer-5.2.1.tgz#1eaf9fa9bdb1fdd4ec75f58f9cdb4e6b7827eec6"
+  integrity sha512-rp3So07KcdmmKbGvgaNxQSJr7bGVSVk5S9Eq1F+ppbRo70+YeaDxkw5Dd8NPN+GD6bjnYm2VuPuCXmpuYvmCXQ==
 
 saucelabs@~1.3.0:
   version "1.3.0"
@@ -5380,6 +5509,13 @@ string.prototype.trimstart@^1.0.1:
 string_decoder@0.10.31, string_decoder@~0.10.x:
   version "0.10.31"
   resolved "https://registry.yarnpkg.com/string_decoder/-/string_decoder-0.10.31.tgz#62e203bc41766c6c28c9fc84301dab1c5310fa94"
+
+string_decoder@^1.1.1:
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/string_decoder/-/string_decoder-1.3.0.tgz#42f114594a46cf1a8e30b0a84f56c78c3edac21e"
+  integrity sha512-hkRX8U1WjJFd8LsDJ2yQ/wWWxaopEsABU1XfkM8A+j0+85JAGppt16cr1Whg6KIbb4okU6Mql6BOj+uup/wKeA==
+  dependencies:
+    safe-buffer "~5.2.0"
 
 string_decoder@~1.0.3:
   version "1.0.3"
@@ -5783,7 +5919,7 @@ useragent@^2.1.6:
     lru-cache "2.2.x"
     tmp "0.0.x"
 
-util-deprecate@~1.0.1:
+util-deprecate@^1.0.1, util-deprecate@~1.0.1:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/util-deprecate/-/util-deprecate-1.0.2.tgz#450d4dc9fa70de732762fbd2d4a28981419a0ccf"
 
