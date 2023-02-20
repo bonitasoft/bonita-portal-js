@@ -103,7 +103,7 @@
     "@bower_components/angular-resource": "angular/bower-angular-resource#1.8.3",
     "@bower_components/angular-sanitize": "angular/bower-angular-sanitize#1.8.3",
     "@bower_components/angular-touch": "angular/bower-angular-touch#1.8.3",
-    "@bower_components/angular-ui-router": "angular-ui/angular-ui-router-bower#0.3.2",
+    "@bower_components/angular-ui-router": "angular-ui/angular-ui-router-bower#0.4.2",
     "@bower_components/angular-ui-tree": "JimLiu/angular-ui-tree#2.9.0",
     "@bower_components/angular-xeditable": "vitalets/angular-xeditable#0.1.8",
     "@bower_components/animate.css": "daneden/animate.css#3.1.1",
