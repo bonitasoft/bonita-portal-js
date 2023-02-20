@@ -100,7 +100,7 @@
           });
 
           // Trigger the reload of the list
-          self.modalCreate.result.then(reload);
+          self.modalCreate.result.then(reload, angular.noop);
         };
 
         /**
@@ -119,7 +119,7 @@
             }
           });
 
-          self.modalImport.result.then(reload);
+          self.modalImport.result.then(reload, angular.noop);
         };
 
         /**
@@ -141,7 +141,7 @@
           });
 
           // Trigger the reload of the list
-          self.modalExport.result.then(reload);
+          self.modalExport.result.then(reload, angular.noop);
         };
 
         this.goToDetails = function goToDetails(applicationId){
@@ -174,7 +174,7 @@
             }
           });
 
-          self.modalDelete.result.then(reload);
+          self.modalDelete.result.then(reload, angular.noop);
         };
 
         this.getVisibilityName = function getVisibilityName(visibility) {

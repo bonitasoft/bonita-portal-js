@@ -111,7 +111,7 @@
         }
       });
 
-      ctrl.modal.result.then(ctrl.loadPages);
+      ctrl.modal.result.then(ctrl.loadPages, angular.noop);
     };
 
     /**

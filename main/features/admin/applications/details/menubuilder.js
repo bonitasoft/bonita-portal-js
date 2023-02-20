@@ -80,7 +80,7 @@ angular.module('org.bonitasoft.features.admin.applications.details').controller(
           // Update the current menuitem with a child
           menuItem.children.push(data.item.toJSON());
         });
-      });
+      }, angular.noop);
     };
 
     /**
@@ -114,7 +114,7 @@ angular.module('org.bonitasoft.features.admin.applications.details').controller(
         menuItem.displayName = data.name;
         menuItem.applicationPageId = ('id' in data.page) ? +data.page.id : '-1';
         menuFactory.update(angular.copy(menuItem));
-      });
+      }, angular.noop);
     };
   }
 ]);
@@ -281,7 +281,7 @@ angular.module('org.bonitasoft.features.admin.applications.details').controller(
         menuFactory.create(record).then(function(data) {
           $scope.data.menuItemBuilder.push(data.formatted);
         });
-      });
+      }, angular.noop);
 
     };
   }

@@ -69,7 +69,7 @@
           $log.error('category update failed :' , error);
           growl.error(i18nService.getKey('processDetails.informations.category.update.error') + ' : ' + error);
         }
-      });
+      }, angular.noop);
 
     }
 
