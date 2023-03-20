@@ -28,7 +28,7 @@
           <span ng-repeat="role in actorsMappingCtrl.actorsMembers[actor.id].roles.data" class="label label-default member">
             {{role.role_id.displayName}}
           </span>
-          <span ng-if="actorsMappingCtrl.actorsMembers[actor.id].roles.resource.pagination.total > actorsMappingCtrl.membersPerCell" class="label label-default member">{{'{} more'|translate}} | stringTemplater: actorsMappingCtrl.actorsMembers[actor.id].roles.resource.pagination.total - actorsMappingCtrl.membersPerCell</span>
+          <span ng-if="actorsMappingCtrl.actorsMembers[actor.id].roles.resource.pagination.total > actorsMappingCtrl.membersPerCell" class="label label-default member">{{'{} more' | translate | stringTemplater: actorsMappingCtrl.actorsMembers[actor.id].roles.resource.pagination.total - actorsMappingCtrl.membersPerCell}}</span>
         </td>
         <td class="members">
           <span ng-repeat="group in actorsMappingCtrl.actorsMembers[actor.id].groups.data" class="label label-default member">
