@@ -1,7 +1,6 @@
 'use strict';
 
 var gulp = require('gulp');
-var bower = require('gulp-bower');
 var inject = require('gulp-inject');
 var rename = require('gulp-rename');
 var concat = require('gulp-concat');
@@ -18,12 +17,7 @@ var paths = require('./conf').paths;
 /**
  * Main build task
  */
-gulp.task('build', ['bower', 'copy', 'compile', 'inject']);
-
-/**
- * Fetch bower dependencies from portal js
- */
-gulp.task('bower', () => bower({cwd: paths.community}));
+gulp.task('build', [ 'copy', 'compile', 'inject']);
 
 /**
  * Copy sources files
@@ -35,17 +29,17 @@ gulp.task('copy:src', () => {
     .pipe(gulp.dest(paths.dist));
 });
 
-gulp.task('copy:font', ['bower'], () => {
+gulp.task('copy:font', () => {
   return gulp.src(paths.fonts)
     .pipe(gulp.dest(paths.dest.fonts));
 });
 
-gulp.task('copy:css', ['bower'], () => {
+gulp.task('copy:css', () => {
   return gulp.src(paths.css)
     .pipe(gulp.dest(paths.dest.css));
 });
 
-gulp.task('copy:vendors', ['bower'], () => {
+gulp.task('copy:vendors', () => {
   return gulp.src(paths.vendors)
     .pipe(gulp.dest(paths.dest.vendors));
 });
@@ -60,13 +54,13 @@ gulp.task('copy:js', () => {
  */
 gulp.task('compile', ['compile:less', 'compile:templates']);
 
-gulp.task('replace:less', ['bower'], () => {
+gulp.task('replace:less', () => {
   return gulp.src(paths.less)
     .pipe(replace('@{skinFontPath}', '../fonts/'))
     .pipe(gulp.dest(paths.dest.less));
 });
 
-gulp.task('compile:less', ['bower', 'replace:less'], () => {
+gulp.task('compile:less', ['replace:less'], () => {
   return gulp.src(`${paths.dest.less}/main.less`)
     .pipe(stripCssComments({all: true}))
     .pipe(less({plugins: [new LessPluginCSScomb('zen')]}))
@@ -74,7 +68,7 @@ gulp.task('compile:less', ['bower', 'replace:less'], () => {
     .pipe(gulp.dest(paths.dest.css));
 });
 
-gulp.task('compile:templates', ['bower'], () => {
+gulp.task('compile:templates', () => {
   return gulp.src(paths.html)
     .pipe(html2js({
       moduleName: 'org.bonitasoft.portalTemplates',
