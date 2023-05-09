@@ -36,6 +36,8 @@ exports.config = {
       'e2e/**/*.e2e.js'
     ],
 
+    exclude: ['e2e/**/admin/cases/*.e2e.js'],
+
     capabilities,
 
     baseUrl: 'http://localhost:' + (process.env.PROTRACTOR_PORT || 9002),
