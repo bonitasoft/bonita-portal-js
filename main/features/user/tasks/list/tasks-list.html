@@ -78,7 +78,7 @@
                                    input-focus
                                    placeholder="{{ 'Search...' | translate }}"
                                    ng-model="app.request.search"
-                                   ng-model-options="{updateOn:'keyup', debounce:{'default':250, 'blur':0} }"
+                                   ng-model-options="{updateOn: 'default blur', debounce:{'default':200, 'blur':1} }"
                                    ng-change="app.searchTask()">
                             <span ng-click="app.searchTask()" class="input-group-addon pointer">
                                 <span class="glyphicon glyphicon-search"></span>
