@@ -1,0 +1,59 @@
+[
+  {
+    "content": "This is a system task, we don't want to see it in task list comments",
+    "tenantId": "1",
+    "id": "1",
+    "processInstanceId": "13",
+    "postDate": "2014-10-06 11:29:17.793",
+    "userId": {
+      "icon": "/default/icon_user.png",
+      "userName": "System"
+    }
+  },
+  {
+    "content": "This is a human comment",
+    "tenantId": "1",
+    "id": "2",
+    "processInstanceId": "1",
+    "postDate": "2016-03-09 16:33:05.301",
+    "userId": {
+      "last_connection": "2016-03-10 09:05:39.121",
+      "created_by_user_id": "-1",
+      "creation_date": "2016-02-23 09:51:19.395",
+      "id": "4",
+      "icon": "/default/icon_user.png",
+      "enabled": "true",
+      "title": "Mr",
+      "manager_id": "3",
+      "job_title": "Human resources benefits",
+      "userName": "walter.bates",
+      "lastname": "Bates",
+      "firstname": "Walter",
+      "password": "",
+      "last_update_date": "2016-02-23 09:51:19.395"
+    }
+  },
+  {
+    "content": "This is another human comment",
+    "tenantId": "1",
+    "id": "3",
+    "processInstanceId": "1",
+    "postDate": "2016-03-10 12:22:56.028",
+    "userId": {
+      "last_connection": "2016-03-10 09:05:39.121",
+      "created_by_user_id": "-1",
+      "creation_date": "2016-02-23 09:51:19.395",
+      "id": "5",
+      "icon": "/default/icon_user.png",
+      "enabled": "true",
+      "title": "Mme",
+      "manager_id": "3",
+      "job_title": "Human resources benefits",
+      "userName": "hellen.kelly",
+      "lastname": "Kelly",
+      "firstname": "Hellen",
+      "password": "",
+      "last_update_date": "2016-02-23 09:51:19.395"
+    }
+  }
+]
