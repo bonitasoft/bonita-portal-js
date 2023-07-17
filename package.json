@@ -81,7 +81,7 @@
     "test:watch": "karma start test/karma.conf.js --auto-watch",
     "postinstall": "node -e \"try { require('fs').symlinkSync(require('path').resolve('node_modules/@bower_components'), 'main/assets', 'junction') } catch (e) { }\"",
     "pot": "grunt pot",
-    "pree2e": "webdriver-manager update --versions.chrome=98.0.4758.102 && npm-run-all --parallel build:*",
+    "pree2e": "webdriver-manager update --versions.chrome=114.0.5735.90 && npm-run-all --parallel build:*",
     "e2e": "node --max-old-space-size=2048 ./node_modules/grunt-cli/bin/grunt default testE2e",
     "e2e:headless": "cross-env HEADLESS=true npm-run-all e2e",
     "e2eOnly": "node --max-old-space-size=2048 ./node_modules/grunt-cli/bin/grunt testE2e",
