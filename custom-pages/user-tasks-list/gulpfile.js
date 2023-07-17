@@ -21,6 +21,4 @@ gulp.task('clean', function(cb) {
   rimraf(config.paths.dist, cb);
 });
 
-gulp.task('default', ['clean'], () => {
-  gulp.start('build');
-});
+gulp.task('default', gulp.series('clean', 'build'));
