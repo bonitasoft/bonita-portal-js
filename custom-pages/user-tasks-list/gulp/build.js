@@ -14,16 +14,6 @@ var html2js = require('gulp-ng-html2js');
 
 var paths = require('./conf').paths;
 
-/**
- * Main build task
- */
-gulp.task('build', [ 'copy', 'compile', 'inject']);
-
-/**
- * Copy sources files
- */
-gulp.task('copy', ['copy:src', 'copy:font', 'copy:css', 'copy:vendors', 'copy:js']);
-
 gulp.task('copy:src', () => {
   return gulp.src(paths.src + '/**/*.*')
     .pipe(gulp.dest(paths.dist));
@@ -49,24 +39,19 @@ gulp.task('copy:js', () => {
     .pipe(gulp.dest(paths.dest.js));
 });
 
-/**
- * Compile what needs to be compiled
- */
-gulp.task('compile', ['compile:less', 'compile:templates']);
-
 gulp.task('replace:less', () => {
   return gulp.src(paths.less)
     .pipe(replace('@{skinFontPath}', '../fonts/'))
     .pipe(gulp.dest(paths.dest.less));
 });
 
-gulp.task('compile:less', ['replace:less'], () => {
+gulp.task('compile:less', gulp.series('replace:less', () => {
   return gulp.src(`${paths.dest.less}/main.less`)
     .pipe(stripCssComments({all: true}))
     .pipe(less({plugins: [new LessPluginCSScomb('zen')]}))
     .pipe(rename('task-list.css'))
     .pipe(gulp.dest(paths.dest.css));
-});
+}));
 
 gulp.task('compile:templates', () => {
   return gulp.src(paths.html)
@@ -81,7 +66,7 @@ gulp.task('compile:templates', () => {
 /**
  * Inject js and css files in index.html
  */
-gulp.task('inject', ['copy:js', 'copy:vendors', 'compile:templates', 'compile:less', 'copy:css'], () => {
+gulp.task('inject', gulp.series('copy:js', 'copy:vendors', 'compile:templates', 'compile:less', 'copy:css', () => {
   return gulp.src(`${paths.dest.resources}/index.html`)
     .pipe(inject(gulp.src([
       `${paths.dest.vendors}/angular.min.js`,
@@ -94,4 +79,21 @@ gulp.task('inject', ['copy:js', 'copy:vendors', 'compile:templates', 'compile:le
       relative: true
     }))
     .pipe(gulp.dest(paths.dest.resources));
-});
+}));
+
+/**
+ * Copy sources files
+ */
+gulp.task('copy', gulp.series('copy:src', 'copy:font', 'copy:css', 'copy:vendors', 'copy:js'));
+
+
+/**
+ * Compile what needs to be compiled
+ */
+gulp.task('compile', gulp.series('compile:less', 'compile:templates'));
+
+/**
+ * Main build task
+ */
+gulp.task('build', gulp.series('copy', 'compile', 'inject'));
+
