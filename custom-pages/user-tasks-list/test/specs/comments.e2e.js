@@ -33,7 +33,7 @@ describe('comments tab', () => {
 
   it('should not allow user to add a comment on a task of an archived case', () => {
     // Filter done tasks
-    cy.contains('.TaskFilters li a span', 'Done tasks').click();
+    cy.contains('.TaskFilters li a', 'Done').click();
 
     // Select task associated with an archived case
     cy.contains('.TaskTable tbody tr td', 'TaskFromArchivedCase').click();
@@ -46,7 +46,7 @@ describe('comments tab', () => {
 
   it('should display archived human comments on a task of an archived case', () => {
     // Filter done tasks
-    cy.contains('.TaskFilters li a span', 'Done tasks').click();
+    cy.contains('.TaskFilters li a', 'Done').click();
 
     // Select task associated with an archived case
     cy.contains('.TaskTable tbody tr td', 'TaskFromArchivedCase').click();
