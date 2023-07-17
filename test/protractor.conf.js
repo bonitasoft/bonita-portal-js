@@ -20,7 +20,7 @@ if (process.env.HEADLESS) {
   ]);
 }
 
-var webdriverManagerPath = '../node_modules/webdriver-manager/selenium/chromedriver_98.0.4758.102';
+var webdriverManagerPath = '../node_modules/webdriver-manager/selenium/chromedriver_114.0.5735.90';
 
 //Specify binary path to enable windows build
 if(process.platform.indexOf('win') === 0) {
@@ -36,7 +36,7 @@ exports.config = {
       'e2e/**/*.e2e.js'
     ],
 
-    exclude: ['e2e/**/admin/cases/*.e2e.js'],
+    exclude: ['e2e/**/cases/**/*.e2e.js'],
 
     capabilities,
 
