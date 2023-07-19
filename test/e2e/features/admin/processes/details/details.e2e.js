@@ -99,16 +99,76 @@
 
         describe('Categories', function() {
           it('should add new category and remove some others', function() {
-            expect(element(by.css('.tags')).getText()).toEqual('  Support  \n  R&D  \n  Séverin  \n  jQuery+  ');
+            expect(element.all(by.css('.tag')).count()).toEqual(4);
+            expect(element.all(by.css('.tag')).getText()).toEqual(['Support', 'R&D', 'Séverin', 'jQuery+']);
             element(by.css('.metatags-label button')).click();
             var categoriesModal = element(by.css('#manage-categories-modal'));
-            expect(categoriesModal.all(by.css('.tags')).getText()).toEqual(['Support\nR&D\nSéverin\njQuery+']);
-            var tagsInput = categoriesModal.all(by.css('input')).get(0);
-            tagsInput.sendKeys('Red', protractor.Key.ENTER);
-            tagsInput.sendKeys('F');
-            categoriesModal.all(by.css('.tags-suggestion')).get(0).click();
-            categoriesModal.all(by.css('.tags .tag i')).get(2).click();
-            categoriesModal.all(by.css('.btn-primary')).get(0).click();
+            expect(categoriesModal.all(by.css('.tag')).count()).toEqual(5);
+            expect(categoriesModal.all(by.css('.tag')).getText()).toEqual(['Support', 'R&D', 'Séverin', 'jQuery+', 'Remove all']);
+            expect(categoriesModal.all(by.cssContainingText('h4', 'Adding on apply')).isPresent()).toBeFalsy();
+            expect(categoriesModal.all(by.cssContainingText('h4', 'Removing on apply')).isPresent()).toBeFalsy();
+            var tagsInput = categoriesModal.all(by.css('.add-category-input-container input')).get(0);
+            tagsInput.sendKeys('Red');
+            categoriesModal.all(by.buttonText('Add')).get(0).click();
+            expect(categoriesModal.all(by.cssContainingText('h4', 'Adding on apply')).isPresent()).toBeTruthy();
+            tagsInput.sendKeys('F', protractor.Key.ARROW_DOWN, protractor.Key.ARROW_DOWN);
+            expect(categoriesModal.all(by.css('.tag')).count()).toEqual(7);
+            categoriesModal.all(by.css('.glyphicon-remove')).get(1).click();
+            expect(categoriesModal.all(by.css('.tag')).count()).toEqual(6);
+            expect(categoriesModal.all(by.cssContainingText('h4', 'Removing on apply')).isPresent()).toBeTruthy();
+            categoriesModal.all(by.cssContainingText('.btn-primary', 'Apply')).get(0).click();
+            expect(categoriesModal.isPresent()).toBeFalsy();
+          });
+
+          it('remove all and enable all should work correctly', function() {
+            element(by.css('.metatags-label button')).click();
+            var categoriesModal = element(by.css('#manage-categories-modal'));
+            expect(categoriesModal.all(by.css('span')).getText()).toEqual(['Support', 'R&D', 'Séverin', 'jQuery+', 'Remove all']);
+            expect(categoriesModal.all(by.buttonText('Apply')).isPresent()).toBeFalsy();
+            expect(categoriesModal.all(by.cssContainingText('.text-muted', 'No mapping')).isPresent()).toBeFalsy();
+            categoriesModal.all(by.cssContainingText('span', 'Remove all')).get(0).click();
+            expect(categoriesModal.all(by.buttonText('Apply')).isPresent()).toBeTruthy();
+            expect(categoriesModal.all(by.cssContainingText('.text-muted', 'No mapping')).isPresent()).toBeTruthy();
+            categoriesModal.all(by.cssContainingText('span', 'Enable all')).get(0).click();
+            expect(categoriesModal.all(by.buttonText('Apply')).isPresent()).toBeFalsy();
+            expect(categoriesModal.all(by.cssContainingText('.text-muted', 'No mapping')).isPresent()).toBeFalsy();
+            var tagsInput = categoriesModal.all(by.css('.add-category-input-container input')).get(0);
+            tagsInput.sendKeys('Red');
+            categoriesModal.all(by.buttonText('Add')).click();
+            tagsInput.sendKeys('Blue');
+            categoriesModal.all(by.buttonText('Add')).click();
+            expect(categoriesModal.all(by.buttonText('Apply')).isPresent()).toBeTruthy();
+            expect(categoriesModal.all(by.cssContainingText('.tag', 'Red')).isPresent()).toBeTruthy();
+            expect(categoriesModal.all(by.cssContainingText('.tag', 'Blue')).isPresent()).toBeTruthy();
+            categoriesModal.all(by.cssContainingText('.tag', 'Remove all')).get(1).click();
+            expect(categoriesModal.all(by.buttonText('Apply')).isPresent()).toBeFalsy();
+            expect(categoriesModal.all(by.buttonText('Add')).get(0).getAttribute('disabled')).toBe('true');
+          });
+
+          it('wrong inputs should be taken into account correctly', function() {
+            element(by.css('.metatags-label button')).click();
+            var categoriesModal = element(by.css('#manage-categories-modal'));
+            var tagsInput = categoriesModal.all(by.css('.add-category-input-container input')).get(0);
+            expect(categoriesModal.all(by.cssContainingText('.alert-info', 'category has already been added')).isPresent()).toBeFalsy();
+            expect(categoriesModal.all(by.cssContainingText('.alert-info', 'category cannot be removed and added ')).isPresent()).toBeFalsy();
+            tagsInput.sendKeys('Red');
+            categoriesModal.all(by.buttonText('Add')).click();
+            expect(categoriesModal.all(by.css('span')).getText()).toEqual(['Support', 'R&D', 'Séverin', 'jQuery+', 'Remove all', 'Red', 'Remove all']);
+            tagsInput.sendKeys('Red');
+            categoriesModal.all(by.buttonText('Add')).click();
+            expect(categoriesModal.all(by.css('span')).getText()).toEqual(['Support', 'R&D', 'Séverin', 'jQuery+', 'Remove all', 'Red', 'Remove all']);
+            tagsInput.sendKeys('Support');
+            expect(categoriesModal.all(by.buttonText('Add')).get(0).getAttribute('disabled')).toBe('true');
+            expect(categoriesModal.all(by.cssContainingText('.alert-info', 'category has already been added')).isPresent()).toBeTruthy();
+            tagsInput.clear();
+            expect(categoriesModal.all(by.cssContainingText('.alert-info', 'category has already been added')).isPresent()).toBeFalsy();
+            expect(categoriesModal.all(by.buttonText('Add')).get(0).getAttribute('disabled')).toBe('true');
+            categoriesModal.all(by.css('.glyphicon-remove')).get(0).click();
+            tagsInput.sendKeys('Support');
+            expect(categoriesModal.all(by.buttonText('Add')).get(0).getAttribute('disabled')).toBe('true');
+            expect(categoriesModal.all(by.cssContainingText('.alert-info', 'category cannot be removed and added ')).isPresent()).toBeTruthy();
+            tagsInput.clear();
+            expect(categoriesModal.all(by.cssContainingText('.alert-info', 'category cannot be removed and added ')).isPresent()).toBeFalsy();
           });
         });
       });
