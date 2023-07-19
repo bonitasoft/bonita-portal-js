@@ -142,7 +142,7 @@
           scope.$apply();
           expect(processInformationCtrl.categories).toEqual(categories);
           expect(processInformationCtrl.selectedCategories).toEqual(['catego1', 'catego2', 'catego3']);
-          expect(growl.warning.calls.mostRecent().args[0]).toEqual('No updates have been made on categories. Don\'t forget to press "Enter" key after selecting a category.');
+          expect(growl.warning.calls.mostRecent().args[0]).toEqual('No updates have been made on categories. For more details, check logs.');
         });
       });
     });
