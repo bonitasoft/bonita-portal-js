@@ -120,6 +120,8 @@
 
   //fileUpload
   when('POST', /^\/portal\/fileUpload$/).respond('uploadedFile');
+  when('POST', /^\/portal\/bdmUpload$/).respond('uploadedFile');
+  when('POST', /^\/portal\/connectorImplementation$/).respond('uploadedFile');
 
   //case admin
   when('GET', /^\/API\/bpm\/case\?c=.*&d=processDefinitionId&d=started_by&d=startedBySubstitute&n=activeFlowNodes&n=failedFlowNodes&o=id\+DESC&p=.*$/).respond(require('./admin/cases/list/cases-list-320-desc-mocks.json'));

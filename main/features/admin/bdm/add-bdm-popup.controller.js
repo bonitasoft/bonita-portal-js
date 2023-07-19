@@ -41,7 +41,7 @@
 
     $scope.uploader = new FileUploader({
       autoUpload: true,
-      url: '../portal/fileUpload',
+      url: '../portal/bdmUpload',
       onSuccessItem: self.successUpload,
       onErrorItem: self.errorUpload
     });
