@@ -31,9 +31,9 @@ describe('tasklist custom page filters', () => {
   it('should filter task by process', () => {
     cy.get('.Filter-process .btn').click();
 
-    cy.get('[ng-repeat="p in app.processes"]').should('have.length', 3);
+    cy.get('.dropdown-menu > li').should('have.length', 3);
 
-    cy.get('[ng-repeat="p in app.processes"]:last-of-type .processOptionLink').click();
+    cy.get('.dropdown-menu > li:last-of-type a').click();
 
     cy.get('tr.Line').should('have.length', 2);
   });
