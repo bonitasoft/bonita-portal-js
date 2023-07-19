@@ -15,8 +15,8 @@
     it('should execute a function only once when delay is not achieved', function () {
       var fn = jasmine.createSpy('aFunction');
 
-      debounce(fn, 300);
-      debounce(fn, 300);
+      debounce(fn, 200);
+      debounce(fn, 200);
 
       $timeout.flush();
       expect(fn.calls.count()).toBe(1);
