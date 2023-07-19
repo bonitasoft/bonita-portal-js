@@ -14,27 +14,26 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-(function() {
+(function () {
   'use strict';
 
   angular.module('org.bonitasoft.features.admin.processes.details.information', [
-      'org.bonitasoft.common.filters.date.parser',
-      'org.bonitasoft.common.directives.bonitags',
-      'ui.bootstrap',
-      'angular-growl',
-      'org.bonitasoft.common.resources.store',
-      'org.bonitasoft.features.admin.processes.details.information.categories',
-      'org.bonitasoft.common.i18n'
-    ])
+    'org.bonitasoft.common.filters.date.parser',
+    'ui.bootstrap',
+    'angular-growl',
+    'org.bonitasoft.common.resources.store',
+    'org.bonitasoft.features.admin.processes.details.information.categories',
+    'org.bonitasoft.common.i18n'
+  ])
     .controller('ProcessInformationCtrl', ProcessInformationCtrl);
 
   /* jshint -W003 */
   function ProcessInformationCtrl($scope, process, dateParser, store, categoryAPI, categories, $q, $modal, growl,
-                                  i18nService, $log,gettextCatalog) {
+                                  i18nService, $log, gettextCatalog) {
     var vm = this;
     vm.process = process;
     vm.parseAndFormat = dateParser.parseAndFormat;
-    vm.selectedCategories = categories.map(function(category) {
+    vm.selectedCategories = categories.map(function (category) {
       return category.name;
     });
     vm.categories = categories;
@@ -52,25 +51,25 @@
         templateUrl: 'features/admin/processes/details/manage-category-mapping-modal.html',
         controller: 'ManageCategoryMappingModalInstanceCtrl',
         controllerAs: 'manageCategoryMappingInstanceCtrl',
+        size: 'lg',
         resolve: {
-          process: function() {
+          process: function () {
             return process;
           },
-          initiallySelectedCategories: function() {
+          initiallySelectedCategories: function () {
             return vm.categories;
           },
-          allCategories: function() {
+          allCategories: function () {
             return store.load(categoryAPI);
           }
         }
       });
-      modalInstance.result.then(vm.updateTagsAndAlertUser, function(error) {
-        if(['cancel', 'backdrop click'].indexOf(error) === -1) {
-          $log.error('category update failed :' , error);
+      modalInstance.result.then(vm.updateTagsAndAlertUser, function (error) {
+        if (['cancel', 'backdrop click'].indexOf(error) === -1) {
+          $log.error('category update failed :', error);
           growl.error(i18nService.getKey('processDetails.informations.category.update.error') + ' : ' + error);
         }
       });
-
     }
 
     function updateTagsAndAlertUser(categories) {
@@ -78,13 +77,13 @@
 
       vm.categories = categories;
       vm.selectedCategories.length = 0;
-      [].push.apply(vm.selectedCategories, categories.map(function(category) {
+      [].push.apply(vm.selectedCategories, categories.map(function (category) {
         return category.name;
       }));
-      if(updateStatus){
+      if (updateStatus) {
         growl.success(gettextCatalog.getString('Successfully updated categories'));
-      }else{
-        growl.warning(gettextCatalog.getString('No updates have been made on categories. Don\'t forget to press "Enter" key after selecting a category.'));
+      } else {
+        growl.warning(gettextCatalog.getString('No updates have been made on categories. For more details, check logs.'));
       }
 
     }
