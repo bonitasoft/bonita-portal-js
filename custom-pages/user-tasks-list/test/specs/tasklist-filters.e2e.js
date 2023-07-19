@@ -33,7 +33,9 @@ describe('tasklist custom page filters', () => {
 
     cy.get('.dropdown-menu > li').should('have.length', 3);
 
-    cy.get('.dropdown-menu > li:last-of-type a').click();
+    cy.get('.dropdown-menu').should('be.visible');
+
+    cy.get('.dropdown-menu > li:last-of-type a').click({force: true});
 
     cy.get('tr.Line').should('have.length', 2);
   });
