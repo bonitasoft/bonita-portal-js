@@ -14,99 +14,145 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-(function() {
+(function () {
   'use strict';
 
   angular.module('org.bonitasoft.features.admin.processes.details.information.categories', [
-    'org.bonitasoft.common.directives.bonitags',
     'ui.bootstrap',
     'org.bonitasoft.common.resources.store',
     'angular-growl',
     'gettext'
-  ]).controller('ManageCategoryMappingModalInstanceCtrl', function($scope, categoryAPI, process, gettextCatalog, $modalInstance, store, initiallySelectedCategories, allCategories, categoryManager) {
+  ]).controller('ManageCategoryMappingModalInstanceCtrl', function ($scope, categoryAPI, process, gettextCatalog, $modalInstance, store, initiallySelectedCategories, allCategories, categoryManager) {
     var vm = this;
-    vm.selectedTags = initiallySelectedCategories.map(function(category) {
-      return category.name;
-    });
-    vm.tags = allCategories.map(function(category) {
-      return category.name;
-    });
 
-    vm.updateCategories = function() {
-      $modalInstance.close(categoryManager.updateCategories(allCategories, initiallySelectedCategories, vm.selectedTags, vm.tags, process.id));
+    vm.mappedCategories = angular.copy(initiallySelectedCategories);
+    vm.categoriesToAdd = [];
+    vm.addCategoryInputValue = '';
+    vm.categoriesToRemove = [];
+
+    vm.filterCategories = function () {
+      return allCategories.filter(function (category) {
+        return findCategoryIndexByName(category.name, vm.mappedCategories) === -1 &&
+          findCategoryIndexByName(category.name, vm.categoriesToAdd) === -1 &&
+          findCategoryIndexByName(category.name, vm.categoriesToRemove) === -1;
+      });
     };
-    vm.cancel = function() {
+    vm.updateCategories = function () {
+      $modalInstance.close(categoryManager.updateCategories(allCategories, vm.mappedCategories, vm.categoriesToAdd, vm.categoriesToRemove, process.id));
+    };
+    vm.cancel = function () {
       $modalInstance.dismiss('cancel');
     };
-  }).service('categoryManager', function(processCategoryAPI, categoryAPI, $q) {
-    var categoryManager = {};
-    categoryManager.selectedCategoriesPopulatePromise = function (processCategoryPromises, newCategoryPromises, selectedCategories){
-      return $q.all(processCategoryPromises.concat(newCategoryPromises)).then(function() {
-        return selectedCategories;
+    vm.removeCategory = function (category) {
+      vm.mappedCategories.splice(findCategoryIndexByName(category.name, vm.mappedCategories), 1);
+      vm.categoriesToRemove.push(category);
+    };
+    vm.removeAll = function () {
+      vm.mappedCategories.forEach(function (category) {
+        vm.categoriesToRemove.push(category);
       });
+      vm.mappedCategories.length = 0;
     };
-
-    categoryManager.saveCategoryProcessIfNotAlreadySelected = function (category, initiallySelectedCategories, promises, processId) {
-      if (!categoryManager.categoryWasInitiallySelected(category, initiallySelectedCategories)) {
-        promises.push(processCategoryAPI.save({
-          'category_id': category.id,
-          'process_id': processId
-        }));
-      }
+    vm.reenableCategory = function (category) {
+      vm.categoriesToRemove.splice(findCategoryIndexByName(category.name, vm.categoriesToRemove), 1);
+      vm.mappedCategories.push(category);
     };
-
-    categoryManager.deleteCategoryProcessIfNeeded = function (category, initiallySelectedCategories, promises, processId, selectedTags) {
-      if (!categoryManager.categoryIsSelected(category, selectedTags) && categoryManager.categoryWasInitiallySelected(category, initiallySelectedCategories)) {
-        promises.push(processCategoryAPI.delete({
-          'category_id': category.id,
-          'process_id': processId
-        }));
-      }
+    vm.reenableAll = function () {
+      vm.categoriesToRemove.forEach(function (category) {
+        vm.mappedCategories.push(category);
+      });
+      vm.categoriesToRemove.length = 0;
     };
-
-    categoryManager.updateCategories = function(allCategories, initiallySelectedCategories, selectedTags, tags, processId) {
-      var promises = [],
-        selectedCategories = [];
-      allCategories.forEach(function(category) {
-        if (categoryManager.categoryIsSelected(category, selectedTags)) {
-          selectedCategories.push(category);
-          categoryManager.saveCategoryProcessIfNotAlreadySelected(category, initiallySelectedCategories, promises, processId);
+    vm.addNewCategory = function () {
+      if (findCategoryIndexByName(vm.addCategoryInputValue, vm.categoriesToAdd) === -1 && findCategoryIndexByName(vm.addCategoryInputValue, vm.categoriesToRemove) === -1) {
+        var existingCategory = allCategories.find(function (category) {
+          return category.name === vm.addCategoryInputValue;
+        });
+        if (!!existingCategory) {
+          vm.categoriesToAdd.push(existingCategory);
         } else {
-          categoryManager.deleteCategoryProcessIfNeeded(category, initiallySelectedCategories, promises, processId, selectedTags);
+          vm.categoriesToAdd.push({name: vm.addCategoryInputValue});
+        }
+      }
+      vm.addCategoryInputValue = '';
+    };
+    vm.removeFromAdded = function (category) {
+      vm.categoriesToAdd.splice(findCategoryIndexByName(category.name, vm.categoriesToAdd), 1);
+    };
+    vm.removeAllFromAdded = function () {
+      vm.categoriesToAdd.length = 0;
+    };
+    vm.doesCategoryAlreadyExist = function () {
+      return findCategoryIndexByName(vm.addCategoryInputValue, vm.mappedCategories) > -1;
+    };
+    vm.isCategoryInTheRemovedList = function () {
+      return findCategoryIndexByName(vm.addCategoryInputValue, vm.categoriesToRemove) > -1;
+    };
+    vm.getAddCategoryTooltip = function () {
+      return gettextCatalog.getString('Use Arrow up and Arrow down keys to browse among existing categories.') + '\n' +
+        gettextCatalog.getString('Enter a new category name and click "Add" button to create a new category.');
+    };
+
+    function findCategoryIndexByName(categoryName, categoryList) {
+      var categoryNames = categoryList.map(function (category) {
+        return category.name.toLowerCase();
+      });
+      return categoryNames.indexOf(categoryName.toLowerCase());
+    }
+  }).service('categoryManager', function (processCategoryAPI, categoryAPI, store, $q) {
+    var categoryManager = {};
+
+    categoryManager.mapCategoryToProcess = function (categoryId, processId) {
+      return processCategoryAPI.save({
+        'category_id': categoryId,
+        'process_id': processId
+      }).$promise;
+    };
+
+    categoryManager.unmapCategoryFromProcess = function (categoryId, processId) {
+      return processCategoryAPI.delete({
+        'category_id': categoryId,
+        'process_id': processId
+      }).$promise;
+    };
+
+    categoryManager.updateCategories = function (allCategories, mappedCategories, categoriesToAdd, categoriesToRemove, processId) {
+      var promises = [];
+      var allCategoryNames = allCategories.map(function (category) {
+        return category.name.toLowerCase();
+      });
+      categoriesToAdd.forEach(function (categoryToAdd) {
+        if (allCategoryNames.indexOf(categoryToAdd.name.toLowerCase()) === -1) {
+          promises.push(categoryManager.createNewCategories(categoryToAdd).then(function (newlyCreatedCategory) {
+            // Since the user only gives a name, we still need other info that will be provided by the server after creation
+            categoryToAdd.id = newlyCreatedCategory.id;
+            return categoryManager.mapCategoryToProcess(newlyCreatedCategory.id, processId);
+          }));
+        } else {
+          promises.push(categoryManager.mapCategoryToProcess(categoryToAdd.id, processId));
         }
       });
-      return categoryManager.selectedCategoriesPopulatePromise(promises, categoryManager.createNewCategoriesPromises(selectedCategories, tags, selectedTags, processId), selectedCategories);
-    };
 
-
-    categoryManager.createNewCategoriesPromises = function(selectedCategories, tags, selectedTags, processId) {
-      return _.difference(selectedTags, tags).map(function(newTag) {
-        return categoryAPI.save({
-          name: newTag
-        }).$promise.then(function(category) {
-          selectedCategories.push(category);
-          return processCategoryAPI.save({
-            'category_id': category.id,
-            'process_id': processId
-          });
-        });
+      categoriesToRemove.forEach(function (categoryToRemove) {
+        // During page execution, we usually go through the ctrl.removeCategory(), and never call this function directly
+        // This could still be called directly by a third-party or in the tests, which would leave the mappedCategories in an unclean state
+        var mappedCategoryIndex = mappedCategories.map(function(category) {return category.name.toLowerCase();}).indexOf(categoryToRemove.name.toLowerCase());
+        if (mappedCategoryIndex > -1) {
+          mappedCategories.splice(mappedCategoryIndex, 1);
+        }
+        promises.push(categoryManager.unmapCategoryFromProcess(categoryToRemove.id, processId));
+      });
+      return $q.all(promises).then(function () {
+        return mappedCategories.concat(categoriesToAdd);
       });
     };
 
-
-    categoryManager.categoryWasInitiallySelected = function(category, initiallySelectedCategories) {
-      if(!category || !initiallySelectedCategories) { return false; }
-      return !!initiallySelectedCategories.filter(function(selectedCategory) {
-        return selectedCategory.id === category.id;
-      }).length;
+    categoryManager.createNewCategories = function (newCategory) {
+      return categoryAPI.save({
+        name: newCategory.name
+      }).$promise;
     };
 
-    categoryManager.categoryIsSelected = function(category, selectedTags) {
-      if(!category || !selectedTags) { return false; }
-      return !!selectedTags.filter(function(selectedTag) {
-        return selectedTag === category.name;
-      }).length;
-    };
     return categoryManager;
   });
 })();
