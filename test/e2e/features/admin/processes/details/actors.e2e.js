@@ -26,6 +26,7 @@
 
       var menuItems;
       menuItems = processDetails.all(by.css('.list-group > a.list-group-item'));
+      expect(menuItems.count()).toBeGreaterThan(2);
 
       // click on actor in menu
       menuItems.get(1).click();
@@ -100,6 +101,7 @@
       });
 
       it('should be display not mapped groups in selectbox', function () {
+        expect(modal.element(by.tagName('actors-select-box')).isPresent()).toBe(true);
         modal.element(by.tagName('actors-select-box')).click();
 
         var checkBoxContainer = element(by.css('.checkBoxContainer'));
@@ -127,6 +129,7 @@
 
       it('should be display not mapped roles in role-selectbox', function () {
         var checkBoxs = modal.all(by.tagName('actors-select-box'));
+        expect(checkBoxs.count()).toBeGreaterThanOrEqual(1);
         checkBoxs.get(0).click();
         var containerRole = element.all(by.css('.checkBoxContainer')).get(0);
         var roleItems = containerRole.all(by.css('.multiSelectItem '));
@@ -137,6 +140,7 @@
 
       it('should be display not mapped groups in group-selectbox', function () {
         var checkBoxs = modal.all(by.tagName('actors-select-box'));
+        expect(checkBoxs.count()).toBeGreaterThanOrEqual(2);
         checkBoxs.get(1).click();
 
         var checkBoxContainer = element.all(by.css('.checkBoxContainer')).get(1);
