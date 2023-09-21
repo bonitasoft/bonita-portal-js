@@ -6,6 +6,7 @@
 main/templates.js
 target/
 node/
+.flattened-pom.xml
 
 i18n/portal-js.pot
 
@@ -13,3 +14,5 @@ i18n/portal-js.pot
 *.iml
 .idea/
 .settings/
+.project
+.classpath

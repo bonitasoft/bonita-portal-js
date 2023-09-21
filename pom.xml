@@ -1,5 +1,6 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" 
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.bonitasoft.web</groupId>
     <artifactId>bonita-portal-js</artifactId>
@@ -14,6 +15,9 @@
     <properties>
         <!-- A flag to indicate whether yarn must be run with the offline option -->
         <offlineFlag></offlineFlag>
+        <frontend-maven-plugin.version>1.14.0</frontend-maven-plugin.version>
+        <node.version>v10.24.1</node.version>
+        <npm.version>v1.22.19</npm.version>
     </properties>
 
     <build>
@@ -22,10 +26,10 @@
                 <plugin>
                     <groupId>com.github.eirslett</groupId>
                     <artifactId>frontend-maven-plugin</artifactId>
-                    <version>1.12.1</version>
+                    <version>${frontend-maven-plugin.version}</version>
                     <configuration>
-                        <nodeVersion>v10.24.1</nodeVersion>
-                        <yarnVersion>v1.22.19</yarnVersion>
+                        <nodeVersion>${node.version}</nodeVersion>
+                        <yarnVersion>${npm.version}</yarnVersion>
                         <installDirectory>${session.executionRootDirectory}</installDirectory>
                     </configuration>
                 </plugin>
