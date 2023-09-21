@@ -51,9 +51,9 @@
   version "1.8.3"
   resolved "https://codeload.github.com/angular/bower-angular-touch/tar.gz/2edc9a996197af8188d79dec957131ca0ebaa321"
 
-"@bower_components/angular-ui-router@angular-ui/angular-ui-router-bower#0.3.2":
-  version "0.3.2"
-  resolved "https://codeload.github.com/angular-ui/angular-ui-router-bower/tar.gz/c1989bcd4185a0f5e206646b267024f45a905c06"
+"@bower_components/angular-ui-router@angular-ui/angular-ui-router-bower#0.4.2":
+  version "0.4.2"
+  resolved "https://codeload.github.com/angular-ui/angular-ui-router-bower/tar.gz/ef5ce80fa6ec8a2c6a87cf1cf1c5809e1950af11"
   dependencies:
     angular "^1.0.8"
 

@@ -9,6 +9,8 @@
     </parent>
 
     <artifactId>page-user-task-list</artifactId>
+    <name>User task list page</name>
+    <description>The task list page embedded in the Bonita User Application.</description>
 
     <build>
         <plugins>
