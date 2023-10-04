@@ -21,23 +21,23 @@
 
     var mockWindow = {
         parent: {
-          'location': {
+          location: {
             reload: function() {}
           }
         }
       },
       processCategoryAPI, processConnectorAPI, parameterAPI, customUserInfoAPI;
+    var mockModal = jasmine.createSpyObj('$modal', ['open']);
 
     beforeEach(module('org.bonitasoft.common.resources'));
     beforeEach(module(function($provide) {
       $provide.value('$window', mockWindow);
+      $provide.value('$modal', mockModal);
     }));
 
+    var $httpBackend, $location, userAPI, unauthorizedResponseHandler;
 
-
-    var $httpBackend, userAPI, unauthorizedResponseHandler;
-
-    beforeEach(inject(function(_$httpBackend_, _userAPI_, _unauthorizedResponseHandler_, _processCategoryAPI_, _processConnectorAPI_, _parameterAPI_, _customUserInfoAPI_) {
+    beforeEach(inject(function($q, _$httpBackend_, _$location_, _userAPI_, _unauthorizedResponseHandler_, _processCategoryAPI_, _processConnectorAPI_, _parameterAPI_, _customUserInfoAPI_) {
       $httpBackend = _$httpBackend_;
       userAPI = _userAPI_;
       unauthorizedResponseHandler = _unauthorizedResponseHandler_;
@@ -45,6 +45,16 @@
       processConnectorAPI = _processConnectorAPI_;
       parameterAPI = _parameterAPI_;
       customUserInfoAPI = _customUserInfoAPI_;
+      $location = _$location_;
+      $location.absUrl = function() {
+        return 'http://anyhost:8080/bonita/app/myApp/tasklist/';
+      };
+      $location.path = function() {
+        return '/app/myApp/tasklist/';
+      };
+      mockModal.open.and.callFake(function () {
+        return $q.resolve();
+      });
     }));
 
     it('should get user specified by the id', inject(function() {
@@ -114,6 +124,7 @@
           config: {url: 'http://anyhost:8080/bonita/API/anyApi'}
         });
 
+        expect(mockModal.open).toHaveBeenCalled();
         expect(mockWindow.parent.location.reload).toHaveBeenCalled();
       });
 
@@ -122,7 +133,8 @@
         spyOn(mockWindow.parent.location, 'reload');
 
         unauthorizedResponseHandler.responseError({
-          status: 404
+          status: 404,
+          config: {url: 'http://anyhost:8080/bonita/API/anyApi'}
         });
 
         expect(mockWindow.parent.location.reload).not.toHaveBeenCalled();
