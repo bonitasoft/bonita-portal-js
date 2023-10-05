@@ -110,7 +110,7 @@
         var i18nService;
         var confirmationModalIsOpen = false;
 
-        var openConfirmationModal = function (redirectMessage, cancelMessage) {
+        var openConfirmationModal = function (errorInfo, redirectMessage, cancelMessage) {
           try {
             $modal = $modal || $injector.get('$modal');
             confirmationModalIsOpen = true;
@@ -120,6 +120,7 @@
               resolve: {
                 messages: function () {
                   return {
+                    'info': errorInfo,
                     'redirect': redirectMessage,
                     'cancel': cancelMessage
                   };
@@ -130,6 +131,7 @@
                 '    <h3 class="modal-title">{{\'An error occurred with the requested operation\' | translate}}</h3>\n' +
                 '</div>\n' +
                 '<div class="modal-body">\n' +
+                '    <p>{{messages.info}}</p>\n' +
                 '    <p>{{messages.redirect}}</p>\n' +
                 '    <p>{{messages.cancel}}</p>\n' +
                 '</div>\n' +
@@ -166,11 +168,13 @@
             if (!confirmationModalIsOpen) {
               i18nService = i18nService || $injector.get('i18nService');
               if (rejection.status === 401 && !/\/API\/platform\/license/.test(rejection.config.url) && isBonitaAPIURL(rejection.config.url)) {
-                openConfirmationModal(i18nService.getKey('Your session is no longer active. Click on OK to be redirected and log back in.'),
+                openConfirmationModal(i18nService.getKey('Your session is no longer active.'),
+                  i18nService.getKey('Click on OK to be redirected and log back in.'),
                   i18nService.getKey('Click on Cancel to remain on this page and try to execute the operation again once you logged back in (e.g. in another tab).'));
               }
               if (rejection.status === 503 && isBonitaAPIURL(rejection.config.url)) {
-                openConfirmationModal(i18nService.getKey('Server is under maintenance. Click on OK to be redirected to the maintenance page.'),
+                openConfirmationModal(i18nService.getKey('Server is under maintenance.'),
+                  i18nService.getKey('Click on OK to be redirected to the maintenance page.'),
                   i18nService.getKey('Click on Cancel to remain on this page and wait for the maintenance to end.'));
               }
             }
