@@ -88,5 +88,11 @@
       I18N_KEYS['processDetails.state.error'] = gettext('An Error occurred during process activation/deactivation.');
       I18N_KEYS['processDetails.error.redirection'] = gettext('You are going to be redirected to the process list.');
       I18N_KEYS['processDetails.error.refresh'] = gettext('Please refresh the page.');
+      I18N_KEYS['resources.error.session.info'] = gettext('Your session is no longer active.');
+      I18N_KEYS['resources.error.session.redirect'] = gettext('Click on OK to be redirected and log back in.');
+      I18N_KEYS['resources.error.session.cancel'] = gettext('Click on Cancel to remain on this page and try to execute the operation again once you logged back in (e.g. in another tab).');
+      I18N_KEYS['resources.error.maintenance.info'] = gettext('Server is under maintenance.');
+      I18N_KEYS['resources.error.maintenance.redirect'] = gettext('Click on OK to be redirected to the maintenance page.');
+      I18N_KEYS['resources.error.maintenance.cancel'] = gettext('Click on Cancel to remain on this page and wait for the maintenance to end.');
     });
 })();

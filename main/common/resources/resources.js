@@ -168,14 +168,14 @@
             if (!confirmationModalIsOpen) {
               i18nService = i18nService || $injector.get('i18nService');
               if (rejection.status === 401 && !/\/API\/platform\/license/.test(rejection.config.url) && isBonitaAPIURL(rejection.config.url)) {
-                openConfirmationModal(i18nService.getKey('Your session is no longer active.'),
-                  i18nService.getKey('Click on OK to be redirected and log back in.'),
-                  i18nService.getKey('Click on Cancel to remain on this page and try to execute the operation again once you logged back in (e.g. in another tab).'));
+                openConfirmationModal(i18nService.getKey('resources.error.session.info'),
+                  i18nService.getKey('resources.error.session.redirect'),
+                  i18nService.getKey('resources.error.session.cancel'));
               }
               if (rejection.status === 503 && isBonitaAPIURL(rejection.config.url)) {
-                openConfirmationModal(i18nService.getKey('Server is under maintenance.'),
-                  i18nService.getKey('Click on OK to be redirected to the maintenance page.'),
-                  i18nService.getKey('Click on Cancel to remain on this page and wait for the maintenance to end.'));
+                openConfirmationModal(i18nService.getKey('resources.error.maintenance.info'),
+                  i18nService.getKey('resources.error.maintenance.redirect'),
+                  i18nService.getKey('resources.error.maintenance.cancel'));
               }
             }
             return $q.reject(rejection);
