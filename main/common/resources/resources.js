@@ -110,7 +110,7 @@
         var i18nService;
         var confirmationModalIsOpen = false;
 
-        var openConfirmationModal = function (errorInfo, redirectMessage, cancelMessage) {
+        var openConfirmationModal = function (errorInfo, redirectMessage, remainMessage) {
           try {
             $modal = $modal || $injector.get('$modal');
             confirmationModalIsOpen = true;
@@ -120,25 +120,28 @@
               resolve: {
                 messages: function () {
                   return {
+                    'title': i18nService.getKey('resources.error.title'),
                     'info': errorInfo,
                     'redirect': redirectMessage,
-                    'cancel': cancelMessage
+                    'remain': remainMessage,
+                    'ok': i18nService.getKey('resources.error.ok'),
+                    'cancel': i18nService.getKey('resources.error.cancel')
                   };
                 }
               },
               // Template needs to be defined here instead of external file because the request to templateURL would also fail with 401 or 503
               template: '<div class="modal-header">\n' +
-                '    <h3 class="modal-title">{{\'An error occurred with the requested operation\' | translate}}</h3>\n' +
+                '    <h3 class="modal-title">{{messages.title}}</h3>\n' +
                 '</div>\n' +
                 '<div class="modal-body">\n' +
                 '    <p>{{messages.info}}</p>\n' +
                 '    <p>{{messages.redirect}}</p>\n' +
-                '    <p>{{messages.cancel}}</p>\n' +
+                '    <p>{{messages.remain}}</p>\n' +
                 '</div>\n' +
                 '<div class="modal-footer">\n' +
                 '    <div>\n' +
-                '        <button id="confirm" type="submit" class="btn btn-primary" ng-click="confirm()" >{{\'OK\' | translate}}</button>\n' +
-                '        <button id="cancel" type="submit" class="btn btn-default" ng-click="cancel()">{{\'Cancel\' | translate}}</button>\n' +
+                '        <button id="confirm" type="submit" class="btn btn-primary" ng-click="confirm()" >{{messages.ok}}</button>\n' +
+                '        <button id="cancel" type="submit" class="btn btn-default" ng-click="cancel()">{{messages.cancel}}</button>\n' +
                 '    </div>\n' +
                 '</div>\n' +
                 '</div>'
@@ -170,12 +173,12 @@
               if (rejection.status === 401 && !/\/API\/platform\/license/.test(rejection.config.url) && isBonitaAPIURL(rejection.config.url)) {
                 openConfirmationModal(i18nService.getKey('resources.error.session.info'),
                   i18nService.getKey('resources.error.session.redirect'),
-                  i18nService.getKey('resources.error.session.cancel'));
+                  i18nService.getKey('resources.error.session.remain'));
               }
               if (rejection.status === 503 && isBonitaAPIURL(rejection.config.url)) {
                 openConfirmationModal(i18nService.getKey('resources.error.maintenance.info'),
                   i18nService.getKey('resources.error.maintenance.redirect'),
-                  i18nService.getKey('resources.error.maintenance.cancel'));
+                  i18nService.getKey('resources.error.maintenance.remain'));
               }
             }
             return $q.reject(rejection);
