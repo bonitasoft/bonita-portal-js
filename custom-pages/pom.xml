@@ -5,7 +5,7 @@
 
     <groupId>org.bonitasoft.web.page</groupId>
     <artifactId>custom-pages</artifactId>
-    <version>9.0-SNAPSHOT</version>
+    <version>9.0.0.W41</version>
     <packaging>pom</packaging>
 
     <url>https://community.bonitasoft.com/</url>
