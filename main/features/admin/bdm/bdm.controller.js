@@ -13,7 +13,7 @@
     .module('org.bonitasoft.features.admin.bdm')
     .controller('bdmCtrl', bdmCtrl);
 
-  function bdmCtrl(tenantAdminAPI, sessionAPI, bdmAPI, gettext, $modal, FeatureManager, $injector, $timeout) {
+  function bdmCtrl(maintenanceAPI, sessionAPI, bdmAPI, gettext, $modal, FeatureManager, $injector, $timeout) {
     /*jshint validthis: true */
     var vm = this;
     var INSTALLED = 'INSTALLED';
@@ -42,14 +42,14 @@
 
     loadBdmStatus();
 
-    function refreshTenantStatus(){
-      tenantAdminAPI.get({id: 'unusedId'}).$promise.then(function (tenantAdmin) {
-        vm.isTenantPaused = (tenantAdmin.paused === 'true');
+    function refreshMaintenanceState(){
+      maintenanceAPI.get().$promise.then(function (maintenanceDetails) {
+        vm.isMaintenanceEnabled = (maintenanceDetails.maintenanceState === 'ENABLED');
       });
     }
 
     function loadBdmStatus() {
-      refreshTenantStatus();
+      refreshMaintenanceState();
       return bdmAPI.get().then(function (response) {
         vm.bdm = response.data;
       });
@@ -76,7 +76,7 @@
     };
 
     vm.isInstallDisable = function () {
-      return !vm.isTenantPaused || vm.isBDMInstallProcessing || vm.isAccessControlInstalled();
+      return !vm.isMaintenanceEnabled || vm.isBDMInstallProcessing || vm.isAccessControlInstalled();
     };
 
     vm.isBDMInstalled = function () {
@@ -111,7 +111,7 @@
     }
 
     function bdmSuccessInstall(response) {
-      refreshTenantStatus();
+      refreshMaintenanceState();
       vm.bdm = response.data;
       vm.isBDMInstallProcessing = false;
       vm.isBDMInstallSuccessfull = true;
