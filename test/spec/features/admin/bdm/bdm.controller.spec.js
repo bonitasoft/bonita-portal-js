@@ -13,7 +13,7 @@
 
     const INSTALLED = 'INSTALLED';
 
-    var bdmCtrl, addBDMPopupCtrl, scope, tenantAdminAPI, sessionAPI, bdmAPI, getTenantStatusRequest, sessionRequest, getBDMRequest, installRequest,
+    var bdmCtrl, addBDMPopupCtrl, scope, maintenanceAPI, sessionAPI, bdmAPI, getMaintenanceDetailsRequest, sessionRequest, getBDMRequest, installRequest,
       fileUploader, gettext, modal, modalOpenDeferred, modalInstance, featureManager,
       featureAPI, bonitaVersion;
 
@@ -28,9 +28,9 @@
         $provide.value('featureAPI', featureAPI);
       });
 
-      inject(function ($controller, $rootScope, FileUploader, _tenantAdminAPI_, _sessionAPI_,  _bdmAPI_, $q, _gettext_, $injector) {
+      inject(function ($controller, $rootScope, FileUploader, _maintenanceAPI_, _sessionAPI_,  _bdmAPI_, $q, _gettext_, $injector) {
 
-        tenantAdminAPI = _tenantAdminAPI_;
+        maintenanceAPI = _maintenanceAPI_;
         sessionAPI = _sessionAPI_;
         bdmAPI = _bdmAPI_;
         fileUploader = FileUploader;
@@ -45,9 +45,9 @@
 
         modalInstance = jasmine.createSpyObj('modalInstance', ['close', 'dismiss']);
 
-        getTenantStatusRequest = $q.defer();
-        spyOn(tenantAdminAPI, 'get').and.returnValue({
-          $promise: getTenantStatusRequest.promise
+        getMaintenanceDetailsRequest = $q.defer();
+        spyOn(maintenanceAPI, 'get').and.returnValue({
+          $promise: getMaintenanceDetailsRequest.promise
         });
 
         sessionRequest = $q.defer();
@@ -64,7 +64,7 @@
         bdmCtrl = function () {
           return $controller('bdmCtrl', {
             '$scope': scope,
-            'tenantAdminAPI': tenantAdminAPI,
+            'maintenanceAPI': maintenanceAPI,
             'bdmAPI': bdmAPI,
             'gettext': gettext,
             '$modal': modal,
@@ -124,57 +124,57 @@
       expect(ctrl.bonitaVersion).toEqual('7.7');
     });
 
-    it('should get install button disabled when tenant is not paused', function () {
+    it('should get install button disabled when maintenance is disabled', function () {
       var ctrl = bdmCtrl();
-      getTenantStatusRequest.resolve({'paused': 'false'});
+      getMaintenanceDetailsRequest.resolve({'maintenanceState': 'DISABLED'});
       getBDMRequest.resolve({'data': {'state': 'UNINSTALLED'}});
 
       scope.$apply();
 
-      expect(ctrl.isTenantPaused).toEqual(false);
+      expect(ctrl.isMaintenanceEnabled).toEqual(false);
       expect(ctrl.isInstallDisable()).toEqual(true);
       expect(ctrl.isBDMInstalled()).toEqual(false);
     });
 
-    it('should get install button enabled when tenant is paused', function () {
+    it('should get install button enabled when maintenance is enabled', function () {
       var ctrl = bdmCtrl();
-      getTenantStatusRequest.resolve({'paused': 'true'});
+      getMaintenanceDetailsRequest.resolve({'maintenanceState': 'ENABLED'});
       getBDMRequest.resolve({'data': {'state': 'UNINSTALLED'}});
 
       scope.$apply();
 
-      expect(ctrl.isTenantPaused).toEqual(true);
+      expect(ctrl.isMaintenanceEnabled).toEqual(true);
       expect(ctrl.isInstallDisable()).toEqual(false);
       expect(ctrl.isBDMInstalled()).toEqual(false);
     });
 
-    it('should get Update button disabled when tenant is not paused', function () {
+    it('should get Update button disabled when maintenance is disabled', function () {
       var ctrl = bdmCtrl();
-      getTenantStatusRequest.resolve({'paused': 'false'});
+      getMaintenanceDetailsRequest.resolve({'maintenanceState': 'DISABLED'});
       getBDMRequest.resolve({'data': {'state': INSTALLED}});
 
       scope.$apply();
 
-      expect(ctrl.isTenantPaused).toEqual(false);
+      expect(ctrl.isMaintenanceEnabled).toEqual(false);
       expect(ctrl.isInstallDisable()).toEqual(true);
       expect(ctrl.isBDMInstalled()).toEqual(true);
     });
 
-    it('should get Update button enabled when tenant is paused', function () {
+    it('should get Update button enabled when maintenance is enabled', function () {
       var ctrl = bdmCtrl();
-      getTenantStatusRequest.resolve({'paused': 'true'});
+      getMaintenanceDetailsRequest.resolve({'maintenanceState': 'ENABLED'});
       getBDMRequest.resolve({'data': {'state': INSTALLED}});
 
       scope.$apply();
 
-      expect(ctrl.isTenantPaused).toEqual(true);
+      expect(ctrl.isMaintenanceEnabled).toEqual(true);
       expect(ctrl.isInstallDisable()).toEqual(false);
       expect(ctrl.isBDMInstalled()).toEqual(true);
     });
 
     it('should Open upload popup when click on install', function () {
       var ctrl = bdmCtrl();
-      getTenantStatusRequest.resolve({'paused': 'true'});
+      getMaintenanceDetailsRequest.resolve({'maintenanceState': 'ENABLED'});
       getBDMRequest.resolve({'data': {'state': INSTALLED}});
 
       scope.$apply();
@@ -186,7 +186,7 @@
 
     it('should display success message when BDM is installed', function () {
       var ctrl = bdmCtrl();
-      getTenantStatusRequest.resolve({'paused': 'true'});
+      getMaintenanceDetailsRequest.resolve({'maintenanceState': 'ENABLED'});
       ctrl.openBDMUpload();
       modalOpenDeferred.resolve();
 
@@ -209,7 +209,7 @@
 
     it('should display error 500 message when BDM install fail', function () {
       var ctrl = bdmCtrl();
-      getTenantStatusRequest.resolve({'paused': 'true'});
+      getMaintenanceDetailsRequest.resolve({'maintenanceState': 'ENABLED'});
       getBDMRequest.resolve({'data': {'state': INSTALLED}});
       ctrl.openBDMUpload();
       modalOpenDeferred.resolve();
@@ -235,7 +235,7 @@
 
     it('should display error 400 message when BDM is invalid', function () {
       var ctrl = bdmCtrl();
-      getTenantStatusRequest.resolve({'paused': 'true'});
+      getMaintenanceDetailsRequest.resolve({'maintenanceState': 'ENABLED'});
       getBDMRequest.resolve({'data': {'state': INSTALLED}});
       ctrl.openBDMUpload();
       modalOpenDeferred.resolve();
@@ -261,7 +261,7 @@
 
     it('Should reset all messages when open install popup ', function () {
       var ctrl = bdmCtrl();
-      getTenantStatusRequest.resolve({'paused': 'true'});
+      getMaintenanceDetailsRequest.resolve({'maintenanceState': 'ENABLED'});
       getBDMRequest.resolve({'data': {'state': INSTALLED}});
       ctrl.isBDMInstallSuccessfull = true;
       ctrl.isBDMInstallError = true;
