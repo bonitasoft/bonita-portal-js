@@ -244,7 +244,7 @@
     'roleAPI': 'identity/role',
     'userAPI': 'identity/user',
     'sessionAPI': 'system/session',
-    'tenantAdminAPI': 'system/tenant',
+    'maintenanceAPI': 'system/maintenance',
   });
 
   module.factory('userTaskAPI', function ($http) {

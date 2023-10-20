@@ -1,11 +1,13 @@
 module.exports = {
   request: {
-    path: '/API/system/tenant/unusedId',
+    path: '/API/system/maintenance',
     method: 'GET'
   },
   response: {
     data: {
-      'paused': 'true'
+      'maintenanceState': 'ENABLED',
+      'maintenanceMessage': '',
+      'maintenanceMessageActive': false
     }
   }
 };
