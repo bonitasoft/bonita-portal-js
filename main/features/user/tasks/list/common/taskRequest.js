@@ -85,7 +85,7 @@
           var params = angular.extend({}, this.searchOption);
 
           if (this.search) {
-            params.s = this.search || '';
+            params.s = encodeURIComponent(this.search || '');
           }
 
 
