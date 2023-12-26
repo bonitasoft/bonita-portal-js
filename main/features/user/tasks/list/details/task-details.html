@@ -1,0 +1,82 @@
+<div ng-if="showToolbar" class="pull-right TaskDetailsPanel-toolbar" role="group">
+    <button ng-if="!isEditable() && isAssignable()" class="Toolbar-button"
+            id="ButtonTakeDetails"
+            ng-click="onTakeReleaseTask()"
+            title="{{ 'Make this task personal: only I will be able to do it' | translate }}">
+        <i class="icon-assigned"></i>
+        <span class="sr-only" translate>Take</span>
+    </button>
+    <button ng-if="isEditable() && isAssignable()" class="Toolbar-button"
+            id="ButtonReleaseDetails"
+            ng-click="onTakeReleaseTask()"
+            title="{{ 'Make this task available to other team members again' | translate }}">
+        <i class="icon-unassigned"></i>
+        <span class="sr-only" translate>Release</span>
+    </button>
+
+    <button class="Toolbar-button Resize-full" ng-click="openDetailsPopup()"
+            title="{{ 'Open in a popup' | translate }}">
+        <i class="glyphicon glyphicon-new-window"></i>
+        <span class="sr-only" translate>Open in a popup</span>
+    </button>
+</div>
+
+<tabset class="TaskDetails">
+  <tab id="form-tab" heading="{{ 'Form' | translate }}"
+       active="tab.form.active"
+       title="{{ 'Task form' | translate }}"
+       select="selectTab('form')">
+    <p class="alert alert-info TaskInfo" ng-if="hideForm()" translate>
+      This task is completed.
+    </p>
+
+    <div class="TaskForm" ng-if="!hideForm()">
+        <div class="FormOverlay-message" ng-if="!isEditable() && !isInactive()">
+            <p class="FormOverlay-text" translate>To fill out the form, you need to take this task. This means you will be the only one able to do it. To make it available to the team again, release it.</p>
+            <button id="ButtonTakeDetailsOverlay"
+                    class="FormOverlay-button btn btn-primary btn-sm"
+                    ng-click="onTakeReleaseTask()"
+                    title="{{ 'Assign to me. Only I will be able to do it' | translate }}">
+                <i class="icon-assigned">&nbsp;</i>
+                <translate>Take</translate>
+            </button>
+        </div>
+        <bonita-iframe-viewer class="FormViewer"
+                            tabindex="0"
+                            ng-if="!isInactive() && hasForm && !loading"
+                            is-editable="isEditable()"
+                            frame-url="formUrl">
+        </bonita-iframe-viewer>
+        <no-form class="FormViewer"
+               ng-if="!hasForm && !loading"
+               current-task="currentTask"
+               editable="isEditable()"
+               inactive="isInactive()"
+               has-contract="hasContract">
+        </no-form>
+    </div>
+  </tab>
+
+
+  <tab id="comments-tab"
+       heading="{{ 'Comments' | translate }}"
+       title="{{ 'Case comments' | translate }}"
+       active="tab.comments.active"
+       select="selectTab('comments')">
+      <comments ng-if="tab.comments.loaded" case="currentCase"></comments>
+  </tab>
+
+  <tab id="case-tab"
+       ng-if="hasOverview"
+       heading="{{ 'Overview' | translate }}"
+       title="{{ 'Case overview' | translate }}"
+       active="tab.context.active"
+       select="selectTab('context')">
+      <bonita-iframe-viewer
+        ng-if="tab.context.loaded && !isInactive()"
+        class="CaseViewer"
+        frame-url="overviewUrl"
+        is-editable="true">
+      </bonita-iframe-viewer>
+  </tab>
+</tabset>

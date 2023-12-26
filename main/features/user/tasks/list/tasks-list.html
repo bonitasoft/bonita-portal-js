@@ -1,0 +1,147 @@
+<!-- Reset style for the page. Dirty but avoid having to break all other pages -->
+<style>
+    html, body, body #content {
+        height: 100%;
+        margin: 0;
+    }
+</style>
+<toast></toast>
+<div class="TaskListPage" ng-cloak task-app form-spy spy-submit="app.onFormSubmited(message)"
+     ng-class="{
+      'TaskListPage--small':app.smallScreen,
+      'TaskListPage--withMenu':!app.smallScreen && app.showMenu}">
+    <div class="OffcanvasMenu navbar">
+        <button ng-if="!app.smallScreen && app.showMenu" title="{{ 'Hide Menu' | translate }}"
+                class="FilterToggle" ng-click="app.toggleFilters()">
+            <span class="glyphicon glyphicon-menu-left"></span>
+            <span class="sr-only" translate>Hide menu</span>
+        </button>
+        <button ng-if="!app.smallScreen && !app.showMenu" title="{{ 'Show Menu' | translate }}"
+                class="FilterToggle FilterToggle-expend" ng-click="app.toggleFilters()">
+            <span class="glyphicon glyphicon-menu-right"></span>
+            <span class="sr-only" translate>Show menu</span>
+        </button>
+        <task-filters filter="app.request.taskFilter"
+                      filters="app.TASK_FILTERS"
+                      count="app.count"
+                      filter-change="app.changeFilter(filter)">
+        </task-filters>
+    </div>
+    <div class="TaskList" ng-if="!error">
+        <div class="TaskList-filters panel panel-default">
+            <div class="panel-heading title ng-binding" translate>Filters</div>
+            <div class="panel-body">
+               <div class="row">
+                <div class="col-md-7 button-filter ng-binding" ng-hide="app.request.taskFilter === app.TASK_FILTERS.DONE">
+                    {{ 'Process' | translate }}
+                    <div class="btn-group dropdown Filter-process" dropdown="">
+                        <button dropdown-toggle type="button"
+                                class="btn btn-primary"
+                                title="{{'Process:' | translate }} {{ app.request.process.displayName + (app.request.process.version ? ' ' + app.request.process.version : '') }}"
+                                ng-disabled="app.request.taskFilter === app.TASK_FILTERS.DONE || !app.processes || app.processes.length === 0">
+                            <div class="ProcessList-label">
+                                {{app.request.process.displayName + (app.request.process.version?"
+                                "+app.request.process.version:"")}}
+                                <span class="caret"></span>
+                            </div>
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li ng-repeat="p in app.processes">
+                                <a ng-click="app.setProcess(p)"
+                                   ng-class="{'active':p.id === app.request.process.id}"
+                                   class="processOptionLink">
+                                    {{p.displayName+"&nbsp;"+p.version}}
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                  </div>
+                  <div class="col-md-5" ng-class="{'col-md-offset-7': app.request.taskFilter === app.TASK_FILTERS.DONE}">
+                    <form class="form-inline btn-group pull-right">
+                      {{ 'Case' | translate }}
+                      <div class="form-group Filter-process">
+                        <input type="text" ng-model="app.request.caseId" class="form-control TaskFilter-caseIdInput" id="case" name="case" placeholder="{{'Case ID' | translate}}"
+                             ng-model-options="{updateOn:'blur'}"
+                             ng-change="app.searchTask()" tooltip-template="'tooltip-case-filter.html'" tooltip-placement="right" tooltip-popup-delay="500" tooltip-animation="false" tooltip-append-to-body="true">
+                      </div>
+                      <script type="text/ng-template" id="tooltip-case-filter.html">
+                        <span translate>Type in a case id and <br/> press enter to search for <br/> human task of a specific case</span>
+                      </script>
+                    </form>
+                </div>
+              </div>
+             <div class="row">
+                <div class="col-md-12">
+                    <form role="form" name="searchForm" class="SearchBox" novalidate="" ng-submit="app.searchTask()">
+                        <div class="input-group TaskList--paddingTop">
+                            <input class="form-control SearchBox-input" id="search"
+                                   input-focus
+                                   placeholder="{{ 'Search...' | translate }}"
+                                   ng-model="app.request.search"
+                                   ng-model-options="{updateOn: 'default blur', debounce:{'default':200, 'blur':1} }"
+                                   ng-change="app.searchTask()">
+                            <span ng-click="app.searchTask()" class="input-group-addon pointer">
+                                <span class="glyphicon glyphicon-search"></span>
+                            </span>
+                        </div>
+                        <span class="help-block pull-left" translate>In task name column</span>
+                    </form>
+                </div>
+              </div>
+            </div>
+        </div>
+        <div class="TaskList-table panel panel-default">
+            <div class="panel-heading title ng-binding">
+                <span translate>Task list</span>
+                <button class="TaskList-refresh" style="background: transparent; border: none" ng-click="app.updateAll()"
+                        ng-class="{ 'u-spin TaskList-loadingIcon': app.loadingTasks }" title="{{ 'Refresh data' | translate }}">
+                    <i class="glyphicon glyphicon-repeat"></i>
+                </button>
+                <span ng-show="app.loadingTasks" class="TaskList-loadingText">{{ 'Loading...' | translate }}</span>
+            </div>
+            <div class="panel-body">
+                <task-table tasks="app.tasks"
+                           current-task="app.currentTask"
+                           request="app.request"
+                           user="app.user"
+                           mode="app.getMode(app.showDetails, app.smallScreen)"
+                           page-sizes="app.PAGE_SIZES"
+                           refresh="app.updateAll()"
+                           select-task="app.selectTask(task)"
+                           do-task="app.showTaskDetailsPopup()"
+                           counters="app.count"
+                           filter="app.filter">
+                </task-table>
+            </div>
+        </div>
+    </div>
+
+    <div class="TaskDetailsPanel" id="details" ng-class="{'TaskDetailsPanel--collapsed':!app.showDetails}">
+        <button ng-if="!app.showDetails" class="SizeBar-expand"
+                ng-click="app.toggleDetails()"
+                title="{{'Show panel' | translate}}">
+            <span class="glyphicon glyphicon-menu-left"></span>
+            <span class="sr-only" translate>Show panel</span>
+        </button>
+        <button class="SizeBar-reduce"
+                ng-if="app.showDetails"
+                ng-click="app.toggleDetails()"
+                title="{{ 'Hide panel' | translate}}">
+            <span class="glyphicon glyphicon-menu-right"></span>
+            <span class="sr-only" translate>Hide panel</span>
+        </button>
+
+        <div class="TaskDetailsPanel-content" ng-if="app.smallScreen || app.showDetails">
+
+            <div ng-if="app.tasks.length === 0" class="TaskDetailsPanel-content--empty" translate>
+                This is the task details panel. No information to display
+            </div>
+
+            <task-details ng-if="app.tasks.length"
+                    current-task="app.currentTask"
+                    refresh="app.refresh()"
+                    open-details-popup="app.showTaskDetailsPopup()">
+            </task-details>
+        </div>
+    </div>
+</div>

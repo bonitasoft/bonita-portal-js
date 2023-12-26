@@ -1,0 +1,38 @@
+<div>
+
+    <div class="modal-header">
+        <h1 class="modal-title" translate>Add membership</h1>
+    </div>
+
+    <div class="modal-body">
+
+        <actors-select-box
+            local-lang="vm.localeLangRole"
+            selected-members="vm.membership.role"
+            already-mapped-actors-ids="vm.mappedIds"
+            type="ROLE" selection-mode="single">
+        </actors-select-box>
+
+        <span style="clear:both">{{' of ' | translate }}</span>
+
+        <actors-select-box local-lang="vm.localeLangGroup"
+                           selected-members="vm.membership.group"
+                           already-mapped-actors-ids="vm.mappedIds"
+                           type="GROUP" selection-mode="single">
+        </actors-select-box>
+    </div>
+
+    <div class="modal-footer">
+        <button class="btn btn-primary"
+                ng-click="this.$close(vm.mapMembershipObject(vm.membership))"
+                ng-disabled="!vm.isButtonEnabled()"
+                translate>
+            Add
+        </button>
+        <button class="btn btn-default"
+                ng-click="this.$dismiss()"
+                translate>
+            Cancel
+        </button>
+    </div>
+</div>

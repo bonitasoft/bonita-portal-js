@@ -1,0 +1,93 @@
+<div id="app-details-container" class="container">
+  <div class="btn-toolbar actions">
+    <div class="col-md-2"><back-button></back-button></div>
+    <div class="col-md-10 text-right" ng-if="applicationDetailsCtrl.isApplicationFound() && app.editable === 'true'"><button id="app-edit-btn" class="btn btn-primary" ng-click="applicationDetailsCtrl.update('lg', app )" title="{{'Edit' | translate}}" aria-label="{{'Edit' | translate}}" >{{'Edit' | translate}}</button></div>
+  </div>
+  <div id="id-wrong" class="app-details-container col-md-12" ng-if="!applicationDetailsCtrl.isApplicationFound() && applicationDetailsCtrl.applicationId">
+    <div class="alert alert-info"><i class="glyphicon glyphicon-info-sign"></i> {{'No application found with id:' | translate }} <b>{{applicationDetailsCtrl.applicationId}}</b></div>
+  </div>
+  <div id="id-not-provided" class="app-details-container col-md-12" ng-if="!applicationDetailsCtrl.isApplicationFound() && !applicationDetailsCtrl.applicationId">
+      <div class="alert alert-info"><i class="glyphicon glyphicon-info-sign"></i> {{'Application id not provided. Unable to retrieve the application details.' | translate }}</div>
+  </div>
+  <div id="app-edit-section" class="app-details-container col-md-12" ng-if="applicationDetailsCtrl.isApplicationFound()">
+    <h1 id="app-details-title">{{app.displayName}} ({{app.version}})  <img class="bonitasoft-default-logo" src="images/bonitasoftLogo.png" title="{{'Core to Bonita platform' | translate}}" aria-label="{{'Core to Bonita platform' | translate}}" ng-if="app.editable !== 'true'"></h1>
+      <div id="app-details-information" ng-if="app.editable !== 'true'">
+        <div class="inline-block">
+            <i class="glyphicon glyphicon-info-sign text-info"></i>
+        </div>
+        <div class="inline-flex">
+            {{ 'This application is core to the Bonita platform. To keep it working as it should, it must remain available and its menu should stay as it is.' | translate }} <br/>
+            {{ 'Still, you can customize its look & feel on this page. You can also update some of its pages in the Resources menu.' | translate }}
+        </div>
+    </div>
+    <div class="panel panel-default">
+      <div class="panel-body">
+        <p id="app-details-description" class="type-info">{{ app.description }}</p>
+        <div class="row">
+          <div class="col-md-4">
+            <dl class="dl-horizontal app-details-col">
+              <dt id="app-path-label">{{'URL' | translate}}</dt>
+              <dd id="app-path-value"><a target="_blank" title="../apps/{{ app.token }}" ng-href="../apps/{{ app.token }}">../apps/{{ app.token }}</a></dd>
+              <dt id="app-profile-label">{{'Profile' | translate}}</dt>
+              <dd ng-if="app.profileId.name" id="app-profile-value">{{ app.profileId.name}}</dd>
+              <dd ng-if="!app.profileId.name && app.visibility === 'RESTRICTED'" id="app-profile-value-none">{{'No profile' | translate}}</dd>
+              <dd ng-if="!app.profileId.name && app.visibility !== 'RESTRICTED'" id="app-profile-value-visibility">{{ applicationDetailsCtrl.getVisibilityName(app.visibility)}}</dd>
+            </dl>
+          </div>
+          <div class="col-md-4">
+            <dl class="dl-horizontal">
+              <dt id="app-creation-on-label">{{'Creation on' | translate}}</dt>
+              <dd id="app-creation-on-value">{{ app.creationDate | dateI18n:'YYYY-MM-DD HH:mm:ss'}}</dd>
+              <dt id="app-created-by-label">{{'Created by' | translate}}</dt>
+              <dd id="app-created-by-value">{{ applicationDetailsCtrl.getUserInfo(app.createdBy)}}</dd>
+            </dl>
+          </div>
+          <div class="col-md-4">
+            <dl class="dl-horizontal">
+              <dt id="app-updated-on-label">{{'Updated on' | translate}}</dt>
+              <dd id="app-updated-on-value">{{ app.lastUpdateDate | dateI18n:'YYYY-MM-DD HH:mm:ss'}}</dd>
+              <dt id="app-updated-by-label">{{'Updated by' | translate}}</dt>
+              <dd id="app-updated-by-value">{{ applicationDetailsCtrl.getUserInfo(app.updatedBy)}}</dd>
+            </dl>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="look-n-feel-edit-section" class="col-md-12" ng-if="applicationDetailsCtrl.isApplicationFound()">
+    <h2>{{'Look & Feel' | translate}}</h2>
+    <div class="panel panel-default">
+      <div class="row panel-body">
+        <div class="col-md-12 app-details-flex-display">
+          <dl class="dl-horizontal app-details-col">
+              <div class="col-md-4">
+                  <dt id="app-logo-label">{{'Logo' | translate}}</dt>
+                  <dd id="app-logo-value">
+                      <bo-avatar-upload icon-src="app.icon" uploader="applicationDetailsCtrl.uploader" item-id="applicationDetailsCtrl.applicationId" api-to-call="applicationDetailsCtrl.applicationIconAPI" success-function="applicationDetailsCtrl.reload"></bo-avatar-upload>
+                  </dd>
+              </div>
+              <div class="col-md-4">
+                  <dt id="app-layout-label">{{'Layout' | translate}}</dt>
+                  <dd id="app-layout-value">
+                      <div ng-if="!applicationDetailsCtrl.isEditLayoutAvailable">{{app.layoutId.displayName}}</div>
+                      <a ng-if="applicationDetailsCtrl.isEditLayoutAvailable"  href="" editable-select="app.layoutId" onbeforesave="applicationDetailsCtrl.updateLayout(app, $data)" e-ng-options="layoutPage as layoutPage.displayName for layoutPage in layoutPages track by layoutPage.id">{{ app.layoutId.displayName }}</a>
+                  </dd>
+              </div>
+              <div class="col-md-4">
+                  <dt id="app-theme-label">{{'Theme' | translate}}</dt>
+                  <dd id="app-theme-value">
+                      <div ng-if="!applicationDetailsCtrl.isEditLayoutAvailable">{{app.themeId.displayName}}</div>
+                      <a ng-if="applicationDetailsCtrl.isEditLayoutAvailable"  href="" editable-select="app.themeId" onbeforesave="applicationDetailsCtrl.updateTheme(app, $data)"
+                         e-ng-options="themePage as themePage.displayName for themePage in themePages track by themePage.id">{{ app.themeId.displayName }}</a>
+                  </dd>
+              </div>
+          </dl>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="application-page-list-section" ng-if="app.id">
+    <page-list id="page-list" application="app" class="col-md-6"></page-list>
+    <menu-creator id="menu-creator" app="app" class="col-md-6 menu-creator"></menu-creator>
+  </div>
+</div>

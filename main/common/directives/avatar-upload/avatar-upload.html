@@ -1,0 +1,29 @@
+<div class="AvatarUpload">
+    <div class="AvatarUpload-preview"
+         ng-class="{'AvatarUpload-preview--busy': vm.uploader.isUploading, 'AvatarUpload-preview--default': !vm.hasIcon()}">
+        <img ng-if="vm.hasIcon()"
+             class="img-rounded img-responsive"
+             alt="avatar"
+             ng-src="{{vm.iconSrc}}">
+    </div>
+    <div class="AvatarUpload-btn">
+        <label class="btn btn-default btn-xs"
+               ng-class="{ 'disabled': vm.uploader.isUploading }">
+            <translate>Upload new picture</translate>
+            <input type="file"
+                   nv-file-select
+                   uploader="vm.uploader"
+                   ng-disabled="vm.uploader.isUploading"
+                   accept="image/*"
+            />
+        </label>
+    </div>
+    <div ng-if="vm.hasIcon()" class="AvatarUpload-btn AvatarUpload-delete-icon" ng-click="vm.deleteIcon()"><label class="btn btn-danger btn-xs" translate>Reset to default</label></div>
+    <!-- Shared errors -->
+    <div ng-if="vm.didServerErrorOccur()" class="AvatarUpload-error AvatarUpload-internal-error" translate>A server error occurred. The operation did not complete successfully</div>
+    <!-- Update errors -->
+    <div ng-if="vm.isUploadedFileTooBig()" class="AvatarUpload-error AvatarUpload-file-too-big-error" translate>The image you are trying to upload is too big</div>
+    <div ng-if="vm.hasUploadedFileWrongMimeType()" class="AvatarUpload-error AvatarUpload-wrong-mime-type-error" translate>The file you are trying to upload has the wrong mime type</div>
+    <!-- Delete errors -->
+    <div ng-if="vm.isItemNotFound()" class="AvatarUpload-error AvatarUpload-not-found-error" translate>The item does not exist anymore. Refresh the page to see the new status</div>
+</div>

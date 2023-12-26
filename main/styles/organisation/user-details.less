@@ -1,0 +1,76 @@
+.UserTitle {
+  margin-bottom: .62rem;
+}
+
+.UserDetails {
+
+  .SubHeading {
+    margin-top: 0;
+  }
+
+  .SubHeading ~ .SubHeading {
+    margin-top: 3rem;
+  }
+
+  .UserMetadata {
+    display: flex;
+
+    margin-bottom: 1rem;
+
+    font-size: .9em;
+    color: #586069;
+
+    > *:not(:first-child) {
+      margin-left: 6rem;
+    }
+
+    @media (max-width: 480px) {
+      > *:not(:first-child) {
+        margin-left: 2rem;
+      }
+    }
+  }
+
+  .UserCard {
+    margin-top: 2rem;
+  }
+
+  .Memberships, .Profiles {
+    border-collapse: separate;
+    border-spacing: 1rem .5rem;
+  }
+
+  .Memberships {
+    margin-bottom: 1.5rem;
+  }
+
+  .CustomInformation-guidance {
+    font-size: .9em;
+  }
+
+  .memberships-title-section {
+    margin-top: 1rem;
+    display: flex;
+  }
+
+  .AddMembershipsBtn{
+    margin-left: 1rem;
+  }
+}
+
+@keyframes spinner {
+  0% {
+    -webkit-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -ms-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+    -ms-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
