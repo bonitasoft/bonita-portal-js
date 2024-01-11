@@ -27,12 +27,11 @@
       expect(installPopUpButton.getAttribute('disabled')).toEqual('true');
       element(by.css('input[type="file"]')).sendKeys(__filename);
       expect(installPopUpButton.getAttribute('disabled')).toBeNull();
+      browser.executeScript('$(\'.modal\').removeClass(\'fade\');');
+      browser.waitForAngular();
       installPopUpButton.click();
-      setTimeout(() => {
-        element.all(by.css('.modal-dialog')).then(function (items) {
-          expect(items.length).toBe(0);
-        });
-      }, 200);
+      browser.waitForAngular();
+      expect(element(by.className('modal-dialog')).isPresent()).toBe(false);
     });
 
     it('should update bdm', () => {
@@ -62,12 +61,11 @@
       expect(installPopUpButton.getAttribute('disabled')).toEqual('true');
       confirmationText.click();
       expect(installPopUpButton.getAttribute('disabled')).toBeNull();
+      browser.executeScript('$(\'.modal\').removeClass(\'fade\');');
+      browser.waitForAngular();
       installPopUpButton.click();
-      setTimeout(() => {
-        element.all(by.css('.modal-dialog')).then(function (items) {
-          expect(items.length).toBe(0);
-        });
-      }, 200);
+      browser.waitForAngular();
+      expect(element(by.className('modal-dialog')).isPresent()).toBe(false);
     });
   });
 

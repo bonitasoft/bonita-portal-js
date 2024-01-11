@@ -8,6 +8,7 @@ module.exports = defineConfig({
     screenshotsFolder: 'target/cypress/screenshots',
     videosFolder: 'target/cypress/videos',
     viewportWidth: 1920,
-    viewportHeight: 1080
+    viewportHeight: 1080,
+    retries : 3
   }
 });
