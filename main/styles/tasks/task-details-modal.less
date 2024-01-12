@@ -1,0 +1,48 @@
+.TaskDetailsModal {
+
+  .modal-dialog {
+    width: 95vw;
+    height: 94vh;
+    margin: 3vh auto;
+  }
+
+  .modal-content, .modal-body {
+    height: 100%;
+  }
+
+  .modal-body {
+    padding-bottom: 80px;
+  }
+
+  .modal-footer {
+    border-top: 1px solid #e5e5e5;
+
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+  }
+}
+
+@TaskDetailsModal-transition: opacity 0.2s ease-in;
+.TaskDetailsModal-backdrop {
+  transition: @TaskDetailsModal-transition;
+
+  &:not(.in) {
+    opacity: 0;
+  }
+}
+
+.TaskDetailsModal {
+  opacity: 0;
+  transition: @TaskDetailsModal-transition;
+
+  &.in {
+    opacity: 1;
+  }
+}
+
+.Modal-dismiss {
+  position: relative;
+  z-index: 2;
+}

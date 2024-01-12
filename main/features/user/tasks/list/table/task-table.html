@@ -1,0 +1,145 @@
+<!-- tasks listing -->
+<div class="alert alert-noresult" ng-if="tasks.length === 0">
+  <span ng-if="isNoTaskFoundVisible()" translate>
+    We couldn't find what you are looking for.
+  </span>
+  <span ng-if="isNoTaskAvailableMessageVisible()" translate>
+    All done. Good job!
+  </span>
+  <span ng-if="isNoMyTaskMessageVisible()" translate>
+    Your personal task list is empty. You can take a task from the ​<a href="#" ng-click="changeFilter(TASK_FILTERS.TODO)">To do</a> list.
+  </span>
+  <span ng-if="isNoDoneTaskMessageVisible()" translate>
+    No done task yet.
+  </span>
+</div>
+<div bonitable
+  on-sort="sort(options)"
+  sort-options="sortOption"
+  bo-repeatable
+  repeatable-config="columnSettings">
+  <div class="GroupAction clearfix" ng-show="tasks.length > 0">
+    <div class="GroupAction-button pull-left" ng-show="canDoGroupAction()">
+      <button id="btn-group-assigntome" class="btn btn-primary" type="button" title="{{ 'Assign to me. Only I will be able to do it' | translate }}"
+         ng-disabled="!canTake($selectedItems)" ng-if="request.taskFilter !== TASK_FILTERS.MY_TASK" ng-click="takeTasks($selectedItems)"><i class="icon-assigned">&nbsp;</i><translate>Take</translate>
+      </button>
+      <button id="btn-group-unassign" class="btn btn-default"  type="button" title="{{ 'Unassign. This will make it available to team again' | translate }}"
+        ng-disabled="!canRelease($selectedItems)" ng-if="request.taskFilter !== TASK_FILTERS.POOL_TASK" ng-click="releaseTasks($selectedItems)"><i class="icon-unassigned">&nbsp;</i><translate>Release</translate>
+      </button>
+    </div>
+    <div class="PaginationInfo pull-right">
+      <!-- pagination -->
+      <span class="PaginationInfo-summary">
+        {{getPaginationStatus()}}
+      </span>
+      <pagination
+        class="PaginationInfo-pagination"
+        ng-show="request.pagination.total >= request.pagination.numberPerPage"
+        total-items="request.pagination.total"
+        ng-model="request.pagination.currentPage"
+        items-per-page="request.pagination.numberPerPage"
+        max-size="5"
+        boundary-links="false"
+        ng-change="refresh()"
+        previous-text="&lsaquo;" next-text="&rsaquo;"
+        rotate="false">
+      </pagination>
+      <table-settings
+        columns="$columns"
+        page-size="request.pagination.numberPerPage" sizes="pageSizes"
+        update-page-size="pageSizeHandler(size)"
+        update-visibility="visibilityHandler(field, $columns)"
+        ></table-settings>
+      </table-settings>
+    </div>
+  </div>
+  <div class="table-responsive TaskTable" ng-hide="tasks.length === 0">
+    <table class="table table-hover table-striped TaskTable" ng-class="{'TaskTable-filterDone': TASK_FILTERS.DONE === request.taskFilter}">
+      <thead>
+        <tr>
+          <th data-ignore class="Cell--checkbox" ng-if="canDoGroupAction()">
+            <div bo-selectall></div>
+          </th>
+          <th data-ignore class="Cell--assignee">
+            <i class="icon-assigned" title="{{ 'Available or My tasks' | translate }}"></i>
+          </th><!-- assigned icon -->
+          <th class="text-right">{{ 'Task Id' | translate }}</th>
+          <th bo-sorter="displayName">{{ 'Task name' | translate }}</th>
+          <th>{{ 'Description' | translate }}</th>
+          <th bo-sorter="rootCaseId" class="text-right">{{ 'Case' | translate }}</th>
+          <th>{{ 'Process name' | translate }}</th>
+          <th bo-sorter="reachedStateDate" visible="false" class="text-right">{{ 'Last update' | translate }}</th>
+          <th class="text-right">{{ 'Assigned on' | translate }}</th>
+          <th bo-sorter="dueDate" class="text-right TaskTable-dueDateHeader">{{ 'Due date' | translate }}</th>
+          <th bo-sorter="priority">{{ 'Priority' | translate }}</th>
+          <th data-ignore class="RowActions" ng-if="mode!=='mid'"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="Line"
+            ng-repeat="task in tasks"
+            ng-click="onClickTask(task)"
+            ng-mouseover="showTaskButtons(task)"
+            ng-mouseleave="hideTaskButtons(task)"
+            ng-class="{'info':task === currentTask, 'TaskTable-line--overdue': isOverdue(task)}"
+            tabindex="0">
+
+          <td class="Cell--checkbox" ng-if="canDoGroupAction()">
+            <input type="checkbox" bo-selector="task" ng-click="onCheckBoxChange($event, $index)">
+          </td>
+
+          <td class="TaskTable-icon">
+            <i class="icon-assigned" title="{{ 'Only I can do this task' | translate }}" ng-if="user.user_id===task.assigned_id"></i>
+          </td>
+
+          <td class="text-right TaskTable-id">{{::task.id}}</td>
+          <td class="TaskTable-displayName" title="{{::task.displayName}}">{{::task.displayName}}</td>
+          <td class="TaskTable-displayDescription" title="{{::task.displayDescription}}">{{::task.displayDescription}}</td>
+          <td class="text-right Cell--sortable TaskTable-caseId">{{::task.caseId}}</td>
+          <td class="TaskTable-processName">{{::task.rootContainerId.displayName}}</td>
+          <td class="text-right TaskTable-lastUpdateDate" title="{{::task.last_update_date|moment:'LLL'}}">{{::getDisplayedDate(task.last_update_date)}}</td>
+          <td class="text-right TaskTable-assignedDate" title="{{::task.assigned_date|moment:'LLL'}}">{{::getDisplayedDate(task.assigned_date)}}</td>
+          <td class="text-right Cell--sortable TaskTable-dueDate" title="{{::getDueDateTitle(task)}}">{{::getDisplayedDate(task.dueDate)}}</td>
+          <td class="TaskTable-priority">{{::getPriority(task.priority)}}</td>
+          <td class="Cell--with-actions TaskTable-actions" ng-switch on="mode" ng-if="mode!=='mid'">
+            <button class="btn btn-default" type="button"
+                    ng-switch-when="max"
+                    ng-if="request.taskFilter !== TASK_FILTERS.DONE"
+                    ng-show="task.btnVisible"
+                    title="{{ 'Open the task to perform it' | translate }}">
+              <i class="glyphicon glyphicon-edit"></i>
+              <span class="sr-only" translate>Open the task to perform it</span>
+            </button>
+            <a class="btn btn-xs btn-default" type="button"
+               ng-switch-when="min"
+               ng-click="goToDetail('details')"
+               title="{{ 'View this task' | translate }}" translate>
+              View task
+            </a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="GroupAction clearfix" ng-show="tasks.length > 0">
+    <div class="PaginationInfo pull-right" >
+      <!-- pagination -->
+      <span class="PaginationInfo-summary">
+        {{getPaginationStatus()}}
+      </span>
+      <pagination
+        class="PaginationInfo-pagination"
+        ng-show="request.pagination.total >= request.pagination.numberPerPage"
+        total-items="request.pagination.total"
+        ng-model="request.pagination.currentPage"
+        items-per-page="request.pagination.numberPerPage"
+        max-size="5"
+        boundary-links="false"
+        ng-change="refresh()"
+        previous-text="&lsaquo;" next-text="&rsaquo;"
+        rotate="false">
+      </pagination>
+    </div>
+  </div>
+</div>
+

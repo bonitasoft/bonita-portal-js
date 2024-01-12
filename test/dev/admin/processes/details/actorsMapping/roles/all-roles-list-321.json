@@ -1,0 +1,22 @@
+[
+  {
+    "displayName": "Member",
+    "name": "member",
+    "icon": "",
+    "description": "",
+    "id": "1",
+    "creation_date": "2017-05-15 11:25:46.133",
+    "created_by_user_id": "-1",
+    "last_update_date": "2017-05-15 11:25:46.133"
+  },
+  {
+    "displayName": "Admin",
+    "name": "admin",
+    "icon": "",
+    "description": "",
+    "id": "2",
+    "creation_date": "2017-05-15 11:25:47.133",
+    "created_by_user_id": "-1",
+    "last_update_date": "2017-05-15 11:25:47.133"
+  }
+]

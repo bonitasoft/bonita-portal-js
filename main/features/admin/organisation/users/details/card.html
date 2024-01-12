@@ -1,0 +1,64 @@
+<form class="form-horizontal col-lg-9">
+
+    <div class="form-group">
+        <label class="col-md-3 control-label" for="address" translate>Address</label>
+        <div class="col-md-9">
+            <input class="form-control" type="text" id="address" ng-model="vm.cardData.address">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-md-3 control-label" for="city" translate>City</label>
+        <div class="col-md-9">
+            <input class="form-control" type="text" id="city" ng-model="vm.cardData.city">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-md-3 control-label" for="country" translate>Country</label>
+        <div class="col-md-9">
+            <input class="form-control" type="text" id="country" ng-model="vm.cardData.country">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-md-3 control-label" for="zipcode" translate>Zip code</label>
+        <div class="col-md-9">
+            <input class="form-control" type="text" id="zipcode" ng-model="vm.cardData.zipcode">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-md-3 control-label" for="state" translate>State</label>
+        <div class="col-md-9">
+            <input class="form-control" type="text" id="state" ng-model="vm.cardData.state">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-md-3 control-label" for="email" translate>Email</label>
+        <div class="col-md-9">
+            <input class="form-control" type="email" id="email" ng-model="vm.cardData.email">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-md-3 control-label" for="phone_number" translate>Phone</label>
+        <div class="col-md-9">
+            <input class="form-control" type="tel" id="phone_number" ng-model="vm.cardData.phone_number">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-md-3 control-label" for="mobile_number" translate>Mobile</label>
+        <div class="col-md-9">
+            <input class="form-control" type="tel" id="mobile_number" ng-model="vm.cardData.mobile_number">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-offset-3 col-md-9">
+            <button class="btn btn-primary" ng-click="vm.save(vm.cardData)">{{ vm.buttonText }}</button>
+        </div>
+    </div>
+</form>

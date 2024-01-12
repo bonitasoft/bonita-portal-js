@@ -1,0 +1,77 @@
+<div class="page" id="access-rules">
+
+    <section class="row">
+        <h1 class="SubHeading" translate>Business Data Model definition</h1>
+        <bo-tenant-resource-status data="vm.bdm"></bo-tenant-resource-status>
+        <div ng-if="!vm.isTechnicalUser">
+            <p>
+                <span translate>Installing or updating the BDM implies to be logged in as Technical User, and to activate the maintenance mode.</span><br/>
+                <span translate>To do so, log out and then log back in as the Technical User, whose credentials are set upon Bonita platform installation.</span><br/>
+            <p>
+        </div>
+        <div ng-if="vm.isTechnicalUser">
+            <p>
+                <span translate>Only one Business Data Model (BDM) can be active at a time.</span><br/>
+                <span translate>Make sure all artifacts enabled on the platform are compatible with the new BDM.</span>
+            <p>
+
+            <ul class="list-group">
+                <li class="list-group-item list-group-item-action">
+                    <button ng-click="vm.openBDMUpload()"
+                            class="btn btn-primary btn-section-action"
+                            ng-disabled="vm.isInstallDisable()">
+                        {{vm.isBDMInstalled()? ('Update'|translate) : ('Install'|translate)}}
+                    </button>
+                    <h2 class="panel-title" ng-if="!vm.isBDMInstalled()" translate>Install Business Data Model</h2>
+                    <h2 class="panel-title" ng-if="vm.isBDMInstalled()" translate>Update Business Data Model</h2>
+                    <div ng-if="!vm.isMaintenanceEnabled">
+                        <span class="glyphicon glyphicon-exclamation-sign text-warning"></span>
+                        <span translate>Only available when the platform is under maintenance. Go to the "Platform maintenance" page to activate the maintenance mode.</span>
+                    </div>
+                    <div ng-if="vm.isAccessControlInstalled()" class="message-status-animation">
+                        <span class="glyphicon glyphicon-warning-sign text-warning"></span>
+                        <span translate>Before updating the BDM, access control file should be deleted.</span>
+                    </div>
+                    <div ng-if="vm.isBDMInstallProcessing" class="message-status-animation">
+                        <span class="glyphicon glyphicon-cog gly-spin text-info"></span>
+                        <span translate>Installing Business Data Model</span>
+                    </div>
+                    <div ng-if="vm.isBDMInstallSuccessfull" class="message-status-animation">
+                        <span class="glyphicon glyphicon-ok text-success"></span>
+                        <span translate>BDM successfully updated.</span><br/>
+                    </div>
+                    <div ng-if="vm.isAccessControlFeatureActivated() &&
+                                vm.isAccessControlAvailable &&
+                                !vm.isAccessControlInstalled()"
+                         class="message-status-animation">
+                        <span class="glyphicon glyphicon-info-sign text-info"></span>
+                        <span translate>BDM access control file can now be installed.</span><br/>
+                    </div>
+                    <div ng-if="vm.isMaintenanceEnabled">
+                        <span class="glyphicon glyphicon-info-sign text-info"></span>
+                        <span translate>Make sure to deactivate the maintenance mode.</span><br/>
+                    </div>
+                    <div ng-if="vm.isBDMInstallError === 500" class="message-status-animation">
+                        <span class="glyphicon glyphicon-remove text-danger"></span>
+                        <span translate>An error occurred when deploying the BDM.
+                    Consult the logs for more information.</span>
+                    </div>
+                    <div ng-if="vm.isBDMInstallError === 400" class="message-status-animation">
+                        <span class="glyphicon glyphicon-remove text-danger"></span>
+                        <span translate>File format may be invalid. For more information, check the log file.</span>
+                    </div>
+                    <div ng-if="vm.isBDMInstallError !== ''" class="message-status-animation">
+                        <span class="glyphicon glyphicon-info-sign text-info"></span>
+                        <span translate>The BDM schema and data have been rolled-back to what they were before this update attempt.</span>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </section>
+
+    <access-control is-bdm-installed='vm.isBDMInstalled()'
+                    access-control-status='vm.accessControlStatus'
+                    on-access-control-update='vm.updateAccessControlStatus'
+                    is-access-control-installed='vm.isAccessControlInstalled()'></access-control>
+
+</div>

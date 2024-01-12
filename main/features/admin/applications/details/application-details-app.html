@@ -1,0 +1,13 @@
+<div class="popover-item-content">
+
+  <dl class="popover-item-def">
+    <dt>{{'Creation' | translate}}</dt>
+    <dd>{{createdBy.firstname | ucfirst }} {{createdBy.lastname | ucfirst}} - {{creationDate | dateI18n:'YYYY-MM-DD HH:mm' }}</dd>
+
+  </dl>
+
+  <dl class="popover-item-def">
+   <dt>{{'Update' | translate}}</dt>
+   <dd>{{updatedBy.firstname | ucfirst }} {{updatedBy.lastname | ucfirst }} - {{lastUpdateDate | dateI18n:'YYYY-MM-DD HH:mm' }}</dd>
+  </dl>
+</div>
