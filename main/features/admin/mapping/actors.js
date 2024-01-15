@@ -71,9 +71,7 @@
       } else {
         previousSearchTerm = search.keyword;
       }
-      if(search.keyword) {
-        searchOptions.s = encodeURIComponent(search.keyword);
-      }
+      searchOptions.s = search.keyword;
       MappingService.searchMembers(type, searchOptions, searchMemberParams, $scope.alreadyMappedActorsIds)
         .then(function(results) {
         vm.members = _.chain(results).filter(function(currentMember) {
