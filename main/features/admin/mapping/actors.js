@@ -98,9 +98,7 @@
         // Need to preserve selectedMembers.list in the same position in the array to avoid conflict on select
         // see https://bonitasoft.atlassian.net/browse/RUNTIME-1555
         vm.members = _.unionWith( vm.members, vm.selectedMembers.list,function(member1, member2) { return member1.id === member2.id; });
-
       });
-
     };
 
    vm.searchWithDebounce = function(mySearch) {
