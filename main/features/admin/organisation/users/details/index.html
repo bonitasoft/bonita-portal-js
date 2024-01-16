@@ -1,0 +1,72 @@
+<div class="page">
+    <div class="col-xs-12 ToolBar">
+        <a class="btn btn-default" ng-click="vm.goBack()" translate>Back</a>
+    </div>
+
+    <div class="col-xs-12 UserTitle" ng-if="vm.isUserFound() && vm.stateParamsUserId">
+        <h1>{{vm.user.title}} {{vm.user.firstname}} {{vm.user.lastname}}</h1>
+    </div>
+
+    <div id="id-wrong" class="col-md-12" ng-if="!vm.isUserFound() && vm.stateParamsUserId">
+        <div class="alert alert-info"><i class="glyphicon glyphicon-info-sign"></i>
+            {{'No user found with id:' | translate }} <b>{{vm.stateParamsUserId}}</b>
+        </div>
+    </div>
+    <div id="id-not-provided" class="col-md-12" ng-if="!vm.isUserFound() && !vm.stateParamsUserId">
+        <div class="alert alert-info"><i class="glyphicon glyphicon-info-sign"></i>
+            {{'User id not provided. Unable to retrieve the user details.' | translate }}
+        </div>
+    </div>
+
+    <div class="col-sm-3 col-md-3 col-lg-3" ng-if="vm.isUserFound() && vm.stateParamsUserId">
+        <div class="list-group">
+            <a class="list-group-item"
+               ui-sref="bonita.userDetails.general"
+               ui-sref-active="active"
+               ui-sref-opts="{location:'replace'}"
+               translate>
+                General information
+            </a>
+            <a class="list-group-item"
+               ui-sref="bonita.userDetails.password"
+               ui-sref-active="active"
+               ui-sref-opts="{location:'replace'}"
+               translate>
+                Password
+            </a>
+            <a class="list-group-item"
+               ui-sref="bonita.userDetails.profiles"
+               ui-sref-active="active"
+               ui-sref-opts="{location:'replace'}"
+               translate>
+                Profiles / Memberships
+            </a>
+            <a class="list-group-item"
+               ui-sref="bonita.userDetails.businessCard"
+               ui-sref-active="active"
+               ui-sref-opts="{location:'replace'}"
+               translate>
+                Business card
+            </a>
+            <a class="list-group-item"
+               ui-sref="bonita.userDetails.personalInfo"
+               ui-sref-active="active"
+               ui-sref-opts="{location:'replace'}"
+               translate>
+                Personal information
+            </a>
+            <a class="list-group-item"
+               ui-sref="bonita.userDetails.customInfo"
+               ui-sref-active="active"
+               ui-sref-opts="{location:'replace'}"
+               translate>
+                Custom information
+            </a>
+        </div>
+    </div>
+
+    <div class="UserDetails col-sm-9 col-md-9 col-lg-9" ng-if="vm.isUserFound() && vm.stateParamsUserId">
+        <ui-view></ui-view>
+    </div>
+
+</div>

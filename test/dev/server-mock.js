@@ -1,0 +1,281 @@
+/** Copyright (C) 2015 Bonitasoft S.A.
+ * BonitaSoft, 31 rue Gustave Eiffel - 38000 Grenoble
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 2.0 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ */
+(function (module, verbose) {
+  'use strict';
+
+  var querystring = require('querystring');
+
+  var debug = !verbose ? function () {
+  } : function (message) {
+    console.log(message);
+  };
+
+  var MockList = (function () {
+    /*jshint validthis: true */
+    function findMock(url) {
+      for (var i = 0; i < this._mocks.length; i++) {
+        debug(this._mocks[i]);
+        if (this._mocks[i].url.test(url)) {
+          return this._mocks[i].mock;
+        }
+      }
+    }
+
+    function addMock(url, mock) {
+      this._mocks.push({
+        url: url,
+        mock: mock
+      });
+    }
+
+    var MockList = function () {
+      this._mocks = [];
+
+    };
+    MockList.prototype = {
+      findMock: findMock,
+      addMock: addMock
+    };
+    return MockList;
+  })();
+
+  var mocks = {
+    'GET': new MockList(),
+    'POST': new MockList(),
+    'DELETE': new MockList(),
+    'PUT': new MockList()
+  };
+
+  function paginate(data, request) {
+    var query = querystring.parse(request._parsedUrl.query);
+    var page = parseInt(query.p) || 0;
+    var count = parseInt(query.c) || 10;
+    var total = data.length;
+    debug('slice:' + page * count + ' ' + (page + 1) * count);
+    return {
+      data: data.slice(page * count, (page + 1) * count),
+      contentRange: page + '-' + count + '/' + total
+    };
+  }
+
+  function extend(dst, src) {
+    for (var property in src) {
+      if (src.hasOwnProperty(property)) {
+        dst[property] = dst[property] || src[property];
+      }
+    }
+  }
+
+  function mock(json) {
+    return function (request, response) {
+      var data = json;
+      var headers = {
+        'Content-Type': 'application/json'
+      };
+      if (data instanceof Array) {
+        var page = paginate(data, request);
+        data = page.data;
+        extend(headers, {
+          'Content-Range': page.contentRange
+        });
+      }
+      response.writeHead(200, headers);
+      response.end(JSON.stringify(data));
+
+    };
+  }
+
+  function when(method, url) {
+    return {
+      respond: function (json) {
+        debug(url + ' => ' + JSON.stringify(json));
+        mocks[method].addMock(url, mock(json));
+      }
+    };
+  }
+
+  module.exports = function (request, response, next) {
+    debug(request.method + ' ' + request.url);
+    ((mocks[request.method] && mocks[request.method].findMock(request.url)) || function () {
+      next();
+    })(request, response);
+  };
+
+
+  // localization
+  when('GET', /^\/API\/system\/i18ntranslation\?f=locale%3Dfr/).respond(require('./localization-fr.json'));
+
+  //fileUpload
+  when('POST', /^\/portal\/fileUpload$/).respond('uploadedFile');
+  when('POST', /^\/portal\/bdmUpload$/).respond('uploadedFile');
+  when('POST', /^\/portal\/connectorImplementation$/).respond('uploadedFile');
+
+  //case admin
+  when('GET', /^\/API\/bpm\/case\?c=.*&d=processDefinitionId&d=started_by&d=startedBySubstitute&n=activeFlowNodes&n=failedFlowNodes&o=id\+DESC&p=.*$/).respond(require('./admin/cases/list/cases-list-320-desc-mocks.json'));
+  when('GET', /^\/API\/bpm\/case\?c=25&d=processDefinitionId&d=started_by&d=startedBySubstitute&n=activeFlowNodes&n=failedFlowNodes&o=startDate\+ASC&p=0&s=$/).respond(require('./admin/cases/list/cases-list-28-mocks-ordered-by-date.json'));
+  when('GET', /^\/API\/bpm\/case\?c=25&d=processDefinitionId&d=started_by&d=startedBySubstitute&n=activeFlowNodes&n=failedFlowNodes&o=startDate\+DESC&p=0&s=$/).respond(require('./admin/cases/list/cases-list-28-mocks-ordered-by-date-desc.json'));
+  when('GET', /^\/API\/bpm\/case\?c=25&d=processDefinitionId&d=started_by&d=startedBySubstitute&f=name%3DPoule&n=activeFlowNodes&n=failedFlowNodes&o=id\+DESC&p=0&s=$/).respond(require('./admin/cases/list/cases-list-28-mocks-filtered-by-poule-app-name.json'));
+  when('GET', /^\/API\/bpm\/case\?c=25&d=processDefinitionId&d=started_by&d=startedBySubstitute&f=processDefinitionId%3D4910683075061293406&n=activeFlowNodes&n=failedFlowNodes&o=id\+DESC&p=0&s=$/).respond(require('./admin/cases/list/cases-list-28-mocks-filtered-by-processx-id.json'));
+  when('GET', /^\/API\/bpm\/case\?c=25&d=processDefinitionId&d=started_by&d=startedBySubstitute&f=processDefinitionId%3D8967858817451251940&n=activeFlowNodes&n=failedFlowNodes&o=id\+DESC&p=0&s=$/).respond(require('./admin/cases/list/cases-list-28-mocks-filtered-by-poule-2.0-app.json'));
+
+  //case user
+  when('GET', /^\/API\/bpm\/case\?c=.*&d=processDefinitionId&d=started_by&d=startedBySubstitute&f=user_id%3D1&n=activeFlowNodes&n=failedFlowNodes&o=id\+DESC&p=.*$/).respond(require('./admin/cases/list/cases-list-320-desc-mocks.json'));
+  when('GET', /^\/API\/bpm\/case\?c=25&d=processDefinitionId&d=started_by&d=startedBySubstitute&f=user_id%3D1&n=activeFlowNodes&n=failedFlowNodes&o=startDate\+ASC&p=0&s=$/).respond(require('./admin/cases/list/cases-list-28-mocks-ordered-by-date.json'));
+  when('GET', /^\/API\/bpm\/case\?c=25&d=processDefinitionId&d=started_by&d=startedBySubstitute&f=user_id%3D1&n=activeFlowNodes&n=failedFlowNodes&o=startDate\+DESC&p=0&s=$/).respond(require('./admin/cases/list/cases-list-28-mocks-ordered-by-date-desc.json'));
+  when('GET', /^\/API\/bpm\/case\?c=25&d=processDefinitionId&d=started_by&d=startedBySubstitute&f=name%3DPoule&f=user_id%3D1&n=activeFlowNodes&n=failedFlowNodes&o=id\+DESC&p=0&s=$/).respond(require('./admin/cases/list/cases-list-28-mocks-filtered-by-poule-app-name.json'));
+  when('GET', /^\/API\/bpm\/case\?c=25&d=processDefinitionId&d=started_by&d=startedBySubstitute&f=name%3DPoule&f=user_id%3D1&f=started_by%3D1&n=activeFlowNodes&n=failedFlowNodes&o=id\+DESC&p=0&s=$/).respond([]);
+
+  //Arch case Admin
+  when('GET', /^\/API\/bpm\/archivedCase\?c=.*&d=processDefinitionId&d=started_by&d=startedBySubstitute&o=sourceObjectId\+DESC&p=.*$/).respond(require('./admin/cases/list/arch-cases-list-320-mocks.json'));
+  when('GET', /^\/API\/bpm\/archivedCase\?c=25&d=processDefinitionId&d=started_by&d=startedBySubstitute&o=startDate\+ASC&p=0&s=$/).respond(require('./admin/cases/list/arch-cases-list-28-mocks-ordered-by-date.json'));
+  when('GET', /^\/API\/bpm\/archivedCase\?c=25&d=processDefinitionId&d=started_by&d=startedBySubstitute&o=startDate\+DESC&p=0&s=$/).respond(require('./admin/cases/list/arch-cases-list-28-mocks-ordered-by-date-desc.json'));
+  when('GET', /^\/API\/bpm\/archivedCase\?c=25&d=processDefinitionId&d=started_by&d=startedBySubstitute&f=name%3DPoule&o=sourceObjectId\+DESC&p=0&s=$/).respond(require('./admin/cases/list/arch-cases-list-28-mocks-filtered-by-poule-app-name.json'));
+  when('GET', /^\/API\/bpm\/archivedCase\?c=25&d=processDefinitionId&d=started_by&d=startedBySubstitute&f=processDefinitionId%3D4910683075061293406&o=sourceObjectId\+DESC&p=0&s=$/).respond(require('./admin/cases/list/arch-cases-list-28-mocks-filtered-by-processx-id.json'));
+  when('GET', /^\/API\/bpm\/archivedCase\?c=25&d=processDefinitionId&d=started_by&d=startedBySubstitute&f=processDefinitionId%3D8967858817451251940&o=sourceObjectId\+DESC&p=0&s=$/).respond(require('./admin/cases/list/arch-cases-list-28-mocks-filtered-by-poule-2.0-app.json'));
+
+  //Arch case User
+  when('GET', /^\/API\/bpm\/archivedCase\?c=.*&d=processDefinitionId&d=started_by&d=startedBySubstitute&f=user_id%3D1&o=sourceObjectId\+DESC&p=.*$/).respond(require('./admin/cases/list/arch-cases-list-320-mocks.json'));
+  when('GET', /^\/API\/bpm\/archivedCase\?c=25&d=processDefinitionId&d=started_by&d=startedBySubstitute&f=user_id%3D1&o=startDate\+ASC&p=0&s=$/).respond(require('./admin/cases/list/arch-cases-list-28-mocks-ordered-by-date.json'));
+  when('GET', /^\/API\/bpm\/archivedCase\?c=25&d=processDefinitionId&d=started_by&d=startedBySubstitute&f=user_id%3D1&o=startDate\+DESC&f=user_id%3D1&p=0&s=$/).respond(require('./admin/cases/list/arch-cases-list-28-mocks-ordered-by-date-desc.json'));
+  when('GET', /^\/API\/bpm\/archivedCase\?c=25&d=processDefinitionId&d=started_by&d=startedBySubstitute&f=name%3DPoule&f=user_id%3D1&o=sourceObjectId\+DESC&p=0&s=$/).respond(require('./admin/cases/list/arch-cases-list-28-mocks-filtered-by-poule-app-name.json'));
+  when('GET', /^\/API\/bpm\/archivedCase\?c=25&d=processDefinitionId&d=started_by&d=startedBySubstitute&f=name%3DPoule&f=user_id%3D1&f=started_by%3D1&o=sourceObjectId\+DESC&p=0&s=$/).respond([]);
+
+  //process details
+  when('GET', /^\/API\/bpm\/process\/101\?d=deployedBy&n=openCases&n=failedCases$/).respond(require('./admin/processes/details/process-def-101.json'));
+  when('GET', /^\/API\/bpm\/process\/321\?d=deployedBy&n=openCases&n=failedCases$/).respond(require('./admin/processes/details/process-def-321.json'));
+  when('GET', /^\/API\/bpm\/process\/789\?d=deployedBy&n=openCases&n=failedCases$/).respond(require('./admin/processes/details/process-def-789.json'));
+  when('GET', /^\/API\/bpm\/category\?c=\d+&f=id%3D101&p=\d+$/).respond([]);
+  when('GET', /^\/API\/bpm\/category\?c=\d+&f=id%3D321&p=\d+$/).respond(require('./admin/processes/details/process-categories-321.json'));
+  when('GET', /^\/API\/bpm\/category\?c=\d+&p=\d+$/).respond(require('./admin/processes/details/categories.json'));
+  when('GET', /^\/API\/bpm\/category\?c=\d+&f=id%3D789&p=\d+$/).respond([]);
+  when('GET', /^\/API\/identity\/user\?c=\d+&f=enabled%3Dtrue&f=process_id%3D\d+&o=firstname,lastname&p=\d+$/).respond(require('./admin/processes/details/users-list.json'));
+  when('GET', /^\/API\/bpm\/processConnector\?c=\d+&f=process_id%3D321&p=\d+$/).respond([]);
+  when('GET', /^\/API\/bpm\/processParameter\?c=\d+&f=process_id%3D321&(.*&)?p=\d+$/).respond(require('./admin/processes/details/process-parameters-321.json'));
+  when('GET', /^\/API\/form\/mapping\?c=\d+&f=processDefinitionId%3D321&(.*&)?p=\d+$/).respond(require('./admin/processes/details/process-form-mappings-321.json'));
+  when('GET', /^\/API\/bpm\/processResolutionProblem\?c=\d+&f=process_id%3D101&p=\d+$/).respond([{
+    'target_type': 'actor'
+  }, {
+    'target_type': 'parameter'
+  }]);
+  when('GET', /^\/API\/bpm\/processResolutionProblem\?c=\d+&f=process_id%3D321&p=\d+$/).respond([]);
+  when('GET', /^\/API\/bpm\/processResolutionProblem\?c=\d+&f=process_id%3D789&p=\d+$/).respond([{
+    'target_type': 'actor'
+  }, {
+    'target_type': 'parameter'
+  }]);
+  when('GET', /^\/API\/bpm\/category\?c=0&f=id%3D10001&p=0$/).respond([]);
+
+
+  // application list
+  when('GET', /^\/API\/living\/application\?c=0&p=0/).respond(require('./admin/application/appList.json'));
+  when('GET', /^\/API\/living\/application\?c=4&d=profileId&d=createdBy&d=updatedBy&d=layoutId&p=0/).respond(require('./admin/application/appList.json'));
+
+
+  // application details
+  when('GET', /^\/API\/living\/application\/456\?d=createdBy&d=updatedBy&d=profileId&d=layoutId&d=themeId/).respond(require('./admin/application/details/details.json'));
+  when('GET', /^\/API\/living\/application\/999\?d=createdBy&d=updatedBy&d=profileId&d=layoutId&d=themeId/).respond(require('./admin/application/details/detailsNonEditable.json'));
+  when('GET', /^\/API\/living\/application-page\?c=0&f=applicationId%3D999&p=0/).respond(require('./admin/application/details/pageListDetailsNonEditable.json'));
+  when('GET', /^\/API\/living\/application-page\?c=3&d=pageId&f=applicationId%3D999&p=0/).respond(require('./admin/application/details/pageListDetailsNonEditable.json'));
+  when('GET', /^\/API\/living\/application-menu\?c=0&f=applicationId%3D999&p=0/).respond(require('./admin/application/details/menuDetailsNonEditable.json'));
+  when('GET', /^\/API\/living\/application-menu\?c=5&f=applicationId%3D999&o=menuIndex\+ASC&p=0/).respond(require('./admin/application/details/menuDetailsNonEditable.json'));
+
+
+  // Actor Mapping
+  when('GET', /^\/API\/bpm\/actor\?c=\d+&f=process_id%3D321&(.*&)?p=\d+$/).respond(require('./admin/processes/details/actorsMapping/actor-321.json'));
+  when('GET', /^\/API\/bpm\/actorMember\??c=\d&d=user_id&f=process_id%3D321&f=actor_id%3D\d&f=member_type%3DUSER&p=\d+$/).respond(require('./admin/processes/details/actorsMapping/users/users-mapped-321.json'));
+  when('GET', /^\/API\/bpm\/actorMember\??c=\d&d=role_id&f=process_id%3D321&f=actor_id%3D\d&f=member_type%3DROLE&p=\d+$/).respond(require('./admin/processes/details/actorsMapping/roles/roles-mapped-321.json'));
+  when('GET', /^\/API\/bpm\/actorMember\??c=\d&d=group_id&f=process_id%3D321&f=actor_id%3D\d&f=member_type%3DGROUP&p=\d+$/).respond(require('./admin/processes/details/actorsMapping/groups/groups-mapped-321.json'));
+  when('GET', /^\/API\/bpm\/actorMember\??c=\d&d=role_id&d=group_id&f=process_id%3D321&f=actor_id%3D\d&f=member_type%3DMEMBERSHIP&p=\d+$/).respond(require('./admin/processes/details/actorsMapping/memberships/membership-mapped-321.json'));
+
+
+  //User
+  when('GET', /^\/API\/identity\/user\??c=.*&o=firstname\+asc&p=.*$/).respond(require('./admin/processes/details/actorsMapping/users/all-users-list-321.json'));
+  when('GET', /^\/API\/identity\/user\/1.*$/).respond(require('./admin/organisation/user.json'));
+  when('GET', /^\/API\/bpm\/actorMember\??c=\d&f=actor_id%3D\d&f=member_type%3DUSER&p=\d+$/).respond(require('./admin/processes/details/actorsMapping/users/users-mapped-321.json'));
+  when('GET', /^\/API\/bpm\/actorMember\??c=\d&d=user_id&f=actor_id%3D\d&f=member_type%3DUSER.*$/).respond(require('./admin/processes/details/actorsMapping/users/users-mapped-321.json'));
+  /*when('GET', /^\/API\/bpm\/actorMember\??c=\d&d=user_id&f=actor_id%3D\d&f=member_type%3DUSER&p=\d+$/).respond(require('./admin/processes/details/actorsMapping/users/users-mapped-321.json'));*/
+
+
+  //Role
+  when('GET', /^\/API\/identity\/role\??c=.*&o=displayName\+asc&p=.*$/).respond(require('./admin/processes/details/actorsMapping/roles/all-roles-list-321.json'));
+  when('GET', /^\/API\/bpm\/actorMember\??c=\d&f=actor_id%3D\d&f=member_type%3DROLE&p=\d+$/).respond(require('./admin/processes/details/actorsMapping/roles/roles-mapped-321.json'));
+  when('GET', /^\/API\/bpm\/actorMember\??c=\d&d=role_id&f=actor_id%3D\d&f=member_type%3DROLE.*$/).respond(require('./admin/processes/details/actorsMapping/roles/roles-mapped-321.json'));
+
+  // Group
+  when('GET', /^\/API\/identity\/group\??c=.*&o=displayName\+asc&p=.*$/).respond(require('./admin/processes/details/actorsMapping/groups/all-groups-list-321.json'));
+  when('GET', /^\/API\/bpm\/actorMember\??c=\d&f=actor_id%3D\d&f=member_type%3DGROUP&p=\d+$/).respond(require('./admin/processes/details/actorsMapping/groups/groups-mapped-321.json'));
+  when('GET', /^\/API\/bpm\/actorMember\??c=12&d=group_id&f=actor_id%3D\d&f=member_type%3DGROUP&p=\d$/).respond(require('./admin/processes/details/actorsMapping/groups/groups-mapped-321.json'));
+
+
+  // Membership
+  when('GET', /^\/API\/bpm\/actorMember\??c=\d&f=actor_id%3D\d&f=member_type%3DMEMBERSHIP&p=\d+$/).respond(require('./admin/processes/details/actorsMapping/memberships/membership-mapped-321.json'));
+  when('GET', /^\/API\/bpm\/actorMember\??c=\d&d=role_id&d=group_id&f=actor_id%3D\d&f=member_type%3DMEMBERSHIP&p=\d$/).respond(require('./admin/processes/details/actorsMapping/memberships/membership-mapped-321.json'));
+
+  when('PUT', /^\/API\/bpm\/process\/\d+$/).respond();
+
+  // task list comments
+  when('GET', /^\/API\/bpm\/comment\?c=2147483647&d=userId&f=processInstanceId%3D1&o=postDate\+ASC&p=0/).respond(require('./user/tasks/list/comments-mock.json'));
+  when('GET', /^\/API\/bpm\/archivedComment\?c=2147483647&d=userId&f=processInstanceId%3D2&o=postDate\+ASC&p=0/).respond(require('./user/tasks/list/archived-comments-mock.json'));
+
+
+  var formRegexp = /portal\/homepage\?.*ui=form.*/;
+
+  when('GET', /^\/API\/identity\/professionalcontactdata\/18/).respond(require('./user/tasks/list/professionalContact18-mock.json'));
+
+  //order specific request before
+  when('GET', /^\/API\/bpm\/humanTask\?c=50&d=rootContainerId&f=state%3Dready&f=user_id%3D1&o=displayName\+ASC&p=0&s=a*./).respond(require('./user/tasks/list/humanTasksSearchStartsWithA-mock.json'));
+  when('GET', /^\/API\/bpm\/humanTask\?c=50&d=rootContainerId&f=state%3Dready&f=user_id%3D1&f=processId%3D5545132423260882733&o=displayName\+ASC&p=0/).respond(require('./user/tasks/list/humanTasksSearchFilteredOnCurrentUser-mock.json'));
+
+  when('GET', /^\/API\/bpm\/humanTask\?c=0&f=state%3Dready&f=assigned_id%3D1&p=0/).respond(require('./user/tasks/list/humanTasksSearchFilteredOnCurrentUser-mock.json'));
+  when('GET', /^\/API\/bpm\/humanTask\?c=50&d=rootContainerId&f=state%3Dready&f=assigned_id%3D1&o=displayName\+ASC&p=0/).respond(require('./user/tasks/list/humanTasksSearchFilteredOnCurrentUser-mock.json'));
+  when('GET', /^\/API\/bpm\/humanTask\?c=0&f=state%3Dready&f=assigned_id%3D0&f=user_id%3D1&p=0/).respond(require('./user/tasks/list/humanTasksSearchFilteredOnProcessId-mock.json'));
+  when('GET', /^\/API\/bpm\/humanTask\?c=50&d=rootContainerId&f=state%3Dready&f=assigned_id%3D0&f=user_id%3D1&o=displayName\+ASC&p=0/).respond(require('./user/tasks/list/humanTasksSearchFilteredOnProcessId-mock.json'));
+  when('GET', /^\/API\/bpm\/humanTask\?c=50&d=rootContainerId&f=state%3Dready&f=user_id%3D1&f=caseId%3D6&o=displayName\+ASC&p=0/).respond(require('./user/tasks/list/humanTasksSearchFilteredOnCaseId-mock.json'));
+
+  when('GET', /^\/API\/bpm\/humanTask\?c=(25|50)&d=rootContainerId&f=state%3Dready(&f=assigned_id%3D0)*&f=user_id%3D1(&f=processId%3D5545132423260882733)*&o=displayName\+ASC&p=[0|1]/).respond(require('./user/tasks/list/humanTaskSearchAsc-mock.json'));
+
+  when('GET', /^\/API\/bpm\/humanTask\?c=50&d=rootContainerId&f=state%3Dready&f=user_id%3D1&o=displayName\+DESC&p=0/).respond(require('./user/tasks/list/humanTaskSearchDesc-mock.json'));
+  when('PUT', /API\/bpm\/humanTask\/2/).respond(require('./user/tasks/list/humanTask2TakenByUser1-mock.json'));
+  when('PUT', /API\/bpm\/humanTask\/19/).respond(require('./user/tasks/list/humanTask19Released-mock.json'));
+  when('GET', /^\/API\/form\/mapping\?c=\d+&f=processDefinitionId%3D8007855270751208272&f=type%3DPROCESS_OVERVIEW&(.*&)?p=\d+$/).respond(require('./user/tasks/list/form-mappings-task-2-mock.json'));
+  when('GET', /^\/API\/form\/mapping\?c=\d+&f=processDefinitionId%3D5545132423260882732&f=type%3DPROCESS_OVERVIEW&(.*&)?p=\d+$/).respond(require('./user/tasks/list/form-mappings-task-19-mock.json'));
+  when('GET', /^\/API\/bpm\/archivedHumanTask\?c=50&d=rootContainerId&f=assigned_id%3D1&f=state%3Dcompleted&o=displayName\+ASC&p=0/).respond(require('./user/tasks/list/humanTasksSearchFilteredOnDoneTasks-mock.json'));
+  when('GET', /^\/API\/bpm\/archivedFlowNode\?c=100&d=executedBySubstitute&d=executedBy&f=caseId%3D[1|2|4|5|6|7]&f=isTerminal%3Dtrue&p=0/).respond(require('./user/tasks/list/archivedFlowNodes-mock.json'));
+  when('GET', /^\/API\/bpm\/case\/[1|2|4|5]\?d=started_by&d=processDefinitionId$/).respond(require('./user/tasks/list/case-1-2-4-5-mock.json'));
+  when('GET', /^\/API\/bpm\/case\/[6|7]\?d=started_by&d=processDefinitionId$/).respond(require('./user/tasks/list/case-6-7-mock.json'));
+  when('GET', /^\/API\/bpm\/archivedCase\?c=1&d=started_by&d=processDefinitionId&f=sourceObjectId%3D99&p=0/).respond(require('./user/tasks/list/archived-case-mock.json'));
+  when('GET', /^\/API\/bpm\/process\?c=.*&f=user_id%3D1&f=forPendingOrAssignedTask%3Dtrue&p=0$/).respond(require('./user/tasks/list/processes-mock.json'));
+  when('GET', /^\/API\/bpm\/processSupervisor\?c=10&d=user_id&f=process_id%3D(5545132423260882732|8007855270751208272)&p=0$/).respond(require('./user/tasks/list/processSupervisors-mock.json'));
+  when('GET', /^\/API\/bpm\/process\/(5545132423260882732)$/).respond(require('./user/tasks/list/process5545132423260882732-mock.json'));
+  when('GET', /^\/API\/bpm\/process\/(8007855270751208272)$/).respond(require('./user/tasks/list/process8007855270751208272-mock.json'));
+
+  //global
+
+  when('GET', /^\/API\/bpm\/process\?c=\d+&n=openCases&n=failedCases&o=displayName\+ASC&p=0$/).respond(require('./admin/cases/list/process-def-4.json'));
+  when('GET', /^\/API\/bpm\/process\?c=\d+&n=openCases&n=failedCases&o=displayName\+DESC&p=0$/).respond(require('./admin/cases/list/process-def-4-ordered-by-process-name.json'));
+  when('GET', /^\/API\/bpm\/process\?c=\d+&f=displayName%3DPool&.*p=0$/).respond(require('./admin/cases/list/process-def-4-filtered-by-pool-display-name.json'));
+  when('GET', /^\/API\/bpm\/process\?c=\d+&.*p=0$/).respond(require('./admin/cases/list/process-def-4.json'));
+  when('GET', /^\/API\/bpm\/process\?c=\d+&.*p=0&.*s=.*$/).respond(require('./admin/cases/list/process-def-4.json'));
+  when('GET', /^\/API\/system\/i18ntranslation.*$/).respond([]);
+  //enable french translation
+  //when('GET', /^\/API\/system\/i18ntranslation.*$/).respond(require('./i18translations.json'));
+  when('GET', /^\/API\/system\/feature\?c=0&p=0$/).respond([]);
+  when('GET', /^\/API\/system\/session.*$/).respond(require('./session-mock.json'));
+  var fs = require('fs');
+  var form = fs.readFileSync(__dirname + '/user/tasks/list/fixtures/form.html', 'utf8');
+  when('GET', formRegexp, 'html').respond(form);
+
+})(module, false);

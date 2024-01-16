@@ -1,0 +1,27 @@
+<ul class="TaskFilters nav nav-pills nav-stacked">
+  <!-- <a href="#" > is not good for a11n but it's a tradeoff for being themable
+     that's why we use bottstrap markup-->
+  <li role="presentation" ng-class="{'active':TASK_FILTERS.TODO===taskStatus}">
+    <a href="" id="todo-tasks"
+       title="{{ 'Show all the tasks I can do: both personal tasks and tasks available to other team members' | translate }}"
+       ng-click="setStatusTaskFilter(TASK_FILTERS.TODO)">
+      <span class="badge pull-right" ng-show="count.TODO>0">{{count.TODO}}</span>
+      <translate>To do</translate>
+    </a>
+  </li><!-- tasks to do -->
+  <li role="presentation" ng-class="{'active':TASK_FILTERS.MY_TASK===taskStatus}">
+    <a href="" id="my-tasks"
+       title="{{ 'Show my personal tasks: the ones I took and the ones assigned to me, automatically or by a process manager' | translate }}"
+       ng-click="setStatusTaskFilter(TASK_FILTERS.MY_TASK)">
+      <span class="badge pull-right" ng-show="count.MY_TASK>0">{{count.MY_TASK}}</span>
+      <translate>My tasks</translate>
+    </a>
+  </li><!-- my tasks -->
+  <li role="presentation" ng-class="{'active':TASK_FILTERS.DONE===taskStatus}">
+    <a href="" id="done-tasks"
+       title="{{ 'Show the tasks that I have done' | translate }}"
+       ng-click="setStatusTaskFilter(TASK_FILTERS.DONE)" >
+      <translate>Done tasks</translate>
+    </a>
+  </li> <!-- done tasks -->
+</ul>

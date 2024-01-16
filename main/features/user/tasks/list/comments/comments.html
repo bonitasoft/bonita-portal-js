@@ -1,0 +1,34 @@
+<section class="Comments">
+    <header class="Comments-header" translate>
+        Case comments
+    </header>
+
+    <div class="Comments-content" scroll-bottom="vm.comments">
+        <div class="Comment" ng-repeat="comment in vm.comments">
+            <img class="Comment-icon" ng-src="../theme/{{comment.userId.icon}}" alt="Author" onerror="this.style.display='none'"/>
+            <div class="Comment-header">
+                {{ comment.userId.firstname + ' ' + comment.userId.lastname }} <span class="text-muted">{{ comment.postDate | moment:'lll' }}</span>
+            </div>
+            <div class="Comment-content">{{ comment.content }}</div>
+        </div>
+        <div ng-if="vm.comments.length == 0" class="text-muted" translate>No comment on this case yet. To add one, use the input field at the bottom of this panel</div>
+    </div>
+
+    <footer class="Comments-footer">
+        <form name="CaseCommentsForm" class="CommentForm" ng-class="{ 'text-muted': !vm.isCurrentCaseOpened() }" ng-submit="vm.addComment(vm.newComment)">
+        <div class="form-group" ng-class="{'has-error': CaseCommentsForm.$error.maxlength }">
+            <textarea id="comment" class="form-control"
+                      placeholder="{{ 'New comment' | translate }}"
+                      ng-model="vm.newComment"
+                      ng-maxlength="255"
+                      ng-required="true"
+                      ng-disabled="!vm.isCurrentCaseOpened()">
+            </textarea>
+            <span class="help-block CommentForm-help" translate>Maximum size 255 characters</span>
+        </div>
+        <button type="submit" class="btn btn-default" ng-disabled="CaseCommentsForm.$invalid" translate>Add</button>
+        <span ng-if="!vm.isCurrentCaseOpened()" class="CommentForm-disabledMsg" translate>The case is archived. You cannot add comments anymore</span>
+    </form>
+    </footer>
+
+</section>

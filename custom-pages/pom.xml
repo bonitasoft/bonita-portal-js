@@ -1,0 +1,122 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         child.project.url.inherit.append.path="false"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>org.bonitasoft.web.page</groupId>
+    <artifactId>custom-pages</artifactId>
+    <version>10.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
+
+    <url>https://community.bonitasoft.com/</url>
+    <licenses>
+        <license>
+            <name>GPL-v2.0</name>
+            <url>http://www.gnu.org/licenses/gpl-2.0.txt</url>
+        </license>
+    </licenses>
+    <developers>
+        <developer>
+            <id>bonita-web-team</id>
+            <name>The Bonita Web Development Team</name>
+            <organization>Bonitasoft</organization>
+            <organizationUrl>https://community.bonitasoft.com/</organizationUrl>
+        </developer>
+    </developers>
+    <scm child.scm.connection.inherit.append.path="false" child.scm.developerConnection.inherit.append.path="false"
+         child.scm.url.inherit.append.path="false">
+        <connection>scm:git:git@github.com:bonitasoft/bonita-portal-js.git</connection>
+        <developerConnection>scm:git:git@github.com:bonitasoft/bonita-portal-js.git</developerConnection>
+        <tag>HEAD</tag>
+        <url>https://github.com/bonitasoft/bonita-portal-js</url>
+    </scm>
+
+    <modules>
+        <module>user-tasks-list</module>
+    </modules>
+
+    <properties>
+        <!-- A flag to indicate whether yarn must be run with the offline option -->
+        <offlineFlag></offlineFlag>
+        <flatten-maven-plugin.version>1.5.0</flatten-maven-plugin.version>
+        <frontend-maven-plugin.version>1.14.0</frontend-maven-plugin.version>
+        <node.version>v14.21.3</node.version>
+        <npm.version>6.14.18</npm.version>
+    </properties>
+
+    <profiles>
+        <profile>
+            <id>offline</id>
+            <properties>
+                <offlineFlag>--offline</offlineFlag>
+            </properties>
+        </profile>
+    </profiles>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.bonitasoft.web</groupId>
+            <artifactId>bonita-portal-js</artifactId>
+            <version>${project.version}</version>
+            <classifier>app</classifier>
+            <type>zip</type>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>com.github.eirslett</groupId>
+                    <artifactId>frontend-maven-plugin</artifactId>
+                    <version>${frontend-maven-plugin.version}</version>
+                    <configuration>
+                        <nodeVersion>${node.version}</nodeVersion>
+                        <npmVersion>${npm.version}</npmVersion>
+                        <installDirectory>${session.executionRootDirectory}</installDirectory>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>flatten-maven-plugin</artifactId>
+                    <version>${flatten-maven-plugin.version}</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>flatten-maven-plugin</artifactId>
+                <executions>
+                    <!-- enable flattening -->
+                    <execution>
+                        <id>flatten</id>
+                        <goals>
+                            <goal>flatten</goal>
+                        </goals>
+                        <phase>process-resources</phase>
+                        <configuration>
+                            <updatePomFile>true</updatePomFile>
+                            <pomElements>
+                                <parent>remove</parent>
+                                <name>keep</name>
+                                <description>keep</description>
+                                <url>expand</url>
+                                <scm>expand</scm>
+                                <developers>expand</developers>
+                            </pomElements>
+                        </configuration>
+                    </execution>
+                    <!-- ensure proper cleanup -->
+                    <execution>
+                        <id>flatten.clean</id>
+                        <goals>
+                            <goal>clean</goal>
+                        </goals>
+                        <phase>clean</phase>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>

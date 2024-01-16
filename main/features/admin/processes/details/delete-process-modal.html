@@ -1,0 +1,35 @@
+<div id="delete-process-modal">
+    <div class="modal-header header">
+        <h3 class="modal-title">{{'Delete process'| translate }}
+            <span>{{deleteProcessModalInstanceCtrl.process.name}}</span>
+            ({{deleteProcessModalInstanceCtrl.process.version}})
+        </h3>
+    </div>
+    <div class="modal-body body">
+        <div class="callout callout-warning">
+            <h4 translate>Warning:</h4>
+            <p>
+                <span translate>Deleting a process definition will also delete all open and archived cases of this process.</span><br/>
+                <span translate>They will be removed from the database permanently.</span><br/>
+                <span translate>In a production environment, this should be used with caution.</span><br/>
+            </p>
+        </div>
+        <div>
+            <p>
+                <strong translate>Are you sure you want to delete it?</strong>
+            </p>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button class="start-for btn btn-primary"
+                ng-disabled="deleteProcessModalInstanceCtrl.processing"
+                ng-click="deleteProcessModalInstanceCtrl.delete()">
+            {{ 'Delete' | translate }}
+        </button>
+        <button class="btn btn-default close_popup"
+                ng-disabled="deleteProcessModalInstanceCtrl.processing"
+                ng-click="deleteProcessModalInstanceCtrl.cancel()">
+            {{ 'Cancel' | translate }}
+        </button>
+    </div>
+</div>
