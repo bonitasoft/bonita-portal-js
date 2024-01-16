@@ -22,7 +22,7 @@
    * defines properties shared between mapping features (actors and process manager currently)
    */
   angular.module('org.bonitasoft.features.admin.mappings', ['org.bonitasoft.common.i18n',
-    'org.bonitasoft.common.resources.store'])
+    'org.bonitasoft.common.resources.store', 'ngSanitize'])
     .value('MAPPING_PROFILES', {
       USER: 'USER',
       GROUP: 'GROUP',
@@ -71,7 +71,7 @@
     })
     .value('userIdAttribute', 'user_id')
     .value('groupIdAttribute', 'group_id')
-    .value('roleIdAttribute', 'role_id').service('MappingService', function(i18nService, userIdAttribute, groupIdAttribute, roleIdAttribute, userAPI, groupAPI, roleAPI, MAPPING_PROFILES, store) {
+    .value('roleIdAttribute', 'role_id').service('MappingService', function(i18nService, $sanitize, userIdAttribute, groupIdAttribute, roleIdAttribute, userAPI, groupAPI, roleAPI, MAPPING_PROFILES, store) {
 
       function copySelectedMember(attributeId, currentMember) {
          var member = currentMember[attributeId] || currentMember;
@@ -83,19 +83,19 @@
       mappingService.formatToSelectBox = {
         USER: function(currentMember) {
           var member = copySelectedMember(userIdAttribute, currentMember);
-          member.listLabel = member.buttonLabel = member.firstname + ' ' + member.lastname;
+          member.listLabel = member.buttonLabel = $sanitize(member.firstname) + ' ' + $sanitize(member.lastname);
           member.contentToSearch = member.firstname + ' ' + member.lastname + ' ' + member.userName + ' ' + member.job_title;
           return member;
         },
         GROUP: function (currentMember) {
           var member = copySelectedMember(groupIdAttribute, currentMember);
-          member.listLabel = member.buttonLabel = member.displayName;
+          member.listLabel = member.buttonLabel = $sanitize(member.displayName);
           member.contentToSearch = member.name + ' ' + member.displayName + ' ' + member.description;
           return member;
         },
         ROLE: function (currentMember) {
           var member = copySelectedMember(roleIdAttribute, currentMember);
-          member.listLabel = member.buttonLabel = member.displayName;
+          member.listLabel = member.buttonLabel = $sanitize(member.displayName);
           member.contentToSearch = member.name + ' ' + member.displayName + ' ' + member.description;
           return member;
         },
