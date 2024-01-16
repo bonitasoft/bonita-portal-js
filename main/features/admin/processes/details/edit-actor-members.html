@@ -7,7 +7,7 @@
         <h2>{{'{} mapped' | translate | stringTemplater:[editActorMembersCtrl.currentMemberLabel]}}</h2>
         <p class="members">
       <span ng-repeat="member in editActorMembersCtrl.members" class="tag label label-default member">
-          {{member.label}} <i ng-click="editActorMembersCtrl.removeMember(member)" class="glyphicon glyphicon-remove"></i>
+          <span ng-bind-html="member.label"></span> <i ng-click="editActorMembersCtrl.removeMember(member)" class="glyphicon glyphicon-remove"></i>
       </span>
             <span ng-click="editActorMembersCtrl.removeAll()" class="tag label label-danger" ng-if="!!editActorMembersCtrl.members.length"> {{'Remove all' | translate}}</span>
         </p>

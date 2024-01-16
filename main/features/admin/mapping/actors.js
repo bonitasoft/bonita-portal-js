@@ -71,10 +71,9 @@
       } else {
         previousSearchTerm = search.keyword;
       }
-      if(search.keyword) {
-        searchOptions.s = encodeURIComponent(search.keyword);
-      }
-      MappingService.searchMembers(type, searchOptions, searchMemberParams, $scope.alreadyMappedActorsIds).then(function(results) {
+      searchOptions.s = search.keyword;
+      MappingService.searchMembers(type, searchOptions, searchMemberParams, $scope.alreadyMappedActorsIds)
+        .then(function(results) {
         vm.members = _.chain(results).filter(function(currentMember) {
           return $scope.alreadyMappedActorsIds.indexOf(currentMember.id) === -1;
         }).map(MappingService.formatToSelectBox[type]).value();
@@ -99,9 +98,7 @@
         // Need to preserve selectedMembers.list in the same position in the array to avoid conflict on select
         // see https://bonitasoft.atlassian.net/browse/RUNTIME-1555
         vm.members = _.unionWith( vm.members, vm.selectedMembers.list,function(member1, member2) { return member1.id === member2.id; });
-
       });
-
     };
 
     vm.searchWithDebounce = function(mySearch) {
