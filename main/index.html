@@ -1,0 +1,193 @@
+<!doctype html>
+<!--[if lt IE 7]>
+<html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>
+<html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>
+<html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js"> <!--<![endif]-->
+<head>
+    <meta charset="utf-8">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width">
+    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+    <!-- build:css styles/assets.css -->
+    <!-- bower:css -->
+    <link rel="stylesheet" href="assets/angular-multi-select/isteven-multi-select.css" />
+    <link rel="stylesheet" href="assets/angular-ui-tree/dist/angular-ui-tree.min.css" />
+    <link rel="stylesheet" href="assets/angular-xeditable/dist/css/xeditable.css" />
+    <link rel="stylesheet" href="assets/animate.css/animate.css" />
+    <link rel="stylesheet" href="assets/ng-sortable/dist/ng-sortable.css" />
+    <link rel="stylesheet" href="assets/bootstrap-tags/dist/css/bootstrap-tags.css" />
+    <link rel="stylesheet" href="assets/bootstrap-toggle/css/bootstrap-toggle.min.css" />
+    <link rel="stylesheet" href="assets/ngtoast/dist/ngToast.css" />
+    <!-- endbower -->
+    <link rel="stylesheet" href="assets/jquery-resizable-columns/dist/jquery.resizableColumns.css" />
+    <link rel="stylesheet" href="assets/angular-growl-2/build/angular-growl.css" />
+    <link rel="stylesheet" href="assets/bonita-js-components/dist/bonita-lib.css">
+    <link rel="stylesheet" href="assets/startbootstrap-simple-sidebar/css/simple-sidebar.css" />
+    <!-- endbuild -->
+    <link rel="stylesheet" href="../portal-theme/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../portal-theme/bonita-skin.css">
+</head>
+<body ng-app="org.bonitasoft.portal">
+<!--[if lt IE 7]>
+<p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade
+    your browser</a> to improve your experience.</p>
+<![endif]-->
+
+<!-- Add your site or application content here -->
+<div growl></div>
+<div ui-view="" id="content"></div>
+
+<!--[if lt IE 9]>
+<script src="assets/es5-shim/es5-shim.js"></script>
+<script src="assets/json3/lib/json3.min.js"></script>
+<![endif]-->
+
+<!-- build:js scripts/assets.js -->
+<!-- bower:js -->
+<script src="assets/jquery/dist/jquery.js"></script>
+<script src="assets/angular/angular.js"></script>
+<script src="assets/angular-animate/angular-animate.js"></script>
+<script src="assets/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+<script src="assets/angular-cookies/angular-cookies.js"></script>
+<script src="assets/angular-file-upload/dist/angular-file-upload.min.js"></script>
+<script src="assets/angular-gettext/dist/angular-gettext.js"></script>
+<script src="assets/angular-growl-2/build/angular-growl.js"></script>
+<script src="assets/angular-multi-select/isteven-multi-select.js"></script>
+<script src="assets/angular-resource/angular-resource.js"></script>
+<script src="assets/angular-sanitize/angular-sanitize.js"></script>
+<script src="assets/angular-touch/angular-touch.js"></script>
+<script src="assets/angular-ui-router/release/angular-ui-router.js"></script>
+<script src="assets/angular-ui-tree/dist/angular-ui-tree.js"></script>
+<script src="assets/angular-xeditable/dist/js/xeditable.js"></script>
+<script src="assets/ng-sortable/dist/ng-sortable.js"></script>
+<script src="assets/ngstorage/ngStorage.js"></script>
+<script src="assets/bonita-js-components/dist/bonita-lib-tpl.js"></script>
+<script src="assets/bootstrap-tags/dist/js/bootstrap-tags.js"></script>
+<script src="assets/bootstrap-toggle/js/bootstrap-toggle.min.js"></script>
+<script src="assets/jquery-resizable-columns/dist/jquery.resizableColumns.min.js"></script>
+<script src="assets/jqueryui/ui/jquery-ui.js"></script>
+<script src="assets/keymaster/keymaster.js"></script>
+<script src="assets/lodash/lodash.js"></script>
+<script src="assets/moment/min/moment-with-locales.js"></script>
+<script src="assets/ngtoast/dist/ngToast.js"></script>
+<script src="assets/numeral/numeral.js"></script>
+<script src="assets/numeral/languages.js"></script>
+<!-- endbower -->
+<!-- endbuild -->
+
+<!-- build:js({.tmp,main}) scripts/bonita-portal.js -->
+<!-- injector:js -->
+<script src="common/i18n/_.module.js"></script>
+<script src="common/moment/_.module.js"></script>
+<script src="common/resources/_.module.js"></script>
+<script src="features/admin/applications/_.module.js"></script>
+<script src="features/admin/bdm/_.module.js"></script>
+<script src="features/admin/organisation/_.module.js"></script>
+<script src="features/admin/organisation/users/_.module.js"></script>
+<script src="features/admin/processes/details/_.module.js"></script>
+<script src="features/user/tasks/_.module.js"></script>
+<script src="features/user/tasks/list/_.module.js"></script>
+<script src="features/user/tasks/list/comments/_.module.js"></script>
+<script src="features/user/tasks/list/details/_.module.js"></script>
+<script src="features/user/tasks/list/filters/_.module.js"></script>
+<script src="features/user/tasks/list/table/_.module.js"></script>
+<script src="common/directives/avatar-upload/avatar-upload.directive.js"></script>
+<script src="common/directives/bonita-href.js"></script>
+<script src="common/directives/bootstrap-form-control/bootstrap-form-control.js"></script>
+<script src="common/directives/module.js"></script>
+<script src="common/directives/resizable/resizable-columns.js"></script>
+<script src="common/directives/tenant-resource-status/tenant-resource-status.directive.js"></script>
+<script src="common/directives/toggle-button/toggle-button.js"></script>
+<script src="common/directives/urlified.js"></script>
+<script src="common/filters/date-parser.js"></script>
+<script src="common/filters/stringTemplater.js"></script>
+<script src="common/filters/urlify.js"></script>
+<script src="common/filters/utils/string.js"></script>
+<script src="common/i18n/i18n-keys.js"></script>
+<script src="common/i18n/i18n-msg.service.js"></script>
+<script src="common/i18n/i18n.service.js"></script>
+<script src="common/i18n/locale.service.js"></script>
+<script src="common/moment/date-ago.filter.js"></script>
+<script src="common/moment/datei18n.js"></script>
+<script src="common/moment/moment.config.js"></script>
+<script src="common/moment/moment.filter.js"></script>
+<script src="common/moment/moment.service.js"></script>
+<script src="common/resources/http-error-modal.controller.js"></script>
+<script src="common/resources/resources.js"></script>
+<script src="common/resources/store.js"></script>
+<script src="common/services/debounce.service.js"></script>
+<script src="common/services/feature-manager.js"></script>
+<script src="common/services/process-resolution-problem-callout.js"></script>
+<script src="common/services/token-extension.js"></script>
+<script src="features/admin/admin.js"></script>
+<script src="features/admin/applications/applications-list.js"></script>
+<script src="features/admin/applications/delete-application.js"></script>
+<script src="features/admin/applications/details/application-details.js"></script>
+<script src="features/admin/applications/details/menubuilder.js"></script>
+<script src="features/admin/applications/details/page-list.js"></script>
+<script src="features/admin/applications/edit-application.js"></script>
+<script src="features/admin/applications/import-application.controller.js"></script>
+<script src="features/admin/bdm/add-bdm-popup.controller.js"></script>
+<script src="features/admin/bdm/bdm.controller.js"></script>
+<script src="features/admin/bdm/bdm.routes.js"></script>
+<script src="features/admin/mapping-commons.js"></script>
+<script src="features/admin/mapping/actors.js"></script>
+<script src="features/admin/organisation/users/details/card.directive.js"></script>
+<script src="features/admin/organisation/users/details/custom-information/custom-information.controller.js"></script>
+<script src="features/admin/organisation/users/details/general/manager-field.directive.js"></script>
+<script src="features/admin/organisation/users/details/password/password.directive.js"></script>
+<script src="features/admin/organisation/users/details/profiles/profiles.controller.js"></script>
+<script src="features/admin/organisation/users/details/user-details.controller.js"></script>
+<script src="features/admin/organisation/users/users.routes.js"></script>
+<script src="features/admin/processes/details/actors-mapping.js"></script>
+<script src="features/admin/processes/details/delete-process-modal.controller.js"></script>
+<script src="features/admin/processes/details/details.js"></script>
+<script src="features/admin/processes/details/edit-actor-members.js"></script>
+<script src="features/admin/processes/details/information.js"></script>
+<script src="features/admin/processes/details/manage-categories.js"></script>
+<script src="features/admin/processes/details/monitoring-status.js"></script>
+<script src="features/admin/processes/details/params.js"></script>
+<script src="features/admin/processes/details/process-connectors.js"></script>
+<script src="features/admin/processes/details/process-menu.controller.js"></script>
+<script src="features/admin/processes/processes.js"></script>
+<script src="features/user/mapping-commons.js"></script>
+<script src="features/user/tasks/list/comments/comments.controller.js"></script>
+<script src="features/user/tasks/list/comments/comments.directive.js"></script>
+<script src="features/user/tasks/list/comments/comments.service.js"></script>
+<script src="features/user/tasks/list/comments/scroll-bottom.directive.js"></script>
+<script src="features/user/tasks/list/common/directive/bonita-form-spy.js"></script>
+<script src="features/user/tasks/list/common/directive/bonita-iframe-viewer.js"></script>
+<script src="features/user/tasks/list/common/directive/input-focus.js"></script>
+<script src="features/user/tasks/list/common/encode-uri.filter.js"></script>
+<script src="features/user/tasks/list/common/iframeUrl.js"></script>
+<script src="features/user/tasks/list/common/keymaster.js"></script>
+<script src="features/user/tasks/list/common/preference.js"></script>
+<script src="features/user/tasks/list/common/priorities.service.js"></script>
+<script src="features/user/tasks/list/common/screen.js"></script>
+<script src="features/user/tasks/list/common/store.js"></script>
+<script src="features/user/tasks/list/common/taskRequest.js"></script>
+<script src="features/user/tasks/list/details/task-details-helper.service.js"></script>
+<script src="features/user/tasks/list/details/task-details-modal.controller.js"></script>
+<script src="features/user/tasks/list/details/task-details.controller.js"></script>
+<script src="features/user/tasks/list/details/task-details.directive.js"></script>
+<script src="features/user/tasks/list/details/task-no-form.directive.js"></script>
+<script src="features/user/tasks/list/filters/task-filters.directive.js"></script>
+<script src="features/user/tasks/list/table/task-table.controller.js"></script>
+<script src="features/user/tasks/list/table/task-table.directive.js"></script>
+<script src="features/user/tasks/list/task-list.routes.js"></script>
+<script src="features/user/tasks/list/task-list.states.js"></script>
+<script src="features/user/tasks/list/tasks-app-config.js"></script>
+<script src="features/user/tasks/list/tasks-app.js"></script>
+<script src="features/user/user.js"></script>
+<script src="app.module.js"></script>
+<script src="app.config.js"></script>
+<script src="templates.js"></script>
+<!-- endinjector -->
+<!-- endbuild -->
+</body>
+</html>

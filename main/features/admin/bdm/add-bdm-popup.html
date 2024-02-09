@@ -1,0 +1,48 @@
+<div class="modal-header">
+    <h1 class="modal-title" translate>Install a BDM file</h1>
+</div>
+
+<div class="modal-body modal-body-scrollable">
+    <div class="callout callout-warning" ng-hide="!isBDMInstalled">
+        <h4 translate>Warning:</h4>
+        <ul>
+            <li translate>Updating the Business Data Model applies changes to both existing database tables and data.</li>
+            <li translate>However, due to the use of Hibernate for data persistence, some changes on the data may not be well handled. These changes may lead to a corrupted database and CANNOT BE REVERTED.</li>
+            <li translate>The whole list of such changes is listed <a ng-href="{{documentationUrl}}" target="_blank" translate>here</a>.</li>
+            <li translate>In such cases, you must CANCEL THIS UPDATE and let the database administrator carefully script the changes and apply them to the database. Only then will you be able to update the BDM from this page.</li>
+            <li translate>If your changes do not fall into those change types, you can go ahead and proceed with the BDM update now.</li>
+        </ul>
+        <div translate>IN ANY CASE, you MUST CREATE A BACKUP of the current BDM database before undergoing a BDM update.</div>
+        <br/>
+    </div>
+    <bootstrap-form-control
+        class="field-upload-container"
+        form="form"
+        label="{{'BDM file' | translate}}">
+        <div class="upload-field">
+            <input type="file" id="importBdmZip" name="import-file" ng-model="importFile.file"
+                   required nv-file-select uploader="uploader" accept=".zip">
+            <div class="upload-field-content" ng-class="{'upload-success': isUploadSuccess}">
+                <span ng-if="fileName">{{fileName}}</span><span ng-if="!fileName" translate>Click here to choose your .zip file</span>
+            </div>
+        </div>
+    </bootstrap-form-control>
+</div>
+
+<div class="modal-footer">
+    <div class="callout callout-warning text-left" ng-hide="!isBDMInstalled">
+        <input type="checkbox" ng-model="warningAccepted"> <span translate ng-click="AddBDMPopupCtrl.clickCheckbox()">I have read and understood the previous warning message. I have prepared a database backup so I can rollback this operation.</span>
+        <br/>
+    </div>
+
+    <button id="btn-open-modal"
+            ng-disabled="AddBDMPopupCtrl.isBDMInstallDisabled()"
+            ng-click="AddBDMPopupCtrl.closeModalSuccess()" class="btn btn-primary"
+            translate>Install
+    </button>
+
+    <button class="btn btn-default"
+            ng-click="this.$dismiss()"
+            translate>Cancel
+    </button>
+</div>

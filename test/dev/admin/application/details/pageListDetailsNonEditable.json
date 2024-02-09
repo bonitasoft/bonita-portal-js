@@ -1,0 +1,62 @@
+[
+  {
+    "id": "101",
+    "pageId": {
+      "processDefinitionId": "",
+      "updatedBy": "-1",
+      "urlToken": "custompage_adminApplicationListBonita",
+      "displayName": "Bonita Admin Application List",
+      "lastUpdateDate": "2021-06-21 10:32:03.087",
+      "description": "This page provides a list of applications. It is dedicated to Admin-like profiles. This page has not been created with the UI Designer but it can still be used as a custom page in any application.",
+      "creationDate": "2021-06-21 10:32:03.087",
+      "contentName": "page-admin-application-list.zip",
+      "isHidden": "false",
+      "createdBy": "",
+      "isProvided": "true",
+      "id": "14",
+      "contentType": "page"
+    },
+    "applicationId": "2",
+    "token": "application-list"
+  },
+  {
+    "id": "10",
+    "pageId": {
+      "processDefinitionId": "",
+      "updatedBy": "-1",
+      "urlToken": "custompage_adminCaseListBonita",
+      "displayName": "Bonita Admin Case List",
+      "lastUpdateDate": "2021-06-21 10:32:03.106",
+      "description": "This page provides the list of open and archived cases. It is dedicated to admin-like profiles. You can export it and edit it in the UI Designer.",
+      "creationDate": "2021-06-21 10:32:03.106",
+      "contentName": "page-admin-case-list.zip",
+      "isHidden": "false",
+      "createdBy": "",
+      "isProvided": "true",
+      "id": "16",
+      "contentType": "page"
+    },
+    "applicationId": "2",
+    "token": "case-list"
+  },
+  {
+    "id": "2",
+    "pageId": {
+      "processDefinitionId": "",
+      "updatedBy": "-1",
+      "urlToken": "custompage_home",
+      "displayName": "Application home page",
+      "lastUpdateDate": "2021-06-21 10:32:02.968",
+      "description": "This is a home page dedicated to new born living applications. You can export it and edit it in the UI Designer.",
+      "creationDate": "2021-06-21 10:32:02.968",
+      "contentName": "bonita-home-page.zip",
+      "isHidden": "false",
+      "createdBy": "",
+      "isProvided": "true",
+      "id": "5",
+      "contentType": "page"
+    },
+    "applicationId": "2",
+    "token": "home"
+  }
+]

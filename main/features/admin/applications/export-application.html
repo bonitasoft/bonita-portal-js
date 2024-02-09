@@ -1,0 +1,23 @@
+<div class="modal-header">
+    <h3 class="modal-title">{{ 'Export application descriptor' | translate}}</h3>
+</div>
+<div class="modal-body">
+    <p>{{'You are about to export the descriptor of the application' | translate}} <i>{{application.displayName||application.name}}</i>.<br>{{'When you export an application descriptor, pages and profiles are not exported in the file.' | translate}}</p>
+</div>
+
+<div class="modal-footer">
+  <div class="form-group has-feedback">
+    <export-app-button
+      id="confirm"
+      app-id="{{application.id}}"
+      class="btn btn-primary"
+      ng-click="exportApplicationCtrl.cancel()"
+      >{{'Export' | translate}}
+    </export-app-button>
+    <button
+      id="cancel"
+      class="btn btn-default"
+      ng-click="exportApplicationCtrl.cancel()">{{'Cancel' | translate}}
+    </button>
+   </div>
+</div>

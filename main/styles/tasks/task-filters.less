@@ -1,0 +1,80 @@
+/**
+ * Tasks Filter
+ */
+
+.FilterToggle {
+  float: right;
+  padding: 15px 10px 10px;
+  font-size: 1.7em;
+  background-color: #eee;
+  border: none;
+
+  &:hover {
+    background-color: #ddd;
+  }
+}
+
+.FilterToggle-expend {
+  width: 100%;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+/** increase selector specificity to override bootstrap **/
+
+
+.TaskFilters {
+  display: none;
+}
+
+.TaskListPage .TaskFilters {
+  margin: 0 0 0 .5em;
+  overflow: visible;
+}
+
+.TaskListPage--small .TaskFilters,
+.TaskListPage--withMenu .TaskFilters{
+  display: block;
+  margin-top: 5em;
+}
+
+.TaskFilters {
+  padding-left: 0;
+  margin:.5em;
+}
+
+.TaskFilters .TaskFilters {
+  margin:0;
+}
+
+
+.nav-pills > li  > a {
+  color: #666;
+}
+
+.TaskListPage .nav-pills > li > a {
+  color: #2c3e50;
+  border-radius: 4px 0 0 4px;
+}
+
+.TaskListPage .nav-pills > li.active > a,
+.TaskListPage .nav-pills > li.active > a:hover,
+.TaskListPage .nav-pills > li.active > a:focus {
+  color: #2c3e50;
+  background-color: #fff;
+}
+
+.TaskListPage .nav-pills > li > a:hover {
+  background-color: #b4b9c2;
+}
+
+.nav-pills > .active > a > .badge {
+  background-color:#6CBFEE;
+  color:#fff;
+  box-shadow:0 1px 1px #999 ;
+}
+
+.badge {
+  background:#777;
+  color:#fff;
+}
