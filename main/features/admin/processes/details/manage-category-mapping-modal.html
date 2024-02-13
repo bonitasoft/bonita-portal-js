@@ -1,0 +1,92 @@
+<div id="manage-categories-modal" class="process-details">
+    <div class="modal-header header">
+        <h3 class="modal-title">{{'Manage Categories' | translate }}</h3>
+    </div>
+    <div class="modal-body body">
+        <div class="mapped-categories">
+            <div>
+                <h4>{{'Mapped categories' | translate}}</h4>
+                <p class="members">
+                <span ng-repeat="category in manageCategoryMappingInstanceCtrl.mappedCategories"
+                      class="tag label label-default member">
+                  {{category.name}} <i ng-click="manageCategoryMappingInstanceCtrl.removeCategory(category)"
+                                       class="glyphicon glyphicon-remove"></i>
+                </span>
+                    <span ng-click="manageCategoryMappingInstanceCtrl.removeAll()" class="tag label label-danger button-action"
+                          ng-if="!!manageCategoryMappingInstanceCtrl.mappedCategories.length"> {{'Remove all' | translate}}
+                </span>
+                </p>
+                <p class="text-muted" ng-if="!manageCategoryMappingInstanceCtrl.mappedCategories.length">
+                    {{'No mapping' | translate}}
+                </p>
+            </div>
+
+            <div ng-if="!!manageCategoryMappingInstanceCtrl.categoriesToRemove.length">
+                <h4>{{'Removing on apply' | translate}}</h4>
+                <p class="members">
+                <span ng-repeat="category in manageCategoryMappingInstanceCtrl.categoriesToRemove"
+                      class="member label label-default">
+                  {{category.name}} <i ng-click="manageCategoryMappingInstanceCtrl.reenableCategory(category)"
+                                       class="glyphicon glyphicon-remove"></i>
+                </span>
+                    <span ng-click="manageCategoryMappingInstanceCtrl.reenableAll()" class="label label-success button-action"
+                          ng-if="manageCategoryMappingInstanceCtrl.categoriesToRemove.length>0"> {{'Enable all' | translate}}
+                </span>
+                </p>
+            </div>
+        </div>
+
+
+        <div class="mapped-categories">
+
+            <div>
+                <h4>{{'Add' | translate}} <i class="glyphicon glyphicon-info-sign" title="{{manageCategoryMappingInstanceCtrl.getAddCategoryTooltip()}}"></i></h4>
+                <div class="add-category-input-container">
+                    <div class="category-list-container">
+                        <input list="categoryList" autocomplete="off" size="30"
+                               ng-model="manageCategoryMappingInstanceCtrl.addCategoryInputValue" />
+                        <datalist id="categoryList">
+                            <option ng-repeat="category in manageCategoryMappingInstanceCtrl.filterCategories()"
+                                    value="{{category.name}}"></option>
+                        </datalist>
+                    </div>
+                    <button ng-disabled="!manageCategoryMappingInstanceCtrl.addCategoryInputValue || manageCategoryMappingInstanceCtrl.doesCategoryAlreadyExist() || manageCategoryMappingInstanceCtrl.isCategoryInTheRemovedList()"
+                            ng-click="manageCategoryMappingInstanceCtrl.addNewCategory()" class="btn btn-primary">Add
+                    </button>
+                </div>
+            </div>
+            <div ng-if="!!manageCategoryMappingInstanceCtrl.categoriesToAdd.length">
+                <h4>{{'Adding on apply' | translate}}</h4>
+                <p class="members">
+                    <span ng-repeat="category in manageCategoryMappingInstanceCtrl.categoriesToAdd"
+                          class="tag label label-default member">
+                      {{category.name}} <i ng-click="manageCategoryMappingInstanceCtrl.removeFromAdded(category)"
+                                      class="glyphicon glyphicon-remove"></i>
+                    </span>
+                    <span ng-click="manageCategoryMappingInstanceCtrl.removeAllFromAdded()" class="tag label label-danger button-action"
+                          ng-if="!!manageCategoryMappingInstanceCtrl.categoriesToAdd.length"> {{'Remove all' | translate}}
+                    </span>
+                </p>
+            </div>
+        </div>
+
+        <div class="alert alert-info category-alert" ng-if="manageCategoryMappingInstanceCtrl.doesCategoryAlreadyExist() || manageCategoryMappingInstanceCtrl.isCategoryInTheRemovedList()">
+            <i class="glyphicon glyphicon-info-sign"></i>
+            <div>
+                {{'Unable to map category:' | translate }} {{manageCategoryMappingInstanceCtrl.addCategoryInputValue}}
+
+                <div ng-if="manageCategoryMappingInstanceCtrl.doesCategoryAlreadyExist()">{{'This category has already been added to this process.' | translate }}</div>
+                <div ng-if="manageCategoryMappingInstanceCtrl.isCategoryInTheRemovedList()">{{'The category cannot be removed and added at the same time.' | translate }}</div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" ng-click="manageCategoryMappingInstanceCtrl.updateCategories()"
+                ng-if="manageCategoryMappingInstanceCtrl.categoriesToAdd.length || manageCategoryMappingInstanceCtrl.categoriesToRemove.length">
+            {{ 'Apply' | translate }}
+        </button>
+        <button class="btn btn-default close_popup" ng-click="manageCategoryMappingInstanceCtrl.cancel()">
+            {{ 'Cancel' | translate }}
+        </button>
+    </div>
+</div>

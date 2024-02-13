@@ -1,0 +1,17 @@
+{
+    "icon": "/default/process.png",
+    "displayDescription": "",
+    "version": "6.6.6",
+    "failedCases": "0",
+    "id": "789",
+    "deploymentDate": "2015-04-13 11:05:11.335",
+    "description": "Some Description",
+    "name": "Rock'N'Roll Process",
+    "activationState": "DISABLED",
+    "deployedBy": "-1",
+    "displayName": "Rock'N'Roll Process To Display",
+    "openCases": "0",
+    "actorinitiatorid": "11",
+    "configurationState": "UNRESOLVED",
+    "last_update_date": "2015-04-14 17:52:20.698"
+}

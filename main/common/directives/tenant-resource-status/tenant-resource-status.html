@@ -1,0 +1,19 @@
+<div class="object-attribute-list">
+    <span ng-if="vm.isInstalled()" class="object-attribute-icon glyphicon glyphicon-ok-circle text-success"></span>
+    <span ng-if="!vm.isInstalled() && !vm.isInstalling()" class="object-attribute-icon glyphicon glyphicon-ban-circle text-warning"></span>
+    <span ng-if="vm.isInstalling()" class="object-attribute-icon glyphicon glyphicon-cog text-info"></span>
+    <dl>
+        <dt translate>Status</dt>
+        <dd id="displayState">{{vm.displayState}}</dd>
+    </dl>
+    <span class="object-attribute-icon glyphicon glyphicon-calendar"></span>
+    <dl>
+        <dt translate>Last update</dt>
+        <dd id="lastUpdate">{{vm.lastUpdateDate | moment:'LLL'}}</dd>
+    </dl>
+    <span class="object-attribute-icon glyphicon glyphicon-user"></span>
+    <dl>
+        <dt translate>Updated by</dt>
+        <dd id="updatedBy">{{vm.updatedBy}}</dd>
+    </dl>
+</div>

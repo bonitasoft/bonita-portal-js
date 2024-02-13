@@ -1,0 +1,36 @@
+<div id="process-details-params">
+  <h2 class="SubHeading">{{'Parameters' | translate}}</h2>
+  <div ng-if="!processParamsCtrl.parameters.length">
+    {{ 'The current process has no parameters defined.' | translate}}
+  </div>
+  <div ng-if="!!processParamsCtrl.parameters.length">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>{{'Name' | translate}}</th>
+                <th>{{'Description' | translate}}</th>
+                <th>{{'Type' | translate}}</th>
+                <th>{{'Value' | translate}}</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="parameter in processParamsCtrl.parameters">
+              <td>{{parameter.name}}</td>
+              <td>{{parameter.description}}</td>
+              <td>{{parameter.type}}</td>
+              <td ng-if="!processParamsCtrl.showActions">{{parameter.value}}</td>
+              <td ng-if="processParamsCtrl.showActions" class="xeditable">
+                <div ng-switch="parameter.type">
+                  <div ng-switch-when="java.lang.Boolean" class="form-group">
+                    <a href="" editable-select="parameter.value" onbeforesave="processParamsCtrl.updateParameter(parameter, $data)"  e-ng-options="s.value as s.value for s in processParamsCtrl.booleanValues">{{ parameter.value || 'No Value' | translate}}</a>
+                  </div>
+                  <div ng-switch-default class="form-group">
+                    <a href="" editable-text="parameter.value" e-style="width: 400px;" onbeforesave="processParamsCtrl.updateParameter(parameter, $data)" >{{ parameter.value || 'No Value' | translate}}</a>
+                  </div>
+                </div>
+              </td>
+            </tr>
+        </tbody>
+    </table>
+  </div>
+</div>

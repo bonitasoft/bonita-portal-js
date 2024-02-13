@@ -1,0 +1,54 @@
+<div id="editActorsMembersModal" ng-init="editActorMembersCtrl.initView()" class="process-details">
+
+    <div class="modal-header">
+        <h1 class="modal-title">{{editActorMembersCtrl.title | translate | stringTemplater:[editActorMembersCtrl.actor.displayName]}}</h1>
+    </div>
+    <div class="modal-body">
+        <h2>{{'{} mapped' | translate | stringTemplater:[editActorMembersCtrl.currentMemberLabel]}}</h2>
+        <p class="members">
+      <span ng-repeat="member in editActorMembersCtrl.members" class="tag label label-default member">
+          <span ng-bind-html="member.label"></span> <i ng-click="editActorMembersCtrl.removeMember(member)" class="glyphicon glyphicon-remove"></i>
+      </span>
+            <span ng-click="editActorMembersCtrl.removeAll()" class="tag label label-danger" ng-if="!!editActorMembersCtrl.members.length"> {{'Remove all' | translate}}</span>
+        </p>
+        <p class="text-muted" ng-if="!editActorMembersCtrl.members.length">
+            {{'No mapping' | translate}}
+        </p>
+        <div ng-if="!editActorMembersCtrl.isMembershipEdit()">
+            <h3>{{'Add' | translate}}</h3>
+            <p>
+                <actors-select-box local-lang="editActorMembersCtrl.localLang"
+                                   selected-members="editActorMembersCtrl.newMembers"
+                                   already-mapped-actors-ids="editActorMembersCtrl.mappedIds"
+                                   type="{{editActorMembersCtrl.memberType}}"></actors-select-box>
+            </p>
+        </div>
+        <div ng-if="editActorMembersCtrl.isMembershipEdit()">
+            <h3>{{'Create a new membership' | translate}}</h3>
+            <p>
+                <actors-select-box local-lang="editActorMembersCtrl.localLangRole"
+                                   selected-members="editActorMembersCtrl.newMembers.membership.role"
+                                   already-mapped-actors-ids="editActorMembersCtrl.mappedIds"
+                                   type="ROLE" selection-mode="single"></actors-select-box>
+                <span style="clear:both">{{' of ' | translate }}</span>
+                <actors-select-box local-lang="editActorMembersCtrl.localLangGroup"
+                                   selected-members="editActorMembersCtrl.newMembers.membership.group"
+                                   already-mapped-actors-ids="editActorMembersCtrl.mappedIds"
+                                   type="GROUP" selection-mode="single"></actors-select-box>
+            </p>
+        </div>
+        <div ng-if="!!editActorMembersCtrl.membersToDelete.length">
+            <h3>{{'{} mappings to delete' | translate | stringTemplater:[editActorMembersCtrl.currentMemberLabel]}}</h3>
+            <p class="members">
+        <span ng-repeat="member in editActorMembersCtrl.membersToDelete" class="member label label-default">
+          {{member.label}} <i ng-click="editActorMembersCtrl.reenableMember(member)" class="glyphicon glyphicon-remove"></i>
+        </span>
+                <span ng-click="editActorMembersCtrl.reenableAll()" class="label label-success" ng-if="editActorMembersCtrl.membersToDelete.length>0"> {{'Enable all' | translate}}</span>
+            </p>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <a ng-if="editActorMembersCtrl.hasModificationToApply()" class="btn btn-primary" ng-click="editActorMembersCtrl.apply()">{{'Apply' | translate }}</a>
+        <a ng-click="editActorMembersCtrl.cancel()" class="btn btn-default">{{'Cancel'|translate}}</a>
+    </div>
+</div>

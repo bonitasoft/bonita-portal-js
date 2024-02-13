@@ -1,0 +1,43 @@
+<h2 class="SubHeading" translate>Custom information</h2>
+<form class="form-horizontal col-lg-9">
+
+    <div ng-if="vm.hasCustomInfo()">
+        <div ng-repeat="info in vm.customInformation" class="form-group">
+            <label class="col-md-3 control-label">{{info.definitionId.name}}</label>
+            <div class="col-md-9">
+                <input type="text" ng-model="info.value" class="form-control">
+                <p class="help-block" ng-if="info.definitionId.description">
+                    {{info.definitionId.description}}
+                </p>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-3 col-md-9">
+                <button class="btn btn-primary"
+                        ng-click="vm.saveCustomInfo(vm.customInformation)"
+                        translate>
+                    Update custom information
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div ng-if="!vm.hasCustomInfo()">
+        <p translate>No custom information defined.</p>
+        <div class="CustomInformation-guidance">
+            <translate>You can create custom information in Bonita Studio:</translate>
+            <ul>
+                <li translate>
+                    In the menu <i>Organization > Manage</i>, go to the <i>Users</i> page of the wizard
+                </li>
+                <li translate>
+                    Select the <i>User information management</i> tab to add <i>Custom information</i> on the right
+                </li>
+            </ul>
+            <translate>
+                Then for each user, fill out the custom information value, in the Studio (<i>List of users</i> tab of
+                the organization), or right on this Portal page.
+            </translate>
+        </div>
+    </div>
+</form>

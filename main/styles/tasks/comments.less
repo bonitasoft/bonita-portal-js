@@ -1,0 +1,75 @@
+.Comments {
+  position: relative;
+  height: 100%;
+
+  padding: 0;
+
+  .Comments-header {
+    font-size: 1.3em;
+  }
+
+  .Comments-content {
+    position: absolute;
+    top: 30px;
+    bottom: 140px;
+    left: 0;
+    right: 0;
+
+    overflow: auto;
+
+    padding: 10px 0;
+  }
+
+  .Comments-footer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+  }
+}
+
+.Comment {
+  padding: 10px;
+
+  &:last-child {
+    border: none;
+  }
+
+  .Comment-header {
+    font-size: 90%;
+  }
+
+  .Comment-icon {
+    float: left;
+    max-height: 32px;
+    max-width: 32px;
+    border-radius: 3px;
+  }
+
+  .Comment-content, .Comment-header {
+    margin-left: 40px;
+  }
+
+  .Comment-content {
+    padding-top: 2px;
+    white-space: pre-wrap;
+  }
+}
+
+.CommentForm {
+
+  .CommentForm-disabledMsg {
+    color: #727272;
+    margin-left: .2em;
+  }
+
+  textarea {
+    resize:none;
+  }
+}
+
+.CommentForm-help {
+  color: #c2c2c2;
+  margin-top: 0;
+  font-size: .8em;
+}
