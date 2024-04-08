@@ -66,10 +66,11 @@
     "query-string": "4.2.3",
     "time-grunt": "0.2.10",
     "watch": "^0.17.1",
-    "webdriver-manager": "12.1.8"
+    "webdriver-manager": "12.1.8",
+    "chromedriver": "123.0.1"
   },
   "engines": {
-    "node": ">=4.2.0"
+    "node": ">=18"
   },
   "scripts": {
     "build:fonts": "copyfiles -f \"main/styles/fonts/*.eot\" \"main/styles/fonts/*.ttf\" \"main/styles/fonts/*.woff\" \"main/styles/fonts/*.svg\" \"main/assets/bootstrap/fonts/*.*\" target/css/skin/fonts",
