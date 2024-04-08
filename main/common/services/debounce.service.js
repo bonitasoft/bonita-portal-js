@@ -2,8 +2,7 @@
   'use strict';
 
   function DebounceProvider() {
-    this.$get = function ($timeout) {
-      var debounceds = {};
+    this.$get = function () {
 
       /**
        * Debounce a function execution for a given delay
@@ -14,12 +13,13 @@
        * @param fn  function to be debounced
        * @param delay the debounce delay
        */
-      function debounce(fn, delay) {
-        if (debounceds[fn]) {
-          $timeout.cancel(debounceds[fn]);
-        }
+      var debounceTimer;
 
-        debounceds[fn] = $timeout(fn, delay);
+      function debounce(fn, delay) {
+        clearTimeout(debounceTimer);
+        debounceTimer = setTimeout(function() {
+          fn.apply(arguments);
+        }, delay);
       }
 
       return debounce;
@@ -29,6 +29,5 @@
   angular
     .module('org.bonitasoft.service.debounce', [])
     .provider('debounce', DebounceProvider);
-
 
 })();

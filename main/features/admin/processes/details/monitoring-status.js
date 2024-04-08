@@ -14,8 +14,7 @@
     'ui.bootstrap',
     'org.bonitasoft.service.token',
     'org.bonitasoft.common.directives.bonitaHref',
-    'org.bonitasoft.services.topurl',
-    'org.bonitasoft.service.applicationLink'
+    'org.bonitasoft.services.topurl'
   ])
     .directive('monitoringStatus', function() {
       return {
@@ -28,21 +27,16 @@
         controller: 'MonitoringStatusCtrl',
         controllerAs: 'monitoringCtrl'
       };
-    }).controller('MonitoringStatusCtrl', function($scope, i18nService, TokenExtensionService, archivedCaseAPI, ApplicationLink, manageTopUrl, $window) {
+    }).controller('MonitoringStatusCtrl', function($scope, i18nService, TokenExtensionService, archivedCaseAPI, manageTopUrl, $window) {
       var vm = this;
       vm.process = $scope.process;
       vm.pageProfileToken = TokenExtensionService.tokenExtensionValue;
       vm.archivedCaseCount = 0;
-      vm.isInApps = isInApps;
       vm.goToFailedCaseList = goToFailedCaseList;
       vm.goToCaseList = goToCaseList;
       vm.goToArchivedCaseList = goToArchivedCaseList;
 
       var caseListUrl = '../admin-case-list/?processId=' + vm.process.id;
-
-      function isInApps() {
-        return ApplicationLink.isInApps;
-      }
 
       function goToFailedCaseList() {
         goTo(caseListUrl + '&caseStateFilter=error');

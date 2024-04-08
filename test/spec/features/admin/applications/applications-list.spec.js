@@ -64,7 +64,7 @@
 
     describe('Controller: applicationsListCtrl', function() {
 
-      var scope, applicationAPI, createCtrl, modal, store, loadRequest, _window, applicationLink;
+      var scope, applicationAPI, createCtrl, modal, store, loadRequest, _window;
 
       beforeEach(inject(function($controller, $rootScope, $injector, $q) {
         loadRequest = $q.defer();
@@ -72,7 +72,6 @@
         applicationAPI = $injector.get('applicationAPI');
         store = $injector.get('store');
         modal = $injector.get('$modal');
-        applicationLink = {isInApps: false};
         _window = {location: {hash: {}}, parent: {location: {hash: {}}}};
 
         createCtrl = function() {
@@ -81,7 +80,6 @@
             'applicationAPI': applicationAPI,
             'store': store,
             '$modal': modal,
-            ApplicationLink: applicationLink,
             $window: _window
           });
         };
@@ -183,7 +181,6 @@
         it('should goto application details when we are in an app', function() {
           var Ctrl = createCtrl();
           spyOn(manageTopUrl,'getPath').and.returnValue('/bonita/apps/appName/admin-applications');
-          applicationLink.isInApps = true;
           Ctrl.goToApplicationDetails(1);
           expect(manageTopUrl.getPath).toHaveBeenCalled();
           expect(_window.parent.location).toBe('/bonita/apps/appName/admin-applications../admin-application-details?id=1');
