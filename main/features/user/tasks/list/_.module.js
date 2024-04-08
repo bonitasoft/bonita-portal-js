@@ -12,7 +12,6 @@
     'org.bonitasoft.features.user.tasks.app.store',
     'org.bonitasoft.templates',
     'org.bonitasoft.portalTemplates',
-    'common.security',
     'ui.bootstrap.tpls',
     'as.sortable'
   ]);

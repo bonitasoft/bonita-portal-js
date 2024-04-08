@@ -87,7 +87,7 @@
     }
   ];
 
-  var module = angular.module('org.bonitasoft.common.resources', ['ngResource'])
+  var module = angular.module('org.bonitasoft.common.resources')
     .constant('API_PATH', API_PATH)
 
     /**
@@ -105,12 +105,81 @@
     })
 
     .factory('unauthorizedResponseHandler',
-      function ($q, $window) {
+      function ($q, $location, $window, $injector) {
+        var $modal;
+        var i18nService;
+        var confirmationModalIsOpen = false;
+
+        var openConfirmationModal = function (errorInfo, redirectMessage, remainMessage) {
+          try {
+            $modal = $modal || $injector.get('$modal');
+            confirmationModalIsOpen = true;
+            var confirmModal = $modal.open({
+              controller: 'httpErrorModalCtrl',
+              size: 'md',
+              resolve: {
+                messages: function () {
+                  return {
+                    'title': i18nService.getKey('resources.error.title'),
+                    'info': errorInfo,
+                    'redirect': redirectMessage,
+                    'remain': remainMessage,
+                    'ok': i18nService.getKey('resources.error.ok'),
+                    'cancel': i18nService.getKey('resources.error.cancel')
+                  };
+                }
+              },
+              // Template needs to be defined here instead of external file because the request to templateURL would also fail with 401 or 503
+              template: '<div class="modal-header">\n' +
+                '    <h3 class="modal-title">{{messages.title}}</h3>\n' +
+                '</div>\n' +
+                '<div class="modal-body">\n' +
+                '    <p>{{messages.info}}</p>\n' +
+                '    <p>{{messages.redirect}}</p>\n' +
+                '    <p>{{messages.remain}}</p>\n' +
+                '</div>\n' +
+                '<div class="modal-footer">\n' +
+                '    <div>\n' +
+                '        <button id="confirm" type="submit" class="btn btn-primary" ng-click="confirm()" >{{messages.ok}}</button>\n' +
+                '        <button id="cancel" type="submit" class="btn btn-default" ng-click="cancel()">{{messages.cancel}}</button>\n' +
+                '    </div>\n' +
+                '</div>\n' +
+                '</div>'
+            });
+            // Trigger the reload of the parent page
+            confirmModal.result.then(
+              function () {
+                $window.parent.location.reload();
+              }, function () {
+                confirmationModalIsOpen = false;
+              });
+          } catch (e) {
+            // In case there is an issue with the modal
+            $window.parent.location.reload();
+          }
+        };
+
+        var isBonitaAPIURL = function(requestURL) {
+          var pageURL = $location.absUrl();
+          var urlContext = pageURL.substring(0, pageURL.indexOf($location.path()));
+          //if the REST request was for the same webapp as the page
+          return requestURL.lastIndexOf(urlContext) === 0 || requestURL.lastIndexOf('../API/') === 0;
+        };
+
         return {
           'responseError': function (rejection) {
-
-            if (rejection.status === 401 && !/\/API\/platform\/license/.test(rejection.config.url)) {
-              $window.parent.location.reload();
+            if (!confirmationModalIsOpen) {
+              i18nService = i18nService || $injector.get('i18nService');
+              if (rejection.status === 401 && !/\/API\/platform\/license/.test(rejection.config.url) && isBonitaAPIURL(rejection.config.url)) {
+                openConfirmationModal(i18nService.getKey('resources.error.session.info'),
+                  i18nService.getKey('resources.error.session.redirect'),
+                  i18nService.getKey('resources.error.session.remain'));
+              }
+              if (rejection.status === 503 && isBonitaAPIURL(rejection.config.url)) {
+                openConfirmationModal(i18nService.getKey('resources.error.maintenance.info'),
+                  i18nService.getKey('resources.error.maintenance.redirect'),
+                  i18nService.getKey('resources.error.maintenance.remain'));
+              }
             }
             return $q.reject(rejection);
           }
@@ -175,7 +244,7 @@
     'roleAPI': 'identity/role',
     'userAPI': 'identity/user',
     'sessionAPI': 'system/session',
-    'tenantAdminAPI': 'system/tenant',
+    'maintenanceAPI': 'system/maintenance',
   });
 
   module.factory('userTaskAPI', function ($http) {

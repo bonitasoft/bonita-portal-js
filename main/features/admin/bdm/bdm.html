@@ -5,7 +5,7 @@
         <bo-tenant-resource-status data="vm.bdm"></bo-tenant-resource-status>
         <div ng-if="!vm.isTechnicalUser">
             <p>
-                <span translate>Installing or updating the BDM implies to be logged in as Technical User, and to shut down all BPM services.</span><br/>
+                <span translate>Installing or updating the BDM implies to be logged in as Technical User, and to activate the maintenance mode.</span><br/>
                 <span translate>To do so, log out and then log back in as the Technical User, whose credentials are set upon Bonita platform installation.</span><br/>
             <p>
         </div>
@@ -24,9 +24,9 @@
                     </button>
                     <h2 class="panel-title" ng-if="!vm.isBDMInstalled()" translate>Install Business Data Model</h2>
                     <h2 class="panel-title" ng-if="vm.isBDMInstalled()" translate>Update Business Data Model</h2>
-                    <div ng-if="!vm.isTenantPaused">
-                        <span class="glyphicon glyphicon-warning-sign text-warning"></span>
-                        <span translate>BPM Services must be paused. Go to "BPM Services" menu option.</span>
+                    <div ng-if="!vm.isMaintenanceEnabled">
+                        <span class="glyphicon glyphicon-exclamation-sign text-warning"></span>
+                        <span translate>Only available when the platform is under maintenance. Go to the "Platform maintenance" page to activate the maintenance mode.</span>
                     </div>
                     <div ng-if="vm.isAccessControlInstalled()" class="message-status-animation">
                         <span class="glyphicon glyphicon-warning-sign text-warning"></span>
@@ -47,9 +47,9 @@
                         <span class="glyphicon glyphicon-info-sign text-info"></span>
                         <span translate>BDM access control file can now be installed.</span><br/>
                     </div>
-                    <div ng-if="vm.isTenantPaused">
+                    <div ng-if="vm.isMaintenanceEnabled">
                         <span class="glyphicon glyphicon-info-sign text-info"></span>
-                        <span translate>Don't forget to start BPM Services again.</span><br/>
+                        <span translate>Make sure to deactivate the maintenance mode.</span><br/>
                     </div>
                     <div ng-if="vm.isBDMInstallError === 500" class="message-status-animation">
                         <span class="glyphicon glyphicon-remove text-danger"></span>
