@@ -3,6 +3,7 @@
   "devDependencies": {
     "babel-core": "^6.7.4",
     "babel-preset-bonita": "1.0.1",
+    "chromedriver": "123.0.1",
     "copyfiles": "^0.2.1",
     "cross-env": "^5.1.4",
     "each-async": "1.1.1",
@@ -66,8 +67,7 @@
     "query-string": "4.2.3",
     "time-grunt": "0.2.10",
     "watch": "^0.17.1",
-    "webdriver-manager": "12.1.8",
-    "chromedriver": "123.0.1"
+    "webdriver-manager": "12.1.8"
   },
   "engines": {
     "node": ">=18"
