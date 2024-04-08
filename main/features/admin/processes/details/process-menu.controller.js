@@ -7,7 +7,7 @@
     .controller('ProcessMenuCtrl', ProcessMenuCtrl);
 
   /* jshint -W003 */
-  function ProcessMenuCtrl($scope, menuContent, process, stateParamsProcessId, processAPI, $modal, $state, manageTopUrl, $window, processResolutionProblems, ProcessMoreDetailsResolveService, TokenExtensionService, growl, $log, i18nService, ApplicationLink) {
+  function ProcessMenuCtrl($scope, menuContent, process, stateParamsProcessId, processAPI, $modal, $state, manageTopUrl, $window, processResolutionProblems, ProcessMoreDetailsResolveService, TokenExtensionService, growl, $log, i18nService) {
     var vm = this;
     vm.includesCurrentState = function(state) {
       return $state.includes(state);
@@ -48,13 +48,7 @@
     }
 
     function goToProcessList(){
-      if (ApplicationLink.isInApps) {
         $window.parent.location = manageTopUrl.getPath() + '../admin-process-list';
-        return;
-      }
-      manageTopUrl.goTo({
-        token: 'processlisting' + TokenExtensionService.tokenExtensionValue
-      });
     }
 
     function deleteProcess() {

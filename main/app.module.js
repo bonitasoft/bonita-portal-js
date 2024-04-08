@@ -24,7 +24,6 @@
     'org.bonitasoft.templates',
     'as.sortable',
     'org.bonitasoft.common.filters.date.parser',
-    'org.bonitasoft.service.applicationLink',
     'org.bonitasoft.common.resources.store',
     'org.bonitasoft.common.directives.bonitaHref',
     'org.bonitasoft.features.admin',

@@ -3,26 +3,7 @@
   <div class="panel panel-default">
     <div class="panel-body processDetails-monitoringStatus-counters">
       <div class="row">
-        <div ng-if="!monitoringCtrl.isInApps()" class="text-center">
-          <div class="col-xs-2 clickable" bonita-href="{'token': 'caselisting' + monitoringCtrl.pageProfileToken, '_processId': process.id, '_caseStateFilter': 'error'}">
-            <div class="totalLabel">{{'Cases with failures'|translate}}</div>
-            <span class="label label-danger counter">{{monitoringCtrl.process.failedCases}}</span>
-          </div>
-          <div class="col-xs-2 clickable" bonita-href="{'token': 'caselisting' + monitoringCtrl.pageProfileToken, '_processId': process.id}">
-            <div class="totalLabel">{{'Healthy cases'|translate}}</div>
-            <span class="label ready-bg-color counter">{{monitoringCtrl.process.openCases - monitoringCtrl.process.failedCases}}</span>
-          </div>
-          <div class="col-xs-2 clickable" bonita-href="{'token': 'caselisting' + monitoringCtrl.pageProfileToken, '_processId': process.id}">
-            <div class="totalLabel">{{'Open cases'|translate}}</div>
-            <span class="label label-default counter">{{monitoringCtrl.process.openCases}}</span>
-          </div>
-          <view-diagram process='monitoringCtrl.process'></view-diagram>
-          <div class="col-xs-4 clickable" bonita-href="{'token': 'caselisting' + monitoringCtrl.pageProfileToken, '_tab': 'archived', '_processId': process.id}">
-            <div class="totalLabel">{{'Archived cases'|translate}}</div>
-            <span class="label label-default counter">{{monitoringCtrl.archivedCaseCount}}</span>
-          </div>
-        </div>
-        <div ng-if="monitoringCtrl.isInApps()" class="text-center">
+        <div class="text-center">
           <div class="col-xs-2 clickable" ng-click="monitoringCtrl.goToFailedCaseList()">
             <div class="totalLabel">{{'Cases with failures'|translate}}</div>
             <span class="label label-danger counter">{{monitoringCtrl.process.failedCases}}</span>

@@ -23,8 +23,7 @@
     'org.bonitasoft.common.filters.stringTemplater',
     'org.bonitasoft.common.i18n',
     'org.bonitasoft.features.admin.mappings',
-    'org.bonitasoft.services.topurl',
-    'org.bonitasoft.service.applicationLink'
+    'org.bonitasoft.services.topurl'
   ])
     .constant('MEMBERS_PER_CELL', 5)
     .service('ActorMappingService', function(actorMemberAPI, MEMBERS_PER_CELL, $q) {
@@ -55,7 +54,7 @@
       };
       return actorMappingService;
     })
-    .controller('ActorsMappingCtrl', function($scope, $modal, process, MEMBERS_PER_CELL, growl, i18nService, $log, $filter, processActors, ActorMappingService, defaultLocalLang, ACTOR_PROFILES, ApplicationLink, manageTopUrl) {
+    .controller('ActorsMappingCtrl', function($scope, $modal, process, MEMBERS_PER_CELL, growl, i18nService, $log, $filter, processActors, ActorMappingService, defaultLocalLang, ACTOR_PROFILES, manageTopUrl) {
       var vm = this;
       vm.actors = processActors;
       vm.membersPerCell = MEMBERS_PER_CELL;
@@ -66,12 +65,7 @@
           vm.actorsMembers[actor.id] = actorMembers;
         });
       });
-      vm.isInApps = isInApps;
       vm.getLinkToProfiles = getLinkToProfiles;
-
-      function isInApps() {
-        return ApplicationLink.isInApps;
-      }
 
       function getLinkToProfiles() {
         return manageTopUrl.getPath() + '../admin-profile-list/';

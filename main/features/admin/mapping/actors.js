@@ -101,8 +101,10 @@
       });
     };
 
-   vm.searchWithDebounce = function(mySearch) {
-     debounce(vm.search(mySearch), 300);
+    vm.searchWithDebounce = function(mySearch) {
+       debounce(function () {
+         vm.search(mySearch);
+       }, 200);
     };
 
     vm.search({});
