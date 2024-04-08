@@ -20,17 +20,17 @@ if (process.env.HEADLESS) {
   ]);
 }
 
-var webdriverManagerPath = '../node_modules/webdriver-manager/selenium/chromedriver_114.0.5735.90';
+var chromeDriverPath = '../node_modules/chromedriver/bin/chromedriver';
 
 //Specify binary path to enable windows build
 if(process.platform.indexOf('win') === 0) {
-  webdriverManagerPath += '.exe';
+  chromeDriverPath += '.exe';
 }
 
 exports.config = {
 
     directConnect: true,
-    chromeDriver: webdriverManagerPath,
+    chromeDriver: chromeDriverPath,
 
     specs: [
       'e2e/**/*.e2e.js'
