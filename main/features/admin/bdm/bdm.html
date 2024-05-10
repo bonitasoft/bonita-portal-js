@@ -69,7 +69,8 @@
         </div>
     </section>
 
-    <access-control is-bdm-installed='vm.isBDMInstalled()'
+    <access-control ng-if='vm.isAccessControlFeatureActivated()'
+                    is-bdm-installed='vm.isBDMInstalled()'
                     access-control-status='vm.accessControlStatus'
                     on-access-control-update='vm.updateAccessControlStatus'
                     is-access-control-installed='vm.isAccessControlInstalled()'></access-control>
