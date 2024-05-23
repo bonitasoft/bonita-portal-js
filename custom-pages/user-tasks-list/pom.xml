@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.bonitasoft.web.page</groupId>
         <artifactId>custom-pages</artifactId>
-        <version>10.1-SNAPSHOT</version>
+        <version>10.1.0.W02</version>
     </parent>
 
     <artifactId>page-user-task-list</artifactId>
