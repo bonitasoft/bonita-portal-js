@@ -3,6 +3,7 @@
     "updatedBy": "-1",
     "visibility": "RESTRICTED",
     "displayName": "Bonita Administrator Application",
+    "advanced": "false",
     "lastUpdateDate": "1625471930368",
     "editable": "true",
     "icon": "../API/applicationIcon/1?t=1625471930368",
@@ -46,6 +47,7 @@
     "updatedBy": "-1",
     "visibility": "ALL",
     "displayName": "Bonita Application Directory",
+    "advanced": "false",
     "lastUpdateDate": "1625471930466",
     "editable": "false",
     "icon": "../API/applicationIcon/3?t=1625471930466",
@@ -79,6 +81,7 @@
     "updatedBy": "-1",
     "visibility": "TECHNICAL_USER",
     "displayName": "Bonita Super Administrator Application",
+    "advanced": "false",
     "lastUpdateDate": "1625471930589",
     "editable": "false",
     "icon": "../API/applicationIcon/4?t=1625471930589",
@@ -111,7 +114,8 @@
   {
     "updatedBy": "-1",
     "visibility": "RESTRICTED",
-    "displayName": "Bonita User Application",
+    "displayName": "Bonita Advanced User Application",
+    "advanced": "true",
     "lastUpdateDate": "1625471930427",
     "editable": "true",
     "icon": "../API/applicationIcon/2?t=1625471930427",
@@ -135,7 +139,7 @@
       "id": "3",
       "contentType": "layout"
     },
-    "token": "userAppBonita",
+    "token": "advancedUserAppBonita",
     "createdBy": "-1",
     "profileId": {
       "updatedBy": "-1",

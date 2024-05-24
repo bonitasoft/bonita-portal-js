@@ -3,7 +3,7 @@
   "devDependencies": {
     "babel-core": "^6.7.4",
     "babel-preset-bonita": "1.0.1",
-    "chromedriver": "123.0.1",
+    "chromedriver": "^125.0.0",
     "copyfiles": "^0.2.1",
     "cross-env": "^5.1.4",
     "each-async": "1.1.1",

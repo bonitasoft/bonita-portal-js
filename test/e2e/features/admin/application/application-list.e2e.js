@@ -24,9 +24,10 @@
 
     it('should display the list of applications', function() {
       expect(element.all(by.css('.application-display-name')).count()).toBe(4);
-      expect(element.all(by.css('.btn-action-edit')).count()).toBe(4);
-      expect(element.all(by.css('.btn-action-export')).count()).toBe(4);
-      expect(element.all(by.css('.btn-action-delete')).count()).toBe(2);
+      // Advanced app do not have actions
+      expect(element.all(by.css('.btn-action-edit')).count()).toBe(3);
+      expect(element.all(by.css('.btn-action-export')).count()).toBe(3);
+      expect(element.all(by.css('.btn-action-delete')).count()).toBe(1);
       expect(element.all(by.css('.application-display-name')).first().getText()).toContain('Bonita Super Administrator Application');
     });
 
@@ -47,5 +48,22 @@
       element(by.css('#cancel')).click();
       expect(element(by.className('modal')).isPresent()).toBe(false);
     });
+
+    it('should point on the correct url, depending on legacy or advanced app', function() {
+      expect(element.all(by.css('.application-path')).count()).toBe(4);
+      // Advanced app do not have 'apps' prefix
+      element.all(by.css('.application-path')).map((elem) => {
+        elem.all(by.tagName('a')).getAttribute('href').then((urls) => {
+          urls.forEach((url) => {
+            if (url.includes('advanced')) {
+              expect(url).not.toContain('apps');
+            } else {
+              expect(url).toContain('apps');
+            }
+          });
+        });
+      });
+    });
+
   });
 })();
