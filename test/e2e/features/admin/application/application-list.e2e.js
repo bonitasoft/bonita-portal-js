@@ -56,7 +56,7 @@
         elem.all(by.tagName('a')).getAttribute('href').then((urls) => {
           urls.forEach((url) => {
             if (url.includes('advanced')) {
-              expect(url).not.toContain('apps');
+              expect(url).toContain('app');
             } else {
               expect(url).toContain('apps');
             }

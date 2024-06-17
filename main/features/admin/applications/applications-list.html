@@ -33,7 +33,7 @@
         <td class="application-version" title="{{ application.version }}">{{ application.version }}</td>
         <td class="application-path">
             <a target="_blank" title="../apps/{{ application.token }}" ng-if="application.advanced !== 'true'" ng-href="../apps/{{ application.token }}" ng-disabled="!application.profileId.name"> ../apps/{{application.token}}</a>
-            <a target="_blank" title="../{{ application.token }}" ng-if="application.advanced === 'true'" ng-href="/{{ application.token }}" ng-disabled="!application.profileId.name"> ../{{application.token}}</a>
+            <a target="_blank" title="../app/{{ application.token }}" ng-if="application.advanced === 'true'" ng-href="/app/{{ application.token }}" ng-disabled="!application.profileId.name"> ../app/{{application.token}}</a>
         </td>
         <td ng-if="application.profileId.name" class="application-profile" title="{{ application.profileId.name }}">{{ application.profileId.name }}</td>
         <td ng-if="!application.profileId.name && application.visibility === 'RESTRICTED'" class="application-profile">
