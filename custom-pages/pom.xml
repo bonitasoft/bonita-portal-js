@@ -5,7 +5,7 @@
 
     <groupId>org.bonitasoft.web.page</groupId>
     <artifactId>custom-pages</artifactId>
-    <version>10.2-SNAPSHOT</version>
+    <version>10.2.0.alpha-01</version>
     <packaging>pom</packaging>
 
     <url>https://community.bonitasoft.com/</url>
