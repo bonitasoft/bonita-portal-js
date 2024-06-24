@@ -32,8 +32,8 @@
         <td class="application-display-name" title="{{ application.displayName }}">{{ application.displayName }}</td>
         <td class="application-version" title="{{ application.version }}">{{ application.version }}</td>
         <td class="application-path">
-            <a target="_blank" title="../apps/{{ application.token }}" ng-if="application.advanced !== 'true'" ng-href="../apps/{{ application.token }}" ng-disabled="!application.profileId.name"> ../apps/{{application.token}}</a>
-            <a target="_blank" title="../app/{{ application.token }}" ng-if="application.advanced === 'true'" ng-href="/app/{{ application.token }}" ng-disabled="!application.profileId.name"> ../app/{{application.token}}</a>
+            <a target="_blank" title="../apps/{{ application.token }}" ng-if="application.link !== 'true'" ng-href="../apps/{{ application.token }}" ng-disabled="!application.profileId.name"> ../apps/{{application.token}}</a>
+            <a target="_blank" title="../app/{{ application.token }}" ng-if="application.link === 'true'" ng-href="/app/{{ application.token }}" ng-disabled="!application.profileId.name"> ../app/{{application.token}}</a>
         </td>
         <td ng-if="application.profileId.name" class="application-profile" title="{{ application.profileId.name }}">{{ application.profileId.name }}</td>
         <td ng-if="!application.profileId.name && application.visibility === 'RESTRICTED'" class="application-profile">
@@ -44,7 +44,7 @@
           <span class="clickable" popover="{{applicationsListCtrl.loadTemplatePopover(application)}}" popover-trigger="mouseenter">{{ application.lastUpdateDate | dateAgo }}</span>
         </td>
         <td class="application-actions">
-            <div ng-if="application.advanced !== 'true'">
+            <div ng-if="application.link !== 'true'">
                 <div class="btn-group" >
                     <button ng-click="applicationsListCtrl.goToApplicationDetails(application.id)" class="glyphicon glyphicon-option-horizontal btn-action-edit" title="{{'View application details' | translate}}" aria-label="{{'View application details' | translate}}"></button>
                     <button class="glyphicon glyphicon-export btn-action-export" title="{{'Export' | translate}}" aria-label="{{'Export' | translate}}" ng-click="applicationsListCtrl.exportApplication(application, 'sm')"></button>
