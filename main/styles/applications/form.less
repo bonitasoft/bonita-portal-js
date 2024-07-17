@@ -14,8 +14,7 @@ bootstrap-form-control label::after {
   right: 42px;
   height: 20px;
   width: 20px;
-  background: white;
-  border: 1px solid white;
+  background: transparent;
 }
 
 .field-upload-container label::after {display: none}
@@ -30,3 +29,36 @@ bootstrap-form-control label::after {
 }
 
 .isBrowser-ie .select-form-container label::after{background-color: white}
+
+.segmented-control {
+  display: flex;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  overflow: hidden;
+  margin-bottom: 1rem;
+
+ & button {
+    flex: 1;
+    border: none;
+    background-color: #f0f0f0;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+
+    &:not(:last-child) {
+      border-right: 1px solid #ccc;
+    }
+    &:hover:not(.selected) {
+      background-color: #e7e7e7;
+    }
+
+    &.disabled {
+      cursor: not-allowed;
+    }
+
+    &.selected {
+      background-color: #007bff;
+      color: white;
+    }
+  }
+}

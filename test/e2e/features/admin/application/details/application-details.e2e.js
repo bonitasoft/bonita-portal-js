@@ -69,10 +69,19 @@
         expect(element(by.css('#app-created-by-value')).getText()).toContain('Walter Bates');
         expect(element(by.css('#app-updated-by-value')).getText()).toContain('Helen Kelly');
       });
+
+      it('should not be able to change application type', function() {
+        expect(element(by.css('#app-edit-btn')).getAttribute('title')).toContain('Edit');
+        element(by.css('#app-edit-btn')).click();
+        expect(element(by.className('modal')).isDisplayed()).toBe(true);
+        expect(element(by.css('#btn-isApplicationLegacy')).isPresent()).toBe(true);
+        expect(element(by.css('#btn-isApplicationLegacy')).isEnabled()).toBe(false);
+        expect(element(by.css('#btn-isApplicationLink')).isPresent()).toBe(true);
+        expect(element(by.css('#btn-isApplicationLink')).isEnabled()).toBe(false);
+      });
     });
 
     describe('with non editable application', function() {
-
       beforeEach(function() {
         browser.get('#/admin/applications/999');
       });

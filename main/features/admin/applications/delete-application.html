@@ -3,6 +3,7 @@
 </div>
 <div class="modal-body">
     <p ng-if="!errorMessage">{{ 'The application' | translate }} <i>{{application.displayName||application.name}}</i> {{'will be permanently deleted.' | translate}}</p>
+    <div class="alert alert-info" ng-if="application.link === 'true' && !errorMessage"><i class="glyphicon glyphicon-info-sign"></i> {{ 'This only deletes the application link. The application itself is not deleted and is still deployed.' | translate }}</div>
     <div class="alert ng-isolate-scope alert-danger alert-dismissible" ng-if="errorMessage"><span class="glyphicon glyphicon-remove-sign text-danger"></span> {{ errorMessage | translate }}</div>
 </div>
 
