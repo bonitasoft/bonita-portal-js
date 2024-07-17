@@ -26,6 +26,7 @@
       installButton.click();
       expect(installPopUpButton.getAttribute('disabled')).toEqual('true');
       element(by.css('input[type="file"]')).sendKeys(__filename);
+      browser.waitForAngular();
       expect(installPopUpButton.getAttribute('disabled')).toBeNull();
       browser.executeScript('$(\'.modal\').removeClass(\'fade\');');
       browser.waitForAngular();
