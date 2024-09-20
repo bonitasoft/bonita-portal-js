@@ -3,7 +3,7 @@
 Part of bonita portal written using AngularJs
 
 ## Requirements
-- node.js > v6.9.4 
+- node.js 18
 - yarn > v0.27.5
 - maven > 3.3.9
 
@@ -16,7 +16,14 @@ Then launch:
 
     yarn start
     
-Project should be running at URL http://localhost:9000/bonita/portaljs/
+Project should be running at URL http://localhost:9000/bonita/portaljs/.
+
+For instance, if you want to run the application-list page in development mode, with live update, you can do the following steps:
+- Open the application list from the Admin app: http://localhost:8080/bonita/apps/adminAppEEBonita/admin-application-list/
+- Open the Frame from the page context menu (install the "Open Frame" Chrome extension if needed)
+- Replace http://localhost:8080/bonita/portal.js by http://localhost:9000/bonita/portaljs/ in the URL.
+
+Now, you are running the application-list page in development mode, with live update!
     
 ### Launch unit tests
     yarn run test
