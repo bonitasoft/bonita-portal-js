@@ -24,12 +24,12 @@ describe('Security', function() {
 
 
   afterEach(function() {
-    $httpBackend.verifyNoOutstandingExpectation();
-    $httpBackend.verifyNoOutstandingRequest();
+    $httpBackend.verifyNoOutstandingExpectation(false);
+    $httpBackend.verifyNoOutstandingRequest(false);
   });
 
   it('should attach an error object to $rootScope', function(){
-    $http.get('../API/system/session/unusedId');
+    $http.get('../API/system/session/unusedId').catch(angular.noop);
     authRequestHandler.respond(401, 'unauhtorized');
     $httpBackend.flush();
     expect($rootScope.error.status).toBe(401);

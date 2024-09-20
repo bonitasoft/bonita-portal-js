@@ -31,7 +31,6 @@
     var humanComment2 =
     {
       'processInstanceId': '123',
-      'tenantId': '1',
       'postDate': '2016-03-08 15:07:04.391',
       'id': '60002',
       'userId': {
@@ -44,7 +43,7 @@
       'content': 'This is another comment'
     };
 
-    var aComment = {'processInstanceId': '1002', 'tenantId': '1', 'postDate': '2016-03-08 16:49:45.768', 'id': '60004', 'userId': '4', 'content': 'coucou'};
+    var aComment = {'processInstanceId': '1002', 'postDate': '2016-03-08 16:49:45.768', 'id': '60004', 'userId': '4', 'content': 'coucou'};
 
     beforeEach(module('org.bonitasoft.features.user.tasks.list.comments'));
 

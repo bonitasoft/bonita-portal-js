@@ -12,7 +12,7 @@
         $scope.$watch('scrollBottom.length', function (newValue) {
           if (newValue) {
             $timeout(function(){
-              $element.scrollTop($element[0].scrollHeight);
+              $element[0].scrollBy(0, $element[0].scrollHeight);
             }, 0);
           }
         });

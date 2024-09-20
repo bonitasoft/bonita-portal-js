@@ -91,7 +91,7 @@
       } else {
         userAPI.get({id: vm.data.lastUpdatedBy}).$promise.then(function (user) {
           vm.updatedBy = (user.lastname || user.firstname) ? (user.firstname + ' ' + user.lastname) : user.userName;
-        });
+        }, angular.noop);
       }
     }
   }

@@ -80,7 +80,7 @@ angular.module('org.bonitasoft.features.admin.applications.details').controller(
           // Update the current menuitem with a child
           menuItem.children.push(data.item.toJSON());
         });
-      });
+      }, angular.noop);
     };
 
     /**
@@ -114,7 +114,7 @@ angular.module('org.bonitasoft.features.admin.applications.details').controller(
         menuItem.displayName = data.name;
         menuItem.applicationPageId = ('id' in data.page) ? +data.page.id : '-1';
         menuFactory.update(angular.copy(menuItem));
-      });
+      }, angular.noop);
     };
   }
 ]);
@@ -216,7 +216,6 @@ angular.module('org.bonitasoft.features.admin.applications.details').controller(
 
     function loadMenu() {
       menuFactory.get(+$scope.application.id).then(
-
         function successCb(data) {
           console.debug('[menuCreatorCtrl@successCb] load data from the API', data);
           $scope.data.menuItemBuilder = data;
@@ -282,7 +281,7 @@ angular.module('org.bonitasoft.features.admin.applications.details').controller(
         menuFactory.create(record).then(function(data) {
           $scope.data.menuItemBuilder.push(data.formatted);
         });
-      });
+      }, angular.noop);
 
     };
   }
@@ -602,7 +601,6 @@ angular.module('org.bonitasoft.features.admin.applications.details').service('me
       applicationMenuAPI.update({
         id: menuItem.id
       }, menuItem).$promise.then(
-
         function successCb(data) {
           triggerEventUpdate();
           console.debug('[menuFactory@update] Update success', data);
@@ -610,6 +608,8 @@ angular.module('org.bonitasoft.features.admin.applications.details').service('me
             $rootScope.messageError = undefined;
           });
         }, function(data) { return handleErrors(deferred, data); });
+
+      deferred.promise.catch(angular.noop);
 
       return deferred.promise;
     };
@@ -626,7 +626,6 @@ angular.module('org.bonitasoft.features.admin.applications.details').service('me
       var deferred = $q.defer();
 
       applicationMenuAPI.save(menuItem).$promise.then(
-
         function successCb(record) {
           triggerEventUpdate();
           console.debug('[menuFactory@create] record success', record);
@@ -662,6 +661,8 @@ angular.module('org.bonitasoft.features.admin.applications.details').service('me
         triggerEventUpdate();
         $rootScope.messageError = undefined;
       }, function(data) { return handleErrors(deferred, data); });
+
+      deferred.promise.catch(angular.noop);
 
       return deferred.promise;
     };

@@ -1,7 +1,6 @@
 [
   {
     "content": "This is a system task, we don't want to see it in task list comments",
-    "tenantId": "1",
     "id": "1",
     "processInstanceId": "13",
     "postDate": "2014-10-06 11:29:17.793",
@@ -12,7 +11,6 @@
   },
   {
     "content": "This is a human comment",
-    "tenantId": "1",
     "id": "2",
     "processInstanceId": "1",
     "postDate": "2016-03-09 16:33:05.301",
@@ -35,7 +33,6 @@
   },
   {
     "content": "This is another human comment",
-    "tenantId": "1",
     "id": "3",
     "processInstanceId": "1",
     "postDate": "2016-03-10 12:22:56.028",

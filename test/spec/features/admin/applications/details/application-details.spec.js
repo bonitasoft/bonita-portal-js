@@ -119,7 +119,7 @@
       });
 
       afterEach(function() {
-        $httpBackend.verifyNoOutstandingExpectation();
+        $httpBackend.verifyNoOutstandingExpectation(false);
       });
 
     });
@@ -272,7 +272,7 @@
       });
 
       afterEach(function() {
-        $httpBackend.verifyNoOutstandingExpectation();
+        $httpBackend.verifyNoOutstandingExpectation(false);
       });
 
     });

@@ -35,7 +35,8 @@ describe('module org.bonitasoft.features.user.tasks.list.table', function() {
         $provide.provider('$location', function () {
           this.$get = function() {
             return {
-              hash: jasmine.createSpy('hash')
+              hash: jasmine.createSpy('hash'),
+              url: jasmine.createSpy('url')
             };
           };
         });

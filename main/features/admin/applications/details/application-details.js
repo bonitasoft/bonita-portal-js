@@ -88,7 +88,7 @@
         });
         modal.result.then(function () {
           ctrl.reload();
-        });
+        }, angular.noop);
       };
 
       ctrl.updateLayout = function updateLayout(application, $data) {
