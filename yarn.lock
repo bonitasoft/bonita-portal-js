@@ -489,10 +489,10 @@ aws4@^1.8.0:
   version "1.11.0"
   resolved "https://registry.yarnpkg.com/aws4/-/aws4-1.11.0.tgz#d61f46d83b2519250e2784daf5b09479a8b41c59"
 
-axios@^1.6.7:
-  version "1.6.8"
-  resolved "https://registry.yarnpkg.com/axios/-/axios-1.6.8.tgz#66d294951f5d988a00e87a0ffb955316a619ea66"
-  integrity sha512-v/ZHtJDU39mDpyBoFVkETcd/uNdxrWRrg3bKpOKzXFA6Bvqopts6ALSMU3y6ijYxbw2B+wPrIv46egTzJXCLGQ==
+axios@^1.7.4:
+  version "1.7.7"
+  resolved "https://registry.yarnpkg.com/axios/-/axios-1.7.7.tgz#2f554296f9892a72ac8d8e4c5b79c14a91d0a47f"
+  integrity sha512-S4kL7XrjgBmvdGut0sN3yJxqYzrDOnivkBiN0OFs6hLiUam3UPvswUo0kqGyhqUZGEOytHyumEdXsAkgCOUf3Q==
   dependencies:
     follow-redirects "^1.15.6"
     form-data "^4.0.0"
@@ -1320,13 +1320,13 @@ chokidar@^1.0.0, chokidar@^1.4.1:
   optionalDependencies:
     fsevents "^1.0.0"
 
-chromedriver@123.0.1:
-  version "123.0.1"
-  resolved "https://registry.yarnpkg.com/chromedriver/-/chromedriver-123.0.1.tgz#331672e08c0e7d8647ea40525946b4f0b045be7e"
-  integrity sha512-YQUIP/zdlzDIRCZNCv6rEVDSY4RAxo/tDL0OiGPPuai+z8unRNqJr/9V6XTBypVFyDheXNalKt9QxEqdMPuLAQ==
+chromedriver@128.0.0:
+  version "128.0.0"
+  resolved "https://registry.yarnpkg.com/chromedriver/-/chromedriver-128.0.0.tgz#7f75a984101199e0bcc2c92fe9f91917fcd1f918"
+  integrity sha512-Ggo21z/dFQxTOTgU0vm0V59Mi79yyR+9AUk/KiVAsRfbDRdVZQYQWfgxnIvD/x8KOKn0oB7haRzDO/KfrKyvOA==
   dependencies:
     "@testim/chrome-version" "^1.1.4"
-    axios "^1.6.7"
+    axios "^1.7.4"
     compare-versions "^6.1.0"
     extract-zip "^2.0.1"
     proxy-agent "^6.4.0"
