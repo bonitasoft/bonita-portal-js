@@ -3,47 +3,52 @@
 Part of bonita portal written using AngularJs
 
 ## Requirements
-- node.js > v6.9.4 
-- yarn > v0.27.5
-- maven > 3.3.9
+- Java 11
+- Node 18
+
+## Install node tools
+Node tools are installed during the maven build using the `maven-frontend-plugin`.
+To honor the tool version specify in the `pom.xml` make sure no `yarnrc.yml` exists in your home directory.
+Run `./mvnw clean install` to install the yarn version required for this project.
+
 
 ## Development tasks
-Please run `yarn install` and `yarn build` at least once before launching any of the following tasks
+Please run `./node/yarn/dist/bin/yarn install` and `./node/yarn/dist/bin/yarn build` at least once before launching any of the following tasks
 
 ### Launch project in development mode
 Before running project in development mode, you need to launch a Bonita backend available on URL http://localhost:8080/
 Then launch:
 
-    yarn start
+    ./node/yarn/dist/bin/yarn start
     
 Project should be running at URL http://localhost:9000/bonita/portaljs/
     
 ### Launch unit tests
-    yarn run test
+    ./node/yarn/dist/bin/yarn run test
 
 ### Launch unit tests in watch mode
-    yarn run test:watch
+    ./node/yarn/dist/bin/yarn run test:watch
     
 ### Launch end to end tests
-    yarn run e2e
+    ./node/yarn/dist/bin/yarn run e2e
     
 You can run specific e2e class test with this command line.
 
-    yarn run e2eOnly --specs=path_to_file.e2e.js
+    ./node/yarn/dist/bin/yarn run e2eOnly --specs=path_to_file.e2e.js
 
 ### Launch end to end tests in headless mode
-    yarn run e2e:headless
+    ./node/yarn/dist/bin/yarn run e2e:headless
 
 ### Launch end to end tests in headless mode
-    yarn run e2e:headless
+    ./node/yarn/dist/bin/yarn run e2e:headless
 
 ### Build project
-    yarn run build
+    ./node/yarn/dist/bin/yarn run build
 
 ### Localization
 Localization keys can be extracted from source files to an .pot output file (./target/portal-js.pot). To do so, run the following command
 
-    yarn run pot
+    ya./node/yarn/dist/bin/yarnrn run pot
     
 ## Maven build
 
