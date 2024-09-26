@@ -3,14 +3,13 @@
 Part of bonita portal written using AngularJs
 
 ## Requirements
-- Java 11
+- Java 17
 - Node 18
 
 ## Install node tools
 Node tools are installed during the maven build using the `maven-frontend-plugin`.
 To honor the tool version specify in the `pom.xml` make sure no `yarnrc.yml` exists in your home directory.
 Run `./mvnw clean install` to install the yarn version required for this project.
-
 
 ## Development tasks
 Please run `./node/yarn/dist/bin/yarn install` and `./node/yarn/dist/bin/yarn build` at least once before launching any of the following tasks
@@ -21,7 +20,14 @@ Then launch:
 
     ./node/yarn/dist/bin/yarn start
     
-Project should be running at URL http://localhost:9000/bonita/portaljs/
+Project should be running at URL http://localhost:9000/bonita/portaljs/.
+
+For instance, if you want to run the application-list page in development mode, with live update, you can do the following steps:
+- Open the application list from the Admin app: http://localhost:8080/bonita/apps/adminAppEEBonita/admin-application-list/
+- Open the Frame from the page context menu (install the "Open Frame" Chrome extension if needed)
+- Replace http://localhost:8080/bonita/portal.js by http://localhost:9000/bonita/portaljs/ in the URL.
+
+Now, you are running the application-list page in development mode, with live update!
     
 ### Launch unit tests
     ./node/yarn/dist/bin/yarn run test

@@ -24,6 +24,7 @@
 
     it('should display the list of applications', function() {
       expect(element.all(by.css('.application-display-name')).count()).toBe(4);
+      // App links also have actions
       expect(element.all(by.css('.btn-action-edit')).count()).toBe(4);
       expect(element.all(by.css('.btn-action-export')).count()).toBe(4);
       expect(element.all(by.css('.btn-action-delete')).count()).toBe(2);
@@ -47,5 +48,32 @@
       element(by.css('#cancel')).click();
       expect(element(by.className('modal')).isPresent()).toBe(false);
     });
+
+    it('should point on the correct url, depending on legacy or link app', function() {
+      expect(element.all(by.css('.application-path')).count()).toBe(4);
+      // App links do not have 'apps' prefix
+      element.all(by.css('.application-path')).map((elem) => {
+        elem.all(by.tagName('a')).getAttribute('href').then((urls) => {
+          urls.forEach((url) => {
+            if (url.includes('link')) {
+              expect(url).toContain('app');
+            } else {
+              expect(url).toContain('apps');
+            }
+          });
+        });
+      });
+    });
+
+    it('should be able to choose beween link and legacy application at creation', function() {
+      expect(element(by.css('#create-application')).getAttribute('title')).toContain('Create an application');
+
+      element(by.css('#create-application')).click();
+      expect(element(by.className('modal')).isDisplayed()).toBe(true);
+      expect(element(by.css('.segmented-control')).isPresent()).toBe(true);// not visible because toggle hides the checkbox
+      expect(element(by.css('#btn-isApplicationLegacy')).isPresent()).toBe(true);
+      expect(element(by.css('#btn-isApplicationLink')).isPresent()).toBe(true);
+    });
+
   });
 })();

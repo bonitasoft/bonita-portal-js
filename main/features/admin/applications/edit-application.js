@@ -45,6 +45,7 @@
         } else {
           $scope.application = {
             model: {
+              link: 'false',
               version: '1.0',
               profileId: '1'
             }

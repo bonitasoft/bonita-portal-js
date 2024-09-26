@@ -19,13 +19,43 @@
              maxlength="255" required/>
     </bootstrap-form-control>
 
+  <div class="form-group has-feedback">
+      <label for="link-form-control" class="control-label"  form="application.form" translate>Type</label>
+      <div class="segmented-control" ng-model="application.model.link" id="link-form-control" >
+          <button type="button" ng-disabled="editionMode"
+                 name="link-false" id="btn-isApplicationLegacy"
+                  ng-class="{'selected': application.model.link == 'false', 'disabled': editionMode}"
+                  ng-click="application.model.link = 'false'">
+              <span class="glyphicon glyphicon-th-large" ng-if="application.model.link === 'false'"></span>
+              {{'Legacy Application' | translate}}
+          </button>
+          <button type="button" ng-disabled="editionMode"
+                 name="link-true" id="btn-isApplicationLink"
+                  ng-class="{'selected': application.model.link === 'true', 'disabled': editionMode}"
+                  ng-click="application.model.link = 'true'">
+                    <span class="glyphicon glyphicon-link" ng-if="application.model.link === 'true'"></span>
+              {{'Application Link' | translate}}
+          </button>
+      </div>
+
+      <div name="is-link-false"ng-if="application.model.link === 'false'">
+      <span class="glyphicon glyphicon-th-large" title="{{'Legacy Application' | translate}}" aria-label="{{'Legacy Application' | translate}}" ></span>
+          {{ 'A classic Bonita Living Application.' | translate }}
+      </div>
+      <div name="is-link-true"ng-if="application.model.link === 'true'">
+          <span class="glyphicon glyphicon-link" title="{{'Application Link' | translate}}" aria-label="{{'Application Link' | translate}}" ></span>
+          {{ 'A Link to your application made outside the portal, e.g. with Bonita UI Builder.' | translate }}
+      </div>
+  </div>
+
     <bootstrap-form-control
       id="url-form-control"
       form="application.form"
       label="{{ 'URL' | translate }}"
       errors="{ $invalid: i18n.mandatory, $duplicate: i18n.duplicateUrl, $reservedToken: i18n.reservedToken}">
       <div class="input-group">
-        <span class="input-group-addon">../apps/</span>
+        <span class="input-group-addon" name="url-prefix" ng-if="application.model.link === 'true'">/app/</span>
+        <span class="input-group-addon" name="url-prefix" ng-if="application.model.link !== 'true'">../apps/</span>
         <input type="text"
                id="url"
                name="token"
@@ -33,7 +63,7 @@
                maxlength="50"
                urlified required ng-trim="false"/>
       </div>
-
+      <div class="alert alert-info" name="alert-change-link-token" ng-if="application.model.link === 'true' && !errorMessage"><i class="glyphicon glyphicon-info-sign"></i> {{ 'This only changes the application link. The application itself is still deployed at the same location.' | translate }}</div>
     </bootstrap-form-control>
 
     <bootstrap-form-control
@@ -53,7 +83,6 @@
               name="profile" ng-model="application.model.profileId"
               ng-options="profile.id as profile.name for profile in profiles" required></select>
     </bootstrap-form-control>
-
 
     <bootstrap-form-control form="application.form" label="{{'Description' | translate}}">
       <textarea id="description"

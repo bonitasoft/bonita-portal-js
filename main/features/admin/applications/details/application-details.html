@@ -10,7 +10,11 @@
       <div class="alert alert-info"><i class="glyphicon glyphicon-info-sign"></i> {{'Application id not provided. Unable to retrieve the application details.' | translate }}</div>
   </div>
   <div id="app-edit-section" class="app-details-container col-md-12" ng-if="applicationDetailsCtrl.isApplicationFound()">
-    <h1 id="app-details-title">{{app.displayName}} ({{app.version}})  <img class="bonitasoft-default-logo" src="images/bonitasoftLogo.png" title="{{'Core to Bonita platform' | translate}}" aria-label="{{'Core to Bonita platform' | translate}}" ng-if="app.editable !== 'true'"></h1>
+    <h1 id="app-details-title">{{app.displayName}} ({{app.version}})
+      <img class="bonitasoft-default-logo" src="images/bonitasoftLogo.png" title="{{'Core to Bonita platform' | translate}}" aria-label="{{'Core to Bonita platform' | translate}}" ng-if="app.editable !== 'true'"/>
+      <span class="glyphicon glyphicon-link" title="{{'Application Link' | translate}}" aria-label="{{'Application Link' | translate}}" ng-if="app.editable === 'true' && app.link === 'true'"></span>
+      <span class="glyphicon glyphicon-th-large" title="{{'Legacy Application' | translate}}" aria-label="{{'Legacy Application' | translate}}" ng-if="app.editable === 'true' && app.link !== 'true'"></span>
+    </h1>
       <div id="app-details-information" ng-if="app.editable !== 'true'">
         <div class="inline-block">
             <i class="glyphicon glyphicon-info-sign text-info"></i>
@@ -27,7 +31,8 @@
           <div class="col-md-4">
             <dl class="dl-horizontal app-details-col">
               <dt id="app-path-label">{{'URL' | translate}}</dt>
-              <dd id="app-path-value"><a target="_blank" title="../apps/{{ app.token }}" ng-href="../apps/{{ app.token }}">../apps/{{ app.token }}</a></dd>
+              <dd id="app-path-value" ng-if="app.link === 'true'"><a target="_blank" title="/app/{{ app.token }}" ng-href="/app/{{ app.token }}">/app/{{ app.token }}</a></dd>
+              <dd id="app-path-value" ng-if="app.link !== 'true'"><a target="_blank" title="../apps/{{ app.token }}" ng-href="../apps/{{ app.token }}">../apps/{{ app.token }}</a></dd>
               <dt id="app-profile-label">{{'Profile' | translate}}</dt>
               <dd ng-if="app.profileId.name" id="app-profile-value">{{ app.profileId.name}}</dd>
               <dd ng-if="!app.profileId.name && app.visibility === 'RESTRICTED'" id="app-profile-value-none">{{'No profile' | translate}}</dd>
@@ -60,20 +65,20 @@
       <div class="row panel-body">
         <div class="col-md-12 app-details-flex-display">
           <dl class="dl-horizontal app-details-col">
-              <div class="col-md-4">
+              <div class="col-md-{{app.link === 'true' ? '12' : '4'}}">
                   <dt id="app-logo-label">{{'Logo' | translate}}</dt>
                   <dd id="app-logo-value">
                       <bo-avatar-upload icon-src="app.icon" uploader="applicationDetailsCtrl.uploader" item-id="applicationDetailsCtrl.applicationId" api-to-call="applicationDetailsCtrl.applicationIconAPI" success-function="applicationDetailsCtrl.reload"></bo-avatar-upload>
                   </dd>
               </div>
-              <div class="col-md-4">
+              <div class="col-md-4" ng-if="app.link !== 'true'">
                   <dt id="app-layout-label">{{'Layout' | translate}}</dt>
                   <dd id="app-layout-value">
                       <div ng-if="!applicationDetailsCtrl.isEditLayoutAvailable">{{app.layoutId.displayName}}</div>
                       <a ng-if="applicationDetailsCtrl.isEditLayoutAvailable"  href="" editable-select="app.layoutId" onbeforesave="applicationDetailsCtrl.updateLayout(app, $data)" e-ng-options="layoutPage as layoutPage.displayName for layoutPage in layoutPages track by layoutPage.id">{{ app.layoutId.displayName }}</a>
                   </dd>
               </div>
-              <div class="col-md-4">
+              <div class="col-md-4" ng-if="app.link !== 'true'">
                   <dt id="app-theme-label">{{'Theme' | translate}}</dt>
                   <dd id="app-theme-value">
                       <div ng-if="!applicationDetailsCtrl.isEditLayoutAvailable">{{app.themeId.displayName}}</div>
@@ -86,7 +91,7 @@
       </div>
     </div>
   </div>
-  <div id="application-page-list-section" ng-if="app.id">
+  <div id="application-page-list-section" ng-if="app.id && app.link !== 'true'">
     <page-list id="page-list" application="app" class="col-md-6"></page-list>
     <menu-creator id="menu-creator" app="app" class="col-md-6 menu-creator"></menu-creator>
   </div>
