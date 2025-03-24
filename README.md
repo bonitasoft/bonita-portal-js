@@ -11,6 +11,8 @@ Node tools are installed during the maven build using the `maven-frontend-plugin
 To honor the tool version specify in the `pom.xml` make sure no `yarnrc.yml` exists in your home directory.
 Run `./mvnw clean install` to install the yarn version required for this project.
 
+**Note**: if an error occurs at phantomjs startup (especially when running on Ubuntu 24), disable openssl by setting an environment variable `OPENSSL_CONF=/dev/null`.
+
 ## Development tasks
 Please run `./node/yarn/dist/bin/yarn install` and `./node/yarn/dist/bin/yarn build` at least once before launching any of the following tasks
 
