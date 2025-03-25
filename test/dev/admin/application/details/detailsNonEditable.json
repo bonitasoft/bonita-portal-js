@@ -39,7 +39,7 @@
   "profileId": "-1",
   "id": "999",
   "state": "ACTIVATED",
-  "iconPath": "",
+  "icon": "",
   "editable": "false",
   "visibility": "ALL"
 }
