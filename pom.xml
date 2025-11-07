@@ -16,7 +16,7 @@
         <!-- A flag to indicate whether yarn must be run with the offline option -->
         <offlineFlag></offlineFlag>
         <frontend-maven-plugin.version>1.15.0</frontend-maven-plugin.version>
-        <node.version>v18.20.1</node.version>
+        <node.version>v20.18.1</node.version>
         <npm.version>v1.22.19</npm.version>
     </properties>
 
