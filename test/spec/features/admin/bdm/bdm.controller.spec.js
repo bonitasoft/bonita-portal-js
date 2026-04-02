@@ -60,6 +60,7 @@
 
         featureManager = $injector.get('FeatureManager');
         spyOn(featureManager, 'isAccessControlFeatureActivated').and.returnValue(false);
+        spyOn(featureManager, 'isDataRetentionFeatureActivated').and.returnValue(false);
 
         bdmCtrl = function () {
           return $controller('bdmCtrl', {

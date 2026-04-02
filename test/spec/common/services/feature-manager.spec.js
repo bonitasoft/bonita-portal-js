@@ -77,5 +77,19 @@
         expect(featureManager.isAccessControlFeatureActivated()).toBeFalsy();
       });
     });
+    describe('isDataRetentionFeatureActivated', function() {
+      it('should return true if feature is present', function() {
+        var features = [{name: 'SEARCH_INDEX'}, {name: 'DATA_RETENTION'}];
+        deferred.resolve(features);
+        scope.$apply();
+        expect(featureManager.isDataRetentionFeatureActivated()).toBeTruthy();
+      });
+      it('should return false if feature is not present', function() {
+        var features = [{name: 'Monitoring'}];
+        deferred.resolve(features);
+        scope.$apply();
+        expect(featureManager.isDataRetentionFeatureActivated()).toBeFalsy();
+      });
+    });
   });
 })();

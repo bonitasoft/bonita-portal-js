@@ -59,6 +59,10 @@
       return FeatureManager.isAccessControlFeatureActivated();
     };
 
+    vm.isDataRetentionFeatureActivated = function () {
+      return FeatureManager.isDataRetentionFeatureActivated();
+    };
+
     vm.accessControlStatus = {};
 
     vm.updateAccessControlStatus = function () {

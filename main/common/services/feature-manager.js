@@ -28,6 +28,7 @@
   ]).constant('FEATURES', {
     monitoring : 'PROCESS_MONITORING',
     accessControl : 'BDM_ACCESSCONTROL',
+    dataRetention : 'DATA_RETENTION',
   }).service('FeatureManagerResolver', function(FeatureManager, featureAPI) {
     return (function loadTranslations() {
       return featureAPI.query({p: 0,c: 0}).$promise.then(populateFeatures);
@@ -44,6 +45,10 @@
 
     FeatureManager.isMonitoringFeatureActivated = function () {
       return featuresList.indexOf(FEATURES.monitoring) > -1;
+    };
+
+    FeatureManager.isDataRetentionFeatureActivated = function () {
+      return featuresList.indexOf(FEATURES.dataRetention) > -1;
     };
 
     return FeatureManager;

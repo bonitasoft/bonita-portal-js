@@ -15,6 +15,11 @@
                 <span translate>Make sure all artifacts enabled on the platform are compatible with the new BDM.</span>
             <p>
 
+            <div class="callout callout-warning" ng-if="vm.isDataRetentionFeatureActivated()">
+                <span class="glyphicon glyphicon-warning-sign"></span>
+                <span translate>Modifying or redeploying the Business Data Model may impact existing data retention rules. After redeployment, review your configuration in the Data Retention (GDPR) section.</span>
+            </div>
+
             <ul class="list-group">
                 <li class="list-group-item list-group-item-action">
                     <button ng-click="vm.openBDMUpload()"
