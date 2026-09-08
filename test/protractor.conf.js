@@ -20,6 +20,12 @@ if (process.env.HEADLESS) {
   ]);
 }
 
+// Use a specific Chrome binary when provided (e.g. a version pinned in CI to
+// match the bundled chromedriver). Falls back to the system Chrome otherwise.
+if (process.env.CHROME_BIN) {
+  capabilities.chromeOptions.binary = process.env.CHROME_BIN;
+}
+
 var chromeDriverPath = '../node_modules/chromedriver/bin/chromedriver';
 
 //Specify binary path to enable windows build
